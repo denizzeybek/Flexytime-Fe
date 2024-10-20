@@ -1,0 +1,2262 @@
+{
+  "language": "Language",
+  "pages": {
+    "auth": {
+      "login": {
+        "title": "Login",
+        "banner": {
+          "invoice-ad": {
+            "title": "Send globally recognized invoices",
+            "feature_1": "140 currencies supported",
+            "feature_2": "190 countries covered",
+            "feature_3": "No subscription, commission based pricing"
+          },
+          "fast-pay-ad": {
+            "title": "Get paid, fast.",
+            "feature_1": "All payments are processed within 24 hours",
+            "feature_2": "140 currencies supported, including crypto",
+            "feature_3": "No client sign up required"
+          },
+          "talent-client-ad": {
+            "title": "No burden to clients.",
+            "feature_1": "No sign up required",
+            "feature_2": "Bank transfers and credit cards accepted",
+            "feature_3": "Secure payments"
+          },
+          "crypto-pay-ad": {
+            "title": "Get paid in crypto.",
+            "feature_1": "Directly into your Binance wallet",
+            "feature_2": "Instant payouts, no waiting",
+            "feature_3": "Only 1.5{'%'} additional fee applies"
+          },
+          "business-invoice-ad": {
+            "title": "Work with any talent, anywhere.",
+            "feature_1": "Single & bulk payments",
+            "feature_2": "Accountable invoices",
+            "feature_3": "190 countries supported"
+          }
+        },
+        "form": {
+          "email": {
+            "label": "Email",
+            "placeholder": "Enter your email"
+          },
+          "password": {
+            "label": "Password",
+            "placeholder": "Enter your password"
+          },
+          "remember": "Remember me",
+          "submit": "Login"
+        },
+        "forgotPassword": "Forgot password?",
+        "or": "or",
+        "google": "Continue with Google as Talent",
+        "newHere": "New here? {link}",
+        "register": "Create a New Account"
+      },
+      "forgot_password": {
+        "title": "Forgot your password?",
+        "label": "No worries. Just enter your email address to receive instructions for resetting it.",
+        "form": {
+          "email": {
+            "label": "Email",
+            "placeholder": "Enter your email"
+          },
+          "button": "Send"
+        }
+      },
+      "check_email_message": {
+        "title": "Please check your email",
+        "check_link": "We sent a link to {link} to reset your password! Please check your inbox as well as your spam folder.",
+        "resend_text": "Didn’t receive it? {link}",
+        "resend_link": "Resend email",
+        "success_msg": "Email sent"
+      },
+      "reset_password": {
+        "title": "Enter new password",
+        "label1": "Don't forget to make it strong",
+        "label2": "1234 or birthdays won't be accepted",
+        "form": {
+          "password": {
+            "label": "Password",
+            "placeholder": "Password",
+            "test": "Password is not valid"
+          },
+          "btn": "Save password"
+        },
+        "success_msg": "Password updated!"
+      },
+      "choose_account_type": {
+        "title": "Select your account type",
+        "form": {
+          "talent": {
+            "label": "I'm a talent",
+            "description": "I want to invoice my clients and collect payments."
+          },
+          "business": {
+            "label": "I represent a business",
+            "description": "I want to manage my talents and make payments."
+          },
+          "isTalent": {
+            "placeholder": "Account Type"
+          },
+          "button": "Next"
+        }
+      },
+      "create_form": {
+        "warning_text": "Please only use Latin characters.",
+        "form": {
+          "first_name": {
+            "label": "First Name",
+            "placeholder": "First Name"
+          },
+          "last_name": {
+            "label": "Last Name",
+            "placeholder": "Last Name"
+          },
+          "email": {
+            "label": "Email",
+            "placeholder": "Email"
+          },
+          "password": {
+            "label": "Password",
+            "placeholder": "Password",
+            "test": "Password is not valid"
+          },
+          "terms_agreed": {
+            "label": "Terms of Use",
+            "placeholder": "Terms of Use"
+          }
+        },
+        "already": {
+          "title": "Already have an account? {link}",
+          "link": "Login here"
+        },
+        "talent": {
+          "title": "Create a talent account",
+          "button": "Create a talent account",
+          "or": "or",
+          "google_btn": "Continue with Google",
+          "form": {
+            "email": {
+              "hint": "Must be a valid email."
+            }
+          }
+        },
+        "business": {
+          "title": "Create a business account",
+          "button": "Create a business account",
+          "form": {
+            "email": {
+              "hint": "Must be a business email"
+            },
+            "terms": {
+              "label": "I agree with the {link}.",
+              "link": "Terms of Use"
+            }
+          },
+          "corporate_email_error": "Please use a valid corporate email address."
+        }
+      },
+      "verify_email": {
+        "title": "Please verify your email",
+        "label": "We’ve sent a verification email to <strong>{0}</strong>. Please check your inbox as well as your spam folder.",
+        "resend_text": "Didn’t receive it? {link}",
+        "resend_link": "Resend verification email",
+        "success_msg": "Email sent!"
+      },
+      "verify": {
+        "not_verified": "Not Verified",
+        "redirecting": "Verified, redirecting...",
+        "verifying": "Verifying...",
+        "error_msg": "The verification link is expired. Please go back and click 'Resend' to get a new link."
+      },
+      "register": {
+        "steps": {
+          "create_account": "Create Account",
+          "account_details": "Account Details",
+          "address": "Address"
+        },
+        "account_details": {
+          "title": "Account Details",
+          "form": {
+            "warning_text": "Please only use Latin characters.",
+            "first_name": {
+              "label": "First Name",
+              "placeholder": "First Name"
+            },
+            "last_name": {
+              "label": "Last Name",
+              "placeholder": "Last Name"
+            },
+            "email": {
+              "label": "Email",
+              "placeholder": "Email"
+            },
+            "phone_number": {
+              "label": "Phone Number",
+              "placeholder": "Phone Number",
+              "test": "Invalid phone number"
+            },
+            "date_of_birth": {
+              "label": "Date of Birth",
+              "placeholder": "Date of Birth",
+              "test": "You must be at least 18 years old."
+            },
+            "identity_number": {
+              "label": "Identity Number",
+              "placeholder": "Identity Number",
+              "tooltip": "This is a number that’s used to verify your identity. It’s usually written on your national ID card.",
+              "not_all_chars_same": "Invalid Identity Number"
+            },
+            "button": "Next",
+            "citizenship_country": {
+              "label": "Country of Citizenship"
+            },
+            "ssn": {
+              "label": "Social Security Number"
+            }
+          }
+        },
+        "company_details": {
+          "title": "Company Details",
+          "steps": {
+            "create_account": "Create Account",
+            "company_details": "Company Details"
+          },
+          "form": {
+            "email": {
+              "label": "Company Email",
+              "placeholder": "Email",
+              "test": "The business and company domains do not match."
+            },
+            "terms": {
+              "label": "I agree with the {link}.",
+              "link": "Business Agreement",
+              "placeholder": "Business Agreement",
+              "isTrue": "Business Agreement must be agreed."
+            },
+            "button": "Complete",
+            "name": "Company Name",
+            "country": "Country of Residence",
+            "state": "State",
+            "city": "City",
+            "zip_code": "Zip Code",
+            "address": "Address",
+            "know_vat": {
+              "yes": "VAT, EIN or Tax ID",
+              "no": "Trade Registration Number"
+            },
+            "tax_id": "Company’s VAT, EIN or Tax ID",
+            "registration_number": "Company’s Trade Registration Number",
+            "tax_office": "Tax Office",
+            "pan_number": "Company's PAN Number (optional)",
+            "phone": "Company's phone number",
+            "website": "Website"
+          }
+        },
+        "address": {
+          "title": "Address",
+          "form": {
+            "address": {
+              "label": "Address",
+              "placeholder": "Address"
+            },
+            "country": {
+              "label": "Country of Residence",
+              "placeholder": "Country of Residence"
+            },
+            "state": {
+              "label": "State",
+              "placeholder": "State"
+            },
+            "city": {
+              "label": "City",
+              "placeholder": "City"
+            },
+            "zip_code": {
+              "label": "Zip Code",
+              "placeholder": "Zip Code"
+            },
+            "terms": {
+              "validation": "The Terms of Use must be agreed.",
+              "schema_label": "Terms of Use",
+              "label": "I agree with the {link}.",
+              "link": "Contractor Agreement"
+            },
+            "button": "Complete"
+          }
+        }
+      }
+    },
+    "dashboard": {
+      "page_title": "Home",
+      "invoice_card_title": "Recent Invoices",
+      "list_empty_msj": "You don’t have any invoices yet.",
+      "invoice_no": "Invoice #{0}",
+      "activity": {
+        "total": "Total invoices",
+        "paid": "Total paid invoices",
+        "unpaid": "Total unpaid invoices",
+        "invoice_count": "{0} invoices"
+      },
+      "talent": {
+        "card_title": "Recently Invoiced Clients",
+        "list_empty_msj": "You haven’t invoiced any clients yet.",
+        "header": {
+          "title": "Welcome to Ruul!",
+          "text": "Invoice your clients, generate agreements and collect payments with ease."
+        },
+        "onboarding": {
+          "items": {
+            "add_client": {
+              "alt": "add client",
+              "title": "Add a client",
+              "description": "Only the client's email address and company name are required. It takes less than a minute.",
+              "btn_text": "Add Now"
+            },
+            "create_invoice": {
+              "alt": "Create invoice",
+              "title": "Create an invoice",
+              "description": "Specify the service details and invoice your client in minutes.",
+              "btn_text": "Create Now"
+            },
+            "collect_payment": {
+              "alt": "Collect Payment",
+              "title": "Add a payment account",
+              "description": "Collect payments directly into your bank account, Payoneer, or Binance wallet.",
+              "btn_text": "Add Now"
+            }
+          },
+          "badge_text": "Done"
+        }
+      },
+      "business": {
+        "card_title": "Recently Paid Talents",
+        "list_empty_msj": "You haven’t paid any talents yet.",
+        "warning_alert": {
+          "title": "You have {0} unpaid invoices.",
+          "btn_text": "See all unpaid invoices"
+        }
+      },
+      "changeLog": {
+        "header": "Everything we changed 👀",
+        "talent_titles": {
+          "1": "Invoices with multiple service items",
+          "2": "Improved invoice tracker",
+          "3": "Agreements in human language",
+          "4": "And so much more..."
+        },
+        "business_titles": {
+          "1": "Invoices with multiple service items",
+          "2": "Improved invoice tracker",
+          "3": "Bulk invoices just got bulked 💪",
+          "4": "And so much more..."
+        },
+        "learn_more": "Learn more"
+      },
+      "tour": {
+        "title": "Select your company",
+        "description": "All the companies you're associated with will be displayed here, and the dashboard will show information specific to the selected company. You can change your preference at any time."
+      },
+      "access_denied_warning": {
+        "title": "You need approval to be included in {companyName}.",
+        "description": "{companyName} is already registered on Ruul by another user.",
+        "logout": "Logout",
+        "support": {
+          "label": "Please {link} to continue.",
+          "link": "contact us"
+        }
+      },
+      "cenoa_banner": {
+        "title": "Cenoa is here! Start receiving Digital Dollars (USDC) directly into your Cenoa wallet! 🚀",
+        "link": "Start Now"
+      }
+    },
+    "invoices": {
+      "page_title": "Invoices",
+      "transaction_status": {
+        "issued": "Issued",
+        "in_progress": "Processing",
+        "completed": "Paid out",
+        "cancelled": "Canceled",
+        "rejected": "Rejected",
+        "approval_needed": "Approval Needed",
+        "received": "Issued",
+        "sent": "Issued",
+        "processing": "Processing",
+        "paid_out": "Paid Out",
+        "warning": "Warning",
+        "waiting_approval": "Waiting approval",
+        "waiting_for_payment": "Waiting for payment",
+        "sprinque_paid_us": "Sprinque paid us",
+        "youve_paid_to_sprinque": "You've paid to sprinque",
+        "client_paid_to_sprinque": "Client paid to sprinque"
+      },
+      "page_onboarding": {
+        "title": "Create your first invoice. Takes 3 minutes.",
+        "button_title": "New Invoice",
+        "features": {
+          "feature1": "140 currencies supported, including crypto",
+          "feature2": "Globally recognized",
+          "feature3": "Accounting-friendly"
+        }
+      },
+      "new_invoice": "New Invoice",
+      "tab_items": {
+        "all_invoices": "All Invoices",
+        "issued": "Issued",
+        "in_progress": "Processing",
+        "completed": "Paid out",
+        "cancelled": "Canceled",
+        "rejected": "Rejected",
+        "archived": "Archived"
+      },
+      "talent_new_invoice": {
+        "page_title_result": "Invoice #{0}",
+        "page_title_no_result": "New Invoice",
+        "form": {
+          "client": {
+            "label": "Client",
+            "placeholder": "Select client",
+            "warning": "You don't have any clients yet.",
+            "add_btn": "Add Now",
+            "light_label": "Tax ID: {0}"
+          },
+          "contact": {
+            "label": "Contact",
+            "placeholder": "Select contact"
+          },
+          "project": {
+            "label": "Project",
+            "placeholder": "Select project",
+            "warning": "You don't have any projects yet.",
+            "add_btn": "Add Now"
+          },
+          "sub_category": {
+            "label": "Sub Category",
+            "placeholder": "Select sub category"
+          },
+          "invoice_currency": {
+            "label": "Invoice Currency"
+          },
+          "payment_currency": {
+            "label_payoneer": "Currency of the account",
+            "validation": "Payment Currency",
+            "placeholder": "Select currency",
+            "add_bank_account": "or add a bank account instead",
+            "label_no_payoneer": "You'll collect payment in"
+          },
+          "service_fee_payer": {
+            "label": "Service fee payer",
+            "options": {
+              "me": "Me",
+              "my_client": "My Client"
+            },
+            "tooltip_body": "The party that pays Ruul's service fee."
+          },
+          "extra_notes": {
+            "label": "Extra Notes",
+            "placeholder": "Any notes for your client?"
+          },
+          "file_upload": {
+            "label": "Attach file(s)",
+            "hint": "Supported up to 10 MB."
+          },
+          "required_field": "Required field",
+          "invalid_amount": "Invalid amount",
+          "preview_btn": "Preview Email",
+          "send_btn": "Send Invoice",
+          "category": {
+            "label": "Category",
+            "placeholder": "Select category"
+          },
+          "bank_account": {
+            "label": "You'll collect payment in",
+            "placeholder": "Select a payout option",
+            "preferred": "Preferred by talent",
+            "iban_end_with": "Iban ending with {0}",
+            "account_end_with": "Bank account ending with {0}",
+            "commission": "Commission: {0} {'%'}"
+          },
+          "description": {
+            "max_length": "Max {0} characters"
+          },
+          "single_service_item_turkey": "For invoices sent to companies registered in Turkey, only one service item can be included."
+        },
+        "early_pay": {
+          "new": "New",
+          "title": "Get paid in advance up to {availableCreditLimit} {creditLimitCurrency} with Early Pay!",
+          "description": "For invoices in USD, EUR and GBP, you can receive the payment within 24 hours after your client's approval.",
+          "question": "How it works?",
+          "select_label": "Your client will pay within",
+          "supported_currencies": "Invoice currency must be USD, EUR or GBP.",
+          "supported_range": "Invoice amount must be between {minimumCreditLimit} - {availableCreditLimit} {creditLimitCurrency}.",
+          "options": {
+            "no_early_pay": "Continue without Early Pay",
+            "days": "{0} days",
+            "fee": "Early Pay fee: {0}%"
+          },
+          "info_modal": {
+            "title": "How it works?",
+            "text1": "Select when your client will make the payment and create the invoice.",
+            "text2": "The invoice is sent to your client’s approval to make sure they are okay with the time frame you chose.",
+            "text3": "Once they approve the invoice, the payment is sent to you within 24 hours.",
+            "text4": "Your client will have time to pay until the due date.",
+            "text5": "They will receive a payment link via email from our partner Sprinque to make the payment.",
+            "support": {
+              "label": "Have questions? {link}",
+              "link": "Contact us via live chat"
+            }
+          }
+        }
+      },
+      "business_new_invoice": {
+        "page_title_result": "Invoice #{0}",
+        "page_title_no_result": "New Invoice",
+        "form": {
+          "talent": {
+            "label": "Talent",
+            "placeholder": "Select talent",
+            "warning": "You don't have any talents yet.",
+            "add_btn": "Add Now"
+          },
+          "project": {
+            "label": "Project",
+            "placeholder": "Select project",
+            "warning": "You don't have any projects yet.",
+            "add_btn": "Add Now"
+          },
+          "sub_category": {
+            "label": "Sub Category",
+            "placeholder": "Select sub category"
+          },
+          "payment_currency": {
+            "label_payoneer": "Currency of the account",
+            "validation": "Payment Currency",
+            "placeholder": "Select currency",
+            "add_bank_account": "or add a bank account instead",
+            "label_no_payoneer": "Talent will collect payment in"
+          },
+          "service_fee_payer": {
+            "label": "Service fee payer",
+            "options": {
+              "me": "Me",
+              "my_talent": "My Talent"
+            },
+            "tooltip_body": "The party that pays Ruul's service fee."
+          },
+          "invoice_currency": {
+            "label": "Invoice Currency"
+          },
+          "extra_notes": {
+            "label": "Extra Notes",
+            "placeholder": "Any notes for your talent?"
+          },
+          "file_upload": {
+            "label": "Attach file(s)",
+            "hint": "Supported up to 10 MB."
+          },
+          "required_field": "Required field",
+          "invalid_amount": "Invalid amount",
+          "preview_btn": "Preview Email",
+          "send_btn": "Send Invoice",
+          "category": {
+            "label": "Category",
+            "placeholder": "Select category"
+          },
+          "bank_account": {
+            "label": "Talent will collect payment in",
+            "placeholder": "Select payment account",
+            "preferred": "Preferred by talent",
+            "iban_end_with": "Iban ending with {0}",
+            "account_end_with": "Bank account ending with {0}",
+            "commission": "Commission: {0}{'%'}"
+          },
+          "description": {
+            "max_length": "Max {0} characters"
+          }
+        }
+      },
+      "promo_code_card": {
+        "title": "Use a promo code?",
+        "label": "You can use one of the codes below.",
+        "commission_rate": "{0}{'%'} discount on the commission rate",
+        "earning_text": "{0} {1} earning on the talent payout",
+        "company_payment": "{0} {1} discount on the company payment"
+      },
+      "bulk_invoice": {
+        "page_title": "Bulk Invoice",
+        "import_excel": "Import Excel file",
+        "error_text": "You are the service fee payer for all bulk invoices.",
+        "create_invoice": "Create Invoice",
+        "create_bulk": {
+          "title": "Total amount to be paid",
+          "form": {
+            "toggle_all_talents": "All talents",
+            "inputs": {
+              "invoice_currency": {
+                "label": "You'll make the payment in"
+              },
+              "description": {
+                "label": "Description"
+              }
+            },
+            "talents": {
+              "placeholder": "Enter talent email",
+              "new": {
+                "description": "You don't have any talents yet.",
+                "btn": "Add Now"
+              }
+            },
+            "projects": {
+              "placeholder": "Select project",
+              "new": {
+                "description": "You don't have any projects yet.",
+                "btn": "Add Now"
+              }
+            },
+            "sub_category": {
+              "placeholder": "Select sub category"
+            },
+            "description": {
+              "placeholder": "Optional"
+            },
+            "financials": {
+              "title_show": "Show pricing breakdown",
+              "title_hide": "Hide pricing breakdown",
+              "total_payment": "Talents' total payment request",
+              "commission_fee": "Commission fee ({0}%)",
+              "subtotal": "Subtotal",
+              "vat": "VAT ({0}%)",
+              "total_paid": "Total amount to be paid",
+              "distributed": "Total amount to be distributed to talents"
+            }
+          },
+          "column_names": {
+            "talent": "Talent",
+            "project": "Project",
+            "sub_category": "Sub Category",
+            "description": "Description",
+            "talent_will_receive": "Talent will receive"
+          },
+          "import_excel_modal": {
+            "title": "Import Excel file",
+            "title2": "Drag and drop the file here",
+            "title3": "or",
+            "title4": "Choose file",
+            "title5": "Supported file format is XLSX up to 10MB",
+            "download_btn": "Download sample spreadsheet",
+            "import_btn": "Import",
+            "err_msg": "File size should be less than 10MB."
+          }
+        },
+        "form": {
+          "invoice_currency": "Invoice Currency",
+          "invoice_description": "Invoice Description",
+          "required_field": "Required field",
+          "description": "Description",
+          "invalid_amount": "Invalid Amount",
+          "payout_currency": "Payout Currency"
+        },
+        "dropdown": {
+          "export_to_excel": "Export as Excel file",
+          "download_sample": "Download sample spreadsheet"
+        },
+        "success_msg": "Bulk invoice created!",
+        "recipients": {
+          "title": "Total",
+          "columns": {
+            "talent": "Talent",
+            "invoice_amount": "Invoice amount",
+            "commission_rate": "Commission rate",
+            "talent_will_receive": "Talent will receive",
+            "description": "Description"
+          },
+          "header": "Recipients of invoice #{0}"
+        }
+      },
+      "services": {
+        "page_header": "Services",
+        "invoice_currency": {
+          "placeholder": "Select currency",
+          "label": "Invoice currency"
+        },
+        "service_description": {
+          "placeholder": "Service Description"
+        },
+        "headers": {
+          "description": "Description",
+          "quantity": "Quantity",
+          "unit_price": "Unit Price"
+        },
+        "unit_price_placeholder": "Unit price"
+      },
+      "financial": {
+        "total": "Total",
+        "applied_commission": "Applied commission",
+        "rate": "*1 {invoiceCurrencyCode} = {exchangeRate} {payoutCurrencyCode}. This rate may vary in case of a currency fluctuation.",
+        "commission_detail_list": {
+          "special_commission_rate": "Special commission rate",
+          "base_commission_fee": "Base commission rate",
+          "foreign_exchange_rate": "Foreign exchange fee",
+          "international_payment_rails_fee": "International Payment Rails fee",
+          "early_pay_fee": "EarlyPay fee",
+          "cross_border_fee": "Cross border rate",
+          "earlypay_fee": {
+            "label": "Early Pay fee"
+          },
+          "crypto_payout_fee": "Crypto payout rate",
+          "low_volume_fee": {
+            "label": "Low volume fee",
+            "tooltip_header": "Low-Volume Fee",
+            "tooltip_body": "To support the processing of smaller invoices, a nominal fee is applied. Invoices below €100 incue a €4.9 fee, and those between €100-€250 have a €2.9 fee."
+          }
+        },
+        "total_pay_by_you": "Total amount to be paid by you",
+        "total_pay_by_client": "Total amount to be paid by your client",
+        "subtotal": "Subtotal",
+        "vat": "VAT",
+        "talent_payment_request": "Talent’s payment request",
+        "your_payment_request": "Your payment request",
+        "you_will_receive": "You will receive",
+        "talent_will_receive": "Talent will receive",
+        "first_invoice": "🥳 Welcome Bonus! 0{'%'} commission is applied for your first invoice."
+      },
+      "results": {
+        "error": {
+          "title": "Couldn’t create the invoice.",
+          "label": "Please {link} or {secondLink}.",
+          "link": "try again",
+          "secondLink": "contact live customer support."
+        },
+        "success": {
+          "title": "Invoice sent to {0}! What’s next?",
+          "text": "The invoice is shared with the talent. We are currently waiting for you to make the payment.",
+          "business": {
+            "title": "The invoice is shared with the talent. We are currently waiting for you to make the payment.",
+            "make_payment_btn": "Make Payment"
+          },
+          "talent": {
+            "first": {
+              "label": "1. We’ve emailed the details of the invoice to {link}.",
+              "link": "{0}"
+            },
+            "second": {
+              "label": "2. Your client can sign up to Ruul or use {link} to proceed with the payment.",
+              "link": "the payment link"
+            },
+            "third": {
+              "label": "3. Once your client pays, the payment will be sent to your preferred account within one business day."
+            },
+            "no_bank_account": {
+              "label": "{link} to collect the payment when it arrives.",
+              "link": "3. Add a payment account"
+            },
+            "add_payment_btn": "Add a payment account",
+            "copy_payment_btn": "Copy payment link"
+          },
+          "download_btn": "Download",
+          "see_details_link": "See invoice details",
+          "copy_success_msg": "Payment link copied to clipboard!",
+          "early_pay": {
+            "text1": "1. We’ve emailed {link} for the approval of the invoice.",
+            "text2": "2. After their approval, the payment will be sent to you within 24 hours.",
+            "text3": "3. They will receive a payment link via email from our partner Sprinque.",
+            "text4": "4. They will have {0} days to pay after approving the invoice.",
+            "text5": {
+              "label": "5. {link} to collect the payment when it arrives.",
+              "linkText": "Add a payment collection account"
+            }
+          }
+        }
+      },
+      "type_modal": {
+        "title": "Choose Invoice Type",
+        "btn_text": "Next",
+        "items": {
+          "bulk": {
+            "label": "Bulk Invoice",
+            "description": "Invoice and pay multiple talents at once."
+          },
+          "single": {
+            "label": "Single Invoice",
+            "description": "Invoice and pay a single talent."
+          }
+        }
+      },
+      "list": {
+        "invoice": "Invoice",
+        "amount": "Invoice amount",
+        "issued_on": "Issued on",
+        "status": "Status",
+        "copy_success_msg": "Link copied!",
+        "cancel_success_msg": "Invoice is canceled.",
+        "reject_success_msg": "Invoice is rejected.",
+        "archive_success_msg": "Invoice archived.",
+        "unarchive_success_msg": "Invoice unarchived."
+      },
+      "list_item": {
+        "copy": "Copy Payment URL",
+        "cancel": "Cancel",
+        "reject": "Reject",
+        "archive": "Archive",
+        "badge_tooltip": {
+          "title": "Invoice is shared with {0}",
+          "text": "We emailed the invoice to {0} They can make the payment by registering to Ruul or by using the <strong class='underline text-r-primary'> payment link </strong> provided in the email.",
+          "btn_text": "See all details"
+        },
+        "pay_btn": "Pay",
+        "invoice_no": "Invoice #{0}",
+        "recipients": "Recipients",
+        "warning": "Warning",
+        "unarchive": "Unarchive"
+      },
+      "tracker": {
+        "talent": {
+          "received_text": "<strong>{0}</strong> sent you an invoice. We’re waiting for their payment.",
+          "issued_text": "Invoice is emailed to <strong>{0}</strong>. We are waiting for their payment.",
+          "received": {
+            "title": "{0} sent you an invoice",
+            "footer": {
+              "title": "My client has made the payment but it still says 'Issued'?",
+              "text": "If they paid via bank transfer, they might have forgotten to mark it as paid. The invoice status will be updated after confirming the payment."
+            }
+          },
+          "issued": {
+            "title": "Invoice is shared with {0}",
+            "footer": {
+              "title": "My client has made the payment but it still says 'Issued'?",
+              "text": "If they paid via bank transfer, they might have forgotten to mark it as paid. The invoice status will be updated after confirming the payment."
+            }
+          },
+          "in_progress": {
+            "title": "Payment is processing",
+            "types": {
+              "bank_account": "Your client has made the payment. Once the payment reaches us, it will be sent to <strong> bank account ending with {0}.</strong>",
+              "payoneer": "Your client has made the payment. Once the payment reaches us, it will be sent to your <strong> Payoneer account {0}.</strong>",
+              "binance": "Your client has made the payment. Once the payment reaches us, it will be sent to your <strong>Binance account (USDC)</strong>.",
+              "no_bank_account": "Your client has made the payment. Please add a payment account to receive the payment when it arrives.",
+              "cenoa": "Your client has made the payment. Once the payment reaches us, it will be sent to your <strong>Cenoa account (USDC)</strong>."
+            },
+            "footer": {
+              "title": "When will I receive my payment?",
+              "text": "It can take time for our payment providers to transfer the payment to us. Once the payment reaches us, it will be sent to you within 24 hours."
+            }
+          },
+          "completed": {
+            "title": "{0} is paid out",
+            "types": {
+              "bank_account": "Payment is sent to <strong>bank account ending with {0}.</strong>",
+              "payoneer": "Payment is sent to <strong>Payoneer account {0}.</strong>",
+              "binance": "Payment is sent to your <strong>Binance account (USDC).</strong>",
+              "no_bank_account": "We sent the payment to bank account.",
+              "cenoa": "Payment is sent to your <strong>Cenoa account (USDC).</strong>"
+            },
+            "footer": {
+              "title": "Where is my payment?",
+              "text": "It can take a few business days for your bank to process and transfer the money to your account."
+            }
+          },
+          "sprinque": {
+            "waiting_approval_text": "Invoice is sent to <strong>{0}</strong>. We’re waiting for their approval.",
+            "waiting_for_payment_text": "Your client has approved the invoice. We’re waiting for our partner Sprinque to send the payment to us. Your client has time to pay until <strong>{0}</strong>.",
+            "sprinque_paid_us_text": "Sprinque has sent the payment to our accounts. We’re waiting for our bank to complete the transfer.",
+            "client_paid_to_sprinque_text": "Your client has made the payment to Sprinque. The transaction is completed.",
+            "waiting_approval": {
+              "title": "Client’s approval is needed",
+              "footer": {
+                "title": "Why is my client’s approval needed?",
+                "text": "We need to make sure that your client agrees to using Early Pay. This includes promising to make the payment until the due date."
+              }
+            },
+            "waiting_for_payment": {
+              "title": "Waiting for Sprinque’s payment",
+              "footer": {
+                "title": "Who is Sprinque?",
+                "text": "Sprinque enables businesses to take credit and postpone payment until the due date. We have partnered with Sprinque to offer this service."
+              }
+            },
+            "sprinque_paid_us": {
+              "title": "We’re waiting the payment to transfer",
+              "footer": {
+                "title": "How long does this transfer take?",
+                "text": "Usually just a few hours. May take longer outside business days."
+              }
+            },
+            "completed": {
+              "title": "{0} is paid out",
+              "footer": {
+                "title": "Where is my payment?",
+                "text": "It can take a few business days for your bank to process and transfer the money to your account."
+              }
+            },
+            "client_paid_to_sprinque": {
+              "title": "Transaction is completed",
+              "footer": {
+                "title": "Where is my payment?",
+                "text": "It can take a few business days for your bank to process and transfer the money to your account."
+              }
+            }
+          }
+        },
+        "business": {
+          "received_text": "<strong>{0}</strong> sent you an invoice. They are waiting for your payment.",
+          "issued_text": "Invoice is emailed to <strong>{0}</strong>. They are waiting for your payment.",
+          "received": {
+            "titlte": "{0} sent you an invoice",
+            "footer": {
+              "title": "I have made the payment but it still says 'Issued'?",
+              "text": "If you paid via bank transfer, you might have forgotten to mark it as paid. The invoice status will be updated after confirming the payment."
+            },
+            "title": "{0} sent you an invoice"
+          },
+          "issued": {
+            "title": "Invoice is shared with {0}",
+            "footer": {
+              "title": "I have made the payment but it still says 'Issued'?",
+              "text": "If you paid via bank transfer, you might have forgotten to mark it as paid. The invoice status will be updated after confirming the payment."
+            }
+          },
+          "in_progress": {
+            "title": "Payment is processing",
+            "types": {
+              "bank_account": "<strong>You have made the payment.</strong> Once the payment reaches us, it will be sent to talent’s <strong> bank account ending with {0}.</strong>",
+              "payoneer": "<strong>You have made the payment.</strong> Once the payment reaches us, it will be sent to talent’s <strong>Payoneer account {0}.</strong>",
+              "binance": "<strong>You have made the payment.</strong> Once the payment reaches us, it will be sent to the talent's <strong>Binance account (USDC) </strong>.",
+              "no_bank_account": "<strong>You have made the payment.</strong> Once the payment reaches us, it will be sent to the talent.",
+              "cenoa": "<strong>You have made the payment.</strong> Once the payment reaches us, it will be sent to the talent's <strong>Cenoa account (USDC) </strong>."
+            },
+            "footer": {
+              "title": "When will the talent receive the payment?",
+              "text": "It can take time for our payment providers to transfer the payment to our bank accounts. Once the payment reaches us, it will be sent to the talent within 24 hours."
+            }
+          },
+          "completed": {
+            "title": "{0} is paid out",
+            "types": {
+              "bank_account": "The payment is sent to talent's <strong>bank account ending with {0}.</strong>",
+              "payoneer": "The payment is sent to talent's <strong>Payoneer account {0}.</strong>",
+              "binance": "The payment is sent to talent's <strong>Binance account (USDC).</strong>",
+              "cenoa": "The payment is sent to talent's <strong>Cenoa account (USDC).</strong>"
+            },
+            "footer": {
+              "title": "Where is the talent’s payment?",
+              "text": "It may take a few business days for their bank to process and transfer the money to their account."
+            }
+          },
+          "bulk_invoice": {
+            "issued_text": "We emailed the invoice to the recipients. They are waiting for your payment.",
+            "in_progress_text": "<strong>You have made the payment.</strong> Once the payment reaches us, it will be distributed to the recipients.",
+            "completed_text": "All recipients are paid out.",
+            "issued": {
+              "title": "Invoice is shared with recipients",
+              "footer": {
+                "title": "I have made the payment but it still says 'Issued'?",
+                "text": "If you paid via bank transfer, you might have forgotten to mark it as paid. The invoice status will be updated after confirming the payment."
+              }
+            },
+            "in_progress": {
+              "title": "Payment is processing",
+              "footer": {
+                "title": "When will the talent receive the payment?",
+                "text": "It can take time for our payment providers to transfer the payment to our bank accounts. Once the payment reaches us, it will be sent to the talent within 24 hours."
+              }
+            },
+            "completed": {
+              "title": "{0} is paid out",
+              "footer": {
+                "title": "Where is the talent’s payment?",
+                "text": "It may take a few business days for their bank to process and transfer the money to their account."
+              }
+            }
+          },
+          "sprinque": {
+            "approval_needed_text": "The payment will be sent to the talent within 1 business day after your approval. You’ll still have time to pay until the deadline.",
+            "waiting_for_payment_text": "You have approved the invoice. We’re waiting for our partner Sprinque to send the payment to us. <strong>You have time to pay until {0}.</strong>",
+            "sprinque_paid_us_text": "Sprinque has sent the payment to our accounts. We’re waiting for our bank to complete the transfer.",
+            "youve_paid_to_sprinque_text": "You’ve made the payment to Sprinque. The transaction is completed.",
+            "approval_needed": {
+              "title": "Your approval is needed",
+              "footer": {
+                "title": "Why is my approval needed?",
+                "text": "We need to make sure that you agree to using Early Pay. This includes promising to make the payment until the due date."
+              }
+            },
+            "waiting_for_payment": {
+              "title": "Waiting for Sprinque’s payment",
+              "footer": {
+                "title": "Why am I paying to Sprinque?",
+                "text": "Sprinque enables businesses to take credit and postpone payment until the due date. We have partnered with Sprinque to offer this service."
+              }
+            },
+            "sprinque_paid_us": {
+              "title": "We’re waiting the payment to transfer",
+              "footer": {
+                "title": "How long does this transfer take?",
+                "text": "Usually just a few hours. May take longer outside business days."
+              }
+            },
+            "completed": {
+              "title": "{0} is paid out",
+              "footer": {
+                "title": "Where is the talent's payment?",
+                "text": "It may take a few business days for their bank to process and transfer the money to their account."
+              }
+            },
+            "youve_paid_to_sprinque": {
+              "title": "Transaction is completed",
+              "footer": {
+                "title": "Where is the talent's payment?",
+                "text": "It may take a few business days for their bank to process and transfer the money to their account."
+              }
+            }
+          }
+        },
+        "warning": "Warning"
+      },
+      "details": {
+        "page_title_transaction": "Invoice #{0}",
+        "page_title_no_transaction": "Invoice Details",
+        "bulk_invoice_transaction_details": {
+          "page_header": "Transaction Details",
+          "title": "only visible to you",
+          "text": "You are the service fee payer for all bulk invoices."
+        },
+        "card": {
+          "page_header": "Invoice Details",
+          "print_btn": "Print",
+          "download_btn": "Download",
+          "payment_btn": "Make Payment",
+          "invoice_no": "Invoice #{0}",
+          "issued_on": "Issued on {0}",
+          "company_info": {
+            "is_guest": "Please fill in the missing company information to proceed.",
+            "no_guest": "Your client will be asked to complete the remaining company information before making the payment."
+          },
+          "items": {
+            "title": "Service Description",
+            "title_end": "Service Fee",
+            "generated_bulk_invoice": "Generated with bulk invoice."
+          },
+          "summary": {
+            "sub_total": "Subtotal",
+            "vat": "VAT ({'%'}{0})",
+            "total": "Total",
+            "vat_withholding": "VAT withholding ({'%'}{0})"
+          },
+          "header": {
+            "sent_by": "sent by {email}",
+            "shared_with": "shared with {email}"
+          }
+        },
+        "service_details_card": {
+          "project": "Project",
+          "category": "Category",
+          "extra_notes": "Extra Notes",
+          "sub_category": "Sub Category",
+          "attached_files": "Attached Files",
+          "service_fee_payer": {
+            "label": "Service Fee Payer",
+            "talent": "Talent",
+            "talent_you": "Talent (You)",
+            "client": "Client",
+            "client_you": "Client (You)"
+          }
+        },
+        "transaction_details_card": {
+          "page_header": "Transaction Details",
+          "text": "only visible to you"
+        },
+        "early_pay": {
+          "title": "Your approval is needed",
+          "description": "Once the invoice is approved, { talentFullName } will be paid within 24 hours (by our partner Sprinque).",
+          "payment_duration": "You will have { paymentDuration } days to make the payment.",
+          "agreement": {
+            "label": "I am authorized to accept the {link} for my company.",
+            "link": "Early Pay agreement",
+            "accept": "I have read and accept the agreement.",
+            "alert": "'Please accept the agreement to proceed.'"
+          },
+          "how_it_works": "Why am I seeing this?",
+          "buttons": {
+            "approve": "Approve the invoice",
+            "reject": "Reject the invoice"
+          },
+          "agreement_modal": {
+            "title": "Ruul Scope of Service",
+            "parties": "1. Parties",
+            "scope": "2. Scope Of Work",
+            "commission": "3. Service Fee/Pricing",
+            "total": "4. Total Service Invoice Amount",
+            "term": "5. Payment Terms",
+            "term_description": "Within {0} days of the approval of the invoice",
+            "footer": {
+              "label": "I received the services specified in the Scope of Work listed above, in full and complete compliance with the terms and conditions outlined at {link} and the Customer Agreement, on 22/04/2024, in exchange for specified fee.",
+              "link": "https://ruul.io/terms-of-use"
+            }
+          },
+          "info_modal": {
+            "title": "Why am I seeing this?",
+            "description": {
+              "label": "{talentFullName} has created this invoice using our newest feature, {link}",
+              "link": "Early Pay."
+            },
+            "text1": "How it works?",
+            "text2": "Talents select the payment term, and upon your approval, we send the payment to them within 24 hours.",
+            "text3": "Meanwhile, you still have time to make the payment until the due date.",
+            "text4": "What happens after I approve?",
+            "text5": "{talentFullName} will be paid within 24 hours by our partner Sprinque. You will also receive a payment link from Sprinque via email to make the payment within {paymentDuration} days.",
+            "support": {
+              "label": "Have questions? {link}",
+              "link": "Contact us via live chat"
+            }
+          },
+          "success": "This invoice is created with Early Pay. All Early Pay payments are processed by our partner, Sprinque. Please use the link sent to {email} to complete your payment until {date}."
+        }
+      },
+      "empty_message": {
+        "1": "You don’t have any invoices yet.",
+        "2": "You don’t have any issued invoices.",
+        "3": "You don’t have any processing invoices.",
+        "4": "You don’t have any paid out invoices.",
+        "5": "You don’t have any cancelled invoices.",
+        "6": "You don’t have any rejected invoices.",
+        "7": "You don’t have any archived invoices."
+      },
+      "bank_transfer_warning": {
+        "cc_enabled_talent": "Ruul does not support bank transfers in <strong>{invoiceCurrency}</strong> for companies registered in {country}. This invoice can only be paid via credit card. If your client prefers to pay by bank transfer, please select {supportedCurrencies} as the invoice currency.",
+        "cc_enabled_business": "Ruul does not support bank transfers in <strong>{invoiceCurrency}</strong> for companies registered in {country}. This invoice can only be paid via credit card. If you prefer to pay by bank transfer, please select {supportedCurrencies} as the invoice currency.",
+        "cc_disabled_talent": "Ruul does not support bank transfers in <strong>{invoiceCurrency}</strong> for companies registered in {country}. To enable your client to make the payment, please select {supportedCurrencies} as the invoice currency.",
+        "cc_disabled_business": "Ruul does not support bank transfers in <strong>{invoiceCurrency}</strong> for companies registered in {country}. To enable the payment, please select {supportedCurrencies} as the invoice currency."
+      }
+    },
+    "clients": {
+      "page_title": "Clients",
+      "items": {
+        "all_clients": "All Clients",
+        "verification_in_progress": "Verification in Progress",
+        "verified": "Verified",
+        "not_verified": "Not Verified"
+      },
+      "empty_message": {
+        "1": "You don’t have any clients yet.",
+        "2": "You don’t have any clients whose verification is in progress.",
+        "3": "You don’t have any verified clients yet.",
+        "4": "You don’t have any unverified clients."
+      },
+      "client_details": {
+        "page_title": "Client Details",
+        "list": {
+          "invoices": "Invoices",
+          "invoiced": "Invoiced",
+          "paid": "Paid",
+          "biggest_payment": "Biggest Payment",
+          "smallest_payment": "Smallest Payment"
+        },
+        "items": {
+          "invoices": "Invoices",
+          "agreements": "Agreements",
+          "contracts": "Contracts",
+          "contacts": "Contacts"
+        },
+        "list_item": {
+          "set_default": "Set Default"
+        }
+      },
+      "client_filter_options": {
+        "recently_added": "Recently Added",
+        "az": " A-Z"
+      },
+      "new_client_btn": "New Client",
+      "client_list_item": {
+        "tooltip": "Your client will be asked to complete the missing company information before making the payment. They will be verified soon afterwards.",
+        "dropdown_options": {
+          "new_invoice": "New Invoice",
+          "new_agreement": "New Agreement",
+          "client_details": "Client Details",
+          "archive": "Archive"
+        },
+        "statuses": {
+          "verified": "Verified",
+          "not_verified": "Not Verified",
+          "verification_in_progress": "Verification in Progress"
+        }
+      },
+      "offcanvas": {
+        "title": "Add Client",
+        "form": {
+          "business_form": {
+            "email": {
+              "label": "Client's email",
+              "placeholder": "{'e.g. jane@acme.com'}",
+              "tooltip": {
+                "header": "Your client's email address",
+                "body": "The email address where the invoice will be sent."
+              }
+            },
+            "first_name": "Client's first name",
+            "last_name": "Client's last name",
+            "continue_btn": "Continue"
+          },
+          "email_search_result": {
+            "single_company": {
+              "submit_btn": "Yes, add client",
+              "info": "If this is not the company you’re looking for, please contact your client."
+            },
+            "multi_company": {
+              "question": "Your client is included in multiple companies. Which company do you want to invoice?",
+              "submit_btn": "Add client",
+              "info": "If you can’t find the company you’re looking for please ask your client to add it from their dashboard.",
+              "tax_id": "Tax ID: {0}"
+            },
+            "invitation": "Send notification email to {email}",
+            "support": {
+              "label": "Having trouble? {link}",
+              "link": "Contact us"
+            }
+          },
+          "company_form": {
+            "title": "Entering the following fields will speed up the verification process",
+            "address": {
+              "label": "Company's address",
+              "placeholder": "Address"
+            },
+            "city": {
+              "label": "City",
+              "placeholder": "City"
+            },
+            "zip_code": {
+              "label": "Zip code",
+              "placeholder": "Zip code"
+            },
+            "website": {
+              "label": "Website",
+              "placeholder": "Website"
+            }
+          },
+          "vat_search": {
+            "country": "Client's company is in",
+            "state": "State",
+            "question": {
+              "label": "Do you know the client’s <strong class='inline'>VAT, EIN, Tax ID or Trade Registration Number?</strong>",
+              "yes_btn": "Yes, I do",
+              "no_btn": "No, I don't"
+            },
+            "inputs": {
+              "tax_id": {
+                "label": "VAT, EIN, Tax ID or Trade Registration Number",
+                "tooltip": {
+                  "header": "Company's unique identification number",
+                  "body": "Depending on your client's country, this number may be called a VAT number, Tax ID, EIN, or Trade Registration Number. If you don't have it, please ask your client. It is required to invoice compliantly."
+                }
+              },
+              "company_name": {
+                "label": "Client's company name"
+              }
+            },
+            "mismatch_alert": "The domain of the email you entered <strong>does not match</strong> the Tax ID. Please check the information you entered and try again.",
+            "info_text": "Your client will be asked to complete the missing company information before making the payment. They will be verified soon afterwards.",
+            "invitation": "Send notification email to {email}",
+            "continue_btn": "Continue",
+            "manual_btn": "No, add manually",
+            "add_btn": "Yes, add client",
+            "create_btn": "Add Client",
+            "support": {
+              "label": "Having trouble? {link}",
+              "link": "Contact us"
+            },
+            "free_mail": {
+              "support": {
+                "label": "If this is not the company you’re looking for, please {link}.",
+                "link": "contact us"
+              },
+              "company_domain_corporate_warning": "To add this company as a client, you need to enter a <strong>corporate email</strong> address."
+            }
+          },
+          "success_msg": "Client added!"
+        },
+        "company_overview": {
+          "question": "Is the information below correct?",
+          "name": "Company Name",
+          "website": "Website",
+          "country": "Company is in",
+          "state": "State",
+          "city": "City",
+          "zip_code": "Zip Code",
+          "address": "Address",
+          "tax_id": "VAT, EIN or Tax ID",
+          "registration_number": "Trade Registration Number",
+          "tax_office": "Tax Office",
+          "pan_number": "PAN Number",
+          "phone_no": "Company's Phone Number",
+          "button": "Yes, add client"
+        }
+      },
+      "onboarding": {
+        "title": "Add your first client and start invoicing!",
+        "text": "It takes only a minute, and you can start invoicing right away.",
+        "add_btn": "New Client"
+      }
+    },
+    "contracts": {
+      "page_title": "Agreements",
+      "new_agreement_btn": "New Agreement",
+      "list_item": {
+        "status": {
+          "sent": "Sent",
+          "accepted": "Accepted",
+          "rejected": "Rejected",
+          "received": "Received"
+        }
+      },
+      "tab_items": {
+        "all_agreements": "All Agreements",
+        "issued": "Sent",
+        "received": "Received"
+      },
+      "contract_list": {
+        "header": {
+          "agreement": "Agreement",
+          "type": "Type",
+          "issued_on": "Issued on",
+          "status": "Status"
+        },
+        "list_item": {
+          "title": {
+            "is_service": "Service Terms and Conditions",
+            "no_service": "Non-Disclosure Agreement"
+          },
+          "dropdown_options": {
+            "accept": "Accept",
+            "reject": "Reject",
+            "delete": "Delete",
+            "download": "Download",
+            "print": "Print",
+            "accepted_success": "Agreement accepted!",
+            "rejected_success": "Agreement rejected!",
+            "deleted_success": "Agreement deleted!"
+          },
+          "old_agreement": "Old agreements can only be downloaded."
+        }
+      },
+      "create_service_terms": {
+        "page_title": "New Service Terms and Conditions",
+        "form": {
+          "btn_text": "Next",
+          "page_title": "New Service Terms and Conditions"
+        },
+        "contract": {
+          "success_msg": "Agreement sent!"
+        }
+      },
+      "contract_details": {
+        "page_title": "Agreement {0}",
+        "details": "Details",
+        "header": {
+          "time": "Issued on {0}",
+          "reject_btn": "Reject",
+          "reject_success": "Agreement rejected!",
+          "accept_btn": "Accept",
+          "accept_success": "Agreement accepted!",
+          "delete_btn": "Delete",
+          "delete_success": "Agreement deleted!",
+          "print_btn": "Print",
+          "download_btn": "Download",
+          "send_btn": "Send Agreement"
+        },
+        "nda": {
+          "success_msg": "Agreement sent!"
+        },
+        "service_contract": "Service Terms and Conditions",
+        "nda_contract": "Non-Disclosure Agreement"
+      },
+      "contract_type_modal": {
+        "title": "Choose agreement type",
+        "btn_text": "Next",
+        "items": {
+          "service": {
+            "label": "Service Terms and Conditions",
+            "description": "About the service and payment conditions."
+          },
+          "agreement": {
+            "label": "Non-Disclosure Agreement (NDA)",
+            "description": "About confidential materials and permissions to share."
+          }
+        }
+      },
+      "nda_form": {
+        "btn_text": "Next"
+      },
+      "create_nda": {
+        "page_title": "New Non-Disclosure Agreement (NDA)"
+      },
+      "onboarding": {
+        "talent": {
+          "title": "Create your first agreement and freelance safely.",
+          "text_1": "Templates for Service Agreements and NDAs",
+          "text_2": "Fair for both you and your client",
+          "text_3": "Easy to understand, takes minutes to generate",
+          "btn_text": "New Agreement"
+        },
+        "business": {
+          "title": "Create your first agreement to work safely.",
+          "text_1": "Templates for Service Agreements and NDAs",
+          "text_2": "Fair for both you and your talent",
+          "text_3": "Easy to understand, takes minutes to generate",
+          "btn_text": "New Agreement"
+        }
+      },
+      "empty_message": {
+        "1": "You don't have any agreements yet.",
+        "2": "You don’t haven't send any agreements yet.",
+        "3": "You don’t haven't received any agreements yet."
+      }
+    },
+    "talents": {
+      "page_title": "Talents",
+      "new_talent_btn": "New Talent",
+      "onboarding": {
+        "title": "Add your first talent",
+        "description": "Easily manage talents from all over the world.",
+        "btn_text": "New Talent"
+      },
+      "list_item": {
+        "dropdown_options": {
+          "new_invoice": "New Invoice",
+          "new_agreement": "New Agreement",
+          "talent_details": "Talent Details"
+        },
+        "badge_title": {
+          "registered": "Registered",
+          "email_confirmed": "Email Confirmed",
+          "profile_completed": "Profile Completed",
+          "active": "Active",
+          "inactive": "Inactive",
+          "not_registered": "Invited",
+          "guest": "Guest",
+          "invited": "Invited"
+        }
+      },
+      "offcanvas": {
+        "title": "Add new talent",
+        "success_msg": "Talent added!",
+        "form": {
+          "first_name": {
+            "label": "First Name",
+            "placeholder": "Enter first name"
+          },
+          "last_name": {
+            "label": "Last Name",
+            "placeholder": "Enter last name"
+          },
+          "email": {
+            "label": "Email",
+            "placeholder": "Enter email"
+          },
+          "country": {
+            "label": "Talent is located in"
+          },
+          "add_btn": "Add Talent"
+        }
+      },
+      "details": {
+        "page_title": "Talent Details",
+        "tab_items": {
+          "invoices": "Invoices",
+          "agreements": "Agreements"
+        },
+        "summary": {
+          "invoices": "Invoices",
+          "invoiced": "Invoiced",
+          "paid": "Paid"
+        }
+      }
+    },
+    "not_found": {
+      "title": "Page not found.",
+      "text": "Sorry, we couldn’t find the page you’re looking for.",
+      "btn_text": "Go back home",
+      "link": "Ruul"
+    },
+    "promo_code": {
+      "page_title": "Promo Codes",
+      "btn_text": "New Promo Code",
+      "empty_message": "You don't have any promo codes yet.",
+      "list_item": {
+        "description": {
+          "commission": "{0}{'%'} discount on the commission fee",
+          "payout": "{0} earning on talent's payout",
+          "payment": "{0} discount on client's payment"
+        },
+        "badge_title": {
+          "active": "Active",
+          "inactive": "Inactive"
+        }
+      },
+      "offcanvas": {
+        "title": "New Promo Code",
+        "code": "Code",
+        "btn_text": "Save",
+        "success_msg": "Promo code added!"
+      }
+    },
+    "payments": {
+      "bank_transfer": {
+        "invoice_summary": {
+          "title": "Total amount to be paid",
+          "invoice_no": "Invoice #{0}",
+          "breakdown": {
+            "hide": "Hide pricing breakdown",
+            "show": "Show pricing breakdown"
+          },
+          "paid_talent": "Paid by talent",
+          "paid_you": "Paid by you",
+          "items": {
+            "amount": "Invoice amount",
+            "commission": "Commission Fee",
+            "credit_fee": "Credit card fee",
+            "total": "Total amount to be paid",
+            "receive": "Talent will receive",
+            "payment_request": "Talent's payment request",
+            "subtotal": "Subtotal",
+            "vat": "VAT",
+            "receive_bulk": "Total amount to be distributed to the talents",
+            "payment_request_bulk": "Talents' total payment request"
+          }
+        },
+        "text_1": "I have read and I accept that the bank account used to make a transfer belongs to the organization that the invoice is issued to, otherwise, the transaction will be cancelled and the commission costs incurred due to the refund will be reflected to me.",
+        "text_2": "I accept that I will type the invoice number in the description field while making the bank transfer and I acknowledge that the payment will fail to match with the related invoice in the absence of the invoice number.",
+        "text_3": "I’ve completed the transfer with the information above.",
+        "agree_1": {
+          "warning": "The Terms of Use must be agreed.",
+          "label": "Terms of Use",
+          "required": "Required field"
+        },
+        "agree_2": {
+          "warning": "The Terms of Use must be agreed.",
+          "label": "Terms of Use",
+          "required": "Required field"
+        },
+        "fields": {
+          "beneficiary_name": "Account Holder's Name",
+          "routing_code": "Routing Code",
+          "bank_name": "Bank Name",
+          "total": "Total",
+          "account_number": "Account Number",
+          "account_number_sub": "(ACH & Wire)",
+          "description": "Description",
+          "swift": "SWIFT",
+          "branch_code": "Branch Code",
+          "bank_code": "Bank Code",
+          "institution_number": "Institution Number",
+          "transit_number": "Transit Number",
+          "sort_number": "Sort Number"
+        }
+      },
+      "choose": {
+        "title": "Credit card payments in foreign currencies will be converted and processed in Turkish Lira.",
+        "tooltip": {
+          "header": "Government regulations",
+          "body": "Due to regulatory guidelines from the Turkish Government, credit card payments in a currency other than Turkish Lira will be converted and charged in Turkish Lira. If you prefer bank transfer, please adjust your invoice currency to EUR, USD, GBP or TRY. We appreciate your understanding and cooperation.",
+          "link": "Why?"
+        },
+        "btn_text": {
+          "card": "Continue with credit card",
+          "bank_transfer": "Continue with bank transfer"
+        },
+        "payment_methods": {
+          "bank": {
+            "label": "Bank Transfer",
+            "descriptions": "Send the payment to Ruul’s local bank accounts. After your payment is confirmed, it will be sent to the talent within 24 hours."
+          },
+          "card": {
+            "label": "Credit Card",
+            "descriptions": "Use your company’s credit card to pay the invoice. After the payment is successful, it will be sent to the talent within 24 hours.",
+            "badge": "{0} extra fee applies"
+          }
+        },
+        "no_payment_method": {
+          "label": "The currency of the invoice is not suitable for payment via bank transfer. Please {link} to create a new invoice with a currency suitable for bank transfer.",
+          "link": "contact us"
+        },
+        "phone_modal": {
+          "header": "Phone number is needed",
+          "label": "Phone Number",
+          "invalid": "Invalid",
+          "btn": "Save",
+          "success": "Phone number saved!"
+        },
+        "business_agreement": {
+          "label": "I agree with the {link}.",
+          "link": "Business Agreement",
+          "placeholder": "Business Agreement",
+          "isTrue": "Business Agreement must be agreed."
+        }
+      },
+      "credit_card": {
+        "stripe": {
+          "agree": {
+            "true": "The terms of use must be agreed.",
+            "label": "Terms of Use",
+            "required": "Required field"
+          },
+          "footer": {
+            "text": "I have read and I accept that the credit card used to make a payment belongs to the company that the invoice is issued to, otherwise, the transaction will be cancelled and the commission costs incurred due to the refund will be reflected to me.",
+            "btn_text": "Next"
+          },
+          "err_msg": "Payment could not be received"
+        },
+        "pay_tr": {
+          "name": {
+            "label": "Name on card"
+          },
+          "number": {
+            "label": "Credit card number",
+            "test": "Credit card number is invalid"
+          },
+          "date": {
+            "label": "Expiration date",
+            "test": "Expiration date is invalid"
+          },
+          "cvc": {
+            "label": "CVC",
+            "test": "CVC is invalid",
+            "required": "Required field"
+          },
+          "agree": {
+            "label": "Terms of Use",
+            "true": "The terms of use must be agreed",
+            "required": "Required field"
+          }
+        },
+        "errors": {
+          "is_guest": "Credit card payments are not supported for this company.",
+          "no_guest": "Credit card payments are not supported for this company."
+        }
+      },
+      "guest": {
+        "header": {
+          "invoice_no": "Invoice #{0}",
+          "footer": {
+            "text": "Already a user? ",
+            "link": "Sign in"
+          }
+        },
+        "payment_pages": {
+          "titles": {
+            "make_payment": "Make Payment",
+            "bank_transfer": "Pay with bank transfer",
+            "credit_card": "Pay with credit card",
+            "results": "Payment Results",
+            "payments": "Payments"
+          }
+        },
+        "verify_business_modal": {
+          "text_1": "{0} sent you an invoice via Ruul",
+          "text_2": "Please enter the email you shared with the talent <strong>({0})</strong> to get a verification email.",
+          "email": "Email",
+          "btn_text": "Send verification email",
+          "link": "Learn more about Ruul",
+          "check": "Please check your email",
+          "sent": "We sent a verification link to <strong>{0}</strong>.",
+          "spam": "Please check your inbox as well as your spam folder.",
+          "warning": "Didn't receive it?",
+          "resend_text": "Resend email",
+          "success_msg": "Verification code sent!"
+        },
+        "company_form": {
+          "title": "Please complete company information",
+          "success_msg": "Company info updated.",
+          "terms": {
+            "label": "I agree with the {link}.",
+            "link": "Business Agreement",
+            "placeholder": "Business Agreement",
+            "isTrue": "Business Agreement must be agreed."
+          },
+          "button": "Complete",
+          "name": "Company Name",
+          "country": "Company is registered in",
+          "state": "State",
+          "city": "City",
+          "zip_code": "Zip Code",
+          "address": "Address",
+          "know_vat": {
+            "yes": "VAT, EIN or Tax ID",
+            "no": "Trade Registration Number"
+          },
+          "tax_id": "Company’s VAT, EIN or Tax ID",
+          "registration_number": "Company’s Trade Registration Number",
+          "tax_office": "Tax Office",
+          "pan_number": "Company's PAN Number (optional)",
+          "phone": "Phone number",
+          "company_phone": "Company's phone number",
+          "website": "Website"
+        }
+      },
+      "pay_tr_result": {
+        "btn_text": "Close",
+        "text": "Processing..."
+      },
+      "result": {
+        "no": "Invoice #{0}",
+        "payment_result": "Payment Result",
+        "error": {
+          "title": "Payment failed",
+          "link_text_1": "Please",
+          "link_text_2": "try again",
+          "link_text_3": "or",
+          "link_text_4": "contact live customer support"
+        },
+        "success": {
+          "title": "Payment is sent! What’s next?",
+          "text_1": "Once the payment reaches us,",
+          "text_2": "it will be sent to the talent within 24 hours.",
+          "btn_text": "Go back to invoices",
+          "link_text": "See invoice details",
+          "btn_text_2": "Sign up to track the invoice"
+        }
+      },
+      "page_titles": {
+        "make_payment": "Make Payment",
+        "bank_transfer": "Pay with bank transfer",
+        "credit_card": "Pay with credit card"
+      }
+    },
+    "payment_accounts": {
+      "page_title": "Payment Accounts",
+      "onboarding_title": "Add a payment account to collect payments when they arrive.",
+      "onboarding_btn": "Add New",
+      "search_btn": "New Payment Account",
+      "account_item": {
+        "default_badge_title": "Default Payment Account",
+        "dropdown_options": {
+          "remove": "Remove",
+          "default": "Set as default",
+          "remove_succeed": "Bank account removed.",
+          "default_succeed": "Bank account set as default!"
+        },
+        "status": {
+          "not_created": "Not Created",
+          "in_progress": "In Progress",
+          "approved": "Approved",
+          "declined": "Declined",
+          "in_progress_tooltip": {
+            "header": "Account verification is in progress",
+            "content": "We are working on verifying your account to make sure it is usable. We’ll let you know when it's verified."
+          },
+          "declined_tooltip": {
+            "content": "Please contact us to resolve the issue."
+          }
+        },
+        "others": "Others"
+      },
+      "features": {
+        "feature_1": "Get paid directly into your bank account",
+        "feature_2": "140 currencies supported, including crypto",
+        "feature_3": "Takes less than 2 minutes"
+      },
+      "offcanvas": {
+        "account_types": {
+          "binance": {
+            "description": "Get paid in crypto-currency with Binance security."
+          },
+          "bank": {
+            "label": "Bank Account",
+            "description": "Collect payments directly into your bank account."
+          },
+          "kyc_alert": {
+            "not_started": "You must verify your ID to continue.",
+            "pending": {
+              "title": "ID verification in progress",
+              "description": "You’ll be able to continue after the verification is completed. This usually takes a few minutes."
+            }
+          },
+          "buttons": {
+            "next": "Next",
+            "verifyId": "Verify your ID"
+          },
+          "cenoa": {
+            "description": "Get paid in Digital Dollars (USDC) directly into your Cenoa wallet.",
+            "tooltip": "You already have a Cenoa account.",
+            "link": "Learn more",
+            "badge": "New"
+          }
+        },
+        "titles": {
+          "add": "Add Payment Account",
+          "banking": "Add banking information",
+          "add_binance": "Add Binance Account",
+          "add_cenoa": "Create a Cenoa Account",
+          "connect_cenoa": "Connect a Cenoa account"
+        },
+        "binance_details": {
+          "options": {
+            "new_account": {
+              "label": "Create a new account",
+              "description": "Complete the tasks set by Binance and earn rewards up to 600 USDC to use in spot trading."
+            },
+            "existing_account": {
+              "label": "Connect your existing account",
+              "description": "Sign in and connect your Binance account. Takes less than 30 seconds."
+            }
+          },
+          "agreement": {
+            "checkbox": {
+              "label": "I agree with the {link}",
+              "link": "Terms of Use"
+            },
+            "content": "I acknowledge and agree that by choosing cryptocurrency as my payout method, I am solely responsible for declaring any income generated through cryptocurrency transactions. I understand that I must comply with all relevant local regulations and tax laws pertaining to cryptocurrency assets in my jurisdiction. Ruul OÜ assumes no responsibility for any legal or tax obligations arising from my use of cryptocurrency payouts."
+          },
+          "btn_text": "Next"
+        },
+        "overview": {
+          "title": "Is the information below correct?",
+          "no_btn": "No, edit",
+          "yes_btn": "Yes, add bank account",
+          "country": "Country",
+          "currency": "Currency",
+          "iban": "IBAN",
+          "bank_name": "Bank Name",
+          "swift": "SWIFT Code",
+          "beneficiary_name": "Account Holder's Name",
+          "id_number": "ID Number",
+          "zip_code": "Zip Code"
+        },
+        "country_warning": {
+          "label": "Country of the account: <strong>{0}</strong><br />Country of the IBAN: <strong>{1} </strong><br />The IBAN must belong to the country of the account. Please check the information entered."
+        },
+        "cenoa_details": {
+          "options": {
+            "new_account": {
+              "label": "Create a new account",
+              "description": "Scan the QR code and download the Cenoa app within seconds."
+            },
+            "existing_account": {
+              "label": "Connect your existing account",
+              "description": "Connect your Cenoa account in under a minute."
+            }
+          },
+          "agreement": {
+            "checkbox": {
+              "label": "I agree with the {link}",
+              "link": "Terms of Use"
+            },
+            "content": "I acknowledge and agree that by choosing cryptocurrency as my payout method, I am solely responsible for declaring any income generated through cryptocurrency transactions. I understand that I must comply with all relevant local regulations and tax laws pertaining to cryptocurrency assets in my jurisdiction. Ruul OÜ assumes no responsibility for any legal or tax obligations arising from my use of cryptocurrency payouts."
+          },
+          "btn_text": "Next"
+        },
+        "cenoa_new": {
+          "download_app": "Scan the QR code to download the Cenoa app.",
+          "btn": "Done"
+        },
+        "cenoa_exist": {
+          "form": {
+            "pCountry": "Phone country",
+            "phone_number": {
+              "label": "Phone number"
+            },
+            "verification_code": {
+              "label": "Enter your one-time passcode",
+              "error_label": "Passcode",
+              "placeholder": "Passcode"
+            },
+            "resend_text": "Didn't receive a code? {resend_link}",
+            "resend_link": "Resend",
+            "resend_succeed": "Code sent"
+          },
+          "verify_btn": "Send Verification Code",
+          "submit_btn": "Connect Cenoa account"
+        }
+      },
+      "bank_account": {
+        "country": {
+          "label": "Country of the account",
+          "placeholder": "Choose your bank account's country"
+        },
+        "currency": {
+          "label": "Currency",
+          "placeholder": "Choose the currency of the account"
+        },
+        "add_btn": "Add Bank Account",
+        "swift_link": "<a href='http://www.swift.com/bsl/facelets/bicsearch.faces' target='_blank' class='underline cursor-pointer'>Click here</a> to find your SWIFT/BIC",
+        "success_msg": "Bank account added!",
+        "iban": {
+          "label": "IBAN",
+          "check_iban_btn": "Check IBAN",
+          "valid_btn": "Valid",
+          "invalid_btn": "Invalid",
+          "iban_err_msg": "IBAN is invalid",
+          "iban_success_msg": "IBAN is valid!"
+        },
+        "unsupportedWarn": {
+          "label": "We currently do not support the selected currency for this invoice's country. Please {link} to resolve the issue.",
+          "link": "contact us"
+        },
+        "bank_name_other": {
+          "label": "Bank Name",
+          "hint": "Please enter only English alphabet characters."
+        }
+      },
+      "provider_redirect": {
+        "binance": {
+          "create_succeed": "Binance account added!",
+          "create_failed": "Failed to add Binance account."
+        }
+      }
+    },
+    "settings": {
+      "tabs": {
+        "account": "Account",
+        "profile": "Profile",
+        "companies": "Companies",
+        "company": "Company",
+        "company_details": "Company Details"
+      },
+      "account": {
+        "title": "Change Password",
+        "current_password": "Current Password",
+        "new_password": "New Password",
+        "link": "Forgot Password?",
+        "btn_text": {
+          "talent": "Change Password",
+          "business": "Change Password"
+        },
+        "success_msg": "Password updated!"
+      },
+      "companies": {
+        "btn_text": "New Company",
+        "update_success_msg": "Current company updated",
+        "list_item": {
+          "show_details": "Company Details",
+          "statuses": {
+            "verified": "Verified",
+            "not_verified": "Not Verified",
+            "verification_in_progress": "Verification in Progress",
+            "unknown": "Unknown"
+          }
+        },
+        "empty_message": "You don't have any companies yet",
+        "offcanvas": {
+          "title": "Add new company",
+          "success_msg": "Company added",
+          "form": {
+            "name": {
+              "label": "Company name"
+            },
+            "email": {
+              "label": "Company Email"
+            },
+            "country": {
+              "label": "Company is registered in"
+            },
+            "state": {
+              "label": "State"
+            },
+            "city": {
+              "label": "City"
+            },
+            "zip_code": {
+              "label": "Zip Code"
+            },
+            "address": {
+              "label": "Address"
+            },
+            "tax_id": {
+              "label": "Company’s VAT, EIN or Tax ID"
+            },
+            "registration_number": {
+              "label": "Company’s Trade Registration Number"
+            },
+            "tax_office": {
+              "label": "Tax Office"
+            },
+            "pan_number": {
+              "label": "Company's PAN Number (optional)"
+            },
+            "phone": {
+              "label": "Company's phone number"
+            },
+            "website": {
+              "label": "Website"
+            },
+            "terms": {
+              "label": "I agree with the {link}.",
+              "link": "Business Agreement",
+              "placeholder": "Business Agreement",
+              "isTrue": "Business Agreement must be agreed."
+            },
+            "add_btn": "Add Now",
+            "know_vat": {
+              "yes": {
+                "label": "VAT, EIN or Tax ID"
+              },
+              "no": {
+                "label": "Trade Registration Number"
+              }
+            }
+          }
+        }
+      },
+      "company_details": {
+        "success_msg": "Emails updated!",
+        "overview": {
+          "statuses": {
+            "verified": "Verified",
+            "not_verified": "Not Verified",
+            "pending": "Verification in Progress"
+          },
+          "list": {
+            "company": "Company is in",
+            "state": "State",
+            "city": "City",
+            "zip_code": "Zip Code",
+            "address": "Address",
+            "tax_id": "VAT, EIN or Tax ID",
+            "registration_number": "Trade Registration Number",
+            "tax_office": "Tax Office",
+            "phone": "Phone Number",
+            "pan_number": "Company's PAN Number",
+            "website": "Website"
+          }
+        },
+        "email": {
+          "title": "Transactional emails are sent to",
+          "multiple_email": {
+            "email": "Please enter an email",
+            "add_more": "add more by <strong class='font-semibold'>Space</strong> or <strong class='font-semibold'>Enter</strong>",
+            "save_btn": "Save",
+            "edit_btn": "Edit"
+          }
+        },
+        "team": {
+          "title": "Team",
+          "item": {
+            "badges": {
+              "admin": "Admin",
+              "owner": "Owner",
+              "user": "User"
+            }
+          }
+        }
+      },
+      "profile": {
+        "card": {
+          "talent": {
+            "text": "If you want to change the information above, please {link}",
+            "link": "contact us",
+            "born_in": "Born in {0}"
+          },
+          "business": {
+            "text": "If you want to change the information above, please {link}",
+            "link": "contact us"
+          }
+        },
+        "phone": "Phone Number",
+        "phone_country": "Phone Country",
+        "invalid_number": "Invalid phone number",
+        "language": "Language",
+        "gender": {
+          "label": "Gender",
+          "placeholder": "Gender"
+        },
+        "occupation": {
+          "label": "Job title",
+          "placeholder": "Choose a job title"
+        },
+        "btn_text": "Update Profile",
+        "success_msg": "Profile updated!",
+        "genders": {
+          "male": "Male",
+          "female": "Female",
+          "other": "Other"
+        }
+      },
+      "forgot_password": {
+        "reset_page": {
+          "title": "Reset Password"
+        }
+      }
+    },
+    "projects": {
+      "new_project_btn": "New Project",
+      "offcanvas": {
+        "update_success_msg": "Project updated!",
+        "create_success_msg": "Project created!",
+        "title": {
+          "edit": "Edit Project",
+          "new": "New Project"
+        },
+        "form": {
+          "name": {
+            "label": "Project Name",
+            "placeholder": "Enter project name"
+          },
+          "job_category": {
+            "label": "Service Category",
+            "placeholder": "Choose service category"
+          },
+          "button": {
+            "edit": "Edit Project",
+            "new": "Add Project"
+          }
+        }
+      },
+      "empty_msg": "You don't have any projects yet.",
+      "tab_items": {
+        "all_projects": "All Projects",
+        "active": "Active",
+        "completed": "Completed",
+        "archived": "Archived"
+      },
+      "list_item": {
+        "dropdown_options": {
+          "edit": "Edit",
+          "project_details": "Project Details",
+          "new_invoice": "Add New Invoice",
+          "new_agreement": "Add New Agreement",
+          "set_as_active": "Set as Active",
+          "mark_as_completed": "Mark as Completed",
+          "archive": "Archive",
+          "unarchive": "Unarchive",
+          "archived_success_msg": "Project archived.",
+          "unarchived_success_msg": "Project unarchived.",
+          "completed_success_msg": "Project completed!",
+          "active_success_msg": "Project set as active!"
+        },
+        "status": {
+          "active": "Active",
+          "completed": "Completed",
+          "archived": "Archived"
+        }
+      },
+      "details": {
+        "page_title": "Project Details",
+        "items": {
+          "invoices": "Invoices",
+          "agreements": "Agreements"
+        }
+      },
+      "onboarding": {
+        "talent": {
+          "title": "Create your first project and start invoicing!",
+          "text": "Organize invoices and agreements easily. Takes seconds.",
+          "btn_text": "New Project"
+        },
+        "business": {
+          "title": "Create your first project and start invoicing!",
+          "text": "Organize invoices and agreements easily. Takes seconds.",
+          "btn_text": "New Project"
+        }
+      },
+      "empty_message": {
+        "1": "You don’t have any projects yet.",
+        "2": "You don’t have any active projects.",
+        "3": "You don’t have any projects marked as completed.",
+        "4": "You don’t have any archived projects."
+      },
+      "page_title": "Projects"
+    }
+  },
+  "common": {
+    "validation": {
+      "mixed": {
+        "default": "default",
+        "required": "The {field} field is required",
+        "notValid": "{field} is not valid"
+      },
+      "string": {
+        "min": "{field} must be at least {min} characters long",
+        "max": "{field} must be at most {max} characters long",
+        "email": "{field} is not valid",
+        "matches": "{field} is not valid"
+      }
+    },
+    "error": {
+      "invalid_credentials": "Your email or password is wrong.",
+      "required": "Required field"
+    },
+    "kyc_statuses": {
+      "verify_kyc": {
+        "modal": {
+          "title": "Verify your ID",
+          "success_msg": "Application submitted successfully"
+        }
+      }
+    },
+    "embedded_select": {
+      "no_match": "No matching result for {0}"
+    },
+    "file_input": {
+      "select_text": "Select files",
+      "spinner_text": "Uploading...",
+      "no_file_text": "No file selected",
+      "error_msg": "{0} file size must be less than 10 MB.",
+      "duplicate_error_msg": "{0} file already exist"
+    },
+    "select": {
+      "no_result": "No matching result for <strong>{0}</strong>",
+      "no_result_with_label": "No matching {0} for <strong>{1}</strong>",
+      "add_new": "Add New"
+    },
+    "multi_select": {
+      "no_result": "No matching result form '{0}'"
+    },
+    "password_strength": {
+      "label": "Your password must contain:",
+      "rules": {
+        "uppercase": "an uppercase character",
+        "lowercase": "a lowercase character",
+        "number": "a number",
+        "min": "a minimum of 8 characters"
+      }
+    },
+    "no_data": {
+      "message": "No Data"
+    },
+    "sidebar": {
+      "dashboard": "Home",
+      "invoices": "Invoices",
+      "clients": "Clients",
+      "talents": "Talents",
+      "projects": "Projects",
+      "payment_accounts": "Payment Accounts",
+      "contracts": "Agreements",
+      "talent": "Talent",
+      "business": "Business"
+    },
+    "input": {
+      "validating": "Validating..."
+    },
+    "search_input": {
+      "placeholder": "Search",
+      "no_data": "No match for <strong>{0}</strong>"
+    },
+    "pagination": {
+      "footer": "Showing 1 to {0} of {1} entries",
+      "show_more": "Show More"
+    },
+    "add_more": {
+      "btn_text": "Add More"
+    },
+    "profile_dropdown": {
+      "promo_codes": "Promo Codes",
+      "logout": "Logout",
+      "settings": "Settings",
+      "support": "Support",
+      "give_feedback": "Give Feedback"
+    },
+    "service_units": {
+      "item": "item",
+      "hour": "hour",
+      "day": "day",
+      "week": "week",
+      "month": "month"
+    },
+    "or": "or",
+    "kyc_warning": {
+      "description": "Please verify your ID to be able to receive payments.",
+      "button": "Verify your ID"
+    }
+  }
+}
