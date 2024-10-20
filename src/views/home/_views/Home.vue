@@ -1,6 +1,6 @@
 <template>
   <div>home page</div>
-  <Button>asdasd</Button>
+  <!-- <Button>asdasd</Button> -->
 </template>
 
 <script setup lang="ts"></script>
