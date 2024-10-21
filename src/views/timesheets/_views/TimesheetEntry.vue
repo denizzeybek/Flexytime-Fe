@@ -1,6 +1,5 @@
 <template>
-  <div>home page</div>
-  <!-- <Button>asdasd</Button> -->
+  <div>timeSheet entry</div>
 </template>
 
 <script setup lang="ts"></script>

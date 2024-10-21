@@ -37,7 +37,7 @@ router.beforeEach(async (to, _, next) => {
   // if (requiresAuth && !authStore.isAuth) {
   //   return next({ name: ERouteNames.Login, query: { redirect: to.fullPath } })
   // } else if (requiresUnAuth && authStore.isAuth) {
-  //   return next({ name: ERouteNames.Dashboard })
+  //   return next({ name: ERouteNames.WorktimeUsage })
   // }
 
   next()
@@ -47,7 +47,8 @@ router.beforeEach(async (to, _, next) => {
 const DEFAULT_TITLE = 'FlexyTime'
 router.afterEach((to) => {
   nextTick(() => {
-    document.title = typeof to.meta.title === 'string' ? `${to.meta.title} - FlexyTime` : DEFAULT_TITLE
+    document.title =
+      typeof to.meta.title === 'string' ? `${to.meta.title} - FlexyTime` : DEFAULT_TITLE
   })
 })
 

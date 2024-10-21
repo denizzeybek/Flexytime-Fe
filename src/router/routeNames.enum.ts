@@ -1,4 +1,16 @@
 export enum ERouteNames {
+  WorktimeUsage='WorktimeUsage',
+  Classification='Classification',
+  TimesheetEntry='TimesheetEntry',
+  TimeManagement='TimeManagement',
+
+
+
+
+
+
+
+
   Dashboard = 'Dashboard',
   // AUTH
   Login = 'Login',

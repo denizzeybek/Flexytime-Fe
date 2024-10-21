@@ -6,6 +6,24 @@ import 'primeicons/primeicons.css'
 import Drawer from 'primevue/drawer'
 import StyleClass from 'primevue/styleclass'
 import Ripple from 'primevue/ripple'
+import PanelMenu from 'primevue/panelmenu'
+import { definePreset } from '@primevue/themes'
+import panelMenu from '@primevue/themes/aura/panelMenu'
+
+const flexyPreset = definePreset(Aura, {
+  components: {
+    panelMenu: {
+      extend: {
+        root: {
+          border: 'none'
+        },
+        panel: {
+          border: 'none'
+        }
+      }
+    }
+  }
+})
 
 export default {
   install(app: App) {
@@ -14,7 +32,19 @@ export default {
         preset: Aura,
         options: {
           darkModeSelector: '.my-app-dark'
-        },
+        }
+      },
+      pt: {
+        global: {
+          css: `
+            .p-panelmenu  {
+              gap:0 !important;
+            }
+            .p-panelmenu .p-panelmenu-panel {
+              border: none;
+            }
+            `
+        }
       }
     })
     app.use(ToastService)
