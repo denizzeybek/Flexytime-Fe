@@ -34,7 +34,9 @@ export default {
         'full-offcanvas': '91%'
       },
       scale: {
+        104: '1.04',
         115: '1.15'
+
       }
     }
   }

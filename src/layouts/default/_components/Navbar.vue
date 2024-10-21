@@ -86,16 +86,19 @@ const items = ref([
   {
     label: 'Worktime Usage',
     icon: 'pi pi-server',
-    route: '/'
+    route: '/',
+    key: '0'
   },
   {
     label: 'Classification',
     icon: 'pi pi-server',
-    route: '/classification'
+    route: '/classification',
+    key: '1'
   },
   {
     label: 'Time Sheets',
-    icon: 'pi pi-server',
+    icon: 'pi ,pi-server',
+    key: '2',
     items: [
       {
         label: 'TimeSheet Entry',
