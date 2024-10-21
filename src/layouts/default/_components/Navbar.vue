@@ -92,7 +92,7 @@ const items = ref([
   {
     label: 'Classification',
     icon: 'pi pi-server',
-    route: '/classification',
+    route: '/classification/web-addresses',
     key: '1'
   },
   {

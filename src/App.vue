@@ -25,6 +25,10 @@
 .p-tablist-active-bar {
   @apply !hidden;
 }
+.p-tabpanels {
+  @apply !bg-transparent;
+  
+}
 /* #endregion */
 
 /* #region panelMenu */

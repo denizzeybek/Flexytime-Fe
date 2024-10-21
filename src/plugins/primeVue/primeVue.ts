@@ -13,6 +13,15 @@ import Tab from 'primevue/tab'
 import TabPanels from 'primevue/tabpanels'
 import TabPanel from 'primevue/tabpanel'
 import Panel from 'primevue/panel'
+
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import Rating from 'primevue/rating'
+import Tag from 'primevue/tag'
+import ColumnGroup from 'primevue/columngroup';   // optional
+import Row from 'primevue/row';                   // optional
+import Card from 'primevue/card';                   // optional
+
 export default {
   install(app: App) {
     app.use(PrimeVue, {
@@ -24,6 +33,7 @@ export default {
       },
     })
     app.use(ToastService)
+
     app.component('Drawer', Drawer)
     app.component('Tabs', Tabs)
     app.component('TabList', TabList)
@@ -31,6 +41,15 @@ export default {
     app.component('TabPanels', TabPanels)
     app.component('TabPanel', TabPanel)
     app.component('Panel', Panel)
+    app.component('DataTable', DataTable)
+    app.component('Column', Column)
+    app.component('ColumnGroup', ColumnGroup)
+    app.component('Row', Row)
+    app.component('Rating', Rating)
+    app.component('Tag', Tag)
+    app.component('Card', Card)
+
+
     app.directive('styleclass', StyleClass)
     app.directive('ripple', Ripple)
   }

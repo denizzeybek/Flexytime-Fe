@@ -2,7 +2,12 @@ import type { RouteRecordRaw } from 'vue-router'
 import { ERouteNames } from '@/router/routeNames.enum'
 import DefaultLayout from '@/layouts/default/DefaultLayout.vue'
 import WorktimeUsage from '@/views/worktimeUsage/_views/WorktimeUsage.vue'
+
+
 import Classification from '@/views/classification/_views/Classification.vue'
+import ClassificationWebAddresses from '@/views/classification/_views/WebAddresses.vue'
+import ClassificationApplications from '@/views/classification/_views/Applications.vue'
+
 import TimesheetEntry from '@/views/timesheets/_views/TimesheetEntry.vue'
 import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue'
 
@@ -27,7 +32,19 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/classification',
         name: ERouteNames.Classification,
-        component: Classification
+        component: Classification,
+        children: [
+          {
+            path: 'web-addresses',
+            name: ERouteNames.ClassificationWebAddresses,
+            component: ClassificationWebAddresses
+          },
+          {
+            path: 'applications',
+            name: ERouteNames.ClassificationApplications,
+            component: ClassificationApplications
+          },
+        ]
       },
       {
         path: '/timesheet-entry',
