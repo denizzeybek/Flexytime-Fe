@@ -10,6 +10,8 @@ import ClassificationApplications from '@/views/classification/_views/Applicatio
 import TimesheetEntry from '@/views/timesheets/_views/TimesheetEntry.vue'
 import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue'
 
+import AuthLayout from '@/layouts/auth/AuthLayout.vue'
+import Login from '@/views/auth/Login.vue'
 // Not Found Page
 // import NotFound from '@/views/NotFound.vue'
 
@@ -80,6 +82,16 @@ const routes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  // AUTHENTICATION ROUTES (REQUIRES UN_AUTH)
+  {
+    path: '/login',
+    name: ERouteNames.Login,
+    component: Login,
+    meta: {
+      requiresUnAuth: true,
+      title: ERouteNames.Login
+    }
   }
 
   // { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound },

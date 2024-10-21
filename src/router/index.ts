@@ -1,6 +1,6 @@
-import { EStorageKeys } from '@/common/enums/storageKeys.enum'
-// import { useAuthStore } from '@/stores/common/auth'
-// import { useUsersStore } from '@/stores/common/users'
+import { EStorageKeys } from '@/constants/storageKeys'
+import { useAuthStore } from '@/stores/auth'
+import { useUsersStore } from '@/stores/users'
 import { nextTick } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { ERouteNames } from './routeNames.enum'
@@ -13,14 +13,14 @@ const router = createRouter({
 
 // GUARD
 router.beforeEach(async (to, _, next) => {
-  // const usersStore = useUsersStore()
-  // const authStore = useAuthStore()
-  let token = localStorage.getItem(EStorageKeys.TOKEN)
+  const usersStore = useUsersStore()
+  const authStore = useAuthStore()
+  let token = localStorage.getItem(EStorageKeys.AUTHENTICATION)
   const { requiresAuth, requiresUnAuth, isPublic } = to.meta
 
-  if (to.name === ERouteNames.ForgotPassword_Reset) {
-    token = ''
-  }
+  // if (to.name === ERouteNames.ForgotPassword_Reset) {
+  //   token = ''
+  // }
 
   // if (token && !usersStore.user) {
   //   try {
@@ -28,10 +28,6 @@ router.beforeEach(async (to, _, next) => {
   //   } catch (error: any) {
   //     console.log(error)
   //   }
-  // }
-
-  // if (isPublic) {
-  //   return next()
   // }
 
   // if (requiresAuth && !authStore.isAuth) {

@@ -1,5 +1,7 @@
 export enum EStoreNames {
 
+  AUTH= 'auth',
+
   CLASSIFICATION_WEB_ADDRESSES = 'webAddresses',
   CLASSIFICATION_APPLICATIONS = 'applications',
 
