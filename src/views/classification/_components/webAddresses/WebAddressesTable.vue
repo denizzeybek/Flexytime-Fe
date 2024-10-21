@@ -4,6 +4,7 @@
       <DataTable
         tableStyle="min-width: 50rem"
         paginator
+        :loading="isLoading"
         :value="webAddressesList"
         :rows="5"
         :rowsPerPageOptions="[5, 10, 20, 50]"
@@ -61,9 +62,15 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { EDomain } from '@/enums/domain.enum'
-import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses';
+import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses'
 
-const classificationsStore = useClassificationWebAddressesStore();
+interface IProps {
+  isLoading: boolean
+}
+
+defineProps<IProps>()
+
+const classificationsStore = useClassificationWebAddressesStore()
 
 const webAddressesList = ref([
   {
@@ -177,17 +184,21 @@ const getDomain = (domain: number) => {
   }
 }
 
-const onAlwaysOnChange = (event) => {
-  const { props, alwaysOn } = event
-  const { ID, Name, Domain } = props
-  const payload = {
-    ID,
-    Name,
-    Domain,
-    AlwaysOn: alwaysOn
+const onAlwaysOnChange = async (event) => {
+  try {
+    const { props, alwaysOn } = event
+    const { ID, Name, Domain } = props
+    const payload = {
+      ID,
+      Name,
+      Domain,
+      AlwaysOn: alwaysOn
+    }
+
+    // await classificationsStore.update(payload)
+  } catch (error) {
+    console.log(error)
   }
-  
-  // classificationsStore.update(payload)
 }
 </script>
 

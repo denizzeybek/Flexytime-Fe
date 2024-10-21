@@ -1,13 +1,9 @@
 <template>
-    <div>
-        <WebAddressesList/>
-    </div>
+  <WebAddressesList />
 </template>
 
 <script setup lang="ts">
-import WebAddressesList from '@/views/classification/_components/webAddresses/WebAddressesList.vue';
+import WebAddressesList from '@/views/classification/_components/webAddresses/WebAddressesList.vue'
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

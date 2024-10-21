@@ -3,7 +3,6 @@ import { ERouteNames } from '@/router/routeNames.enum'
 import DefaultLayout from '@/layouts/default/DefaultLayout.vue'
 import WorktimeUsage from '@/views/worktimeUsage/_views/WorktimeUsage.vue'
 
-
 import Classification from '@/views/classification/_views/Classification.vue'
 import ClassificationWebAddresses from '@/views/classification/_views/WebAddresses.vue'
 import ClassificationApplications from '@/views/classification/_views/Applications.vue'
@@ -27,34 +26,58 @@ const routes: RouteRecordRaw[] = [
         path: '/',
         alias: '',
         name: ERouteNames.WorktimeUsage,
-        component: WorktimeUsage
+        component: WorktimeUsage,
+        meta: {
+          title: ERouteNames.WorktimeUsage,
+          name: ERouteNames.WorktimeUsage
+        }
       },
       {
         path: '/classification',
         name: ERouteNames.Classification,
         component: Classification,
+        meta: {
+          title: ERouteNames.Classification,
+          name: ERouteNames.Home
+        },
         children: [
           {
             path: 'web-addresses',
             name: ERouteNames.ClassificationWebAddresses,
-            component: ClassificationWebAddresses
+            component: ClassificationWebAddresses,
+            meta: {
+              title: ERouteNames.ClassificationWebAddresses,
+              name: ERouteNames.ClassificationWebAddresses
+            }
           },
           {
             path: 'applications',
             name: ERouteNames.ClassificationApplications,
-            component: ClassificationApplications
-          },
+            component: ClassificationApplications,
+            meta: {
+              title: ERouteNames.ClassificationApplications,
+              name: ERouteNames.ClassificationApplications
+            }
+          }
         ]
       },
       {
         path: '/timesheet-entry',
         name: ERouteNames.TimesheetEntry,
-        component: TimesheetEntry
+        component: TimesheetEntry,
+        meta: {
+          title: ERouteNames.TimesheetEntry,
+          name: ERouteNames.TimesheetEntry
+        }
       },
       {
         path: '/time-management',
         name: ERouteNames.TimeManagement,
-        component: TimeManagement
+        component: TimeManagement,
+        meta: {
+          title: ERouteNames.TimeManagement,
+          name: ERouteNames.TimeManagement
+        }
       }
     ]
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="card flex justify-content-center sm:p-3 h-full">
+  <div class="card flex justify-content-center h-full">
     <div class="flex flex-col justify-between h-full">
       <div>
         <div class="flex items-center justify-between px-6 pt-4 shrink-0">
@@ -85,19 +85,19 @@ const expandedKeys = ref({})
 const items = ref([
   {
     label: 'Worktime Usage',
-    icon: 'pi pi-server',
+    icon: 'pi pi-clock',
     route: '/',
     key: '0'
   },
   {
     label: 'Classification',
-    icon: 'pi pi-server',
+    icon: 'pi pi-tag',
     route: '/classification/web-addresses',
     key: '1'
   },
   {
     label: 'Time Sheets',
-    icon: 'pi ,pi-server',
+    icon: 'pi pi-stopwatch',
     key: '2',
     items: [
       {
