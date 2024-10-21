@@ -8,7 +8,7 @@
 <style>
 /* #region tablist */
 .p-tablist-content {
-  @apply !mb-5 ;
+  @apply !mb-5 !px-5;
 }
 .p-tabs {
   @apply !p-0 !m-0;
