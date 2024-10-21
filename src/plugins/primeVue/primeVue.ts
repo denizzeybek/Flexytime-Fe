@@ -21,7 +21,7 @@ import Tag from 'primevue/tag'
 import ColumnGroup from 'primevue/columngroup';   // optional
 import Row from 'primevue/row';                   // optional
 import Card from 'primevue/card';                   // optional
-
+import Checkbox from 'primevue/checkbox';           // optional
 export default {
   install(app: App) {
     app.use(PrimeVue, {
@@ -48,6 +48,7 @@ export default {
     app.component('Rating', Rating)
     app.component('Tag', Tag)
     app.component('Card', Card)
+    app.component('Checkbox', Checkbox)
 
 
     app.directive('styleclass', StyleClass)
