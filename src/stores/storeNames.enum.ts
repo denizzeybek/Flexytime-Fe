@@ -1,6 +1,7 @@
 export enum EStoreNames {
 
   CLASSIFICATION_WEB_ADDRESSES = 'webAddresses',
+  CLASSIFICATION_APPLICATIONS = 'applications',
 
 
   BUSINESSES_COMPANIES = 'businessesCompanies',

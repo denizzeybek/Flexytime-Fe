@@ -9,8 +9,7 @@
         :rows="5"
         :rowsPerPageOptions="[5, 10, 20, 50]"
       >
-        <Column field="HostName" header="Name"> </Column>
-        <Column field="TopicName" header="Topic"> </Column>
+        <Column field="Name" header="Name"> </Column>
         <Column field="Teams" header="Teams"> </Column>
         <Column header="Always On">
           <template #body="slotProps">
@@ -23,12 +22,6 @@
             />
           </template>
         </Column>
-        <!-- <Column header="timeCol">
-           <template #body="slotProps">
-            <i class="pi pi-clock""></i>
-            {{ getTimeData(slotProps.data.Timeout.time) }}
-          </template> 
-        </Column> -->
         <Column header="Actions">
           <template #body="slotProps">
             <div class="flex gap-3">
@@ -61,9 +54,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { EDomain } from '@/enums/domain.enum'
-import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses'
+import { useClassificationApplicationsStore } from '@/stores/classification/applications'
 import { getDomainEnum } from '@/views/classification/_etc/helpers'
+import { EDomain } from '@/enums/domain.enum'
 
 interface IProps {
   isLoading: boolean
@@ -71,103 +64,88 @@ interface IProps {
 
 defineProps<IProps>()
 
-const webAddressesStore = useClassificationWebAddressesStore()
+const applicationsStore = useClassificationApplicationsStore()
 
 const webAddressesList = ref([
   {
-    HostName: '10.201.2.7',
-    DomainDisplay: 'Meeting',
-    Name: '10.201.2.7',
-    IsWork: false,
-    IsMeeting: true,
-    IsLeisure: false,
-    TopicName: 'Not Rated',
-    Actions: null,
-    Customise: null,
-    Timeout: {
-      time: '00:00',
-      statisticType: 'starttime'
-    },
-    Teams: 'All',
-    ID: '12c7a998-af79-4c42-b4ee-c944eaaec0dc',
-    AlwaysOn: true,
-    Domain: 3
-  },
-  {
-    HostName: '10.5.0.1',
-    DomainDisplay: 'Leisure',
-    Name: '10.5.0.1',
-    IsWork: false,
-    IsMeeting: false,
-    IsLeisure: true,
-    TopicName: 'Not Rated',
-    Actions: null,
-    Customise: null,
-    Timeout: {
-      time: '00:00',
-      statisticType: 'starttime'
-    },
-    Teams: 'All',
-    ID: 'dbd6cb5c-8a9e-4e51-9f30-8d7e40341b95',
-    AlwaysOn: false,
-    Domain: 2
-  },
-  {
-    HostName: '10.5.17.241',
-    DomainDisplay: 'Leisure',
-    Name: '10.5.17.241',
-    IsWork: false,
-    IsMeeting: false,
-    IsLeisure: true,
-    TopicName: 'Not Rated',
-    Actions: null,
-    Customise: null,
-    Timeout: {
-      time: '00:00',
-      statisticType: 'starttime'
-    },
-    Teams: 'All',
-    ID: '727ab586-7cb2-481c-a3e8-abb0af674616',
-    AlwaysOn: false,
-    Domain: 2
-  },
-  {
-    HostName: 'aa.com.tr',
-    DomainDisplay: 'Leisure',
-    Name: 'aa.com.tr',
-    IsWork: false,
-    IsMeeting: false,
-    IsLeisure: true,
-    TopicName: 'News and Media',
-    Actions: null,
-    Customise: null,
-    Timeout: {
-      time: '00:00',
-      statisticType: 'starttime'
-    },
-    Teams: 'All',
-    ID: 'fc38d858-0400-4158-bb6e-ea283881a293',
-    AlwaysOn: false,
-    Domain: 2
-  },
-  {
-    HostName: 'account.live.com',
+    HostName: null,
     DomainDisplay: 'Work',
-    Name: 'account.live.com',
+    Name: ' Ashampoo',
     IsWork: true,
     IsMeeting: false,
     IsLeisure: false,
-    TopicName: 'Web-based Email',
+    TopicName: null,
     Actions: null,
     Customise: null,
-    Timeout: {
-      time: '00:00',
-      statisticType: 'starttime'
-    },
+    Timeout: null,
     Teams: 'All',
-    ID: '450d0cbc-7f66-484a-97f3-000c7b612224',
-    AlwaysOn: true,
+    ID: 'c3b06a4f-ede0-4213-8c82-b5be2c440def',
+    AlwaysOn: false,
     Domain: 4
+  },
+  {
+    HostName: null,
+    DomainDisplay: 'Unclassified',
+    Name: '1056-winamp58_3653_beta_full_en-us',
+    IsWork: false,
+    IsMeeting: false,
+    IsLeisure: false,
+    TopicName: null,
+    Actions: null,
+    Customise: null,
+    Timeout: null,
+    Teams: 'All',
+    ID: 'e35d4f28-ad5c-4e4e-96c8-feb96161ff73',
+    AlwaysOn: false,
+    Domain: 2
+  },
+  {
+    HostName: null,
+    DomainDisplay: 'Work',
+    Name: 'Adobe Acrobat',
+    IsWork: true,
+    IsMeeting: false,
+    IsLeisure: false,
+    TopicName: null,
+    Actions: null,
+    Customise: null,
+    Timeout: null,
+    Teams: 'All',
+    ID: '151f8715-2628-42b1-8e2d-50129fa7339f',
+    AlwaysOn: false,
+    Domain: 4
+  },
+  {
+    HostName: null,
+    DomainDisplay: 'Work',
+    Name: 'advanced_ip_scanner',
+    IsWork: true,
+    IsMeeting: false,
+    IsLeisure: false,
+    TopicName: null,
+    Actions: null,
+    Customise: null,
+    Timeout: null,
+    Teams: 'All',
+    ID: '2263a1c4-75f1-4ffc-9bf8-2b585796e5e5',
+    AlwaysOn: false,
+    Domain: 4
+  },
+  {
+    HostName: null,
+    DomainDisplay: 'Unclassified',
+    Name: 'Advanced_IP_Scanner_2.5.3850.tmp',
+    IsWork: false,
+    IsMeeting: false,
+    IsLeisure: false,
+    TopicName: null,
+    Actions: null,
+    Customise: null,
+    Timeout: null,
+    Teams: 'All',
+    ID: '89d6010c-751a-4629-a4c1-9192360fc23e',
+    AlwaysOn: false,
+    Domain: 3
   }
 ])
 
@@ -182,7 +160,7 @@ const onAlwaysOnChange = async (event) => {
       AlwaysOn: alwaysOn
     }
 
-    // await webAddressesStore.update(payload)
+    // await applicationsStore.update(payload)
   } catch (error) {
     console.log(error)
   }

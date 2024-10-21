@@ -38,7 +38,7 @@ const routes: RouteRecordRaw[] = [
         component: Classification,
         meta: {
           title: ERouteNames.Classification,
-          name: ERouteNames.Home
+          name: ERouteNames.Classification
         },
         children: [
           {

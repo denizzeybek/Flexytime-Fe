@@ -1,16 +1,9 @@
 <template>
-    <div>
-        Applications1
-    </div>
-    <div>
-        Applications2
-    </div>
+  <ApplicationsList />
 </template>
 
 <script setup lang="ts">
-
+import ApplicationsList from '@/views/classification/_components/applications/ApplicationsList.vue'
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
