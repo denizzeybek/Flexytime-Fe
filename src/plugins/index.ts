@@ -3,7 +3,7 @@ import type { App } from 'vue'
 // import globalComponents from './globalComponents'
 import i18n from './i18n'
 import pinia from './pinia'
-import primeVue from './primeVue'
+import primeVue from './primeVue/primeVue'
 export default {
   install(app: App) {
     app.use(pinia)
