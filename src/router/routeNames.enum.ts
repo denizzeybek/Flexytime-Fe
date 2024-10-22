@@ -2,31 +2,31 @@ export enum ERouteNames {
   // AUTH
   Login = 'Login',
   Logout = 'Logout',
-  ForgotPassword = 'ForgotPassword',
-  ForgotPassword_Emailed = 'ForgotPassword_Emailed',
-  ForgotPassword_Reset = 'ForgotPassword_Reset',
+  ForgotPassword = 'Forgot Password',
+  ForgotPassword_Emailed = 'Forgot Password Emailed',
+  ForgotPassword_Reset = 'Forgot Password Reset',
 
   // REGISTER
   Register = 'Register',
-  Register_ChooseAccountType = 'Register_ChooseAccountType',
-  Register_CreateForm = 'Register_CreateForm',
-  Register_VerifyYourEmail = 'Register_VerifyYourEmail',
-  Register_CompanyDetails = 'Register_CompanyDetails',
-  Register_AccountDetails = 'Register_AccountDetails',
-  Register_Address = 'Register_Address',
-  Register_Verify = 'Register_Verify',
+  Register_ChooseAccountType = 'Choose Account Type',
+  Register_CreateForm = 'Create Form',
+  Register_VerifyYourEmail = 'Verify Your Email',
+  Register_CompanyDetails = 'Company Details',
+  Register_AccountDetails = 'Account Details',
+  Register_Address = 'Address',
+  Register_Verify = 'Verify',
 
   // WorktimeUsage
-  WorktimeUsage = 'WorktimeUsage',
+  WorktimeUsage = 'Worktime Usage',
 
   // Classification
   Classification = 'Classification',
-  ClassificationWebAddresses = 'WebAddresses',
+  ClassificationWebAddresses = 'Web Addresses',
   ClassificationApplications = 'Applications',
 
   // TimeSheets
-  TimesheetEntry = 'TimesheetEntry',
-  TimeManagement = 'TimeManagement',
+  TimesheetEntry = 'Timesheet Entry',
+  TimeManagement = 'Time Management',
 
   // SETTINGS
   Settings = 'Settings',

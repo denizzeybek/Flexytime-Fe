@@ -28,7 +28,9 @@
       <form class="flex flex-col gap-5" @submit="submitHandler">
         <div class="flex flex-col gap-3">
           <FInput type="email" id="email" label="Email" name="email" />
+
           <FPassword id="password" label="Password" name="password" />
+
           <FSelect label="Country" name="country" placeholder="Select country" :options="countries">
             <template #customFooter>
               <div class="p-3">
@@ -51,7 +53,6 @@
             label="Countries"
             name="countryList"
             placeholder="Select countries"
-            v-model="countryList"
             :options="options"
           >
             <template #customHeader>Header Section</template>
@@ -62,7 +63,9 @@
               </div>
             </template>
           </FMultiSelect>
+
           <FCheckbox name="check" label="Remember me" />
+
           <Button
             :disabled="isSubmitting"
             :loading="isSubmitting"
@@ -81,9 +84,7 @@ import Button from 'primevue/button';
 import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { useForm } from 'vee-validate';
-import * as yup from 'yup';
 import { boolean, string, object, array } from 'yup';
-import Checkbox from 'primevue/checkbox';
 
 const authStore = useAuthStore();
 

@@ -43,4 +43,8 @@
   @apply !w-full;
 }
 /*#endregion */
+
+.p-menu-submenu-label {
+  @apply !p-0;
+}
 </style>

@@ -5,7 +5,7 @@
     >
       <div id="alert" class="alert"></div>
       <section class="flex flex-col flex-1 h-full rounded-b-lg">
-        <PageHeader @drawerChange="emit('drawerChange', $event)" />
+        <PageHeader @drawerChange="emit('drawerChange', $event)" class="md:pb-6"/>
         <slot></slot>
       </section>
     </main>

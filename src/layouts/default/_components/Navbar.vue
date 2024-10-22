@@ -67,11 +67,7 @@
           v-ripple
           class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple"
         >
-          <Avatar
-            image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
-            shape="circle"
-          />
-          <span class="font-bold">Amy Elsner</span>
+          <ProfileBadge title="Deniz Zeybek" sub-title="Tech Lead" />
         </a>
       </div>
     </div>
@@ -79,21 +75,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
+import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
 
-const expandedKeys = ref({})
+const expandedKeys = ref({});
 const items = ref([
   {
     label: 'Worktime Usage',
     icon: 'pi pi-clock',
     route: '/',
-    key: '0'
+    key: '0',
   },
   {
     label: 'Classification',
     icon: 'pi pi-tag',
     route: '/classification/web-addresses',
-    key: '1'
+    key: '1',
   },
   {
     label: 'Time Sheets',
@@ -102,24 +99,24 @@ const items = ref([
     items: [
       {
         label: 'TimeSheet Entry',
-        route: '/timesheet-entry'
+        route: '/timesheet-entry',
       },
 
       {
         label: 'Time Management',
-        route: '/time-management'
-      }
-    ]
-  }
-])
+        route: '/time-management',
+      },
+    ],
+  },
+]);
 
 const expandNode = (node) => {
   if (node.items && node.items.length) {
-    expandedKeys.value[node.key] = true
+    expandedKeys.value[node.key] = true;
 
     for (let child of node.items) {
-      expandNode(child)
+      expandNode(child);
     }
   }
-}
+};
 </script>

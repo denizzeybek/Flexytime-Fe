@@ -25,6 +25,7 @@ import Checkbox from 'primevue/checkbox';
 import Password from 'primevue/password';
 import Select from 'primevue/select';
 import MultiSelect from 'primevue/multiselect';
+import Menu from 'primevue/menu';
 export default {
   install(app: App) {
     app.use(PrimeVue, {
@@ -37,6 +38,7 @@ export default {
     });
     app.use(ToastService);
 
+    app.component('Menu', Menu);
     app.component('Drawer', Drawer);
     app.component('Select', Select);
     app.component('MultiSelect', MultiSelect);

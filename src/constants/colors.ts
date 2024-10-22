@@ -15,6 +15,7 @@ export const colors = {
   'f-light-black': '#79797a',
   'f-blue': '#4891ff',
   'f-white': '#ffffff',
+  'f-text-gray': '#b7b7b7',
 
 
   'f-primary-hovered': '#7369F0',
