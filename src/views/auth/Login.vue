@@ -25,64 +25,56 @@
         >
         <a class="font-medium no-underline ml-2 text-primary cursor-pointer">Create today!</a>
       </div>
-
-      <div>
-        <label for="email1" class="text-surface-900 dark:text-surface-0 font-medium mb-2 block"
-          >Email</label
-        >
-        <InputText
-          v-model="formData.email"
-          id="email1"
-          type="text"
-          placeholder="Email address"
-          class="w-full mb-4"
-        />
-
-        <label for="password1" class="text-surface-900 dark:text-surface-0 font-medium mb-2 block"
-          >Password</label
-        >
-        <InputText
-          v-model="formData.password"
-          id="password1"
-          type="password"
-          placehoder="Password"
-          class="w-full mb-4"
-        />
-
-        <div class="flex items-center justify-between mb-12">
-          <div class="flex items-center">
-            <Checkbox id="rememberme1" v-model="checked1" :binary="true" class="mr-2" />
-            <label for="rememberme1">Remember me</label>
-          </div>
-          <a class="font-medium no-underline ml-2 text-primary text-right cursor-pointer"
-            >Forgot password?</a
-          >
+      <form class="flex flex-col gap-5" @submit="submitHandler">
+        <div class="flex flex-col gap-3">
+          <FInput type="email" id="email" label="Email" name="email" />
+          <FPassword id="password" label="Password" name="password" />
+          <FCheckbox name="check" />
+          <Button
+            :disabled="isSubmitting"
+            :loading="isSubmitting"
+            type="submit"
+            label="Sign In"
+            icon="pi pi-user"
+            class="w-full"
+          />
         </div>
-
-        <Button @click="handleLogin" label="Sign In" icon="pi pi-user" class="w-full" />
-      </div>
+      </form>
     </div>
   </div>
 </template>
 <script setup>
-import Button from 'primevue/button'
-import Checkbox from 'primevue/checkbox'
-import InputText from 'primevue/inputtext'
-import { ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
+import Button from 'primevue/button';
+import { ref, computed } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { useForm } from 'vee-validate';
+import * as yup from 'yup';
+import { boolean, string } from 'yup';
+import Checkbox from 'primevue/checkbox';
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
-const checked1 = ref(true)
-const formData = ref({
-  email: '',
-  password: '',
-  recaptcha:
-    '03AFcWeA62gKlCdv2UMV0zfBbPF9kt-QklPN8SaBLqkd34Aovo1AZMo0fRiqRWoXBuypJ-XBpWyEZ_8auDhygp5Gzpd1EHsNpX76NhvOQXibuiqA-mNpf1Y_7OlqEgyfucSfaFle7kd56Q1JHfJKsvbgwplVBOmnuLErO9uk-oWM6MKut1eyJ4th_8Ik96bvkbAxaqWBzu_kuExF0wZrZd0l9wJ7xB9goO3C6fZF265rkvA1iqMkzDo6v5k28XgmYhKMTPLnK06L3Y_IEEVHLwLBv4JefvdlhjpRRy1cAnuMTTY8CvldUgdcT28SRoyJoiUbVMWKPyyE6IeyGdILRmXNEv6nkDkuwvpekS8Zg1BvPQ989iekqowsCH6ZeYfdiGSclmUCi7p5pjQt05zCIrh8oihJIsmKtobvc9nAGyyyTxFeDtXuE4j6ONRugNrG-e82SFy-QTczwcSik_tGQvzYvxd2-iy6CkVlvj_QtbX2myo9EAYOD5aCvsr0iheasjVWghXfE1kbxiUM32B2VgYMfQgBc8mkYKmbQ3TV3Cm5DzZqQGnBF2LWlP89DPKHiIPPP14dxoXEDstFuBkZ_t1ov-0EJhGxJ7pMMTwsiMT4QT7RGingcHFcj8h_hoTqVXT_b91O67_APAob30Al6AUEUWwV619sIIyeetIXnm8FEIxyKS87xNBalnFxYVskZRK9GmOJn6OLwUsIIZChxTNDSXbB_9ciJ4_yiLe2qI6BpDgOdBhfxsEQMJmOL5wzEqG6Z3jvykng7LEmPtaa8tsvIqQJGzr_TB80ZWr4NOTUUoboQODznlAbjtX-n1QHGpcVvyDBbyjcy2pNqmelBCwc2kS2SSs0nPKg',
-  grant_type: 'password'
-})
+const validationSchema = yup.object({
+  email: string().required().email().label('Email address'),
+  password: string().required().min(6).label('Password'),
+  check: boolean().required().isTrue('You must agree to terms and conditions').label('Check'),
+});
 
-const handleLogin = () => {
-  authStore.login(formData.value)
-}
+const { handleSubmit, isSubmitting, defineField, resetForm } = useForm({
+  validationSchema,
+});
+
+const [email] = defineField('email');
+const [password] = defineField('password');
+const [check] = defineField('check');
+
+const submitHandler = handleSubmit(async (values) => {
+  try {
+    console.log('values ', values);
+    // await authStore.login(values);
+  } catch (error) {
+    console.log(error);
+    // showErrorMessage(t('common.error.invalid_credentials'));
+  }
+});
 </script>

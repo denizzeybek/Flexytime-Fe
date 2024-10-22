@@ -2,8 +2,7 @@
   <router-view />
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style>
 /* #region tablist */
@@ -27,7 +26,6 @@
 }
 .p-tabpanels {
   @apply !bg-transparent;
-  
 }
 /* #endregion */
 
@@ -40,4 +38,9 @@
 }
 /* #endregion */
 
+/* #region input */
+.p-inputtext.p-password-input {
+  @apply !w-full;
+}
+/*#endregion */
 </style>
