@@ -29,13 +29,7 @@
         <div class="flex flex-col gap-3">
           <FInput type="email" id="email" label="Email" name="email" />
           <FPassword id="password" label="Password" name="password" />
-          <FSelect
-            v-model="selectedCountry"
-            label="Country"
-            name="country"
-            placeholder="Select country"
-            :options="countries"
-          >
+          <FSelect label="Country" name="country" placeholder="Select country" :options="countries">
             <template #customFooter>
               <div class="p-3">
                 <Button
@@ -52,6 +46,22 @@
               <i class="pi pi-map" />
             </template>
           </FSelect>
+
+          <FMultiSelect
+            label="Countries"
+            name="countryList"
+            placeholder="Select countries"
+            v-model="countryList"
+            :options="options"
+          >
+            <template #customHeader>Header Section</template>
+            <template #customFooter>
+              <div class="p-3 flex justify-between">
+                <Button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
+                <Button label="Remove All" severity="danger" text size="small" icon="pi pi-times" />
+              </div>
+            </template>
+          </FMultiSelect>
           <FCheckbox name="check" label="Remember me" />
           <Button
             :disabled="isSubmitting"
@@ -72,7 +82,7 @@ import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { boolean, string, object } from 'yup';
+import { boolean, string, object, array } from 'yup';
 import Checkbox from 'primevue/checkbox';
 
 const authStore = useAuthStore();
@@ -89,6 +99,15 @@ const validationSchema = object({
     })
     .required()
     .label('Country'),
+  countryList: array()
+    .required()
+    .label('Country List')
+    .of(
+      object().shape({
+        name: string().required().label('Name'),
+        code: string().required().label('Code'),
+      }),
+    ),
 });
 
 const { handleSubmit, isSubmitting, defineField, resetForm, errors } = useForm({
@@ -99,6 +118,7 @@ const [email] = defineField('email');
 const [password] = defineField('password');
 const [check] = defineField('check');
 const [country] = defineField('country');
+const [countryList] = defineField('countryList');
 
 const submitHandler = handleSubmit(async (values) => {
   try {
@@ -120,5 +140,18 @@ const countries = ref([
   { name: 'India', value: 'IN', icon: 'pi pi-box' },
   { name: 'Japan', value: 'JP', icon: 'pi pi-calendar' },
   { name: 'Spain', value: 'ES', icon: 'pi pi-cart-minus' },
+]);
+
+const options = ref([
+  { name: 'Australia', code: 'AU' },
+  { name: 'Brazil', code: 'BR' },
+  { name: 'China', code: 'CN' },
+  { name: 'Egypt', code: 'EG' },
+  { name: 'France', code: 'FR' },
+  { name: 'Germany', code: 'DE' },
+  { name: 'India', code: 'IN' },
+  { name: 'Japan', code: 'JP' },
+  { name: 'Spain', code: 'ES' },
+  { name: 'United States', code: 'US' },
 ]);
 </script>

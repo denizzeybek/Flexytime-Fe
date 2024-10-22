@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-2">
     <label v-if="label" :for="name" class="">{{ label }}</label>
-    <Select
+    <MultiSelect
       v-model="value"
       :options="options"
       :optionLabel="name"
@@ -11,29 +11,30 @@
       v-on="validationListeners"
       :class="[customWidth]"
       v-bind="primeProps"
+      filter
+      :display="chip ? 'chip' : 'comma'"
     >
-      <template #value="slotProps">
-        <div v-if="slotProps?.value" class="flex items-center gap-3">
-          <i v-if="slotProps?.value?.icon" :class="slotProps?.value?.icon" style="color: green"></i>
-          <div v-if="slotProps?.value?.name">{{ slotProps?.value?.name }}</div>
-        </div>
-        <span v-else>
-          {{ placeholder }}
-        </span>
-      </template>
       <template #option="slotProps">
-        <div class="flex items-center gap-3">
-          <i v-if="slotProps.option?.icon" :class="slotProps.option?.icon" style="color: green"></i>
-          <div v-if="slotProps.option?.name">{{ slotProps.option?.name }}</div>
+        <div class="flex items-center">
+          <div>{{ slotProps.option.name }}</div>
         </div>
       </template>
-      <template #dropdownicon>
-        <slot name="customDropdownIcon" />
+      <template #chip="slotProps">
+        <Tag severity="primary">{{ slotProps.value.name }}</Tag>
+      </template>
+      <template v-if="dropdownIcon" #dropdownicon>
+        <i :class="dropdownIcon" />
+      </template>
+      <template v-if="filterIcon" #filtericon>
+        <i :class="filterIcon" />
+      </template>
+      <template #header>
+        <slot name="customHeader" />
       </template>
       <template #footer>
         <slot name="customFooter" />
       </template>
-    </Select>
+    </MultiSelect>
     <small class="p-error text-red-500" v-if="errorMessage" type="error">
       {{ errorMessage }}
     </small>
@@ -41,8 +42,11 @@
 </template>
 
 <script lang="ts" setup>
-import Select, { type SelectProps } from 'primevue/select';
+import MultiSelect, { type MultiSelectProps } from 'primevue/multiselect';
+import Tag from 'primevue/tag';
+
 import { useField } from 'vee-validate';
+import { ref } from 'vue';
 import type { IOption } from '@/common/interfaces/option.interface';
 
 export interface IProps {
@@ -53,9 +57,12 @@ export interface IProps {
   disabled?: boolean;
   modelValue?: string | number;
   defaultValue?: string;
-  errorMessage?: string;
-  primeProps?: SelectProps;
   customClass?: string;
+  primeProps?: MultiSelectProps;
+  errorMessage?: string;
+  filterIcon?: string; // icon class ex: pi pi-map-marker
+  dropdownIcon?: string; // icon class ex: pi pi-map-marker
+  chip?: boolean;
   customWidth?: string;
 }
 
@@ -63,9 +70,10 @@ const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
   placeholder: 'Select an option',
   customWidth: 'w-full',
+  chip: true,
 });
 
-const { errorMessage, value, handleBlur, handleChange } = useField<IOption>(
+const { errorMessage, value, handleBlur, handleChange } = useField<IOption[]>(
   () => props.name,
   undefined,
   {
@@ -76,7 +84,7 @@ const { errorMessage, value, handleBlur, handleChange } = useField<IOption>(
 
 interface IEmits {
   (event: 'selected', value: any): void;
-  (event: 'update:modelValue', value: string | number): void;
+  (event: 'update:modelValue', value: IOption[]): void;
 }
 const emit = defineEmits<IEmits>();
 

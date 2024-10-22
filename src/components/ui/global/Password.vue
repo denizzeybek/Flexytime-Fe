@@ -9,6 +9,7 @@
       :feedback="feedback"
       :invalid="!!errorMessage"
       :class="[customClass]"
+      :disabled="disabled"
       v-bind="primeProps"
     />
     <small v-if="errorMessage" :id="`${id}-help`" class="p-error text-red-500">{{
@@ -27,16 +28,16 @@ interface IProps {
   id: string;
   name: string;
   label?: string;
-  placeholder: string;
-  customClass: string;
-  primeProps: PasswordProps;
+  placeholder?: string;
+  customClass?: string;
+  primeProps?: PasswordProps;
   validatingAsync?: boolean;
   errorMessage?: string;
   customEvents?: Record<string, (e: Event) => any>;
   transformValue?: (value: InputEvent) => unknown;
-  disabled: boolean;
-  toggleMask: boolean;
-  feedback: boolean;
+  disabled?: boolean;
+  toggleMask?: boolean;
+  feedback?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {

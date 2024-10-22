@@ -8,6 +8,7 @@
       :data-error="!!errorMessage"
       :data-valid="isValid"
       :placeholder="placeholder"
+      :disabled="disabled"
       class="w-full"
       :invalid="!!errorMessage"
       :class="[customClass]"
@@ -27,13 +28,14 @@ interface IProps {
   id: string;
   name: string;
   label?: string;
-  placeholder: string;
-  customClass: string;
-  primeProps: InputTextProps;
+  placeholder?: string;
+  customClass?: string;
+  primeProps?: InputTextProps;
   errorMessage?: string;
   customEvents?: Record<string, (e: Event) => any>;
   transformValue?: (value: InputEvent) => unknown;
   isValid?: boolean;
+  disabled?:boolean
   type?:
     | 'text'
     | 'email'
@@ -57,6 +59,7 @@ interface IProps {
 const props = withDefaults(defineProps<IProps>(), {
   type: 'text',
   disabled: false,
+  placeholder: 'Enter text',
 });
 
 const passwordVisible = ref(false);

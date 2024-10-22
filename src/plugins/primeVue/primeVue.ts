@@ -24,6 +24,7 @@ import Card from 'primevue/card';
 import Checkbox from 'primevue/checkbox';
 import Password from 'primevue/password';
 import Select from 'primevue/select';
+import MultiSelect from 'primevue/multiselect';
 export default {
   install(app: App) {
     app.use(PrimeVue, {
@@ -38,6 +39,7 @@ export default {
 
     app.component('Drawer', Drawer);
     app.component('Select', Select);
+    app.component('MultiSelect', MultiSelect);
     app.component('Tabs', Tabs);
     app.component('TabList', TabList);
     app.component('Tab', Tab);
