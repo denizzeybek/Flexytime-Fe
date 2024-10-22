@@ -7,7 +7,8 @@
       class="w-full"
       :toggleMask="toggleMask"
       :feedback="feedback"
-      :class="[{ 'p-invalid': errorMessage }, customClass]"
+      :invalid="!!errorMessage"
+      :class="[customClass]"
       v-bind="primeProps"
     />
     <small v-if="errorMessage" :id="`${id}-help`" class="p-error text-red-500">{{

@@ -33,11 +33,26 @@
             v-model="selectedCountry"
             label="Country"
             name="country"
-            placeholder="select country"
+            placeholder="Select country"
             :options="countries"
-          />
+          >
+            <template #customFooter>
+              <div class="p-3">
+                <Button
+                  label="Add New"
+                  fluid
+                  severity="secondary"
+                  text
+                  size="small"
+                  icon="pi pi-plus"
+                />
+              </div>
+            </template>
+            <template #customDropdownIcon>
+              <i class="pi pi-map" />
+            </template>
+          </FSelect>
           <FCheckbox name="check" label="Remember me" />
-
           <Button
             :disabled="isSubmitting"
             :loading="isSubmitting"
@@ -62,21 +77,21 @@ import Checkbox from 'primevue/checkbox';
 
 const authStore = useAuthStore();
 
-const validationSchema = yup.object({
+const validationSchema = object({
   email: string().required().email().label('Email address'),
   password: string().required().min(6).label('Password'),
   check: boolean().required().isTrue('You must agree to terms and conditions').label('Check'),
   country: object()
     .shape({
       name: string(),
-      value: string(),
+      value: string().required('Country selection is required').label('Country Value'),
       icon: string(),
     })
     .required()
     .label('Country'),
 });
 
-const { handleSubmit, isSubmitting, defineField, resetForm } = useForm({
+const { handleSubmit, isSubmitting, defineField, resetForm, errors } = useForm({
   validationSchema,
 });
 
@@ -105,6 +120,5 @@ const countries = ref([
   { name: 'India', value: 'IN', icon: 'pi pi-box' },
   { name: 'Japan', value: 'JP', icon: 'pi pi-calendar' },
   { name: 'Spain', value: 'ES', icon: 'pi pi-cart-minus' },
-  { name: 'United States', value: 'US', icon: 'pi pi-address-book' },
 ]);
 </script>

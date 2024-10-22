@@ -6,32 +6,31 @@
       :options="options"
       :optionLabel="name"
       :placeholder="placeholder"
+      :invalid="!!errorMessage"
       @change="onSelect($event)"
       v-on="validationListeners"
-      class="w-full"
+      :class="[{ 'p-invalid': errorMessage }, customWidth]"
     >
       <template #value="slotProps">
-        <div v-if="slotProps.value" class="flex items-center gap-3">
-          <i :class="slotProps.value.icon" style="color: green"></i>
-          <div>{{ slotProps.value.name }}</div>
+        <div v-if="slotProps?.value" class="flex items-center gap-3">
+          <i v-if="slotProps?.value?.icon" :class="slotProps?.value?.icon" style="color: green"></i>
+          <div v-if="slotProps?.value?.name">{{ slotProps?.value?.name }}</div>
         </div>
         <span v-else>
-          {{ slotProps.placeholder }}
+          {{ placeholder }}
         </span>
       </template>
       <template #option="slotProps">
         <div class="flex items-center gap-3">
-          <i :class="slotProps.option.icon" style="color: green"></i>
-          <div>{{ slotProps.option.name }}</div>
+          <i v-if="slotProps.option?.icon" :class="slotProps.option?.icon" style="color: green"></i>
+          <div v-if="slotProps.option?.name">{{ slotProps.option?.name }}</div>
         </div>
       </template>
       <template #dropdownicon>
-        <!-- <i class="pi pi-map" /> -->
+        <slot name="customDropdownIcon"/>
       </template>
       <template #footer>
-        <div class="p-3">
-          <Button label="Add New" fluid severity="secondary" text size="small" icon="pi pi-plus" />
-        </div>
+        <slot name="customFooter"/>
       </template>
     </Select>
     <small class="p-error text-red-500" v-if="errorMessage" type="error">
@@ -52,7 +51,6 @@ export interface IOption {
 
 export interface IProps {
   options: IOption[];
-
   label?: string;
   name: string;
   placeholder?: string;
@@ -62,10 +60,13 @@ export interface IProps {
   customClass: string;
   primeProps: SelectProps;
   errorMessage?: string;
+  customWidth: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
+  placeholder: 'Select an option',
+  customWidth: 'w-full'
 });
 
 const { errorMessage, value, handleBlur, handleChange } = useField<string | number>(

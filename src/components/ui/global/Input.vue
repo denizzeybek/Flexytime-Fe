@@ -9,7 +9,8 @@
       :data-valid="isValid"
       :placeholder="placeholder"
       class="w-full"
-      :class="[{ 'p-invalid': errorMessage }, customClass]"
+      :invalid="!!errorMessage"
+      :class="[customClass]"
       v-on="listeners"
       v-bind="primeProps"
     />
