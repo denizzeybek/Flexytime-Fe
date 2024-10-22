@@ -29,7 +29,15 @@
         <div class="flex flex-col gap-3">
           <FInput type="email" id="email" label="Email" name="email" />
           <FPassword id="password" label="Password" name="password" />
-          <FCheckbox name="check" />
+          <FSelect
+            v-model="selectedCountry"
+            label="Country"
+            name="country"
+            placeholder="select country"
+            :options="countries"
+          />
+          <FCheckbox name="check" label="Remember me" />
+
           <Button
             :disabled="isSubmitting"
             :loading="isSubmitting"
@@ -49,7 +57,7 @@ import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { boolean, string } from 'yup';
+import { boolean, string, object } from 'yup';
 import Checkbox from 'primevue/checkbox';
 
 const authStore = useAuthStore();
@@ -58,6 +66,14 @@ const validationSchema = yup.object({
   email: string().required().email().label('Email address'),
   password: string().required().min(6).label('Password'),
   check: boolean().required().isTrue('You must agree to terms and conditions').label('Check'),
+  country: object()
+    .shape({
+      name: string(),
+      value: string(),
+      icon: string(),
+    })
+    .required()
+    .label('Country'),
 });
 
 const { handleSubmit, isSubmitting, defineField, resetForm } = useForm({
@@ -67,6 +83,7 @@ const { handleSubmit, isSubmitting, defineField, resetForm } = useForm({
 const [email] = defineField('email');
 const [password] = defineField('password');
 const [check] = defineField('check');
+const [country] = defineField('country');
 
 const submitHandler = handleSubmit(async (values) => {
   try {
@@ -77,4 +94,17 @@ const submitHandler = handleSubmit(async (values) => {
     // showErrorMessage(t('common.error.invalid_credentials'));
   }
 });
+
+const countries = ref([
+  { name: 'Australia', value: 'AU', icon: 'pi pi-check' },
+  { name: 'Brazil', value: 'BR', icon: 'pi pi-times' },
+  { name: 'China', value: 'CN', icon: 'pi pi-search' },
+  { name: 'Egypt', value: 'EG', icon: 'pi pi-user' },
+  { name: 'France', value: 'FR', icon: 'pi pi-bars' },
+  { name: 'Germany', value: 'DE', icon: 'pi pi-bell' },
+  { name: 'India', value: 'IN', icon: 'pi pi-box' },
+  { name: 'Japan', value: 'JP', icon: 'pi pi-calendar' },
+  { name: 'Spain', value: 'ES', icon: 'pi pi-cart-minus' },
+  { name: 'United States', value: 'US', icon: 'pi pi-address-book' },
+]);
 </script>

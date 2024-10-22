@@ -23,6 +23,7 @@ import Row from 'primevue/row';
 import Card from 'primevue/card';
 import Checkbox from 'primevue/checkbox';
 import Password from 'primevue/password';
+import Select from 'primevue/select';
 export default {
   install(app: App) {
     app.use(PrimeVue, {
@@ -36,6 +37,7 @@ export default {
     app.use(ToastService);
 
     app.component('Drawer', Drawer);
+    app.component('Select', Select);
     app.component('Tabs', Tabs);
     app.component('TabList', TabList);
     app.component('Tab', Tab);

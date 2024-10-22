@@ -1,32 +1,25 @@
 <template>
-  <div>worktime usage</div>
-  <div class="flex flex-col gap-3">
-    <Button icon="pi pi-home" label="primary" severity="primary" />
-    <Button label="primary" severity="primary" outlined />
-    <Button icon="pi pi-home" severity="primary" outlined />
-
-    <Button icon="pi pi-home" label="danger" severity="danger" />
-    <Button label="danger" severity="danger" outlined />
-    <Button icon="pi pi-home" severity="danger" outlined />
-
-    <Button icon="pi pi-home" label="warn" severity="warn" />
-    <Button label="warn" severity="warn" outlined />
-    <Button icon="pi pi-home" severity="warn" outlined />
-
-    <Button label="Success" severity="success" />
-    <Button label="Success" severity="success" outlined />
-    <Button icon="pi pi-home" severity="success" outlined />
-
-    <Button label="Info" severity="info" />
-    <Button label="Info" severity="info" outlined />
-    <Button icon="pi pi-home" severity="info" outlined />
-
-    <Button label="Secondary" severity="secondary" />
-    <Button label="Secondary" severity="secondary" outlined />
-    <Button icon="pi pi-home" severity="secondary" outlined />
+  <div class="card flex justify-center flex-col">
+    <div>selectedCountry: {{ selectedCountry }}</div>
+    <FSelect v-model="selectedCountry" label="country" name="country" placeholder="select country" :options="countries"/>
+    
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup>
+import { ref } from 'vue';
 
-<style scoped></style>
+const selectedCountry = ref();
+const countries = ref([
+  { name: 'Australia', code: 'AU', icon: 'pi pi-check' },
+  { name: 'Brazil', code: 'BR', icon: 'pi pi-times' },
+  { name: 'China', code: 'CN', icon: 'pi pi-search' },
+  { name: 'Egypt', code: 'EG', icon: 'pi pi-user' },
+  { name: 'France', code: 'FR', icon: 'pi pi-bars' },
+  { name: 'Germany', code: 'DE', icon: 'pi pi-bell' },
+  { name: 'India', code: 'IN', icon: 'pi pi-box' },
+  { name: 'Japan', code: 'JP', icon: 'pi pi-calendar' },
+  { name: 'Spain', code: 'ES', icon: 'pi pi-cart-minus' },
+  { name: 'United States', code: 'US', icon: 'pi pi-address-book' },
+]);
+</script>

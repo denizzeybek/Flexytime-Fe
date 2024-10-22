@@ -1,8 +1,6 @@
 <template>
-  <div class="field">
-    <label :for="id" class="text-surface-900 dark:text-surface-0 font-medium mb-2 block">{{
-      label
-    }}</label>
+  <div class="flex flex-col gap-2">
+    <label :for="id">{{ label }}</label>
     <Password
       v-model="value as unknown as string"
       :placeholder="placeholder"
