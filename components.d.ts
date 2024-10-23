@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Avatar: typeof import('primevue/avatar')['default']
     Badge: typeof import('primevue/badge')['default']
+    Breadcrumb: typeof import('primevue/breadcrumb')['default']
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
     Checkbox: typeof import('./src/components/ui/global/Checkbox.vue')['default']
@@ -19,7 +20,8 @@ declare module 'vue' {
     Input: typeof import('./src/components/ui/global/Input.vue')['default']
     InputText: typeof import('primevue/inputtext')['default']
     Menu: typeof import('primevue/menu')['default']
-    MultiSelect: typeof import('primevue/multiselect')['default']
+    Message: typeof import('primevue/message')['default']
+    MultiSelect: typeof import('./src/components/ui/global/MultiSelect.vue')['default']
     Panel: typeof import('primevue/panel')['default']
     PanelMenu: typeof import('primevue/panelmenu')['default']
     Password: typeof import('./src/components/ui/global/Password.vue')['default']

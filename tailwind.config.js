@@ -9,6 +9,8 @@ export default {
       screens: {
         '3xl': '1800px'
       },
+      borderColor: colors,
+      textColor: colors,
       colors,
       fontFamily: {
         sans: ['Poppins', 'sans-serif']

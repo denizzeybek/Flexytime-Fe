@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <template #footer>
+    <template #content>
       <DataTable
         tableStyle="min-width: 50rem"
         paginator

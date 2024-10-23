@@ -10,7 +10,12 @@
         <div class="overflow-y-auto my-4">
           <ul class="list-none m-0">
             <li>
-              <PanelMenu v-model:expandedKeys="expandedKeys" :model="items" class="w-50">
+              <PanelMenu
+                unstyled
+                v-model:expandedKeys="expandedKeys"
+                :model="items"
+                class="w-50 flex flex-col gap-2"
+              >
                 <template #item="{ item }">
                   <router-link
                     v-if="item.route"
@@ -20,7 +25,8 @@
                   >
                     <a
                       v-ripple
-                      class="flex items-center cursor-pointer text-surface-700 dark:text-surface-0 px-4 py-2"
+                      class="itemClass"
+                      :class="{ activeItemClass: route.fullPath === item.route }"
                       :href="href"
                       @click="navigate"
                     >
@@ -31,7 +37,8 @@
                   <a
                     v-else
                     v-ripple
-                    class="flex items-center cursor-pointer text-surface-700 dark:text-surface-0 px-4 py-2"
+                    class="itemClass"
+                    :class="{ activeItemClass: route.fullPath === item.route }"
                     :href="item.url"
                     :target="item.target"
                   >
@@ -61,6 +68,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const expandedKeys = ref({});
 const items = ref([
@@ -104,3 +114,14 @@ const expandNode = (node) => {
   }
 };
 </script>
+
+<style>
+
+.itemClass {
+  @apply flex items-center cursor-pointer  px-2 hover:border hover:border-purple-600 hover:rounded-md py-2;
+}
+
+.activeItemClass {
+  @apply bg-f-primary text-f-white rounded-md;
+}
+</style>

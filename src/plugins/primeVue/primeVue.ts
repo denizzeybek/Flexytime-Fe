@@ -3,9 +3,11 @@ import PrimeVue from 'primevue/config';
 import ToastService from 'primevue/toastservice';
 import 'primeicons/primeicons.css';
 import Drawer from 'primevue/drawer';
+import { flexyPreset } from './flexytheme';
+
 import StyleClass from 'primevue/styleclass';
 import Ripple from 'primevue/ripple';
-import { flexyPreset } from './flexytheme';
+import Tooltip from 'primevue/tooltip';
 
 import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
@@ -26,6 +28,10 @@ import Password from 'primevue/password';
 import Select from 'primevue/select';
 import MultiSelect from 'primevue/multiselect';
 import Menu from 'primevue/menu';
+import Message from 'primevue/message';
+import Breadcrumb from 'primevue/breadcrumb';
+import DatePicker from 'primevue/datepicker';
+
 export default {
   install(app: App) {
     app.use(PrimeVue, {
@@ -38,6 +44,9 @@ export default {
     });
     app.use(ToastService);
 
+    app.component('DatePicker', DatePicker);
+    app.component('Breadcrumb', Breadcrumb);
+    app.component('Message', Message);
     app.component('Menu', Menu);
     app.component('Drawer', Drawer);
     app.component('Select', Select);
@@ -60,5 +69,6 @@ export default {
 
     app.directive('styleclass', StyleClass);
     app.directive('ripple', Ripple);
+    app.directive('tooltip', Tooltip);
   },
 };

@@ -30,12 +30,12 @@
 /* #endregion */
 
 /* #region panelMenu */
-.p-panelmenu {
+/* .p-panelmenu {
   @apply !gap-0;
 }
 .p-panelmenu .p-panelmenu-panel {
   @apply !border-none;
-}
+} */
 /* #endregion */
 
 /* #region input */
@@ -44,7 +44,15 @@
 }
 /*#endregion */
 
+/* #region menu */
 .p-menu-submenu-label {
   @apply !p-0;
 }
+/*#endregion */
+
+/* #region breadcrumb */
+.p-breadcrumb {
+  @apply !bg-transparent !p-0;
+}
+/*#endregion */
 </style>

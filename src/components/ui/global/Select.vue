@@ -14,7 +14,7 @@
     >
       <template #value="slotProps">
         <div v-if="slotProps?.value" class="flex items-center gap-3">
-          <i v-if="slotProps?.value?.icon" :class="slotProps?.value?.icon" style="color: green"></i>
+          <i v-if="slotProps?.value?.icon" :class="slotProps?.value?.icon"></i>
           <div v-if="slotProps?.value?.name">{{ slotProps?.value?.name }}</div>
         </div>
         <span v-else>
@@ -23,7 +23,7 @@
       </template>
       <template #option="slotProps">
         <div class="flex items-center gap-3">
-          <i v-if="slotProps.option?.icon" :class="slotProps.option?.icon" style="color: green"></i>
+          <i v-if="slotProps.option?.icon" :class="slotProps.option?.icon"></i>
           <div v-if="slotProps.option?.name">{{ slotProps.option?.name }}</div>
         </div>
       </template>
@@ -51,7 +51,7 @@ export interface IProps {
   label?: string;
   placeholder?: string;
   disabled?: boolean;
-  modelValue?: string | number;
+  modelValue?: IOption;
   defaultValue?: string;
   errorMessage?: string;
   primeProps?: SelectProps;
