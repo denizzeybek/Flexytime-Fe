@@ -1,7 +1,7 @@
 <template>
   <div class="flex gap-2 items-center">
     <Button
-      v-tooltip="'Download Report'"
+      v-tooltip.top="'Download Report'"
       icon="pi pi-arrow-circle-down"
       severity="secondary"
     />

@@ -64,6 +64,7 @@ import { ref } from 'vue'
 import { EDomain } from '@/enums/domain.enum'
 import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses'
 import { getDomainEnum } from '@/views/classification/_etc/helpers'
+import Checkbox from 'primevue/checkbox'
 
 interface IProps {
   isLoading: boolean

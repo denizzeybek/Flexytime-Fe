@@ -2,12 +2,9 @@
   <Card>
     <template #content>
       <div class="flex justify-between !gap-2">
-        <SBadge severity="success" title="Work" value="04:58" />
-        <SBadge severity="danger" title="Leisure" value="04:58" />
-        <SBadge severity="warn" title="Meeting" value="04:58" />
-        <SBadge severity="contrast" title="Unclassified" value="04:58" />
-        <SBadge severity="info" title="Start Time" value="04:58" />
-        <SBadge severity="primary" title="End Time" value="04:58" />
+        <template v-for="(item, idx) in badgeList" :key="idx">
+          <SBadge :severity="item.severity" :title="item.title" :value="item.value" />
+        </template>
       </div>
     </template>
   </Card>
@@ -15,6 +12,18 @@
 
 <script setup lang="ts">
 import SBadge from './SBadge.vue';
+import { computed } from 'vue';
+
+const badgeList = computed(() => {
+  return [
+    { severity: 'success', title: 'Work', value: '04:58' },
+    { severity: 'danger', title: 'Leisure', value: '04:58' },
+    { severity: 'warn', title: 'Meeting', value: '04:58' },
+    { severity: 'secondary', title: 'Unclassified', value: '04:58' },
+    { severity: 'info', title: 'Start Time', value: '04:58' },
+    { severity: 'primary', title: 'End Time', value: '04:58' },
+  ];
+});
 </script>
 
 <style scoped></style>

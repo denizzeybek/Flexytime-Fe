@@ -2,55 +2,20 @@
   <div class="card flex justify-content-center h-full">
     <div class="flex flex-col justify-between h-full">
       <div>
-        <div class="flex items-center justify-between px-6 pt-7 shrink-0">
+        <div class="flex items-center justify-between px-6 py-5 shrink-0">
           <span class="inline-flex items-center gap-2">
             <img class="transform scale-90" src="@/components/images/login-logo.png" />
           </span>
         </div>
-        <div class="overflow-y-auto my-4">
-          <ul class="list-none m-0">
-            <li>
-              <PanelMenu
-                unstyled
-                v-model:expandedKeys="expandedKeys"
-                :model="items"
-                class="w-50 flex flex-col gap-2"
-              >
-                <template #item="{ item }">
-                  <router-link
-                    v-if="item.route"
-                    v-slot="{ href, navigate }"
-                    :to="item.route"
-                    custom
-                  >
-                    <a
-                      v-ripple
-                      class="itemClass"
-                      :class="{ activeItemClass: route.fullPath === item.route }"
-                      :href="href"
-                      @click="navigate"
-                    >
-                      <span :class="item.icon" />
-                      <span class="ml-2">{{ item.label }}</span>
-                    </a>
-                  </router-link>
-                  <a
-                    v-else
-                    v-ripple
-                    class="itemClass"
-                    :class="{ activeItemClass: route.fullPath === item.route }"
-                    :href="item.url"
-                    :target="item.target"
-                  >
-                    <span :class="item.icon" />
-                    <span class="ml-2">{{ item.label }}</span>
-                    <span v-if="item.items" class="pi pi-angle-down text-primary ml-auto" />
-                  </a>
-                </template>
-              </PanelMenu>
-            </li>
-          </ul>
-        </div>
+        <ul class="space-y-2 font-medium max-w-[328px]">
+          <NavItem
+            v-for="item in navItems"
+            :key="item.label"
+            :label="item.label"
+            :routeName="item.routeName"
+            :icon="item.icon"
+          />
+        </ul>
       </div>
       <div class="">
         <hr class="mb-4 mx-4 border-t border-0 border-surface-200 dark:border-surface-700" />
@@ -69,39 +34,42 @@
 import { ref } from 'vue';
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
 import { useRoute } from 'vue-router';
+import NavItem, { type IProps as INavItem } from './NavItem.vue';
+import { ERouteNames } from '@/router/routeNames.enum';
 
 const route = useRoute();
 
 const expandedKeys = ref({});
-const items = ref([
+const navItems = ref([
   {
     label: 'Worktime Usage',
     icon: 'pi pi-clock',
-    route: '/',
+    routeName: ERouteNames.WorktimeUsage,
     key: '0',
   },
   {
     label: 'Classification',
     icon: 'pi pi-tag',
-    route: '/classification/web-addresses',
+    routeName: ERouteNames.ClassificationWebAddresses,
     key: '1',
   },
-  {
-    label: 'Time Sheets',
-    icon: 'pi pi-stopwatch',
-    key: '2',
-    items: [
-      {
-        label: 'TimeSheet Entry',
-        route: '/timesheet-entry',
-      },
+  // {
+  //   label: 'Time Sheets',
+  //   icon: 'pi pi-stopwatch',
+  //   key: '2',
+  //   routeName: ERouteNames.TimeManagement,
+  //   // items: [
+  //   //   {
+  //   //     label: 'TimeSheet Entry',
+  //   //     routeName: ERouteNames.TimesheetEntry,
+  //   //   },
 
-      {
-        label: 'Time Management',
-        route: '/time-management',
-      },
-    ],
-  },
+  //   //   {
+  //   //     label: 'Time Management',
+  //   //     routeName: ERouteNames.TimeManagement,
+  //   //   },
+  //   // ],
+  // },
 ]);
 
 const expandNode = (node) => {
@@ -116,7 +84,6 @@ const expandNode = (node) => {
 </script>
 
 <style>
-
 .itemClass {
   @apply flex items-center cursor-pointer  px-2 hover:border hover:border-purple-600 hover:rounded-md py-2;
 }

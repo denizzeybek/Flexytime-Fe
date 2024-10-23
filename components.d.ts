@@ -34,5 +34,6 @@ declare module 'vue' {
     SelectButton: typeof import('primevue/selectbutton')['default']
     TabPanel: typeof import('primevue/tabpanel')['default']
     Tag: typeof import('primevue/tag')['default']
+    Text: typeof import('./src/components/ui/global/Text.vue')['default']
   }
 }

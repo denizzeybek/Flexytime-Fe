@@ -1,5 +1,5 @@
 <template>
-  <div class="card flex justify-center">
+  <div class="bg-f-white px-5 py-2 rounded-xl flex justify-center">
     <Breadcrumb :home="home" :model="items" />
   </div>
 </template>
