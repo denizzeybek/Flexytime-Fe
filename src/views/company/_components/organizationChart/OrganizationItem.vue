@@ -45,14 +45,14 @@
           <Button
             severity="secondary"
             size="small"
-            @click.stop="completeEdit"
+            @click="completeEdit"
             icon="pi pi-check"
             outlined
           ></Button>
           <Button
             severity="secondary"
             size="small"
-            @click.stop="cancelEdit"
+            @click="cancelEdit"
             icon="pi pi-times"
             outlined
           ></Button>
@@ -82,6 +82,7 @@
       :key="index"
       :model="childModel"
       :depth="depth + 1"
+      @itemChange="emit('itemChange', clonedModel)"
     />
   </div>
 </template>
@@ -96,6 +97,11 @@ interface IProps {
 }
 
 const { model, depth = 0 } = defineProps<IProps>();
+
+interface IEmits {
+  (event: 'itemChange', value: any): void;
+}
+const emit = defineEmits<IEmits>();
 
 const clonedModel = ref();
 const initialClonedModel = ref();
@@ -129,6 +135,7 @@ const addChild = () => {
 
 const completeEdit = () => {
   isEditing.value = false;
+  emit('itemChange', clonedModel.value);
 };
 
 const cancelEdit = () => {

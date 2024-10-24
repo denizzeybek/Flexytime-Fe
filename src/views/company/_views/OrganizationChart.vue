@@ -2,7 +2,7 @@
   <Card>
     <template #content>
       <div v-for="team in mockData" :key="team.ID">
-        <OrganizationItem :model="team" />
+        <OrganizationItem :model="team" @itemChange="onItemChange($event)" />
       </div>
     </template>
     <template #footer>
@@ -83,7 +83,7 @@ const mockData = ref<ITeam[]>([
                         children: [
                           {
                             children: [],
-                            title: 'Collection and Budget',
+                            title: 'Deniz Department',
                             Abbreviation: 'CAB',
                             Name: 'Collection and Budget',
                             ID: '629176fc57a0318a082d5177345123173984',
@@ -221,11 +221,34 @@ const mockData = ref<ITeam[]>([
     TeamId: null,
   },
 ]);
+const updatedData = ref();
 
 const handleAddTeam = () => {
   mockData.value.push({
     children: [],
     title: 'New Item',
+  });
+};
+
+const onItemChange = (item: ITeam) => {
+  updatedData.value = recursiveReplaceById(mockData.value, item.ID, item);
+};
+
+const recursiveReplaceById = (data, targetId, newData) => {
+  // Map over the array of objects (data structure)
+  return data.map((item) => {
+    // If the current item's ID matches the target ID, replace the entire object with newData
+    if (item.ID === targetId) {
+      return { ...newData };
+    }
+
+    // If the current object has children, recursively call the function on the children
+    if (Array.isArray(item.children) && item.children.length > 0) {
+      item.children = recursiveReplaceById(item.children, targetId, newData);
+    }
+
+    // Return the (possibly modified) object
+    return item;
   });
 };
 </script>
