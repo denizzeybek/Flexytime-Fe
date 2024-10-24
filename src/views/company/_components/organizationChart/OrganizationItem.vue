@@ -86,21 +86,22 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue';
+import type { ITeam } from '@/views/company/_views/OrganizationChart.vue';
 
-const { model, depth = 0 } = defineProps({
-  model: Object,
-  depth: Number,
-});
+interface IProps {
+  model: ITeam;
+  depth?: number;
+}
 
-// State and Computed properties
+const { model, depth = 0 } = defineProps<IProps>();
 
 const clonedModel = ref();
 const initialClonedModel = ref();
 const isEditing = ref(false);
-
 const isOpen = ref(false);
+
 const isFolder = computed(() => model?.children && model?.children?.length);
 const indent = computed(() => depth * 25);
 const iconClass = computed(() => (isOpen.value ? 'pi pi-angle-down' : 'pi pi-angle-right'));

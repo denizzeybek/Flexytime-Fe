@@ -14,11 +14,24 @@
   </Card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import OrganizationItem from '@/views/company/_components/organizationChart/OrganizationItem.vue';
 
-const mockData = ref([
+export interface ITeam {
+  title: string;
+  children?: ITeam[];
+  abbreviation?: string;
+  name?: string;
+  ID?: string;
+  titleName?: string;
+  titleId?: string;
+  memberId?: string;
+  memberName?: string | null;
+  teamId?: string | null;
+}
+
+const mockData = ref<ITeam[]>([
   {
     children: [
       {
