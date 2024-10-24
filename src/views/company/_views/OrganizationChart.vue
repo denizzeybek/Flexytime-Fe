@@ -29,23 +29,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
 import OrganizationItem from '@/views/company/_components/organizationChart/OrganizationItem.vue';
+import { useFToast } from '@/composables/useFToast';
+import { useCompanyOrganizationChartsStore } from '@/stores/company/organizationChart';
 
-export interface ITeam {
-  title: string;
-  children?: ITeam[];
-  Abbreviation?: string;
-  Name?: string;
-  ID?: string;
-  TitleName?: string;
-  TitleId?: string;
-  MemberId?: string;
-  MemberName?: string | null;
-  TeamId?: string | null;
-}
+const { showErrorMessage } = useFToast();
+const organizationsStore = useCompanyOrganizationChartsStore();
 
-const mockData = ref<ITeam[]>([
+const mockData = ref<IOrganizationChartNodes[]>([
   {
     children: [
       {
@@ -235,7 +228,9 @@ const mockData = ref<ITeam[]>([
     TeamId: null,
   },
 ]);
+
 const updatedData = ref();
+const isLoading = ref(false);
 
 const handleAddTeam = () => {
   mockData.value.push({
@@ -244,7 +239,7 @@ const handleAddTeam = () => {
   });
 };
 
-const onItemChange = (item: ITeam) => {
+const onItemChange = (item: IOrganizationChartNodes) => {
   updatedData.value = recursiveReplaceById(mockData.value, item.ID, item);
 };
 
@@ -265,6 +260,20 @@ const recursiveReplaceById = (data, targetId, newData) => {
     return item;
   });
 };
+
+const fetchOrganizationChart = async () => {
+  try {
+    isLoading.value = true;
+    await organizationsStore.filter();
+    isLoading.value = false;
+  } catch (error) {
+    showErrorMessage(error as any);
+  }
+};
+
+onMounted(() => {
+  // fetchOrganizationChart();
+})
 </script>
 
 <style>

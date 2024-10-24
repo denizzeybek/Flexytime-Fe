@@ -7,31 +7,26 @@
 <script setup lang="ts">
 import EmployeesTable from './EmployeesTable.vue';
 import { onMounted, ref } from 'vue';
-import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses';
-import type { IWebaddressDTOPayload } from '@/interfaces/webAddress';
+import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
+import { useFToast } from '@/composables/useFToast';
 
-const webAddressesStore = useClassificationWebAddressesStore();
+const employeesStore = useHRSettingsEmployeesStore();
+const { showErrorMessage } = useFToast();
+
 const isLoading = ref(false);
 
-const fetchWebAddresses = async () => {
+const fetchEmployees = async () => {
   try {
     isLoading.value = true;
-    const payload = {
-      descending: false,
-      length: 5,
-      search: '',
-      sort: '',
-      start: 1,
-    } as IWebaddressDTOPayload;
-    await webAddressesStore.filter(payload);
+    await employeesStore.filter();
     isLoading.value = false;
   } catch (error) {
-    console.log('error ', error);
+    showErrorMessage(error as any);
   }
 };
 
 onMounted(() => {
-  // fetchWebAddresses()
+  // fetchEmployees()
 });
 </script>
 

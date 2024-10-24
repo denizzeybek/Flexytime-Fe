@@ -57,6 +57,7 @@ import { ref } from 'vue'
 import { useClassificationApplicationsStore } from '@/stores/classification/applications'
 import { getDomainEnum } from '@/views/classification/_etc/helpers'
 import { EDomain } from '@/enums/domain.enum'
+import Checkbox from 'primevue/checkbox'
 
 interface IProps {
   isLoading: boolean
@@ -80,7 +81,7 @@ const webAddressesList = ref([
     Timeout: null,
     Teams: 'All',
     ID: 'c3b06a4f-ede0-4213-8c82-b5be2c440def',
-    AlwaysOn: false,
+    AlwaysOn: true,
     Domain: 4
   },
   {

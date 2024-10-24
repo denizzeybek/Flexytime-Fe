@@ -3,7 +3,7 @@
     <div class="border border-f-gray p-4 rounded-md flex items-center justify-between mb-5">
       <div class="flex items-center gap-2">
         <Button v-show="isFolder" :icon="iconClass" unstyled></Button>
-        <FAvatar :label="clonedModel.title"/>
+        <FAvatar :label="clonedModel.title" />
         <InputText
           v-if="isEditing"
           v-model="clonedModel.title"
@@ -89,11 +89,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import type { ITeam } from '@/views/company/_views/OrganizationChart.vue';
+import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
+import { computed, ref, watch } from 'vue';
 
 interface IProps {
-  model: ITeam;
+  model: IOrganizationChartNodes;
   depth?: number;
 }
 

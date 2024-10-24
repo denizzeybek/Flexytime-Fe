@@ -1,10 +1,14 @@
-import { EStoreNames } from '@/stores/storeNames.enum'
-import { defineStore } from 'pinia'
-import type { IWebAddress, IWebAddressDTOData, IWebaddressDTOPayload } from '@/interfaces/webAddress'
-import axios from 'axios'
+import type {
+  IWebAddress,
+  IWebAddressDTOData,
+  IWebaddressDTOPayload,
+} from '@/interfaces/classification/webAddress';
+import { EStoreNames } from '@/stores/storeNames.enum';
+import axios from 'axios';
+import { defineStore } from 'pinia';
 interface State {
-  list: IWebAddressDTOData[]
-  totalItems: number
+  list: IWebAddressDTOData[];
+  totalItems: number;
 }
 
 export const useClassificationWebAddressesStore = defineStore(
@@ -12,7 +16,7 @@ export const useClassificationWebAddressesStore = defineStore(
   {
     state: (): State => ({
       list: [],
-      totalItems: 0
+      totalItems: 0,
     }),
     actions: {
       filter(payload: IWebaddressDTOPayload) {
@@ -20,16 +24,16 @@ export const useClassificationWebAddressesStore = defineStore(
           axios
             .post('/webapi/category/webaddresses/query', payload)
             .then((response) => {
-              const { DTO } = response as unknown as IWebAddress
-              this.list = DTO.data
-              this.totalItems = DTO.recordsTotal
-              resolve(response)
+              const { DTO } = response as unknown as IWebAddress;
+              this.list = DTO.data;
+              this.totalItems = DTO.recordsTotal;
+              resolve(response);
             })
             .catch((error) => {
-              reject(error)
-            })
-        })
-      }
-    }
-  }
-)
+              reject(error);
+            });
+        });
+      },
+    },
+  },
+);

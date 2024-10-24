@@ -5,6 +5,15 @@ export enum EStoreNames {
   CLASSIFICATION_WEB_ADDRESSES = 'webAddresses',
   CLASSIFICATION_APPLICATIONS = 'applications',
 
+  COMPANY_ORGANIZATION_CHARTS = 'organizationCharts',
+
+  HR_SETTINGS_EMPLOYEES = 'employees',
+
+
+
+
+
+
 
   BUSINESSES_COMPANIES = 'businessesCompanies',
   BUSINESSES_TALENTS = 'businessesTalents',

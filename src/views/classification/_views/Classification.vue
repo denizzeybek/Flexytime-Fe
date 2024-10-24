@@ -1,7 +1,7 @@
 <template>
   <Tabs :value="route.meta.name?.toString()!">
     <TabList>
-      <Tab v-for="tab in items" :key="tab.label" :value="tab.route" @click="tab.method()">
+      <Tab v-for="(tab, idx) in items" :key="idx" :value="tab.route" @click="tab.method()">
         <span>{{ tab.label }}</span>
       </Tab>
     </TabList>
@@ -18,6 +18,11 @@
 import { ref } from 'vue'
 import { ERouteNames } from '@/router/routeNames.enum'
 import { useRoute, useRouter } from 'vue-router'
+import Tabs from 'primevue/tabs'
+import Tab from 'primevue/tab'
+import TabList from 'primevue/tablist'
+import TabPanels from 'primevue/tabpanels'
+import TabPanel from 'primevue/tabpanel'
 
 const route = useRoute()
 const router = useRouter()

@@ -1,36 +1,37 @@
 <template>
-  <WebAddressesTable :is-loading="isLoading" />
+  <ApplicationsTable :is-loading="isLoading" />
 </template>
 
 <script setup lang="ts">
-import WebAddressesTable from './ApplicationsTable.vue'
-import { onMounted, ref } from 'vue'
-import { useClassificationApplicationsStore } from '@/stores/classification/applications'
-import type { IApplicationDTOPayload } from '@/interfaces/application'
+import { useFToast } from '@/composables/useFToast';
+import type { IApplicationDTOPayload } from '@/interfaces/classification/application';
+import { useClassificationApplicationsStore } from '@/stores/classification/applications';
+import { onMounted, ref } from 'vue';
+import ApplicationsTable from './ApplicationsTable.vue';
 
-const applicationsStore = useClassificationApplicationsStore()
-const isLoading = ref(false)
-
+const applicationsStore = useClassificationApplicationsStore();
+const isLoading = ref(false);
+const { showErrorMessage } = useFToast();
 const fetchApplications = async () => {
   try {
-    isLoading.value = true
+    isLoading.value = true;
     const payload = {
       descending: false,
       length: 5,
       search: '',
       sort: '',
-      start: 1
-    } as IApplicationDTOPayload
-    await applicationsStore.filter(payload)
-    isLoading.value = false
+      start: 1,
+    } as IApplicationDTOPayload;
+    await applicationsStore.filter(payload);
+    isLoading.value = false;
   } catch (error) {
-    console.log('error ', error)
+    showErrorMessage(error as any);
   }
-}
+};
 
 onMounted(() => {
   // fetchApplications()
-})
+});
 </script>
 
 <style scoped></style>
