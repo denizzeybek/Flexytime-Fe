@@ -12,10 +12,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import UserBadge from '@/views/worktimeUsage/_components/UserBadge.vue';
 import Summary from '@/views/worktimeUsage/_components/summary/Index.vue';
+import { useFToast } from '@/composables/useFToast';
 
 const value = ref('One-Way');
 const options = ref(['One-Way', 'Return', 'Two Way']);
+const { showSuccessMessage, showErrorMessage } = useFToast();
+
+onMounted(() => {
+  showSuccessMessage('Success Message');
+  showErrorMessage('Error Message');
+});
 </script>
