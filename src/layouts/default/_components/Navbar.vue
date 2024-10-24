@@ -8,13 +8,7 @@
           </span>
         </div>
         <ul class="space-y-2 font-medium max-w-[328px]">
-          <NavItem
-            v-for="item in navItems"
-            :key="item.label"
-            :label="item.label"
-            :routeName="item.routeName"
-            :icon="item.icon"
-          />
+          <NavItem :nav-items="navItems" />
         </ul>
       </div>
       <div class="">
@@ -36,11 +30,12 @@ import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
 import { useRoute } from 'vue-router';
 import NavItem, { type IProps as INavItem } from './NavItem.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
+import type { IModel } from './NavChildItem.vue';
 
 const route = useRoute();
 
 const expandedKeys = ref({});
-const navItems = ref([
+const navItems = ref<IModel[]>([
   {
     label: 'Worktime Usage',
     icon: 'pi pi-clock',
@@ -55,11 +50,13 @@ const navItems = ref([
     label: 'Company',
     icon: 'pi pi-building',
     routeName: ERouteNames.Company,
-  },
-  {
-    label: 'Organization Chart',
-    icon: 'pi pi-building-columns',
-    routeName: ERouteNames.CompanyOrganizationChart,
+    children: [
+      {
+        label: 'Organization Chart',
+        icon: 'pi pi-building-columns',
+        routeName: ERouteNames.CompanyOrganizationChart,
+      },
+    ],
   },
   // {
   //   label: 'Time Sheets',
