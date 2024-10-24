@@ -18,26 +18,26 @@
       <template v-if="isEditing">
         <InputText
           v-if="isEditing"
-          v-model="clonedModel.memberName"
-          id="memberName"
-          name="memberName"
-          placeholder="Enter memberName"
+          v-model="clonedModel.MemberName"
+          id="MemberName"
+          name="MemberName"
+          placeholder="Enter MemberName"
         />
         <InputText
           v-if="isEditing"
-          v-model="clonedModel.titleName"
-          id="titleName"
-          name="titleName"
-          placeholder="Enter titleName"
+          v-model="clonedModel.TitleName"
+          id="TitleName"
+          name="TitleName"
+          placeholder="Enter TitleName"
         />
       </template>
 
       <template v-else>
         <div class="text-md">
-          {{ clonedModel?.memberName }}
+          {{ clonedModel?.MemberName }}
         </div>
         <div class="text-md">
-          {{ clonedModel?.titleName }}
+          {{ clonedModel?.TitleName }}
         </div>
       </template>
       <div class="flex gap-2">
