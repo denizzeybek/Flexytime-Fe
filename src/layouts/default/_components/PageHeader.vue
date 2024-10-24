@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import ProfileMenu from '@/components/ui/local/ProfileMenu.vue';
-import {useRoute} from 'vue-router';
+import { useRoute } from 'vue-router';
 
 const route = useRoute();
 

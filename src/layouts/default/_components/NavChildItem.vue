@@ -3,7 +3,7 @@
     <li class="text-sm list-none">
       <RouterLink
         v-if="!isFolder"
-        :to="{ name: model.routeName }"
+        :to="{ name: model?.routeName }"
         v-slot="{ href, navigate }"
         custom
       >
@@ -76,7 +76,7 @@ import { RouterLink, useRoute, useRouter } from 'vue-router';
 export interface IModel {
   label: string;
   icon: string;
-  routeName: ERouteNames;
+  routeName?: ERouteNames;
   children?: IModel[];
 }
 
@@ -91,14 +91,14 @@ const route = useRoute();
 const router = useRouter();
 
 const isOpen = ref(false);
-const href = router.resolve({ name: model.routeName }).href;
+const href = router.resolve({ name: model?.routeName }).href;
 
 const isFolder = computed(() => model?.children && model?.children?.length);
-const indent = computed(() => depth * 10);
+const indent = computed(() => depth * 25);
 const iconClass = computed(() => (isOpen.value ? 'pi pi-angle-down' : 'pi pi-angle-right'));
 
 const isActive = computed(
-  () => route.name === model.routeName || route?.fullPath?.split('/')[1] === href?.split('/')[1],
+  () => route.name === model?.routeName || route?.fullPath?.split('/')[1] === href?.split('/')[1],
 );
 // Methods
 const toggle = () => (isOpen.value = !isOpen.value);

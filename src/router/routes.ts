@@ -13,6 +13,10 @@ import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
 import Company from '@/views/company/_views/Company.vue';
 import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
 
+// HR Settings
+import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
+import Employees from '@/views/hrSettings/_views/Employees.vue';
+
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import Login from '@/views/auth/Login.vue';
 // Not Found Page
@@ -85,6 +89,15 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: '/company',
+        name: ERouteNames.Company,
+        component: Company,
+        meta: {
+          title: ERouteNames.Company,
+          name: ERouteNames.Company,
+        },
+      },
+      {
         path: '/organization-chart',
         name: ERouteNames.CompanyOrganizationChart,
         component: OrganizationChart,
@@ -94,12 +107,21 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: '/company',
-        name: ERouteNames.Company,
-        component: Company,
+        path: '/hr-settings',
+        name: ERouteNames.HRSettings,
+        component: HRSettings,
         meta: {
-          title: ERouteNames.Company,
-          name: ERouteNames.Company,
+          title: ERouteNames.HRSettings,
+          name: ERouteNames.HRSettings,
+        },
+      },
+      {
+        path: '/employees',
+        name: ERouteNames.HRSettingsEmployees,
+        component: Employees,
+        meta: {
+          title: ERouteNames.HRSettingsEmployees,
+          name: ERouteNames.HRSettingsEmployees,
         },
       },
     ],

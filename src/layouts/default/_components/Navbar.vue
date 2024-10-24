@@ -58,34 +58,20 @@ const navItems = ref<IModel[]>([
       },
     ],
   },
-  // {
-  //   label: 'Time Sheets',
-  //   icon: 'pi pi-stopwatch',
-  //   key: '2',
-  //   routeName: ERouteNames.TimeManagement,
-  //   // items: [
-  //   //   {
-  //   //     label: 'TimeSheet Entry',
-  //   //     routeName: ERouteNames.TimesheetEntry,
-  //   //   },
-
-  //   //   {
-  //   //     label: 'Time Management',
-  //   //     routeName: ERouteNames.TimeManagement,
-  //   //   },
-  //   // ],
-  // },
+  {
+    label: 'HR Settings',
+    icon: 'pi pi-building',
+    routeName: ERouteNames.HRSettings,
+    children: [
+      {
+        label: 'Employees',
+        icon: 'pi pi-building-columns',
+        routeName: ERouteNames.HRSettingsEmployees,
+      },
+    ],
+  },
 ]);
 
-const expandNode = (node) => {
-  if (node.items && node.items.length) {
-    expandedKeys.value[node.key] = true;
-
-    for (let child of node.items) {
-      expandNode(child);
-    }
-  }
-};
 </script>
 
 <style>

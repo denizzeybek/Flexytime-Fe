@@ -9,8 +9,8 @@
         :rows="5"
         :rowsPerPageOptions="[5, 10, 20, 50]"
       >
-        <Column field="HostName" header="Name"> </Column>
-        <Column field="TopicName" header="Topic"> </Column>
+        <Column sortable field="HostName" header="Name"> </Column>
+        <Column sortable field="TopicName" header="Topic"> </Column>
         <Column field="Teams" header="Teams"> </Column>
         <Column header="Always On">
           <template #body="slotProps">
@@ -169,6 +169,120 @@ const webAddressesList = ref([
     ID: '450d0cbc-7f66-484a-97f3-000c7b612224',
     AlwaysOn: true,
     Domain: 4
+  },
+  {
+    HostName: 'aa.com.tr',
+    DomainDisplay: 'Leisure',
+    Name: 'aa.com.tr',
+    IsWork: false,
+    IsMeeting: false,
+    IsLeisure: true,
+    TopicName: 'News and Media',
+    Actions: null,
+    Customise: null,
+    Timeout: {
+      time: '00:00',
+      statisticType: 'starttime'
+    },
+    Teams: 'All',
+    ID: 'fc38d858-0400-4158-bb6e-ea283881a293',
+    AlwaysOn: false,
+    Domain: 2
+  },
+  {
+    HostName: 'account.live.com',
+    DomainDisplay: 'Work',
+    Name: 'account.live.com',
+    IsWork: true,
+    IsMeeting: false,
+    IsLeisure: false,
+    TopicName: 'Web-based Email',
+    Actions: null,
+    Customise: null,
+    Timeout: {
+      time: '00:00',
+      statisticType: 'starttime'
+    },
+    Teams: 'All',
+    ID: '450d0cbc-7f66-484a-97f3-000c7b612224',
+    AlwaysOn: true,
+    Domain: 4
+  },
+  {
+    HostName: 'aa.com.tr',
+    DomainDisplay: 'Leisure',
+    Name: 'aa.com.tr',
+    IsWork: false,
+    IsMeeting: false,
+    IsLeisure: true,
+    TopicName: 'News and Media',
+    Actions: null,
+    Customise: null,
+    Timeout: {
+      time: '00:00',
+      statisticType: 'starttime'
+    },
+    Teams: 'All',
+    ID: 'fc38d858-0400-4158-bb6e-ea283881a293',
+    AlwaysOn: false,
+    Domain: 2
+  },
+  {
+    HostName: 'account.live.com',
+    DomainDisplay: 'Work',
+    Name: 'account.live.com',
+    IsWork: true,
+    IsMeeting: false,
+    IsLeisure: false,
+    TopicName: 'Web-based Email',
+    Actions: null,
+    Customise: null,
+    Timeout: {
+      time: '00:00',
+      statisticType: 'starttime'
+    },
+    Teams: 'All',
+    ID: '450d0cbc-7f66-484a-97f3-000c7b612224',
+    AlwaysOn: true,
+    Domain: 4
+  },
+  {
+    HostName: 'aa.com.tr',
+    DomainDisplay: 'Leisure',
+    Name: 'aa.com.tr',
+    IsWork: false,
+    IsMeeting: false,
+    IsLeisure: true,
+    TopicName: 'News and Media',
+    Actions: null,
+    Customise: null,
+    Timeout: {
+      time: '00:00',
+      statisticType: 'starttime'
+    },
+    Teams: 'All',
+    ID: 'fc38d858-0400-4158-bb6e-ea283881a293',
+    AlwaysOn: false,
+    Domain: 2
+  },
+  {
+    HostName: 'account.live.com',
+    DomainDisplay: 'Work',
+    Name: 'account.live.com',
+    IsWork: true,
+    IsMeeting: false,
+    IsLeisure: false,
+    TopicName: 'Web-based Email',
+    Actions: null,
+    Customise: null,
+    Timeout: {
+      time: '00:00',
+      statisticType: 'starttime'
+    },
+    Teams: 'All',
+    ID: '450d0cbc-7f66-484a-97f3-000c7b612224',
+    AlwaysOn: true,
+    Domain: 4
   }
 ])
 
@@ -188,6 +302,10 @@ const onAlwaysOnChange = async (event) => {
     console.log(error)
   }
 }
+
+const test = (e: any) => {
+  console.log('e ', e);
+};
 </script>
 
 <style scoped></style>
