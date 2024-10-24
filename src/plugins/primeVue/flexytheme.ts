@@ -1,6 +1,4 @@
 import { definePreset } from '@primevue/themes'
-import panelMenu from '@primevue/themes/aura/panelMenu'
-import button from '@primevue/themes/aura/button'
 import Aura from '@primevue/themes/aura'
 
 export const flexyPreset = definePreset(Aura, {

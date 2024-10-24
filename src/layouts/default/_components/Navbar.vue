@@ -53,7 +53,6 @@ const navItems = ref<IModel[]>([
     children: [
       {
         label: 'Organization Chart',
-        icon: 'pi pi-building-columns',
         routeName: ERouteNames.CompanyOrganizationChart,
       },
     ],
@@ -65,7 +64,6 @@ const navItems = ref<IModel[]>([
     children: [
       {
         label: 'Employees',
-        icon: 'pi pi-building-columns',
         routeName: ERouteNames.HRSettingsEmployees,
       },
     ],

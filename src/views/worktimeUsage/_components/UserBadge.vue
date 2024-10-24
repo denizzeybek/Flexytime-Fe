@@ -15,6 +15,9 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Avatar from 'primevue/avatar';
+
+</script>
 
 <style scoped></style>

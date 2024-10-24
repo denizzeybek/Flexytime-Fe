@@ -46,31 +46,31 @@
   }
   
   h1 {
-    @apply text-xl sm:text-2xl font-semibold;
+    @apply text-2xl sm:text-3xl font-semibold;
   }
   
   h2 {
-    @apply text-xl font-semibold;
+    @apply text-2xl font-semibold;
   }
   
   h3 {
-    @apply text-xl font-normal;
+    @apply text-2xl font-normal;
   }
   
   h4 {
-    @apply text-base font-semibold;
+    @apply text-xl font-semibold;
   }
   
   h5 {
-    @apply text-base font-normal;
+    @apply text-xl font-normal;
   }
   
   h6 {
-    @apply text-sm font-semibold;
+    @apply text-base font-semibold;
   }
   
   p {
-    @apply text-sm font-normal;
+    @apply text-base font-normal;
   }
   
   p.info {

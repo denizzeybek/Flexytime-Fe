@@ -1,6 +1,6 @@
 <template>
   <div @click="toggle" :style="{ paddingLeft: `${indent}px` }">
-    <li class="text-sm list-none">
+    <li class="text-base list-none">
       <RouterLink
         v-if="!isFolder"
         :to="{ name: model?.routeName }"
@@ -16,15 +16,15 @@
         >
           <div class="flex items-center gap-2">
             <span
-              :class="[isActive ? '!text-f-white' : '!text-f-secondary', model.icon]"
+              :class="[isActive ? '!text-f-white' : '!text-f-secondary', model?.icon]"
               style="font-size: 1rem"
             />
-            <RText
+            <FText
               :as="isActive ? 'h6' : 'p'"
               :class="[isActive ? '!text-f-white' : '!text-f-secondary']"
             >
               {{ model.label }}
-            </RText>
+            </FText>
           </div>
           <Button
             v-show="isFolder"
@@ -38,15 +38,15 @@
         <!-- Non-navigable folder items -->
         <div class="flex items-center gap-2 root-folder">
           <span
-            :class="[isActive ? '!text-f-white' : '!text-f-secondary', model.icon]"
+            :class="[isActive ? '!text-f-white' : '!text-f-secondary', model?.icon]"
             style="font-size: 1rem"
           />
-          <RText
+          <FText
             :as="isActive ? 'h6' : 'p'"
             :class="[isActive ? '!text-f-white' : '!text-f-secondary']"
           >
             {{ model.label }}
-          </RText>
+          </FText>
         </div>
         <Button
           v-show="isFolder"
@@ -75,7 +75,7 @@ import { RouterLink, useRoute, useRouter } from 'vue-router';
 
 export interface IModel {
   label: string;
-  icon: string;
+  icon?: string;
   routeName?: ERouteNames;
   children?: IModel[];
 }

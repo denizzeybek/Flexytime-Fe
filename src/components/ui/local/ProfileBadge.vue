@@ -12,6 +12,8 @@
 </template>
 
 <script setup lang="ts">
+import Avatar from 'primevue/avatar';
+
 interface IProps {
   image?: string;
   title: string;
