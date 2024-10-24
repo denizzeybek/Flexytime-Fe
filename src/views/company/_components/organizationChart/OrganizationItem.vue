@@ -3,6 +3,7 @@
     <div class="border border-f-gray p-4 rounded-md flex items-center justify-between mb-5">
       <div class="flex items-center gap-2">
         <Button v-show="isFolder" :icon="iconClass" unstyled></Button>
+        <FAvatar :label="clonedModel.title"/>
         <InputText
           v-if="isEditing"
           v-model="clonedModel.title"
@@ -109,7 +110,7 @@ const isEditing = ref(false);
 const isOpen = ref(false);
 
 const isFolder = computed(() => model?.children && model?.children?.length);
-const indent = computed(() => depth * 25);
+const indent = computed(() => depth * 15);
 const iconClass = computed(() => (isOpen.value ? 'pi pi-angle-down' : 'pi pi-angle-right'));
 
 // Methods

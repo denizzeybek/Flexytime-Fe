@@ -16,3 +16,7 @@
   --blue: "#4891ff";
   --white: white;
 }
+
+.empty {
+  @apply w-[5px] h-[5px];
+}

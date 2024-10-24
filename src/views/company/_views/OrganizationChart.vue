@@ -1,8 +1,22 @@
 <template>
   <Card>
+    <template #header>
+      <li
+        class="items-center hidden gap-2 px-12 py-4 text-lg lg:ml-4 font-normal rounded-lg lg:grid-rows-1 lg:grid text-r-secondary lg:grid-cols-8"
+      >
+        <div class="lg:col-span-2 lg:ml-4">Team Name</div>
+        <div class="lg:col-span-2 lg:ml-4">Member Name</div>
+        <div class="text-center lg:col-span-2">Title</div>
+        <div></div>
+        <!---->
+        <div></div>
+      </li>
+    </template>
     <template #content>
       <div v-for="team in mockData" :key="team.ID">
-        <OrganizationItem :model="team" @itemChange="onItemChange($event)" />
+        <ul class="flex flex-col gap-2">
+          <OrganizationItem :model="team" @itemChange="onItemChange($event)" />
+        </ul>
       </div>
     </template>
     <template #footer>
