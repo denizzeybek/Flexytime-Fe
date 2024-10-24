@@ -28,6 +28,10 @@ export enum ERouteNames {
   TimesheetEntry = 'Timesheet Entry',
   TimeManagement = 'Time Management',
 
+  // Company
+  Company = 'Company',
+  CompanyOrganizationChart = 'Organization Chart',
+
   // SETTINGS
   Settings = 'Settings',
   Settings_Profile = 'Settings_Profile',

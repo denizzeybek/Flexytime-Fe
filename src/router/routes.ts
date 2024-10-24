@@ -1,17 +1,20 @@
-import type { RouteRecordRaw } from 'vue-router'
-import { ERouteNames } from '@/router/routeNames.enum'
-import DefaultLayout from '@/layouts/default/DefaultLayout.vue'
-import WorktimeUsage from '@/views/worktimeUsage/_views/WorktimeUsage.vue'
+import type { RouteRecordRaw } from 'vue-router';
+import { ERouteNames } from '@/router/routeNames.enum';
+import DefaultLayout from '@/layouts/default/DefaultLayout.vue';
+import WorktimeUsage from '@/views/worktimeUsage/_views/WorktimeUsage.vue';
 
-import Classification from '@/views/classification/_views/Classification.vue'
-import ClassificationWebAddresses from '@/views/classification/_views/WebAddresses.vue'
-import ClassificationApplications from '@/views/classification/_views/Applications.vue'
+import Classification from '@/views/classification/_views/Classification.vue';
+import ClassificationWebAddresses from '@/views/classification/_views/WebAddresses.vue';
+import ClassificationApplications from '@/views/classification/_views/Applications.vue';
 
-import TimesheetEntry from '@/views/timesheets/_views/TimesheetEntry.vue'
-import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue'
+import TimesheetEntry from '@/views/timesheets/_views/TimesheetEntry.vue';
+import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
 
-import AuthLayout from '@/layouts/auth/AuthLayout.vue'
-import Login from '@/views/auth/Login.vue'
+import Company from '@/views/company/_views/Company.vue';
+import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
+
+import AuthLayout from '@/layouts/auth/AuthLayout.vue';
+import Login from '@/views/auth/Login.vue';
 // Not Found Page
 // import NotFound from '@/views/NotFound.vue'
 
@@ -21,7 +24,7 @@ const routes: RouteRecordRaw[] = [
     path: '',
     component: DefaultLayout,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
     },
     children: [
       {
@@ -31,8 +34,8 @@ const routes: RouteRecordRaw[] = [
         component: WorktimeUsage,
         meta: {
           title: ERouteNames.WorktimeUsage,
-          name: ERouteNames.WorktimeUsage
-        }
+          name: ERouteNames.WorktimeUsage,
+        },
       },
       {
         path: '/classification',
@@ -40,7 +43,7 @@ const routes: RouteRecordRaw[] = [
         component: Classification,
         meta: {
           title: ERouteNames.Classification,
-          name: ERouteNames.Classification
+          name: ERouteNames.Classification,
         },
         children: [
           {
@@ -49,8 +52,8 @@ const routes: RouteRecordRaw[] = [
             component: ClassificationWebAddresses,
             meta: {
               title: ERouteNames.ClassificationWebAddresses,
-              name: ERouteNames.ClassificationWebAddresses
-            }
+              name: ERouteNames.ClassificationWebAddresses,
+            },
           },
           {
             path: 'applications',
@@ -58,10 +61,10 @@ const routes: RouteRecordRaw[] = [
             component: ClassificationApplications,
             meta: {
               title: ERouteNames.ClassificationApplications,
-              name: ERouteNames.ClassificationApplications
-            }
-          }
-        ]
+              name: ERouteNames.ClassificationApplications,
+            },
+          },
+        ],
       },
       {
         path: '/timesheet-entry',
@@ -69,8 +72,8 @@ const routes: RouteRecordRaw[] = [
         component: TimesheetEntry,
         meta: {
           title: ERouteNames.TimesheetEntry,
-          name: ERouteNames.TimesheetEntry
-        }
+          name: ERouteNames.TimesheetEntry,
+        },
       },
       {
         path: '/time-management',
@@ -78,10 +81,28 @@ const routes: RouteRecordRaw[] = [
         component: TimeManagement,
         meta: {
           title: ERouteNames.TimeManagement,
-          name: ERouteNames.TimeManagement
-        }
-      }
-    ]
+          name: ERouteNames.TimeManagement,
+        },
+      },
+      {
+        path: '/organization-chart',
+        name: ERouteNames.CompanyOrganizationChart,
+        component: OrganizationChart,
+        meta: {
+          title: ERouteNames.CompanyOrganizationChart,
+          name: ERouteNames.CompanyOrganizationChart,
+        },
+      },
+      {
+        path: '/company',
+        name: ERouteNames.Company,
+        component: Company,
+        meta: {
+          title: ERouteNames.Company,
+          name: ERouteNames.Company,
+        },
+      },
+    ],
   },
   // AUTHENTICATION ROUTES (REQUIRES UN_AUTH)
   {
@@ -90,12 +111,12 @@ const routes: RouteRecordRaw[] = [
     component: Login,
     meta: {
       requiresUnAuth: true,
-      title: ERouteNames.Login
-    }
-  }
+      title: ERouteNames.Login,
+    },
+  },
 
   // { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound },
   // { path: '/:pathMatch(.*)', name: 'bad-not-found', component: NotFound }
-]
+];
 
-export default routes
+export default routes;

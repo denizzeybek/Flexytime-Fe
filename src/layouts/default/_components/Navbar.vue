@@ -45,13 +45,21 @@ const navItems = ref([
     label: 'Worktime Usage',
     icon: 'pi pi-clock',
     routeName: ERouteNames.WorktimeUsage,
-    key: '0',
   },
   {
     label: 'Classification',
     icon: 'pi pi-tag',
     routeName: ERouteNames.ClassificationWebAddresses,
-    key: '1',
+  },
+  {
+    label: 'Company',
+    icon: 'pi pi-building',
+    routeName: ERouteNames.Company,
+  },
+  {
+    label: 'Organization Chart',
+    icon: 'pi pi-building-columns',
+    routeName: ERouteNames.CompanyOrganizationChart,
   },
   // {
   //   label: 'Time Sheets',

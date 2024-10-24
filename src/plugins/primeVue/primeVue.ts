@@ -31,6 +31,7 @@ import Menu from 'primevue/menu';
 import Message from 'primevue/message';
 import Breadcrumb from 'primevue/breadcrumb';
 import DatePicker from 'primevue/datepicker';
+import TreeTable from 'primevue/treetable'
 
 export default {
   install(app: App) {
@@ -44,6 +45,7 @@ export default {
     });
     app.use(ToastService);
 
+    app.component('TreeTable', TreeTable);
     app.component('DatePicker', DatePicker);
     app.component('Breadcrumb', Breadcrumb);
     app.component('Message', Message);
