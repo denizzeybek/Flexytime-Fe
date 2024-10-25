@@ -37,7 +37,7 @@ import Menu from 'primevue/menu';
 interface IOption {
   label: string;
   icon: string;
-  value?: EOptionsDropdown;
+  value: EOptionsDropdown;
   badge?: number;
   disabled?: boolean;
   onClick?: () => void;
@@ -62,7 +62,7 @@ const toggle = (event) => {
 };
 
 const handleOptionClick = (item: any) => {
-  emit('optionClick', item);
+  emit('optionClick', item?.value);
 };
 </script>
 
