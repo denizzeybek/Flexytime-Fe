@@ -17,6 +17,7 @@ declare module 'vue' {
     copy: typeof import('./src/components/ui/global/Input copy.vue')['default']
     DataTable: typeof import('primevue/datatable')['default']
     Dialog: typeof import('primevue/dialog')['default']
+    Divider: typeof import('primevue/divider')['default']
     EmailInputList: typeof import('./src/components/ui/local/EmailInputList.vue')['default']
     ErrorToast: typeof import('./src/components/ui/global/ErrorToast.vue')['default']
     FileUpload: typeof import('primevue/fileupload')['default']

@@ -35,7 +35,10 @@
                   class="shadow-md rounded-xl w-full sm:w-64"
                   style="filter: grayscale(100%)"
                 />
-                <div v-else class="w-[100px] h-[100px] flex items-center justify-center border-2 rounded-full border-f-black">
+                <div
+                  v-else
+                  class="w-[100px] h-[100px] flex items-center justify-center border-2 rounded-full border-f-black"
+                >
                   <span class="pi pi-user !text-6xl"></span>
                 </div>
                 <FileUpload
@@ -47,7 +50,7 @@
                   class="p-button-outlined"
                 />
               </div>
-              <div class="flex lg:flex-col flex-1 gap-4 ">
+              <div class="flex lg:flex-col flex-1 gap-4">
                 <FInput class="grow" id="fullName" label="Full Name" name="fullName" />
                 <FInput class="grow" type="email" id="email" label="Email" name="email" />
               </div>
@@ -59,6 +62,7 @@
             <div class="flex gap-4 flex-1">
               <FInput class="grow" id="salary" label="Salary" name="salary" />
             </div>
+            <Divider />
             <div class="flex gap-4 flex-1">
               <FPassword class="grow" id="password" label="Password" name="password" />
               <FPassword
@@ -71,14 +75,47 @@
           </form>
         </TabPanel>
         <TabPanel value="2">
-          <p class="m-0">
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-            voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
-            occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt
-            mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et
-            expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque
-            nihil impedit quo minus.
-          </p>
+          <form class="flex flex-col gap-4">
+            <div class="flex items-center flex-col lg:flex-row gap-12">
+              <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
+                <img
+                  v-if="src"
+                  :src="src"
+                  alt="Image"
+                  class="shadow-md rounded-xl w-full sm:w-64"
+                  style="filter: grayscale(100%)"
+                />
+                <div
+                  v-else
+                  class="w-[100px] h-[100px] flex items-center justify-center border-2 rounded-full border-f-black"
+                >
+                  <span class="pi pi-user !text-6xl"></span>
+                </div>
+                <FileUpload
+                  mode="basic"
+                  @select="onFileSelect"
+                  customUpload
+                  auto
+                  severity="secondary"
+                  class="p-button-outlined"
+                />
+              </div>
+              <div class="flex lg:flex-col flex-1 gap-4">
+                <FInput class="grow" id="fullName" label="Full Name" name="fullName" />
+                <FInput class="grow" type="email" id="email" label="Email" name="email" />
+              </div>
+            </div>
+            <Divider />
+            <div class="flex gap-4 flex-1">
+              <FPassword class="grow" id="password" label="Password" name="password" />
+              <FPassword
+                class="grow"
+                id="repeatPassword"
+                label="Repeat Password"
+                name="repeatPassword"
+              />
+            </div>
+          </form>
         </TabPanel>
       </TabPanels>
     </Tabs>
@@ -129,7 +166,7 @@ const validationSchema: any = computed(() => {
         salary: number().required().label('Salary'),
         password: string().required().min(6).label('Password'),
         repeatPassword: string()
-          .oneOf([yupRef('password')], 'Passwords must match') // using `yupRef` to avoid conflicts
+          .oneOf([yupRef('password')], 'Passwords must match')
           .required()
           .min(6)
           .label('Repeat Password'),
@@ -138,11 +175,14 @@ const validationSchema: any = computed(() => {
   } else if (activeTab.value === 'address') {
     return toTypedSchema(
       object({
-        addressLine1: string().required().label('Address Line 1'),
-        addressLine2: string().nullable().label('Address Line 2'),
-        city: string().required().label('City'),
-        country: string().required().label('Country'),
-        zipCode: number().required().label('Zip Code'),
+        fullName: string().required().label('Full Name'),
+        email: string().required().email().label('Email'),
+        password: string().required().min(6).label('Password'),
+        repeatPassword: string()
+          .oneOf([yupRef('password')], 'Passwords must match')
+          .required()
+          .min(6)
+          .label('Repeat Password'),
       }),
     );
   }

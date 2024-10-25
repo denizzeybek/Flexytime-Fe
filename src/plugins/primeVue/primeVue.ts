@@ -34,6 +34,7 @@ import DatePicker from 'primevue/datepicker';
 import TreeTable from 'primevue/treetable'
 import Dialog from 'primevue/dialog';
 import FileUpload from 'primevue/fileupload';
+import Divider from 'primevue/divider';
 
 
 
@@ -50,6 +51,7 @@ export default {
     });
     app.use(ToastService);
 
+    app.component('Divider', Divider);
     app.component('FileUpload', FileUpload);
     app.component('Dialog', Dialog);
     app.component('TreeTable', TreeTable);
