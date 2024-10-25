@@ -12,9 +12,9 @@
         <Column sortable field="MemberName" header="Name">
           <template #body="slotProps">
             <div class="flex items-center gap-3">
-            <FAvatar :label="slotProps.data.MemberName" />
-            <FText>{{ slotProps.data.MemberName }}</FText>
-          </div>
+              <FAvatar :label="slotProps.data.MemberName" />
+              <FText>{{ slotProps.data.MemberName }}</FText>
+            </div>
           </template>
         </Column>
         <Column sortable field="RoleName" header="Role Name"> </Column>
@@ -52,11 +52,17 @@
         </Column>
 
         <template #footer>
-          In total there are {{ employeesList ? employeesList.length : 0 }} employeesList.
+          <div class="flex flex-col gap-3 lg:flex-row  lg:justify-between items-center">
+            <Button icon="pi pi-plus" label="Add User" @click="isEmployeeModalOpen = true"></Button>
+            <FText>
+              In total there are {{ employeesList ? employeesList.length : 0 }} employeesList.
+            </FText>
+          </div>
         </template>
       </DataTable>
     </template>
   </Card>
+  <AddEmployeeModal v-if="isEmployeeModalOpen" v-model:open="isEmployeeModalOpen" />
 </template>
 
 <script setup lang="ts">
@@ -64,9 +70,9 @@ import { ref } from 'vue';
 import Tag from 'primevue/tag';
 import Checkbox from 'primevue/checkbox';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
-import { getDomainEnum } from '@/views/classification/_etc/helpers';
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
+import AddEmployeeModal from './_modals/addEmployee/Modal.vue';
 
 interface IProps {
   isLoading: boolean;
@@ -76,6 +82,7 @@ defineProps<IProps>();
 
 const employeesStore = useHRSettingsEmployeesStore();
 
+const isEmployeeModalOpen = ref(false);
 const options = ref([
   {
     label: 'Edit',

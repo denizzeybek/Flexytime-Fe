@@ -18,11 +18,6 @@
 import { ref } from 'vue'
 import { ERouteNames } from '@/router/routeNames.enum'
 import { useRoute, useRouter } from 'vue-router'
-import Tabs from 'primevue/tabs'
-import Tab from 'primevue/tab'
-import TabList from 'primevue/tablist'
-import TabPanels from 'primevue/tabpanels'
-import TabPanel from 'primevue/tabpanel'
 
 const route = useRoute()
 const router = useRouter()

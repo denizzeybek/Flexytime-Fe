@@ -34,6 +34,7 @@ interface IProps {
   errorMessage?: string;
   customEvents?: Record<string, (e: Event) => any>;
   transformValue?: (value: InputEvent) => unknown;
+  modelValue?: string
   isValid?: boolean;
   disabled?:boolean
   type?:
