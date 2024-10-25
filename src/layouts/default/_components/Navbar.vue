@@ -47,17 +47,6 @@ const navItems = ref<IModel[]>([
     routeName: ERouteNames.ClassificationWebAddresses,
   },
   {
-    label: 'Company',
-    icon: 'pi pi-building',
-    routeName: ERouteNames.Company,
-    children: [
-      {
-        label: 'Organization Chart',
-        routeName: ERouteNames.CompanyOrganizationChart,
-      },
-    ],
-  },
-  {
     label: 'HR Settings',
     icon: 'pi pi-building',
     routeName: ERouteNames.HRSettings,
@@ -65,6 +54,17 @@ const navItems = ref<IModel[]>([
       {
         label: 'Employees',
         routeName: ERouteNames.HRSettingsEmployees,
+      },
+    ],
+  },
+  {
+    label: 'Company',
+    icon: 'pi pi-building',
+    routeName: ERouteNames.Company,
+    children: [
+      {
+        label: 'Organization Chart',
+        routeName: ERouteNames.CompanyOrganizationChart,
       },
     ],
   },

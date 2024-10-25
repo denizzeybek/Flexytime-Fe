@@ -1,4 +1,3 @@
-import { IProps } from './Select.vue';
 <template>
   <Avatar v-bind="primeProps" :label="avatarLabel"/>
 </template>

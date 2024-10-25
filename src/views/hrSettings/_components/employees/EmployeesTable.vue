@@ -9,7 +9,14 @@
         :rows="5"
         :rowsPerPageOptions="[5, 10, 20, 50]"
       >
-        <Column sortable field="MemberName" header="Name"> </Column>
+        <Column sortable field="MemberName" header="Name">
+          <template #body="slotProps">
+            <div class="flex items-center gap-3">
+            <FAvatar :label="slotProps.data.MemberName" />
+            <FText>{{ slotProps.data.MemberName }}</FText>
+          </div>
+          </template>
+        </Column>
         <Column sortable field="RoleName" header="Role Name"> </Column>
         <Column field="Tags" header="Tags">
           <template #body="slotProps">
@@ -37,7 +44,10 @@
         </Column>
         <Column header="Actions">
           <template #body="slotProps">
-            <OptionsDropdown :options="options" @optionClick="handleOptionClick($event,slotProps.data.ID)"/>
+            <OptionsDropdown
+              :options="options"
+              @optionClick="handleOptionClick($event, slotProps.data.ID)"
+            />
           </template>
         </Column>
 
@@ -56,7 +66,7 @@ import Checkbox from 'primevue/checkbox';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
 import { getDomainEnum } from '@/views/classification/_etc/helpers';
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
-import {EOptionsDropdown} from '@/enums/optionsDropdown.enum';
+import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 
 interface IProps {
   isLoading: boolean;
@@ -578,7 +588,6 @@ const onAlwaysOnChange = async (event) => {
 const handleOptionClick = (option, id) => {
   console.log(option, id);
 };
-
 </script>
 
 <style scoped></style>
