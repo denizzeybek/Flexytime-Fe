@@ -19,6 +19,7 @@ declare module 'vue' {
     Dialog: typeof import('primevue/dialog')['default']
     EmailInputList: typeof import('./src/components/ui/local/EmailInputList.vue')['default']
     ErrorToast: typeof import('./src/components/ui/global/ErrorToast.vue')['default']
+    FileUpload: typeof import('primevue/fileupload')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Input: typeof import('./src/components/ui/global/Input.vue')['default']
     InputText: typeof import('primevue/inputtext')['default']

@@ -25,11 +25,48 @@
           </form>
         </TabPanel>
         <TabPanel value="1">
-          <form class="flex flex-col gap-5">
-            <div class="flex flex-col gap-3">
-              <FInput id="fullName" label="Full Name" name="fullName" />
-              <FInput type="email" id="email" label="Email" name="email" />
-              <FPassword id="password" label="Password" name="password" />
+          <form class="flex flex-col gap-4">
+            <div class="flex items-center flex-col lg:flex-row gap-12">
+              <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
+                <img
+                  v-if="src"
+                  :src="src"
+                  alt="Image"
+                  class="shadow-md rounded-xl w-full sm:w-64"
+                  style="filter: grayscale(100%)"
+                />
+                <div v-else class="w-[100px] h-[100px] flex items-center justify-center border-2 rounded-full border-f-black">
+                  <span class="pi pi-user !text-6xl"></span>
+                </div>
+                <FileUpload
+                  mode="basic"
+                  @select="onFileSelect"
+                  customUpload
+                  auto
+                  severity="secondary"
+                  class="p-button-outlined"
+                />
+              </div>
+              <div class="flex lg:flex-col flex-1 gap-4 ">
+                <FInput class="grow" id="fullName" label="Full Name" name="fullName" />
+                <FInput class="grow" type="email" id="email" label="Email" name="email" />
+              </div>
+            </div>
+            <div class="flex gap-4 flex-1">
+              <FInput class="grow" id="title" label="Title" name="title" />
+              <FInput class="grow" id="team" label="Team" name="team" />
+            </div>
+            <div class="flex gap-4 flex-1">
+              <FInput class="grow" id="salary" label="Salary" name="salary" />
+            </div>
+            <div class="flex gap-4 flex-1">
+              <FPassword class="grow" id="password" label="Password" name="password" />
+              <FPassword
+                class="grow"
+                id="repeatPassword"
+                label="Repeat Password"
+                name="repeatPassword"
+              />
             </div>
           </form>
         </TabPanel>
@@ -60,9 +97,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineModel, ref, computed } from 'vue';
+import { defineModel, computed, onMounted, ref } from 'vue';
 import { useForm } from 'vee-validate';
-import { boolean, string, object, array, number } from 'yup';
+import { boolean, string, object, array, number, ref as yupRef } from 'yup';
 import { toTypedSchema } from '@vee-validate/yup';
 import EmailInputList from '@/components/ui/local/EmailInputList.vue';
 import { useFToast } from '@/composables/useFToast';
@@ -73,6 +110,7 @@ const open = defineModel<boolean>('open');
 const activeTab = ref('0');
 const emails = ref([]);
 const emailErrorMessage = ref('');
+const src = ref();
 
 const validationSchema: any = computed(() => {
   if (activeTab.value === '0') {
@@ -85,8 +123,16 @@ const validationSchema: any = computed(() => {
     return toTypedSchema(
       object({
         fullName: string().required().label('Full Name'),
-        email: string().required().label('Email'),
-        password: string().required().label('Title'),
+        email: string().required().email().label('Email'),
+        title: string().required().label('Title'),
+        team: string().required().label('Team'),
+        salary: number().required().label('Salary'),
+        password: string().required().min(6).label('Password'),
+        repeatPassword: string()
+          .oneOf([yupRef('password')], 'Passwords must match') // using `yupRef` to avoid conflicts
+          .required()
+          .min(6)
+          .label('Repeat Password'),
       }),
     );
   } else if (activeTab.value === 'address') {
@@ -117,6 +163,17 @@ const handleClose = () => {
   resetForm();
 };
 
+const onFileSelect = (event) => {
+  const file = event.files[0];
+  const reader = new FileReader();
+
+  reader.onload = async (e) => {
+    src.value = e?.target?.result;
+  };
+
+  reader.readAsDataURL(file);
+};
+
 const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
@@ -124,12 +181,41 @@ const submitHandler = handleSubmit(async (values) => {
       emailErrorMessage.value = 'Emails are required';
       return;
     }
-    console.log('emails ', emails.value);
+    console.log('src ', src.value);
     // emit('fetchEmployees');
     showSuccessMessage('Employee updated!');
-    handleClose();
+    // handleClose();
   } catch (error: any) {
     showErrorMessage(error as any);
   }
 });
+
+// const getInitialFormData = () => {
+//   const talent = talentsStore.currentTalent;
+//   const user = talent?.user;
+
+//   return {
+//     ...(talent && {
+//       userStatus: user?.status,
+//       firstName: user?.firstName,
+//       lastName: user?.lastName,
+//       email: user?.email,
+//       identityNumber: user?.profile?.identityNumber,
+//       dateOfBirth: user?.profile?.birthday,
+//       kycStatus: talent?.kycStatus,
+//       kycId: talent?.sumsubId,
+//       phoneCode: user?.profile?.phoneCode,
+//       phoneNo: user?.profile?.phone,
+//       isEarlyPayEligible: talent?.isEarlyPayEligible || false,
+//       isLowVolumeFeeEnabled: talent?.isLowVolumeFeeEnabled || false,
+//     }),
+//   };
+// };
+
+// onMounted(() => {
+
+//   resetForm({
+//     values: getInitialFormData(),
+//   });
+// });
 </script>
