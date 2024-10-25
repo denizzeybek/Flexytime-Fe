@@ -16,12 +16,11 @@
         <template #item="{ item, props }">
           <a
             v-ripple
-            class="flex items-center"
-            v-bind="props.action"
+            class="flex items-center gap-3 px-4 py-2"
             @click.stop.prevent="item.disabled ? null : handleOptionClick(item)"
           >
             <span :class="item.icon" />
-            <span>{{ item.label }}</span>
+            <FText as="p"> {{ item.label }}</FText>
             <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
           </a>
         </template>
@@ -33,11 +32,12 @@
 <script setup lang="ts">
 import type { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import { ref } from 'vue';
+import Menu from 'primevue/menu';
 
 interface IOption {
   label: string;
   icon: string;
-  value: EOptionsDropdown,
+  value?: EOptionsDropdown;
   badge?: number;
   disabled?: boolean;
   onClick?: () => void;
@@ -53,7 +53,7 @@ interface IEmits {
   (event: 'optionClick', option: IOption): void;
 }
 
-const emit = defineEmits<IEmits>()
+const emit = defineEmits<IEmits>();
 
 const menu = ref();
 
@@ -61,7 +61,7 @@ const toggle = (event) => {
   menu.value.toggle(event);
 };
 
-const handleOptionClick = (item: IOption) => {
+const handleOptionClick = (item: any) => {
   emit('optionClick', item);
 };
 </script>

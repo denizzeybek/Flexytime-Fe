@@ -53,8 +53,7 @@
 import { ref } from 'vue';
 import Tag from 'primevue/tag';
 import Checkbox from 'primevue/checkbox';
-import { EDomain } from '@/enums/domain.enum';
-import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses';
+import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
 import { getDomainEnum } from '@/views/classification/_etc/helpers';
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import {EOptionsDropdown} from '@/enums/optionsDropdown.enum';
@@ -65,18 +64,18 @@ interface IProps {
 
 defineProps<IProps>();
 
-const webAddressesStore = useClassificationWebAddressesStore();
+const employeesStore = useHRSettingsEmployeesStore();
 
 const options = ref([
   {
     label: 'Edit',
-    value: EOptionsDropdown.Edit,
     icon: 'pi pi-pencil',
+    value: EOptionsDropdown.Edit,
   },
   {
     label: 'Delete',
-    value: EOptionsDropdown.Delete,
     icon: 'pi pi-trash',
+    value: EOptionsDropdown.Delete,
   },
 ]);
 
@@ -570,7 +569,7 @@ const onAlwaysOnChange = async (event) => {
       AlwaysOn: alwaysOn,
     };
 
-    // await webAddressesStore.update(payload)
+    // await employeesStore.update()
   } catch (error) {
     console.log(error);
   }
@@ -579,6 +578,7 @@ const onAlwaysOnChange = async (event) => {
 const handleOptionClick = (option, id) => {
   console.log(option, id);
 };
+
 </script>
 
 <style scoped></style>
