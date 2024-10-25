@@ -14,7 +14,7 @@
         <Column field="Tags" header="Tags">
           <template #body="slotProps">
             <div v-if="slotProps.data.Tags?.length" class="flex flex-col gap-1">
-              <div v-for="(tag, idx) in slotProps.data.Tags" :key="idx" >
+              <div v-for="(tag, idx) in slotProps.data.Tags" :key="idx">
                 <Tag :value="tag" />
               </div>
             </div>
@@ -37,23 +37,7 @@
         </Column>
         <Column header="Actions">
           <template #body="slotProps">
-            <div class="flex gap-3">
-              <Button
-                icon="pi pi-wrench"
-                severity="success"
-                :outlined="getDomainEnum(slotProps.data.Domain) !== EDomain.WORK"
-              />
-              <Button
-                icon="pi pi-moon"
-                severity="danger"
-                :outlined="getDomainEnum(slotProps.data.Domain) !== EDomain.LEISURE"
-              />
-              <Button
-                icon="pi pi-calendar"
-                severity="warn"
-                :outlined="getDomainEnum(slotProps.data.Domain) !== EDomain.MEETING"
-              />
-            </div>
+            <OptionsDropdown :options="options" @optionClick="handleOptionClick($event,slotProps.data.ID)"/>
           </template>
         </Column>
 
@@ -72,6 +56,8 @@ import Checkbox from 'primevue/checkbox';
 import { EDomain } from '@/enums/domain.enum';
 import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses';
 import { getDomainEnum } from '@/views/classification/_etc/helpers';
+import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
+import {EOptionsDropdown} from '@/enums/optionsDropdown.enum';
 
 interface IProps {
   isLoading: boolean;
@@ -80,6 +66,19 @@ interface IProps {
 defineProps<IProps>();
 
 const webAddressesStore = useClassificationWebAddressesStore();
+
+const options = ref([
+  {
+    label: 'Edit',
+    value: EOptionsDropdown.Edit,
+    icon: 'pi pi-pencil',
+  },
+  {
+    label: 'Delete',
+    value: EOptionsDropdown.Delete,
+    icon: 'pi pi-trash',
+  },
+]);
 
 const employeesList = ref([
   {
@@ -575,6 +574,10 @@ const onAlwaysOnChange = async (event) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+const handleOptionClick = (option, id) => {
+  console.log(option, id);
 };
 </script>
 
