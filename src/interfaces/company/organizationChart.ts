@@ -1,6 +1,6 @@
 export interface IOrganizationChartNodes {
   title: string;
-  children?: IOrganizationChartNodes[];
+  children: IOrganizationChartNodes[];
   Abbreviation?: string;
   Name?: string;
   ID?: string;

@@ -130,7 +130,14 @@ const addChild = () => {
     model.children = [];
   }
   // Add a new child element
-  model?.children?.push({ title: 'new item' });
+  model?.children?.push({
+    children: [],
+    title: 'Title',
+    Name: 'Accounting Department',
+    ID: '629176fc571d4g9a082d5175',
+    TitleName: 'Accounting Manager',
+    MemberName: 'Member Name',
+  });
   isOpen.value = true;
 };
 
