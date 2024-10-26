@@ -80,11 +80,11 @@
   </div>
 </template>
 <script setup>
-import Button from 'primevue/button';
-import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
+import Button from 'primevue/button';
 import { useForm } from 'vee-validate';
-import { boolean, string, object, array } from 'yup';
+import { ref } from 'vue';
+import { array, boolean, object, string } from 'yup';
 
 const authStore = useAuthStore();
 
@@ -100,6 +100,7 @@ const validationSchema = object({
     })
     .required()
     .label('Country'),
+
   countryList: array()
     .required()
     .label('Country List')

@@ -9,6 +9,7 @@
         :rows="5"
         :rowsPerPageOptions="[5, 10, 20, 50]"
         v-model:filters="filters"
+        @page="handlePage"
       >
         <template #header>
           <div class="flex justify-end">
@@ -20,8 +21,16 @@
             </IconField>
           </div>
         </template>
-        <template #empty> No customers found. </template>
-        <template #loading> Loading customers data. Please wait. </template>
+        <template #empty>
+          <div class="w-full flex justify-center py-8">
+            <FText>No customers found.</FText>
+          </div>
+        </template>
+        <template #loading>
+          <div class="w-full flex justify-center py-8">
+            <FText> Loading customers data. Please wait. </FText>
+          </div>
+        </template>
         <Column sortable field="MemberName" header="Name">
           <template #body="slotProps">
             <div class="flex items-center gap-3">
@@ -106,13 +115,13 @@ const employeesStore = useHRSettingsEmployeesStore();
 
 const currentEmployee = ref();
 const filters = ref({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    MemberName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    RoleName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    Tags: { value: null, matchMode: FilterMatchMode.IN },
-    TitleName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    TeamName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    Salary: { value: null, matchMode: FilterMatchMode.EQUALS },
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  MemberName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  RoleName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  Tags: { value: null, matchMode: FilterMatchMode.IN },
+  TitleName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  TeamName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  Salary: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
 const isEmployeeModalOpen = ref(false);
@@ -607,6 +616,10 @@ const employeesList = ref([
     ImageData: null,
   },
 ]);
+
+const handlePage = (e) => {
+  console.log('e ', e);
+};
 
 const handleAlwaysOnChange = async (event) => {
   try {

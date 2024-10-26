@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@primevue/themes": "^4.1.1",
-    "@tsconfig/node18": "^18.2.4",
     "@vee-validate/yup": "^4.14.3",
     "axios": "^1.7.7",
     "dayjs": "^1.11.13",
@@ -35,6 +34,7 @@
   },
   "devDependencies": {
     "@primevue/auto-import-resolver": "^4.1.1",
+    "@tsconfig/node18": "^18.2.4",
     "@rushstack/eslint-patch": "^1.10.4",
     "@types/file-saver": "^2.0.7",
     "@types/jsdom": "^21.1.7",

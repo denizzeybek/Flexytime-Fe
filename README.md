@@ -8,3 +8,21 @@ Learn more about the recommended Project Setup and IDE Support in the [Vue Docs 
 PrimeVue preset: https://dev.to/cagataycivici/deep-dive-into-primevue-passthrough-props-2im8
 
 https://coolors.co/gradient-palette/c5c6d0-c5c6d0?number=12
+
+
+
+
+> imports
+
+> composables
+> stores
+
+> ref
+
+> computed
+
+> functions
+
+> watch
+
+> onMounted
