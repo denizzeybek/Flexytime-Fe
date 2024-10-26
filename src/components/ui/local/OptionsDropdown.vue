@@ -17,7 +17,7 @@
           <a
             v-ripple
             class="flex items-center gap-3 px-4 py-2"
-            @click.stop.prevent="item.disabled ? null : handleOptionClick(item)"
+            @click.stop.prevent="item.disabled ? null : handleOptionClick(item?.value)"
           >
             <span :class="item.icon" />
             <FText as="p"> {{ item.label }}</FText>
@@ -50,7 +50,7 @@ interface IProps {
 defineProps<IProps>();
 
 interface IEmits {
-  (event: 'optionClick', option: IOption): void;
+  (event: 'optionClick', option: EOptionsDropdown): void;
 }
 
 const emit = defineEmits<IEmits>();
@@ -61,8 +61,8 @@ const toggle = (event) => {
   menu.value.toggle(event);
 };
 
-const handleOptionClick = (item: any) => {
-  emit('optionClick', item?.value);
+const handleOptionClick = (value: EOptionsDropdown) => {
+  emit('optionClick', value);
 };
 </script>
 

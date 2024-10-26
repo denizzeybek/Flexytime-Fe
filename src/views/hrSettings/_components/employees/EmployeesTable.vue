@@ -35,7 +35,7 @@
           <template #body="slotProps">
             <Checkbox
               @change="
-                onAlwaysOnChange({ props: slotProps.data.ID, alwaysOn: !slotProps.data.Enabled })
+                handleAlwaysOnChange({ props: slotProps.data.ID, alwaysOn: !slotProps.data.Enabled })
               "
               :modelValue="slotProps.data.Enabled"
               :binary="true"
@@ -46,13 +46,13 @@
           <template #body="slotProps">
             <OptionsDropdown
               :options="options"
-              @optionClick="handleOptionClick($event, slotProps.data.ID)"
+              @optionClick="handleOptionClick($event, slotProps.data)"
             />
           </template>
         </Column>
 
         <template #footer>
-          <div class="flex flex-col gap-3 lg:flex-row  lg:justify-between items-center">
+          <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
             <Button icon="pi pi-plus" label="Add User" @click="isEmployeeModalOpen = true"></Button>
             <FText>
               In total there are {{ employeesList ? employeesList.length : 0 }} employeesList.
@@ -62,7 +62,11 @@
       </DataTable>
     </template>
   </Card>
-  <AddEmployeeModal v-if="isEmployeeModalOpen" v-model:open="isEmployeeModalOpen" />
+  <EmployeeModal
+    v-if="isEmployeeModalOpen"
+    v-model:open="isEmployeeModalOpen"
+    :data="currentEmployee"
+  />
 </template>
 
 <script setup lang="ts">
@@ -72,7 +76,9 @@ import Checkbox from 'primevue/checkbox';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
-import AddEmployeeModal from './_modals/addEmployee/Modal.vue';
+import EmployeeModal from './_modals/EmployeeModal.vue';
+import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
+
 
 interface IProps {
   isLoading: boolean;
@@ -81,6 +87,7 @@ interface IProps {
 defineProps<IProps>();
 
 const employeesStore = useHRSettingsEmployeesStore();
+const currentEmployee = ref();
 
 const isEmployeeModalOpen = ref(false);
 const options = ref([
@@ -113,9 +120,9 @@ const employeesList = ref([
     TeamId: '629176ff57a0318a082d51b5',
     TitleId: '629176f457a0318a082d50e5',
     TitleName: 'Bidding Supervisor',
-    Salary: '0',
-    Password: null,
-    Email: null,
+    Salary: '10000',
+    Password: 123456,
+    Email: 'judith@gmail.com',
     WindowsIdentity: 'CONTOSO\\judith.elliott',
     Enabled: true,
     Role: 1,
@@ -575,7 +582,7 @@ const employeesList = ref([
   },
 ]);
 
-const onAlwaysOnChange = async (event) => {
+const handleAlwaysOnChange = async (event) => {
   try {
     const { props, alwaysOn } = event;
     const { ID, Name, Domain } = props;
@@ -592,8 +599,23 @@ const onAlwaysOnChange = async (event) => {
   }
 };
 
-const handleOptionClick = (option, id) => {
-  console.log(option, id);
+const handleEdit = (employee: IEmployeeMember) => {
+  isEmployeeModalOpen.value = true;
+  currentEmployee.value = employee;
+};
+
+const handleDelete = (employeeID: string) => {
+  // employeesStore.deleteEmployee(employeeID);
+};
+
+const handleOptionClick = (option: EOptionsDropdown, employee: IEmployeeMember) => {
+  console.log(option, employee);
+  if (option === EOptionsDropdown.Edit) {
+    handleEdit(employee);
+  } else if (option === EOptionsDropdown.Delete) {
+    handleDelete(employee.ID);
+  }
+  currentEmployee.value = employee;
 };
 </script>
 

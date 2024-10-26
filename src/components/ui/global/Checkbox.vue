@@ -2,10 +2,14 @@
   <div>
     <label
       :for="name"
-      class="flex items-start gap-2 text-sm font-normal cursor-pointer select-none text-f-black"
-      :class="{
-        'opacity-50 !cursor-not-allowed': disabled,
-      }"
+      class="flex items-start gap-2 cursor-pointer select-none"
+      :class="[
+        {
+          'opacity-50 !cursor-not-allowed': disabled,
+        },
+        { 'flex-col-reverse': labelTop },
+        { 'flex-row': labelLeft },
+      ]"
     >
       <input
         :id="name"
@@ -52,6 +56,8 @@ export interface IProps {
   disabled?: boolean;
   modelValue?: CheckValueType;
   syncVModel?: boolean;
+  labelTop?: boolean;
+  labelLeft?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {

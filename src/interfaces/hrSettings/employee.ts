@@ -15,6 +15,7 @@ export interface IEmployeeMember {
   TitleId: string;
   TitleName: string;
   Salary: string;
+  OperatingUser: string,
   Password: any;
   Email: any;
   WindowsIdentity: string;
