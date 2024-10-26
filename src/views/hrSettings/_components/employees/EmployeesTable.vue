@@ -8,7 +8,20 @@
         :value="employeesList"
         :rows="5"
         :rowsPerPageOptions="[5, 10, 20, 50]"
+        v-model:filters="filters"
       >
+        <template #header>
+          <div class="flex justify-end">
+            <IconField>
+              <InputIcon>
+                <i class="pi pi-search" />
+              </InputIcon>
+              <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+            </IconField>
+          </div>
+        </template>
+        <template #empty> No customers found. </template>
+        <template #loading> Loading customers data. Please wait. </template>
         <Column sortable field="MemberName" header="Name">
           <template #body="slotProps">
             <div class="flex items-center gap-3">
@@ -35,7 +48,10 @@
           <template #body="slotProps">
             <Checkbox
               @change="
-                handleAlwaysOnChange({ props: slotProps.data.ID, alwaysOn: !slotProps.data.Enabled })
+                handleAlwaysOnChange({
+                  props: slotProps.data.ID,
+                  alwaysOn: !slotProps.data.Enabled,
+                })
               "
               :modelValue="slotProps.data.Enabled"
               :binary="true"
@@ -78,7 +94,7 @@ import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import EmployeeModal from './_modals/EmployeeModal.vue';
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
-
+import { FilterMatchMode } from '@primevue/core/api';
 
 interface IProps {
   isLoading: boolean;
@@ -87,7 +103,17 @@ interface IProps {
 defineProps<IProps>();
 
 const employeesStore = useHRSettingsEmployeesStore();
+
 const currentEmployee = ref();
+const filters = ref({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    MemberName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    RoleName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    Tags: { value: null, matchMode: FilterMatchMode.IN },
+    TitleName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    TeamName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    Salary: { value: null, matchMode: FilterMatchMode.EQUALS },
+});
 
 const isEmployeeModalOpen = ref(false);
 const options = ref([

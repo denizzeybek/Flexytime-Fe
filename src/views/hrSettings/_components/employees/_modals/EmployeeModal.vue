@@ -227,13 +227,7 @@ const validationSchema: any = computed(() => {
           EfullName: string().required().label('Full Name'),
           Eemail: string().required().email().label('Email'),
           Eenabled: boolean().label('Enabled').required(),
-          Etitle: boolean()
-            .label('Title')
-            .when([], {
-              is: () => isEditing.value,
-              then: (schema) => schema.required(),
-              otherwise: (schema) => schema.nullable(),
-            }),
+          Etitle: string().required().label('Title'),
           EoperatingUser: string().required().label('Operating User'),
           Esalary: number().required().label('Salary'),
           Epassword: string().required().min(6).label('Password'),
@@ -347,22 +341,20 @@ const getInitialFormData = () => {
       Epassword: employee.Password,
       ErepeatPassword: employee.Password,
 
+      TMfullName: employee.MemberName,
+      TMemail: employee.Email,
+      TMenabled: employee.Enabled,
+      TMtitle: employee.TitleName,
+      TMteam: employee.MemberName,
+      TMsalary: employee.Salary,
+      TMpassword: employee.Password,
+      TMrepeatPassword: employee.Password,
 
-      TMfullName:employee.MemberName,
-      TMemail:employee.Email,
-      TMenabled:employee.Enabled,
-      TMtitle:employee.TitleName,
-      TMteam:employee.MemberName,
-      TMsalary:employee.Salary,
-      TMpassword:employee.Password,
-      TMrepeatPassword:employee.Password,
-
-
-      SYSfullName:employee.MemberName,
-      SYSemail:employee.Email,
-      SYSenabled:employee.Enabled,
-      SYSpassword:employee.Password,
-      SYSrepeatPassword:employee.Password,
+      SYSfullName: employee.MemberName,
+      SYSemail: employee.Email,
+      SYSenabled: employee.Enabled,
+      SYSpassword: employee.Password,
+      SYSrepeatPassword: employee.Password,
     }),
   };
 };
