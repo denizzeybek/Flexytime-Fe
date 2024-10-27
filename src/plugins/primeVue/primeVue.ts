@@ -30,12 +30,12 @@ import MultiSelect from 'primevue/multiselect';
 import Menu from 'primevue/menu';
 import Message from 'primevue/message';
 import Breadcrumb from 'primevue/breadcrumb';
-import DatePicker from 'primevue/datepicker';
 import TreeTable from 'primevue/treetable'
 import Dialog from 'primevue/dialog';
 import FileUpload from 'primevue/fileupload';
 import Divider from 'primevue/divider';
 import Skeleton from 'primevue/skeleton';
+import DatePicker from 'primevue/datepicker';
 
 
 
@@ -52,6 +52,7 @@ export default {
     });
     app.use(ToastService);
 
+    app.component('DatePicker', DatePicker);
     app.component('Skeleton', Skeleton);
     app.component('Divider', Divider);
     app.component('FileUpload', FileUpload);

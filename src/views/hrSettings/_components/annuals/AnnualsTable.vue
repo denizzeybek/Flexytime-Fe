@@ -66,9 +66,9 @@
           </template>
         </Column>
 
-        <template #footer>
+        <template v-if="isActiveAnnuals" #footer>
           <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-            <Button icon="pi pi-plus" label="Add Annual" @click="isAnnualModalOpen = true"></Button>
+            <Button icon="pi pi-plus" label="Add Annual" @click="emit('new')"></Button>
             <FText> In total there are {{ annuals ? annuals.length : 0 }} annuals. </FText>
           </div>
         </template>
@@ -84,7 +84,7 @@ import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import type { IAnnual } from '@/interfaces/hrSettings/annual';
 import { FilterMatchMode } from '@primevue/core/api';
-import {useRoute} from 'vue-router';
+import { useRoute } from 'vue-router';
 import { ERouteNames } from '@/router/routeNames.enum';
 
 interface IProps {
@@ -93,11 +93,17 @@ interface IProps {
 
 defineProps<IProps>();
 
+
+interface IEmits {
+  (event: 'new'): void;
+  (event: 'edit', value: IAnnual): void;
+}
+
+const emit = defineEmits<IEmits>();
+
 const annualsStore = useHRSettingsAnnualsStore();
 const route = useRoute();
 
-const isAnnualModalOpen = ref(false);
-const currentAnnual = ref();
 
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -122,10 +128,12 @@ const options = ref([
   },
 ]);
 
+const isActiveAnnuals = computed(() => route.name === ERouteNames.HRSettingsActiveAnnuals);
+
 const annuals = computed(() => {
-  if (route.name === ERouteNames.HRSettingsActiveAnnuals) {
+  if (isActiveAnnuals.value) {
     return annualsStore.activeList;
-  } else if (route.name === ERouteNames.HRSettingsPassiveAnnuals) {
+  } else {
     return annualsStore.passiveList;
   }
 });
@@ -134,26 +142,8 @@ const handlePage = (e) => {
   console.log('e ', e);
 };
 
-const handleAlwaysOnChange = async (event) => {
-  try {
-    const { props, alwaysOn } = event;
-    const { ID, Name, Domain } = props;
-    const payload = {
-      ID,
-      Name,
-      Domain,
-      AlwaysOn: alwaysOn,
-    };
-
-    // await annualsStore.update()
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const handleEdit = (annual: IAnnual) => {
-  isAnnualModalOpen.value = true;
-  currentAnnual.value = annual;
+  emit('edit', annual);
 };
 
 const handleDelete = (employeeID: string) => {
@@ -166,8 +156,5 @@ const handleOptionClick = (option: EOptionsDropdown, annual: IAnnual) => {
   } else if (option === EOptionsDropdown.Delete) {
     handleDelete(annual.ID);
   }
-  currentAnnual.value = annual;
 };
 </script>
-
-<style scoped></style>
