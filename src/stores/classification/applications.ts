@@ -6,6 +6,7 @@ import type {
 import { EStoreNames } from '@/stores/storeNames.enum';
 import axios from 'axios';
 import { defineStore } from 'pinia';
+import { useMockData } from '@/config';
 interface State {
   list: IApplicationDTOData[];
   totalItems: number;
@@ -19,15 +20,22 @@ export const useClassificationApplicationsStore = defineStore(
       totalItems: 0,
     }),
     actions: {
-      filter(payload: IApplicationDTOPayload) {
+      filter() {
+        const api = '/webapi/category/allocations/query';
         return new Promise((resolve, reject) => {
+          const url = useMockData ? '/mockData.json' : api;
+
           axios
-            .post('/webapi/category/allocations/query', payload)
-            .then((response) => {
-              const { DTO } = response as unknown as IApplication;
-              this.list = DTO.data;
-              this.totalItems = DTO.recordsTotal;
-              resolve(response);
+            .post(url)
+            .then((response: any) => {
+              const applications = useMockData
+                ? response[api]
+                : (response as IApplication).DTO.data;
+
+              this.list = applications;
+              this.totalItems = applications?.length || 0;
+
+              resolve(applications);
             })
             .catch((error) => {
               reject(error);

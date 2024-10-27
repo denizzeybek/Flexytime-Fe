@@ -35,6 +35,9 @@ export enum ERouteNames {
   // Employees
   HRSettings = 'HR Settings',
   HRSettingsEmployees='Employees',
+  HRSettingsAnnuals='Annuals',
+  HRSettingsActiveAnnuals='Active Annuals',
+  HRSettingsPassiveAnnuals='Passive Annuals',
 
 
   // SETTINGS

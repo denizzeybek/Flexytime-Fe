@@ -35,6 +35,7 @@ import TreeTable from 'primevue/treetable'
 import Dialog from 'primevue/dialog';
 import FileUpload from 'primevue/fileupload';
 import Divider from 'primevue/divider';
+import Skeleton from 'primevue/skeleton';
 
 
 
@@ -51,6 +52,7 @@ export default {
     });
     app.use(ToastService);
 
+    app.component('Skeleton', Skeleton);
     app.component('Divider', Divider);
     app.component('FileUpload', FileUpload);
     app.component('Dialog', Dialog);

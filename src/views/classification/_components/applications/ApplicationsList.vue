@@ -15,14 +15,7 @@ const { showErrorMessage } = useFToast();
 const fetchApplications = async () => {
   try {
     isLoading.value = true;
-    const payload = {
-      descending: false,
-      length: 5,
-      search: '',
-      sort: '',
-      start: 1,
-    } as IApplicationDTOPayload;
-    await applicationsStore.filter(payload);
+    await applicationsStore.filter();
     isLoading.value = false;
   } catch (error) {
     showErrorMessage(error as any);
@@ -30,7 +23,7 @@ const fetchApplications = async () => {
 };
 
 onMounted(() => {
-  // fetchApplications()
+  fetchApplications()
 });
 </script>
 

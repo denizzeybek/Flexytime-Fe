@@ -14,6 +14,12 @@ https://coolors.co/gradient-palette/c5c6d0-c5c6d0?number=12
 
 > imports
 
+> IProps
+> defineProps
+
+> IEmits
+> defineEmits
+
 > composables
 > stores
 

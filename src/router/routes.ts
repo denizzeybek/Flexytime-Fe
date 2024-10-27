@@ -16,9 +16,12 @@ import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
 // HR Settings
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
 import Employees from '@/views/hrSettings/_views/Employees.vue';
+import Annuals from '@/views/hrSettings/_views/Annuals.vue';
 
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import Login from '@/views/auth/Login.vue';
+import ActiveAnnualsList from '@/views/hrSettings/_components/annuals/activeAnnuals/ActiveAnnualsList.vue';
+import PassiveAnnualsList from '@/views/hrSettings/_components/annuals/passiveAnnuals/PassiveAnnualsList.vue';
 // Not Found Page
 // import NotFound from '@/views/NotFound.vue'
 
@@ -123,6 +126,35 @@ const routes: RouteRecordRaw[] = [
           title: ERouteNames.HRSettingsEmployees,
           name: ERouteNames.HRSettingsEmployees,
         },
+      },
+      {
+        path: '/annuals',
+        name: ERouteNames.HRSettingsAnnuals,
+        component: Annuals,
+        meta: {
+          title: ERouteNames.HRSettingsAnnuals,
+          name: ERouteNames.HRSettingsAnnuals,
+        },
+        children: [
+          {
+            path: 'active',
+            name: ERouteNames.HRSettingsActiveAnnuals,
+            component: ActiveAnnualsList,
+            meta: {
+              title: ERouteNames.HRSettingsActiveAnnuals,
+              name: ERouteNames.HRSettingsActiveAnnuals,
+            },
+          },
+          {
+            path: 'passive',
+            name: ERouteNames.HRSettingsPassiveAnnuals,
+            component: PassiveAnnualsList,
+            meta: {
+              title: ERouteNames.HRSettingsPassiveAnnuals,
+              name: ERouteNames.HRSettingsPassiveAnnuals,
+            },
+          },
+        ],
       },
     ],
   },

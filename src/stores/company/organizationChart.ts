@@ -5,6 +5,7 @@ import type {
 import { EStoreNames } from '@/stores/storeNames.enum';
 import axios from 'axios';
 import { defineStore } from 'pinia';
+import { useMockData } from '@/config';
 
 interface State {
   list: IOrganizationChartNodes[];
@@ -18,13 +19,20 @@ export const useCompanyOrganizationChartsStore = defineStore(
     }),
     actions: {
       filter() {
+        const api = '/webapi/company/organization';
         return new Promise((resolve, reject) => {
+          const url = useMockData ? '/mockData.json' : api;
+
           axios
-            .post('/webapi/company/organization')
-            .then((response) => {
-              const { nodes } = response as unknown as IOrganizationChart;
-              this.list = nodes;
-              resolve(response);
+            .post(url)
+            .then((response: any) => {
+              const organizations = useMockData
+                ? response[api]
+                : (response as IOrganizationChart).nodes;
+
+              this.list = organizations;
+
+              resolve(organizations);
             })
             .catch((error) => {
               reject(error);

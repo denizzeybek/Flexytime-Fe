@@ -1,24 +1,24 @@
 <template>
   <div>
-    <EmployeesTable :is-loading="isLoading" />
+    <ActiveAnnualsTable :is-loading="isLoading" />
   </div>
 </template>
 
 <script setup lang="ts">
-import EmployeesTable from './EmployeesTable.vue';
+import ActiveAnnualsTable from './ActiveAnnualsTable.vue';
 import { onMounted, ref } from 'vue';
-import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
+import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 import { useFToast } from '@/composables/useFToast';
 
-const employeesStore = useHRSettingsEmployeesStore();
+const annualsStore = useHRSettingsAnnualsStore();
 const { showErrorMessage } = useFToast();
 
 const isLoading = ref(false);
 
-const fetchEmployees = async () => {
+const fetchAnnuals = async () => {
   try {
     isLoading.value = true;
-    await employeesStore.filter();
+    await annualsStore.filter();
     isLoading.value = false;
   } catch (error) {
     showErrorMessage(error as any);
@@ -26,7 +26,7 @@ const fetchEmployees = async () => {
 };
 
 onMounted(() => {
-  fetchEmployees()
+  fetchAnnuals()
 });
 </script>
 

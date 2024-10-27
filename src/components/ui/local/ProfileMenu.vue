@@ -1,29 +1,27 @@
 <template>
-  <div>
-    <Button
-      type="button"
-      @click="toggle"
-      outlined
-      aria-haspopup="true"
-      severity="contrast"
-      aria-controls="overlay_menu"
-      unstyled
-      pt:root="bg-f-white rounded-md px-4 py-1"
-    >
-      <ProfileBadge title="Deniz Zeybek" sub-title="Tech Lead"/>
-    </Button>
+  <Button
+    type="button"
+    @click="toggle"
+    outlined
+    aria-haspopup="true"
+    severity="contrast"
+    aria-controls="overlay_menu"
+    unstyled
+    pt:root="bg-f-white rounded-md px-4 "
+  >
+    <ProfileBadge title="Deniz Zeybek" />
+  </Button>
 
-    <div class="card flex justify-center">
-      <Menu ref="menu" :model="items" class="w-full md:w-60" :popup="true">
-        <template #item="{ item, props }">
-          <a v-ripple class="flex items-center" v-bind="props.action">
-            <span :class="item.icon" />
-            <span>{{ item.label }}</span>
-            <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
-          </a>
-        </template>
-      </Menu>
-    </div>
+  <div class="card flex justify-center">
+    <Menu ref="menu" :model="items" class="w-full md:w-60" :popup="true">
+      <template #item="{ item, props }">
+        <a v-ripple class="flex items-center" v-bind="props.action">
+          <span :class="item.icon" />
+          <span>{{ item.label }}</span>
+          <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
+        </a>
+      </template>
+    </Menu>
   </div>
 </template>
 
@@ -39,6 +37,7 @@ const toggle = (event) => {
 
 const items = ref([
   {
+    label: 'Tech Lead',
     items: [
       {
         label: 'Profile',

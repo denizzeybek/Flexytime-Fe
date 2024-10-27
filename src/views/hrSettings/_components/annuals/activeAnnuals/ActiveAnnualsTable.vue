@@ -5,7 +5,7 @@
         tableStyle="min-width: 50rem"
         paginator
         :loading="isLoading"
-        :value="employees"
+        :value="annuals"
         :rows="5"
         :rowsPerPageOptions="[5, 10, 20, 50]"
         v-model:filters="filters"
@@ -28,7 +28,7 @@
         </template>
         <template #loading>
           <div class="w-full flex justify-center py-8">
-            <FText> Loading customers data. Please wait. </FText>
+            <FText> Loading annual data. Please wait. </FText>
           </div>
         </template>
         <Column sortable field="MemberName" header="Name">
@@ -39,32 +39,22 @@
             </div>
           </template>
         </Column>
-        <Column sortable field="RoleName" header="Role Name"> </Column>
-        <Column field="Tags" header="Tags">
+        <Column sortable field="LeaveType" header="Leave Type"> </Column>
+        <Column sortable field="Days" header="Days"> </Column>
+        <Column sortable field="StartDate" header="StartDate">
           <template #body="slotProps">
-            <div v-if="slotProps.data.Tags?.length" class="flex flex-col gap-1">
-              <div v-for="(tag, idx) in slotProps.data.Tags" :key="idx">
-                <Tag :value="tag" />
-              </div>
+            <div class="flex flex-col items-start gap-2">
+              <FText>{{ slotProps.data.StartDate }}</FText>
+              <FText>{{ slotProps.data.StartTime }}</FText>
             </div>
-            <div v-else></div>
           </template>
         </Column>
-        <Column sortable field="TitleName" header="Title Name"> </Column>
-        <Column sortable field="TeamName" header="Team Name"> </Column>
-        <Column field="Salary" header="Salary"> </Column>
-        <Column header="Enabled">
+        <Column sortable field="EndDate" header="End Date">
           <template #body="slotProps">
-            <Checkbox
-              @change="
-                handleAlwaysOnChange({
-                  props: slotProps.data.ID,
-                  alwaysOn: !slotProps.data.Enabled,
-                })
-              "
-              :modelValue="slotProps.data.Enabled"
-              :binary="true"
-            />
+            <div class="flex flex-col items-start gap-2">
+              <FText>{{ slotProps.data.EndDate }}</FText>
+              <FText>{{ slotProps.data.EndTime }}</FText>
+            </div>
           </template>
         </Column>
         <Column header="Actions">
@@ -78,31 +68,23 @@
 
         <template #footer>
           <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-            <Button icon="pi pi-plus" label="Add User" @click="isEmployeeModalOpen = true"></Button>
-            <FText>
-              In total there are {{ employees ? employees.length : 0 }} employees.
-            </FText>
+            <Button icon="pi pi-plus" label="Add Annual" @click="isAnnualModalOpen = true"></Button>
+            <FText> In total there are {{ annuals ? annuals.length : 0 }} annuals. </FText>
           </div>
         </template>
       </DataTable>
     </template>
   </Card>
-  <EmployeeModal
-    v-if="isEmployeeModalOpen"
-    v-model:open="isEmployeeModalOpen"
-    :data="currentEmployee"
-  />
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import Tag from 'primevue/tag';
 import Checkbox from 'primevue/checkbox';
-import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
+import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
-import EmployeeModal from './_modals/EmployeeModal.vue';
-import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
+import type { IAnnual } from '@/interfaces/hrSettings/annual';
 import { FilterMatchMode } from '@primevue/core/api';
 
 interface IProps {
@@ -111,20 +93,21 @@ interface IProps {
 
 defineProps<IProps>();
 
-const employeesStore = useHRSettingsEmployeesStore();
+const annualsStore = useHRSettingsAnnualsStore();
 
-const currentEmployee = ref();
+const isAnnualModalOpen = ref(false);
+const currentAnnual = ref();
+
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  MemberName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  RoleName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  Tags: { value: null, matchMode: FilterMatchMode.IN },
-  TitleName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  TeamName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  MemberName: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  LeaveType: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  Days: { value: null, matchMode: FilterMatchMode.EQUALS },
+  StartDate: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  EndDate: { value: null, matchMode: FilterMatchMode.CONTAINS },
   Salary: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
-const isEmployeeModalOpen = ref(false);
 const options = ref([
   {
     label: 'Edit',
@@ -138,9 +121,9 @@ const options = ref([
   },
 ]);
 
-const employees = computed(() => {
-  return employeesStore.list
-})
+const annuals = computed(() => {
+  return annualsStore.activeList;
+});
 
 const handlePage = (e) => {
   console.log('e ', e);
@@ -157,28 +140,28 @@ const handleAlwaysOnChange = async (event) => {
       AlwaysOn: alwaysOn,
     };
 
-    // await employeesStore.update()
+    // await annualsStore.update()
   } catch (error) {
     console.log(error);
   }
 };
 
-const handleEdit = (employee: IEmployeeMember) => {
-  isEmployeeModalOpen.value = true;
-  currentEmployee.value = employee;
+const handleEdit = (annual: IAnnual) => {
+  isAnnualModalOpen.value = true;
+  currentAnnual.value = annual;
 };
 
 const handleDelete = (employeeID: string) => {
-  // employeesStore.deleteEmployee(employeeID);
+  // annualsStore.deleteEmployee(employeeID);
 };
 
-const handleOptionClick = (option: EOptionsDropdown, employee: IEmployeeMember) => {
+const handleOptionClick = (option: EOptionsDropdown, annual: IAnnual) => {
   if (option === EOptionsDropdown.Edit) {
-    handleEdit(employee);
+    handleEdit(annual);
   } else if (option === EOptionsDropdown.Delete) {
-    handleDelete(employee.ID);
+    handleDelete(annual.ID);
   }
-  currentEmployee.value = employee;
+  currentAnnual.value = annual;
 };
 </script>
 
