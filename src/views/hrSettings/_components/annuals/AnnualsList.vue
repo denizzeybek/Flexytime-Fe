@@ -1,11 +1,11 @@
 <template>
   <div>
-    <ActiveAnnualsTable :is-loading="isLoading" />
+    <AnnualsTable :is-loading="isLoading" />
   </div>
 </template>
 
 <script setup lang="ts">
-import ActiveAnnualsTable from './ActiveAnnualsTable.vue';
+import AnnualsTable from './AnnualsTable.vue';
 import { onMounted, ref } from 'vue';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 import { useFToast } from '@/composables/useFToast';

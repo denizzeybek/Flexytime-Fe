@@ -79,13 +79,13 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import Tag from 'primevue/tag';
-import Checkbox from 'primevue/checkbox';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import type { IAnnual } from '@/interfaces/hrSettings/annual';
 import { FilterMatchMode } from '@primevue/core/api';
+import {useRoute} from 'vue-router';
+import { ERouteNames } from '@/router/routeNames.enum';
 
 interface IProps {
   isLoading: boolean;
@@ -94,6 +94,7 @@ interface IProps {
 defineProps<IProps>();
 
 const annualsStore = useHRSettingsAnnualsStore();
+const route = useRoute();
 
 const isAnnualModalOpen = ref(false);
 const currentAnnual = ref();
@@ -122,7 +123,11 @@ const options = ref([
 ]);
 
 const annuals = computed(() => {
-  return annualsStore.activeList;
+  if (route.name === ERouteNames.HRSettingsActiveAnnuals) {
+    return annualsStore.activeList;
+  } else if (route.name === ERouteNames.HRSettingsPassiveAnnuals) {
+    return annualsStore.passiveList;
+  }
 });
 
 const handlePage = (e) => {
