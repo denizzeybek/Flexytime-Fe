@@ -83,10 +83,10 @@ const emails = ref([]);
 const emailErrorMessage = ref('');
 const src = ref();
 const employees = ref([
-  { name: 'Agnes Carter', value: 0 },
-  { name: 'Celine Miller', value: 1 },
-  { name: 'Erik Johnson', value: 2 },
-  { name: 'Dani Ricciardo', value: 3 },
+  { name: 'Agnes Owens', value: '64015c5ee435600a443e8c32' },
+  { name: 'Danielle Hurst', value: '64015c5ee435600a443e8dc4' },
+  { name: 'Erik Johnson', value: '5g015c5ee435600dfr5e8c32' },
+  { name: 'Dani Ricciardo', value: '1d4f5c5ee435600a443e8c32' },
 ]);
 
 const isEditing = computed(() => !!props.data);
@@ -100,9 +100,9 @@ const validationSchema = object({
     .required()
     .label('Country'),
   leaveType: string().required().label('Employee name'),
-  startAllday: boolean().label('Start time all day').required(),
+  startAllday: boolean().label('Start time all day'),
   startDate: string().required().label('Start date'),
-  endAllday: boolean().label('End time all day').required(),
+  endAllday: boolean().label('End time all day'),
   endDate: string().required().label('End date'),
 
   //   check: boolean().required().isTrue('You must agree to terms and conditions').label('Check'),
@@ -116,8 +116,8 @@ const [startAllday] = defineField('startAllday');
 const [endAllday] = defineField('endAllday');
 
 const handleClose = () => {
-  open.value = false;
   resetForm();
+  open.value = false;
 };
 
 const submitHandler = handleSubmit(async (values) => {
@@ -128,9 +128,9 @@ const submitHandler = handleSubmit(async (values) => {
       return;
     }
     console.log('src ', src.value);
-    // emit('fetchAnnuals');
+    emit('fetchAnnuals');
     showSuccessMessage('Annual updated!');
-    // handleClose();
+    handleClose();
   } catch (error: any) {
     showErrorMessage(error as any);
   }
@@ -141,7 +141,7 @@ const getInitialFormData = () => {
 
   return {
     ...(annual && {
-      employeeName: { name: annual.MemberName, value: annual.MemberName },
+      employeeName: { name: annual.MemberName, value: annual.MemberId },
       leaveType: annual.LeaveType,
       startAllday:annual.StartFullDay,
       startDate:annual.StartDate,

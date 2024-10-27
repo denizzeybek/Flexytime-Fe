@@ -1,6 +1,6 @@
 <template>
-  <AnnualsTable :is-loading="isLoading" @new="handleNew" @edit="handleEdit" />
-  <AnnualModal v-if="isAnnualModalOpen" v-model:open="isAnnualModalOpen" :data="currentAnnual" />
+  <AnnualsTable :is-loading="isLoading" @new="handleNew" @edit="handleEdit" @fetch-annuals="fetchAnnuals"/>
+  <AnnualModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentAnnual" />
 </template>
 
 <script setup lang="ts">
@@ -14,8 +14,17 @@ const annualsStore = useHRSettingsAnnualsStore();
 const { showErrorMessage } = useFToast();
 
 const isLoading = ref(false);
-const isAnnualModalOpen = ref(false);
+const isModalOpen = ref(false);
 const currentAnnual = ref();
+
+const handleNew = () => {
+  isModalOpen.value = true;
+};
+
+const handleEdit = (annual) => {
+  currentAnnual.value = annual;
+  isModalOpen.value = true;
+};
 
 const fetchAnnuals = async () => {
   try {
@@ -25,15 +34,6 @@ const fetchAnnuals = async () => {
   } catch (error) {
     showErrorMessage(error as any);
   }
-};
-
-const handleNew = () => {
-  isAnnualModalOpen.value = true;
-};
-
-const handleEdit = (annual) => {
-  currentAnnual.value = annual;
-  isAnnualModalOpen.value = true;
 };
 
 onMounted(() => {

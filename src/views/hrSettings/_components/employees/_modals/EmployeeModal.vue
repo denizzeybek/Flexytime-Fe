@@ -204,6 +204,11 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
+interface IEmits {
+  (event: 'fetchEmployees'): void;
+}
+const emit = defineEmits<IEmits>();
+
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const open = defineModel<boolean>('open');
@@ -319,7 +324,7 @@ const submitHandler = handleSubmit(async (values) => {
       return;
     }
     console.log('src ', src.value);
-    // emit('fetchEmployees');
+    emit('fetchEmployees');
     showSuccessMessage('Employee updated!');
     // handleClose();
   } catch (error: any) {

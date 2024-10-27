@@ -93,7 +93,6 @@ interface IProps {
 
 defineProps<IProps>();
 
-
 interface IEmits {
   (event: 'new'): void;
   (event: 'edit', value: IAnnual): void;
@@ -103,7 +102,6 @@ const emit = defineEmits<IEmits>();
 
 const annualsStore = useHRSettingsAnnualsStore();
 const route = useRoute();
-
 
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },

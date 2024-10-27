@@ -78,20 +78,13 @@
 
         <template #footer>
           <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-            <Button icon="pi pi-plus" label="Add User" @click="isEmployeeModalOpen = true"></Button>
-            <FText>
-              In total there are {{ employees ? employees.length : 0 }} employees.
-            </FText>
+            <Button icon="pi pi-plus" label="Add User" @click="emit('new')"></Button>
+            <FText> In total there are {{ employees ? employees.length : 0 }} employees. </FText>
           </div>
         </template>
       </DataTable>
     </template>
   </Card>
-  <EmployeeModal
-    v-if="isEmployeeModalOpen"
-    v-model:open="isEmployeeModalOpen"
-    :data="currentEmployee"
-  />
 </template>
 
 <script setup lang="ts">
@@ -101,7 +94,6 @@ import Checkbox from 'primevue/checkbox';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
-import EmployeeModal from './_modals/EmployeeModal.vue';
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
 import { FilterMatchMode } from '@primevue/core/api';
 
@@ -111,9 +103,15 @@ interface IProps {
 
 defineProps<IProps>();
 
+interface IEmits {
+  (event: 'new'): void;
+  (event: 'edit', value: IEmployeeMember): void;
+}
+
+const emit = defineEmits<IEmits>();
+
 const employeesStore = useHRSettingsEmployeesStore();
 
-const currentEmployee = ref();
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   MemberName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -124,7 +122,6 @@ const filters = ref({
   Salary: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
-const isEmployeeModalOpen = ref(false);
 const options = ref([
   {
     label: 'Edit',
@@ -139,8 +136,8 @@ const options = ref([
 ]);
 
 const employees = computed(() => {
-  return employeesStore.list
-})
+  return employeesStore.list;
+});
 
 const handlePage = (e) => {
   console.log('e ', e);
@@ -164,8 +161,7 @@ const handleAlwaysOnChange = async (event) => {
 };
 
 const handleEdit = (employee: IEmployeeMember) => {
-  isEmployeeModalOpen.value = true;
-  currentEmployee.value = employee;
+  emit('edit', employee);
 };
 
 const handleDelete = (employeeID: string) => {
@@ -178,7 +174,6 @@ const handleOptionClick = (option: EOptionsDropdown, employee: IEmployeeMember) 
   } else if (option === EOptionsDropdown.Delete) {
     handleDelete(employee.ID);
   }
-  currentEmployee.value = employee;
 };
 </script>
 
