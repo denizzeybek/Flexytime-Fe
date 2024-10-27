@@ -38,7 +38,8 @@ export enum ERouteNames {
   HRSettingsAnnuals='Annuals',
   HRSettingsActiveAnnuals='Active Annuals',
   HRSettingsPassiveAnnuals='Passive Annuals',
-
+  HRSettingsHolidays='Holidays',
+  
 
   // SETTINGS
   Settings = 'Settings',

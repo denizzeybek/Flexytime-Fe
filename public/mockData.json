@@ -1000,5 +1000,147 @@
         "EndDateText": "20.06.2021"
       }
     ]
-  }
+  },
+  "/webapi/company/holidays": [
+    {
+      "ID": "64015c5de435600a443e8b60",
+      "StartDate": "14.06.2018",
+      "StartTime": "00:00",
+      "EndDate": "17.06.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "Ramazan Bayramı",
+      "Repeat": true,
+      "Days": 3,
+      "StartDateText": "14.06.2018",
+      "EndDateText": "17.06.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b61",
+      "StartDate": "30.08.2018",
+      "StartTime": "00:00",
+      "EndDate": "30.08.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "Zafer Bayramı",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "30.08.2018",
+      "EndDateText": "30.08.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b62",
+      "StartDate": "15.07.2018",
+      "StartTime": "00:00",
+      "EndDate": "15.07.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "15 Temmuz",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "15.07.2018",
+      "EndDateText": "15.07.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b63",
+      "StartDate": "29.10.2018",
+      "StartTime": "00:00",
+      "EndDate": "29.10.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "Cumhuriyet Bayramı",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "29.10.2018",
+      "EndDateText": "29.10.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b64",
+      "StartDate": "20.08.2018",
+      "StartTime": "00:00",
+      "EndDate": "24.08.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "Kurban Bayramı",
+      "Repeat": false,
+      "Days": 4,
+      "StartDateText": "20.08.2018",
+      "EndDateText": "24.08.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b65",
+      "StartDate": "19.05.2018",
+      "StartTime": "00:00",
+      "EndDate": "19.05.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "19 Mayıs",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "19.05.2018",
+      "EndDateText": "19.05.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b66",
+      "StartDate": "01.05.2018",
+      "StartTime": "00:00",
+      "EndDate": "01.05.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "1 Mayıs",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "01.05.2018",
+      "EndDateText": "01.05.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b67",
+      "StartDate": "01.01.2018",
+      "StartTime": "00:00",
+      "EndDate": "01.01.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "Yılbaşı",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "01.01.2018",
+      "EndDateText": "01.01.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b68",
+      "StartDate": "23.04.2018",
+      "StartTime": "00:00",
+      "EndDate": "23.04.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "23 Nisan",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "23.04.2018",
+      "EndDateText": "23.04.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b69",
+      "StartDate": "20.07.2021",
+      "StartTime": "21:00",
+      "EndDate": "23.07.2021",
+      "EndTime": "21:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "Kurban Bayramı",
+      "Repeat": false,
+      "Days": 3,
+      "StartDateText": "20.07.2021",
+      "EndDateText": "23.07.2021"
+    }
+  ]
 }

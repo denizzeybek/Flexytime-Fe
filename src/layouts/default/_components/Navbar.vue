@@ -59,6 +59,10 @@ const navItems = ref<IModel[]>([
         label: 'Annuals',
         routeName: ERouteNames.HRSettingsActiveAnnuals,
       },
+      {
+        label: 'Holidays',
+        routeName: ERouteNames.HRSettingsHolidays,
+      },
     ],
   },
   {

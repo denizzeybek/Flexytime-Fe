@@ -79,7 +79,7 @@
           </form>
         </TabPanel>
         <TabPanel value="1">
-          <form class="flex flex-col gap-4">
+          <form class="flex flex-col gap-6">
             <div class="flex items-center flex-col lg:flex-row gap-12">
               <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
                 <img
@@ -130,7 +130,7 @@
           </form>
         </TabPanel>
         <TabPanel value="2">
-          <form class="flex flex-col gap-4">
+          <form class="flex flex-col gap-6">
             <div class="flex items-center flex-col lg:flex-row gap-12">
               <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
                 <img

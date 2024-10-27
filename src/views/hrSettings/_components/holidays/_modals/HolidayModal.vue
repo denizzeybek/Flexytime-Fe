@@ -2,22 +2,13 @@
   <Dialog
     v-model:visible="open"
     modal
-    :header="isEditing ? 'Update Annual' : 'Add Annual'"
+    :header="isEditing ? 'Update Holiday' : 'Add Holiday'"
     class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
     <form class="flex flex-col gap-6" @submit="submitHandler">
       <div class="flex gap-4 flex-1">
-        <FSelect
-          class="grow"
-          label="Employee Name"
-          name="employeeName"
-          placeholder="Select employee"
-          :options="employees"
-        />
-      </div>
-      <div class="flex gap-4 flex-1">
-        <FInput class="grow" label="Leave Type" name="leaveType" placeholder="Enter leave type" />
+        <FInput class="grow" label="Name" name="name" placeholder="Enter name" />
       </div>
 
       <div class="flex gap-4">
@@ -36,7 +27,7 @@
         </div>
         <Divider layout="vertical" />
         <div class="flex items-start gap-12 flex-1">
-          <FCheckbox name="endAllday" labelTop label="All Day" />
+          <FCheckbox name="endAllday" labelTop labelLeft label="All Day" />
           <FDateTimePicker
             label="End Date"
             class="grow"
@@ -48,6 +39,9 @@
             }"
           />
         </div>
+      </div>
+      <div class="flex items-center justify-center flex-1">
+        <FCheckbox name="repeat" label="Repeat every year" />
       </div>
 
       <div class="flex w-50 justify-center">
@@ -62,46 +56,32 @@ import { defineModel, computed, onMounted, ref } from 'vue';
 import { useForm } from 'vee-validate';
 import { boolean, string, object, array, number, ref as yupRef } from 'yup';
 import { useFToast } from '@/composables/useFToast';
-import type { IAnnual } from '@/interfaces/hrSettings/annual';
+import type { IHoliday } from '@/interfaces/hrSettings/holiday';
 
 interface IProps {
-  data?: IAnnual;
+  data?: IHoliday;
 }
 
 const props = defineProps<IProps>();
 
 interface IEmits {
-  (event: 'fetchAnnuals'): void;
+  (event: 'fetchHolidays'): void;
 }
 const emit = defineEmits<IEmits>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const open = defineModel<boolean>('open');
-const employees = ref([
-  { name: 'Agnes Owens', value: '64015c5ee435600a443e8c32' },
-  { name: 'Danielle Hurst', value: '64015c5ee435600a443e8dc4' },
-  { name: 'Erik Johnson', value: '5g015c5ee435600dfr5e8c32' },
-  { name: 'Dani Ricciardo', value: '1d4f5c5ee435600a443e8c32' },
-]);
 
 const isEditing = computed(() => !!props.data);
 
 const validationSchema = object({
-  employeeName: object()
-    .shape({
-      name: string().label('Name'),
-      value: string().label('Value'),
-    })
-    .required()
-    .label('Country'),
-  leaveType: string().required().label('Employee name'),
+  name: string().required().label('Holiday Name'),
   startAllday: boolean().label('Start time all day'),
   startDate: string().required().label('Start date'),
   endAllday: boolean().label('End time all day'),
   endDate: string().required().label('End date'),
-
-  //   check: boolean().required().isTrue('You must agree to terms and conditions').label('Check'),
+  repeat: boolean().label('Repeat every year'),
 });
 
 const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
@@ -120,8 +100,8 @@ const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
 
-    emit('fetchAnnuals');
-    showSuccessMessage('Annual updated!');
+    emit('fetchHolidays');
+    showSuccessMessage('Holiday updated!');
     handleClose();
   } catch (error: any) {
     showErrorMessage(error as any);
@@ -129,16 +109,16 @@ const submitHandler = handleSubmit(async (values) => {
 });
 
 const getInitialFormData = () => {
-  const annual = props.data;
+  const holiday = props.data;
 
   return {
-    ...(annual && {
-      employeeName: { name: annual.MemberName, value: annual.MemberId },
-      leaveType: annual.LeaveType,
-      startAllday: annual.StartFullDay,
-      startDate: annual.StartDate,
-      endAllday: annual.EndFullDay,
-      endDate: annual.EndDate,
+    ...(holiday && {
+      name: holiday.Name,
+      startAllday: holiday.StartFullDay,
+      startDate: holiday.StartDate,
+      endAllday: holiday.EndFullDay,
+      endDate: holiday.EndDate,
+      repeat: holiday.Repeat,
     }),
   };
 };

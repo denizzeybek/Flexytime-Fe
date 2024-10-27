@@ -17,6 +17,7 @@ import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
 import Employees from '@/views/hrSettings/_views/Employees.vue';
 import Annuals from '@/views/hrSettings/_views/Annuals.vue';
+import Holidays from '@/views/hrSettings/_views/Holidays.vue';
 
 import Login from '@/views/auth/Login.vue';
 import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
@@ -155,6 +156,15 @@ const routes: RouteRecordRaw[] = [
             },
           },
         ],
+      },
+      {
+        path: '/holidays',
+        name: ERouteNames.HRSettingsHolidays,
+        component: Holidays,
+        meta: {
+          title: ERouteNames.HRSettingsHolidays,
+          name: ERouteNames.HRSettingsHolidays,
+        },
       },
     ],
   },
