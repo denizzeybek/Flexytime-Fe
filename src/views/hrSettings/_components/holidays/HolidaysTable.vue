@@ -65,9 +65,9 @@
           </template>
         </Column>
 
-        <template v-if="isActiveAnnuals" #footer>
+        <template #footer>
           <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-            <Button icon="pi pi-plus" label="Add Annual" @click="emit('new')"></Button>
+            <Button icon="pi pi-plus" label="Add Holiday" @click="emit('new')" />
             <FText> In total there are {{ holidays ? holidays.length : 0 }} holidays. </FText>
           </div>
         </template>
@@ -123,8 +123,6 @@ const options = ref([
     value: EOptionsDropdown.Delete,
   },
 ]);
-
-const isActiveAnnuals = computed(() => route.name === ERouteNames.HRSettingsActiveAnnuals);
 
 const holidays = computed(() => {
   return holidaysStore.list;

@@ -1,5 +1,10 @@
 <template>
-  <EmployeesTable :is-loading="isLoading" @new="handleNew" @edit="handleEdit" @fetch-employees="fetchEmployees"/>
+  <EmployeesTable
+    :is-loading="isLoading"
+    @new="handleNew"
+    @edit="handleEdit"
+    @fetch-employees="fetchEmployees"
+  />
   <EmployeeModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentEmployee" />
 </template>
 
@@ -19,6 +24,7 @@ const isModalOpen = ref(false);
 
 const handleNew = () => {
   isModalOpen.value = true;
+  currentEmployee.value = undefined;
 };
 
 const handleEdit = (employee) => {

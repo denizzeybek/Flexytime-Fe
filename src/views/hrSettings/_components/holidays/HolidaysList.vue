@@ -1,5 +1,10 @@
 <template>
-  <HolidaysTable :is-loading="isLoading" @new="handleNew" @edit="handleEdit" @fetch-holidays="fetchHolidays"/>
+  <HolidaysTable
+    :is-loading="isLoading"
+    @new="handleNew"
+    @edit="handleEdit"
+    @fetch-holidays="fetchHolidays"
+  />
   <HolidayModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentHoliday" />
 </template>
 
@@ -19,6 +24,7 @@ const currentHoliday = ref();
 
 const handleNew = () => {
   isModalOpen.value = true;
+  currentHoliday.value = undefined;
 };
 
 const handleEdit = (annual) => {

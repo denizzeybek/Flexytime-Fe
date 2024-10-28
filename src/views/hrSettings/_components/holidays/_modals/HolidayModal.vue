@@ -2,8 +2,8 @@
   <Dialog
     v-model:visible="open"
     modal
-    :header="isEditing ? 'Update Holiday' : 'Add Holiday'"
     class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
+    :header="isEditing ? 'Update Holiday' : 'Add Holiday'"
     :style="{ width: '50rem' }"
   >
     <form class="flex flex-col gap-6" @submit="submitHandler">
@@ -66,6 +66,7 @@ const props = defineProps<IProps>();
 
 interface IEmits {
   (event: 'fetchHolidays'): void;
+  (event: 'hide', val: any): void;
 }
 const emit = defineEmits<IEmits>();
 
@@ -93,6 +94,7 @@ const [endAllday] = defineField('endAllday');
 
 const handleClose = () => {
   resetForm();
+  console.log('handle close');
   open.value = false;
 };
 

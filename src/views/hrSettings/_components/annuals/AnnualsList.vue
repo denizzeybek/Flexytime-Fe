@@ -1,5 +1,10 @@
 <template>
-  <AnnualsTable :is-loading="isLoading" @new="handleNew" @edit="handleEdit" @fetch-annuals="fetchAnnuals"/>
+  <AnnualsTable
+    :is-loading="isLoading"
+    @new="handleNew"
+    @edit="handleEdit"
+    @fetch-annuals="fetchAnnuals"
+  />
   <AnnualModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentAnnual" />
 </template>
 
@@ -19,6 +24,7 @@ const currentAnnual = ref();
 
 const handleNew = () => {
   isModalOpen.value = true;
+  currentAnnual.value = undefined
 };
 
 const handleEdit = (annual) => {

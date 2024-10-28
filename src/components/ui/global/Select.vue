@@ -86,6 +86,7 @@ const validationListeners = {
 };
 
 const onSelect = (e: any) => {
-  emit('selected', e);
+  const selectedValue = e?.value || e; // Extract the value if `e` is an object with a `value` property
+  emit('selected', selectedValue);
 };
 </script>

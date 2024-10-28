@@ -68,7 +68,7 @@
 
         <template v-if="isActiveAnnuals" #footer>
           <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-            <Button icon="pi pi-plus" label="Add Annual" @click="emit('new')"></Button>
+            <Button icon="pi pi-plus" label="Add Annual" @click="emit('new')" />
             <FText> In total there are {{ annuals ? annuals.length : 0 }} annuals. </FText>
           </div>
         </template>
