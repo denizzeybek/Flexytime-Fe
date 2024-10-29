@@ -75,7 +75,7 @@ const navItems = ref<IModel[]>([
         routeName: ERouteNames.CompanyOrganizationChart,
       },
       {
-        label: 'Working Hours"',
+        label: 'Working Hours',
         routeName: ERouteNames.CompanyWorkingHours,
       },
     ],
