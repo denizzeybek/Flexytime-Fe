@@ -36,7 +36,8 @@ import FileUpload from 'primevue/fileupload';
 import Divider from 'primevue/divider';
 import Skeleton from 'primevue/skeleton';
 import DatePicker from 'primevue/datepicker';
-
+import ToggleSwitch from 'primevue/toggleswitch';
+import SelectButton from 'primevue/selectbutton';
 
 
 
@@ -52,6 +53,8 @@ export default {
     });
     app.use(ToastService);
 
+    app.component('SelectButton', SelectButton);
+    app.component('ToggleSwitch', ToggleSwitch);
     app.component('DatePicker', DatePicker);
     app.component('Skeleton', Skeleton);
     app.component('Divider', Divider);

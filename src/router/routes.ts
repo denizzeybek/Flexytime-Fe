@@ -14,12 +14,18 @@ import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
 import Company from '@/views/company/_views/Company.vue';
 import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
 import WorkingHours from '@/views/company/_views/WorkingHours.vue';
+import Reports from '@/views/company/_views/Reports.vue';
 
 // HR Settings
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
 import Employees from '@/views/hrSettings/_views/Employees.vue';
 import Annuals from '@/views/hrSettings/_views/Annuals.vue';
 import Holidays from '@/views/hrSettings/_views/Holidays.vue';
+
+
+// Settings
+import Settings from '@/views/settings/_views/Settings.vue';
+import Permissions from '@/views/settings/_views/Permissions.vue';
 
 import Login from '@/views/auth/Login.vue';
 import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
@@ -175,6 +181,33 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.CompanyWorkingHours,
           name: ERouteNames.CompanyWorkingHours,
+        },
+      },
+      {
+        path: '/reports',
+        name: ERouteNames.CompanyReports,
+        component: Reports,
+        meta: {
+          title: ERouteNames.CompanyReports,
+          name: ERouteNames.CompanyReports,
+        },
+      },
+      {
+        path: '/settings',
+        name: ERouteNames.Settings,
+        component: Settings,
+        meta: {
+          title: ERouteNames.Settings,
+          name: ERouteNames.Settings,
+        },
+      },
+      {
+        path: '/permissions',
+        name: ERouteNames.SettingsPermissions,
+        component: Permissions,
+        meta: {
+          title: ERouteNames.SettingsPermissions,
+          name: ERouteNames.SettingsPermissions,
         },
       },
     ],

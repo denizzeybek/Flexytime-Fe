@@ -48,7 +48,7 @@ const navItems = ref<IModel[]>([
   },
   {
     label: 'HR Settings',
-    icon: 'pi pi-building',
+    icon: 'pi pi-users',
     routeName: ERouteNames.HRSettings,
     children: [
       {
@@ -77,6 +77,21 @@ const navItems = ref<IModel[]>([
       {
         label: 'Working Hours',
         routeName: ERouteNames.CompanyWorkingHours,
+      },
+      {
+        label: 'Reports',
+        routeName: ERouteNames.CompanyReports,
+      },
+    ],
+  },
+  {
+    label: 'Settings',
+    icon: 'pi pi-cog',
+    routeName: ERouteNames.Settings,
+    children: [
+      {
+        label: 'Permissions',
+        routeName: ERouteNames.SettingsPermissions,
       },
     ],
   },

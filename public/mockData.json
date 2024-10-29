@@ -1764,5 +1764,84 @@
     "MaxIdleTime": "03:00",
     "ShiftRangeTime": "01:00",
     "TimeZone": "Pacific Standard Time (Mexico)"
-  }
+  },
+  "/webapi/setting/permissions": [
+    {
+      "Id": "64015c5ce435600a443e827a",
+      "Name": "Business Hours Calculation",
+      "VisibleOnlyByAdmin": true,
+      "Enabled": false,
+      "Key": "mesai-ici"
+    },
+    {
+      "Id": "64015c5ce435600a443e8424",
+      "Name": "Cost Display",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "maliyet-gosterimi"
+    },
+    {
+      "Id": "64015c5ce435600a443e854a",
+      "Name": "Detayları Maskele",
+      "VisibleOnlyByAdmin": true,
+      "Enabled": true,
+      "Key": "detaylari-maskele"
+    },
+    {
+      "Id": "64015c5ce435600a443e8231",
+      "Name": "Locations",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "konumlar"
+    },
+    {
+      "Id": "64015c5ce435600a443e82da",
+      "Name": "Meetings",
+      "VisibleOnlyByAdmin": true,
+      "Enabled": true,
+      "Key": "toplantilar"
+    },
+    {
+      "Id": "64015c5ce435600a443e8479",
+      "Name": "Phone Calls",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "gorusmeler"
+    },
+    {
+      "Id": "64015c5ce435600a443e822c",
+      "Name": "Productivity",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "verimlilik"
+    },
+    {
+      "Id": "64015c5ce435600a443e8233",
+      "Name": "Show Group Manager",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "list-supervisors"
+    },
+    {
+      "Id": "64015c5ce435600a443e8349",
+      "Name": "Time Entries",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "zaman-girisleri"
+    },
+    {
+      "Id": "64015c5ce435600a443e82c1",
+      "Name": "Web History",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "web-gecmisi"
+    },
+    {
+      "Id": "64015c5ce435600a443e821f",
+      "Name": "Wellbeing",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "calisan-refahi"
+    }
+  ]
 }

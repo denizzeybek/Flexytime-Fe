@@ -32,6 +32,7 @@ export enum ERouteNames {
   Company = 'Company',
   CompanyOrganizationChart = 'Organization Chart',
   CompanyWorkingHours = 'Working Hours',
+  CompanyReports = 'Reports',
 
   // Employees
   HRSettings = 'HR Settings',
@@ -44,11 +45,5 @@ export enum ERouteNames {
 
   // SETTINGS
   Settings = 'Settings',
-  Settings_Profile = 'Settings_Profile',
-  Settings_Account = 'Settings_Account',
-  Settings_Companies = 'Settings_Companies',
-  Settings_Company_Details = 'Settings_Company_Details',
-  ForgotPasswordIn_Emailed = 'ForgotPasswordIn_Emailed',
-  ForgotPasswordIn_Reset = 'ForgotPasswordIn_Reset ',
-  PromoCodes = 'PromoCodes'
+  SettingsPermissions = 'Permissions',
 }

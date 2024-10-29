@@ -12,6 +12,8 @@ export enum EStoreNames {
   HR_SETTINGS_ANNUALS = 'annuals',
   HR_SETTINGS_HOLIDAYS = 'holidays',
 
+  SETTINGS_PERMISSIONS = 'permissions',
+
 
 
 
