@@ -1,37 +1,58 @@
 <template>
-  <Tabs value="0">
+  <Tabs :value="route.meta.name?.toString()!">
     <TabList>
-      <Tab value="0">Basic</Tab>
-      <Tab value="1">License</Tab>
-      <Tab value="2">Communications</Tab>
-      <Tab value="3">Password</Tab>
+      <Tab v-for="(tab, idx) in items" :key="idx" :value="tab.route" @click="tab.method()">
+        <span>{{ tab.label }}</span>
+      </Tab>
     </TabList>
-    <Card>
-      <template #content>
-        <TabPanels>
-          <TabPanel value="0">
-            <Basic />
-          </TabPanel>
-          <TabPanel value="1">
-            <License />
-          </TabPanel>
-          <TabPanel value="2">
-            <Communications />
-          </TabPanel>
-          <TabPanel value="3">
-            <Password />
-          </TabPanel>
-        </TabPanels>
-      </template>
-    </Card>
   </Tabs>
+
+  <TabPanels>
+    <TabPanel :key="route.path" :value="route.path">
+      <Card>
+        <template #content>
+          <router-view :key="route.path" />
+        </template>
+      </Card>
+    </TabPanel>
+  </TabPanels>
 </template>
 
 <script setup lang="ts">
-import Basic from '../_components/Basic.vue';
-import Communications from '../_components/Communications.vue';
-import License from '../_components/License.vue';
-import Password from '../_components/Password.vue';
-</script>
+import { ref } from 'vue';
+import { ERouteNames } from '@/router/routeNames.enum';
+import { useRoute, useRouter } from 'vue-router';
 
-<style scoped></style>
+const route = useRoute();
+const router = useRouter();
+const items = ref([
+  {
+    route: ERouteNames.ProfileBasic,
+    label: ERouteNames.ProfileBasic,
+    method: () => {
+      router.push({ name: ERouteNames.ProfileBasic });
+    },
+  },
+  {
+    route: ERouteNames.ProfileLicense,
+    label: ERouteNames.ProfileLicense,
+    method: () => {
+      router.push({ name: ERouteNames.ProfileLicense });
+    },
+  },
+  {
+    route: ERouteNames.ProfileCommunication,
+    label: ERouteNames.ProfileCommunication,
+    method: () => {
+      router.push({ name: ERouteNames.ProfileCommunication });
+    },
+  },
+  {
+    route: ERouteNames.ProfilePassword,
+    label: ERouteNames.ProfilePassword,
+    method: () => {
+      router.push({ name: ERouteNames.ProfilePassword });
+    },
+  },
+]);
+</script>

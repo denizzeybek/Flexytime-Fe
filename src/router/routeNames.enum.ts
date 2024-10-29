@@ -47,5 +47,10 @@ export enum ERouteNames {
   SettingsPermissions = 'Permissions',
   SettingsAdvanced = 'Advanced',
 
+  // PROFILE
   Profile = 'Profile',
+  ProfileBasic = 'Basic',
+  ProfileLicense = 'License',
+  ProfileCommunication = 'Communication',
+  ProfilePassword = 'Password',
 }
