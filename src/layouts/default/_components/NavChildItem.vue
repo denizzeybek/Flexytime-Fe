@@ -103,13 +103,18 @@ const isActive = computed(
 // Methods
 const toggle = () => (isOpen.value = !isOpen.value);
 
-watch(route, () => {
-  if (isFolder.value) {
-    isOpen.value = model?.children?.some((child) => {
-      return child.routeName === route.name
-    }) || false;
-  }
-}, { immediate: true });
+watch(
+  route,
+  () => {
+    if (isFolder.value) {
+      isOpen.value =
+        model?.children?.some((child) => {
+          return child.routeName === route.name;
+        }) || false;
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <style scoped lang="scss">

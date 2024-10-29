@@ -5,13 +5,24 @@
         <template v-for="(field, idx) in fields" :key="field.key">
           <div class="flex justify-between items-center">
             <div>
-              <FText>{{ field.value.Name }}</FText>
+              <FText class="max-w-[350px]">{{ field.value.TypeName }}</FText>
             </div>
             <div class="flex items-center gap-12">
-              <FCheckbox :name="`permissions[${idx}].Enabled`" />
-              <FSelectSwitchButton
-                :name="`permissions[${idx}].VisibleOnlyByAdmin`"
-                :options="options"
+              <FCheckbox
+                v-if="field.value.DataType === 2"
+                :name="`advanceds[${idx}].Value`"
+                class="w-[120x]"
+              />
+              <FDateTimePicker
+                v-else
+                class="grow w-[60px]"
+                :name="`advanceds[${idx}].Value`"
+                placeholder="Enter Time"
+                :prime-props="{
+                  timeOnly: true,
+                  hourFormat: '24',
+                  fluid: true,
+                }"
               />
             </div>
           </div>
@@ -25,31 +36,22 @@
 </template>
 
 <script setup lang="ts">
-import { boolean, string, object, array } from 'yup';
+import { string, object, array, mixed } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import { computed, onMounted } from 'vue';
 import { useFieldArray, useForm } from 'vee-validate';
-import { useSettingsPermissionsStore } from '@/stores/settings/permissions';
-import type { IPermission } from '@/interfaces/settings/permission';
+import { useSettingsAdvancedsStore } from '@/stores/settings/advanced';
+import type { IAdvanced } from '@/interfaces/settings/advanced';
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
-const permissionsStore = useSettingsPermissionsStore();
-
-const options = [
-  { label: 'Everyone', value: false },
-  { label: 'Admin', value: true },
-];
+const advancedsStore = useSettingsAdvancedsStore();
 
 const validationSchema = object({
-  permissions: array()
+  advanceds: array()
     .of(
       object().shape({
-        Name: string().required(),
-        Enabled: boolean().optional(),
-        VisibleOnlyByAdmin: object().shape({
-          label: string(),
-          value: boolean(),
-        }),
+        TypeName: string().required(),
+        Value: mixed().required(),
       }),
     )
     .strict()
@@ -60,7 +62,7 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema,
 });
 
-const { fields } = useFieldArray<IPermission>('permissions');
+const { fields } = useFieldArray<IAdvanced>('advanceds');
 
 const submitHandler = handleSubmit(async (values) => {
   try {
@@ -72,24 +74,20 @@ const submitHandler = handleSubmit(async (values) => {
 });
 
 const getInitialFormData = computed(() => {
-  return permissionsStore.list.map((permission) => ({
-    Name: permission.Name,
-    Enabled: permission.Enabled,
-    VisibleOnlyByAdmin: {
-      label: permission.VisibleOnlyByAdmin ? 'Admin' : 'Everyone',
-      value: permission.VisibleOnlyByAdmin,
-    },
-    Id: permission.Id,
-    Key: permission.Key,
+  return advancedsStore.list?.map((advanced) => ({
+    TypeName: advanced.TypeName,
+    Value: advanced.DataType === 2 ? advanced.Value === 'true' : advanced.Value,
+    DataType: advanced.DataType,
+    SettingType: advanced.SettingType,
   }));
 });
 
 onMounted(async () => {
-  await permissionsStore.filter();
+  await advancedsStore.filter();
 
   resetForm({
     values: {
-      permissions: getInitialFormData.value,
+      advanceds: getInitialFormData.value,
     },
   });
 });

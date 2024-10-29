@@ -128,7 +128,7 @@ const submitHandler = handleSubmit(async (values) => {
   }
 });
 
-const getInitialFormData = () => {
+const getInitialFormData = computed(() => {
   const annual = props.data;
 
   return {
@@ -141,13 +141,12 @@ const getInitialFormData = () => {
       endDate: annual.EndDate,
     }),
   };
-};
-
+});
 // TODO: start date ve end date bilgileri date olarak dönmeli, fe date'i convert etmeli
 
 onMounted(() => {
   resetForm({
-    values: getInitialFormData(),
+    values: getInitialFormData.value,
   });
 });
 </script>

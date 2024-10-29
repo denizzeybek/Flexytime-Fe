@@ -7,9 +7,9 @@
       <div class="hidden pl-4 lg:block text-2xl">{{ route.name }}</div>
     </div>
     <div class="hidden lg:flex gap-3">
-      <Button  icon="pi pi-shopping-cart" label="Upgrade" severity="warn" />
-      <Button  icon="pi pi-youtube" severity="danger" />
-      <Button  icon="pi pi-question" outlined severity="contrast" />
+      <Button icon="pi pi-shopping-cart" label="Upgrade" severity="warn" />
+      <Button icon="pi pi-youtube" severity="danger" />
+      <Button icon="pi pi-question" outlined severity="contrast" />
       <ProfileMenu />
     </div>
   </div>

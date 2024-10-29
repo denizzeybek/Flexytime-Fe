@@ -24,7 +24,7 @@ const fetchWebAddresses = async () => {
 };
 
 onMounted(() => {
-  fetchWebAddresses()
+  fetchWebAddresses();
 });
 </script>
 

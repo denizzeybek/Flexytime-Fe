@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-2">
     <label :for="id">{{ label }}</label>
-    <ToggleSwitch
+    <!-- <ToggleSwitch
       v-model="computedValue as unknown as any"
       :id="id"
       :data-error="!!errorMessage"
@@ -9,7 +9,7 @@
       :invalid="!!errorMessage"
       :class="[customClass]"
       v-bind="primeProps"
-    />
+    /> -->
     <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
   </div>
 </template>

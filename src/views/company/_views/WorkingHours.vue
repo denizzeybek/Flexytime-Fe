@@ -66,7 +66,7 @@
                 label="Timezone"
                 name="timeZone"
                 placeholder="Select employee"
-                :options="timeZones"
+                :options="timeZoneList"
               />
             </div>
           </div>
@@ -86,16 +86,18 @@ import { boolean, string, object, array } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import type { IWorkingHourDay } from '@/interfaces/company/workingHour';
 import { useCompanyWorkingHoursStore } from '@/stores/company/workingHours';
+import { useProfileStore } from '@/stores/profile/profile';
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const workingHoursStore = useCompanyWorkingHoursStore();
+const profileStore = useProfileStore();
 
-const timeZones = computed(() =>
-  workingHoursStore.TimeZoneList.map((item) => ({ name: item.Name, value: item.ID })),
+const timeZoneList = computed(() =>
+  profileStore?.TimeZoneList?.map((item) => ({ name: item.Name, value: item.ID })),
 );
 
 const timeZoneName = computed(
-  () => workingHoursStore.TimeZoneList.find((item) => item.ID === workingHoursStore.TimeZone)?.Name,
+  () => profileStore?.TimeZoneList?.find((item) => item.ID === workingHoursStore.TimeZone)?.Name,
 );
 
 const validationSchema = object({
@@ -137,7 +139,6 @@ const submitHandler = handleSubmit(async (values) => {
 });
 
 onMounted(async () => {
-  await workingHoursStore.filterTimeZones();
   await workingHoursStore.filter();
 
   resetForm({

@@ -59,7 +59,6 @@ const textClass = computed(() => `card-text-${severityMap[props.severity] || 'de
   @apply border border-f-primary;
 }
 
-
 .card-text-success {
   @apply text-f-success;
 }
@@ -78,6 +77,4 @@ const textClass = computed(() => `card-text-${severityMap[props.severity] || 'de
 .card-text-primary {
   @apply text-f-primary;
 }
-
-
 </style>

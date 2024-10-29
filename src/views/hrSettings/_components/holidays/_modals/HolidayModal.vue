@@ -52,9 +52,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineModel, computed, onMounted, ref } from 'vue';
+import { defineModel, computed, onMounted } from 'vue';
 import { useForm } from 'vee-validate';
-import { boolean, string, object, array, number, ref as yupRef } from 'yup';
+import { boolean, string, object } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import type { IHoliday } from '@/interfaces/hrSettings/holiday';
 
@@ -110,7 +110,7 @@ const submitHandler = handleSubmit(async (values) => {
   }
 });
 
-const getInitialFormData = () => {
+const getInitialFormData = computed(() => {
   const holiday = props.data;
 
   return {
@@ -123,13 +123,13 @@ const getInitialFormData = () => {
       repeat: holiday.Repeat,
     }),
   };
-};
+});
 
 // TODO: start date ve end date bilgileri date olarak dönmeli, fe date'i convert etmeli
 
 onMounted(() => {
   resetForm({
-    values: getInitialFormData(),
+    values: getInitialFormData.value,
   });
 });
 </script>

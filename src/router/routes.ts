@@ -26,6 +26,10 @@ import Holidays from '@/views/hrSettings/_views/Holidays.vue';
 // Settings
 import Settings from '@/views/settings/_views/Settings.vue';
 import Permissions from '@/views/settings/_views/Permissions.vue';
+import Advanced from '@/views/settings/_views/Advanced.vue';
+
+import Profile from '@/views/profile/_views/Profile.vue';
+
 
 import Login from '@/views/auth/Login.vue';
 import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
@@ -208,6 +212,24 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.SettingsPermissions,
           name: ERouteNames.SettingsPermissions,
+        },
+      },
+      {
+        path: '/advanced',
+        name: ERouteNames.SettingsAdvanced,
+        component: Advanced,
+        meta: {
+          title: ERouteNames.SettingsAdvanced,
+          name: ERouteNames.SettingsAdvanced,
+        },
+      },
+      {
+        path: '/profile',
+        name: ERouteNames.Profile,
+        component: Profile,
+        meta: {
+          title: ERouteNames.Profile,
+          name: ERouteNames.Profile,
         },
       },
     ],

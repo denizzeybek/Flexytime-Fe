@@ -28,7 +28,7 @@
 import { ref } from 'vue';
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
 import { useRoute } from 'vue-router';
-import NavItem, { type IProps as INavItem } from './NavItem.vue';
+import NavItem from './NavItem.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import type { IModel } from './NavChildItem.vue';
 
@@ -93,10 +93,13 @@ const navItems = ref<IModel[]>([
         label: 'Permissions',
         routeName: ERouteNames.SettingsPermissions,
       },
+      {
+        label: 'Advanced',
+        routeName: ERouteNames.SettingsAdvanced,
+      },
     ],
   },
 ]);
-
 </script>
 
 <style>

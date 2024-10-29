@@ -10,9 +10,5 @@ import { ref } from 'vue';
 const home = ref({
   icon: 'pi pi-home',
 });
-const items = ref([
-  { label: 'Electronics' },
-  { label: 'Computer' },
-  { label: 'Accessories' }
-]);
+const items = ref([{ label: 'Electronics' }, { label: 'Computer' }, { label: 'Accessories' }]);
 </script>

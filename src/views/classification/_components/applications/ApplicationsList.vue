@@ -4,7 +4,6 @@
 
 <script setup lang="ts">
 import { useFToast } from '@/composables/useFToast';
-import type { IApplicationDTOPayload } from '@/interfaces/classification/application';
 import { useClassificationApplicationsStore } from '@/stores/classification/applications';
 import { onMounted, ref } from 'vue';
 import ApplicationsTable from './ApplicationsTable.vue';
@@ -23,7 +22,7 @@ const fetchApplications = async () => {
 };
 
 onMounted(() => {
-  fetchApplications()
+  fetchApplications();
 });
 </script>
 

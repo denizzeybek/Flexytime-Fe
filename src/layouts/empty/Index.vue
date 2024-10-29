@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useSlots } from 'vue'
+import { useSlots } from 'vue';
 
-const slots = useSlots()
+const slots = useSlots();
 </script>

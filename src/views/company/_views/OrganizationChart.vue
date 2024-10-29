@@ -38,7 +38,6 @@ import { useCompanyOrganizationChartsStore } from '@/stores/company/organization
 const { showErrorMessage } = useFToast();
 const organizationsStore = useCompanyOrganizationChartsStore();
 
-
 const organizations = computed(() => organizationsStore.list);
 
 const updatedData = ref();
@@ -85,6 +84,5 @@ const fetchOrganizationChart = async () => {
 
 onMounted(() => {
   fetchOrganizationChart();
-})
+});
 </script>
-
