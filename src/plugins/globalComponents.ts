@@ -6,7 +6,7 @@ export default {
   install(app: App) {
     for (const path in modules) {
       const componentName = path.split('/').at(-1)?.split('.')[0]
-      app.component(`R${componentName}`, (modules[path] as any).default)
+      app.component(`F${componentName}`, (modules[path] as any).default)
     }
   }
 }

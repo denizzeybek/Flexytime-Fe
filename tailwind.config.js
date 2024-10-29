@@ -9,6 +9,8 @@ export default {
       screens: {
         '3xl': '1800px'
       },
+      borderColor: colors,
+      textColor: colors,
       colors,
       fontFamily: {
         sans: ['Poppins', 'sans-serif']
@@ -34,7 +36,9 @@ export default {
         'full-offcanvas': '91%'
       },
       scale: {
+        104: '1.04',
         115: '1.15'
+
       }
     }
   }

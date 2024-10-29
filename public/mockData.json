@@ -1,0 +1,1768 @@
+{
+  "/webapi/definition/employees": [
+    {
+      "Abbreviation": "JE",
+      "RoleName": "Manager",
+      "TeamName": "Commercial Project Bidding",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291770657a0318a082d51e0",
+      "MemberName": "Judith Elliott",
+      "TeamId": "629176ff57a0318a082d51b5",
+      "TitleId": "629176f457a0318a082d50e5",
+      "TitleName": "Bidding Supervisor",
+      "Salary": "10000",
+      "Password": 123456,
+      "Email": "judith@gmail.com",
+      "WindowsIdentity": "CONTOSO\\judith.elliott",
+      "Enabled": true,
+      "Role": 1,
+      "Tags": ["Analizyum"],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "EW",
+      "RoleName": "Manager",
+      "TeamName": "Finance Department",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291770757a0318a082d51e7",
+      "MemberName": "Evelyn Wall",
+      "TeamId": "629176fb57a0318a082d5166",
+      "TitleId": "629176f857a0318a082d513c",
+      "TitleName": "Finance Director",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\evelyn.wall",
+      "Enabled": true,
+      "Role": 1,
+      "Tags": ["Billing"],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "CM",
+      "RoleName": "Employee",
+      "TeamName": "Commercial Project Bidding",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291770957a0318a082d51fc",
+      "MemberName": "Celine Miller",
+      "TeamId": "629176ff57a0318a082d51b5",
+      "TitleId": "629176f757a0318a082d512d",
+      "TitleName": "Bidding Expert",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\celine.miller",
+      "Enabled": true,
+      "Role": 0,
+      "Tags": ["Accounting", "Finance", "Billing", "Collection"],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "KM",
+      "RoleName": "Manager",
+      "TeamName": "Strategy Development",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291770b57a0318a082d520a",
+      "MemberName": "Kyan Mooney",
+      "TeamId": "629176fc57a0318a082d516b",
+      "TitleId": "629176f357a0318a082d50de",
+      "TitleName": "Strategy Supervisor",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\kyan.mooney",
+      "Enabled": true,
+      "Role": 1,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "JH",
+      "RoleName": "Manager",
+      "TeamName": "Trading Department",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291771557a0318a082d5261",
+      "MemberName": "Julie Harding",
+      "TeamId": "629176ff57a0318a082d51b3",
+      "TitleId": "629176f757a0318a082d5128",
+      "TitleName": "Trade Manager",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\julie.harding",
+      "Enabled": true,
+      "Role": 1,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "AO",
+      "RoleName": "Manager",
+      "TeamName": "Collection and Budget",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291771657a0318a082d526d",
+      "MemberName": "Agnes Owens",
+      "TeamId": "629176fc57a0318a082d5177",
+      "TitleId": "629176f357a0318a082d50d2",
+      "TitleName": "Collection Supervisor",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\agnes.owens",
+      "Enabled": true,
+      "Role": 1,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "RC",
+      "RoleName": "Manager",
+      "TeamName": "Price and Competition Analysis",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291771a57a0318a082d5295",
+      "MemberName": "Remi Conner",
+      "TeamId": "629176fc57a0318a082d516e",
+      "TitleId": "629176f857a0318a082d5144",
+      "TitleName": "Bidding Supervisor",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\remi.conner",
+      "Enabled": true,
+      "Role": 1,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "EJ",
+      "RoleName": "Employee",
+      "TeamName": "Strategy Development",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291771d57a0318a082d52ae",
+      "MemberName": "Erik Johnson",
+      "TeamId": "629176fc57a0318a082d516b",
+      "TitleId": "629176f557a0318a082d5109",
+      "TitleName": "Strategy Expert",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\erik.johnson",
+      "Enabled": true,
+      "Role": 0,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "JW",
+      "RoleName": "Employee",
+      "TeamName": "Collection and Budget",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291772357a0318a082d52e1",
+      "MemberName": "Josephine Walsh",
+      "TeamId": "629176fc57a0318a082d5177",
+      "TitleId": "629176f857a0318a082d513e",
+      "TitleName": "Collection Expert",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\josephine.walsh",
+      "Enabled": true,
+      "Role": 0,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "DH",
+      "RoleName": "Manager",
+      "TeamName": "Accounting Department",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291772457a0318a082d52e8",
+      "MemberName": "Danielle Hurst",
+      "TeamId": "629176fc57a0318a082d5175",
+      "TitleId": "629176f357a0318a082d50dd",
+      "TitleName": "Accounting Manager",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\danielle.hurst",
+      "Enabled": true,
+      "Role": 1,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "LF",
+      "RoleName": "Manager",
+      "TeamName": "Finance Department",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291772457a0318a082d52ed",
+      "MemberName": "Luis Fox",
+      "TeamId": "629176ff57a0318a082d51ae",
+      "TitleId": "629176f357a0318a082d50dd",
+      "TitleName": "Accounting Manager",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\luis.fox",
+      "Enabled": true,
+      "Role": 1,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "KL",
+      "RoleName": "Employee",
+      "TeamName": "Sales Support Department",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291772b57a0318a082d5329",
+      "MemberName": "Kristina Lozano",
+      "TeamId": "629176ff57a0318a082d51ab",
+      "TitleId": "629176f857a0318a082d5141",
+      "TitleName": "Sales Supervisor",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\k.lozano",
+      "Enabled": true,
+      "Role": 0,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "JW",
+      "RoleName": "Administrator",
+      "TeamName": "Contoso",
+      "ImageUrl": "https://api.flexytime.com/Download/GetImage/6291772d57a0318a082d5340?638140671444100000&downloadKey=WUDSH27CR9WU",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291772d57a0318a082d5340",
+      "MemberName": "Jamie Watkins",
+      "TeamId": "629176fe57a0318a082d51a2",
+      "TitleId": "629176f957a0318a082d514d",
+      "TitleName": "General Manager",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\jamie.watkins",
+      "Enabled": true,
+      "Role": 2,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "JL",
+      "RoleName": "Employee",
+      "TeamName": "Accounting Department",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291772e57a0318a082d5346",
+      "MemberName": "Jose Lambert",
+      "TeamId": "629176fc57a0318a082d5175",
+      "TitleId": "629176f457a0318a082d50e8",
+      "TitleName": "Accounting Expert",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\jose.lambert",
+      "Enabled": true,
+      "Role": 0,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "FY",
+      "RoleName": "Manager",
+      "TeamName": "Sales Department",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291773057a0318a082d535b",
+      "MemberName": "FlexyTime Yönetici",
+      "TeamId": "629176fc57a0318a082d517e",
+      "TitleId": "629176f657a0318a082d5112",
+      "TitleName": "Sales Director",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": null,
+      "Enabled": true,
+      "Role": 1,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "SM",
+      "RoleName": "Employee",
+      "TeamName": "Accounting Department",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291773357a0318a082d5370",
+      "MemberName": "Samson Mullen",
+      "TeamId": "629176fc57a0318a082d5175",
+      "TitleId": "629176f457a0318a082d50e8",
+      "TitleName": "Accounting Expert",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\samson.mullen",
+      "Enabled": true,
+      "Role": 0,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "TT",
+      "RoleName": "Employee",
+      "TeamName": "Collection and Budget",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291773357a0318a082d5374",
+      "MemberName": "Tobias Turner",
+      "TeamId": "629176fc57a0318a082d5177",
+      "TitleId": "629176f857a0318a082d513e",
+      "TitleName": "Collection Expert",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "CONTOSO\\tobias.turner",
+      "Enabled": true,
+      "Role": 0,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "PD",
+      "RoleName": "Manager",
+      "TeamName": "Sales Support Department",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "6291773657a0318a082d538d",
+      "MemberName": "Phillip Dotson",
+      "TeamId": "629176ff57a0318a082d51ab",
+      "TitleId": "647c860c717e9a0f80979b49",
+      "TitleName": "Support Manager",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": null,
+      "Enabled": true,
+      "Role": 1,
+      "Tags": [],
+      "ImageData": null
+    },
+    {
+      "Abbreviation": "M",
+      "RoleName": "Employee",
+      "TeamName": "Work Group",
+      "ImageUrl": "",
+      "ManagementTitleId": null,
+      "EmployeeTitleId": null,
+      "EmployeeTitles": null,
+      "ManagerTitles": null,
+      "TagsDisplay": "",
+      "EnabledDisplay": "True",
+      "ID": "66a0b15a5e7b6c08a03fd096",
+      "MemberName": "mehme",
+      "TeamId": "66a0b15a5e7b6c08a03fd095",
+      "TitleId": "629176f957a0318a082d514b",
+      "TitleName": "UnTitled",
+      "Salary": "0",
+      "Password": null,
+      "Email": null,
+      "WindowsIdentity": "DESKTOP-DJETEOL\\mehme",
+      "Enabled": true,
+      "Role": 0,
+      "Tags": [],
+      "ImageData": null
+    }
+  ],
+  "/webapi/category/webaddresses/query": [
+    {
+      "HostName": "10.201.2.7",
+      "DomainDisplay": "Meeting",
+      "Name": "10.201.2.7",
+      "IsWork": false,
+      "IsMeeting": true,
+      "IsLeisure": false,
+      "TopicName": "Not Rated",
+      "Actions": null,
+      "Customise": null,
+      "Timeout": {
+        "time": "00:00",
+        "statisticType": "starttime"
+      },
+      "Teams": "All",
+      "ID": "12c7a998-af79-4c42-b4ee-c944eaaec0dc",
+      "AlwaysOn": true,
+      "Domain": 3
+    },
+    {
+      "HostName": "10.5.0.1",
+      "DomainDisplay": "Leisure",
+      "Name": "10.5.0.1",
+      "IsWork": false,
+      "IsMeeting": false,
+      "IsLeisure": true,
+      "TopicName": "Not Rated",
+      "Actions": null,
+      "Customise": null,
+      "Timeout": {
+        "time": "00:00",
+        "statisticType": "starttime"
+      },
+      "Teams": "All",
+      "ID": "dbd6cb5c-8a9e-4e51-9f30-8d7e40341b95",
+      "AlwaysOn": false,
+      "Domain": 2
+    },
+    {
+      "HostName": "10.5.17.241",
+      "DomainDisplay": "Leisure",
+      "Name": "10.5.17.241",
+      "IsWork": false,
+      "IsMeeting": false,
+      "IsLeisure": true,
+      "TopicName": "Not Rated",
+      "Actions": null,
+      "Customise": null,
+      "Timeout": {
+        "time": "00:00",
+        "statisticType": "starttime"
+      },
+      "Teams": "All",
+      "ID": "727ab586-7cb2-481c-a3e8-abb0af674616",
+      "AlwaysOn": false,
+      "Domain": 2
+    },
+    {
+      "HostName": "aa.com.tr",
+      "DomainDisplay": "Leisure",
+      "Name": "aa.com.tr",
+      "IsWork": false,
+      "IsMeeting": false,
+      "IsLeisure": true,
+      "TopicName": "News and Media",
+      "Actions": null,
+      "Customise": null,
+      "Timeout": {
+        "time": "00:00",
+        "statisticType": "starttime"
+      },
+      "Teams": "All",
+      "ID": "fc38d858-0400-4158-bb6e-ea283881a293",
+      "AlwaysOn": false,
+      "Domain": 2
+    },
+    {
+      "HostName": "account.live.com",
+      "DomainDisplay": "Work",
+      "Name": "account.live.com",
+      "IsWork": true,
+      "IsMeeting": false,
+      "IsLeisure": false,
+      "TopicName": "Web-based Email",
+      "Actions": null,
+      "Customise": null,
+      "Timeout": {
+        "time": "00:00",
+        "statisticType": "starttime"
+      },
+      "Teams": "All",
+      "ID": "450d0cbc-7f66-484a-97f3-000c7b612224",
+      "AlwaysOn": true,
+      "Domain": 4
+    },
+    {
+      "HostName": "aa.com.tr",
+      "DomainDisplay": "Leisure",
+      "Name": "aa.com.tr",
+      "IsWork": false,
+      "IsMeeting": false,
+      "IsLeisure": true,
+      "TopicName": "News and Media",
+      "Actions": null,
+      "Customise": null,
+      "Timeout": {
+        "time": "00:00",
+        "statisticType": "starttime"
+      },
+      "Teams": "All",
+      "ID": "fc38d858-0400-4158-bb6e-ea283881a293",
+      "AlwaysOn": false,
+      "Domain": 2
+    },
+    {
+      "HostName": "account.live.com",
+      "DomainDisplay": "Work",
+      "Name": "account.live.com",
+      "IsWork": true,
+      "IsMeeting": false,
+      "IsLeisure": false,
+      "TopicName": "Web-based Email",
+      "Actions": null,
+      "Customise": null,
+      "Timeout": {
+        "time": "00:00",
+        "statisticType": "starttime"
+      },
+      "Teams": "All",
+      "ID": "450d0cbc-7f66-484a-97f3-000c7b612224",
+      "AlwaysOn": true,
+      "Domain": 4
+    },
+    {
+      "HostName": "aa.com.tr",
+      "DomainDisplay": "Leisure",
+      "Name": "aa.com.tr",
+      "IsWork": false,
+      "IsMeeting": false,
+      "IsLeisure": true,
+      "TopicName": "News and Media",
+      "Actions": null,
+      "Customise": null,
+      "Timeout": {
+        "time": "00:00",
+        "statisticType": "starttime"
+      },
+      "Teams": "All",
+      "ID": "fc38d858-0400-4158-bb6e-ea283881a293",
+      "AlwaysOn": false,
+      "Domain": 2
+    },
+    {
+      "HostName": "account.live.com",
+      "DomainDisplay": "Work",
+      "Name": "account.live.com",
+      "IsWork": true,
+      "IsMeeting": false,
+      "IsLeisure": false,
+      "TopicName": "Web-based Email",
+      "Actions": null,
+      "Customise": null,
+      "Timeout": {
+        "time": "00:00",
+        "statisticType": "starttime"
+      },
+      "Teams": "All",
+      "ID": "450d0cbc-7f66-484a-97f3-000c7b612224",
+      "AlwaysOn": true,
+      "Domain": 4
+    },
+    {
+      "HostName": "aa.com.tr",
+      "DomainDisplay": "Leisure",
+      "Name": "aa.com.tr",
+      "IsWork": false,
+      "IsMeeting": false,
+      "IsLeisure": true,
+      "TopicName": "News and Media",
+      "Actions": null,
+      "Customise": null,
+      "Timeout": {
+        "time": "00:00",
+        "statisticType": "starttime"
+      },
+      "Teams": "All",
+      "ID": "fc38d858-0400-4158-bb6e-ea283881a293",
+      "AlwaysOn": false,
+      "Domain": 2
+    },
+    {
+      "HostName": "account.live.com",
+      "DomainDisplay": "Work",
+      "Name": "account.live.com",
+      "IsWork": true,
+      "IsMeeting": false,
+      "IsLeisure": false,
+      "TopicName": "Web-based Email",
+      "Actions": null,
+      "Customise": null,
+      "Timeout": {
+        "time": "00:00",
+        "statisticType": "starttime"
+      },
+      "Teams": "All",
+      "ID": "450d0cbc-7f66-484a-97f3-000c7b612224",
+      "AlwaysOn": true,
+      "Domain": 4
+    }
+  ],
+  "/webapi/category/allocations/query": [
+    {
+      "HostName": null,
+      "DomainDisplay": "Work",
+      "Name": " Ashampoo",
+      "IsWork": true,
+      "IsMeeting": false,
+      "IsLeisure": false,
+      "TopicName": null,
+      "Actions": null,
+      "Customise": null,
+      "Timeout": null,
+      "Teams": "All",
+      "ID": "c3b06a4f-ede0-4213-8c82-b5be2c440def",
+      "AlwaysOn": true,
+      "Domain": 4
+    },
+    {
+      "HostName": null,
+      "DomainDisplay": "Unclassified",
+      "Name": "1056-winamp58_3653_beta_full_en-us",
+      "IsWork": false,
+      "IsMeeting": false,
+      "IsLeisure": false,
+      "TopicName": null,
+      "Actions": null,
+      "Customise": null,
+      "Timeout": null,
+      "Teams": "All",
+      "ID": "e35d4f28-ad5c-4e4e-96c8-feb96161ff73",
+      "AlwaysOn": false,
+      "Domain": 2
+    },
+    {
+      "HostName": null,
+      "DomainDisplay": "Work",
+      "Name": "Adobe Acrobat",
+      "IsWork": true,
+      "IsMeeting": false,
+      "IsLeisure": false,
+      "TopicName": null,
+      "Actions": null,
+      "Customise": null,
+      "Timeout": null,
+      "Teams": "All",
+      "ID": "151f8715-2628-42b1-8e2d-50129fa7339f",
+      "AlwaysOn": false,
+      "Domain": 4
+    },
+    {
+      "HostName": null,
+      "DomainDisplay": "Work",
+      "Name": "advanced_ip_scanner",
+      "IsWork": true,
+      "IsMeeting": false,
+      "IsLeisure": false,
+      "TopicName": null,
+      "Actions": null,
+      "Customise": null,
+      "Timeout": null,
+      "Teams": "All",
+      "ID": "2263a1c4-75f1-4ffc-9bf8-2b585796e5e5",
+      "AlwaysOn": false,
+      "Domain": 4
+    },
+    {
+      "HostName": null,
+      "DomainDisplay": "Unclassified",
+      "Name": "Advanced_IP_Scanner_2.5.3850.tmp",
+      "IsWork": false,
+      "IsMeeting": false,
+      "IsLeisure": false,
+      "TopicName": null,
+      "Actions": null,
+      "Customise": null,
+      "Timeout": null,
+      "Teams": "All",
+      "ID": "89d6010c-751a-4629-a4c1-9192360fc23e",
+      "AlwaysOn": false,
+      "Domain": 3
+    }
+  ],
+  "/webapi/company/organization": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [],
+              "title": "Accounting Department",
+              "Abbreviation": "AD",
+              "Name": "Accounting Department",
+              "ID": "629176fc57a0318a082d5175",
+              "TitleName": "Accounting Manager",
+              "TitleId": "629176f357a0318a082d50dd",
+              "MemberId": "64015c5ee435600a443e8dc4",
+              "MemberName": "Danielle Hurst",
+              "TeamId": null
+            },
+            {
+              "children": [
+                {
+                  "children": [],
+                  "title": "Collection and Budget",
+                  "Abbreviation": "CAB",
+                  "Name": "Collection and Budget",
+                  "ID": "629176fc57a0318a082d5177",
+                  "TitleName": "Collection Supervisor",
+                  "TitleId": "629176f357a0318a082d50d2",
+                  "MemberId": "64015c5ee435600a443e8c32",
+                  "MemberName": "Agnes Owens",
+                  "TeamId": null
+                }
+              ],
+              "title": "Finance Department",
+              "Abbreviation": "FD",
+              "Name": "Finance Department",
+              "ID": "629176ff57a0318a082d51ae",
+              "TitleName": "Accounting Manager",
+              "TitleId": "629176f357a0318a082d50dd",
+              "MemberId": "64015c5ee435600a443e8d7f",
+              "MemberName": "Luis Fox",
+              "TeamId": null
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "title": "Deniz Department",
+                              "Abbreviation": "CAB",
+                              "Name": "Collection and Budget",
+                              "ID": "629176fc57a0318a082d5177345123173984",
+                              "TitleName": "Collection Supervisor",
+                              "TitleId": "629176f357a0318a082d50d2",
+                              "MemberId": "64015c5ee435600a443e8c32",
+                              "MemberName": "Agnes Owens",
+                              "TeamId": null
+                            }
+                          ],
+                          "title": "Collection and Budget",
+                          "Abbreviation": "CAB",
+                          "Name": "Collection and Budget",
+                          "ID": "629176fc57a0318a082d517734573984",
+                          "TitleName": "Collection Supervisor",
+                          "TitleId": "629176f357a0318a082d50d2",
+                          "MemberId": "64015c5ee435600a443e8c32",
+                          "MemberName": "Agnes Owens",
+                          "TeamId": null
+                        }
+                      ],
+                      "title": "Collection and Budget",
+                      "Abbreviation": "CAB",
+                      "Name": "Collection and Budget",
+                      "ID": "629176fc57a0318a082d517712312",
+                      "TitleName": "Collection Supervisor",
+                      "TitleId": "629176f357a0318a082d50d2",
+                      "MemberId": "64015c5ee435600a443e8c32",
+                      "MemberName": "Agnes Owens",
+                      "TeamId": null
+                    }
+                  ],
+                  "title": "Strategy Development",
+                  "Abbreviation": "SD",
+                  "Name": "Strategy Development",
+                  "ID": "629176fc57a0318a082d516b",
+                  "TitleName": "Strategy Supervisor",
+                  "TitleId": "629176f357a0318a082d50de",
+                  "MemberId": "64015c5ee435600a443e8c13",
+                  "MemberName": "Kyan Mooney",
+                  "TeamId": null
+                },
+                {
+                  "children": [],
+                  "title": "Price and Competition Analysis",
+                  "Abbreviation": "PACA",
+                  "Name": "Price and Competition Analysis",
+                  "ID": "629176fc57a0318a082d516e",
+                  "TitleName": "Bidding Supervisor",
+                  "TitleId": "629176f857a0318a082d5144",
+                  "MemberId": "64015c5ee435600a443e8c27",
+                  "MemberName": "Remi Conner",
+                  "TeamId": null
+                },
+                {
+                  "children": [],
+                  "title": "Commercial Project Bidding",
+                  "Abbreviation": "CPB",
+                  "Name": "Commercial Project Bidding",
+                  "ID": "629176ff57a0318a082d51b5",
+                  "TitleName": "Bidding Supervisor",
+                  "TitleId": "629176f457a0318a082d50e5",
+                  "MemberId": "64015c5ee435600a443e8e3c",
+                  "MemberName": "Judith Elliott",
+                  "TeamId": null
+                }
+              ],
+              "title": "Trading Department",
+              "Abbreviation": "TD",
+              "Name": "Trading Department",
+              "ID": "629176ff57a0318a082d51b3",
+              "TitleName": "Trade Manager",
+              "TitleId": "629176f757a0318a082d5128",
+              "MemberId": "64015c5ee435600a443e8d79",
+              "MemberName": "Julie Harding",
+              "TeamId": null
+            }
+          ],
+          "title": "Finance Department",
+          "Abbreviation": "FD",
+          "Name": "Finance Department",
+          "ID": "629176fb57a0318a082d5166",
+          "TitleName": "Finance Director",
+          "TitleId": "629176f857a0318a082d513c",
+          "MemberId": "64015c5ee435600a443e8e1e",
+          "MemberName": "Evelyn Wall",
+          "TeamId": null
+        },
+        {
+          "children": [
+            {
+              "children": [],
+              "title": "Sales Support Department",
+              "Abbreviation": "SSD",
+              "Name": "Sales Support Department",
+              "ID": "629176ff57a0318a082d51ab",
+              "TitleName": "Support Manager",
+              "TitleId": "647c860c717e9a0f80979b49",
+              "MemberId": "64015c5ee435600a443e8cfb",
+              "MemberName": "Phillip Dotson",
+              "TeamId": null
+            }
+          ],
+          "title": "Sales Department",
+          "Abbreviation": "SD",
+          "Name": "Sales Department",
+          "ID": "629176fc57a0318a082d517e",
+          "TitleName": "Sales Director",
+          "TitleId": "629176f657a0318a082d5112",
+          "MemberId": "64015c5ee435600a443e8d19",
+          "MemberName": "FlexyTime Yönetici",
+          "TeamId": null
+        }
+      ],
+      "title": "Contoso",
+      "Abbreviation": "C",
+      "Name": "Contoso",
+      "ID": "629176fe57a0318a082d51a2",
+      "TitleName": "General Manager",
+      "TitleId": "629176f957a0318a082d514d",
+      "MemberId": "64015c5ee435600a443e8d02",
+      "MemberName": "Jamie Watkins",
+      "TeamId": null
+    },
+    {
+      "children": [],
+      "title": "Work Group",
+      "Abbreviation": "WG",
+      "Name": "Work Group",
+      "ID": "66a0b15a5e7b6c08a03fd095",
+      "TitleName": "UnTitled",
+      "TitleId": "629176f957a0318a082d514b",
+      "MemberId": "",
+      "MemberName": null,
+      "TeamId": null
+    }
+  ],
+  "/webapi/definition/annuals": {
+    "ActiveAnnuals": [
+      {
+        "ID": "671d6936717e9a0b68076a2a",
+        "StartDate": "27.10.2024",
+        "StartTime": "00:00",
+        "EndDate": "27.10.2024",
+        "EndTime": "01:11",
+        "StartFullDay": true,
+        "EndFullDay": false,
+        "MemberName": "Agnes Owens",
+        "MemberId": "64015c5ee435600a443e8c32",
+        "LeaveType": "Birth Leave",
+        "Abbreviation": "AO",
+        "ImageUrl": "",
+        "Days": 0,
+        "IsActive": true,
+        "StartDateText": "27.10.2024",
+        "EndDateText": "27.10.2024 01:11"
+      }
+    ],
+    "PassedAnnuals": [
+      {
+        "ID": "629176f157a0318a082d50d0",
+        "StartDate": "16.06.2021",
+        "StartTime": "00:00",
+        "EndDate": "20.06.2021",
+        "EndTime": "00:00",
+        "StartFullDay": true,
+        "EndFullDay": true,
+        "MemberName": "Danielle Hurst",
+        "MemberId": "64015c5ee435600a443e8dc4",
+        "LeaveType": "Sick Leave",
+        "Abbreviation": "DH",
+        "ImageUrl": "",
+        "Days": 3,
+        "IsActive": false,
+        "StartDateText": "16.06.2021",
+        "EndDateText": "20.06.2021"
+      }
+    ]
+  },
+  "/webapi/company/holidays": [
+    {
+      "ID": "64015c5de435600a443e8b60",
+      "StartDate": "14.06.2018",
+      "StartTime": "00:00",
+      "EndDate": "17.06.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "Ramazan Bayramı",
+      "Repeat": true,
+      "Days": 3,
+      "StartDateText": "14.06.2018",
+      "EndDateText": "17.06.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b61",
+      "StartDate": "30.08.2018",
+      "StartTime": "00:00",
+      "EndDate": "30.08.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "Zafer Bayramı",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "30.08.2018",
+      "EndDateText": "30.08.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b62",
+      "StartDate": "15.07.2018",
+      "StartTime": "00:00",
+      "EndDate": "15.07.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "15 Temmuz",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "15.07.2018",
+      "EndDateText": "15.07.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b63",
+      "StartDate": "29.10.2018",
+      "StartTime": "00:00",
+      "EndDate": "29.10.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "Cumhuriyet Bayramı",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "29.10.2018",
+      "EndDateText": "29.10.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b64",
+      "StartDate": "20.08.2018",
+      "StartTime": "00:00",
+      "EndDate": "24.08.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "Kurban Bayramı",
+      "Repeat": false,
+      "Days": 4,
+      "StartDateText": "20.08.2018",
+      "EndDateText": "24.08.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b65",
+      "StartDate": "19.05.2018",
+      "StartTime": "00:00",
+      "EndDate": "19.05.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "19 Mayıs",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "19.05.2018",
+      "EndDateText": "19.05.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b66",
+      "StartDate": "01.05.2018",
+      "StartTime": "00:00",
+      "EndDate": "01.05.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "1 Mayıs",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "01.05.2018",
+      "EndDateText": "01.05.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b67",
+      "StartDate": "01.01.2018",
+      "StartTime": "00:00",
+      "EndDate": "01.01.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "Yılbaşı",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "01.01.2018",
+      "EndDateText": "01.01.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b68",
+      "StartDate": "23.04.2018",
+      "StartTime": "00:00",
+      "EndDate": "23.04.2018",
+      "EndTime": "00:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "23 Nisan",
+      "Repeat": true,
+      "Days": 0,
+      "StartDateText": "23.04.2018",
+      "EndDateText": "23.04.2018"
+    },
+    {
+      "ID": "64015c5de435600a443e8b69",
+      "StartDate": "20.07.2021",
+      "StartTime": "21:00",
+      "EndDate": "23.07.2021",
+      "EndTime": "21:00",
+      "StartFullDay": true,
+      "EndFullDay": true,
+      "Name": "Kurban Bayramı",
+      "Repeat": false,
+      "Days": 3,
+      "StartDateText": "20.07.2021",
+      "EndDateText": "23.07.2021"
+    }
+  ],
+  "/webapi/company/timezones": [
+    {
+      "ID": "Dateline Standard Time",
+      "Name": "(UTC-12:00) International Date Line West"
+    },
+    {
+      "ID": "UTC-11",
+      "Name": "(UTC-11:00) Coordinated Universal Time-11"
+    },
+    {
+      "ID": "Aleutian Standard Time",
+      "Name": "(UTC-10:00) Aleutian Islands"
+    },
+    {
+      "ID": "Hawaiian Standard Time",
+      "Name": "(UTC-10:00) Hawaii"
+    },
+    {
+      "ID": "Marquesas Standard Time",
+      "Name": "(UTC-09:30) Marquesas Islands"
+    },
+    {
+      "ID": "Alaskan Standard Time",
+      "Name": "(UTC-09:00) Alaska"
+    },
+    {
+      "ID": "UTC-09",
+      "Name": "(UTC-09:00) Coordinated Universal Time-09"
+    },
+    {
+      "ID": "Pacific Standard Time (Mexico)",
+      "Name": "(UTC-08:00) Baja California"
+    },
+    {
+      "ID": "UTC-08",
+      "Name": "(UTC-08:00) Coordinated Universal Time-08"
+    },
+    {
+      "ID": "Pacific Standard Time",
+      "Name": "(UTC-08:00) Pacific Time (US & Canada)"
+    },
+    {
+      "ID": "US Mountain Standard Time",
+      "Name": "(UTC-07:00) Arizona"
+    },
+    {
+      "ID": "Mountain Standard Time (Mexico)",
+      "Name": "(UTC-07:00) La Paz, Mazatlan"
+    },
+    {
+      "ID": "Mountain Standard Time",
+      "Name": "(UTC-07:00) Mountain Time (US & Canada)"
+    },
+    {
+      "ID": "Yukon Standard Time",
+      "Name": "(UTC-07:00) Yukon"
+    },
+    {
+      "ID": "Central America Standard Time",
+      "Name": "(UTC-06:00) Central America"
+    },
+    {
+      "ID": "Central Standard Time",
+      "Name": "(UTC-06:00) Central Time (US & Canada)"
+    },
+    {
+      "ID": "Easter Island Standard Time",
+      "Name": "(UTC-06:00) Easter Island"
+    },
+    {
+      "ID": "Central Standard Time (Mexico)",
+      "Name": "(UTC-06:00) Guadalajara, Mexico City, Monterrey"
+    },
+    {
+      "ID": "Canada Central Standard Time",
+      "Name": "(UTC-06:00) Saskatchewan"
+    },
+    {
+      "ID": "SA Pacific Standard Time",
+      "Name": "(UTC-05:00) Bogota, Lima, Quito, Rio Branco"
+    },
+    {
+      "ID": "Eastern Standard Time (Mexico)",
+      "Name": "(UTC-05:00) Chetumal"
+    },
+    {
+      "ID": "Eastern Standard Time",
+      "Name": "(UTC-05:00) Eastern Time (US & Canada)"
+    },
+    {
+      "ID": "Haiti Standard Time",
+      "Name": "(UTC-05:00) Haiti"
+    },
+    {
+      "ID": "Cuba Standard Time",
+      "Name": "(UTC-05:00) Havana"
+    },
+    {
+      "ID": "US Eastern Standard Time",
+      "Name": "(UTC-05:00) Indiana (East)"
+    },
+    {
+      "ID": "Turks And Caicos Standard Time",
+      "Name": "(UTC-05:00) Turks and Caicos"
+    },
+    {
+      "ID": "Paraguay Standard Time",
+      "Name": "(UTC-04:00) Asuncion"
+    },
+    {
+      "ID": "Atlantic Standard Time",
+      "Name": "(UTC-04:00) Atlantic Time (Canada)"
+    },
+    {
+      "ID": "Venezuela Standard Time",
+      "Name": "(UTC-04:00) Caracas"
+    },
+    {
+      "ID": "Central Brazilian Standard Time",
+      "Name": "(UTC-04:00) Cuiaba"
+    },
+    {
+      "ID": "SA Western Standard Time",
+      "Name": "(UTC-04:00) Georgetown, La Paz, Manaus, San Juan"
+    },
+    {
+      "ID": "Pacific SA Standard Time",
+      "Name": "(UTC-04:00) Santiago"
+    },
+    {
+      "ID": "Newfoundland Standard Time",
+      "Name": "(UTC-03:30) Newfoundland"
+    },
+    {
+      "ID": "Tocantins Standard Time",
+      "Name": "(UTC-03:00) Araguaina"
+    },
+    {
+      "ID": "E. South America Standard Time",
+      "Name": "(UTC-03:00) Brasilia"
+    },
+    {
+      "ID": "SA Eastern Standard Time",
+      "Name": "(UTC-03:00) Cayenne, Fortaleza"
+    },
+    {
+      "ID": "Argentina Standard Time",
+      "Name": "(UTC-03:00) City of Buenos Aires"
+    },
+    {
+      "ID": "Montevideo Standard Time",
+      "Name": "(UTC-03:00) Montevideo"
+    },
+    {
+      "ID": "Magallanes Standard Time",
+      "Name": "(UTC-03:00) Punta Arenas"
+    },
+    {
+      "ID": "Saint Pierre Standard Time",
+      "Name": "(UTC-03:00) Saint Pierre and Miquelon"
+    },
+    {
+      "ID": "Bahia Standard Time",
+      "Name": "(UTC-03:00) Salvador"
+    },
+    {
+      "ID": "UTC-02",
+      "Name": "(UTC-02:00) Coordinated Universal Time-02"
+    },
+    {
+      "ID": "Greenland Standard Time",
+      "Name": "(UTC-02:00) Greenland"
+    },
+    {
+      "ID": "Mid-Atlantic Standard Time",
+      "Name": "(UTC-02:00) Mid-Atlantic - Old"
+    },
+    {
+      "ID": "Azores Standard Time",
+      "Name": "(UTC-01:00) Azores"
+    },
+    {
+      "ID": "Cape Verde Standard Time",
+      "Name": "(UTC-01:00) Cabo Verde Is."
+    },
+    {
+      "ID": "UTC",
+      "Name": "(UTC) Coordinated Universal Time"
+    },
+    {
+      "ID": "GMT Standard Time",
+      "Name": "(UTC+00:00) Dublin, Edinburgh, Lisbon, London"
+    },
+    {
+      "ID": "Greenwich Standard Time",
+      "Name": "(UTC+00:00) Monrovia, Reykjavik"
+    },
+    {
+      "ID": "Sao Tome Standard Time",
+      "Name": "(UTC+00:00) Sao Tome"
+    },
+    {
+      "ID": "Morocco Standard Time",
+      "Name": "(UTC+01:00) Casablanca"
+    },
+    {
+      "ID": "W. Europe Standard Time",
+      "Name": "(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna"
+    },
+    {
+      "ID": "Central Europe Standard Time",
+      "Name": "(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague"
+    },
+    {
+      "ID": "Romance Standard Time",
+      "Name": "(UTC+01:00) Brussels, Copenhagen, Madrid, Paris"
+    },
+    {
+      "ID": "Central European Standard Time",
+      "Name": "(UTC+01:00) Sarajevo, Skopje, Warsaw, Zagreb"
+    },
+    {
+      "ID": "W. Central Africa Standard Time",
+      "Name": "(UTC+01:00) West Central Africa"
+    },
+    {
+      "ID": "GTB Standard Time",
+      "Name": "(UTC+02:00) Athens, Bucharest"
+    },
+    {
+      "ID": "Middle East Standard Time",
+      "Name": "(UTC+02:00) Beirut"
+    },
+    {
+      "ID": "Egypt Standard Time",
+      "Name": "(UTC+02:00) Cairo"
+    },
+    {
+      "ID": "E. Europe Standard Time",
+      "Name": "(UTC+02:00) Chisinau"
+    },
+    {
+      "ID": "West Bank Standard Time",
+      "Name": "(UTC+02:00) Gaza, Hebron"
+    },
+    {
+      "ID": "South Africa Standard Time",
+      "Name": "(UTC+02:00) Harare, Pretoria"
+    },
+    {
+      "ID": "FLE Standard Time",
+      "Name": "(UTC+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius"
+    },
+    {
+      "ID": "Israel Standard Time",
+      "Name": "(UTC+02:00) Jerusalem"
+    },
+    {
+      "ID": "South Sudan Standard Time",
+      "Name": "(UTC+02:00) Juba"
+    },
+    {
+      "ID": "Kaliningrad Standard Time",
+      "Name": "(UTC+02:00) Kaliningrad"
+    },
+    {
+      "ID": "Sudan Standard Time",
+      "Name": "(UTC+02:00) Khartoum"
+    },
+    {
+      "ID": "Libya Standard Time",
+      "Name": "(UTC+02:00) Tripoli"
+    },
+    {
+      "ID": "Namibia Standard Time",
+      "Name": "(UTC+02:00) Windhoek"
+    },
+    {
+      "ID": "Jordan Standard Time",
+      "Name": "(UTC+03:00) Amman"
+    },
+    {
+      "ID": "Arabic Standard Time",
+      "Name": "(UTC+03:00) Baghdad"
+    },
+    {
+      "ID": "Syria Standard Time",
+      "Name": "(UTC+03:00) Damascus"
+    },
+    {
+      "ID": "Turkey Standard Time",
+      "Name": "(UTC+03:00) Istanbul"
+    },
+    {
+      "ID": "Arab Standard Time",
+      "Name": "(UTC+03:00) Kuwait, Riyadh"
+    },
+    {
+      "ID": "Belarus Standard Time",
+      "Name": "(UTC+03:00) Minsk"
+    },
+    {
+      "ID": "Russian Standard Time",
+      "Name": "(UTC+03:00) Moscow, St. Petersburg"
+    },
+    {
+      "ID": "E. Africa Standard Time",
+      "Name": "(UTC+03:00) Nairobi"
+    },
+    {
+      "ID": "Volgograd Standard Time",
+      "Name": "(UTC+03:00) Volgograd"
+    },
+    {
+      "ID": "Iran Standard Time",
+      "Name": "(UTC+03:30) Tehran"
+    },
+    {
+      "ID": "Arabian Standard Time",
+      "Name": "(UTC+04:00) Abu Dhabi, Muscat"
+    },
+    {
+      "ID": "Astrakhan Standard Time",
+      "Name": "(UTC+04:00) Astrakhan, Ulyanovsk"
+    },
+    {
+      "ID": "Azerbaijan Standard Time",
+      "Name": "(UTC+04:00) Baku"
+    },
+    {
+      "ID": "Russia Time Zone 3",
+      "Name": "(UTC+04:00) Izhevsk, Samara"
+    },
+    {
+      "ID": "Mauritius Standard Time",
+      "Name": "(UTC+04:00) Port Louis"
+    },
+    {
+      "ID": "Saratov Standard Time",
+      "Name": "(UTC+04:00) Saratov"
+    },
+    {
+      "ID": "Georgian Standard Time",
+      "Name": "(UTC+04:00) Tbilisi"
+    },
+    {
+      "ID": "Caucasus Standard Time",
+      "Name": "(UTC+04:00) Yerevan"
+    },
+    {
+      "ID": "Afghanistan Standard Time",
+      "Name": "(UTC+04:30) Kabul"
+    },
+    {
+      "ID": "West Asia Standard Time",
+      "Name": "(UTC+05:00) Ashgabat, Tashkent"
+    },
+    {
+      "ID": "Qyzylorda Standard Time",
+      "Name": "(UTC+05:00) Astana"
+    },
+    {
+      "ID": "Ekaterinburg Standard Time",
+      "Name": "(UTC+05:00) Ekaterinburg"
+    },
+    {
+      "ID": "Pakistan Standard Time",
+      "Name": "(UTC+05:00) Islamabad, Karachi"
+    },
+    {
+      "ID": "India Standard Time",
+      "Name": "(UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi"
+    },
+    {
+      "ID": "Sri Lanka Standard Time",
+      "Name": "(UTC+05:30) Sri Jayawardenepura"
+    },
+    {
+      "ID": "Nepal Standard Time",
+      "Name": "(UTC+05:45) Kathmandu"
+    },
+    {
+      "ID": "Central Asia Standard Time",
+      "Name": "(UTC+06:00) Bishkek"
+    },
+    {
+      "ID": "Bangladesh Standard Time",
+      "Name": "(UTC+06:00) Dhaka"
+    },
+    {
+      "ID": "Omsk Standard Time",
+      "Name": "(UTC+06:00) Omsk"
+    },
+    {
+      "ID": "Myanmar Standard Time",
+      "Name": "(UTC+06:30) Yangon (Rangoon)"
+    },
+    {
+      "ID": "SE Asia Standard Time",
+      "Name": "(UTC+07:00) Bangkok, Hanoi, Jakarta"
+    },
+    {
+      "ID": "Altai Standard Time",
+      "Name": "(UTC+07:00) Barnaul, Gorno-Altaysk"
+    },
+    {
+      "ID": "W. Mongolia Standard Time",
+      "Name": "(UTC+07:00) Hovd"
+    },
+    {
+      "ID": "North Asia Standard Time",
+      "Name": "(UTC+07:00) Krasnoyarsk"
+    },
+    {
+      "ID": "N. Central Asia Standard Time",
+      "Name": "(UTC+07:00) Novosibirsk"
+    },
+    {
+      "ID": "Tomsk Standard Time",
+      "Name": "(UTC+07:00) Tomsk"
+    },
+    {
+      "ID": "China Standard Time",
+      "Name": "(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi"
+    },
+    {
+      "ID": "North Asia East Standard Time",
+      "Name": "(UTC+08:00) Irkutsk"
+    },
+    {
+      "ID": "Singapore Standard Time",
+      "Name": "(UTC+08:00) Kuala Lumpur, Singapore"
+    },
+    {
+      "ID": "W. Australia Standard Time",
+      "Name": "(UTC+08:00) Perth"
+    },
+    {
+      "ID": "Taipei Standard Time",
+      "Name": "(UTC+08:00) Taipei"
+    },
+    {
+      "ID": "Ulaanbaatar Standard Time",
+      "Name": "(UTC+08:00) Ulaanbaatar"
+    },
+    {
+      "ID": "Aus Central W. Standard Time",
+      "Name": "(UTC+08:45) Eucla"
+    },
+    {
+      "ID": "Transbaikal Standard Time",
+      "Name": "(UTC+09:00) Chita"
+    },
+    {
+      "ID": "Tokyo Standard Time",
+      "Name": "(UTC+09:00) Osaka, Sapporo, Tokyo"
+    },
+    {
+      "ID": "North Korea Standard Time",
+      "Name": "(UTC+09:00) Pyongyang"
+    },
+    {
+      "ID": "Korea Standard Time",
+      "Name": "(UTC+09:00) Seoul"
+    },
+    {
+      "ID": "Yakutsk Standard Time",
+      "Name": "(UTC+09:00) Yakutsk"
+    },
+    {
+      "ID": "Cen. Australia Standard Time",
+      "Name": "(UTC+09:30) Adelaide"
+    },
+    {
+      "ID": "AUS Central Standard Time",
+      "Name": "(UTC+09:30) Darwin"
+    },
+    {
+      "ID": "E. Australia Standard Time",
+      "Name": "(UTC+10:00) Brisbane"
+    },
+    {
+      "ID": "AUS Eastern Standard Time",
+      "Name": "(UTC+10:00) Canberra, Melbourne, Sydney"
+    },
+    {
+      "ID": "West Pacific Standard Time",
+      "Name": "(UTC+10:00) Guam, Port Moresby"
+    },
+    {
+      "ID": "Tasmania Standard Time",
+      "Name": "(UTC+10:00) Hobart"
+    },
+    {
+      "ID": "Vladivostok Standard Time",
+      "Name": "(UTC+10:00) Vladivostok"
+    },
+    {
+      "ID": "Lord Howe Standard Time",
+      "Name": "(UTC+10:30) Lord Howe Island"
+    },
+    {
+      "ID": "Bougainville Standard Time",
+      "Name": "(UTC+11:00) Bougainville Island"
+    },
+    {
+      "ID": "Russia Time Zone 10",
+      "Name": "(UTC+11:00) Chokurdakh"
+    },
+    {
+      "ID": "Magadan Standard Time",
+      "Name": "(UTC+11:00) Magadan"
+    },
+    {
+      "ID": "Norfolk Standard Time",
+      "Name": "(UTC+11:00) Norfolk Island"
+    },
+    {
+      "ID": "Sakhalin Standard Time",
+      "Name": "(UTC+11:00) Sakhalin"
+    },
+    {
+      "ID": "Central Pacific Standard Time",
+      "Name": "(UTC+11:00) Solomon Is., New Caledonia"
+    },
+    {
+      "ID": "Russia Time Zone 11",
+      "Name": "(UTC+12:00) Anadyr, Petropavlovsk-Kamchatsky"
+    },
+    {
+      "ID": "New Zealand Standard Time",
+      "Name": "(UTC+12:00) Auckland, Wellington"
+    },
+    {
+      "ID": "UTC+12",
+      "Name": "(UTC+12:00) Coordinated Universal Time+12"
+    },
+    {
+      "ID": "Fiji Standard Time",
+      "Name": "(UTC+12:00) Fiji"
+    },
+    {
+      "ID": "Kamchatka Standard Time",
+      "Name": "(UTC+12:00) Petropavlovsk-Kamchatsky - Old"
+    },
+    {
+      "ID": "Chatham Islands Standard Time",
+      "Name": "(UTC+12:45) Chatham Islands"
+    },
+    {
+      "ID": "UTC+13",
+      "Name": "(UTC+13:00) Coordinated Universal Time+13"
+    },
+    {
+      "ID": "Tonga Standard Time",
+      "Name": "(UTC+13:00) Nuku'alofa"
+    },
+    {
+      "ID": "Samoa Standard Time",
+      "Name": "(UTC+13:00) Samoa"
+    },
+    {
+      "ID": "Line Islands Standard Time",
+      "Name": "(UTC+14:00) Kiritimati Island"
+    }
+  ],
+  "/webapi/company/workhours": {
+    "Days": [
+      {
+        "ID": 1,
+        "Name": "Monday",
+        "IsWorkday": true,
+        "StartTime": "08:00",
+        "EndTime": "18:00"
+      },
+      {
+        "ID": 2,
+        "Name": "Tuesday",
+        "IsWorkday": true,
+        "StartTime": "09:00",
+        "EndTime": "18:00"
+      },
+      {
+        "ID": 3,
+        "Name": "Wednesday",
+        "IsWorkday": true,
+        "StartTime": "09:00",
+        "EndTime": "18:00"
+      },
+      {
+        "ID": 4,
+        "Name": "Thursday",
+        "IsWorkday": true,
+        "StartTime": "09:00",
+        "EndTime": "18:00"
+      },
+      {
+        "ID": 5,
+        "Name": "Friday",
+        "IsWorkday": true,
+        "StartTime": "09:00",
+        "EndTime": "18:00"
+      },
+      {
+        "ID": 6,
+        "Name": "Saturday",
+        "IsWorkday": false,
+        "StartTime": "08:00",
+        "EndTime": "17:00"
+      },
+      {
+        "ID": 0,
+        "Name": "Sunday",
+        "IsWorkday": false,
+        "StartTime": "08:00",
+        "EndTime": "17:00"
+      }
+    ],
+    "MaxIdleTime": "03:00",
+    "ShiftRangeTime": "01:00",
+    "TimeZone": "Pacific Standard Time (Mexico)"
+  }
+}

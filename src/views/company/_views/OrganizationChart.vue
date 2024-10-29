@@ -1,0 +1,90 @@
+<template>
+  <Card>
+    <template #header>
+      <li
+        class="items-center hidden gap-2 px-12 py-4 text-lg lg:ml-4 font-normal rounded-lg lg:grid-rows-1 lg:grid text-r-secondary lg:grid-cols-8"
+      >
+        <div class="lg:col-span-2 lg:ml-4">Team Name</div>
+        <div class="lg:col-span-2 lg:ml-4">Member Name</div>
+        <div class="text-center lg:col-span-2">Title</div>
+        <div></div>
+        <!---->
+        <div></div>
+      </li>
+    </template>
+    <template #content>
+      <div v-for="team in organizations" :key="team.ID">
+        <ul class="flex flex-col gap-2">
+          <OrganizationItem :model="team" @itemChange="onItemChange($event)" />
+        </ul>
+      </div>
+    </template>
+    <template #footer>
+      <div class="flex justify-between">
+        <Button @click="handleAddTeam" icon="pi pi-plus" label="Add Team" />
+        <Button severity="info" label="Save" />
+      </div>
+    </template>
+  </Card>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted, computed } from 'vue';
+import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
+import OrganizationItem from '@/views/company/_components/organizationChart/OrganizationItem.vue';
+import { useFToast } from '@/composables/useFToast';
+import { useCompanyOrganizationChartsStore } from '@/stores/company/organizationChart';
+
+const { showErrorMessage } = useFToast();
+const organizationsStore = useCompanyOrganizationChartsStore();
+
+
+const organizations = computed(() => organizationsStore.list);
+
+const updatedData = ref();
+const isLoading = ref(false);
+
+const handleAddTeam = () => {
+  organizations.value.push({
+    children: [],
+    title: 'New Item',
+  });
+};
+
+const onItemChange = (item: IOrganizationChartNodes) => {
+  updatedData.value = recursiveReplaceById(organizations.value, item.ID, item);
+};
+
+const recursiveReplaceById = (data, targetId, newData) => {
+  // Map over the array of objects (data structure)
+  return data.map((item) => {
+    // If the current item's ID matches the target ID, replace the entire object with newData
+    if (item.ID === targetId) {
+      return { ...newData };
+    }
+
+    // If the current object has children, recursively call the function on the children
+    if (Array.isArray(item.children) && item.children.length > 0) {
+      item.children = recursiveReplaceById(item.children, targetId, newData);
+    }
+
+    // Return the (possibly modified) object
+    return item;
+  });
+};
+
+const fetchOrganizationChart = async () => {
+  try {
+    isLoading.value = true;
+    await organizationsStore.filter();
+    isLoading.value = false;
+  } catch (error) {
+    showErrorMessage(error as any);
+  }
+};
+
+onMounted(() => {
+  fetchOrganizationChart();
+})
+</script>
+

@@ -1,75 +1,95 @@
 <template>
-  <ul class="space-y-2 font-medium max-w-[328px]">
-    <NavItem
-      v-for="item in navItems"
-      :key="item.label"
-      :label="item.label"
-      :routeName="item.routeName"
-      :iconName="item.iconName"
-    />
-  </ul>
+  <div class="card flex justify-content-center h-full">
+    <div class="flex flex-col justify-between h-full">
+      <div>
+        <div class="flex items-center justify-between px-6 py-5 shrink-0">
+          <span class="inline-flex items-center gap-2">
+            <img class="transform scale-90" src="@/components/images/login-logo.png" />
+          </span>
+        </div>
+        <ul class="space-y-2 font-medium max-w-[328px]">
+          <NavItem :nav-items="navItems" />
+        </ul>
+      </div>
+      <div class="">
+        <hr class="mb-4 mx-4 border-t border-0 border-surface-200 dark:border-surface-700" />
+        <a
+          v-ripple
+          class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple"
+        >
+          <ProfileBadge title="Deniz Zeybek" sub-title="Tech Lead" />
+        </a>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script lang="ts" setup>
-import { EIconNames } from '@/common/enums/icons.enum'
-import type { MessageSchema } from '@/plugins/i18n'
-import { ERouteNames } from '@/router/routeNames.enum'
-import { useUsersStore } from '@/stores/common/users'
-import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-import NavItem, { type IProps as INavItem } from './NavItem.vue'
+<script setup lang="ts">
+import { ref } from 'vue';
+import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
+import { useRoute } from 'vue-router';
+import NavItem, { type IProps as INavItem } from './NavItem.vue';
+import { ERouteNames } from '@/router/routeNames.enum';
+import type { IModel } from './NavChildItem.vue';
 
-const i18n = useI18n<{ message: MessageSchema }>()
-const { t } = i18n
+const route = useRoute();
 
-const { isTalent } = storeToRefs(useUsersStore())
-
-const navItems = computed<INavItem[]>(() => [
+const expandedKeys = ref({});
+const navItems = ref<IModel[]>([
   {
-    label: t('common.sidebar.dashboard'),
-    routeName: ERouteNames.Dashboard,
-    iconName: EIconNames.Home
+    label: 'Worktime Usage',
+    icon: 'pi pi-clock',
+    routeName: ERouteNames.WorktimeUsage,
   },
   {
-    label: t('common.sidebar.invoices'),
-    routeName: ERouteNames.Invoices,
-    iconName: EIconNames.Invoice
+    label: 'Classification',
+    icon: 'pi pi-tag',
+    routeName: ERouteNames.ClassificationWebAddresses,
   },
-  ...(isTalent.value
-    ? [
-        {
-          label: t('common.sidebar.clients'),
-          routeName: ERouteNames.Clients,
-          iconName: EIconNames.Client
-        }
-      ]
-    : [
-        {
-          label: t('common.sidebar.talents'),
-          routeName: ERouteNames.Talents,
-          iconName: EIconNames.Client
-        }
-      ]),
   {
-    label: t('common.sidebar.projects'),
-    routeName: ERouteNames.Projects,
-    iconName: EIconNames.Project
+    label: 'HR Settings',
+    icon: 'pi pi-building',
+    routeName: ERouteNames.HRSettings,
+    children: [
+      {
+        label: 'Employees',
+        routeName: ERouteNames.HRSettingsEmployees,
+      },
+      {
+        label: 'Annual Leaves',
+        routeName: ERouteNames.HRSettingsActiveAnnuals,
+      },
+      {
+        label: 'Holidays',
+        routeName: ERouteNames.HRSettingsHolidays,
+      },
+    ],
   },
+  {
+    label: 'Company',
+    icon: 'pi pi-building',
+    routeName: ERouteNames.Company,
+    children: [
+      {
+        label: 'Organization Chart',
+        routeName: ERouteNames.CompanyOrganizationChart,
+      },
+      {
+        label: 'Working Hours"',
+        routeName: ERouteNames.CompanyWorkingHours,
+      },
+    ],
+  },
+]);
 
-  ...(isTalent.value
-    ? [
-        {
-          label: t('common.sidebar.payment_accounts'),
-          routeName: ERouteNames.PaymentAccounts,
-          iconName: EIconNames.PaymentAccounts
-        }
-      ]
-    : []),
-  {
-    label: t('common.sidebar.contracts'),
-    routeName: ERouteNames.Contracts,
-    iconName: EIconNames.Agreement
-  }
-])
 </script>
+
+<style>
+.itemClass {
+  @apply flex items-center cursor-pointer  px-2 hover:border hover:border-purple-600 hover:rounded-md py-2;
+}
+
+.activeItemClass {
+  @apply bg-f-primary text-f-white rounded-md;
+}
+</style>
