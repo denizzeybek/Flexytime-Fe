@@ -1,9 +1,11 @@
 <template>
-  <Card class="w-[700px]">
+  <Card class="lg:w-[700px]">
     <template #content>
       <form @submit="submitHandler" class="flex flex-col gap-12">
         <template v-for="(field, idx) in fields" :key="field.key">
-          <div class="flex justify-between items-center">
+          <div
+            class="flex w-fit flex-col lg:flex-row lg:justify-between items-start gap-4 lg:items-center"
+          >
             <div>
               <FText>{{ field.value.Name }}</FText>
             </div>

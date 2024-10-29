@@ -2,14 +2,14 @@
   <Card>
     <template #content>
       <form @submit="submitHandler" class="flex flex-col gap-12">
-        <div class="flex items-start w-full gap-12">
+        <div class="flex flex-col lg:flex-row items-start w-full gap-12">
           <div class="flex flex-col flex-1">
             <template v-for="(field, idx) in fields" :key="field.key">
-              <div class="flex items-center justify-start gap-8">
+              <div class="flex items-center justify-start gap-2 lg:gap-8">
                 <FCheckbox
                   :name="`workingDays[${idx}].IsWorkday`"
                   :label="field.value?.Name"
-                  class="w-[120px]"
+                  class="w-[200px] truncate lg:text-clip "
                 />
                 <FDateTimePicker
                   class="grow"
@@ -35,8 +35,8 @@
               </div>
             </template>
           </div>
-          <div class="flex flex-col flex-1 gap-12">
-            <div class="grow flex justify-between gap-4">
+          <div class="flex flex-col flex-1 w-full gap-4 lg:gap-12">
+            <div class="grow flex flex-col lg:flex-row justify-between gap-4">
               <FDateTimePicker
                 class="grow"
                 name="minimumRestTime"

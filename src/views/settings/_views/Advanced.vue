@@ -1,11 +1,11 @@
 <template>
-  <Card class="w-[700px]">
+  <Card class="lg:w-[700px]">
     <template #content>
       <form @submit="submitHandler" class="flex flex-col gap-12">
         <template v-for="(field, idx) in fields" :key="field.key">
           <div class="flex justify-between items-center">
             <div>
-              <FText class="max-w-[350px]">{{ field.value.TypeName }}</FText>
+              <FText class="w-[250px] lg:max-w-[350px]">{{ field.value.TypeName }}</FText>
             </div>
             <div class="flex items-center gap-12">
               <FCheckbox

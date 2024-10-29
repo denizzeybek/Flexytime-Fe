@@ -11,12 +11,14 @@ interface State {
   License: ILicanse;
   TimeZone: IProfile['TimeZone'];
   LanguageCode: IProfile['LanguageCode'];
+  GeneralProfile: IProfile;
 }
 
 export const useProfileStore = defineStore(EStoreNames.PROFILE, {
   state: (): State => ({
-    TimeZoneList: [],
+    GeneralProfile: {} as IProfile,
     User: {} as IProfileUser,
+    TimeZoneList: [],
     IsMailSubscribe: false,
     License: {} as ILicanse,
     TimeZone: '',
@@ -31,6 +33,7 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
         axios
           .post(url)
           .then((response: any) => {
+            this.GeneralProfile = useMockData ? response[api] : (response as IProfile);
             this.User = useMockData ? response[api].Employee : (response as IProfile).Employee;
             this.TimeZone = useMockData ? response[api].TimeZone : (response as IProfile).TimeZone;
             this.LanguageCode = useMockData ? response[api].LanguageCode : (response as IProfile).LanguageCode;

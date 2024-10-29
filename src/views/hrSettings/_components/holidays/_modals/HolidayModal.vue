@@ -12,7 +12,7 @@
       </div>
 
       <div class="flex gap-4">
-        <div class="flex items-start gap-12 flex-1">
+        <div class="flex flex-col lg:flex-row items-start  gap-4 lg:gap-12 flex-1">
           <FCheckbox name="startAllday" labelTop label="All Day" />
           <FDateTimePicker
             label="Start Date"
@@ -26,7 +26,7 @@
           />
         </div>
         <Divider layout="vertical" />
-        <div class="flex items-start gap-12 flex-1">
+        <div class="flex flex-col lg:flex-row items-start  gap-4 lg:gap-12 flex-1">
           <FCheckbox name="endAllday" labelTop labelLeft label="All Day" />
           <FDateTimePicker
             label="End Date"

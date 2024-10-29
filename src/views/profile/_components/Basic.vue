@@ -2,19 +2,30 @@
   <form class="flex flex-col gap-8">
     <div class="flex items-center flex-col lg:flex-row gap-12">
       <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
-        <img
-          v-if="src"
-          :src="src"
-          alt="Image"
-          class="shadow-md rounded-xl w-full sm:w-64"
-          style="filter: grayscale(100%)"
-        />
-        <div
-          v-else
-          class="w-[100px] h-[100px] flex items-center justify-center border-2 rounded-full border-f-black"
-        >
-          <span class="pi pi-user !text-6xl"></span>
-        </div>
+        <template v-if="hasProfileImage">
+          <FAvatar
+            custom-class="!w-[120px] !h-[120px]"
+            :prime-props="{
+              image: profileStore?.GeneralProfile.ImagePath,
+              shape: 'circle',
+            }"
+          />
+        </template>
+        <template v-else>
+          <img
+            v-if="src"
+            :src="src"
+            alt="Image"
+            class="shadow-md rounded-xl w-full sm:w-64"
+            style="filter: grayscale(100%)"
+          />
+          <div
+            v-else
+            class="w-[120px] h-[120px] flex items-center justify-center border-2 rounded-full border-f-black"
+          >
+            <span class="pi pi-user !text-6xl"></span>
+          </div>
+        </template>
         <FileUpload
           mode="basic"
           @select="onFileSelect"
@@ -82,6 +93,8 @@ const languagesList = [
 const timeZoneList = computed(() =>
   profileStore?.TimeZoneList?.map((item) => ({ name: item.Name, value: item.ID })),
 );
+
+const hasProfileImage = computed(() => !!profileStore?.GeneralProfile.ImagePath);
 
 const validationSchema = object({
   fullName: string().required().label('Full Name'),
