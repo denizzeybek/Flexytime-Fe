@@ -31,6 +31,7 @@ export enum ERouteNames {
   // Company
   Company = 'Company',
   CompanyOrganizationChart = 'Organization Chart',
+  CompanyWorkingHours = 'Working Hours',
 
   // Employees
   HRSettings = 'HR Settings',

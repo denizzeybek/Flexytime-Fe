@@ -94,7 +94,7 @@ const validationSchema = object({
       value: string().label('Value'),
     })
     .required()
-    .label('Country'),
+    .label('Employee Name'),
   leaveType: string().required().label('Employee name'),
   startAllday: boolean().label('Start time all day'),
   startDate: string().required().label('Start date'),

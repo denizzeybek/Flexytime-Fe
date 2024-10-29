@@ -10,8 +10,10 @@ import ClassificationApplications from '@/views/classification/_views/Applicatio
 import TimesheetEntry from '@/views/timesheets/_views/TimesheetEntry.vue';
 import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
 
+// Company
 import Company from '@/views/company/_views/Company.vue';
 import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
+import WorkingHours from '@/views/company/_views/WorkingHours.vue';
 
 // HR Settings
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
@@ -102,15 +104,6 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: '/organization-chart',
-        name: ERouteNames.CompanyOrganizationChart,
-        component: OrganizationChart,
-        meta: {
-          title: ERouteNames.CompanyOrganizationChart,
-          name: ERouteNames.CompanyOrganizationChart,
-        },
-      },
-      {
         path: '/hr-settings',
         name: ERouteNames.HRSettings,
         component: HRSettings,
@@ -164,6 +157,24 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.HRSettingsHolidays,
           name: ERouteNames.HRSettingsHolidays,
+        },
+      },
+      {
+        path: '/organization-chart',
+        name: ERouteNames.CompanyOrganizationChart,
+        component: OrganizationChart,
+        meta: {
+          title: ERouteNames.CompanyOrganizationChart,
+          name: ERouteNames.CompanyOrganizationChart,
+        },
+      },
+      {
+        path: '/working-hours',
+        name: ERouteNames.CompanyWorkingHours,
+        component: WorkingHours,
+        meta: {
+          title: ERouteNames.CompanyWorkingHours,
+          name: ERouteNames.CompanyWorkingHours,
         },
       },
     ],

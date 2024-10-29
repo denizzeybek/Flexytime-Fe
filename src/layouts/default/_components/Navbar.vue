@@ -56,7 +56,7 @@ const navItems = ref<IModel[]>([
         routeName: ERouteNames.HRSettingsEmployees,
       },
       {
-        label: 'Annuals',
+        label: 'Annual Leaves',
         routeName: ERouteNames.HRSettingsActiveAnnuals,
       },
       {
@@ -73,6 +73,10 @@ const navItems = ref<IModel[]>([
       {
         label: 'Organization Chart',
         routeName: ERouteNames.CompanyOrganizationChart,
+      },
+      {
+        label: 'Working Hours"',
+        routeName: ERouteNames.CompanyWorkingHours,
       },
     ],
   },
