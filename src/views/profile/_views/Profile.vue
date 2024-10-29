@@ -40,13 +40,13 @@ const items = ref([
       router.push({ name: ERouteNames.ProfileLicense });
     },
   },
-  {
-    route: ERouteNames.ProfileCommunication,
-    label: ERouteNames.ProfileCommunication,
-    method: () => {
-      router.push({ name: ERouteNames.ProfileCommunication });
-    },
-  },
+  // {
+  //   route: ERouteNames.ProfileCommunication,
+  //   label: ERouteNames.ProfileCommunication,
+  //   method: () => {
+  //     router.push({ name: ERouteNames.ProfileCommunication });
+  //   },
+  // },
   {
     route: ERouteNames.ProfilePassword,
     label: ERouteNames.ProfilePassword,
