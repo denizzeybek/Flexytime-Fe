@@ -26,6 +26,7 @@ import Holidays from '@/views/hrSettings/_views/Holidays.vue';
 import Settings from '@/views/settings/_views/Settings.vue';
 import Permissions from '@/views/settings/_views/Permissions.vue';
 import Advanced from '@/views/settings/_views/Advanced.vue';
+import Download from '@/views/download/_views/Download.vue';
 
 import Profile from '@/views/profile/_views/Profile.vue';
 import Basic from '@/views/profile/_components/Basic.vue';
@@ -33,7 +34,7 @@ import License from '@/views/profile/_components/License.vue';
 import Communications from '@/views/profile/_components/Communications.vue';
 import Password from '@/views/profile/_components/Password.vue';
 
-import Download from '@/views/download/_views/Download.vue';
+import Promotion from '@/views/promotion/_views/Promotion.vue';
 
 import Login from '@/views/auth/Login.vue';
 import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
@@ -277,11 +278,20 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: '/download',
-        name: ERouteNames.Download,
+        name: ERouteNames.SettingsDownload,
         component: Download,
         meta: {
-          title: ERouteNames.Download,
-          name: ERouteNames.Download,
+          title: ERouteNames.SettingsDownload,
+          name: ERouteNames.SettingsDownload,
+        },
+      },
+      {
+        path: '/promotion',
+        name: ERouteNames.Promotion,
+        component: Promotion,
+        meta: {
+          title: ERouteNames.Promotion,
+          name: ERouteNames.Promotion,
         },
       },
     ],

@@ -2022,5 +2022,35 @@
     "InvitationLink": "https://api.flexytime.com/Download/DownloadApp/64234183717e9a0ef059901c?downloadKey=J6AQ9AFE74J6",
     "InvitationId": "64234183717e9a0ef059901c",
     "ServiceKey": "hWa91-6TekSzJilr8j2-sA"
+  },
+  "/webapi/promotion/promote": {
+    "PromotionLink": "https://web.flexytime.com/signup/?promotion=ff2330780fab"
+  },
+  "/webapi/promotions": {
+    "Earned": [],
+    "Promoted": [
+      {
+        "ID": "641602d4717e9a0c981944a7",
+        "CompanyId": "d7bd6685-93ee-447a-b326-296bf23dbeb0",
+        "UserId": null,
+        "EmailAddress": "flexydeneme007@gmail.com",
+        "SendDate": "18.03.2023",
+        "SignUpDate": null,
+        "UsageDate": null,
+        "InstallDate": null,
+        "IsDownloaded": false
+      },
+      {
+        "ID": "642353ff717ea40ef06c5bc8",
+        "CompanyId": "d7bd6685-93ee-447a-b326-296bf23dbeb0",
+        "UserId": null,
+        "EmailAddress": "hebele.gubele@gmail.me.com",
+        "SendDate": "28.03.2023",
+        "SignUpDate": null,
+        "UsageDate": null,
+        "InstallDate": null,
+        "IsDownloaded": false
+      }
+    ]
   }
 }

@@ -43,6 +43,7 @@ declare module 'vue' {
     Select: typeof import('./src/components/ui/global/Select.vue')['default']
     SelectButton: typeof import('primevue/selectbutton')['default']
     SelectSwitchButton: typeof import('./src/components/ui/global/SelectSwitchButton.vue')['default']
+    Stepper: typeof import('primevue/stepper')['default']
     SuccessToast: typeof import('./src/components/ui/global/SuccessToast.vue')['default']
     Switch: typeof import('./src/components/ui/global/Switch.vue')['default']
     TabPanel: typeof import('primevue/tabpanel')['default']

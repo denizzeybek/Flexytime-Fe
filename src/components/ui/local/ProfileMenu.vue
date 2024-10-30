@@ -7,6 +7,7 @@
     severity="contrast"
     aria-controls="overlay_menu"
     unstyled
+    size="large"
     pt:root="bg-f-white rounded-md px-4 "
   >
     <ProfileBadge title="Deniz Zeybek" onlyTitle/>
