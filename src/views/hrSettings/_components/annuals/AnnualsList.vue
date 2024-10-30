@@ -24,7 +24,7 @@ const currentAnnual = ref();
 
 const handleNew = () => {
   isModalOpen.value = true;
-  currentAnnual.value = undefined
+  currentAnnual.value = undefined;
 };
 
 const handleEdit = (annual) => {

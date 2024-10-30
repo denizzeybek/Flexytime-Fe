@@ -14,6 +14,7 @@ import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
 import Company from '@/views/company/_views/Company.vue';
 import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
 import WorkingHours from '@/views/company/_views/WorkingHours.vue';
+import Reports from '@/views/company/_views/Reports.vue';
 
 // HR Settings
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
@@ -21,8 +22,23 @@ import Employees from '@/views/hrSettings/_views/Employees.vue';
 import Annuals from '@/views/hrSettings/_views/Annuals.vue';
 import Holidays from '@/views/hrSettings/_views/Holidays.vue';
 
+// Settings
+import Settings from '@/views/settings/_views/Settings.vue';
+import Permissions from '@/views/settings/_views/Permissions.vue';
+import Advanced from '@/views/settings/_views/Advanced.vue';
+import Download from '@/views/download/_views/Download.vue';
+
+import Profile from '@/views/profile/_views/Profile.vue';
+import Basic from '@/views/profile/_components/Basic.vue';
+import License from '@/views/profile/_components/License.vue';
+import Communications from '@/views/profile/_components/Communications.vue';
+import Password from '@/views/profile/_components/Password.vue';
+
+import Promotion from '@/views/promotion/_views/Promotion.vue';
+
 import Login from '@/views/auth/Login.vue';
 import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
+
 
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 // Not Found Page
@@ -175,6 +191,107 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.CompanyWorkingHours,
           name: ERouteNames.CompanyWorkingHours,
+        },
+      },
+      {
+        path: '/reports',
+        name: ERouteNames.CompanyReports,
+        component: Reports,
+        meta: {
+          title: ERouteNames.CompanyReports,
+          name: ERouteNames.CompanyReports,
+        },
+      },
+      {
+        path: '/settings',
+        name: ERouteNames.Settings,
+        component: Settings,
+        meta: {
+          title: ERouteNames.Settings,
+          name: ERouteNames.Settings,
+        },
+      },
+      {
+        path: '/permissions',
+        name: ERouteNames.SettingsPermissions,
+        component: Permissions,
+        meta: {
+          title: ERouteNames.SettingsPermissions,
+          name: ERouteNames.SettingsPermissions,
+        },
+      },
+      {
+        path: '/advanced',
+        name: ERouteNames.SettingsAdvanced,
+        component: Advanced,
+        meta: {
+          title: ERouteNames.SettingsAdvanced,
+          name: ERouteNames.SettingsAdvanced,
+        },
+      },
+      {
+        path: '/profile',
+        name: ERouteNames.Profile,
+        component: Profile,
+        meta: {
+          title: ERouteNames.Profile,
+          name: ERouteNames.Profile,
+        },
+        children: [
+          {
+            path: 'basic',
+            name: ERouteNames.ProfileBasic,
+            component: Basic,
+            meta: {
+              title: ERouteNames.ProfileBasic,
+              name: ERouteNames.ProfileBasic,
+            },
+          },
+          {
+            path: 'license',
+            name: ERouteNames.ProfileLicense,
+            component: License,
+            meta: {
+              title: ERouteNames.ProfileLicense,
+              name: ERouteNames.ProfileLicense,
+            },
+          },
+          {
+            path: 'communicaitons',
+            name: ERouteNames.ProfileCommunication,
+            component: Communications,
+            meta: {
+              title: ERouteNames.ProfileCommunication,
+              name: ERouteNames.ProfileCommunication,
+            },
+          },
+          {
+            path: 'password',
+            name: ERouteNames.ProfilePassword,
+            component: Password,
+            meta: {
+              title: ERouteNames.ProfilePassword,
+              name: ERouteNames.ProfilePassword,
+            },
+          },
+        ],
+      },
+      {
+        path: '/download',
+        name: ERouteNames.SettingsDownload,
+        component: Download,
+        meta: {
+          title: ERouteNames.SettingsDownload,
+          name: ERouteNames.SettingsDownload,
+        },
+      },
+      {
+        path: '/promotion',
+        name: ERouteNames.Promotion,
+        component: Promotion,
+        meta: {
+          title: ERouteNames.Promotion,
+          name: ERouteNames.Promotion,
         },
       },
     ],

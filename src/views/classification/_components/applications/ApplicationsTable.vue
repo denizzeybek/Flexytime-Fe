@@ -53,38 +53,38 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useClassificationApplicationsStore } from '@/stores/classification/applications'
-import { getDomainEnum } from '@/views/classification/_etc/helpers'
-import { EDomain } from '@/enums/domain.enum'
-import Checkbox from 'primevue/checkbox'
+import { computed } from 'vue';
+import { useClassificationApplicationsStore } from '@/stores/classification/applications';
+import { getDomainEnum } from '@/views/classification/_etc/helpers';
+import { EDomain } from '@/enums/domain.enum';
+import Checkbox from 'primevue/checkbox';
 
 interface IProps {
-  isLoading: boolean
+  isLoading: boolean;
 }
 
-defineProps<IProps>()
+defineProps<IProps>();
 
-const applicationsStore = useClassificationApplicationsStore()
+const applicationsStore = useClassificationApplicationsStore();
 
-const applications = computed(() => applicationsStore.list)
+const applications = computed(() => applicationsStore.list);
 
 const onAlwaysOnChange = async (event) => {
   try {
-    const { props, alwaysOn } = event
-    const { ID, Name, Domain } = props
+    const { props, alwaysOn } = event;
+    const { ID, Name, Domain } = props;
     const payload = {
       ID,
       Name,
       Domain,
-      AlwaysOn: alwaysOn
-    }
+      AlwaysOn: alwaysOn,
+    };
 
     // await applicationsStore.update(payload)
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 </script>
 
 <style scoped></style>

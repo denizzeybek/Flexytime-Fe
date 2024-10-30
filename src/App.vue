@@ -2,7 +2,17 @@
   <router-view />
 </template>
 
-<script setup></script>
+<script setup lang="ts">
+import { onMounted } from 'vue';
+import { useProfileStore } from '@/stores/profile/profile';
+
+const profileStore = useProfileStore();
+
+onMounted(async () => {
+  await profileStore.filterTimeZones();
+  await profileStore.filter()
+});
+</script>
 
 <style>
 /* #region tablist */

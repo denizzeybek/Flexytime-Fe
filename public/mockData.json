@@ -1764,5 +1764,293 @@
     "MaxIdleTime": "03:00",
     "ShiftRangeTime": "01:00",
     "TimeZone": "Pacific Standard Time (Mexico)"
+  },
+  "/webapi/setting/permissions": [
+    {
+      "Id": "64015c5ce435600a443e827a",
+      "Name": "Business Hours Calculation",
+      "VisibleOnlyByAdmin": true,
+      "Enabled": false,
+      "Key": "mesai-ici"
+    },
+    {
+      "Id": "64015c5ce435600a443e8424",
+      "Name": "Cost Display",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "maliyet-gosterimi"
+    },
+    {
+      "Id": "64015c5ce435600a443e854a",
+      "Name": "Detayları Maskele",
+      "VisibleOnlyByAdmin": true,
+      "Enabled": true,
+      "Key": "detaylari-maskele"
+    },
+    {
+      "Id": "64015c5ce435600a443e8231",
+      "Name": "Locations",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "konumlar"
+    },
+    {
+      "Id": "64015c5ce435600a443e82da",
+      "Name": "Meetings",
+      "VisibleOnlyByAdmin": true,
+      "Enabled": true,
+      "Key": "toplantilar"
+    },
+    {
+      "Id": "64015c5ce435600a443e8479",
+      "Name": "Phone Calls",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "gorusmeler"
+    },
+    {
+      "Id": "64015c5ce435600a443e822c",
+      "Name": "Productivity",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "verimlilik"
+    },
+    {
+      "Id": "64015c5ce435600a443e8233",
+      "Name": "Show Group Manager",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "list-supervisors"
+    },
+    {
+      "Id": "64015c5ce435600a443e8349",
+      "Name": "Time Entries",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "zaman-girisleri"
+    },
+    {
+      "Id": "64015c5ce435600a443e82c1",
+      "Name": "Web History",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "web-gecmisi"
+    },
+    {
+      "Id": "64015c5ce435600a443e821f",
+      "Name": "Wellbeing",
+      "VisibleOnlyByAdmin": false,
+      "Enabled": true,
+      "Key": "calisan-refahi"
+    }
+  ],
+  "/webapi/setting/advances": [
+    {
+      "TypeName": "Tag employees",
+      "DataType": 2,
+      "SettingType": 5,
+      "Value": "true"
+    },
+    {
+      "TypeName": "Show well being indicators",
+      "DataType": 2,
+      "SettingType": 6,
+      "Value": "false"
+    },
+    {
+      "TypeName": "Show group manager",
+      "DataType": 2,
+      "SettingType": 9,
+      "Value": "true"
+    },
+    {
+      "TypeName": "Show employee costs",
+      "DataType": 2,
+      "SettingType": 11,
+      "Value": "true"
+    },
+    {
+      "TypeName": "Employee activity in working hours",
+      "DataType": 2,
+      "SettingType": 12,
+      "Value": "true"
+    },
+    {
+      "TypeName": "Show meeting details",
+      "DataType": 2,
+      "SettingType": 13,
+      "Value": "True"
+    },
+    {
+      "TypeName": "Show productivity",
+      "DataType": 2,
+      "SettingType": 14,
+      "Value": "True"
+    },
+    {
+      "TypeName": "Show web site activities",
+      "DataType": 2,
+      "SettingType": 15,
+      "Value": "True"
+    },
+    {
+      "TypeName": "Enable manual time entries",
+      "DataType": 2,
+      "SettingType": 16,
+      "Value": "True"
+    },
+    {
+      "TypeName": "Should time worked on days off be included in the average? If the feature is not enabled, it will not be included in the average if a range that includes the day off is selected. Only if days off are selected, the average can be displayed.",
+      "DataType": 2,
+      "SettingType": 4,
+      "Value": "False"
+    },
+    {
+      "TypeName": "The earliest starting time of the employee. If the employee starts earlier than the defined time, the start time is updated to the defined time.",
+      "DataType": 1,
+      "SettingType": 1,
+      "Value": "01:32"
+    },
+    {
+      "TypeName": "The minimum working time required for an employee to be included in the average. If the employee works less than the defined time, all values are displayed as 0.",
+      "DataType": 1,
+      "SettingType": 0,
+      "Value": "00:00"
+    }
+  ],
+  "/webapi/profile": {
+    "UserDuty": null,
+    "UserTitle": "General Manager",
+    "ImagePath": "https://api.flexytime.com/Download/GetImage/6291772d57a0318a082d5340?638140671444100000&downloadKey=WUDSH27CR9WU",
+    "EmailConfirmed": true,
+    "EmailAddress": "jamie.watkins@contoso.com",
+    "IsMailSubscribe": true,
+    "HasGoogle": false,
+    "HasOffice": false,
+    "TimeZone": "Pacific Standard Time (Mexico)",
+    "Languages": [
+      {
+        "Culture": "en-US",
+        "Code": "en",
+        "Name": "English"
+      },
+      {
+        "Culture": "tr-TR",
+        "Code": "tr",
+        "Name": "Türkçe"
+      }
+    ],
+    "LanguageCode": "en",
+    "HasOutlook": false,
+    "GoogleCalendars": [],
+    "OfficeCalendars": [],
+    "OutlookCalendars": [],
+    "Alerts": {
+      "IsLicenseDanger": true,
+      "ExpireDays": 0,
+      "IsLicenseWarning": false,
+      "Email": "jamie.watkins@contoso.com",
+      "IsConfirmation": true,
+      "IsDownloaded": true,
+      "IsWaitingData": false,
+      "CardError": null,
+      "IsCardError": false
+    },
+    "Employee": {
+      "id": null,
+      "fullname": "Jamie Watkins",
+      "teamname": null,
+      "teamid": null,
+      "abbreviation": "JW",
+      "avatarcolor": null,
+      "title": "General Manager",
+      "imageurl": "https://api.flexytime.com/Download/GetImage/6291772d57a0318a082d5340?638140671444100000&downloadKey=WUDSH27CR9WU",
+      "since": null,
+      "uninstalldate": null,
+      "islicensed": false,
+      "Availability": 0,
+      "AvailabilityImageUrl": "~/Images/gray.png",
+      "Tags": [],
+      "HasAnnual": false,
+      "AnnualStart": null,
+      "AnnualEnd": null,
+      "AnnualDays": 0,
+      "AnnualType": null,
+      "Email": "jamie.watkins@contoso.com",
+      "CompanyName": "Varsayılan"
+    },
+    "Wizard": {
+      "IsSingleUser": false,
+      "IsFresh": false,
+      "Permissions": [
+        "wellbeing",
+        "productivity",
+        "location",
+        "supervisor",
+        "inshift",
+        "web",
+        "meeting",
+        "manual",
+        "cost",
+        "phone",
+        "mask"
+      ],
+      "Roles": ["supervisor", "manager"],
+      "MemberId": "6291772d57a0318a082d5340",
+      "AccessKey": null,
+      "Email": "jamie.watkins@contoso.com",
+      "Fullname": "Jamie Watkins",
+      "CompanyName": "Varsayılan",
+      "IsEmployee": false,
+      "IsHR": false,
+      "IsManager": true
+    },
+    "IsUnsubscribe": true
+  },
+  "/webapi/license": {
+    "CustomerName": "Varsayılan",
+    "ExpireDate": "10.09.2023",
+    "RemainingDays": 0,
+    "TotalUsers": 19,
+    "ActiveUsers": 2,
+    "LicensedUsers": 0,
+    "RemainingUsers": -2,
+    "IsUnsubscribe": true,
+    "LicenseKey": "Boig16ugMe5Kl9O2uZR1uJNjUcy9ZOAqtJ+ORO4M9BI1f7hwMR1cfi6D5qdJfs3I2PJN/LcepckHGUUddauNeigop+RhHw5djTAaB4YLXOyPJkmXtDp8dryalg6116gFqGcaYVgB4u2Wkc3GRU1b4ai47MpQx5U3SKquyE3ip6lfiLQDrGSRd2y1i/HrOd+PADIqz3V9he7RXhCa/xXwvO8BykJj2hdPZNSaIfLiWjQ="
+  },
+  "/webapi/setting/download": {
+    "InvitationLink": "https://api.flexytime.com/Download/DownloadApp/64234183717e9a0ef059901c?downloadKey=J6AQ9AFE74J6",
+    "InvitationId": "64234183717e9a0ef059901c",
+    "ServiceKey": "hWa91-6TekSzJilr8j2-sA"
+  },
+  "/webapi/promotion/promote": {
+    "PromotionLink": "https://web.flexytime.com/signup/?promotion=ff2330780fab"
+  },
+  "/webapi/promotions": {
+    "Earned": [],
+    "Promoted": [
+      {
+        "ID": "641602d4717e9a0c981944a7",
+        "CompanyId": "d7bd6685-93ee-447a-b326-296bf23dbeb0",
+        "UserId": null,
+        "EmailAddress": "flexydeneme007@gmail.com",
+        "SendDate": "18.03.2023",
+        "SignUpDate": null,
+        "UsageDate": null,
+        "InstallDate": null,
+        "IsDownloaded": false
+      },
+      {
+        "ID": "642353ff717ea40ef06c5bc8",
+        "CompanyId": "d7bd6685-93ee-447a-b326-296bf23dbeb0",
+        "UserId": null,
+        "EmailAddress": "hebele.gubele@gmail.me.com",
+        "SendDate": "28.03.2023",
+        "SignUpDate": null,
+        "UsageDate": null,
+        "InstallDate": null,
+        "IsDownloaded": false
+      }
+    ]
   }
 }

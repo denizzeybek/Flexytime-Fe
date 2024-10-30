@@ -84,7 +84,6 @@ import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import type { IHoliday } from '@/interfaces/hrSettings/holiday';
 import { FilterMatchMode } from '@primevue/core/api';
 import { useRoute } from 'vue-router';
-import { ERouteNames } from '@/router/routeNames.enum';
 
 interface IProps {
   isLoading: boolean;

@@ -2,14 +2,14 @@
   <Card>
     <template #content>
       <form @submit="submitHandler" class="flex flex-col gap-12">
-        <div class="flex items-start w-full gap-12">
+        <div class="flex flex-col lg:flex-row items-start w-full gap-12">
           <div class="flex flex-col flex-1">
             <template v-for="(field, idx) in fields" :key="field.key">
-              <div class="flex items-center justify-start gap-8">
+              <div class="flex items-center justify-start gap-2 lg:gap-8">
                 <FCheckbox
                   :name="`workingDays[${idx}].IsWorkday`"
                   :label="field.value?.Name"
-                  class="w-[120px]"
+                  class="w-[200px] truncate lg:text-clip "
                 />
                 <FDateTimePicker
                   class="grow"
@@ -35,8 +35,8 @@
               </div>
             </template>
           </div>
-          <div class="flex flex-col flex-1 gap-12">
-            <div class="grow flex justify-between gap-4">
+          <div class="flex flex-col flex-1 w-full gap-4 lg:gap-12">
+            <div class="grow flex flex-col lg:flex-row justify-between gap-4">
               <FDateTimePicker
                 class="grow"
                 name="minimumRestTime"
@@ -66,7 +66,7 @@
                 label="Timezone"
                 name="timeZone"
                 placeholder="Select employee"
-                :options="timeZones"
+                :options="timeZoneList"
               />
             </div>
           </div>
@@ -86,16 +86,18 @@ import { boolean, string, object, array } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import type { IWorkingHourDay } from '@/interfaces/company/workingHour';
 import { useCompanyWorkingHoursStore } from '@/stores/company/workingHours';
+import { useProfileStore } from '@/stores/profile/profile';
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const workingHoursStore = useCompanyWorkingHoursStore();
+const profileStore = useProfileStore();
 
-const timeZones = computed(() =>
-  workingHoursStore.TimeZoneList.map((item) => ({ name: item.Name, value: item.ID })),
+const timeZoneList = computed(() =>
+  profileStore?.TimeZoneList?.map((item) => ({ name: item.Name, value: item.ID })),
 );
 
 const timeZoneName = computed(
-  () => workingHoursStore.TimeZoneList.find((item) => item.ID === workingHoursStore.TimeZone)?.Name,
+  () => profileStore?.TimeZoneList?.find((item) => item.ID === workingHoursStore.TimeZone)?.Name,
 );
 
 const validationSchema = object({
@@ -137,7 +139,6 @@ const submitHandler = handleSubmit(async (values) => {
 });
 
 onMounted(async () => {
-  await workingHoursStore.filterTimeZones();
   await workingHoursStore.filter();
 
   resetForm({

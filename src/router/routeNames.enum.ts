@@ -32,23 +32,28 @@ export enum ERouteNames {
   Company = 'Company',
   CompanyOrganizationChart = 'Organization Chart',
   CompanyWorkingHours = 'Working Hours',
+  CompanyReports = 'Reports',
 
   // Employees
   HRSettings = 'HR Settings',
-  HRSettingsEmployees='Employees',
-  HRSettingsAnnuals='Annuals',
-  HRSettingsActiveAnnuals='Active Annuals',
-  HRSettingsPassiveAnnuals='Passive Annuals',
-  HRSettingsHolidays='Holidays',
-  
+  HRSettingsEmployees = 'Employees',
+  HRSettingsAnnuals = 'Annuals',
+  HRSettingsActiveAnnuals = 'Active Annuals',
+  HRSettingsPassiveAnnuals = 'Passive Annuals',
+  HRSettingsHolidays = 'Holidays',
 
   // SETTINGS
   Settings = 'Settings',
-  Settings_Profile = 'Settings_Profile',
-  Settings_Account = 'Settings_Account',
-  Settings_Companies = 'Settings_Companies',
-  Settings_Company_Details = 'Settings_Company_Details',
-  ForgotPasswordIn_Emailed = 'ForgotPasswordIn_Emailed',
-  ForgotPasswordIn_Reset = 'ForgotPasswordIn_Reset ',
-  PromoCodes = 'PromoCodes'
+  SettingsPermissions = 'Permissions',
+  SettingsAdvanced = 'Advanced',
+  SettingsDownload = 'Download Client',
+
+  // PROFILE
+  Profile = 'Profile',
+  ProfileBasic = 'Basic',
+  ProfileLicense = 'License',
+  ProfileCommunication = 'Communication',
+  ProfilePassword = 'Password',
+
+  Promotion = 'Promotion',
 }

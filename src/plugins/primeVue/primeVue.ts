@@ -36,8 +36,14 @@ import FileUpload from 'primevue/fileupload';
 import Divider from 'primevue/divider';
 import Skeleton from 'primevue/skeleton';
 import DatePicker from 'primevue/datepicker';
-
-
+import ToggleSwitch from 'primevue/toggleswitch';
+import SelectButton from 'primevue/selectbutton';
+import Stepper from 'primevue/stepper';
+import StepList from 'primevue/steplist';
+import StepPanels from 'primevue/steppanels';
+import StepItem from 'primevue/stepitem';
+import Step from 'primevue/step';
+import StepPanel from 'primevue/steppanel';
 
 
 export default {
@@ -52,6 +58,14 @@ export default {
     });
     app.use(ToastService);
 
+    app.component('StepPanel', StepPanel);
+    app.component('Step', Step);
+    app.component('StepItem', StepItem);
+    app.component('StepPanels', StepPanels);
+    app.component('StepList', StepList);
+    app.component('Stepper', Stepper);
+    app.component('SelectButton', SelectButton);
+    app.component('ToggleSwitch', ToggleSwitch);
     app.component('DatePicker', DatePicker);
     app.component('Skeleton', Skeleton);
     app.component('Divider', Divider);

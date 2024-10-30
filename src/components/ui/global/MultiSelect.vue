@@ -44,9 +44,7 @@
 <script lang="ts" setup>
 import MultiSelect, { type MultiSelectProps } from 'primevue/multiselect';
 import Tag from 'primevue/tag';
-
 import { useField } from 'vee-validate';
-import { ref } from 'vue';
 import type { IOption } from '@/common/interfaces/option.interface';
 
 export interface IProps {

@@ -1,19 +1,14 @@
-import type {
-  IOrganizationChart,
-  IOrganizationChartNodes,
-} from '@/interfaces/company/organizationChart';
 import { EStoreNames } from '@/stores/storeNames.enum';
 import axios from 'axios';
 import { defineStore } from 'pinia';
 import { useMockData } from '@/config';
-import type { IWorkingHourDay, IWorkingHour, ITimeZone } from '@/interfaces/company/workingHour';
+import type { IWorkingHourDay, IWorkingHour } from '@/interfaces/company/workingHour';
 
 interface State {
   Days: IWorkingHourDay[];
   MaxIdleTime: IWorkingHour['MaxIdleTime'];
   ShiftRangeTime: IWorkingHour['ShiftRangeTime'];
   TimeZone: IWorkingHour['TimeZone'];
-  TimeZoneList: ITimeZone[];
 }
 
 export const useCompanyWorkingHoursStore = defineStore(EStoreNames.COMPANY_WORKING_HOURS, {
@@ -22,7 +17,6 @@ export const useCompanyWorkingHoursStore = defineStore(EStoreNames.COMPANY_WORKI
     MaxIdleTime: '',
     ShiftRangeTime: '',
     TimeZone: '',
-    TimeZoneList: []
   }),
   actions: {
     filter() {
@@ -37,23 +31,6 @@ export const useCompanyWorkingHoursStore = defineStore(EStoreNames.COMPANY_WORKI
             this.MaxIdleTime = useMockData ? response[api].MaxIdleTime : (response as IWorkingHour).MaxIdleTime;
             this.ShiftRangeTime = useMockData ? response[api].ShiftRangeTime : (response as IWorkingHour).ShiftRangeTime;
             this.TimeZone = useMockData ? response[api].TimeZone : (response as IWorkingHour).TimeZone;
-
-            resolve(response);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
-    },
-    filterTimeZones() {
-      const api = '/webapi/company/timezones';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
-
-        axios
-          .post(url)
-          .then((response: any) => {
-            this.TimeZoneList = useMockData ? response[api] : (response as IWorkingHour);
 
             resolve(response);
           })

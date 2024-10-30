@@ -2,7 +2,7 @@
   <Dialog
     v-model:visible="open"
     modal
-    header="Edit Profile"
+    header="Edit Employee"
     class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
@@ -332,7 +332,7 @@ const submitHandler = handleSubmit(async (values) => {
   }
 });
 
-const getInitialFormData = () => {
+const getInitialFormData = computed(() => {
   const employee = props.data;
 
   return {
@@ -362,11 +362,11 @@ const getInitialFormData = () => {
       SYSrepeatPassword: employee.Password,
     }),
   };
-};
+});
 
 onMounted(() => {
   resetForm({
-    values: getInitialFormData(),
+    values: getInitialFormData.value,
   });
 });
 </script>

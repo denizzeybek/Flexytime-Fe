@@ -1,15 +1,15 @@
 <template>
-  <div class="flex justify-between items-center">
-    <div>
+  <div class="flex justify-between items-center ">
+    <div class="flex items-center">
       <div class="block lg:hidden">
-        <Button icon="pi pi-bars" unstyled @click="$emit('drawerChange', true)" />
+        <Button size="large" icon="pi pi-bars" unstyled @click="$emit('drawerChange', true)" />
       </div>
-      <div class="hidden pl-4 lg:block text-2xl">{{ route.name }}</div>
+      <div class=" pl-4  text-2xl">{{ route.name }}</div>
     </div>
     <div class="hidden lg:flex gap-3">
-      <Button  icon="pi pi-shopping-cart" label="Upgrade" severity="warn" />
-      <Button  icon="pi pi-youtube" severity="danger" />
-      <Button  icon="pi pi-question" outlined severity="contrast" />
+      <Button size="large" icon="pi pi-shopping-cart" label="Upgrade" severity="warn" />
+      <!-- <Button size="large" icon="pi pi-youtube" severity="danger" /> -->
+      <!-- <Button size="large" icon="pi pi-question" outlined severity="contrast" /> -->
       <ProfileMenu />
     </div>
   </div>

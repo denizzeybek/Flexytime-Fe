@@ -7,9 +7,10 @@
     severity="contrast"
     aria-controls="overlay_menu"
     unstyled
-    pt:root="bg-f-white rounded-md px-4 "
+    size="large"
+    pt:root="bg-f-white rounded-md px-4 border border-gray-300 "
   >
-    <ProfileBadge title="Deniz Zeybek" />
+    <ProfileBadge title="Deniz Zeybek" onlyTitle/>
   </Button>
 
   <div class="card flex justify-center">
@@ -17,7 +18,10 @@
       <template #item="{ item, props }">
         <a v-ripple class="flex items-center" v-bind="props.action">
           <span :class="item.icon" />
-          <span>{{ item.label }}</span>
+          <RouterLink v-if="item?.route" :to="item.route" class="ml-2">
+            {{ item.label }}
+          </RouterLink>
+          <span v-else>{{ item.label }}</span>
           <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
         </a>
       </template>
@@ -28,6 +32,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
+import { ERouteNames } from '@/router/routeNames.enum';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const menu = ref();
 
@@ -42,12 +50,8 @@ const items = ref([
       {
         label: 'Profile',
         icon: 'pi pi-user',
+        route: { name: ERouteNames.ProfileBasic },
       },
-      //   {
-      //     label: 'Messages',
-      //     icon: 'pi pi-inbox',
-      //     badge: 2,
-      //   },
       {
         label: 'Logout',
         icon: 'pi pi-sign-out',

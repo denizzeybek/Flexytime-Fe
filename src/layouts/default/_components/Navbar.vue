@@ -1,6 +1,6 @@
 <template>
   <div class="card flex justify-content-center h-full">
-    <div class="flex flex-col justify-between h-full">
+    <div class="flex flex-col justify-between h-full w-full lg:p-0 px-4">
       <div>
         <div class="flex items-center justify-between px-6 py-5 shrink-0">
           <span class="inline-flex items-center gap-2">
@@ -11,11 +11,22 @@
           <NavItem :nav-items="navItems" />
         </ul>
       </div>
-      <div class="">
-        <hr class="mb-4 mx-4 border-t border-0 border-surface-200 dark:border-surface-700" />
+      <div class="flex flex-col gap-4 pb-4 lg:pb-8">
+        <RouterLink class="w-full" block :to="{ name: ERouteNames.SettingsDownload }">
+          <Button type="button" icon="pi pi-download" label="Download" class="w-full" />
+        </RouterLink>
+        <RouterLink class="w-full" block :to="{ name: ERouteNames.Promotion }">
+          <Button
+            type="button"
+            icon="pi pi-gift"
+            label="Refer & Get Bonus"
+            severity="warn"
+            class="w-full"
+          />
+        </RouterLink>
         <a
           v-ripple
-          class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple"
+          class="flex lg:hidden border border-gray-300 rounded-md items-center cursor-pointer p-4 gap-2 duration-150 transition-colors p-ripple"
         >
           <ProfileBadge title="Deniz Zeybek" sub-title="Tech Lead" />
         </a>
@@ -28,7 +39,7 @@
 import { ref } from 'vue';
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
 import { useRoute } from 'vue-router';
-import NavItem, { type IProps as INavItem } from './NavItem.vue';
+import NavItem from './NavItem.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import type { IModel } from './NavChildItem.vue';
 
@@ -48,7 +59,7 @@ const navItems = ref<IModel[]>([
   },
   {
     label: 'HR Settings',
-    icon: 'pi pi-building',
+    icon: 'pi pi-users',
     routeName: ERouteNames.HRSettings,
     children: [
       {
@@ -75,13 +86,31 @@ const navItems = ref<IModel[]>([
         routeName: ERouteNames.CompanyOrganizationChart,
       },
       {
-        label: 'Working Hours"',
+        label: 'Working Hours',
         routeName: ERouteNames.CompanyWorkingHours,
+      },
+      {
+        label: 'Reports',
+        routeName: ERouteNames.CompanyReports,
+      },
+    ],
+  },
+  {
+    label: 'Settings',
+    icon: 'pi pi-cog',
+    routeName: ERouteNames.Settings,
+    children: [
+      {
+        label: 'Permissions',
+        routeName: ERouteNames.SettingsPermissions,
+      },
+      {
+        label: 'Advanced',
+        routeName: ERouteNames.SettingsAdvanced,
       },
     ],
   },
 ]);
-
 </script>
 
 <style>

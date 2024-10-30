@@ -60,38 +60,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { EDomain } from '@/enums/domain.enum'
-import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses'
-import { getDomainEnum } from '@/views/classification/_etc/helpers'
-import Checkbox from 'primevue/checkbox'
+import { computed } from 'vue';
+import { EDomain } from '@/enums/domain.enum';
+import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses';
+import { getDomainEnum } from '@/views/classification/_etc/helpers';
+import Checkbox from 'primevue/checkbox';
 
 interface IProps {
-  isLoading: boolean
+  isLoading: boolean;
 }
 
-defineProps<IProps>()
+defineProps<IProps>();
 
-const webAddressesStore = useClassificationWebAddressesStore()
+const webAddressesStore = useClassificationWebAddressesStore();
 
-const webAddresses = computed(() => webAddressesStore.list)
+const webAddresses = computed(() => webAddressesStore.list);
 
 const onAlwaysOnChange = async (event) => {
   try {
-    const { props, alwaysOn } = event
-    const { ID, Name, Domain } = props
+    const { props, alwaysOn } = event;
+    const { ID, Name, Domain } = props;
     const payload = {
       ID,
       Name,
       Domain,
-      AlwaysOn: alwaysOn
-    }
+      AlwaysOn: alwaysOn,
+    };
 
     // await webAddressesStore.update(payload)
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 </script>
 
 <style scoped></style>

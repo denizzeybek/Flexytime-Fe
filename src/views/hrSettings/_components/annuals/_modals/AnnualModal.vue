@@ -21,7 +21,7 @@
       </div>
 
       <div class="flex gap-4">
-        <div class="flex items-start gap-12 flex-1">
+        <div class="flex flex-col lg:flex-row items-start  gap-4 lg:gap-12 flex-1">
           <FCheckbox name="startAllday" labelTop label="All Day" />
           <FDateTimePicker
             label="Start Date"
@@ -35,7 +35,7 @@
           />
         </div>
         <Divider layout="vertical" />
-        <div class="flex items-start gap-12 flex-1">
+        <div class="flex flex-col lg:flex-row items-start  gap-4 lg:gap-12 flex-1">
           <FCheckbox name="endAllday" labelTop label="All Day" />
           <FDateTimePicker
             label="End Date"
@@ -128,7 +128,7 @@ const submitHandler = handleSubmit(async (values) => {
   }
 });
 
-const getInitialFormData = () => {
+const getInitialFormData = computed(() => {
   const annual = props.data;
 
   return {
@@ -141,13 +141,12 @@ const getInitialFormData = () => {
       endDate: annual.EndDate,
     }),
   };
-};
-
+});
 // TODO: start date ve end date bilgileri date olarak dönmeli, fe date'i convert etmeli
 
 onMounted(() => {
   resetForm({
-    values: getInitialFormData(),
+    values: getInitialFormData.value,
   });
 });
 </script>

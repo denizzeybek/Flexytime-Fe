@@ -15,28 +15,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { ERouteNames } from '@/router/routeNames.enum'
-import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue';
+import { ERouteNames } from '@/router/routeNames.enum';
+import { useRoute, useRouter } from 'vue-router';
 
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 const items = ref([
   {
     route: ERouteNames.ClassificationWebAddresses,
     label: ERouteNames.ClassificationWebAddresses,
     method: () => {
-      router.push({ name: ERouteNames.ClassificationWebAddresses })
-    }
+      router.push({ name: ERouteNames.ClassificationWebAddresses });
+    },
   },
   {
     route: ERouteNames.ClassificationApplications,
     label: ERouteNames.ClassificationApplications,
     method: () => {
-      router.push({ name: ERouteNames.ClassificationApplications })
-    }
-  }
-])
+      router.push({ name: ERouteNames.ClassificationApplications });
+    },
+  },
+]);
 </script>
 
 <style></style>

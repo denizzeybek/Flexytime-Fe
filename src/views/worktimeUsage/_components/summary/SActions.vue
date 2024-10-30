@@ -1,10 +1,6 @@
 <template>
   <div class="flex gap-2 items-center">
-    <Button
-      v-tooltip.top="'Download Report'"
-      icon="pi pi-arrow-circle-down"
-      severity="secondary"
-    />
+    <Button v-tooltip.top="'Download Report'" icon="pi pi-arrow-circle-down" severity="secondary" />
     <DatePicker v-model="dates" selectionMode="range" variant="filled" :manualInput="false" />
     <FSelect
       v-model="country"
@@ -13,7 +9,7 @@
       placeholder="Select country"
       :options="countries"
       :primeProps="{
-        variant:'filled'
+        variant: 'filled',
       }"
     />
   </div>

@@ -13,7 +13,3 @@ export interface IWorkingHourDay {
   EndTime: string;
 }
 
-export interface ITimeZone {
-  ID: string;
-  Name: string;
-}
