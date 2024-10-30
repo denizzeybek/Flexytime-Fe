@@ -8,7 +8,7 @@
     aria-controls="overlay_menu"
     unstyled
     size="large"
-    pt:root="bg-f-white rounded-md px-4 "
+    pt:root="bg-f-white rounded-md px-4 border border-gray-300 "
   >
     <ProfileBadge title="Deniz Zeybek" onlyTitle/>
   </Button>

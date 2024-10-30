@@ -8,8 +8,8 @@
     </div>
     <div class="hidden lg:flex gap-3">
       <Button size="large" icon="pi pi-shopping-cart" label="Upgrade" severity="warn" />
-      <Button size="large" icon="pi pi-youtube" severity="danger" />
-      <Button size="large" icon="pi pi-question" outlined severity="contrast" />
+      <!-- <Button size="large" icon="pi pi-youtube" severity="danger" /> -->
+      <!-- <Button size="large" icon="pi pi-question" outlined severity="contrast" /> -->
       <ProfileMenu />
     </div>
   </div>

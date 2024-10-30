@@ -4,7 +4,7 @@
       <form @submit="submitHandler" class="flex flex-col gap-12">
         <template v-for="(field, idx) in fields" :key="field.key">
           <div
-            class="flex w-fit flex-col lg:flex-row lg:justify-between items-start gap-4 lg:items-center"
+            class="flex w-fit flex-col lg:flex-row lg:justify-between items-start gap-4 lg:items-center lg:w-full"
           >
             <div>
               <FText>{{ field.value.Name }}</FText>

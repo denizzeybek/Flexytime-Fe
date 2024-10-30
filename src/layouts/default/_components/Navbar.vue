@@ -11,13 +11,7 @@
           <NavItem :nav-items="navItems" />
         </ul>
       </div>
-      <div class="flex flex-col gap-4 lg:pb-8">
-        <a
-          v-ripple
-          class="m-4 flex lg:hidden items-center cursor-pointer p-4 gap-2 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple"
-        >
-          <ProfileBadge title="Deniz Zeybek" sub-title="Tech Lead" />
-        </a>
+      <div class="flex flex-col gap-4 pb-4 lg:pb-8">
         <RouterLink class="w-full" block :to="{ name: ERouteNames.SettingsDownload }">
           <Button type="button" icon="pi pi-download" label="Download" class="w-full" />
         </RouterLink>
@@ -30,6 +24,12 @@
             class="w-full"
           />
         </RouterLink>
+        <a
+          v-ripple
+          class="flex lg:hidden border border-gray-300 rounded-md items-center cursor-pointer p-4 gap-2 duration-150 transition-colors p-ripple"
+        >
+          <ProfileBadge title="Deniz Zeybek" sub-title="Tech Lead" />
+        </a>
       </div>
     </div>
   </div>
