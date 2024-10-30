@@ -9,7 +9,7 @@
     unstyled
     pt:root="bg-f-white rounded-md px-4 "
   >
-    <ProfileBadge title="Deniz Zeybek" />
+    <ProfileBadge title="Deniz Zeybek" onlyTitle/>
   </Button>
 
   <div class="card flex justify-center">
@@ -49,7 +49,7 @@ const items = ref([
       {
         label: 'Profile',
         icon: 'pi pi-user',
-        route: { name: ERouteNames.Profile },
+        route: { name: ERouteNames.ProfileBasic },
       },
       {
         label: 'Logout',

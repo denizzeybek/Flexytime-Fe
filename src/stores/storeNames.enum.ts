@@ -13,8 +13,10 @@ export enum EStoreNames {
 
   SETTINGS_PERMISSIONS = 'permissions',
   SETTINGS_ADVANCED = 'advanced',
+  SETTINGS_DOWNLOAD= 'download',
 
   PROFILE = 'profile',
+
   
   COMMON_USERS = 'users',
 

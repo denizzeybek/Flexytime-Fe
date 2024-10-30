@@ -53,4 +53,6 @@ export enum ERouteNames {
   ProfileLicense = 'License',
   ProfileCommunication = 'Communication',
   ProfilePassword = 'Password',
+
+  Download = 'Download Client',
 }

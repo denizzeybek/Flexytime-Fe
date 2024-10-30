@@ -1,9 +1,9 @@
 <template>
   <Card>
     <template #content>
-      <div class="flex justify-between !gap-2">
+      <div class="flex flex-wrap justify-between !gap-2">
         <template v-for="(item, idx) in badgeList" :key="idx">
-          <SBadge :severity="item.severity" :title="item.title" :value="item.value" />
+          <SBadge class="" :severity="item.severity" :title="item.title" :value="item.value" />
         </template>
       </div>
     </template>

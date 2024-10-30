@@ -5,7 +5,10 @@
       shape="circle"
     />
     <div class="text-start">
-      <RouterLink :to="{ name: ERouteNames.Profile }" class="text-md text-f-black">{{
+      <span v-if="onlyTitle"  class="text-md text-f-black">{{
+        title
+      }}</span>
+      <RouterLink v-else :to="{ name: ERouteNames.ProfileBasic }" class="text-md text-f-black">{{
         title
       }}</RouterLink>
       <div class="text-sm text-f-text-gray">{{ subTitle }}</div>
@@ -21,6 +24,7 @@ interface IProps {
   image?: string;
   title: string;
   subTitle?: string;
+  onlyTitle?: boolean;
 }
 
 defineProps<IProps>();

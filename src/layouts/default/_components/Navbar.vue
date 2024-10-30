@@ -1,6 +1,6 @@
 <template>
   <div class="card flex justify-content-center h-full">
-    <div class="flex flex-col justify-between h-full">
+    <div class="flex flex-col justify-between h-full w-full lg:p-0 px-4">
       <div>
         <div class="flex items-center justify-between px-6 py-5 shrink-0">
           <span class="inline-flex items-center gap-2">
@@ -11,14 +11,16 @@
           <NavItem :nav-items="navItems" />
         </ul>
       </div>
-      <div class="">
-        <hr class="mb-4 mx-4 border-t border-0 border-surface-200 dark:border-surface-700" />
+      <div class="flex flex-col gap-8 lg:pb-8">
         <a
           v-ripple
-          class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple"
+          class="m-4 flex lg:hidden items-center cursor-pointer p-4 gap-2 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple"
         >
           <ProfileBadge title="Deniz Zeybek" sub-title="Tech Lead" />
         </a>
+        <RouterLink class="w-full" block :to="{name: ERouteNames.Download}">
+          <Button type="button"  icon="pi pi-download" label="Download" class="w-full"/>
+        </RouterLink>
       </div>
     </div>
   </div>

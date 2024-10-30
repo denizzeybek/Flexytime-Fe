@@ -33,8 +33,11 @@ import License from '@/views/profile/_components/License.vue';
 import Communications from '@/views/profile/_components/Communications.vue';
 import Password from '@/views/profile/_components/Password.vue';
 
+import Download from '@/views/download/_views/Download.vue';
+
 import Login from '@/views/auth/Login.vue';
 import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
+
 
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 // Not Found Page
@@ -271,6 +274,15 @@ const routes: RouteRecordRaw[] = [
             },
           },
         ],
+      },
+      {
+        path: '/download',
+        name: ERouteNames.Download,
+        component: Download,
+        meta: {
+          title: ERouteNames.Download,
+          name: ERouteNames.Download,
+        },
       },
     ],
   },

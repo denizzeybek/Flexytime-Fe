@@ -24,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import { useForm } from 'vee-validate';
 import { string, object, ref as yupRef } from 'yup';
 import { useFToast } from '@/composables/useFToast';

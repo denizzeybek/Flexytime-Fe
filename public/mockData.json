@@ -2017,5 +2017,10 @@
     "RemainingUsers": -2,
     "IsUnsubscribe": true,
     "LicenseKey": "Boig16ugMe5Kl9O2uZR1uJNjUcy9ZOAqtJ+ORO4M9BI1f7hwMR1cfi6D5qdJfs3I2PJN/LcepckHGUUddauNeigop+RhHw5djTAaB4YLXOyPJkmXtDp8dryalg6116gFqGcaYVgB4u2Wkc3GRU1b4ai47MpQx5U3SKquyE3ip6lfiLQDrGSRd2y1i/HrOd+PADIqz3V9he7RXhCa/xXwvO8BykJj2hdPZNSaIfLiWjQ="
+  },
+  "/webapi/setting/download": {
+    "InvitationLink": "https://api.flexytime.com/Download/DownloadApp/64234183717e9a0ef059901c?downloadKey=J6AQ9AFE74J6",
+    "InvitationId": "64234183717e9a0ef059901c",
+    "ServiceKey": "hWa91-6TekSzJilr8j2-sA"
   }
 }
