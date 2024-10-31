@@ -41,6 +41,7 @@ import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue'
 
 import Login from '@/views/auth/Login.vue';
 import Register from '@/views/auth/Register.vue';
+import WizardDownload from '@/views/auth/WizardDownload.vue';
 // Not Found Page
 // import NotFound from '@/views/NotFound.vue'
 
@@ -315,6 +316,16 @@ const routes: RouteRecordRaw[] = [
       requiresUnAuth: true,
       title: ERouteNames.Register,
       name: ERouteNames.Register,
+    },
+  },
+  {
+    path: '/wizard-download',
+    name: ERouteNames.Wizard_Download,
+    component: WizardDownload,
+    meta: {
+      requiresUnAuth: true,
+      title: ERouteNames.Wizard_Download,
+      name: ERouteNames.Wizard_Download,
     },
   },
 

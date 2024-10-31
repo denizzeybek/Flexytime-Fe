@@ -24,6 +24,7 @@ import AuthAside, { type IAd } from './_components/Authside.vue';
 type TAdName =
   | 'login'
   | 'register'
+  | 'download'
 
 interface IProps {
   adName: TAdName;
@@ -66,10 +67,18 @@ const ads = computed(() => {
         'Spot and save money on unused software.',
         'Protect and grow your company’s profits.',
       ],
-      // image: {
-      //   name: 'business-invoice-ad.png',
-      //   alt: 'Login',
-      // },
+    },
+    'download': {
+      title: 'Install Flexytime on your computer',
+      features: [
+        'Track and measure your team"s productivity.',
+        'Measure and improve productivity.',
+        'Uncover inefficient processes and bottlenecks.',
+        'Prevent quiet quitting, burnout, and high turnover.',
+        'See who needs coaching or breaks.',
+        'Spot and save money on unused software.',
+        'Protect and grow your company’s profits.',
+      ],
     },
   };
 });
