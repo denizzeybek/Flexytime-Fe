@@ -36,11 +36,13 @@ import Password from '@/views/profile/_components/Password.vue';
 
 import Promotion from '@/views/promotion/_views/Promotion.vue';
 
-import Login from '@/views/auth/Login.vue';
 import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
 
 
-import AuthLayout from '@/layouts/auth/AuthLayout.vue';
+import Login from '@/views/auth/Login.vue';
+import Register from '@/views/auth/Register.vue';
+import ForgotPassword from '@/views/auth/ForgotPassword.vue';
+import WizardDownload from '@/views/auth/WizardDownload.vue';
 // Not Found Page
 // import NotFound from '@/views/NotFound.vue'
 
@@ -304,6 +306,37 @@ const routes: RouteRecordRaw[] = [
     meta: {
       requiresUnAuth: true,
       title: ERouteNames.Login,
+      name: ERouteNames.Login,
+    },
+  },
+  {
+    path: '/register',
+    name: ERouteNames.Register,
+    component: Register,
+    meta: {
+      requiresUnAuth: true,
+      title: ERouteNames.Register,
+      name: ERouteNames.Register,
+    },
+  },
+  {
+    path: '/wizard-download',
+    name: ERouteNames.Wizard_Download,
+    component: WizardDownload,
+    meta: {
+      requiresUnAuth: true,
+      title: ERouteNames.Wizard_Download,
+      name: ERouteNames.Wizard_Download,
+    },
+  },
+  {
+    path: '/forgot-password',
+    name: ERouteNames.ForgotPassword,
+    component: ForgotPassword,
+    meta: {
+      requiresUnAuth: true,
+      title: ERouteNames.ForgotPassword,
+      name: ERouteNames.ForgotPassword,
     },
   },
 

@@ -11,6 +11,7 @@
           label="Windows"
           size="large"
           class="flex-1"
+          @click="activeComputer = EComputerNames.WINDOWS"
         />
         <Button
           icon="pi pi-apple"
@@ -19,6 +20,7 @@
           label="Macos"
           size="large"
           class="flex-1"
+          @click="activeComputer = EComputerNames.MAC"
         />
       </div>
       <span class="!text-6xl font-semibold">Automatic time control for your business </span>
@@ -33,39 +35,54 @@
           size="large"
           label="Download"
           class="flex-1 w-full"
+          @click="onDownloadButtonClicked(isMacos)"
         />
         <Button
+          v-if="isMacos"
           class="flex-1 w-full"
           :icon="isCopied ? 'pi pi-check' : ''"
           severity="warn"
           size="large"
-          @click="copyText"
+          @click="copyDownloadKeyText"
           :label="downloadsStore.ServiceKey"
         />
       </div>
+      <template v-if="isWizard">
+        <div class="w-full flex justify-end">
+          <slot name="skipBtn"/>
+        </div>
+      </template>
     </div>
-    <div class="h-full flex items-center justify-end">
+    <div v-if="!isWizard" class="h-full flex items-center justify-end">
       <img alt="flexy mac" src="@/assets/images/flexymac.png" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useSettingsDownloadsStore } from '@/stores/settings/download';
 import { copyToClipboard } from '@/helpers/utils';
+import { EComputerNames } from '@/common/enums/computer.enum';
+import { useDownloadApp } from '@/composables/useDownloadapp';
+
+interface IProps {
+  isWizard?: boolean
+}
+
+const props = defineProps<IProps>();
 
 const downloadsStore = useSettingsDownloadsStore();
+const { findActiveComputer, onDownloadButtonClicked } = useDownloadApp();
 
-const isMacos = ref(true);
-const downloadLink = ref(null);
 const isCopied = ref(false);
+const activeComputer = ref();
 
-const onDownloadButtonClicked = () => {
-  window.location.href = `${downloadLink.value}&os=${isMacos.value ? 'mac' : 'win'}`;
-};
+const isMacos = computed(() => {
+  return activeComputer.value === EComputerNames.MAC;
+});
 
-const copyText = () => {
+const copyDownloadKeyText = () => {
   try {
     copyToClipboard(downloadsStore.ServiceKey);
     isCopied.value = true;
@@ -79,7 +96,8 @@ const copyText = () => {
 
 onMounted(async () => {
   await downloadsStore.filter();
-  isMacos.value = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+  const isComputerMac = findActiveComputer();
+  activeComputer.value = isComputerMac ? EComputerNames.MAC : EComputerNames.WINDOWS;
 });
 </script>
 
