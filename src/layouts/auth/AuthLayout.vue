@@ -1,9 +1,7 @@
 <template>
   <div class="relative flex min-h-screen h-screen">
     <AuthAside :ad="ads[adName]" />
-    <main
-      class="flex w-full overflow-auto flex-col items-center min-h-screen bg-f-tertiary-purple"
-    >
+    <main class="flex w-full overflow-auto flex-col items-center min-h-screen bg-f-tertiary-purple">
       <div class="px-4 flex justify-between items-center w-full lg:pt-3 mb-10">
         <FSelect
           name="language"
@@ -21,11 +19,7 @@
 import { computed, ref, watch } from 'vue';
 import AuthAside, { type IAd } from './_components/Authside.vue';
 
-type TAdName =
-  | 'login'
-  | 'register'
-  | 'download'
-  | 'forgot-password'
+type TAdName = 'login' | 'register' | 'download' | 'forgot-password';
 
 interface IProps {
   adName: TAdName;
@@ -41,7 +35,7 @@ const languagesList = [
 
 const ads = computed(() => {
   return {
-    'login': {
+    login: {
       title: 'Get powerful productivity insights in minutes',
       features: [
         'Get a clear picture of how your teams work.',
@@ -57,7 +51,7 @@ const ads = computed(() => {
       //   alt: 'Login',
       // },
     },
-    'register': {
+    register: {
       title: 'Create a free account now',
       features: [
         'Track and measure your team"s productivity.',
@@ -69,7 +63,7 @@ const ads = computed(() => {
         'Protect and grow your company’s profits.',
       ],
     },
-    'download': {
+    download: {
       title: 'Install Flexytime on your computer',
       features: [
         'Track and measure your team"s productivity.',
