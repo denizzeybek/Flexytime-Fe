@@ -25,6 +25,7 @@ type TAdName =
   | 'login'
   | 'register'
   | 'download'
+  | 'forgot-password'
 
 interface IProps {
   adName: TAdName;
@@ -70,6 +71,18 @@ const ads = computed(() => {
     },
     'download': {
       title: 'Install Flexytime on your computer',
+      features: [
+        'Track and measure your team"s productivity.',
+        'Measure and improve productivity.',
+        'Uncover inefficient processes and bottlenecks.',
+        'Prevent quiet quitting, burnout, and high turnover.',
+        'See who needs coaching or breaks.',
+        'Spot and save money on unused software.',
+        'Protect and grow your company’s profits.',
+      ],
+    },
+    'forgot-password': {
+      title: 'Reset Password',
       features: [
         'Track and measure your team"s productivity.',
         'Measure and improve productivity.',

@@ -41,6 +41,7 @@ import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue'
 
 import Login from '@/views/auth/Login.vue';
 import Register from '@/views/auth/Register.vue';
+import ForgotPassword from '@/views/auth/ForgotPassword.vue';
 import WizardDownload from '@/views/auth/WizardDownload.vue';
 // Not Found Page
 // import NotFound from '@/views/NotFound.vue'
@@ -326,6 +327,16 @@ const routes: RouteRecordRaw[] = [
       requiresUnAuth: true,
       title: ERouteNames.Wizard_Download,
       name: ERouteNames.Wizard_Download,
+    },
+  },
+  {
+    path: '/forgot-password',
+    name: ERouteNames.ForgotPassword,
+    component: ForgotPassword,
+    meta: {
+      requiresUnAuth: true,
+      title: ERouteNames.ForgotPassword,
+      name: ERouteNames.ForgotPassword,
     },
   },
 
