@@ -36,11 +36,11 @@ import Password from '@/views/profile/_components/Password.vue';
 
 import Promotion from '@/views/promotion/_views/Promotion.vue';
 
-import Login from '@/views/auth/Login.vue';
 import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
 
 
-import AuthLayout from '@/layouts/auth/AuthLayout.vue';
+import Login from '@/views/auth/Login.vue';
+import Register from '@/views/auth/Register.vue';
 // Not Found Page
 // import NotFound from '@/views/NotFound.vue'
 
@@ -304,6 +304,17 @@ const routes: RouteRecordRaw[] = [
     meta: {
       requiresUnAuth: true,
       title: ERouteNames.Login,
+      name: ERouteNames.Login,
+    },
+  },
+  {
+    path: '/register',
+    name: ERouteNames.Register,
+    component: Register,
+    meta: {
+      requiresUnAuth: true,
+      title: ERouteNames.Register,
+      name: ERouteNames.Register,
     },
   },
 
