@@ -21,12 +21,14 @@ import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
 import Employees from '@/views/hrSettings/_views/Employees.vue';
 import Annuals from '@/views/hrSettings/_views/Annuals.vue';
 import Holidays from '@/views/hrSettings/_views/Holidays.vue';
+import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
 
 // Settings
 import Settings from '@/views/settings/_views/Settings.vue';
 import Permissions from '@/views/settings/_views/Permissions.vue';
 import Advanced from '@/views/settings/_views/Advanced.vue';
 import Download from '@/views/download/_views/Download.vue';
+import Companies from '@/views/settings/_views/Companies.vue';
 
 import Profile from '@/views/profile/_views/Profile.vue';
 import Basic from '@/views/profile/_components/Basic.vue';
@@ -36,7 +38,6 @@ import Password from '@/views/profile/_components/Password.vue';
 
 import Promotion from '@/views/promotion/_views/Promotion.vue';
 
-import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
 
 
 import Login from '@/views/auth/Login.vue';
@@ -285,6 +286,15 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.SettingsDownload,
           name: ERouteNames.SettingsDownload,
+        },
+      },
+      {
+        path: '/companies',
+        name: ERouteNames.SettingsCompanies,
+        component: Companies,
+        meta: {
+          title: ERouteNames.SettingsCompanies,
+          name: ERouteNames.SettingsCompanies,
         },
       },
       {
