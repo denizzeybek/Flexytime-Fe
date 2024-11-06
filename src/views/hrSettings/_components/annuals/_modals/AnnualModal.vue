@@ -58,9 +58,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineModel, computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useForm } from 'vee-validate';
-import { boolean, string, object, array, number, ref as yupRef } from 'yup';
+import { boolean, string, object } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import type { IAnnual } from '@/interfaces/hrSettings/annual';
 

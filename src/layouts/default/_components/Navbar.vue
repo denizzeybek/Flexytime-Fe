@@ -48,6 +48,11 @@ const route = useRoute();
 const expandedKeys = ref({});
 const navItems = ref<IModel[]>([
   {
+    label: 'Companies',
+    icon: 'pi pi-building',
+    routeName: ERouteNames.SettingsCompanies,
+  },
+  {
     label: 'Worktime Usage',
     icon: 'pi pi-clock',
     routeName: ERouteNames.WorktimeUsage,
@@ -91,7 +96,7 @@ const navItems = ref<IModel[]>([
       },
       {
         label: 'Reports',
-        routeName: ERouteNames.CompanyReports,
+        routeName: ERouteNames.CompanyReportsElastic,
       },
     ],
   },

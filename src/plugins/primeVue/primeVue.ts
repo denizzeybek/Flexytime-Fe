@@ -44,6 +44,7 @@ import StepPanels from 'primevue/steppanels';
 import StepItem from 'primevue/stepitem';
 import Step from 'primevue/step';
 import StepPanel from 'primevue/steppanel';
+import Chart from 'primevue/chart';
 
 
 export default {
@@ -58,6 +59,7 @@ export default {
     });
     app.use(ToastService);
 
+    app.component('Chart', Chart);
     app.component('StepPanel', StepPanel);
     app.component('Step', Step);
     app.component('StepItem', StepItem);

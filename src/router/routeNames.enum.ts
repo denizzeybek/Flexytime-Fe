@@ -35,6 +35,8 @@ export enum ERouteNames {
   CompanyOrganizationChart = 'Organization Chart',
   CompanyWorkingHours = 'Working Hours',
   CompanyReports = 'Reports',
+  CompanyReportsElastic = 'Elastic Reports',
+  CompanyReportsDefault = 'Default Reports',
 
   // Employees
   HRSettings = 'HR Settings',
@@ -49,6 +51,7 @@ export enum ERouteNames {
   SettingsPermissions = 'Permissions',
   SettingsAdvanced = 'Advanced',
   SettingsDownload = 'Download Client',
+  SettingsCompanies = 'Companies',
 
   // PROFILE
   Profile = 'Profile',

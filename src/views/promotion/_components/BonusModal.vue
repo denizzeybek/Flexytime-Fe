@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineModel, computed, onMounted, ref } from 'vue';
+import { computed } from 'vue';
 import { usePromotionsStore } from '@/stores/promotion/promotion';
 
 const promotionsStore = usePromotionsStore();
