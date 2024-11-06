@@ -19,7 +19,13 @@
     </template>
     <template #content>
       <div class="flex justify-between gap-12 flex-col lg:flex-row">
-        <DataTable class="flex-1" :value="tableDataset as any">
+        <DataTable
+          class="flex-1"
+          :value="tableDataset"
+          paginator
+          :rows="10"
+          :rowsPerPageOptions="[5, 10, 20, 50]"
+        >
           <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" />
         </DataTable>
 
@@ -45,7 +51,7 @@ const { groupOptions } = useReport();
 const reportsStore = useCompanyReportsStore();
 
 const tableDataset = computed(() => {
-  return reportsStore.grouping;
+  return reportsStore.grouping as any;
 });
 
 const columns = computed(() => {
