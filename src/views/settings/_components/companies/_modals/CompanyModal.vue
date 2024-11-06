@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineModel, computed, onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useForm } from 'vee-validate';
 import { string, object, number } from 'yup';
 import { useFToast } from '@/composables/useFToast';

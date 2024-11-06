@@ -49,7 +49,7 @@ const expandedKeys = ref({});
 const navItems = ref<IModel[]>([
   {
     label: 'Companies',
-    icon: 'pi pi-clock',
+    icon: 'pi pi-building',
     routeName: ERouteNames.SettingsCompanies,
   },
   {

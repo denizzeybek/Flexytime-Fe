@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineModel, watch } from 'vue';
+import { ref, watch } from 'vue';
 
 interface IProps {
   errorMessage?: string;

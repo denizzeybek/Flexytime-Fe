@@ -52,7 +52,6 @@
 <script setup lang="ts">
 import { ERouteNames } from '@/router/routeNames.enum';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
-import { defineModel, computed, onMounted, ref } from 'vue';
 import { useForm } from 'vee-validate';
 import { boolean, string, object, array, number, ref as yupRef } from 'yup';
 import { useFToast } from '@/composables/useFToast';
