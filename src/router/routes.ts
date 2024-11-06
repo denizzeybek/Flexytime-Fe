@@ -14,7 +14,7 @@ import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
 import Company from '@/views/company/_views/Company.vue';
 import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
 import WorkingHours from '@/views/company/_views/WorkingHours.vue';
-import Reports from '@/views/company/_views/Reports.vue';
+import Reports from '@/views/company/_views/reports/Reports.vue';
 
 // HR Settings
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
@@ -22,6 +22,9 @@ import Employees from '@/views/hrSettings/_views/Employees.vue';
 import Annuals from '@/views/hrSettings/_views/Annuals.vue';
 import Holidays from '@/views/hrSettings/_views/Holidays.vue';
 import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
+import ElasticReports from '@/views/company/_views/reports/ElasticReports.vue';
+import DefaultReports from '@/views/company/_views/reports/DefaultReports.vue';
+
 
 // Settings
 import Settings from '@/views/settings/_views/Settings.vue';
@@ -29,6 +32,7 @@ import Permissions from '@/views/settings/_views/Permissions.vue';
 import Advanced from '@/views/settings/_views/Advanced.vue';
 import Download from '@/views/download/_views/Download.vue';
 import Companies from '@/views/settings/_views/Companies.vue';
+
 
 import Profile from '@/views/profile/_views/Profile.vue';
 import Basic from '@/views/profile/_components/Basic.vue';
@@ -204,6 +208,26 @@ const routes: RouteRecordRaw[] = [
           title: ERouteNames.CompanyReports,
           name: ERouteNames.CompanyReports,
         },
+        children: [
+          {
+            path: 'elastic',
+            name: ERouteNames.CompanyReportsElastic,
+            component: ElasticReports,
+            meta: {
+              title: ERouteNames.CompanyReportsElastic,
+              name: ERouteNames.CompanyReportsElastic,
+            },
+          },
+          {
+            path: 'default',
+            name: ERouteNames.CompanyReportsDefault,
+            component: DefaultReports,
+            meta: {
+              title: ERouteNames.CompanyReportsDefault,
+              name: ERouteNames.CompanyReportsDefault,
+            },
+          },
+        ],
       },
       {
         path: '/settings',

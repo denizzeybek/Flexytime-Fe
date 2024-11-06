@@ -96,7 +96,7 @@ const navItems = ref<IModel[]>([
       },
       {
         label: 'Reports',
-        routeName: ERouteNames.CompanyReports,
+        routeName: ERouteNames.CompanyReportsElastic,
       },
     ],
   },

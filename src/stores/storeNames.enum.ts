@@ -6,6 +6,7 @@ export enum EStoreNames {
 
   COMPANY_ORGANIZATION_CHARTS = 'organizationCharts',
   COMPANY_WORKING_HOURS = 'workingHours',
+  COMPANY_REPORTS = 'reports',
 
   HR_SETTINGS_EMPLOYEES = 'employees',
   HR_SETTINGS_ANNUALS = 'annuals',

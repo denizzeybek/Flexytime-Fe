@@ -53,7 +53,7 @@
 import { ERouteNames } from '@/router/routeNames.enum';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { useForm } from 'vee-validate';
-import { boolean, string, object, array, number, ref as yupRef } from 'yup';
+import { string, object } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 
 const { showSuccessMessage, showErrorMessage } = useFToast();

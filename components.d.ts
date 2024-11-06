@@ -12,6 +12,7 @@ declare module 'vue' {
     Breadcrumb: typeof import('primevue/breadcrumb')['default']
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
+    Chart: typeof import('primevue/chart')['default']
     Checkbox: typeof import('./src/components/ui/global/Checkbox.vue')['default']
     Column: typeof import('primevue/column')['default']
     copy: typeof import('./src/components/ui/global/Input copy.vue')['default']

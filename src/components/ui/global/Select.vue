@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-2">
-    <label v-if="label" :for="name" class="">{{ label }}</label>
+    <label :for="name" class="">{{ label }}</label>
     <Select
       v-model="value"
       :options="options"
@@ -34,7 +34,7 @@
         <slot name="customFooter" />
       </template>
     </Select>
-    <small class="p-error text-red-500" v-if="errorMessage" type="error">
+    <small class="p-error text-red-500" >
       {{ errorMessage }}
     </small>
   </div>

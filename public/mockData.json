@@ -3458,5 +3458,396 @@
       "LastActivityDate": "2024.11.04",
       "DashboardActivityDate": "2024.11.05"
     }
-  ]
+  ],
+  "/webapi/report/filters": {
+    "Projects": [
+      {
+        "ID": "641894e2717e9a047475ee35",
+        "Name": "Çiko Gofret"
+      },
+      {
+        "ID": "64128edb57a0312af0b477f2",
+        "Name": "Clearing"
+      },
+      {
+        "ID": "641171f0717e9a13cc5ffa58",
+        "Name": "Pınar"
+      },
+      {
+        "ID": "648762c2717e9a0924ba569f",
+        "Name": "Productiivty"
+      },
+      {
+        "ID": "64128b1c57a0315f9c8a6913",
+        "Name": "Reconciliation"
+      },
+      {
+        "ID": "64a6677c717e9a1114b81417",
+        "Name": "SAP"
+      },
+      {
+        "ID": "640dc980717e9e14bc535a4a",
+        "Name": "TXT"
+      },
+      {
+        "ID": "6432af9c717e9a08c4a00ca4",
+        "Name": "Yeni proje"
+      }
+    ],
+    "Tags": [
+      {
+        "ID": "640dc994717e9e14bc535a53",
+        "Name": "Color"
+      },
+      {
+        "ID": "641171f6717e9a13cc5ffa68",
+        "Name": "Lansman"
+      },
+      {
+        "ID": "64128b2257a0315f9c8a6914",
+        "Name": "Reporting"
+      },
+      {
+        "ID": "64128f7b57a0312af0b47802",
+        "Name": "Seller"
+      },
+      {
+        "ID": "64128cc857a0315f9c8a6928",
+        "Name": "Vendor"
+      }
+    ],
+    "Employees": [
+      {
+        "ID": "64015c5ee435600a443e8cde",
+        "Name": "Admin"
+      },
+      {
+        "ID": "64015c5ee435600a443e8c32",
+        "Name": "Agnes Owens"
+      },
+      {
+        "ID": "64015c5ee435600a443e8d90",
+        "Name": "Aneesa Ward"
+      },
+      {
+        "ID": "64015c5ee435600a443e8c66",
+        "Name": "Celine Miller"
+      },
+      {
+        "ID": "64015c5ee435600a443e8dc4",
+        "Name": "Danielle Hurst"
+      },
+      {
+        "ID": "64015c5ee435600a443e8d07",
+        "Name": "Erik Johnson"
+      },
+      {
+        "ID": "64015c5ee435600a443e8c10",
+        "Name": "Estelle Montes"
+      },
+      {
+        "ID": "64015c5ee435600a443e8e1e",
+        "Name": "Evelyn Wall"
+      },
+      {
+        "ID": "64015c5ee435600a443e8d19",
+        "Name": "FlexyTime Yönetici"
+      },
+      {
+        "ID": "64015c5ee435600a443e8d66",
+        "Name": "Hanna Rowland"
+      },
+      {
+        "ID": "64015c5ee435600a443e8c79",
+        "Name": "Isabel Morris"
+      },
+      {
+        "ID": "64015c5ee435600a443e8d02",
+        "Name": "Jamie Watkins"
+      },
+      {
+        "ID": "64015c5ee435600a443e8e6d",
+        "Name": "Jose Lambert"
+      },
+      {
+        "ID": "64015c5ee435600a443e8d41",
+        "Name": "Josephine Walsh"
+      },
+      {
+        "ID": "64015c5ee435600a443e8e3c",
+        "Name": "Judith Elliott"
+      },
+      {
+        "ID": "64015c5ee435600a443e8d79",
+        "Name": "Julie Harding"
+      },
+      {
+        "ID": "64015c5ee435600a443e8beb",
+        "Name": "Kristina Lozano"
+      },
+      {
+        "ID": "64015c5ee435600a443e8c13",
+        "Name": "Kyan Mooney"
+      },
+      {
+        "ID": "64015c5ee435600a443e8d7f",
+        "Name": "Luis Fox"
+      },
+      {
+        "ID": "64015c5ee435600a443e8e2e",
+        "Name": "makman"
+      },
+      {
+        "ID": "66a0b1595e7b6c08a03fd093",
+        "Name": "mehme"
+      },
+      {
+        "ID": "64015c5ee435600a443e8de7",
+        "Name": "Natalie Nixon"
+      },
+      {
+        "ID": "64015c5ee435600a443e8cfb",
+        "Name": "Phillip Dotson"
+      },
+      {
+        "ID": "64015c5ee435600a443e8c27",
+        "Name": "Remi Conner"
+      },
+      {
+        "ID": "64015c5ee435600a443e8d83",
+        "Name": "Samson Mullen"
+      },
+      {
+        "ID": "64015c5ee435600a443e8e58",
+        "Name": "Sonia Watkins"
+      },
+      {
+        "ID": "64015c5ee435600a443e8c7c",
+        "Name": "Tobias Turner"
+      }
+    ],
+    "Teams": [
+      {
+        "ID": "629176fc57a0318a082d5175",
+        "Name": "Accounting Department"
+      },
+      {
+        "ID": "629176fc57a0318a082d5177",
+        "Name": "Collection and Budget"
+      },
+      {
+        "ID": "629176ff57a0318a082d51b5",
+        "Name": "Commercial Project Bidding"
+      },
+      {
+        "ID": "629176fe57a0318a082d51a2",
+        "Name": "Contoso"
+      },
+      {
+        "ID": "629176fb57a0318a082d5166",
+        "Name": "Finance Department"
+      },
+      {
+        "ID": "629176ff57a0318a082d51ae",
+        "Name": "Finance Department"
+      },
+      {
+        "ID": "629176fc57a0318a082d516e",
+        "Name": "Price and Competition Analysis"
+      },
+      {
+        "ID": "629176fc57a0318a082d517e",
+        "Name": "Sales Department"
+      },
+      {
+        "ID": "629176ff57a0318a082d51ab",
+        "Name": "Sales Support Department"
+      },
+      {
+        "ID": "629176fc57a0318a082d516b",
+        "Name": "Strategy Development"
+      },
+      {
+        "ID": "629176ff57a0318a082d51b3",
+        "Name": "Trading Department"
+      },
+      {
+        "ID": "66a0b15a5e7b6c08a03fd095",
+        "Name": "Work Group"
+      }
+    ]
+  },
+  "/webapi/report/query": {
+    "Summary": {
+      "Billable": "02.13:51",
+      "Unbillable": "00.00:00",
+      "Total": "02.13:51"
+    },
+    "Graphs": {
+      "Main": {
+        "labels": ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday"],
+        "datasets": [
+          {
+            "label": "Entries",
+            "data": [
+              9.933333333333334, 10.833333333333334, 10.116666666666667, 9.9, 10.65,
+              10.416666666666666
+            ],
+            "backgroundColor": "rgb(153, 102, 255)",
+            "borderColor": "rgba(153, 102, 255 ,0.2)"
+          }
+        ],
+        "Unit": "Hour"
+      },
+      "Group": [
+        {
+          "label": "Reconciliation",
+          "value": 11.668014012395581
+        },
+        {
+          "label": "Reconciliation",
+          "value": 10.778765831312315
+        },
+        {
+          "label": "Reconciliation",
+          "value": 9.26973861492859
+        },
+        {
+          "label": "Reconciliation",
+          "value": 4.79655079493398
+        },
+        {
+          "label": "Reconciliation",
+          "value": 6.036108865534897
+        },
+        {
+          "label": "Reconciliation",
+          "value": 4.715710051199138
+        },
+        {
+          "label": "Reconciliation",
+          "value": 7.895445971436271
+        },
+        {
+          "label": "Reconciliation",
+          "value": 4.823497709512261
+        },
+        {
+          "label": "Clearing",
+          "value": 2.3443815683104283
+        },
+        {
+          "label": "Clearing",
+          "value": 8.407437348423606
+        },
+        {
+          "label": "Clearing",
+          "value": 1.643761789275128
+        },
+        {
+          "label": "Clearing",
+          "value": 2.1827000808407435
+        },
+        {
+          "label": "Clearing",
+          "value": 8.111021288062517
+        },
+        {
+          "label": "Clearing",
+          "value": 4.2306655887900835
+        },
+        {
+          "label": "Clearing",
+          "value": 10.26677445432498
+        },
+        {
+          "label": "Clearing",
+          "value": 2.8294260307194827
+        }
+      ]
+    },
+    "Grouping": [
+      {
+        "Group1": "Reconciliation",
+        "Group2": "Celine Miller",
+        "Total": "07:13"
+      },
+      {
+        "Group1": "Reconciliation",
+        "Group2": "Josephine Walsh",
+        "Total": "06:40"
+      },
+      {
+        "Group1": "Reconciliation",
+        "Group2": "Kristina Lozano",
+        "Total": "05:44"
+      },
+      {
+        "Group1": "Reconciliation",
+        "Group2": "Jose Lambert",
+        "Total": "02:58"
+      },
+      {
+        "Group1": "Reconciliation",
+        "Group2": "Samson Mullen",
+        "Total": "03:44"
+      },
+      {
+        "Group1": "Reconciliation",
+        "Group2": "mehme",
+        "Total": "02:55"
+      },
+      {
+        "Group1": "Reconciliation",
+        "Group2": "Erik Johnson",
+        "Total": "04:53"
+      },
+      {
+        "Group1": "Reconciliation",
+        "Group2": "Tobias Turner",
+        "Total": "02:59"
+      },
+      {
+        "Group1": "Clearing",
+        "Group2": "Erik Johnson",
+        "Total": "01:27"
+      },
+      {
+        "Group1": "Clearing",
+        "Group2": "Tobias Turner",
+        "Total": "05:12"
+      },
+      {
+        "Group1": "Clearing",
+        "Group2": "Kristina Lozano",
+        "Total": "01:01"
+      },
+      {
+        "Group1": "Clearing",
+        "Group2": "Celine Miller",
+        "Total": "01:21"
+      },
+      {
+        "Group1": "Clearing",
+        "Group2": "Jose Lambert",
+        "Total": "05:01"
+      },
+      {
+        "Group1": "Clearing",
+        "Group2": "Samson Mullen",
+        "Total": "02:37"
+      },
+      {
+        "Group1": "Clearing",
+        "Group2": "mehme",
+        "Total": "06:21"
+      },
+      {
+        "Group1": "Clearing",
+        "Group2": "Josephine Walsh",
+        "Total": "01:45"
+      }
+    ],
+    "DownloadKey": "UZOYHZNDEXUZ"
+  }
 }

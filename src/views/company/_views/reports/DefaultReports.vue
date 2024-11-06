@@ -1,6 +1,6 @@
 <template>
     <div>
-        reports
+default
     </div>
 </template>
 
