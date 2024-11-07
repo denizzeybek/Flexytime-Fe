@@ -8,7 +8,7 @@
               <FText class="w-[250px] lg:max-w-[350px]">{{ field.value.TypeName }}</FText>
             </div>
             <div class="flex items-center gap-12">
-              <FCheckbox
+              <FSwitch
                 v-if="field.value.DataType === 2"
                 :name="`advanceds[${idx}].Value`"
                 class="w-[120x]"
