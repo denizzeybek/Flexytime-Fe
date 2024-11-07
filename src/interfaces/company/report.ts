@@ -25,6 +25,8 @@ export interface IReportFilter {
   Teams: IReportTeam[];
 }
 
+/* ******************************************************** */
+
 export interface IReportSummary {
   Billable: string;
   Unbillable: string;
@@ -63,4 +65,43 @@ export interface IReportQuery {
   Graphs: IReportGraph;
   Grouping: IReportGrouping[];
   DownloadKey: string;
+}
+
+/* ******************************************************** */
+
+export interface IReportType {
+  ID: string;
+  Name: string;
+}
+
+export interface IReportRecipientType {
+  ID: string;
+  Name: string;
+}
+
+export interface IReportSection {
+  ID: string;
+  Name: string;
+}
+
+export interface IReportItem {
+  CronDisplay: string;
+  TypeDisplay: string;
+  SectionNameDisplay: string;
+  ScheduleDisplay: string;
+  ID: string;
+  To: string;
+  Cc: string;
+  Bcc: string;
+  Type: number;
+  Cron: string | null;
+  SectionId: string | null;
+  Schedule: string | null;
+}
+
+export interface IDefaultReport {
+  ReportTypes: IReportType[];
+  ReportRecipientTypes: IReportRecipientType[];
+  SectionList: IReportSection[];
+  Items: IReportItem[];
 }

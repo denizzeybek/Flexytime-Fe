@@ -17,11 +17,7 @@
       <TabPanels>
         <TabPanel value="0">
           <form v-if="!isEditing" class="flex flex-col gap-5" @submit.prevent>
-            <EmailInputList
-              v-model:emails="emails"
-              name="emails"
-              :error-message="emailErrorMessage"
-            />
+            <FEmailList name="emails" :is-clear="isClear"/>
           </form>
           <form v-else class="flex flex-col gap-4">
             <div class="flex items-center flex-col lg:flex-row gap-12">
@@ -194,7 +190,6 @@ import { computed, onMounted, ref } from 'vue';
 import { useForm } from 'vee-validate';
 import { boolean, string, object, array, number, ref as yupRef } from 'yup';
 import { toTypedSchema } from '@vee-validate/yup';
-import EmailInputList from '@/components/ui/local/EmailInputList.vue';
 import { useFToast } from '@/composables/useFToast';
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
 
@@ -213,9 +208,8 @@ const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const open = defineModel<boolean>('open');
 const activeTab = ref('0');
-const emails = ref([]);
-const emailErrorMessage = ref('');
 const src = ref();
+const isClear = ref(false);
 
 const isEditing = computed(() => !!props.data);
 const validationSchema: any = computed(() => {
@@ -223,7 +217,13 @@ const validationSchema: any = computed(() => {
     if (!isEditing.value) {
       return toTypedSchema(
         object({
-          emails: array().of(string().email('email')).label('Emails').nullable(),
+          emails: array()
+            .label('Email')
+            .of(
+              string().email('Please enter a valid email address.').required('Email is required.'),
+            )
+            .required('Please add at least one email.')
+            .min(1, 'Please add at least one email.'), // Ensures the array isn't empty
         }),
       );
     } else {
@@ -319,13 +319,10 @@ const onFileSelect = (event) => {
 const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
-    if (activeTab.value === '0' && emails.value.length === 0) {
-      emailErrorMessage.value = 'Emails are required';
-      return;
-    }
     console.log('src ', src.value);
     emit('fetchEmployees');
     showSuccessMessage('Employee updated!');
+    isClear.value = true;
     // handleClose();
   } catch (error: any) {
     showErrorMessage(error as any);

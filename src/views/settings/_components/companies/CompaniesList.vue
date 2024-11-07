@@ -3,7 +3,6 @@
       :is-loading="isLoading"
       @new="handleNew"
       @edit="handleEdit"
-      @fetch-companies="fetchCompanies"
     />
     <CompanyModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentCompany" />
   </template>

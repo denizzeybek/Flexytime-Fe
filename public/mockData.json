@@ -3849,5 +3849,109 @@
       }
     ],
     "DownloadKey": "UZOYHZNDEXUZ"
+  },
+  "/webapi/company/reports": {
+    "ReportTypes": [
+      {
+        "ID": "1",
+        "Name": "Productivity Report"
+      },
+      {
+        "ID": "2",
+        "Name": "Usage Report"
+      },
+      {
+        "ID": "3",
+        "Name": "Distribution Report"
+      },
+      {
+        "ID": "4",
+        "Name": "Worktime Productivity Report"
+      },
+      {
+        "ID": "5",
+        "Name": "Worktime Productivity Email"
+      },
+      {
+        "ID": "6",
+        "Name": "Trend Report"
+      }
+    ],
+    "ReportRecipientTypes": [
+      {
+        "ID": "0 0 9 ? * MON,TUE,WED,THU,FRI,SAT *",
+        "Name": "Every Weekday"
+      },
+      {
+        "ID": "0 0 9 ? * FRI *",
+        "Name": "Every Week on Friday"
+      }
+    ],
+    "SectionList": [
+      {
+        "ID": "629176fb57a0318a082d5166",
+        "Name": "Finance Department"
+      },
+      {
+        "ID": "629176fc57a0318a082d516b",
+        "Name": "Strategy Development"
+      },
+      {
+        "ID": "629176fc57a0318a082d516e",
+        "Name": "Price and Competition Analysis"
+      },
+      {
+        "ID": "629176fc57a0318a082d5175",
+        "Name": "Accounting Department"
+      },
+      {
+        "ID": "629176fc57a0318a082d5177",
+        "Name": "Collection and Budget"
+      },
+      {
+        "ID": "629176fc57a0318a082d517e",
+        "Name": "Sales Department"
+      },
+      {
+        "ID": "629176fe57a0318a082d51a2",
+        "Name": "Contoso"
+      },
+      {
+        "ID": "629176ff57a0318a082d51ab",
+        "Name": "Sales Support Department"
+      },
+      {
+        "ID": "629176ff57a0318a082d51ae",
+        "Name": "Finance Department"
+      },
+      {
+        "ID": "629176ff57a0318a082d51b3",
+        "Name": "Trading Department"
+      },
+      {
+        "ID": "629176ff57a0318a082d51b5",
+        "Name": "Commercial Project Bidding"
+      },
+      {
+        "ID": "66a0b15a5e7b6c08a03fd095",
+        "Name": "Work Group"
+      }
+    ],
+    "Items": [
+      {
+        "CronDisplay": "",
+        "TypeDisplay": "Productivity Report",
+        "SectionNameDisplay": "Strategy Development",
+        "ScheduleDisplay": "Everyday",
+        "ID": "672be472717e9a105818e242",
+        "To": ["deniz@gmail.com","arda@gmail.com"],
+        "Cc": ["ege@gmail.com"],
+        "Bcc": ["pekcan@gmail.com"],
+        "Type": 0,
+        "Cron": null,
+        "SectionId": null,
+        "Schedule": null
+      }
+    ]
   }
 }

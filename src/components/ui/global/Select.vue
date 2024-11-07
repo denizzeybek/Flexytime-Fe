@@ -4,7 +4,7 @@
     <Select
       v-model="value"
       :options="options"
-      :optionLabel="name"
+      optionLabel="name"
       :placeholder="placeholder"
       :invalid="!!errorMessage"
       @change="onSelect($event)"
