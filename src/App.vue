@@ -39,24 +39,9 @@ onMounted(async () => {
 }
 /* #endregion */
 
-/* #region panelMenu */
-/* .p-panelmenu {
-  @apply !gap-0;
-}
-.p-panelmenu .p-panelmenu-panel {
-  @apply !border-none;
-} */
-/* #endregion */
-
 /* #region input */
 .p-inputtext.p-password-input {
   @apply !w-full;
-}
-/*#endregion */
-
-/* #region menu */
-.p-menu-submenu-label {
-  @apply !p-0;
 }
 /*#endregion */
 
