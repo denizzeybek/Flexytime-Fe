@@ -10,7 +10,7 @@
               <FText>{{ field.value.Name }}</FText>
             </div>
             <div class="flex items-center gap-12">
-              <FCheckbox :name="`permissions[${idx}].Enabled`" />
+              <FSwitch :name="`permissions[${idx}].Enabled`" />
               <FSelectSwitchButton
                 :name="`permissions[${idx}].VisibleOnlyByAdmin`"
                 :options="options"
