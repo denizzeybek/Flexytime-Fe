@@ -18,14 +18,17 @@
         </div>
       </template>
       <template #content>
-        <div class="flex flex-col gap-4">
-          <EmailInputList
-            v-model:emails="emails"
-            name="emails"
-            :error-message="emailErrorMessage"
-          />
-          <Button @click="onSubmitEmails" @click.stop>Add your friednd</Button>
-        </div>
+        <form @submit="submitHandler">
+          <div class="flex flex-col gap-4">
+            <FEmailList name="emails" :is-clear="isClear"/>
+            <Button
+              type="submit"
+              label="Add your friend"
+              :disabled="isSubmitting"
+              :loading="isSubmitting"
+            />
+          </div>
+        </form>
       </template>
     </Card>
 
@@ -52,45 +55,56 @@
     </div>
   </div>
   <BonusModal v-if="isBonusModalOpen" v-model:open="isBonusModalOpen" />
-  <PrevInvitationsModal v-if="isPrevInvitationsModalOpen" v-model:open="isPrevInvitationsModalOpen" />
+  <PrevInvitationsModal
+    v-if="isPrevInvitationsModalOpen"
+    v-model:open="isPrevInvitationsModalOpen"
+  />
 </template>
 
 <script setup lang="ts">
 // TODO:: stepler için gerekli olan datayı topla ona göre stepleri aktif yap
-import EmailInputList from '@/components/ui/local/EmailInputList.vue';
 import { ref, computed, onMounted } from 'vue';
 import { useFToast } from '@/composables/useFToast';
 import { usePromotionsStore } from '@/stores/promotion/promotion';
 import { copyToClipboard } from '@/helpers/utils';
 import PrevInvitationsModal from '../_components/PrevInvitationsModal.vue';
 import BonusModal from '../_components/BonusModal.vue';
+import { useForm } from 'vee-validate';
+import { string, object, array } from 'yup';
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const promotionsStore = usePromotionsStore();
 
-const emails = ref([]);
-const emailErrorMessage = ref('');
 const isCopied = ref(false);
 const isBonusModalOpen = ref(false);
 const isPrevInvitationsModalOpen = ref(false);
+const isClear = ref(false);
 
 const link = computed(() => {
   return `https://flexytime.com/invite?email=${promotionsStore.PromotionLink}`;
 });
 
-const onSubmitEmails = () => {
+const validationSchema = object({
+  emails: array()
+    .label('Email')
+    .of(string().email('Please enter a valid email address.').required('Email is required.'))
+    .required('Please add at least one email.')
+    .min(1, 'Please add at least one email.'), // Ensures the array isn't empty
+});
+
+const { handleSubmit, isSubmitting } = useForm({
+  validationSchema,
+});
+
+const submitHandler = handleSubmit(async (values) => {
   try {
-    if (emails?.value?.length === 0) {
-      emailErrorMessage.value = 'Please enter at least one email address.';
-      return;
-    }
-    emailErrorMessage.value = '';
-    console.log('emails.value ', emails.value);
-    showSuccessMessage('Emails added successfully');
-  } catch (error) {
+    console.log('values ', values);
+    showSuccessMessage('Users invited!');
+    isClear.value = true;
+  } catch (error: any) {
     showErrorMessage(error as any);
   }
-};
+});
 
 const copyText = () => {
   try {

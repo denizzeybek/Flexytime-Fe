@@ -1,55 +1,81 @@
 <template>
-  <div class="flex flex-col gap-2">
-    <label :for="id">{{ label }}</label>
-    <!-- <ToggleSwitch
-      v-model="computedValue as unknown as any"
-      :id="id"
-      :data-error="!!errorMessage"
-      class="w-full"
-      :invalid="!!errorMessage"
-      :class="[customClass]"
-      v-bind="primeProps"
-    /> -->
-    <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
+  <div class="flex items-center gap-2">
+    <label
+      :for="name"
+      class="flex items-center gap-2 cursor-pointer select-none"
+      :class="[
+        {
+          'opacity-50 cursor-not-allowed': disabled,
+        },
+        { 'flex-col-reverse': labelTop },
+        { 'flex-row': labelLeft },
+      ]"
+    >
+      <input
+        :id="name"
+        :name="name"
+        type="checkbox"
+        :value="checkedValue"
+        :checked="checked"
+        :trueValue="checkedValue"
+        :falseValue="uncheckedValue"
+        :disabled="disabled"
+        @change="handleChange"
+        class="sr-only"
+      />
+      <span
+        class="relative w-10 h-5 transition-colors duration-200 rounded-full"
+        :class="{
+          'bg-gray-300': !checked,
+          'bg-f-primary': checked,
+        }"
+      >
+        <span
+          class="absolute top-0.5 left-0.5 h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+          :class="{
+            'translate-x-5': checked,
+            'translate-x-0': !checked,
+          }"
+        ></span>
+      </span>
+
+      {{ label }}
+      <slot></slot>
+    </label>
+    <small class="p-error text-red-500" v-if="errorMessage" type="error">
+      {{ errorMessage }}
+    </small>
   </div>
 </template>
 
-<script setup lang="ts">
-import type { InputTextProps } from 'primevue/inputtext';
-import { ref, computed } from 'vue';
+<script lang="ts" setup>
 import { useField } from 'vee-validate';
 
-interface IProps {
-  id: string;
+type CheckValueType = string | number | boolean;
+
+export interface IProps {
   name: string;
   label?: string;
-  customClass?: string;
-  primeProps?: InputTextProps;
-  errorMessage?: string;
-  modelValue?: boolean;
+  checkedValue?: CheckValueType;
+  uncheckedValue?: CheckValueType;
   disabled?: boolean;
+  modelValue?: CheckValueType;
+  syncVModel?: boolean;
+  labelTop?: boolean;
+  labelLeft?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
+  checkedValue: true,
+  uncheckedValue: false,
+  syncVModel: false,
 });
 
-const {
-  errorMessage: vError,
-  value,
-} = useField(() => props.name, undefined, {
-  validateOnValueUpdate: false,
-  syncVModel: true,
+const { errorMessage, checked, handleChange } = useField(() => props.name, undefined, {
+  type: 'checkbox',
+  checkedValue: props.checkedValue,
+  uncheckedValue: props.uncheckedValue,
+  syncVModel: props.syncVModel,
 });
-
-const computedValue = computed({
-  get: () => value.value ?? false, // Default to false if undefined
-  set: (newValue: boolean) => {
-    value.value = newValue;
-  },
-});
-
-const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
 </script>
-
-<style scoped></style>

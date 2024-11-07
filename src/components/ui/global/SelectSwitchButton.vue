@@ -37,7 +37,7 @@ export interface IProps {
   customWidth?: string;
   arialabelledby?: 'basic' | 'multiple' | 'custom';
   multiple?: boolean;
-  optionLabel?: 'label' | 'value';
+  optionLabel?: 'label';
 }
 
 const props = withDefaults(defineProps<IProps>(), {

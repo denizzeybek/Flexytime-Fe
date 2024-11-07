@@ -1,4 +1,15 @@
-import type { IReportFilter, IReportGraph, IReportGrouping, IReportQuery, IReportSummary } from '@/interfaces/company/report';
+import type {
+  IReportFilter,
+  IReportGraph,
+  IReportGrouping,
+  IReportQuery,
+  IReportSummary,
+  IDefaultReport,
+  IReportItem,
+  IReportSection,
+  IReportRecipientType,
+  IReportType,
+} from '@/interfaces/company/report';
 import { EStoreNames } from '@/stores/storeNames.enum';
 import axios from 'axios';
 import { defineStore } from 'pinia';
@@ -10,6 +21,10 @@ interface State {
   summary: IReportSummary;
   graphs: IReportGraph;
   grouping: IReportGrouping;
+  ReportTypes: IReportType[];
+  ReportRecipientTypes: IReportRecipientType[];
+  SectionList: IReportSection[];
+  Items: IReportItem[];
 }
 
 export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
@@ -19,6 +34,10 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
     summary: {} as IReportSummary,
     graphs: {} as IReportGraph,
     grouping: {} as IReportGrouping,
+    ReportTypes: [],
+    ReportRecipientTypes: [],
+    SectionList: [],
+    Items: [],
   }),
   actions: {
     fetchFilters() {
@@ -51,7 +70,28 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
             this.query = query;
             this.summary = query.Summary;
             this.graphs = query.Graphs;
-            this.grouping = query.Grouping
+            this.grouping = query.Grouping;
+
+            resolve(query);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    fetchDefaultReports() {
+      const api = '/webapi/company/reports';
+      return new Promise((resolve, reject) => {
+        const url = useMockData ? '/mockData.json' : api;
+
+        axios
+          .post(url)
+          .then((response: any) => {
+            const query = useMockData ? response[api] : (response as IDefaultReport);
+            this.ReportTypes = query.ReportTypes;
+            this.ReportRecipientTypes = query.ReportRecipientTypes;
+            this.SectionList = query.SectionList;
+            this.Items = query.Items;
 
             resolve(query);
           })

@@ -3,7 +3,6 @@
     :is-loading="isLoading"
     @new="handleNew"
     @edit="handleEdit"
-    @fetch-annuals="fetchAnnuals"
   />
   <AnnualModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentAnnual" />
 </template>

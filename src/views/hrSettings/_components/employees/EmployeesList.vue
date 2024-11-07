@@ -3,7 +3,6 @@
     :is-loading="isLoading"
     @new="handleNew"
     @edit="handleEdit"
-    @fetch-employees="fetchEmployees"
   />
   <EmployeeModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentEmployee" />
 </template>

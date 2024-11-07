@@ -3,7 +3,6 @@
     :is-loading="isLoading"
     @new="handleNew"
     @edit="handleEdit"
-    @fetch-holidays="fetchHolidays"
   />
   <HolidayModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentHoliday" />
 </template>

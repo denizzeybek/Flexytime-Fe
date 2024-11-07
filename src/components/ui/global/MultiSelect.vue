@@ -4,7 +4,7 @@
     <MultiSelect
       v-model="value"
       :options="options"
-      :optionLabel="name"
+      optionLabel="name"
       :placeholder="placeholder"
       :invalid="!!errorMessage"
       @change="onSelect($event)"
@@ -34,8 +34,11 @@
       <template #footer>
         <slot name="customFooter" />
       </template>
+      <template #emptyfilter>
+        <slot name="customEmptyFilter" />
+      </template>
     </MultiSelect>
-    <small :id="`${name}-help`"  class="p-error text-red-500" >
+    <small :id="`${name}-help`" class="p-error text-red-500">
       {{ errorMessage }}
     </small>
   </div>
