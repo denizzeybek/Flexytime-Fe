@@ -17,7 +17,7 @@ onMounted(async () => {
 <style>
 /* #region tablist */
 .p-tablist-content {
-  @apply !mb-5 !px-5;
+  @apply !px-5;
 }
 .p-tabs {
   @apply !p-0 !m-0;
@@ -26,7 +26,7 @@ onMounted(async () => {
   @apply !w-fit !rounded-xl !border-f-gray !border !bg-f-light-gray;
 }
 .p-tab {
-  @apply !border-transparent !text-f-dark-gray  !rounded-xl;
+  @apply !border-transparent !text-f-dark-gray  !rounded-xl !py-3;
 }
 .p-tab.p-tab-active {
   @apply !bg-white !text-black !rounded-xl !border-none !transform !scale-104;

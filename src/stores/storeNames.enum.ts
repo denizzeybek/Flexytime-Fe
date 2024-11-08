@@ -17,6 +17,9 @@ export enum EStoreNames {
   SETTINGS_DOWNLOAD = 'download',
   SETTINGS_COMPANIES = 'companies',
 
+  TIMESHEETS_TIME_MANAGEMENTS = 'timeManagements',
+  TIMESHEETS_TIME_ENTRY = 'timeEntry',
+
   PROFILE = 'profile',
   PROMOTION = 'promotion',
 

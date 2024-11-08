@@ -27,8 +27,11 @@ export enum ERouteNames {
   ClassificationApplications = 'Applications',
 
   // TimeSheets
+  Timesheets = 'Timesheets',
   TimesheetEntry = 'Timesheet Entry',
   TimeManagement = 'Time Management',
+  TimeManagementPerson = 'Person',
+  TimeManagementProject = 'Project',
 
   // Company
   Company = 'Company',
