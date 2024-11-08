@@ -1,5 +1,5 @@
 <template>
-  <div>timeSheet entry</div>
+  <div>Time Entries</div>
 </template>
 
 <script setup lang="ts"></script>

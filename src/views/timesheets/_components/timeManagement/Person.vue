@@ -59,15 +59,15 @@ const toggleApplications = () => {
   expandedKeys.value = _expandedKeys;
 };
 
-watch(
-  () => timeManagementsStore.personList?.length,
-  (listLength) => {
-    if (listLength) {
-      toggleApplications();
-    }
-  },
-  { immediate: true },
-);
+// watch(
+//   () => timeManagementsStore.personList?.length,
+//   (listLength) => {
+//     if (listLength) {
+//       toggleApplications();
+//     }
+//   },
+//   { immediate: true },
+// );
 </script>
 
 <style scoped></style>

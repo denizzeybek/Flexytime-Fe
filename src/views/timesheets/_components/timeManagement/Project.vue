@@ -59,15 +59,15 @@
     expandedKeys.value = _expandedKeys;
   };
   
-  watch(
-    () => timeManagementsStore.projectList?.length,
-    (listLength) => {
-      if (listLength) {
-        toggleApplications();
-      }
-    },
-    { immediate: true },
-  );
+  // watch(
+  //   () => timeManagementsStore.projectList?.length,
+  //   (listLength) => {
+  //     if (listLength) {
+  //       toggleApplications();
+  //     }
+  //   },
+  //   { immediate: true },
+  // );
   </script>
   
   <style scoped></style>
