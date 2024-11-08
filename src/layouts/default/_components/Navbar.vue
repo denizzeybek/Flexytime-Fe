@@ -63,6 +63,21 @@ const navItems = ref<IModel[]>([
     routeName: ERouteNames.ClassificationWebAddresses,
   },
   {
+    label: 'TimeSheets',
+    icon: 'pi pi-hourglass',
+    routeName: ERouteNames.Timesheets,
+    children: [
+      {
+        label: 'TimeSheet Entry',
+        routeName: ERouteNames.TimesheetEntry,
+      },
+      {
+        label: 'Time Management',
+        routeName: ERouteNames.TimeManagementPerson,
+      },
+    ],
+  },
+  {
     label: 'HR Settings',
     icon: 'pi pi-users',
     routeName: ERouteNames.HRSettings,

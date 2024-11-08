@@ -3,12 +3,17 @@ import { ERouteNames } from '@/router/routeNames.enum';
 import DefaultLayout from '@/layouts/default/DefaultLayout.vue';
 import WorktimeUsage from '@/views/worktimeUsage/_views/WorktimeUsage.vue';
 
+// Classification
 import Classification from '@/views/classification/_views/Classification.vue';
 import ClassificationWebAddresses from '@/views/classification/_views/WebAddresses.vue';
 import ClassificationApplications from '@/views/classification/_views/Applications.vue';
 
+// Timesheets
+import Timesheets from '@/views/timesheets/_views/TimeSheets.vue';
 import TimesheetEntry from '@/views/timesheets/_views/TimesheetEntry.vue';
 import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
+import TimeManagementProject from '@/views/timesheets/_components/timeManagement/Project.vue';
+import TimeManagementPerson from '@/views/timesheets/_components/timeManagement/Person.vue';
 
 // Company
 import Company from '@/views/company/_views/Company.vue';
@@ -100,6 +105,15 @@ const routes: RouteRecordRaw[] = [
         ],
       },
       {
+        path: '/timesheets',
+        name: ERouteNames.Timesheets,
+        component: Timesheets,
+        meta: {
+          title: ERouteNames.Timesheets,
+          name: ERouteNames.Timesheets,
+        }
+      },
+      {
         path: '/timesheet-entry',
         name: ERouteNames.TimesheetEntry,
         component: TimesheetEntry,
@@ -116,6 +130,27 @@ const routes: RouteRecordRaw[] = [
           title: ERouteNames.TimeManagement,
           name: ERouteNames.TimeManagement,
         },
+        children: [
+          {
+            path: 'person',
+            name: ERouteNames.TimeManagementPerson,
+            component: TimeManagementPerson,
+            meta: {
+              title: ERouteNames.TimeManagementPerson,
+              name: ERouteNames.TimeManagementPerson,
+            },
+          },
+          {
+            path: 'project',
+            name: ERouteNames.TimeManagementProject,
+            component: TimeManagementProject,
+            meta: {
+              title: ERouteNames.TimeManagementProject,
+              name: ERouteNames.TimeManagementProject,
+            },
+          },
+
+        ]
       },
       {
         path: '/company',
