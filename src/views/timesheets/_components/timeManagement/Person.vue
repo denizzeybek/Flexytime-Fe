@@ -23,75 +23,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
 import { useTimesheetsTimeManagementsStore } from '@/stores/timeSheets/timeManagement';
-import dayjs from 'dayjs';
-
-type THeaderData = {
-  title: string;
-  subTitle: string;
-};
-
-interface IProps {
-  headerData: THeaderData[];
-}
-
-const props = defineProps<IProps>();
+import { computed, ref, watch } from 'vue';
+import { useTimeManagement } from '../../_composables/useTimeManagement';
 
 const timeManagementsStore = useTimesheetsTimeManagementsStore();
-
+const { generateDateRange, generateTableColumns, generateTableData } = useTimeManagement();
 const expandedKeys = ref({});
 const isOpen = ref(false);
 
-
-const testData = computed(() => {
-    const dateRage = timeManagementsStore.dateRange;
-    return generateDateRange(dateRage[0], dateRage[1]);
+const personData = computed(() => {
+  return generateTableData(timeManagementsStore.personList);
+});
+const tableHeaders = computed(() => {
+  const dateRage = timeManagementsStore.dateRange;
+  return generateDateRange(dateRage[0], dateRage[1]);
 });
 
 const columns = computed(() => {
-  const keys = ['title', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh'];
-  const headers = testData.value;
-  return keys.map((key, index) => ({
-    field: key,
-    header: {
-      title: headers[index - 1]?.title,
-      subTitle: headers[index - 1]?.subTitle,
-    },
-    expander: key === 'title',
-  }));
-});
-
-const personData = computed(() => {
-  if (!timeManagementsStore.personList?.length) return [];
-  return timeManagementsStore.personList.map((person, idx) => {
-    const days = person.Days;
-    const name = person.Name;
-    const children = person.Children;
-    const keys = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh'];
-    return {
-      key: idx.toString(),
-      data: {
-        title: name,
-        ...days.reduce((acc, time, index) => {
-          acc[keys[index]] = time;
-          return acc;
-        }, {}),
-      },
-      children: children.map((child, index) => {
-        return {
-          key: `${idx}-${index}`,
-          data: {
-            title: child.Name,
-            ...child.Days.reduce((acc, time, index) => {
-              acc[keys[index]] = time;
-              return acc;
-            }, {}),
-          },
-        };
-      }),
-    };
-  });
+  return generateTableColumns(tableHeaders.value);
 });
 
 const toggleApplications = () => {
@@ -107,19 +57,6 @@ const toggleApplications = () => {
   }
   isOpen.value = !isOpen.value;
   expandedKeys.value = _expandedKeys;
-};
-
-const generateDateRange = (startDate, endDate) => {
-  const start = dayjs(startDate);
-  const end = dayjs(endDate);
-  
-  return Array.from({ length: end.diff(start, 'day') + 1 }, (_, i) => {
-    const currentDate = start.add(i, 'day');
-    return {
-      title: currentDate.format('DD MMM'),
-      subTitle: currentDate.format('dddd'),
-    };
-  });
 };
 
 watch(
