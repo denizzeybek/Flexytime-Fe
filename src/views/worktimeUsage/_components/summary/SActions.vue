@@ -18,6 +18,7 @@
         selectionMode: 'range',
         incrementIcon: true,
         manuelInput: true,
+        variant: 'filled',
       }"
     />
     <FSelect
@@ -88,7 +89,11 @@ const getInitialFormData = computed(() => {
 
   return {
     ...(worktimeData && {
-      perspective: { name: worktimeData.perspective.name, value: worktimeData.perspective.value },
+      perspective: {
+        name: worktimeData.perspective.name,
+        value: worktimeData.perspective.value,
+        icon: worktimeData.perspective.icon,
+      },
       date: worktimeData.date,
     }),
   };
