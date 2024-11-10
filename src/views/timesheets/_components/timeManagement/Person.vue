@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { useTimesheetsTimeManagementsStore } from '@/stores/timeSheets/timeManagement';
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useTimeManagement } from '../../_composables/useTimeManagement';
 
 const timeManagementsStore = useTimesheetsTimeManagementsStore();
@@ -33,7 +33,8 @@ const expandedKeys = ref({});
 const isOpen = ref(false);
 
 const personData = computed(() => {
-  return generateTableData(timeManagementsStore.personList);
+  const dateRage = timeManagementsStore.dateRange;
+  return generateTableData(timeManagementsStore.personList, dateRage[0], dateRage[1]);
 });
 const tableHeaders = computed(() => {
   const dateRage = timeManagementsStore.dateRange;
@@ -41,7 +42,8 @@ const tableHeaders = computed(() => {
 });
 
 const columns = computed(() => {
-  return generateTableColumns(tableHeaders.value);
+  const dateRage = timeManagementsStore.dateRange;
+  return generateTableColumns(tableHeaders.value, dateRage[0], dateRage[1]);
 });
 
 const toggleApplications = () => {
@@ -58,16 +60,6 @@ const toggleApplications = () => {
   isOpen.value = !isOpen.value;
   expandedKeys.value = _expandedKeys;
 };
-
-// watch(
-//   () => timeManagementsStore.personList?.length,
-//   (listLength) => {
-//     if (listLength) {
-//       toggleApplications();
-//     }
-//   },
-//   { immediate: true },
-// );
 </script>
 
 <style scoped></style>

@@ -7,19 +7,22 @@
         </Tab>
       </TabList>
     </Tabs>
-    <FDateTimePicker
-      class="min-w-[15rem]"
-      name="date"
-      placeholder="Enter date"
-      :prime-props="{
-        showTime: false,
-        hourFormat: '24',
-        fluid: true,
-        size: 'large',
-        selectionMode: 'range',
-        maxDate: maxDate,
-      }"
-    />
+    <div class="flex gap-3">
+      <FDateTimePicker
+        class="min-w-[15rem]"
+        name="date"
+        placeholder="Enter date"
+        :showPrevNextButtons="true"
+        :prime-props="{
+          showTime: false,
+          hourFormat: '24',
+          fluid: true,
+          size: 'large',
+          selectionMode: 'range',
+          maxDate: maxDate,
+        }"
+      />
+    </div>
   </div>
 
   <TabPanels>
@@ -37,6 +40,7 @@ import { useTimesheetsTimeManagementsStore } from '@/stores/timeSheets/timeManag
 import { useForm } from 'vee-validate';
 import { array, string, object } from 'yup';
 import dayjs from 'dayjs';
+
 
 const timeManagementsStore = useTimesheetsTimeManagementsStore();
 const route = useRoute();
@@ -80,6 +84,7 @@ watch(
     if (dates && dates.length > 0) {
       const startDate = dayjs(dates[0]);
       maxDate.value = startDate.add(1, 'week').subtract(1, 'day').toDate();
+      timeManagementsStore.setDate(dates);
     }
   },
   { immediate: true },
@@ -92,7 +97,7 @@ watch(
     if (name === ERouteNames.TimeManagementPerson) {
       timeManagementsStore.filterPerson([startDate, endDate]);
     } else if (name === ERouteNames.TimeManagementProject) {
-      timeManagementsStore.filterProject();
+      timeManagementsStore.filterProject([startDate, endDate]);
     }
   },
   { immediate: true },
@@ -101,6 +106,7 @@ watch(
 onMounted(() => {
   resetForm({
     values: {
+      date: [dayjs().toDate(), dayjs().add(6, 'day').toDate()],
       // TODO: burda initial value verirken problem var. Bunları date formatları değiştirdiğinde gözden geçirmen gerekebilir
       // date: [startDate, endDate],
     },

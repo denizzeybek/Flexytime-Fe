@@ -20,7 +20,7 @@ export const useTimesheetsTimeManagementsStore = defineStore(
       projectList: [],
       personTotalItems: 0,
       projectTotalItems: 0,
-      dateRange: []
+      dateRange: [],
     }),
     actions: {
       filterPerson(dateRange: string[]) {
@@ -44,8 +44,9 @@ export const useTimesheetsTimeManagementsStore = defineStore(
             });
         });
       },
-      filterProject() {
+      filterProject(dateRange: string[]) {
         const api = '/webapi/timesheet/week/project';
+        this.dateRange = dateRange;
         return new Promise((resolve, reject) => {
           const url = useMockData ? '/mockData.json' : api;
 
@@ -63,6 +64,9 @@ export const useTimesheetsTimeManagementsStore = defineStore(
               reject(error);
             });
         });
+      },
+      setDate(dateRange: string[]) {
+        this.dateRange = dateRange;
       },
     },
   },

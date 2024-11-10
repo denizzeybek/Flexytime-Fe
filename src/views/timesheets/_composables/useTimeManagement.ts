@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 export const useTimeManagement = () => {
-  const generateDateRange = (startDate, endDate) => {
+  const generateDateRange = (startDate: string, endDate: string) => {
     const start = dayjs(startDate);
     const end = dayjs(endDate);
 
@@ -14,7 +14,7 @@ export const useTimeManagement = () => {
     });
   };
 
-  const generateTableColumns = (headers: any) => {
+  const generateTableColumns = (headers: any, startDate: string, endDate: string) => {
     const keys = ['title', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh'];
     return keys.map((key, index) => ({
       field: key,
@@ -26,7 +26,7 @@ export const useTimeManagement = () => {
     }));
   };
 
-  const generateTableData = (list: any[]) => {
+  const generateTableData = (list: any[], startDate: string, endDate: string) => {
     if (!list.length) return [];
     return list.map((person, idx) => {
       const days = person.Days;
