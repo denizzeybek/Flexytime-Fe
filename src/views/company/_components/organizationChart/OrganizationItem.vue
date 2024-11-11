@@ -84,6 +84,7 @@
       :model="childModel"
       :depth="depth + 1"
       @itemChange="emit('itemChange', clonedModel)"
+      @itemRemove="emit('itemRemove', clonedModel.ID)"
     />
   </div>
 </template>
@@ -100,7 +101,8 @@ interface IProps {
 const { model, depth = 0 } = defineProps<IProps>();
 
 interface IEmits {
-  (event: 'itemChange', value: any): void;
+  (event: 'itemChange', value: IOrganizationChartNodes): void;
+  (event: 'itemRemove', ID: string): void;
 }
 const emit = defineEmits<IEmits>();
 
@@ -152,15 +154,15 @@ const cancelEdit = () => {
 };
 
 const handleRemove = () => {
-  // Remove the current item
+  emit('itemRemove', (clonedModel as any).ID);
 };
 
 watch(
   () => model,
   () => {
     if (model) {
-      initialClonedModel.value = JSON.parse(JSON.stringify(model));
-      clonedModel.value = model;
+      initialClonedModel.value = JSON.parse(JSON.stringify(model)) as IOrganizationChartNodes;
+      clonedModel.value = model as IOrganizationChartNodes;
     }
   },
   { immediate: true },

@@ -20,24 +20,10 @@
       >
         <template #footer>
           <div v-if="primeProps?.selectionMode === 'range'" class="py-5 flex flex-wrap gap-2">
-            <Button @click="handleChange(EHelperButton.TODAY)" class="w-[80px]">Today</Button>
-            <Button @click="handleChange(EHelperButton.YESTERDAY)" class="w-[80px]">Yesterday</Button>
-            <Button @click="handleChange(EHelperButton.LAST_7_DAYS)" class="w-[80px]"
-              >Last 7 days</Button
-            >
-            <Button @click="handleChange(EHelperButton.LAST_30_DAYS)" class="w-[80px]"
-              >Last 30 days</Button
-            >
-            <Button @click="handleChange(EHelperButton.THIS_MONTH)" class="w-[80px]"
-              >This month</Button
-            >
-            <Button @click="handleChange(EHelperButton.PREVIOUS_MONTH)" class="w-[80px]"
-              >Previous Month</Button
-            >
-            <Button @click="handleChange(EHelperButton.THIS_YEAR)" class="w-[80px]">This year</Button>
+            <Button v-for="(prop, idx) in buttonProps" :key="idx" @click="handleChange(prop.key)" class="w-[80px] !text-sm">
+              {{prop.label}}
+            </Button>
           </div>
-
-          <slot name="customFooter" />
         </template>
       </DatePicker>
       <Button v-if="showPrevNextButtons" @click="handleWeek(EWeek.NEXT)" type="button" icon="pi pi-angle-right" />
@@ -48,10 +34,10 @@
 </template>
 
 <script setup lang="ts">
-import type { DatePickerProps } from 'primevue/datepicker';
-import { computed } from 'vue';
-import { useField } from 'vee-validate';
 import dayjs from 'dayjs';
+import type { DatePickerProps } from 'primevue/datepicker';
+import { useField } from 'vee-validate';
+import { computed } from 'vue';
 
 enum EHelperButton {
   TODAY = 'today',
@@ -60,7 +46,7 @@ enum EHelperButton {
   LAST_30_DAYS = 'last_30_days',
   THIS_MONTH = 'this_month',
   PREVIOUS_MONTH = 'previous_year',
-  THIS_YEAR = 'this_year',
+  THIS_YEAR = 'this_year'
 }
 
 enum EWeek {
@@ -96,6 +82,37 @@ const props = withDefaults(defineProps<IProps>(), {
   showPrevNextButtons: false
 });
 
+const buttonProps = [
+  {
+    key: EHelperButton.TODAY,
+    label: 'Today',
+  },
+  {
+    key: EHelperButton.YESTERDAY,
+    label: 'Yesterday',
+  },
+  {
+    key: EHelperButton.LAST_7_DAYS,
+    label: 'Last 7 days',
+  },
+  {
+    key: EHelperButton.LAST_30_DAYS,
+    label: 'Last 30 days',
+  },
+  {
+    key: EHelperButton.THIS_MONTH,
+    label: 'This month',
+  },
+  {
+    key: EHelperButton.PREVIOUS_MONTH,
+    label: 'Previous Month',
+  },
+  {
+    key: EHelperButton.THIS_YEAR,
+    label: 'This year',
+  }
+]
+
 const {
   errorMessage: vError,
   value,
@@ -103,6 +120,7 @@ const {
   validateOnValueUpdate: false,
   syncVModel: true,
 });
+
 const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
 
 const handleChange = (btnType: EHelperButton) => {
@@ -145,7 +163,6 @@ const handleChange = (btnType: EHelperButton) => {
       break;
   }
 };
-
 
 const handleWeek = (week: EWeek) => {
   const startDate = dayjs((value.value as string[])[0]);

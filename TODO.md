@@ -1,12 +1,12 @@
-[] Time management'a bir hafta ileri bir hafta geri butonlarını ekle
-
-[] Organization chart eksikleri kapat, test et
+[x] Time management'a bir hafta ileri bir hafta geri butonlarını ekle
 
 [x] DateTimePicker'a bu hafta bu ay gibi butonları ekle
 
-[] Project sayfasında olduğu gibi child ve başka tab olan sayfalarda navbar'ın kapanmamasını sağla
+[x] Worktime usage'a time-cost.. dropdown'una seçili label'ı da ekle
 
-[] Worktime usage'a time-cost.. dropdown'una seçili label'ı da ekle
+[] Organization chart eksikleri kapat, test et
+
+[] Project sayfasında olduğu gibi child ve başka tab olan sayfalarda navbar'ın kapanmamasını sağla
 
 [] Lokalizasyon ekle ve keyleri değiştir
 
