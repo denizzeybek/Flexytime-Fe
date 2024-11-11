@@ -4,9 +4,9 @@
 
 [x] Worktime usage'a time-cost.. dropdown'una seçili label'ı da ekle
 
-[] Organization chart eksikleri kapat, test et
-
 [] Project sayfasında olduğu gibi child ve başka tab olan sayfalarda navbar'ın kapanmamasını sağla
+
+[] Organization chart eksikleri kapat, test et
 
 [] Lokalizasyon ekle ve keyleri değiştir
 

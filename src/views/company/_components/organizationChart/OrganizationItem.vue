@@ -1,46 +1,47 @@
 <template>
   <div @click="toggle" @dblclick="changeType" :style="{ paddingLeft: `${indent}px` }">
-    <div class="border border-f-gray p-4 rounded-md flex items-center justify-between mb-5">
-      <div class="flex items-center gap-2">
-        <Button v-show="isFolder" :icon="iconClass" unstyled></Button>
-        <FAvatar :label="clonedModel.title" />
-        <InputText
-          v-if="isEditing"
-          v-model="clonedModel.title"
-          id="title"
-          name="title"
-          placeholder="Enter Name"
-        />
-        <div v-else class="text-md">
-          {{ clonedModel?.title }}
+    <div class="border border-f-gray p-4 rounded-md flex justify-between items-center flex-col lg:flex-row gap-8 mb-5">
+      <div class="w-full flex justify-between lg:pr-48 gap-4">
+        <div class="flex items-center gap-2">
+          <Button v-show="isFolder" :icon="iconClass" unstyled class="flex items-center"/>
+          <FAvatar :label="clonedModel.title" />
+          <InputText
+            v-if="isEditing"
+            v-model="clonedModel.title"
+            id="title"
+            name="title"
+            placeholder="Enter Name"
+          />
+          <div v-else class="text-md">
+            {{ clonedModel?.title }}
+          </div>
         </div>
+        <template v-if="isEditing">
+          <InputText
+            v-if="isEditing"
+            v-model="clonedModel.MemberName"
+            id="MemberName"
+            name="MemberName"
+            placeholder="Enter MemberName"
+          />
+          <InputText
+            v-if="isEditing"
+            v-model="clonedModel.TitleName"
+            id="TitleName"
+            name="TitleName"
+            placeholder="Enter TitleName"
+          />
+        </template>
+
+        <template v-else>
+          <div class="text-md">
+            {{ clonedModel?.MemberName }}
+          </div>
+          <div class="text-md">
+            {{ clonedModel?.TitleName }}
+          </div>
+        </template>
       </div>
-
-      <template v-if="isEditing">
-        <InputText
-          v-if="isEditing"
-          v-model="clonedModel.MemberName"
-          id="MemberName"
-          name="MemberName"
-          placeholder="Enter MemberName"
-        />
-        <InputText
-          v-if="isEditing"
-          v-model="clonedModel.TitleName"
-          id="TitleName"
-          name="TitleName"
-          placeholder="Enter TitleName"
-        />
-      </template>
-
-      <template v-else>
-        <div class="text-md">
-          {{ clonedModel?.MemberName }}
-        </div>
-        <div class="text-md">
-          {{ clonedModel?.TitleName }}
-        </div>
-      </template>
       <div class="flex gap-2">
         <template v-if="isEditing">
           <Button

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-2 items-center">
+  <div class="flex gap-2 items-center w-full lg:w-fit">
     <Button
       v-tooltip.top="'Download Report'"
       icon="pi pi-arrow-circle-down"

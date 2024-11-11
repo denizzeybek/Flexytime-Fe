@@ -73,7 +73,7 @@ const validationSchema = object({
     })
     .required()
     .label('Group'),
-  date: string().required().label('Date'),
+  date: array().required().label('Date').of(string().required().label('Date')),
 });
 
 const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
