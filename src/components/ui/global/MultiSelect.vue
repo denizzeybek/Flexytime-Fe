@@ -74,6 +74,12 @@ const props = withDefaults(defineProps<IProps>(), {
   chip: true,
 });
 
+interface IEmits {
+  (event: 'selected', value: any): void;
+  (event: 'update:modelValue', value: IOption[]): void;
+}
+const emit = defineEmits<IEmits>();
+
 const { errorMessage, value, handleBlur, handleChange } = useField<IOption[]>(
   () => props.name,
   undefined,
@@ -82,12 +88,6 @@ const { errorMessage, value, handleBlur, handleChange } = useField<IOption[]>(
     syncVModel: true,
   },
 );
-
-interface IEmits {
-  (event: 'selected', value: any): void;
-  (event: 'update:modelValue', value: IOption[]): void;
-}
-const emit = defineEmits<IEmits>();
 
 const validationListeners = {
   blur: (e: InputEvent) => handleBlur(e, true),

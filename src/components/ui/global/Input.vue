@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-col gap-2 relative">
     <label :for="id">{{ label }}</label>
     <InputText
       v-model="value as unknown as string"
@@ -9,19 +9,41 @@
       :data-valid="isValid"
       :placeholder="placeholder"
       :disabled="disabled"
+      :unstyled="unstyled"
       class="w-full"
       :invalid="!!errorMessage"
+      :list="list"
+      @focus="list ? (showOptions = true) : (showOptions = false)"
+      @input="filterOptions"
       :class="[customClass]"
       v-on="listeners"
       v-bind="primeProps"
     />
+    <slot name="dataList" />
+    <ul
+      v-if="showOptions"
+      class="absolute z-10 py-2 px-1 gap-2 translate-y-10 w-full mt-1 border rounded-md bg-white"
+    >
+      <li
+        v-for="option in filteredOptions"
+        :key="option"
+        @click="selectOption(option)"
+        class="hover:bg-slate-100 cursor-pointer rounded-s px-3 py-2"
+      >
+        {{ option }}
+      </li>
+      <div v-if="!filteredOptions.length" class="px-3 py-2">
+        <FText innerText="No option found" />
+        <Button @click="addNewOption" label="Add"/>
+      </div>
+    </ul>
     <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { InputTextProps } from 'primevue/inputtext';
-import { ref, computed } from 'vue';
+import { ref, computed, type InputHTMLAttributes, onMounted } from 'vue';
 import { useField } from 'vee-validate';
 
 interface IProps {
@@ -34,9 +56,12 @@ interface IProps {
   errorMessage?: string;
   customEvents?: Record<string, (e: Event) => any>;
   transformValue?: (value: InputEvent) => unknown;
-  modelValue?: string
+  list?: InputHTMLAttributes['list'];
+  modelValue?: string;
   isValid?: boolean;
-  disabled?:boolean
+  disabled?: boolean;
+  unstyled?: boolean;
+  datalistOptions?: string[];
   type?:
     | 'text'
     | 'email'
@@ -60,12 +85,19 @@ interface IProps {
 const props = withDefaults(defineProps<IProps>(), {
   type: 'text',
   disabled: false,
-  placeholder: 'Enter text',
+  placeholder: '',
+  unstyled: false,
 });
 
-const passwordVisible = ref(false);
+interface IEmits {
+  (event: 'updateList', value: string): void;
+}
+const emit = defineEmits<IEmits>();
+
 const isFocused = ref(false);
-const input = ref<HTMLInputElement>();
+const showOptions = ref(false);
+const clonedOptions = ref(props.datalistOptions || []);
+const filteredOptions = ref(props.datalistOptions || []);
 
 const {
   errorMessage: vError,
@@ -77,6 +109,26 @@ const {
   syncVModel: true,
 });
 const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
+
+const filterOptions = () => {
+  const filter = (value.value as string)?.toLowerCase();
+  filteredOptions.value = (props.datalistOptions || []).filter((option) =>
+    option.toLowerCase().includes(filter),
+  );
+};
+
+const selectOption = (option: string) => {
+  value.value = option;
+  showOptions.value = false;
+};
+
+const addNewOption = () => {
+  const option = value.value as string;
+  filteredOptions.value.push(option);
+  // clonedOptions.value.push(option);
+  emit('updateList', option);
+  selectOption(option);
+};
 
 const listeners = {
   ...props.customEvents,
@@ -101,4 +153,11 @@ const listeners = {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.unstyled:focus {
+  outline: none;
+}
+.time-input {
+  @apply !w-[35px] text-center;
+}
+</style>
