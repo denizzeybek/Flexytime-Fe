@@ -32,9 +32,19 @@
       </template>
       <template #footer>
         <slot name="customFooter" />
+        <div v-if="footerAddBtn" class="px-1 py-2 flex-1">
+          <Button
+            class="!w-full"
+            outlined
+            label="Add new"
+            icon="pi pi-plus"
+            @click.stop="emit('addList')"
+            type="button"
+          />
+        </div>
       </template>
     </Select>
-    <small class="p-error text-red-500" >
+    <small class="p-error text-red-500">
       {{ errorMessage }}
     </small>
   </div>
@@ -57,6 +67,7 @@ export interface IProps {
   primeProps?: SelectProps;
   customClass?: string;
   customWidth?: string;
+  footerAddBtn?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -64,6 +75,13 @@ const props = withDefaults(defineProps<IProps>(), {
   placeholder: 'Select an option',
   customWidth: 'w-full',
 });
+
+interface IEmits {
+  (event: 'selected', value: any): void;
+  (event: 'addList'): void;
+  (event: 'update:modelValue', value: string | number): void;
+}
+const emit = defineEmits<IEmits>();
 
 const { errorMessage, value, handleBlur, handleChange } = useField<IOption>(
   () => props.name,
@@ -73,12 +91,6 @@ const { errorMessage, value, handleBlur, handleChange } = useField<IOption>(
     syncVModel: true,
   },
 );
-
-interface IEmits {
-  (event: 'selected', value: any): void;
-  (event: 'update:modelValue', value: string | number): void;
-}
-const emit = defineEmits<IEmits>();
 
 const validationListeners = {
   blur: (e: InputEvent) => handleBlur(e, true),

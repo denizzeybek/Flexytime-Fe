@@ -42,13 +42,14 @@
 
               <FDateTimePicker
                 name="date"
+                :numberOfMonths="1"
                 :prime-props="{
                   hourFormat: '24',
                   fluid: true,
                 }"
               />
             </template>
-            <FText as="h5" innerText="01:00:00" />
+            <FText as="h5" :innerText="timeDifference" />
             <Button
               v-if="activeLayout === ELayout.TIME"
               :severity="!isStarted ? 'info' : 'danger'"
@@ -82,14 +83,25 @@
             </div>
           </div>
           <div class="flex items-center gap-4">
-            <FSelect name="project" placeholder="Select project" :options="projectOptions" />
+            <FSelect
+              name="project"
+              placeholder="Select project"
+              :options="projectOptions"
+              :footerAddBtn="true"
+              :prime-props="{
+                filter: true,
+              }"
+              @addList="console.log('addList')"
+            />
             <FMultiSelect
               name="tags"
               placeholder="Select tag(s)"
               :options="tagOptions"
+              :footerAddBtn="true"
               :prime-props="{
                 maxSelectedLabels: 3,
               }"
+              @addList="console.log('addList')"
             />
           </div>
         </form>
@@ -99,10 +111,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useForm } from 'vee-validate';
-import { boolean, string, object, array } from 'yup';
+import { string, object, array } from 'yup';
 import { useFToast } from '@/composables/useFToast';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+
+dayjs.extend(duration);
 
 enum ELayout {
   TIME = 'time',
@@ -141,9 +157,10 @@ const tagOptions = [
   },
 ];
 
-const activeLayout = ref(ELayout.TIME);
+const activeLayout = ref(ELayout.MANUAL);
 const isBillable = ref(false);
 const isStarted = ref(false);
+const timeDifference = ref('');
 
 const validationSchema = object({
   timeEntry: string().required().label('Time entry'),
@@ -206,21 +223,53 @@ const submitHandler = handleSubmit(async (values) => {
 const transformValue = (event: InputEvent): string | null => {
   const input = (event.target as HTMLInputElement).value.trim();
 
-  // Check if input is a valid 4-digit number
   if (/^\d{4}$/.test(input)) {
     const hours = input.slice(0, 2);
     const minutes = input.slice(2, 4);
-
-    // Ensure valid time format
-    if (parseInt(hours, 10) < 24 && parseInt(minutes, 10) < 60) {
-      return `${hours}:${minutes}`;
+    const time = dayjs().hour(parseInt(hours, 10)).minute(parseInt(minutes, 10)).second(0);
+    if (time.isValid() && time.hour() < 24 && time.minute() < 60) {
+      return time.format('HH:mm');
     }
   }
-  return null; // Return null if the input is not valid
+  return null;
 };
+
+const calculateTimeDifference = (start: string, end: string): string => {
+  if (!start || !end) return 'Zaman değerleri eksik';
+
+  const today = dayjs().format('YYYY-MM-DD'); // Bugünün tarihi
+  
+  // Start ve End zamanlarını geçerli bir tarih ile oluşturuyoruz
+  const startMoment = dayjs(`${today} ${start}`, 'YYYY-MM-DD HH:mm');
+  const endMoment = dayjs(`${today} ${end}`, 'YYYY-MM-DD HH:mm');
+
+  if (!startMoment.isValid() || !endMoment.isValid()) {
+    return 'Geçersiz zaman formatı';
+  }
+  const diff = endMoment.diff(startMoment);
+  const diffDuration = dayjs.duration(diff);
+  return diffDuration.format('HH:mm:ss');
+};
+
+// startTime ve endTime değiştiğinde izleyici
+watch(
+  [startTime, endTime],
+  ([newStartTime, newEndTime]) => {
+    if (newStartTime && newEndTime) {
+      timeDifference.value = calculateTimeDifference(newStartTime, newEndTime);
+    }
+  },
+  {
+    immediate: true,
+  },
+);
+
 onMounted(() => {
   resetForm({
-    values: {},
+    values: {
+      startTime: dayjs().format('HH:mm'),
+      endTime: dayjs().format('HH:mm'),
+    },
   });
 });
 </script>
