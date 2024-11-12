@@ -1,10 +1,9 @@
 <template>
-  <div class="flex flex-col gap-2 relative">
+  <div class="flex flex-col gap-2 relative" v-click-outside="handleOutsideClick">
     <label :for="id">{{ label }}</label>
     <InputText
       v-model="value as unknown as string"
       :id="id"
-      :type="type"
       :data-error="!!errorMessage"
       :data-valid="isValid"
       :placeholder="placeholder"
@@ -62,24 +61,6 @@ interface IProps {
   disabled?: boolean;
   unstyled?: boolean;
   datalistOptions?: string[];
-  type?:
-    | 'text'
-    | 'email'
-    | 'password'
-    | 'number'
-    | 'tel'
-    | 'url'
-    | 'search'
-    | 'date'
-    | 'time'
-    | 'datetime-local'
-    | 'month'
-    | 'week'
-    | 'color'
-    | 'file'
-    | 'image'
-    | 'range'
-    | 'textarea';
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -96,7 +77,6 @@ const emit = defineEmits<IEmits>();
 
 const isFocused = ref(false);
 const showOptions = ref(false);
-const clonedOptions = ref(props.datalistOptions || []);
 const filteredOptions = ref(props.datalistOptions || []);
 
 const {
@@ -119,15 +99,21 @@ const filterOptions = () => {
 
 const selectOption = (option: string) => {
   value.value = option;
+  console.log('option ', option)
   showOptions.value = false;
 };
 
 const addNewOption = () => {
   const option = value.value as string;
   filteredOptions.value.push(option);
-  // clonedOptions.value.push(option);
   emit('updateList', option);
   selectOption(option);
+};
+
+const handleOutsideClick = () => {
+  if (!isFocused.value) {
+    showOptions.value = false;
+  }
 };
 
 const listeners = {
@@ -158,6 +144,6 @@ const listeners = {
   outline: none;
 }
 .time-input {
-  @apply !w-[35px] text-center;
+  @apply !w-[38px] text-center;
 }
 </style>

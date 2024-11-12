@@ -75,7 +75,7 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
-  placeholder: 'Enter text',
+  placeholder: 'Enter date',
   numberOfMonths: 2,
   manualInput: true,
   format: 'YY/MM/DDDD',
