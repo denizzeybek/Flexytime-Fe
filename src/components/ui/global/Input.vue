@@ -31,9 +31,9 @@
       >
         {{ option }}
       </li>
-      <div v-if="!filteredOptions.length" class="px-3 py-2">
+      <div v-if="!filteredOptions.length" class="px-3 py-2 gap-4 w-full flex flex-col">
         <FText innerText="No option found" />
-        <Button @click="addNewOption" label="Add"/>
+        <Button @click="addNewOption" label="Add" icon="pi pi-plus" class="flex-1" outlined/>
       </div>
     </ul>
     <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
@@ -99,7 +99,6 @@ const filterOptions = () => {
 
 const selectOption = (option: string) => {
   value.value = option;
-  console.log('option ', option)
   showOptions.value = false;
 };
 

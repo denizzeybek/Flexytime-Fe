@@ -29,11 +29,7 @@
         <i :class="filterIcon" />
       </template>
       <template #header>
-        <slot name="customHeader" />
-      </template>
-      <template #footer>
-        <slot name="customFooter" />
-        <div v-if="footerAddBtn" class="px-1 py-2 flex-1">
+        <div v-if="headerAddBtn" class="px-3 pt-2 flex-1 flex flex-col">
           <Button
             class="!w-full"
             outlined
@@ -44,8 +40,8 @@
           />
         </div>
       </template>
-      <template #emptyfilter>
-        <slot name="customEmptyFilter" />
+      <template #footer>
+        <slot name="customFooter" />
       </template>
     </MultiSelect>
     <small :id="`${name}-help`" class="p-error text-red-500">
@@ -55,10 +51,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { IOption } from '@/common/interfaces/option.interface';
 import MultiSelect, { type MultiSelectProps } from 'primevue/multiselect';
 import Tag from 'primevue/tag';
 import { useField } from 'vee-validate';
-import type { IOption } from '@/common/interfaces/option.interface';
 
 export interface IProps {
   name: string;
@@ -75,7 +71,7 @@ export interface IProps {
   dropdownIcon?: string; // icon class ex: pi pi-map-marker
   chip?: boolean;
   customWidth?: string;
-  footerAddBtn?: boolean;
+  headerAddBtn?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {

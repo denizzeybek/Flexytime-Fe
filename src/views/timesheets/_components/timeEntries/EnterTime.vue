@@ -3,97 +3,105 @@
     <Card>
       <template #content>
         <form @submit="submitHandler">
-          <div class="w-full flex items-center gap-4">
-            <FInput
-              name="timeEntry"
-              class="flex-1"
-              customClass="unstyled"
-              placeholder="What are you working on?"
-              list="timeEntryOptions"
-              unstyled
-              :datalistOptions="timeEntryOptions"
-              @updateList="timeEntryOptions.push($event)"
-            />
-            <Button
-              @click="isBillable = !isBillable"
-              type="button"
-              icon="pi pi-dollar"
-              severity="success"
-              :outlined="isBillable"
-            />
-            <template v-if="activeLayout === ELayout.MANUAL">
-              <div class="flex items-center gap-1">
-                <FInput
-                  name="startTime"
-                  customClass="unstyled time-input"
-                  placeholder="00:00"
-                  :transformValue="transformTimeValue"
-                  unstyled
-                />
-                <span>-</span>
-                <FInput
-                  name="endTime"
-                  customClass="unstyled time-input"
-                  placeholder="00:00"
-                  :transformValue="transformTimeValue"
-                  unstyled
-                />
-              </div>
-
-              <FDateTimePicker
-                name="date"
-                :numberOfMonths="1"
-                :prime-props="{
-                  hourFormat: '24',
-                  fluid: true,
-                }"
-              />
-            </template>
-            <FText
-              v-if="activeLayout === ELayout.MANUAL"
-              id="timeDifference"
-              as="h5"
-              :innerText="timeDifference"
-            />
-            <FText v-else id="ongoingTime" as="h5" innerText="00:00:00" />
-            <Button
-              v-if="activeLayout === ELayout.TIME"
-              :severity="!isStarted ? 'info' : 'danger'"
-              @click.stop="isStarted = true"
-              :label="!isStarted ? 'START' : 'STOP'"
-              :type="!isStarted ? 'button' : 'submit'"
-            />
-            <Button
-              v-if="activeLayout === ELayout.MANUAL"
-              severity="info"
-              label="ADD"
-              type="submit"
-            />
-            <div class="flex flex-col gap-2">
-              <Button
-                @click="activeLayout = ELayout.TIME"
-                icon="pi pi-clock"
-                :class="activeLayout === ELayout.TIME ? 'text-f-success' : 'text-f-black'"
-                outlined
+          <div class="w-full flex items-center gap-4 flex-col lg:flex-row">
+            <div class="flex w-full">
+              <FInput
+                name="timeEntry"
+                class="flex-1"
+                customClass="unstyled"
+                placeholder="What are you working on?"
+                list="timeEntryOptions"
                 unstyled
-                type="button"
-              />
-              <Button
-                @click="activeLayout = ELayout.MANUAL"
-                icon="pi pi-list"
-                :class="activeLayout === ELayout.MANUAL ? 'text-f-success' : 'text-f-black'"
-                outlined
-                unstyled
-                type="button"
+                :datalistOptions="timeEntryOptions"
+                @updateList="timeEntryOptions.push($event)"
               />
             </div>
+            <div class="flex items-center gap-4 w-full justify-between lg:justify-end">
+              <Button
+                @click="isBillable = !isBillable"
+                type="button"
+                icon="pi pi-dollar"
+                severity="success"
+                :outlined="isBillable"
+              />
+              <div v-show="activeLayout === ELayout.MANUAL" class="flex gap-4">
+                <div class="flex items-center gap-1">
+                  <FInput
+                    name="startTime"
+                    customClass="unstyled time-input"
+                    placeholder="00:00"
+                    :transformValue="transformTimeValue"
+                    unstyled
+                  />
+                  <span>-</span>
+                  <FInput
+                    name="endTime"
+                    customClass="unstyled time-input"
+                    placeholder="00:00"
+                    :transformValue="transformTimeValue"
+                    unstyled
+                  />
+                </div>
+
+                <FDateTimePicker
+                  name="date"
+                  :numberOfMonths="1"
+                  :prime-props="{
+                    hourFormat: '24',
+                    fluid: true,
+                  }"
+                />
+              </div>
+              <FText
+                v-if="activeLayout === ELayout.MANUAL"
+                id="timeDifference"
+                as="h5"
+                :innerText="timeDifference"
+              />
+              <FText v-else id="ongoingTime" as="h5" :innerText="formattedElapsedTime" />
+              <Button
+                v-if="activeLayout === ELayout.TIME"
+                :severity="!isRunning ? 'info' : 'danger'"
+                @click.stop="isRunning ? stopTimer() : startTimer()"
+                :label="!isRunning ? 'START' : 'STOP'"
+                :type="isRunning ? 'button' : 'submit'"
+              />
+              <Button
+                v-if="activeLayout === ELayout.MANUAL"
+                severity="info"
+                label="ADD"
+                type="submit"
+              />
+              <div class="flex flex-col gap-2 justify-center items-center">
+                <Button
+                  @click="activeLayout = ELayout.TIME"
+                  icon="pi pi-clock"
+                  :class="activeLayout === ELayout.TIME ? 'text-f-success' : 'text-f-black'"
+                  outlined
+                  unstyled
+                  type="button"
+                  class="w-fit"
+                  v-tooltip.top="'Timer'"
+                />
+                <Button
+                  @click="activeLayout = ELayout.MANUAL"
+                  icon="pi pi-list"
+                  :class="activeLayout === ELayout.MANUAL ? 'text-f-success' : 'text-f-black'"
+                  outlined
+                  unstyled
+                  type="button"
+                  class="w-fit"
+                  v-tooltip.top="'Manual'"
+                />
+              </div>
+            </div>
           </div>
-          <div class="flex items-center gap-4">
+          <div class="flex items-center gap-4 w-full">
             <FSelect
               name="project"
               placeholder="Select project"
               :options="projectOptions"
-              :footerAddBtn="true"
+              :headerAddBtn="true"
               :prime-props="{
                 filter: true,
               }"
@@ -101,9 +109,10 @@
             />
             <FMultiSelect
               name="tags"
+              class="w-full lg:w-fit"
               placeholder="Select tag(s)"
               :options="tagOptions"
-              :footerAddBtn="true"
+              :headerAddBtn="true"
               :prime-props="{
                 maxSelectedLabels: 3,
               }"
@@ -117,12 +126,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
-import { useForm } from 'vee-validate';
-import { string, object, array } from 'yup';
 import { useFToast } from '@/composables/useFToast';
+import { calculateTimeDifference, transformTimeValue } from '@/helpers/utils';
+import { useForm } from 'vee-validate';
+import { onMounted, ref, watch } from 'vue';
+import { array, object, string } from 'yup';
+import { useTimer } from '../../_composables/useTimer';
 import dayjs from 'dayjs';
-import { transformTimeValue, calculateTimeDifference } from '@/helpers/utils';
 
 enum ELayout {
   TIME = 'time',
@@ -130,6 +140,7 @@ enum ELayout {
 }
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
+const { isRunning, formattedElapsedTime, startTimer, stopTimer, resetTimer } = useTimer();
 
 const timeEntryOptions = ['asdasd', 'fffff', 'ccccc'];
 const projectOptions = [
@@ -163,7 +174,6 @@ const tagOptions = [
 
 const activeLayout = ref(ELayout.TIME);
 const isBillable = ref(false);
-const isStarted = ref(false);
 const timeDifference = ref('');
 
 const validationSchema = object({
@@ -217,7 +227,8 @@ const submitHandler = handleSubmit(async (values) => {
     console.log('values ', values);
     showSuccessMessage('Time entry entered!');
     if (activeLayout.value === ELayout.TIME) {
-      isStarted.value = false;
+      resetTimer();
+      resetForm();
     }
   } catch (error: any) {
     showErrorMessage(error as any);
@@ -241,6 +252,7 @@ onMounted(() => {
     values: {
       startTime: dayjs().subtract(10, 'minute').format('HH:mm'),
       endTime: dayjs().format('HH:mm'),
+      date: dayjs().toDate(),
     },
   });
 });

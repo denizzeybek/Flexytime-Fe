@@ -11,3 +11,5 @@
 [] Lokalizasyon ekle ve keyleri değiştir
 
 [] BE bağla
+
+[] Tags ve projects için ekranlar olmalı. Burda tablo olmaslı ve add, delete, update yapılabilmeli

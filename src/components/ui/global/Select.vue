@@ -30,9 +30,8 @@
       <template #dropdownicon>
         <slot name="customDropdownIcon" />
       </template>
-      <template #footer>
-        <slot name="customFooter" />
-        <div v-if="footerAddBtn" class="px-1 py-2 flex-1">
+      <template #header>
+        <div v-if="headerAddBtn" class="px-3 pt-2 flex-1 flex flex-col">
           <Button
             class="!w-full"
             outlined
@@ -43,6 +42,9 @@
           />
         </div>
       </template>
+      <template #footer>
+        <slot name="customFooter" />
+      </template>
     </Select>
     <small class="p-error text-red-500">
       {{ errorMessage }}
@@ -51,9 +53,9 @@
 </template>
 
 <script lang="ts" setup>
+import type { IOption } from '@/common/interfaces/option.interface';
 import Select, { type SelectProps } from 'primevue/select';
 import { useField } from 'vee-validate';
-import type { IOption } from '@/common/interfaces/option.interface';
 
 export interface IProps {
   name: string;
@@ -67,7 +69,7 @@ export interface IProps {
   primeProps?: SelectProps;
   customClass?: string;
   customWidth?: string;
-  footerAddBtn?: boolean;
+  headerAddBtn?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
