@@ -1,5 +1,7 @@
 <template>
-  <Avatar v-bind="primeProps" :label="avatarLabel" :class="customClass"/>
+  <Avatar v-bind="primeProps" :label="avatarLabel" :class="customClass">
+    <slot/>
+  </Avatar>
 </template>
 
 <script setup lang="ts">

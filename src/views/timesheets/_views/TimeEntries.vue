@@ -7,7 +7,7 @@
           <Tab value="1">Unclassified Time Entries</Tab>
         </TabList>
       </div>
-      <TabPanels>
+      <TabPanels class="mt-12">
         <TabPanel value="0">
           <div class="flex flex-col gap-12">
             <EnterTime />
@@ -15,7 +15,7 @@
           </div>
         </TabPanel>
         <TabPanel value="1">
-          <AutomaticTimeEntries />
+          <UnclassifiedTimeEntries />
         </TabPanel>
       </TabPanels>
     </Tabs>
@@ -23,19 +23,27 @@
 </template>
 
 <script setup lang="ts">
-import EnterTime from '../_components/timeEntries/EnterTime.vue';
-import { ref, onMounted } from 'vue';
-import ManualTimeEntries from '../_components/timeEntries/ManualTimeEntries.vue';
-import AutomaticTimeEntries from '../_components/timeEntries/AutomaticTimeEntries.vue';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
+import { ref, watch } from 'vue';
+import EnterTime from '../_components/timeEntries/EnterTime.vue';
+import ManualTimeEntries from '../_components/timeEntries/ManualTimeEntries.vue';
+import UnclassifiedTimeEntries from '../_components/timeEntries/UnclassifiedTimeEntries.vue';
 
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
 
 const activeTab = ref('0');
 
-onMounted(async () => {
-  await timeEntriesStore.filterManualTimeEntries();
-});
+watch(
+  activeTab,
+  async (value) => {
+    if (value === '0') {
+      await timeEntriesStore.fetchManualTimeEntries();
+    } else {
+      await timeEntriesStore.fetchUnclassifiedTimeEntries();
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <style scoped></style>
