@@ -22,11 +22,18 @@
 
 <script setup lang="ts">
 import EnterTime from '../_components/timeEntries/EnterTime.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import ManualTimeEntries from '../_components/timeEntries/ManualTimeEntries.vue';
 import AutomaticTimeEntries from '../_components/timeEntries/AutomaticTimeEntries.vue';
+import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
+
+const timeEntriesStore = useTimesheetsTimeEntriesStore();
 
 const activeTab = ref('0');
+
+onMounted(async () => {
+  await timeEntriesStore.filterManualTimeEntries();
+});
 </script>
 
 <style scoped></style>

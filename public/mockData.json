@@ -4129,5 +4129,41 @@
       ],
       "Days": ["03:04", "04:20", "05:48", "04:18", "09:52", "00:00", "00:00"]
     }
+  ],
+  "/webapi/timeEntries/manual": [
+    {
+      "timeEntry": "Reconcilliation",
+      "startTime": "14:50",
+      "endTime": "15:00",
+      "date": "2024-11-13T12:00:18.255Z",
+      "project": {
+        "name": "Clearing",
+        "value": "Clearing"
+      },
+      "tags": [
+        {
+          "name": "Lansman",
+          "value": "Lansman"
+        }
+      ],
+      "isBillable": false,
+      "elapsedTime": "00:00:00",
+      "timeDifference": "00:10:00",
+      "type": "manual"
+    },
+    {
+      "timeEntry": "Reconcilliation",
+      "startTime": "14:00",
+      "endTime": "14:10",
+      "date": "2024-11-13T11:12:03.258Z",
+      "project": { "name": "Productivity", "value": "Productivity" },
+      "tags": [
+        { "name": "Seller", "value": "Seller" },
+        { "name": "Reporting", "value": "Reporting" }
+      ],
+      "isBillable": true,
+      "elapsedTime": "00:00:06",
+      "type": "timer"
+    }
   ]
 }

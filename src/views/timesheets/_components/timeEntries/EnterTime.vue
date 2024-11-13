@@ -24,7 +24,7 @@
                 severity="success"
                 :outlined="isBillable"
               />
-              <div v-show="activeLayout === ELayout.MANUAL" class="flex gap-4">
+              <div v-show="isManualLayout" class="flex gap-4">
                 <div class="flex items-center gap-1">
                   <FInput
                     name="startTime"
@@ -53,30 +53,25 @@
                 />
               </div>
               <FText
-                v-if="activeLayout === ELayout.MANUAL"
+                v-if="isManualLayout"
                 id="timeDifference"
                 as="h5"
                 :innerText="timeDifference"
               />
               <FText v-else id="ongoingTime" as="h5" :innerText="formattedElapsedTime" />
               <Button
-                v-if="activeLayout === ELayout.TIME"
+                v-if="isTimerLayout"
                 :severity="!isRunning ? 'info' : 'danger'"
                 @click.stop="isRunning ? stopTimer() : startTimer()"
                 :label="!isRunning ? 'START' : 'STOP'"
                 :type="isRunning ? 'button' : 'submit'"
               />
-              <Button
-                v-if="activeLayout === ELayout.MANUAL"
-                severity="info"
-                label="ADD"
-                type="submit"
-              />
+              <Button v-if="isManualLayout" severity="info" label="ADD" type="submit" />
               <div class="flex flex-col gap-2 justify-center items-center">
                 <Button
-                  @click="activeLayout = ELayout.TIME"
+                  @click="activeLayout = ELayout.TIMER"
                   icon="pi pi-clock"
-                  :class="activeLayout === ELayout.TIME ? 'text-f-success' : 'text-f-black'"
+                  :class="isTimerLayout ? 'text-f-success' : 'text-f-black'"
                   outlined
                   unstyled
                   type="button"
@@ -86,7 +81,7 @@
                 <Button
                   @click="activeLayout = ELayout.MANUAL"
                   icon="pi pi-list"
-                  :class="activeLayout === ELayout.MANUAL ? 'text-f-success' : 'text-f-black'"
+                  :class="isManualLayout ? 'text-f-success' : 'text-f-black'"
                   outlined
                   unstyled
                   type="button"
@@ -129,52 +124,57 @@
 import { useFToast } from '@/composables/useFToast';
 import { calculateTimeDifference, transformTimeValue } from '@/helpers/utils';
 import { useForm } from 'vee-validate';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, computed } from 'vue';
 import { array, object, string } from 'yup';
 import { useTimer } from '../../_composables/useTimer';
 import dayjs from 'dayjs';
+import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 
 enum ELayout {
-  TIME = 'time',
+  TIMER = 'timer',
   MANUAL = 'manual',
 }
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
+const timeEntriesStore = useTimesheetsTimeEntriesStore();
 const { isRunning, formattedElapsedTime, startTimer, stopTimer, resetTimer } = useTimer();
 
-const timeEntryOptions = ['asdasd', 'fffff', 'ccccc'];
+const timeEntryOptions = ['Lansman projesi', 'Reconcilliation', 'Settlement'];
 const projectOptions = [
   {
-    name: 'Eclone',
-    value: 'eclone',
+    name: 'Clearing',
+    value: 'Clearing',
   },
   {
-    name: 'Ruuul',
-    value: 'ruul',
+    name: 'Productivity',
+    value: 'Productivity',
   },
   {
-    name: 'Flexytime',
-    value: 'flexytime',
+    name: 'SAP',
+    value: 'SAP',
   },
 ];
 const tagOptions = [
   {
-    name: 'Eclone',
-    value: 'eclone',
+    name: 'Lansman',
+    value: 'Lansman',
   },
   {
-    name: 'Ruuul',
-    value: 'ruul',
+    name: 'Reporting',
+    value: 'Reporting',
   },
   {
-    name: 'Flexytime',
-    value: 'flexytime',
+    name: 'Seller',
+    value: 'Seller',
   },
 ];
 
-const activeLayout = ref(ELayout.TIME);
+const activeLayout = ref(ELayout.TIMER);
 const isBillable = ref(false);
 const timeDifference = ref('');
+
+const isManualLayout = computed(() => activeLayout.value === ELayout.MANUAL);
+const isTimerLayout = computed(() => activeLayout.value === ELayout.TIMER);
 
 const validationSchema = object({
   timeEntry: string().required().label('Time entry'),
@@ -205,8 +205,8 @@ const validationSchema = object({
       value: string().label('Value'),
     })
     .label('Project'),
-  teams: array()
-    .label('Team')
+  tags: array()
+    .label('Tags')
     .of(
       object().shape({
         name: string().required().label('Name'),
@@ -224,12 +224,21 @@ const [endTime] = defineField('endTime');
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
+    const payload = {
+      ...values,
+      isBillable: isBillable.value,
+      elapsedTime: formattedElapsedTime.value,
+      timeDifference: timeDifference.value,
+      type: activeLayout.value,
+      date: isTimerLayout.value ? dayjs().toDate() : values.date,
+    };
+    timeEntriesStore.addManualTimeEntries(payload);
     showSuccessMessage('Time entry entered!');
-    if (activeLayout.value === ELayout.TIME) {
+
+    if (activeLayout.value === ELayout.TIMER) {
       resetTimer();
-      resetForm();
     }
+    resetForm();
   } catch (error: any) {
     showErrorMessage(error as any);
   }
