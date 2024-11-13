@@ -1,16 +1,18 @@
 <template>
   <div class="flex flex-col gap-6">
-    <EnterTime />
     <Tabs v-model:value="activeTab">
       <div class="!flex !justify-center">
         <TabList>
-          <Tab value="0">Manual Time Entries</Tab>
-          <Tab value="1">Automatic Time Entries</Tab>
+          <Tab value="0">Time Entries</Tab>
+          <Tab value="1">Unclassified Time Entries</Tab>
         </TabList>
       </div>
       <TabPanels>
         <TabPanel value="0">
-          <ManualTimeEntries />
+          <div class="flex flex-col gap-12">
+            <EnterTime />
+            <ManualTimeEntries />
+          </div>
         </TabPanel>
         <TabPanel value="1">
           <AutomaticTimeEntries />

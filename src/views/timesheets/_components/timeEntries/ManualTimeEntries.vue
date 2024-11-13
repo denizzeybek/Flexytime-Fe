@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="flex flex-col gap-4">
     <template v-for="(field, idx) in fields" :key="field.key">
-      <Card class="mb-5">
+      <Card >
         <template #content>
           <form @submit="submitHandler">
             <div class="w-full flex items-center gap-4 flex-col lg:flex-row">
