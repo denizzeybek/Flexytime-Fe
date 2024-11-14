@@ -45,7 +45,6 @@
           selectionMode: 'range',
           incrementIcon: true,
           manuelInput: true,
-          variant: 'filled',
         }"
       />
       <Button @click="resetForm()" type="button" label="Clear" severity="info" outlined />
