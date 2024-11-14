@@ -129,11 +129,8 @@ import { array, object, string } from 'yup';
 import { useTimer } from '../../_composables/useTimer';
 import dayjs from 'dayjs';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
+import { ELayout } from '@/views/timesheets/_etc/layout.enum';
 
-enum ELayout {
-  TIMER = 'timer',
-  MANUAL = 'manual',
-}
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const timeEntriesStore = useTimesheetsTimeEntriesStore();

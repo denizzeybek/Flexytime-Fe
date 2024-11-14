@@ -2,14 +2,17 @@
   <div class="flex flex-col gap-6">
     <template v-for="(field, idx) in fields" :key="field.key">
       <div class="flex items-center justify-between">
-        <FCheckbox :name="`unclassifiedtimeEntries[${idx}].select`" label="Select All" />
-        <FText as="h1" :innerText="field.value.recordDate" />
-        <FText innerText=""/>
+        <FCheckbox :name="`unclassifiedtimeEntries[${idx}].select`" />
+        <div class="flex items-center flex-col gap-2">
+          <FText as="h1" :innerText="field.value.recordDate" />
+          <FText as="h5" :innerText="field.value.recordTime" />
+        </div>
+        <FText />
       </div>
       <template v-for="(timeEntry, tIdx) in field.value.timeEntry">
         <div class="flex items-center gap-4">
           <FCheckbox :name="`unclassifiedtimeEntries[${idx}].timeEntry[${tIdx}].select`" />
-          <Card class=" flex-1" :class="timeEntry.select ? 'border-2 border-f-primary' : ''">
+          <Card class="flex-1" :class="timeEntry.select ? 'border-2 border-f-primary' : ''">
             <template #content>
               <div class="flex flex-col gap-4">
                 <div class="flex justify-between items-start">
@@ -57,6 +60,7 @@
       </template>
     </template>
   </div>
+  <UpdateTimeEntriesModal v-if="modalOpen" v-model:open="modalOpen" :data="selectedItems" />
 </template>
 
 <script setup lang="ts">
@@ -67,6 +71,7 @@ import { useFieldArray, useForm } from 'vee-validate';
 import { array, boolean, object, string } from 'yup';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import UpdateTimeEntriesModal from '../_modals/UpdateTimeEntriesModal.vue';
 
 dayjs.extend(customParseFormat);
 
@@ -74,8 +79,11 @@ const timeEntriesStore = useTimesheetsTimeEntriesStore();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const entriesData = ref();
+const modalOpen = ref(false);
+const selectedItems = ref([]);
 
 const validationSchema = object({
+  selectAll: boolean().nullable().label('Select All'),
   unclassifiedtimeEntries: array().of(
     object().shape({
       select: boolean().nullable().label('Selected'),
@@ -146,13 +154,66 @@ const calculateMinuteDifference = (startDate, endDate) => {
   return `${end.diff(start, 'minute')} min`;
 };
 
+const hasSelectedTrue = (data) => {
+  for (const item of data) {
+    if (item.Selected) return true;
+
+    for (const clock of item.Clocks) {
+      if (clock.Selected) return true;
+
+      for (const detail of clock.Details) {
+        if (detail.Selected) return true;
+      }
+    }
+  }
+  return false;
+};
+
+
+const getSelectedTrueObjects = (data) => {
+  // TODO:: burda nasıl bir yapı izleneceği backend'e bağlı
+  // sadece id'ler mi yollanacak, plain object mi yollanacak yoksa detay ile birlikte mi yollanacak
+  const selectedItems = [] as any;
+
+  data.forEach(element => {
+    if (element.Selected) {
+      selectedItems.push(element);
+    }
+    element.Clocks.forEach((clock) => {
+      if (clock.Selected) {
+        selectedItems.push(clock);
+      } else {
+        clock.Details.forEach((detail) => {
+          if (detail.Selected) {
+            selectedItems.push(detail);
+          }
+        });
+      }
+    })
+  });
+
+  return selectedItems;
+};
+
+const setModalState = () => {
+  const data = timeEntriesStore.unclassifiedTimeEntries;
+  if (hasSelectedTrue(data)) {
+    modalOpen.value = true;
+    selectedItems.value = getSelectedTrueObjects(data);
+  } else {
+    modalOpen.value = false;
+  }
+};
+
 watch(
   () => timeEntriesStore.unclassifiedTimeEntries,
   () => {
     setEntriesData();
+    setModalState();
     resetForm({
       values: {
         unclassifiedtimeEntries: entriesData.value,
+        selectAll: false,
       },
     });
   },

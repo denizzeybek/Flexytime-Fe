@@ -4171,7 +4171,7 @@
       "ID": "2411130000",
       "Selected": true,
       "RecordDate": "13.11.2024",
-      "RecordTime": "00:00",
+      "RecordTime": "08:00",
       "Clocks": [
         {
           "ID": "673443fb5e7b6c0ac4b74bb4",
@@ -4249,6 +4249,15 @@
               "Selected": true,
               "StartDate": "13.11.2024 10:20",
               "EndDate": "13.11.2024 10:46"
+            },
+            {
+              "ID": "673454a25e7b6c0ac4b861c1",
+              "Spend": 1578,
+              "Title": "test data",
+              "Name": "test.flexytime.com",
+              "Selected": true,
+              "StartDate": "13.11.2024 10:20",
+              "EndDate": "13.11.2024 10:46"
             }
           ],
           "StartDate": "13.11.2024 10:20",
@@ -4261,7 +4270,26 @@
           "Name": "Excel",
           "Title": "647509.PDF",
           "Domain": 4,
-          "Details": [],
+          "Details": [
+            {
+              "ID": "673454a25e7b6c0ac4b861c1",
+              "Spend": 1578,
+              "Title": "222",
+              "Name": "222amazon.com",
+              "Selected": true,
+              "StartDate": "13.11.2024 10:20",
+              "EndDate": "13.11.2024 10:46"
+            },
+            {
+              "ID": "673454a25e7b6c0ac4b861c1",
+              "Spend": 1578,
+              "Title": "333test data",
+              "Name": "333test.flexytime.com",
+              "Selected": false,
+              "StartDate": "13.11.2024 10:20",
+              "EndDate": "13.11.2024 10:46"
+            }
+          ],
           "StartDate": "13.11.2024 10:46",
           "EndDate": "13.11.2024 11:02"
         },
