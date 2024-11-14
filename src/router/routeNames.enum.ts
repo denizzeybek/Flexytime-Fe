@@ -28,7 +28,9 @@ export enum ERouteNames {
 
   // TimeSheets
   Timesheets = 'Timesheets',
-  TimeEntries = 'TimeEntries',
+  TimeEntries = 'Time Entries',
+  TimeEntriesManual = 'Time Entries',
+  TimeEntriesUnclassified = 'Unclassified Time Entries',
   TimeManagement = 'Time Management',
   TimeManagementPerson = 'Person',
   TimeManagementProject = 'Project',

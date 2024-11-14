@@ -59,7 +59,7 @@ const navItems = ref<IModel[]>([
   },
   {
     label: 'Time Entries',
-    routeName: ERouteNames.TimeEntries,
+    routeName: ERouteNames.TimeEntriesManual,
   },
   {
     label: 'Time Management',

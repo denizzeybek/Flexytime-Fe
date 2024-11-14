@@ -1,49 +1,58 @@
 <template>
-  <div class="flex flex-col gap-6">
-    <Tabs v-model:value="activeTab">
-      <div class="!flex !justify-center">
-        <TabList>
-          <Tab value="0">Time Entries</Tab>
-          <Tab value="1">Unclassified Time Entries</Tab>
-        </TabList>
-      </div>
-      <TabPanels class="mt-12">
-        <TabPanel value="0">
-          <div class="flex flex-col gap-12">
-            <EnterTime />
-            <ManualTimeEntries />
-          </div>
-        </TabPanel>
-        <TabPanel value="1">
-          <UnclassifiedTimeEntries />
-        </TabPanel>
-      </TabPanels>
+  <div class="flex justify-center">
+    <Tabs :value="route.meta.name?.toString()!">
+      <TabList>
+        <Tab v-for="(tab, idx) in items" :key="idx" :value="tab.route" @click="tab.method()">
+          <span>{{ tab.label }}</span>
+        </Tab>
+      </TabList>
     </Tabs>
   </div>
+
+  <TabPanels class="mt-12">
+    <TabPanel :key="route.path" :value="route.path">
+      <router-view :key="route.path" />
+    </TabPanel>
+  </TabPanels>
 </template>
 
 <script setup lang="ts">
-import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 import { ref, watch } from 'vue';
-import EnterTime from '../_components/timeEntries/EnterTime.vue';
-import ManualTimeEntries from '../_components/timeEntries/ManualTimeEntries.vue';
-import UnclassifiedTimeEntries from '../_components/timeEntries/UnclassifiedTimeEntries.vue';
+import { ERouteNames } from '@/router/routeNames.enum';
+import { useRoute, useRouter } from 'vue-router';
+import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 
+const route = useRoute();
+const router = useRouter();
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
 
-const activeTab = ref('0');
+const items = ref([
+  {
+    route: ERouteNames.TimeEntriesManual,
+    label: ERouteNames.TimeEntriesManual,
+    method: () => {
+      router.push({ name: ERouteNames.TimeEntriesManual });
+    },
+  },
+  {
+    route: ERouteNames.TimeEntriesUnclassified,
+    label: ERouteNames.TimeEntriesUnclassified,
+    method: () => {
+      router.push({ name: ERouteNames.TimeEntriesUnclassified });
+    },
+  },
+]);
 
 watch(
-  activeTab,
-  async (value) => {
-    if (value === '0') {
-      await timeEntriesStore.fetchManualTimeEntries();
-    } else {
-      await timeEntriesStore.fetchUnclassifiedTimeEntries();
+  () => route.meta.name,
+  (name) => {
+    // TODO: burda payload'ı yollarken startDate ve endDate'i de yollamak gerekebilir. onu da datePicker'dan alman gerekir. şu an datePicker'a göre almıyor
+    if (name === ERouteNames.TimeEntriesManual) {
+      timeEntriesStore.fetchManualTimeEntries();
+    } else if (name === ERouteNames.TimeEntriesUnclassified) {
+      timeEntriesStore.fetchUnclassifiedTimeEntries();
     }
   },
   { immediate: true },
 );
 </script>
-
-<style scoped></style>

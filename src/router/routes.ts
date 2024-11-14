@@ -11,6 +11,8 @@ import ClassificationApplications from '@/views/classification/_views/Applicatio
 // Timesheets
 import Timesheets from '@/views/timesheets/_views/TimeSheets.vue';
 import TimeEntries from '@/views/timesheets/_views/TimeEntries.vue';
+import ManualTimeEntries from '@/views/timesheets/_views/ManualTimeEntries.vue';
+import UnclassifiedTimeEntries from '@/views/timesheets/_views/UnclassifiedTimeEntries.vue';
 import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
 import TimeManagementProject from '@/views/timesheets/_components/timeManagement/Project.vue';
 import TimeManagementPerson from '@/views/timesheets/_components/timeManagement/Person.vue';
@@ -121,6 +123,26 @@ const routes: RouteRecordRaw[] = [
           title: ERouteNames.TimeEntries,
           name: ERouteNames.TimeEntries,
         },
+        children: [
+          {
+            path: 'manual',
+            name: ERouteNames.TimeEntriesManual,
+            component: ManualTimeEntries,
+            meta: {
+              title: ERouteNames.TimeEntriesManual,
+              name: ERouteNames.TimeEntriesManual,
+            },
+          },
+          {
+            path: 'unclassified',
+            name: ERouteNames.TimeEntriesUnclassified,
+            component: UnclassifiedTimeEntries,
+            meta: {
+              title: ERouteNames.TimeEntriesUnclassified,
+              name: ERouteNames.TimeEntriesUnclassified,
+            },
+          },
+        ]
       },
       {
         path: '/time-management',
