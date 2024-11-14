@@ -58,24 +58,16 @@ const navItems = ref<IModel[]>([
     routeName: ERouteNames.WorktimeUsage,
   },
   {
-    label: 'Classification',
-    icon: 'pi pi-tag',
-    routeName: ERouteNames.ClassificationWebAddresses,
+    label: 'Time Entries',
+    routeName: ERouteNames.TimeEntriesManual,
   },
   {
-    label: 'TimeSheets',
-    icon: 'pi pi-hourglass',
-    routeName: ERouteNames.Timesheets,
-    children: [
-      {
-        label: 'TimeSheet Entry',
-        routeName: ERouteNames.TimesheetEntry,
-      },
-      {
-        label: 'Time Management',
-        routeName: ERouteNames.TimeManagementPerson,
-      },
-    ],
+    label: 'Time Management',
+    routeName: ERouteNames.TimeManagementPerson,
+  },
+  {
+    label: 'Reports',
+    routeName: ERouteNames.CompanyReportsElastic,
   },
   {
     label: 'HR Settings',
@@ -109,10 +101,6 @@ const navItems = ref<IModel[]>([
         label: 'Working Hours',
         routeName: ERouteNames.CompanyWorkingHours,
       },
-      {
-        label: 'Reports',
-        routeName: ERouteNames.CompanyReportsElastic,
-      },
     ],
   },
   {
@@ -120,6 +108,10 @@ const navItems = ref<IModel[]>([
     icon: 'pi pi-cog',
     routeName: ERouteNames.Settings,
     children: [
+      {
+        label: 'Classification',
+        routeName: ERouteNames.ClassificationWebAddresses,
+      },
       {
         label: 'Permissions',
         routeName: ERouteNames.SettingsPermissions,

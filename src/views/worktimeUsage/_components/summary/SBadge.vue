@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['!flex-1 border h-[72px] flex items-center !rounded-xl !p-4', borderClass]"
+    :class="['border h-[72px] flex items-center w-[170px] lg:w-fit lg:flex-1 !rounded-xl !p-4', borderClass]"
     outlined
   >
     <div class="flex items-center gap-2">

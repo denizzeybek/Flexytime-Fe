@@ -4129,5 +4129,825 @@
       ],
       "Days": ["03:04", "04:20", "05:48", "04:18", "09:52", "00:00", "00:00"]
     }
+  ],
+  "/webapi/timeEntries/manual": [
+    {
+      "timeEntry": "Reconcilliation",
+      "startTime": "14:50",
+      "endTime": "15:00",
+      "date": "2024-11-13T12:00:18.255Z",
+      "project": {
+        "name": "Clearing",
+        "value": "Clearing"
+      },
+      "tags": [
+        {
+          "name": "Lansman",
+          "value": "Lansman"
+        }
+      ],
+      "isBillable": false,
+      "elapsedTime": "00:00:00",
+      "timeDifference": "00:10:00",
+      "type": "manual"
+    },
+    {
+      "timeEntry": "Reconcilliation",
+      "startTime": "14:00",
+      "endTime": "14:10",
+      "date": "2024-11-13T11:12:03.258Z",
+      "project": { "name": "Productivity", "value": "Productivity" },
+      "tags": [
+        { "name": "Seller", "value": "Seller" },
+        { "name": "Reporting", "value": "Reporting" }
+      ],
+      "isBillable": true,
+      "elapsedTime": "00:00:06",
+      "type": "timer"
+    }
+  ],
+  "/webapi/timesheet/clocks": [
+    {
+      "ID": "2411130000",
+      "Selected": true,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "08:00",
+      "Clocks": [
+        {
+          "ID": "673443fb5e7b6c0ac4b74bb4",
+          "Selected": true,
+          "Spend": 136,
+          "Name": "SAP",
+          "Title": null,
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 00:04",
+          "EndDate": "13.11.2024 00:07"
+        }
+      ]
+    },
+    {
+      "ID": "2411130900",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "09:00",
+      "Clocks": [
+        {
+          "ID": "673443fb5e7b6c0ac4b74bb6",
+          "Selected": true,
+          "Spend": 1508,
+          "Name": "Excel",
+          "Title": "647509.PDF",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 09:05",
+          "EndDate": "13.11.2024 09:30"
+        },
+        {
+          "ID": "67344d7f5e7b6c0ac4b7f7db",
+          "Selected": false,
+          "Spend": 1311,
+          "Name": "FortiClient",
+          "Title": "Microsoft Teams",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 09:30",
+          "EndDate": "13.11.2024 09:52"
+        },
+        {
+          "ID": "673451095e7b6c0ac4b82b28",
+          "Selected": false,
+          "Spend": 1089,
+          "Name": "Microsoft Word",
+          "Title": "File Explorer",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 09:52",
+          "EndDate": "13.11.2024 10:10"
+        }
+      ]
+    },
+    {
+      "ID": "2411131000",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "10:00",
+      "Clocks": [
+        {
+          "ID": "673454a25e7b6c0ac4b861c1",
+          "Selected": true,
+          "Spend": 1578,
+          "Name": "Web",
+          "Title": null,
+          "Domain": 2,
+          "Details": [
+            {
+              "ID": "673454a25e7b6c0ac4b861c1",
+              "Spend": 1578,
+              "Title": "ABOUT RECONCILIATION",
+              "Name": "amazon.com",
+              "Selected": true,
+              "StartDate": "13.11.2024 10:20",
+              "EndDate": "13.11.2024 10:46"
+            },
+            {
+              "ID": "673454a25e7b6c0ac4b861c1",
+              "Spend": 1578,
+              "Title": "test data",
+              "Name": "test.flexytime.com",
+              "Selected": true,
+              "StartDate": "13.11.2024 10:20",
+              "EndDate": "13.11.2024 10:46"
+            }
+          ],
+          "StartDate": "13.11.2024 10:20",
+          "EndDate": "13.11.2024 10:46"
+        },
+        {
+          "ID": "67345c975e7b6c0ac4b8cd84",
+          "Selected": false,
+          "Spend": 977,
+          "Name": "Excel",
+          "Title": "647509.PDF",
+          "Domain": 4,
+          "Details": [
+            {
+              "ID": "673454a25e7b6c0ac4b861c1",
+              "Spend": 1578,
+              "Title": "222",
+              "Name": "222amazon.com",
+              "Selected": true,
+              "StartDate": "13.11.2024 10:20",
+              "EndDate": "13.11.2024 10:46"
+            },
+            {
+              "ID": "673454a25e7b6c0ac4b861c1",
+              "Spend": 1578,
+              "Title": "333test data",
+              "Name": "333test.flexytime.com",
+              "Selected": false,
+              "StartDate": "13.11.2024 10:20",
+              "EndDate": "13.11.2024 10:46"
+            }
+          ],
+          "StartDate": "13.11.2024 10:46",
+          "EndDate": "13.11.2024 11:02"
+        },
+        {
+          "ID": "673454a25e7b6c0ac4b861bf",
+          "Selected": false,
+          "Spend": 378,
+          "Name": "Web",
+          "Title": null,
+          "Domain": 4,
+          "Details": [
+            {
+              "ID": "673454a25e7b6c0ac4b861bf",
+              "Spend": 139,
+              "Title": "ABOUT RECONCILIATION",
+              "Name": "google.com",
+              "Selected": false,
+              "StartDate": "13.11.2024 10:16",
+              "EndDate": "13.11.2024 10:18"
+            },
+            {
+              "ID": "673454a25e7b6c0ac4b861bd",
+              "Spend": 239,
+              "Title": "ABOUT RECONCILIATION",
+              "Name": "discord.com",
+              "Selected": false,
+              "StartDate": "13.11.2024 10:10",
+              "EndDate": "13.11.2024 10:14"
+            }
+          ],
+          "StartDate": "13.11.2024 10:10",
+          "EndDate": "13.11.2024 10:18"
+        }
+      ]
+    },
+    {
+      "ID": "2411131100",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "11:00",
+      "Clocks": [
+        {
+          "ID": "673472de5e7b6c0ac4b9d3a1",
+          "Selected": false,
+          "Spend": 1777,
+          "Name": "Teams",
+          "Title": "SAP GUI security",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 11:40",
+          "EndDate": "13.11.2024 12:10"
+        },
+        {
+          "ID": "67346be25e7b6c0ac4b97d48",
+          "Selected": false,
+          "Spend": 947,
+          "Name": "Outlook",
+          "Title": "FortiTray Desktop",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 11:18",
+          "EndDate": "13.11.2024 11:34"
+        },
+        {
+          "ID": "673464f55e7b6c0ac4b93fec",
+          "Selected": false,
+          "Spend": 657,
+          "Name": "Pulse Secure",
+          "Title": "IBM BPM Portal - Google Chrome",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 11:08",
+          "EndDate": "13.11.2024 11:18"
+        },
+        {
+          "ID": "673460dc5e7b6c0ac4b9054c",
+          "Selected": false,
+          "Spend": 312,
+          "Name": "Microsoft Edge",
+          "Title": "Current Settlement - Excel",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 11:02",
+          "EndDate": "13.11.2024 11:08"
+        },
+        {
+          "ID": "67346be25e7b6c0ac4b97d4a",
+          "Selected": false,
+          "Spend": 265,
+          "Name": "Web",
+          "Title": null,
+          "Domain": 2,
+          "Details": [
+            {
+              "ID": "67346be25e7b6c0ac4b97d4a",
+              "Spend": 265,
+              "Title": "ABOUT RECONCILIATION",
+              "Name": "twitch.tv",
+              "Selected": false,
+              "StartDate": "13.11.2024 11:36",
+              "EndDate": "13.11.2024 11:40"
+            }
+          ],
+          "StartDate": "13.11.2024 11:36",
+          "EndDate": "13.11.2024 11:40"
+        }
+      ]
+    },
+    {
+      "ID": "2411131200",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "12:00",
+      "Clocks": [
+        {
+          "ID": "673478b05e7b6c0ac4ba0ea2",
+          "Selected": false,
+          "Spend": 1642,
+          "Name": "Outlook",
+          "Title": "FortiTray Desktop",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 12:24",
+          "EndDate": "13.11.2024 12:51"
+        },
+        {
+          "ID": "673478b05e7b6c0ac4ba0ea0",
+          "Selected": false,
+          "Spend": 646,
+          "Name": "FortiClient",
+          "Title": "Microsoft Teams",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 12:10",
+          "EndDate": "13.11.2024 12:21"
+        },
+        {
+          "ID": "67347c5b5e7b6c0ac4ba3255",
+          "Selected": false,
+          "Spend": 555,
+          "Name": "Web",
+          "Title": null,
+          "Domain": 2,
+          "Details": [
+            {
+              "ID": "67347c5b5e7b6c0ac4ba3255",
+              "Spend": 555,
+              "Title": "ABOUT RECONCILIATION",
+              "Name": "facebook.com",
+              "Selected": false,
+              "StartDate": "13.11.2024 12:51",
+              "EndDate": "13.11.2024 13:01"
+            }
+          ],
+          "StartDate": "13.11.2024 12:51",
+          "EndDate": "13.11.2024 13:01"
+        }
+      ]
+    },
+    {
+      "ID": "2411131300",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "13:00",
+      "Clocks": [
+        {
+          "ID": "673484155e7b6c0ac4ba761f",
+          "Selected": false,
+          "Spend": 1628,
+          "Name": "Microsoft Word",
+          "Title": "File Explorer",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 13:28",
+          "EndDate": "13.11.2024 13:55"
+        },
+        {
+          "ID": "67347c5b5e7b6c0ac4ba3257",
+          "Selected": false,
+          "Spend": 1602,
+          "Name": "SAP",
+          "Title": "Microsoft Teams Notice",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 13:01",
+          "EndDate": "13.11.2024 13:28"
+        },
+        {
+          "ID": "673494e85e7b6c0ac4bb12b6",
+          "Selected": false,
+          "Spend": 986,
+          "Name": "Excel",
+          "Title": "647509.PDF",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 13:55",
+          "EndDate": "13.11.2024 14:12"
+        }
+      ]
+    },
+    {
+      "ID": "2411131400",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "14:00",
+      "Clocks": [
+        {
+          "ID": "673494e85e7b6c0ac4bb12ba",
+          "Selected": false,
+          "Spend": 1890,
+          "Name": "Web",
+          "Title": null,
+          "Domain": 4,
+          "Details": [
+            {
+              "ID": "673494e85e7b6c0ac4bb12ba",
+              "Spend": 1659,
+              "Title": "ABOUT RECONCILIATION",
+              "Name": "google.com",
+              "Selected": false,
+              "StartDate": "13.11.2024 14:17",
+              "EndDate": "13.11.2024 14:45"
+            },
+            {
+              "ID": "673494e85e7b6c0ac4bb12b8",
+              "Spend": 231,
+              "Title": "ABOUT RECONCILIATION",
+              "Name": "whatsapp.com",
+              "Selected": false,
+              "StartDate": "13.11.2024 14:13",
+              "EndDate": "13.11.2024 14:17"
+            }
+          ],
+          "StartDate": "13.11.2024 14:13",
+          "EndDate": "13.11.2024 14:45"
+        },
+        {
+          "ID": "6734ac475e7b6c0ac4bbb38d",
+          "Selected": false,
+          "Spend": 1223,
+          "Name": "Microsoft Edge",
+          "Title": "Current Settlement - Excel",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 14:45",
+          "EndDate": "13.11.2024 15:05"
+        }
+      ]
+    },
+    {
+      "ID": "2411131500",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "15:00",
+      "Clocks": [
+        {
+          "ID": "6734ac475e7b6c0ac4bbb38f",
+          "Selected": false,
+          "Spend": 1722,
+          "Name": "FortiClient",
+          "Title": "Microsoft Teams",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 15:05",
+          "EndDate": "13.11.2024 15:34"
+        },
+        {
+          "ID": "6734b63a5e7b6c0ac4bbf472",
+          "Selected": false,
+          "Spend": 1029,
+          "Name": "Excel",
+          "Title": "647509.PDF",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 15:53",
+          "EndDate": "13.11.2024 16:10"
+        },
+        {
+          "ID": "6734b63a5e7b6c0ac4bbf470",
+          "Selected": false,
+          "Spend": 752,
+          "Name": "Outlook",
+          "Title": "FortiTray Desktop",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 15:40",
+          "EndDate": "13.11.2024 15:52"
+        },
+        {
+          "ID": "6734b63a5e7b6c0ac4bbf46e",
+          "Selected": false,
+          "Spend": 134,
+          "Name": "Microsoft Edge",
+          "Title": "Current Settlement - Excel",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 15:34",
+          "EndDate": "13.11.2024 15:36"
+        }
+      ]
+    },
+    {
+      "ID": "2411131600",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "16:00",
+      "Clocks": [
+        {
+          "ID": "6734b63a5e7b6c0ac4bbf479",
+          "Selected": false,
+          "Spend": 1673,
+          "Name": "SAP",
+          "Title": "Microsoft Teams Notice",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 16:10",
+          "EndDate": "13.11.2024 17:09"
+        },
+        {
+          "ID": "6734b63a5e7b6c0ac4bbf477",
+          "Selected": false,
+          "Spend": 1272,
+          "Name": "Microsoft Word",
+          "Title": "File Explorer",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 16:23",
+          "EndDate": "13.11.2024 16:44"
+        },
+        {
+          "ID": "6734b63a5e7b6c0ac4bbf475",
+          "Selected": false,
+          "Spend": 400,
+          "Name": "Pulse Secure",
+          "Title": "IBM BPM Portal - Google Chrome",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 16:15",
+          "EndDate": "13.11.2024 16:21"
+        }
+      ]
+    },
+    {
+      "ID": "2411131700",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "17:00",
+      "Clocks": [
+        {
+          "ID": "6734dcfb5e7b6c0ac4bd92df",
+          "Selected": false,
+          "Spend": 1638,
+          "Name": "Teams",
+          "Title": "SAP GUI security",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 17:35",
+          "EndDate": "13.11.2024 18:02"
+        },
+        {
+          "ID": "6734d36c5e7b6c0ac4bd464c",
+          "Selected": false,
+          "Spend": 735,
+          "Name": "FortiClient",
+          "Title": "Microsoft Teams",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 17:19",
+          "EndDate": "13.11.2024 17:31"
+        },
+        {
+          "ID": "6734d36c5e7b6c0ac4bd464a",
+          "Selected": false,
+          "Spend": 487,
+          "Name": "Web",
+          "Title": null,
+          "Domain": 4,
+          "Details": [
+            {
+              "ID": "6734d36c5e7b6c0ac4bd464a",
+              "Spend": 487,
+              "Title": "ABOUT RECONCILIATION",
+              "Name": "tureng.com",
+              "Selected": false,
+              "StartDate": "13.11.2024 17:09",
+              "EndDate": "13.11.2024 17:18"
+            }
+          ],
+          "StartDate": "13.11.2024 17:09",
+          "EndDate": "13.11.2024 17:18"
+        },
+        {
+          "ID": "6734dcfb5e7b6c0ac4bd92dd",
+          "Selected": false,
+          "Spend": 110,
+          "Name": "Microsoft Word",
+          "Title": "File Explorer",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 17:31",
+          "EndDate": "13.11.2024 17:33"
+        }
+      ]
+    },
+    {
+      "ID": "2411131800",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "18:00",
+      "Clocks": [
+        {
+          "ID": "6734dcfb5e7b6c0ac4bd92e7",
+          "Selected": false,
+          "Spend": 1883,
+          "Name": "SAP",
+          "Title": "Microsoft Teams Notice",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 18:03",
+          "EndDate": "13.11.2024 19:14"
+        },
+        {
+          "ID": "6734dcfb5e7b6c0ac4bd92e5",
+          "Selected": false,
+          "Spend": 1502,
+          "Name": "FortiClient",
+          "Title": "Microsoft Teams",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 18:22",
+          "EndDate": "13.11.2024 18:47"
+        },
+        {
+          "ID": "6734dcfb5e7b6c0ac4bd92e3",
+          "Selected": false,
+          "Spend": 420,
+          "Name": "Pulse Secure",
+          "Title": "IBM BPM Portal - Google Chrome",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 18:11",
+          "EndDate": "13.11.2024 18:18"
+        }
+      ]
+    },
+    {
+      "ID": "2411131900",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "19:00",
+      "Clocks": [
+        {
+          "ID": "6734df555e7b6c0ac4bda0b1",
+          "Selected": false,
+          "Spend": 1743,
+          "Name": "Excel",
+          "Title": "647509.PDF",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 19:30",
+          "EndDate": "13.11.2024 20:03"
+        },
+        {
+          "ID": "6734dcfb5e7b6c0ac4bd92e9",
+          "Selected": false,
+          "Spend": 995,
+          "Name": "Outlook",
+          "Title": "FortiTray Desktop",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 19:14",
+          "EndDate": "13.11.2024 19:30"
+        }
+      ]
+    },
+    {
+      "ID": "2411132000",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "20:00",
+      "Clocks": [
+        {
+          "ID": "6734e96a5e7b6c0ac4bdc20a",
+          "Selected": false,
+          "Spend": 3401,
+          "Name": "FortiClient",
+          "Title": "Microsoft Teams",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 20:07",
+          "EndDate": "13.11.2024 21:18"
+        },
+        {
+          "ID": "6734e2705e7b6c0ac4bdacf4",
+          "Selected": false,
+          "Spend": 875,
+          "Name": "Pulse Secure",
+          "Title": "IBM BPM Portal - Google Chrome",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 20:22",
+          "EndDate": "13.11.2024 20:37"
+        }
+      ]
+    },
+    {
+      "ID": "2411132100",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "21:00",
+      "Clocks": [
+        {
+          "ID": "6734f3c15e7b6c0ac4bddb78",
+          "Selected": false,
+          "Spend": 798,
+          "Name": "Microsoft Edge",
+          "Title": "Current Settlement - Excel",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 21:31",
+          "EndDate": "13.11.2024 21:45"
+        },
+        {
+          "ID": "6734ee365e7b6c0ac4bdcebb",
+          "Selected": false,
+          "Spend": 798,
+          "Name": "SAP",
+          "Title": "Microsoft Teams Notice",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 21:18",
+          "EndDate": "13.11.2024 21:31"
+        },
+        {
+          "ID": "6734f5585e7b6c0ac4bde1a7",
+          "Selected": false,
+          "Spend": 774,
+          "Name": "Outlook",
+          "Title": "FortiTray Desktop",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 21:46",
+          "EndDate": "13.11.2024 21:59"
+        },
+        {
+          "ID": "6734f8705e7b6c0ac4bde944",
+          "Selected": false,
+          "Spend": 84,
+          "Name": "Microsoft Word",
+          "Title": "File Explorer",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 21:59",
+          "EndDate": "13.11.2024 22:00"
+        }
+      ]
+    },
+    {
+      "ID": "2411132200",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "22:00",
+      "Clocks": [
+        {
+          "ID": "673506fb5e7b6c0ac4be0599",
+          "Selected": false,
+          "Spend": 3401,
+          "Name": "Excel",
+          "Title": "647509.PDF",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 22:30",
+          "EndDate": "13.11.2024 23:27"
+        },
+        {
+          "ID": "6734f8705e7b6c0ac4bde945",
+          "Selected": false,
+          "Spend": 1178,
+          "Name": "FortiClient",
+          "Title": "Microsoft Teams",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 22:00",
+          "EndDate": "13.11.2024 22:20"
+        },
+        {
+          "ID": "6734fd345e7b6c0ac4bdf41c",
+          "Selected": false,
+          "Spend": 255,
+          "Name": "Web",
+          "Title": null,
+          "Domain": 4,
+          "Details": [
+            {
+              "ID": "6734fd345e7b6c0ac4bdf41c",
+              "Spend": 255,
+              "Title": "ABOUT RECONCILIATION",
+              "Name": "wikipedia.org",
+              "Selected": false,
+              "StartDate": "13.11.2024 22:20",
+              "EndDate": "13.11.2024 22:24"
+            }
+          ],
+          "StartDate": "13.11.2024 22:20",
+          "EndDate": "13.11.2024 22:24"
+        },
+        {
+          "ID": "6734ff3d5e7b6c0ac4bdf867",
+          "Selected": false,
+          "Spend": 241,
+          "Name": "Microsoft Word",
+          "Title": "File Explorer",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 22:24",
+          "EndDate": "13.11.2024 22:28"
+        }
+      ]
+    },
+    {
+      "ID": "2411132300",
+      "Selected": false,
+      "RecordDate": "13.11.2024",
+      "RecordTime": "23:00",
+      "Clocks": [
+        {
+          "ID": "673510f65e7b6c0ac4be1ac2",
+          "Selected": false,
+          "Spend": 891,
+          "Name": "Microsoft Word",
+          "Title": "File Explorer",
+          "Domain": 4,
+          "Details": [],
+          "StartDate": "13.11.2024 23:35",
+          "EndDate": "13.11.2024 23:50"
+        },
+        {
+          "ID": "67350e745e7b6c0ac4be147c",
+          "Selected": false,
+          "Spend": 485,
+          "Name": "Web",
+          "Title": null,
+          "Domain": 2,
+          "Details": [
+            {
+              "ID": "67350e745e7b6c0ac4be147c",
+              "Spend": 485,
+              "Title": "ABOUT RECONCILIATION",
+              "Name": "reddit.com",
+              "Selected": false,
+              "StartDate": "13.11.2024 23:27",
+              "EndDate": "13.11.2024 23:35"
+            }
+          ],
+          "StartDate": "13.11.2024 23:27",
+          "EndDate": "13.11.2024 23:35"
+        }
+      ]
+    }
   ]
 }

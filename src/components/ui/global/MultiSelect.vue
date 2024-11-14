@@ -29,13 +29,19 @@
         <i :class="filterIcon" />
       </template>
       <template #header>
-        <slot name="customHeader" />
+        <div v-if="headerAddBtn" class="px-3 pt-2 flex-1 flex flex-col">
+          <Button
+            class="!w-full"
+            outlined
+            label="Add new"
+            icon="pi pi-plus"
+            @click.stop="emit('addList')"
+            type="button"
+          />
+        </div>
       </template>
       <template #footer>
         <slot name="customFooter" />
-      </template>
-      <template #emptyfilter>
-        <slot name="customEmptyFilter" />
       </template>
     </MultiSelect>
     <small :id="`${name}-help`" class="p-error text-red-500">
@@ -45,10 +51,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { IOption } from '@/common/interfaces/option.interface';
 import MultiSelect, { type MultiSelectProps } from 'primevue/multiselect';
 import Tag from 'primevue/tag';
 import { useField } from 'vee-validate';
-import type { IOption } from '@/common/interfaces/option.interface';
 
 export interface IProps {
   name: string;
@@ -65,6 +71,7 @@ export interface IProps {
   dropdownIcon?: string; // icon class ex: pi pi-map-marker
   chip?: boolean;
   customWidth?: string;
+  headerAddBtn?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -74,6 +81,13 @@ const props = withDefaults(defineProps<IProps>(), {
   chip: true,
 });
 
+interface IEmits {
+  (event: 'selected', value: any): void;
+  (event: 'addList'): void;
+  (event: 'update:modelValue', value: IOption[]): void;
+}
+const emit = defineEmits<IEmits>();
+
 const { errorMessage, value, handleBlur, handleChange } = useField<IOption[]>(
   () => props.name,
   undefined,
@@ -82,12 +96,6 @@ const { errorMessage, value, handleBlur, handleChange } = useField<IOption[]>(
     syncVModel: true,
   },
 );
-
-interface IEmits {
-  (event: 'selected', value: any): void;
-  (event: 'update:modelValue', value: IOption[]): void;
-}
-const emit = defineEmits<IEmits>();
 
 const validationListeners = {
   blur: (e: InputEvent) => handleBlur(e, true),

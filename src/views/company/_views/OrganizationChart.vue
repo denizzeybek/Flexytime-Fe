@@ -13,9 +13,13 @@
       </li>
     </template>
     <template #content>
-      <div v-for="team in organizations" :key="team.ID">
+      <div v-for="team in organizationList" :key="team.ID">
         <ul class="flex flex-col gap-2">
-          <OrganizationItem :model="team" @itemChange="onItemChange($event)" />
+          <OrganizationItem
+            :model="team"
+            @item-change="onItemChange($event)"
+            @item-remove="onItemRemove($event)"
+          />
         </ul>
       </div>
     </template>
@@ -29,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
 import OrganizationItem from '@/views/company/_components/organizationChart/OrganizationItem.vue';
 import { useFToast } from '@/composables/useFToast';
@@ -38,20 +42,19 @@ import { useCompanyOrganizationChartsStore } from '@/stores/company/organization
 const { showErrorMessage } = useFToast();
 const organizationsStore = useCompanyOrganizationChartsStore();
 
-const organizations = computed(() => organizationsStore.list);
+const organizationList = ref<IOrganizationChartNodes[]>([]);
 
-const updatedData = ref();
 const isLoading = ref(false);
 
 const handleAddTeam = () => {
-  organizations.value.push({
+  organizationList.value.push({
     children: [],
     title: 'New Item',
   });
 };
 
 const onItemChange = (item: IOrganizationChartNodes) => {
-  updatedData.value = recursiveReplaceById(organizations.value, item.ID, item);
+  organizationList.value = recursiveReplaceById(organizationList.value, item.ID, item);
 };
 
 const recursiveReplaceById = (data, targetId, newData) => {
@@ -72,6 +75,29 @@ const recursiveReplaceById = (data, targetId, newData) => {
   });
 };
 
+const onItemRemove = (ID: string) => {
+  organizationList.value = recursiveRemoveItemById(organizationList.value, ID);
+};
+
+const recursiveRemoveItemById = (data, targetId) => {
+  const result = data.slice();
+
+  // Traverse the array from the end to the start
+  for (let i = result.length - 1; i >= 0; i--) {
+    const item = result[i];
+
+    // If the current item's ID matches the target ID, remove it
+    if (item.ID === targetId) {
+      result.splice(i, 1);
+    } else if (Array.isArray(item.children) && item.children.length > 0) {
+      // If the item has children, recursively call the function on its children
+      item.children = recursiveRemoveItemById(item.children, targetId);
+    }
+  }
+
+  return result;
+};
+
 const fetchOrganizationChart = async () => {
   try {
     isLoading.value = true;
@@ -81,6 +107,14 @@ const fetchOrganizationChart = async () => {
     showErrorMessage(error as any);
   }
 };
+
+watch(
+  () => organizationsStore.list,
+  (data) => {
+    organizationList.value = data;
+  },
+  { immediate: true, deep: true },
+);
 
 onMounted(() => {
   fetchOrganizationChart();

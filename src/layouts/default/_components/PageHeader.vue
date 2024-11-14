@@ -4,7 +4,7 @@
       <div class="block lg:hidden">
         <Button size="large" icon="pi pi-bars" unstyled @click="$emit('drawerChange', true)" />
       </div>
-      <div class=" pl-4  text-2xl">{{ route.name }}</div>
+      <div class=":pl-4 lg:pl-0  text-2xl">{{ route.name }}</div>
     </div>
     <div class="hidden lg:flex gap-3">
       <Button size="large" icon="pi pi-shopping-cart" label="Upgrade" severity="warn" />

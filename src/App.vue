@@ -10,7 +10,7 @@ const profileStore = useProfileStore();
 
 onMounted(async () => {
   await profileStore.filterTimeZones();
-  await profileStore.filter()
+  await profileStore.filter();
 });
 </script>
 
@@ -50,4 +50,11 @@ onMounted(async () => {
   @apply !bg-transparent !p-0;
 }
 /*#endregion */
+
+.p-button-secondary.p-button-outlined {
+  @apply !bg-slate-50 !text-slate-700 !border-slate-300;
+}
+.p-button-secondary.p-button-outlined .p-button-icon {
+  @apply !text-slate-700;
+}
 </style>

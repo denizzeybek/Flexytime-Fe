@@ -42,6 +42,9 @@
           showTime: false,
           hourFormat: '24',
           fluid: true,
+          selectionMode: 'range',
+          incrementIcon: true,
+          manuelInput: true,
         }"
       />
       <Button @click="resetForm()" type="button" label="Clear" severity="info" outlined />
@@ -54,12 +57,10 @@ import { useReport } from '@/views/company/_composables/useReport';
 
 const { teamOptions, employeeOptions, projectOptions, billibleOptions } = useReport();
 
-
 interface IProps {
   isSubmitting: boolean;
   resetForm: () => void;
   submitHandler: () => void;
-
 }
 
 defineProps<IProps>();
