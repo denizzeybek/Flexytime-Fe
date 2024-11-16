@@ -1,53 +1,51 @@
 <template>
-  <div class="flex flex-col gap-6">
+  <div class="flex flex-col gap-6" :class="selectedItems.length ? 'mb-60 lg:mb-40' : ''">
     <template v-for="(field, idx) in fields" :key="field.key">
       <div class="flex items-center justify-between">
-        <FCheckbox :name="`unclassifiedtimeEntries[${idx}].select`" />
+        <FText />
+        <!-- <FCheckbox :name="`unclassifiedtimeEntries[${idx}].Selected`" /> -->
         <div class="flex items-center flex-col gap-2">
-          <FText as="h1" :innerText="field.value.recordDate" />
-          <FText as="h5" :innerText="field.value.recordTime" />
+          <FText as="h1" :innerText="field.value.RecordDate" />
+          <FText as="h5" :innerText="field.value.RecordTime" />
         </div>
         <FText />
       </div>
-      <template v-for="(timeEntry, tIdx) in field.value.timeEntry">
+      <template v-for="(clock, tIdx) in field.value.Clocks">
         <div class="flex items-center gap-4">
-          <FCheckbox :name="`unclassifiedtimeEntries[${idx}].timeEntry[${tIdx}].select`" />
-          <Card class="flex-1" :class="timeEntry.select ? 'border-2 border-f-primary' : ''">
+          <FCheckbox :name="`unclassifiedtimeEntries[${idx}].Clocks[${tIdx}].Selected`" />
+          <Card class="flex-1" :class="clock.Selected ? 'border-2 border-f-primary' : ''">
             <template #content>
               <div class="flex flex-col gap-4">
                 <div class="flex justify-between items-start">
                   <div class="flex flex-col gap-2">
                     <div class="flex items-center gap-2">
-                      <FAvatar v-if="timeEntry.details?.length">
-                        {{ timeEntry.details?.length }}
+                      <FAvatar v-if="clock.Details?.length">
+                        {{ clock.Details?.length }}
                       </FAvatar>
-                      <FText v-if="timeEntry.name" as="h3" :innerText="timeEntry.name" />
+                      <FText v-if="clock.Name" as="h3" :innerText="clock.Name" />
                     </div>
-                    <FText
-                      v-if="!timeEntry.details?.length && timeEntry.title"
-                      :innerText="timeEntry.title"
-                    />
+                    <FText v-if="!clock.Details?.length && clock.Title" :innerText="clock.Title" />
                   </div>
                   <div>
                     <FText
                       as="h6"
-                      :innerText="calculateMinuteDifference(timeEntry.startDate, timeEntry.endDate)"
+                      :innerText="calculateMinuteDifference(clock.StartDate, clock.EndDate)"
                     />
                   </div>
                 </div>
-                <div v-if="timeEntry.details.length" class="flex flex-col gap-2">
-                  <template v-for="(detail, dIdx) in timeEntry.details">
+                <div v-if="clock.Details.length" class="flex flex-col gap-2">
+                  <template v-for="(detail, dIdx) in clock.Details">
                     <div v-if="detail" class="flex items-center gap-4">
                       <FCheckbox
-                        :name="`unclassifiedtimeEntries[${idx}].timeEntry[${tIdx}].details[${dIdx}].select`"
+                        :name="`unclassifiedtimeEntries[${idx}].Clocks[${tIdx}].Details[${dIdx}].Selected`"
                       />
                       <div class="px-4 py-3 bg-slate-100 rounded-md w-full flex justify-between">
                         <div class="flex flex-col gap-2">
-                          <FText as="h6" :innerText="detail.name" />
-                          <FText as="p" :innerText="detail.title" />
+                          <FText as="h6" :innerText="detail.Name" />
+                          <FText as="p" :innerText="detail.Title" />
                         </div>
                         <FText
-                          :innerText="calculateMinuteDifference(detail.startDate, detail.endDate)"
+                          :innerText="calculateMinuteDifference(detail.StartDate, detail.EndDate)"
                         />
                       </div>
                     </div>
@@ -60,25 +58,29 @@
       </template>
     </template>
   </div>
-  <UpdateTimeEntriesModal v-if="modalOpen" v-model:open="modalOpen" :data="selectedItems" />
+  <UpdateTimeEntriesModal
+    v-if="modalOpen && selectedItems.length"
+    v-model:open="modalOpen"
+    :data="selectedItems"
+  />
 </template>
 
 <script setup lang="ts">
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 import { useFToast } from '@/composables/useFToast';
-import { onMounted, ref, watch, computed } from 'vue';
+import { onMounted, ref, watch, computed, nextTick } from 'vue';
 import { useFieldArray, useForm } from 'vee-validate';
 import { array, boolean, object, string } from 'yup';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import UpdateTimeEntriesModal from '../_modals/UpdateTimeEntriesModal.vue';
+import type { IRecordItem } from '@/interfaces/timeSheet/timeEntry';
 
 dayjs.extend(customParseFormat);
 
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
-const entriesData = ref();
 const modalOpen = ref(false);
 const selectedItems = ref([]);
 
@@ -86,15 +88,15 @@ const validationSchema = object({
   selectAll: boolean().nullable().label('Select All'),
   unclassifiedtimeEntries: array().of(
     object().shape({
-      select: boolean().nullable().label('Selected'),
-      timeEntry: object()
+      Selected: boolean().nullable().label('Selected'),
+      Clocks: object()
         .shape({
-          select: boolean().nullable().label('Selected'),
-          details: array()
+          Selected: boolean().nullable().label('Selected'),
+          Details: array()
             .label('Tag')
             .of(
               object().shape({
-                select: boolean().nullable().label('Selected'),
+                Selected: boolean().nullable().label('Selected'),
               }),
             ),
         })
@@ -118,40 +120,39 @@ const submitHandler = handleSubmit(async (values) => {
   }
 });
 
-const setEntriesData = () => {
-  entriesData.value = getInitialFormData.value;
-};
-
-const getInitialFormData = computed(() => {
-  return timeEntriesStore.unclassifiedTimeEntries?.map((entry) => {
-    return {
-      recordDate: entry.RecordDate,
-      recordTime: entry.RecordTime,
-      select: entry.Selected,
-      timeEntry: entry.Clocks.map((clock) => ({
-        select: clock.Selected,
-        title: clock.Title,
-        name: clock.Name,
-        domain: clock.Domain,
-        startDate: clock.StartDate,
-        endDate: clock.EndDate,
-        details: clock.Details?.map((detail) => ({
-          select: detail.Selected,
-          title: detail.Title,
-          name: detail.Name,
-          domain: detail.Domain,
-          startDate: detail.StartDate,
-          endDate: detail.EndDate,
-        })),
-      })),
-    };
-  });
-});
-
 const calculateMinuteDifference = (startDate, endDate) => {
   const start = dayjs(startDate, 'DD.MM.YYYY HH:mm');
   const end = dayjs(endDate, 'DD.MM.YYYY HH:mm');
   return `${end.diff(start, 'minute')} min`;
+};
+
+const setInitialFormData = (data) => {
+  return data?.map((entry) => {
+    return {
+      ID: entry.ID,
+      RecordDate: entry.RecordDate,
+      RecordTime: entry.RecordTime,
+      Selected: entry.Selected,
+      Clocks: entry.Clocks?.map((clock) => ({
+        ID: clock.ID,
+        Selected: clock.Selected,
+        Title: clock.Title,
+        Name: clock.Name,
+        Domain: clock.Domain,
+        StartDate: clock.StartDate,
+        EndDate: clock.EndDate,
+        Details: clock.Details?.map((detail) => ({
+          ID: detail.ID,
+          Selected: detail.Selected,
+          Title: detail.Title,
+          Name: detail.Name,
+          Domain: detail.Domain,
+          StartDate: detail.StartDate,
+          EndDate: detail.EndDate,
+        })),
+      })),
+    };
+  });
 };
 
 const hasSelectedTrue = (data) => {
@@ -169,27 +170,32 @@ const hasSelectedTrue = (data) => {
   return false;
 };
 
-
 const getSelectedTrueObjects = (data) => {
   // TODO:: burda nasıl bir yapı izleneceği backend'e bağlı
   // sadece id'ler mi yollanacak, plain object mi yollanacak yoksa detay ile birlikte mi yollanacak
   const selectedItems = [] as any;
 
-  data.forEach(element => {
-    if (element.Selected) {
-      selectedItems.push(element);
-    }
-    element.Clocks.forEach((clock) => {
-      if (clock.Selected) {
-        selectedItems.push(clock);
+  data?.forEach((element) => {
+    element.Clocks?.forEach((clock) => {
+      if (!clock.Details.length) {
+        if (clock.Selected) {
+          selectedItems.push(clock);
+        }
       } else {
-        clock.Details.forEach((detail) => {
+        clock.Details?.forEach((detail) => {
           if (detail.Selected) {
             selectedItems.push(detail);
           }
         });
+        const isEveryChildSelected = clock.Details.every((detail) => detail.Selected);
+        if (!isEveryChildSelected) {
+          clock.Selected = false;
+        }
+        if (clock.Selected) {
+          clock.Details.map((detail) => (detail.Selected = true));
+        }
       }
-    })
+    });
   });
 
   return selectedItems;
@@ -206,13 +212,26 @@ const setModalState = () => {
 };
 
 watch(
+  () => fields.value,
+  (newValue, oldValue) => {
+    const oldData = oldValue.map((element) => element.value);
+    const newData = newValue.map((element) => element.value);
+
+    // TODO:: burda eski ve yeni datayı kıyaslayıp hangi elemanın değiştiğini bulup ona göre işlem yapılacak
+
+    const convertedData = setInitialFormData(newData);
+    selectedItems.value = getSelectedTrueObjects(convertedData);
+  },
+  { deep: true },
+);
+
+watch(
   () => timeEntriesStore.unclassifiedTimeEntries,
   () => {
-    setEntriesData();
     setModalState();
     resetForm({
       values: {
-        unclassifiedtimeEntries: entriesData.value,
+        unclassifiedtimeEntries: setInitialFormData(timeEntriesStore.unclassifiedTimeEntries),
         selectAll: false,
       },
     });
@@ -222,5 +241,3 @@ watch(
   },
 );
 </script>
-
-<style scoped></style>

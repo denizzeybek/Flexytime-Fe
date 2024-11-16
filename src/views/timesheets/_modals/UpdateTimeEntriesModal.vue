@@ -3,7 +3,7 @@
     v-model:visible="open"
     header="Categorize Time Entries"
     position="bottom"
-    class="lg:!w-[1200px] !w-full"
+    class="lg:!w-4/5 !w-full"
     :style="{ width: '50rem' }"
     :closeOnEscape="false"
     :draggable="false"
