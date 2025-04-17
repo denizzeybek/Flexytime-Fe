@@ -1,6 +1,8 @@
 export enum EStoreNames {
   AUTH = 'auth',
 
+  WORKTIME_USAGE_SECTION = 'section',
+
   CLASSIFICATION_WEB_ADDRESSES = 'webAddresses',
   CLASSIFICATION_APPLICATIONS = 'applications',
 
