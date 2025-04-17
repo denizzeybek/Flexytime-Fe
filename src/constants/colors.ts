@@ -30,4 +30,5 @@ export const colors = {
   'f-light-purple': '#ecebfe',
   'f-secondary-purple': '#f9f9ff',
   'f-tertiary-purple': '#F4F4FE',
+  'f-fifth-purple': '#d3c7d5',
 };

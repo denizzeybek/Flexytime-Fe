@@ -8,10 +8,12 @@
       <Summary />
     </div>
   </section>
+  <WorktimeButtonGroups />
+  <router-view/>
 </template>
 
 <script setup lang="ts">
 import UserBadge from '@/views/worktimeUsage/_components/UserBadge.vue';
 import Summary from '@/views/worktimeUsage/_components/summary/Index.vue';
-
+import WorktimeButtonGroups from '@/views/worktimeUsage/_components/WorktimeButtonGroups.vue';
 </script>
