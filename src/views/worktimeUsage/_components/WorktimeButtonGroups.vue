@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-2 items-center gap-12 my-5">
+  <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-2 lg:gap-12 my-5">
     <div class="flex space-x-4">
       <template v-for="(buttonProp, idx) in buttonProps" :key="idx">
         <Button
@@ -8,12 +8,11 @@
           :variant="isVariantActive(buttonProp)"
           @click="buttonProp.handleClick"
           severity="primary"
-          :class="isVariantActive(buttonProp) ? 'col-span-2' : 'col-span-1'"
         />
       </template>
     </div>
 
-    <div class="flex justify-end">
+    <div class="flex justify-center lg:justify-end">
       <SelectButton
         v-if="showSelectButton"
         class="col-span-2 flex justify-end"
@@ -91,9 +90,9 @@ const path = computed(() => {
 
 const isVariantActive = (buttonProp: IButtonProps): ButtonVariant => {
   if (buttonProp.routes.includes(path.value)) {
-    return 'outlined';
+    return undefined;
   }
-  return undefined;
+  return 'outlined';
 };
 
 const handleProductivityButtonRoute = () => {

@@ -3,7 +3,7 @@
     <Message severity="warn" icon="pi pi-exclamation-triangle">Info Message</Message>
   </div>
   <section>
-    <div class="flex gap-4 h-[150px] w-full">
+    <div class="flex gap-4 h-full w-full">
       <UserBadge />
       <Summary />
     </div>

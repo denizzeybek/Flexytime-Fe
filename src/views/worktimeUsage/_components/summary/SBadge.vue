@@ -1,24 +1,27 @@
 <template>
-  <div
-    :class="['border h-[72px] flex items-center w-[170px] lg:w-fit lg:flex-1 !rounded-xl !p-4', borderClass]"
-    outlined
-  >
-    <div class="flex items-center gap-2">
-      <Button :severity="severity" icon="pi pi-clock" class="!w-8 !h-8 !rounded-md"></Button>
-      <div class="flex flex-col justify-start">
-        <div :class="[textClass, 'text-sm']">{{ title }}</div>
-        <div class="text-f-black text-sm">{{ value }}</div>
+  <Card class="h-fit" :class="borderClass">
+    <template #content>
+      <div class="flex items-center justify-between gap-2">
+        <Avatar v-tooltip.top="title" :icon="icon" :class="bgClass" />
+        <div class="flex flex-col items-start gap-1 justify-start">
+          <span :class="textClass">{{ value }}</span>
+        </div>
+        <div></div>
       </div>
-    </div>
-  </div>
+    </template>
+  </Card>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import Card from 'primevue/card';
+import Avatar from 'primevue/avatar';
+import NavItem from '@/layouts/default/_components/NavItem.vue';
 
 interface IProps {
   severity: string;
   title: string;
+  icon: string;
   value: any;
 }
 
@@ -35,11 +38,31 @@ const severityMap = {
 };
 
 // Computed properties for border and text classes
+const bgClass = computed(() => `card-bg-${severityMap[props.severity] || 'default'}`);
 const borderClass = computed(() => `card-border-${severityMap[props.severity] || 'default'}`);
 const textClass = computed(() => `card-text-${severityMap[props.severity] || 'default'}`);
 </script>
 
 <style scoped>
+.card-bg-success {
+  @apply bg-f-success text-white;
+}
+.card-bg-danger {
+  @apply bg-f-danger text-white;
+}
+.card-bg-warn {
+  @apply bg-f-warn text-white;
+}
+.card-bg-secondary {
+  @apply bg-f-secondary text-white;
+}
+.card-bg-info {
+  @apply bg-f-info text-white;
+}
+.card-bg-primary {
+  @apply bg-f-primary text-white;
+}
+
 .card-border-success {
   @apply border border-f-success;
 }
