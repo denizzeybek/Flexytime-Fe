@@ -14,7 +14,14 @@ const { showErrorMessage } = useFToast();
 const fetchApplications = async () => {
   try {
     isLoading.value = true;
-    await applicationsStore.filter();
+    const payload = {
+      start: 1,
+      length: 9999999,
+      search: '',
+      sort: '',
+      descending: false,
+    };
+    await applicationsStore.filter(payload);
     isLoading.value = false;
   } catch (error) {
     showErrorMessage(error as any);

@@ -39,13 +39,14 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
     DownloadKey: '',
   }),
   actions: {
-    filterSection() {
+    filterSection(payload) {
       const api = '/webapi/clock/section';
+      
       return new Promise((resolve, reject) => {
         const url = useMockData ? '/mockData.json' : api;
 
         axios
-          .post(url)
+          .post(url, payload)
           .then((response: any) => {
             this.Card = useMockData ? response[api].Card : (response as ISection).Card;
             this.Summary = useMockData ? response[api].Summary : (response as ISection).Summary;

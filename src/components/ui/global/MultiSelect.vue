@@ -19,9 +19,13 @@
           <div>{{ slotProps.option.name }}</div>
         </div>
       </template>
-      <template #chip="slotProps">
-        <Tag severity="primary">{{ slotProps.value.name }}</Tag>
+      <template #chip="{ value, removeCallback }: ChipSlotProps">
+        <Tag icon="pi pi-times" @click="removeCallback" severity="primary">{{ value.name }}</Tag>
       </template>
+
+      <!-- <template #chip="{ value, removeCallback }">
+        <Tag icon="pi pi-times" @click="removeCallback" severity="primary">{{ value.name }}</Tag>
+      </template> -->
       <template v-if="dropdownIcon" #dropdownicon>
         <i :class="dropdownIcon" />
       </template>
@@ -55,6 +59,11 @@ import type { IOption } from '@/common/interfaces/option.interface';
 import MultiSelect, { type MultiSelectProps } from 'primevue/multiselect';
 import Tag from 'primevue/tag';
 import { useField } from 'vee-validate';
+
+interface ChipSlotProps {
+  value: any;
+  removeCallback?: () => void;
+}
 
 export interface IProps {
   name: string;

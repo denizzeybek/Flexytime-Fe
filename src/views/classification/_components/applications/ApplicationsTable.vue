@@ -6,7 +6,7 @@
         :loading="isLoading"
         :value="applications"
         paginator
-        :rows="5"
+        :rows="20"
         :rowsPerPageOptions="[5, 10, 20, 50]"
       >
         <Column field="Name" header="Name"> </Column>

@@ -56,6 +56,7 @@ import Login from '@/views/auth/Login.vue';
 import Register from '@/views/auth/Register.vue';
 import ForgotPassword from '@/views/auth/ForgotPassword.vue';
 import WizardDownload from '@/views/auth/WizardDownload.vue';
+import { EHeader } from '@/common/enums/token.enum';
 // Not Found Page
 // import NotFound from '@/views/NotFound.vue'
 
@@ -436,6 +437,7 @@ const routes: RouteRecordRaw[] = [
       requiresUnAuth: true,
       title: ERouteNames.Login,
       name: ERouteNames.Login,
+      header: EHeader.BASIC
     },
   },
   {

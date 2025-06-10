@@ -6,7 +6,7 @@
         paginator
         :loading="isLoading"
         :value="webAddresses"
-        :rows="5"
+        :rows="20"
         :rowsPerPageOptions="[5, 10, 20, 50]"
       >
         <Column sortable field="HostName" header="Name"> </Column>

@@ -16,7 +16,14 @@ const isLoading = ref(false);
 const fetchWebAddresses = async () => {
   try {
     isLoading.value = true;
-    await webAddressesStore.filter();
+    const payload = {
+      start: 1,
+      length: 9999999,
+      search: '',
+      sort: '',
+      descending: false,
+    };
+    await webAddressesStore.filter(payload);
     isLoading.value = false;
   } catch (error) {
     showErrorMessage(error as any);

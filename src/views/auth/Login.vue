@@ -55,7 +55,11 @@ import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { useForm } from 'vee-validate';
 import { string, object } from 'yup';
 import { useFToast } from '@/composables/useFToast';
+import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+const authStore = useAuthStore();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const validationSchema = object({
@@ -63,14 +67,22 @@ const validationSchema = object({
   password: string().required().label('Password'),
 });
 
-const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
+const { handleSubmit, isSubmitting } = useForm({
   validationSchema,
 });
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
+    const payload = {
+      username: values.email,
+      password: values.password,
+      grant_type: 'password',
+    };
+    await authStore.login(payload);
     showSuccessMessage('Logged in!');
+    router.push({
+      name: ERouteNames.WorktimeUsage
+    })
   } catch (error: any) {
     showErrorMessage(error as any);
   }

@@ -22,6 +22,11 @@ import { useSectionsStore } from '@/stores/worktimeUsage/section';
 const sectionsStore = useSectionsStore();
 
 onMounted(async () => {
-  await sectionsStore.filterSection();
+  const payload = {
+    interval: '',
+    perspective: 0,
+    teamId: null,
+  };
+  await sectionsStore.filterSection(payload);
 });
 </script>
