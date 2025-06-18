@@ -1,6 +1,6 @@
 export enum EDomain {
-    UNCLASSIFIED='unclassified',
-    WORK='work',
-    LEISURE='leisure',
-    MEETING='meeting',
+  UNCLASSIFIED = 1,
+  LEISURE = 2,
+  MEETING = 3,
+  WORK = 4,
 }

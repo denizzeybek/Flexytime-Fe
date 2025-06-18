@@ -1,10 +1,13 @@
 <template>
   <Tabs :value="route.meta.name?.toString()!">
-    <TabList>
-      <Tab v-for="(tab, idx) in items" :key="idx" :value="tab.route" @click="tab.method()">
-        <span>{{ tab.label }}</span>
-      </Tab>
-    </TabList>
+    <div class="flex items-center justify-between">
+      <TabList>
+        <Tab v-for="(tab, idx) in items" :key="idx" :value="tab.route" @click="tab.method()">
+          <span>{{ tab.label }}</span>
+        </Tab>
+      </TabList>
+      <div id="table-search" class="px-4"></div>
+    </div>
   </Tabs>
 
   <TabPanels>

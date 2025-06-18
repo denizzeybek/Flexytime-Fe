@@ -10,13 +10,13 @@
     size="large"
     pt:root="bg-f-white rounded-md px-4 border border-gray-300 "
   >
-    <ProfileBadge title="Deniz Zeybek" onlyTitle/>
+    <ProfileBadge title="Deniz Zeybek" onlyTitle />
   </Button>
 
   <div class="card flex justify-center">
     <Menu ref="menu" :model="items" class="w-full md:w-60" :popup="true">
       <template #item="{ item, props }">
-        <a v-ripple class="flex items-center" v-bind="props.action">
+        <a v-ripple class="flex items-center" v-bind="props.action" @click="item?.method()">
           <span :class="item.icon" />
           <RouterLink v-if="item?.route" :to="item.route" class="ml-2">
             {{ item.label }}
@@ -34,8 +34,10 @@ import { ref } from 'vue';
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useRouter } from 'vue-router';
+import { useLogout } from '@/composables/useLogout';
 
 const router = useRouter();
+const { logout } = useLogout();
 
 const menu = ref();
 
@@ -55,6 +57,9 @@ const items = ref([
       {
         label: 'Logout',
         icon: 'pi pi-sign-out',
+        method: () => {
+          logout();
+        }
       },
     ],
   },

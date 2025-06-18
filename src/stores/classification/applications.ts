@@ -21,14 +21,27 @@ export const useClassificationApplicationsStore = defineStore(
     }),
     actions: {
       async filter(payload) {
-        const url = '/webapi/category/webaddresses/query';
+        const url = '/webapi/category/allocations/query';
 
         const response = await axios.post<IApplication>(url, payload);
         const applications = (response.data as IApplication).DTO?.data;
+        const total = (response.data as IApplication).DTO?.recordsTotal ?? 0;
 
         this.list = applications;
-        this.totalItems = applications?.length || 0;
+        this.totalItems = total;
         return applications;
+      },
+      async save(payload) {
+        const url = '/webapi/category/allocation/save';
+        this.list = this.list.map((allocation) => {
+          if (allocation.ID === payload.ID) {
+            allocation.Domain = payload.Domain;
+            allocation.AlwaysOn = payload.AlwaysOn;
+          }
+          return allocation;
+        });
+
+        return await axios.post<IApplication>(url, payload);
       },
     },
   },

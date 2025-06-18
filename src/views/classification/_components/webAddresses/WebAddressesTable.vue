@@ -4,10 +4,14 @@
       <DataTable
         tableStyle="min-width: 50rem"
         paginator
+        :first="first"
         :loading="isLoading"
         :value="webAddresses"
-        :rows="20"
-        :rowsPerPageOptions="[5, 10, 20, 50]"
+        :totalRecords="totalItems"
+        :rows="10"
+        lazy
+        @page="onPageChange"
+        @sort="onSortOrder"
       >
         <Column sortable field="HostName" header="Name"> </Column>
         <Column sortable field="TopicName" header="Topic"> </Column>
@@ -15,9 +19,7 @@
         <Column header="Always On">
           <template #body="slotProps">
             <Checkbox
-              @change="
-                onAlwaysOnChange({ props: slotProps.data.ID, alwaysOn: !slotProps.data.AlwaysOn })
-              "
+              @change="onAlwaysOnChange(slotProps.data)"
               :modelValue="slotProps.data.AlwaysOn"
               :binary="true"
             />
@@ -36,31 +38,32 @@
                 icon="pi pi-wrench"
                 severity="success"
                 :outlined="getDomainEnum(slotProps.data.Domain) !== EDomain.WORK"
+                @click="updateDomain({ data: slotProps.data, Domain: EDomain.WORK })"
               />
               <Button
                 icon="pi pi-moon"
                 severity="danger"
                 :outlined="getDomainEnum(slotProps.data.Domain) !== EDomain.LEISURE"
+                @click="updateDomain({ data: slotProps.data, Domain: EDomain.LEISURE })"
               />
               <Button
                 icon="pi pi-calendar"
                 severity="warn"
                 :outlined="getDomainEnum(slotProps.data.Domain) !== EDomain.MEETING"
+                @click="updateDomain({ data: slotProps.data, Domain: EDomain.MEETING })"
               />
             </div>
           </template>
         </Column>
 
-        <template #footer>
-          In total there are {{ webAddresses ? webAddresses.length : 0 }} webAddresses.
-        </template>
+        <template #footer> In total there are {{ totalItems }} webAddresses. </template>
       </DataTable>
     </template>
   </Card>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { EDomain } from '@/enums/domain.enum';
 import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses';
 import { getDomainEnum } from '@/views/classification/_etc/helpers';
@@ -72,22 +75,60 @@ interface IProps {
 
 defineProps<IProps>();
 
+interface IEmits {
+  (event: 'onPageChange', currentPage): void;
+  (event: 'onSortChange', sortField): void;
+}
+const emit = defineEmits<IEmits>();
+
 const webAddressesStore = useClassificationWebAddressesStore();
+
+const first = ref(0);
 
 const webAddresses = computed(() => webAddressesStore.list);
 
+const totalItems = computed(() => webAddressesStore.totalItems);
+
+const onPageChange = (event: any) => {
+  first.value = event.first;
+  const offset = event.first;
+  const rows = event.rows;
+  emit('onPageChange', { offset, rows });
+};
+
+const onSortOrder = (event: any) => {
+  const { sortField } = event;
+  emit('onSortChange', sortField);
+};
+
 const onAlwaysOnChange = async (event) => {
   try {
-    const { props, alwaysOn } = event;
-    const { ID, Name, Domain } = props;
+    console.log('event ', event);
+    const { ID, AlwaysOn, Domain } = event;
     const payload = {
       ID,
-      Name,
+      AlwaysOn: !AlwaysOn,
       Domain,
-      AlwaysOn: alwaysOn,
     };
 
-    // await webAddressesStore.update(payload)
+    await webAddressesStore.save(payload);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateDomain = async (event) => {
+  try {
+    console.log('domain ', event);
+    const { data, Domain } = event;
+    const { ID, AlwaysOn } = data;
+    const payload = {
+      ID,
+      AlwaysOn,
+      Domain,
+    };
+
+    await webAddressesStore.save(payload);
   } catch (error) {
     console.log(error);
   }
