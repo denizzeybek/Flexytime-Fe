@@ -18,7 +18,8 @@
         <TabPanels>
           <TabPanel :value="0">
             <form v-if="!isEditing" class="flex flex-col gap-5" @submit.prevent>
-              <FEmailList name="emails" :is-clear="isClear" />
+              values.emails {{ values.emails }}
+              <FEmailList name="emails" type="text" :is-clear="isClear" />
             </form>
             <form v-else class="flex flex-col gap-4">
               <div class="flex items-center flex-col lg:flex-row gap-12">
@@ -414,27 +415,66 @@ const onFileSelect = (event) => {
 const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
-    const employee = props.data;
-
-    const payload = {
-      id: employee?.ID,
-      memberName: values.memberName,
-      email: values.email,
-      password: values.password,
-      role: activeTab.value,
-      salary: values.salary ?? employee?.Salary,
-      teamId: values.team.value ?? employee?.TeamId,
-      teamName: values.team.name ?? employee?.TeamName,
-      titleId: values.title.value ?? employee?.TeamId,
-      titleName: values.title.name ?? employee?.TitleName,
-      windowsIdentity: values.WindowsIdentity ?? employee?.WindowsIdentity,
-      enabled: isEditing.value ? values.enabled : employee?.Enabled,
-      tags: values.tags.map(tag => tag.name) ?? employee?.Tags,
-    };
-    console.log('payload ', payload);
+    let text = 'Employee added!';
+    let payload = {};
+    if (isEditing.value) {
+      const employee = props.data;
+      text = 'Employee updated!';
+      payload = {
+        id: employee?.ID,
+        memberName: values.memberName,
+        email: values.email,
+        password: values.password,
+        role: activeTab.value,
+        salary: values.salary ?? employee?.Salary,
+        teamId: values.team.value ?? employee?.TeamId,
+        teamName: values.team.name ?? employee?.TeamName,
+        titleId: values.title.value ?? employee?.TeamId,
+        titleName: values.title.name ?? employee?.TitleName,
+        windowsIdentity: values.WindowsIdentity ?? employee?.WindowsIdentity,
+        enabled: isEditing.value ? values.enabled : employee?.Enabled,
+        tags: values?.tags?.map((tag) => tag.name) ?? employee?.Tags ?? [],
+      };
+    } else {
+      if (activeTab.value === 0) {
+        payload = {
+          emails: values.emails,
+        };
+      } else if (activeTab.value === 1) {
+        payload = {
+          memberName: values.memberName,
+          email: values.email,
+          password: values.password,
+          role: activeTab.value,
+          salary: values.salary,
+          teamId: values.team.value,
+          teamName: values.team.name,
+          titleId: values.title.value,
+          titleName: values.title.name,
+          windowsIdentity: '',
+          enabled: true,
+          tags: [],
+        };
+      } else {
+        payload = {
+          memberName: values.memberName,
+          email: values.email,
+          password: values.password,
+          role: activeTab.value,
+          salary: 0,
+          teamId: '',
+          teamName: '',
+          titleId: '',
+          titleName: '',
+          windowsIdentity: '',
+          enabled: true,
+          tags: [],
+        };
+      }
+    }
     await employeesStore.save(payload);
     emit('fetchEmployees');
-    showSuccessMessage('Employee updated!');
+    showSuccessMessage(text);
     isClear.value = true;
     handleClose();
   } catch (error: any) {
