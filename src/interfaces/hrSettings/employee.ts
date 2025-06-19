@@ -67,6 +67,6 @@ export interface IEmployee {
   EmployeeTitles: IEmployeeTitle[];
   ManagerTitles: IManagerTitle[];
   Teams: IEmployeeTeam[];
-  Tags: IEmployeeTag;
+  Tags: IEmployeeTag[];
   Invitations: IEmployeeInvitation[];
 }

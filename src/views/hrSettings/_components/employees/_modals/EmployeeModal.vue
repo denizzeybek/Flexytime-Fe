@@ -6,22 +6,23 @@
     class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
-    <Tabs v-model:value="activeTab">
-      <div class="!flex !justify-center">
-        <TabList>
-          <Tab value="0">Employee</Tab>
-          <Tab value="1">Team Manager</Tab>
-          <Tab value="2">System Admin</Tab>
-        </TabList>
-      </div>
-      <TabPanels>
-        <TabPanel value="0">
-          <form v-if="!isEditing" class="flex flex-col gap-5" @submit.prevent>
-            <FEmailList name="emails" :is-clear="isClear"/>
-          </form>
-          <form v-else class="flex flex-col gap-4">
-            <div class="flex items-center flex-col lg:flex-row gap-12">
-              <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
+    <template v-if="isOnMounted">
+      <Tabs v-model:value="activeTab">
+        <div class="!flex !justify-center">
+          <TabList>
+            <Tab :value="0">Employee</Tab>
+            <Tab :value="1">Team Manager</Tab>
+            <Tab :value="2">System Admin</Tab>
+          </TabList>
+        </div>
+        <TabPanels>
+          <TabPanel :value="0">
+            <form v-if="!isEditing" class="flex flex-col gap-5" @submit.prevent>
+              <FEmailList name="emails" :is-clear="isClear" />
+            </form>
+            <form v-else class="flex flex-col gap-4">
+              <div class="flex items-center flex-col lg:flex-row gap-12">
+                <!-- <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
                 <img
                   v-if="src"
                   :src="src"
@@ -43,41 +44,67 @@
                   severity="secondary"
                   class="p-button-outlined"
                 />
+              </div> -->
+                <div class="flex lg:flex-col flex-1 gap-4">
+                  <FInput class="grow" id="memberName" label="Full Name" name="memberName" />
+                  <FInput class="grow" type="email" id="email" label="Email" name="email" />
+                  <FCheckbox v-if="isEditing" name="enabled" labelLeft label="Enabled" />
+                </div>
               </div>
-              <div class="flex lg:flex-col flex-1 gap-4">
-                <FInput class="grow" id="fullName" label="Full Name" name="EfullName" />
-                <FInput class="grow" type="email" id="email" label="Email" name="Eemail" />
-                <FCheckbox v-if="isEditing" name="Eenabled" labelLeft label="Enabled" />
+              <div class="flex gap-4 flex-1">
+                <FSelect
+                  id="title"
+                  class="grow"
+                  name="title"
+                  label="Title"
+                  placeholder="Title"
+                  :options="titleOptions"
+                />
+                <FSelect
+                  id="team"
+                  class="grow"
+                  name="team"
+                  label="Team"
+                  placeholder="Team"
+                  :options="teamOptions"
+                />
+                <FInput
+                  class="grow"
+                  id="operatingUser"
+                  label="Operating User"
+                  name="operatingUser"
+                />
               </div>
-            </div>
-            <div class="flex gap-4 flex-1">
-              <FInput class="grow" id="title" label="Title" name="Etitle" />
-              <FInput
-                class="grow"
-                id="operatingUser"
-                label="Operating User"
-                name="EoperatingUser"
-              />
-            </div>
-            <div class="flex items-center gap-4 flex-1">
-              <FInput class="grow" id="salary" label="Salary" name="Esalary" />
-            </div>
-            <Divider />
-            <div class="flex gap-4 flex-1">
-              <FPassword class="grow" id="password" label="Password" name="Epassword" />
-              <FPassword
+              <div class="flex items-center gap-4 flex-1">
+                <FMultiSelect
+                  name="tags"
+                  class="grow"
+                  placeholder="Select tag(s)"
+                  label="Tag"
+                  :options="tagOptions"
+                  :headerAddBtn="false"
+                  :prime-props="{
+                    maxSelectedLabels: 3,
+                  }"
+                />
+                <FInput class="grow" id="salary" label="Salary" name="salary" />
+              </div>
+              <Divider />
+              <div class="flex gap-4 flex-1">
+                <FPassword class="grow" id="password" label="Password" name="password" />
+                <!-- <FPassword
                 class="grow"
                 id="repeatPassword"
                 label="Repeat Password"
-                name="ErepeatPassword"
-              />
-            </div>
-          </form>
-        </TabPanel>
-        <TabPanel value="1">
-          <form class="flex flex-col gap-6">
-            <div class="flex items-center flex-col lg:flex-row gap-12">
-              <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
+                name="repeatPassword"
+              /> -->
+              </div>
+            </form>
+          </TabPanel>
+          <TabPanel :value="1">
+            <form class="flex flex-col gap-6">
+              <div class="flex items-center flex-col lg:flex-row gap-12">
+                <!-- <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
                 <img
                   v-if="src"
                   :src="src"
@@ -99,36 +126,50 @@
                   severity="secondary"
                   class="p-button-outlined"
                 />
+              </div> -->
+                <div class="flex lg:flex-col flex-1 gap-4">
+                  <FInput class="grow" id="memberName" label="Full Name" name="memberName" />
+                  <FInput class="grow" type="email" id="email" label="Email" name="email" />
+                  <FCheckbox v-if="isEditing" name="enabled" labelLeft label="Enabled" />
+                </div>
               </div>
-              <div class="flex lg:flex-col flex-1 gap-4">
-                <FInput class="grow" id="fullName" label="Full Name" name="TMfullName" />
-                <FInput class="grow" type="email" id="email" label="Email" name="TMemail" />
-                <FCheckbox v-if="isEditing" name="TMenabled" labelLeft label="Enabled" />
+              <div class="flex gap-4 flex-1">
+                <FSelect
+                  id="title"
+                  class="grow"
+                  name="title"
+                  label="Title"
+                  placeholder="Title"
+                  :options="titleOptions"
+                />
+                <FSelect
+                  id="team"
+                  class="grow"
+                  name="team"
+                  label="Team"
+                  placeholder="Team"
+                  :options="teamOptions"
+                />
               </div>
-            </div>
-            <div class="flex gap-4 flex-1">
-              <FInput class="grow" id="title" label="Title" name="TMtitle" />
-              <FInput class="grow" id="team" label="Team" name="TMteam" />
-            </div>
-            <div class="flex items-center gap-4 flex-1">
-              <FInput class="grow" id="salary" label="Salary" name="TMsalary" />
-            </div>
-            <Divider />
-            <div class="flex gap-4 flex-1">
-              <FPassword class="grow" id="password" label="Password" name="TMpassword" />
-              <FPassword
+              <div class="flex items-center gap-4 flex-1">
+                <FInput class="grow" id="salary" label="Salary" name="salary" />
+              </div>
+              <Divider />
+              <div class="flex gap-4 flex-1">
+                <FPassword class="grow" id="password" label="Password" name="password" />
+                <!-- <FPassword
                 class="grow"
                 id="repeatPassword"
                 label="Repeat Password"
-                name="TMrepeatPassword"
-              />
-            </div>
-          </form>
-        </TabPanel>
-        <TabPanel value="2">
-          <form class="flex flex-col gap-6">
-            <div class="flex items-center flex-col lg:flex-row gap-12">
-              <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
+                name="repeatPassword"
+              /> -->
+              </div>
+            </form>
+          </TabPanel>
+          <TabPanel :value="2">
+            <form class="flex flex-col gap-6">
+              <div class="flex items-center flex-col lg:flex-row gap-12">
+                <!-- <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
                 <img
                   v-if="src"
                   :src="src"
@@ -150,28 +191,28 @@
                   severity="secondary"
                   class="p-button-outlined"
                 />
+              </div> -->
+                <div class="flex lg:flex-col flex-1 gap-4">
+                  <FInput class="grow" id="memberName" label="Full Name" name="memberName" />
+                  <FInput class="grow" type="email" id="email" label="Email" name="email" />
+                  <FCheckbox v-if="isEditing" name="enabled" labelLeft label="Enabled" />
+                </div>
               </div>
-              <div class="flex lg:flex-col flex-1 gap-4">
-                <FInput class="grow" id="fullName" label="Full Name" name="SYSfullName" />
-                <FInput class="grow" type="email" id="email" label="Email" name="SYSemail" />
-                <FCheckbox v-if="isEditing" name="SYSenabled" labelLeft label="Enabled" />
-              </div>
-            </div>
-            <Divider />
-            <div class="flex gap-4 flex-1">
-              <FPassword class="grow" id="password" label="Password" name="SYSpassword" />
-              <FPassword
+              <Divider />
+              <div class="flex gap-4 flex-1">
+                <FPassword class="grow" id="password" label="Password" name="password" />
+                <!-- <FPassword
                 class="grow"
                 id="repeatPassword"
                 label="Repeat Password"
-                name="SYSrepeatPassword"
-              />
-            </div>
-          </form>
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
-
+                name="repeatPassword"
+              /> -->
+              </div>
+            </form>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </template>
     <div class="flex justify-end gap-2">
       <Button type="button" label="Cancel" severity="secondary" @click.stop="open = false"></Button>
       <Button
@@ -192,6 +233,7 @@ import { boolean, string, object, array, number, ref as yupRef } from 'yup';
 import { toTypedSchema } from '@vee-validate/yup';
 import { useFToast } from '@/composables/useFToast';
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
+import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
 
 interface IProps {
   data?: IEmployeeMember;
@@ -205,15 +247,39 @@ interface IEmits {
 const emit = defineEmits<IEmits>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
+const employeesStore = useHRSettingsEmployeesStore();
 
 const open = defineModel<boolean>('open');
-const activeTab = ref('0');
+const activeTab = ref(0);
 const src = ref();
 const isClear = ref(false);
+const isOnMounted = ref(false);
+
+const titleOptions = computed(() => {
+  return employeesStore.employeeTitles.map((employee) => {
+    return {
+      name: employee.Name,
+      value: employee.ID,
+    };
+  });
+});
+
+const tagOptions = computed(() => {
+  return employeesStore.tags;
+});
+
+const teamOptions = computed(() => {
+  return employeesStore.teams.map((employee) => {
+    return {
+      name: employee.Name,
+      value: employee.ID,
+    };
+  });
+});
 
 const isEditing = computed(() => !!props.data);
 const validationSchema: any = computed(() => {
-  if (activeTab.value === '0') {
+  if (activeTab.value === 0) {
     if (!isEditing.value) {
       return toTypedSchema(
         object({
@@ -229,71 +295,100 @@ const validationSchema: any = computed(() => {
     } else {
       return toTypedSchema(
         object({
-          EfullName: string().required().label('Full Name'),
-          Eemail: string().required().email().label('Email'),
-          Eenabled: boolean().label('Enabled').required(),
-          Etitle: string().required().label('Title'),
-          EoperatingUser: string().required().label('Operating User'),
-          Esalary: number().required().label('Salary'),
-          Epassword: string().required().min(6).label('Password'),
-          ErepeatPassword: string()
-            .oneOf([yupRef('password')], 'Passwords must match')
+          memberName: string().required().label('Full Name'),
+          email: string().required().email().label('Email'),
+          enabled: boolean().label('Enabled').required(),
+          title: object()
+            .shape({
+              name: string().label('Title'),
+              value: string().label('Title').required(),
+            })
             .required()
-            .min(6)
-            .label('Repeat Password'),
+            .label('Title'),
+          team: object()
+            .shape({
+              name: string().label('Team'),
+              value: string().label('Team').required(),
+            })
+            .required()
+            .label('Team'),
+          operatingUser: string().required().label('Operating User'),
+          salary: number().required().label('Salary'),
+          password: string().required().min(6).label('Password'),
+          tags: array()
+            .nullable()
+            .label('Tags')
+            .of(
+              object().shape({
+                name: string().nullable().label('Name'),
+                value: string().nullable().label('Value'),
+              }),
+            ),
+          // repeatPassword: string()
+          //   .oneOf([yupRef('password')], 'Passwords must match')
+          //   .required()
+          //   .min(6)
+          //   .label('Repeat Password'),
         }),
       );
     }
-  } else if (activeTab.value === '1') {
+  } else if (activeTab.value === 1) {
     return toTypedSchema(
       object({
-        TMfullName: string().required().label('Full Name'),
-        TMemail: string().required().email().label('Email'),
-        TMtitle: string().required().label('Title'),
-        TMenabled: boolean()
+        memberName: string().required().label('Full Name'),
+        email: string().required().email().label('Email'),
+        title: object()
+          .shape({
+            name: string().label('Title'),
+            value: string().label('Title').required(),
+          })
+          .required()
+          .label('Title'),
+        team: object()
+          .shape({
+            name: string().label('Team'),
+            value: string().label('Team').required(),
+          })
+          .required()
+          .label('Team'),
+        enabled: boolean()
           .label('Enabled')
           .when([], {
             is: () => isEditing.value,
             then: (schema) => schema.required(),
             otherwise: (schema) => schema.nullable(),
           }),
-        TMteam: string().required().label('Team'),
-        TMsalary: number().required().label('Salary'),
-        TMpassword: string().required().min(6).label('Password'),
-        TMrepeatPassword: string()
-          .oneOf([yupRef('TMpassword')], 'Passwords must match')
-          .required()
-          .min(6)
-          .label('Repeat Password'),
-      }),
-    );
-  } else if (activeTab.value === '2') {
-    return toTypedSchema(
-      object({
-        SYSfullName: string().required().label('Full Name'),
-        SYSemail: string().required().email().label('Email'),
-        SYSenabled: boolean()
-          .label('Enabled')
-          .when([], {
-            is: () => isEditing.value,
-            then: (schema) => schema.required(),
-            otherwise: (schema) => schema.nullable(),
-          }),
-        SYSpassword: string().required().min(6).label('Password'),
-        SYSrepeatPassword: string()
-          .oneOf([yupRef('SYSpassword')], 'Passwords must match')
-          .required()
-          .min(6)
-          .label('Repeat Password'),
+        salary: number().required().label('Salary'),
+        password: string().required().min(6).label('Password'),
+        // repeatPassword: string()
+        //   .oneOf([yupRef('password')], 'Passwords must match')
+        //   .required()
+        //   .min(6)
+        //   .label('Repeat Password'),
       }),
     );
   }
+  // else if (activeTab.value === '2') {
   return toTypedSchema(
     object({
-      kycStatus: string().required().label('KYC Status'),
-      kycId: string().nullable().label('KYC ID'),
+      memberName: string().required().label('Full Name'),
+      email: string().required().email().label('Email'),
+      enabled: boolean()
+        .label('Enabled')
+        .when([], {
+          is: () => isEditing.value,
+          then: (schema) => schema.required(),
+          otherwise: (schema) => schema.nullable(),
+        }),
+      password: string().required().min(6).label('Password'),
+      // repeatPassword: string()
+      //   .oneOf([yupRef('password')], 'Passwords must match')
+      //   .required()
+      //   .min(6)
+      //   .label('Repeat Password'),
     }),
   );
+  // }
 });
 
 const { handleSubmit, isSubmitting, values, resetForm } = useForm({
@@ -319,11 +414,29 @@ const onFileSelect = (event) => {
 const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
-    console.log('src ', src.value);
+    const employee = props.data;
+
+    const payload = {
+      id: employee?.ID,
+      memberName: values.memberName,
+      email: values.email,
+      password: values.password,
+      role: activeTab.value,
+      salary: values.salary ?? employee?.Salary,
+      teamId: values.team.value ?? employee?.TeamId,
+      teamName: values.team.name ?? employee?.TeamName,
+      titleId: values.title.value ?? employee?.TeamId,
+      titleName: values.title.name ?? employee?.TitleName,
+      windowsIdentity: values.WindowsIdentity ?? employee?.WindowsIdentity,
+      enabled: isEditing.value ? values.enabled : employee?.Enabled,
+      tags: values.tags.map(tag => tag.name) ?? employee?.Tags,
+    };
+    console.log('payload ', payload);
+    await employeesStore.save(payload);
     emit('fetchEmployees');
     showSuccessMessage('Employee updated!');
     isClear.value = true;
-    // handleClose();
+    handleClose();
   } catch (error: any) {
     showErrorMessage(error as any);
   }
@@ -334,36 +447,37 @@ const getInitialFormData = computed(() => {
 
   return {
     ...(employee && {
-      EfullName: employee.MemberName,
-      Eemail: employee.Email,
-      Eenabled: employee.Enabled,
-      Etitle: employee.TitleName,
-      EoperatingUser: employee.WindowsIdentity,
-      Esalary: employee.Salary,
-      Epassword: employee.Password,
-      ErepeatPassword: employee.Password,
-
-      TMfullName: employee.MemberName,
-      TMemail: employee.Email,
-      TMenabled: employee.Enabled,
-      TMtitle: employee.TitleName,
-      TMteam: employee.MemberName,
-      TMsalary: employee.Salary,
-      TMpassword: employee.Password,
-      TMrepeatPassword: employee.Password,
-
-      SYSfullName: employee.MemberName,
-      SYSemail: employee.Email,
-      SYSenabled: employee.Enabled,
-      SYSpassword: employee.Password,
-      SYSrepeatPassword: employee.Password,
+      memberName: employee.MemberName,
+      email: employee.Email,
+      enabled: employee.Enabled,
+      title: {
+        name: employee.TitleName,
+        value: employee.TitleId,
+      },
+      team: {
+        name: employee.TeamName,
+        value: employee.TeamId,
+      },
+      operatingUser: employee.WindowsIdentity,
+      salary: employee.Salary,
+      password: employee.Password,
+      repeatPassword: employee.Password,
     }),
   };
 });
 
 onMounted(() => {
-  resetForm({
-    values: getInitialFormData.value,
-  });
+  if (isEditing.value) {
+    const employee = props.data;
+
+    if (employee && Object.keys(employee)?.length) {
+      activeTab.value = employee?.Role;
+      console.log('employee?.Role ', employee?.Role);
+    }
+    resetForm({
+      values: getInitialFormData.value,
+    });
+  }
+  isOnMounted.value = true;
 });
 </script>
