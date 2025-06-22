@@ -64,9 +64,22 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 
 const { fields } = useFieldArray<IPermission>('permissions');
 
+const transformPermissions = (permissions) => {
+  const EnabledIdList = permissions.filter(permission => permission.Enabled).map(permission => permission.Id);
+  const AdminIdList = permissions.filter(permission => permission.VisibleOnlyByAdmin.value).map(permission => permission.Id);
+
+  return {
+    EnabledIdList,
+    AdminIdList
+  };
+};
+
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
+    // console.log('values ', values);
+    const payload = transformPermissions(values.permissions);
+    console.log('payload ', payload);
+    await permissionsStore.save(payload);
     showSuccessMessage('Permissions updated!');
   } catch (error: any) {
     showErrorMessage(error as any);
