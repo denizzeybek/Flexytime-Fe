@@ -40,6 +40,7 @@ export interface IProfile {
   LanguageCode: string;
   IsUnsubscribe: boolean;
   Employee: IProfileUser;
+  Timezones: ITimeZone[];
 }
 
 export interface ILicanse {

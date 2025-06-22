@@ -100,3 +100,19 @@ export const calculateTimeDifference = (start: string, end: string): string => {
   const diffDuration = dayjs.duration(diff);
   return diffDuration.format('HH:mm:ss');
 };
+
+export const convertTimeToDate = (time) => {
+  // Saat formatını düzelt: noktayı iki nokta ile değiştir
+  const formattedTime = time.replace('.', ':');
+
+  // Saat değeri ile Date objesi oluştur
+  let parsedTime = new Date(`1970-01-01T${formattedTime}:00`);
+
+  // Saat ve dakikayı sıfırla
+  parsedTime.setHours(parsedTime.getHours()); // Saat olduğu gibi bırak
+  parsedTime.setMinutes(0); // Dakikaları sıfırla
+  parsedTime.setSeconds(0); // Saniyeleri sıfırla
+
+  // Dönüşüm sonrası alınan saat, Date formatında döndürülür
+  return parsedTime;
+};

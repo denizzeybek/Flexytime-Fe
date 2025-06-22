@@ -10,7 +10,7 @@ const profileStore = useProfileStore();
 
 onMounted(async () => {
   // await profileStore.filterTimeZones();
-  // await profileStore.filter();
+  await profileStore.filter();
 });
 </script>
 
