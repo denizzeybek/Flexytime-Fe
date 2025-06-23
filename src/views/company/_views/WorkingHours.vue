@@ -89,7 +89,7 @@ import type { IWorkingHourDay } from '@/interfaces/company/workingHour';
 import { useCompanyWorkingHoursStore } from '@/stores/company/workingHours';
 import { useProfileStore } from '@/stores/profile/profile';
 import dayjs from 'dayjs';
-import { convertTimeToDate } from '@/helpers/utils';
+import { convertTimeToDate, convertDateToTime } from '@/helpers/utils';
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const workingHoursStore = useCompanyWorkingHoursStore();
@@ -136,14 +136,14 @@ const submitHandler = handleSubmit(async (values) => {
   try {
     const formattedDays = values.days.map((day) => ({
       ...day,
-      StartTime: dayjs(day.StartTime).format('HH:mm'),
-      EndTime: dayjs(day.EndTime).format('HH:mm'),
+      StartTime: convertDateToTime(day.StartTime),
+      EndTime: convertDateToTime(day.EndTime),
     }));
     const payload = {
       ...values,
       days: formattedDays,
-      maxIdleTime: dayjs(values.maxIdleTime).format('HH:mm'),
-      shiftRangeTime: dayjs(values.shiftRangeTime).format('HH:mm'),
+      maxIdleTime: convertDateToTime(values.maxIdleTime),
+      shiftRangeTime: convertDateToTime(values.shiftRangeTime),
       unclassified: false,
       isShowContent: true,
       title: 'Working Hours',

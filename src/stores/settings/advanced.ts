@@ -15,25 +15,18 @@ export const useSettingsAdvancedsStore = defineStore(EStoreNames.SETTINGS_ADVANC
     totalItems: 0,
   }),
   actions: {
-    filter() {
-      const api = '/webapi/setting/advances';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
+    async filter() {
+      const url = '/webapi/setting/advances';
+      const response = await axios.get<IAdvanced[]>(url);
 
-        axios
-          .post(url)
-          .then((response: any) => {
-            const advanced = useMockData ? response[api] : (response as IAdvanced);
+      this.list = response.data as IAdvanced[];
+      this.totalItems = this.list?.length || 0;
 
-            this.list = advanced;
-            this.totalItems = advanced?.length || 0;
-
-            resolve(advanced);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+      return response.data;
+    },
+    async save(payload) {
+      const url = '/webapi/setting/advance/save';
+      return await axios.post<IAdvanced>(url, payload);
     },
   },
 });

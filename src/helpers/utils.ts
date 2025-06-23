@@ -116,3 +116,7 @@ export const convertTimeToDate = (time) => {
   // Dönüşüm sonrası alınan saat, Date formatında döndürülür
   return parsedTime;
 };
+
+export const convertDateToTime = (date) => {
+  return dayjs(date).format('HH:mm')
+}
