@@ -43,12 +43,5 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
       
       return response.data;
     },
-    async filterTimeZones() {
-      const url = '/webapi/company/timezones';
-      const response = await axios.post<ITimeZone[]>(url);
-      this.TimeZoneList = response.data as ITimeZone[];
-      
-      return response.data;
-    },
   },
 });

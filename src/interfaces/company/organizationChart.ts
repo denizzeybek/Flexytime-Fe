@@ -22,7 +22,7 @@ export interface IOrganizationChartTitles {
 }
 
 export interface IOrganizationChart {
-  nodes: IOrganizationChartNodes[];
+  Nodes: IOrganizationChartNodes[];
   Members: IOrganizationChartMembers[];
   Titles: IOrganizationChartTitles[];
 }

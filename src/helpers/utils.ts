@@ -1,8 +1,10 @@
 import { Regex } from '@/constants/regex';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 dayjs.extend(duration);
+dayjs.extend(customParseFormat);
 
 /**
  * Returns a function that will only be executed after a certain amount of time has passed since the last time it was called.
@@ -118,5 +120,33 @@ export const convertTimeToDate = (time) => {
 };
 
 export const convertDateToTime = (date) => {
-  return dayjs(date).format('HH:mm')
-}
+  return dayjs(date).format('HH:mm');
+};
+
+export const convertDateToString = (
+  dateString: string,
+  extractTime = false,
+): string | { date: string; time: string } => {
+  const date = dayjs(dateString);
+
+  if (extractTime) {
+    return {
+      date: date.format('DD.MM.YYYY'),
+      time: date.format('HH:mm'),
+    };
+  }
+
+  return date.format('DD.MM.YYYY');
+};
+
+export const convertStringToDate = (dateString: string, timeString?: string): Date => {
+  const fullString = timeString
+    ? `${dateString} ${timeString}`
+    : dateString;
+
+  const format = timeString
+    ? 'DD.MM.YYYY HH:mm'
+    : 'DD.MM.YYYY';
+
+  return dayjs(fullString, format).toDate();
+};

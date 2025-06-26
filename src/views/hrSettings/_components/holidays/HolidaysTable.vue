@@ -94,6 +94,7 @@ defineProps<IProps>();
 interface IEmits {
   (event: 'new'): void;
   (event: 'edit', value: IHoliday): void;
+  (event: 'delete', ID: string): void;
 }
 
 const emit = defineEmits<IEmits>();
@@ -135,8 +136,8 @@ const handleEdit = (holiday: IHoliday) => {
   emit('edit', holiday);
 };
 
-const handleDelete = (employeeID: string) => {
-  // holidaysStore.deleteEmployee(employeeID);
+const handleDelete = async (ID: string) => {
+  emit('delete', ID);
 };
 
 const handleOptionClick = (option: EOptionsDropdown, holiday: IHoliday) => {

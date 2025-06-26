@@ -15,26 +15,23 @@ export const useHRSettingsHolidaysStore = defineStore(EStoreNames.HR_SETTINGS_HO
     totalItems: 0,
   }),
   actions: {
-    filter() {
-      const api = '/webapi/company/holidays';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
+    async filter() {
+      const url = '/webapi/company/holidays';
+      const response = await axios.get<IHoliday[]>(url);
 
-        axios
-          .post(url)
-          .then((response: any) => {
-            const data = useMockData ? response[api] : (response as IHoliday);
+      const data = response.data as IHoliday[];
+      this.list = data;
+      this.totalItems = data?.length || 0;
 
-            this.list = data;
-
-            this.totalItems = data?.length || 0;
-
-            resolve(data);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+      return data;
+    },
+    async save(payload) {
+      const url = '/webapi/company/holiday/save';
+      return await axios.post<any>(url, payload);
+    },
+    async delete(ID: { ID: string }) {
+      const url = '/webapi/company/holiday/delete';
+      return await axios.post<any>(url, ID);
     },
   },
 });

@@ -26,7 +26,7 @@
     <template #footer>
       <div class="flex justify-between">
         <Button @click="handleAddTeam" icon="pi pi-plus" label="Add Team" />
-        <Button severity="info" label="Save" />
+        <Button severity="info" label="Save" @click="handleSave"/>
       </div>
     </template>
   </Card>
@@ -39,7 +39,7 @@ import OrganizationItem from '@/views/company/_components/organizationChart/Orga
 import { useFToast } from '@/composables/useFToast';
 import { useCompanyOrganizationChartsStore } from '@/stores/company/organizationChart';
 
-const { showErrorMessage } = useFToast();
+const { showErrorMessage, showSuccessMessage } = useFToast();
 const organizationsStore = useCompanyOrganizationChartsStore();
 
 const organizationList = ref<IOrganizationChartNodes[]>([]);
@@ -97,6 +97,19 @@ const recursiveRemoveItemById = (data, targetId) => {
 
   return result;
 };
+
+const handleSave = async () => {
+  try {
+    const payload = {
+      Nodes: organizationList.value
+    }
+    await organizationsStore.save(payload);
+    showSuccessMessage('Saved!')
+    await fetchOrganizationChart();
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 const fetchOrganizationChart = async () => {
   try {

@@ -9,7 +9,6 @@ import { useProfileStore } from '@/stores/profile/profile';
 const profileStore = useProfileStore();
 
 onMounted(async () => {
-  // await profileStore.filterTimeZones();
   await profileStore.filter();
 });
 </script>

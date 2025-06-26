@@ -12,28 +12,28 @@
       </div>
 
       <div class="flex gap-4">
-        <div class="flex flex-col lg:flex-row items-start  gap-4 lg:gap-12 flex-1">
-          <FCheckbox name="startAllday" labelTop label="All Day" />
+        <div class="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 flex-1">
+          <FCheckbox name="startFullDay" labelTop label="All Day" />
           <FDateTimePicker
             label="Start Date"
             class="grow"
             name="startDate"
             :prime-props="{
-              showTime: startAllday ? false : true,
+              showTime: startFullDay ? false : true,
               hourFormat: '24',
               fluid: true,
             }"
           />
         </div>
         <Divider layout="vertical" />
-        <div class="flex flex-col lg:flex-row items-start  gap-4 lg:gap-12 flex-1">
-          <FCheckbox name="endAllday" labelTop labelLeft label="All Day" />
+        <div class="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 flex-1">
+          <FCheckbox name="endFullDay" labelTop labelLeft label="All Day" />
           <FDateTimePicker
             label="End Date"
             class="grow"
             name="endDate"
             :prime-props="{
-              showTime: endAllday ? false : true,
+              showTime: endFullDay ? false : true,
               hourFormat: '24',
               fluid: true,
             }"
@@ -57,6 +57,8 @@ import { useForm } from 'vee-validate';
 import { boolean, string, object } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import type { IHoliday } from '@/interfaces/hrSettings/holiday';
+import { convertDateToString, convertStringToDate } from '@/helpers/utils';
+import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 
 interface IProps {
   data?: IHoliday;
@@ -71,6 +73,7 @@ interface IEmits {
 const emit = defineEmits<IEmits>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
+const holidaysStore = useHRSettingsHolidaysStore();
 
 const open = defineModel<boolean>('open');
 
@@ -78,9 +81,9 @@ const isEditing = computed(() => !!props.data);
 
 const validationSchema = object({
   name: string().required().label('Holiday Name'),
-  startAllday: boolean().label('Start time all day'),
+  startFullDay: boolean().label('Start time all day'),
   startDate: string().required().label('Start date'),
-  endAllday: boolean().label('End time all day'),
+  endFullDay: boolean().label('End time all day'),
   endDate: string().required().label('End date'),
   repeat: boolean().label('Repeat every year'),
 });
@@ -89,8 +92,8 @@ const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
   validationSchema,
 });
 
-const [startAllday] = defineField('startAllday');
-const [endAllday] = defineField('endAllday');
+const [startFullDay] = defineField('startFullDay');
+const [endFullDay] = defineField('endFullDay');
 
 const handleClose = () => {
   resetForm();
@@ -100,8 +103,28 @@ const handleClose = () => {
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
-
+    let payload = {
+      StartDate: convertDateToString(values.startDate),
+      StartTime: values.startFullDay
+        ? '00:00'
+        : (convertDateToString(values.startDate, true) as unknown as any).time,
+      EndDate: convertDateToString(values.endDate),
+      EndTime: values.endFullDay
+        ? '00:00'
+        : (convertDateToString(values.endDate, true) as unknown as any).time,
+      Name: values.name,
+      StartFullDay: values.startFullDay,
+      EndFullDay: values.endFullDay,
+      Repeat: values.repeat,
+    };
+    if (isEditing.value) {
+      payload = {
+        ...payload,
+        ID: values.ID,
+      } as any;
+    }
+    console.log('payload ', payload);
+    await holidaysStore.save(payload);
     emit('fetchHolidays');
     showSuccessMessage('Holiday updated!');
     handleClose();
@@ -113,19 +136,24 @@ const submitHandler = handleSubmit(async (values) => {
 const getInitialFormData = computed(() => {
   const holiday = props.data;
 
-  return {
-    ...(holiday && {
+  if (holiday) {
+    return {
+      ID: holiday.ID,
       name: holiday.Name,
-      startAllday: holiday.StartFullDay,
-      startDate: holiday.StartDate,
-      endAllday: holiday.EndFullDay,
-      endDate: holiday.EndDate,
+      startFullDay: holiday.StartFullDay,
+      startDate: convertStringToDate(holiday.StartDate, holiday.StartTime),
+      endFullDay: holiday.EndFullDay,
+      endDate: convertStringToDate(holiday.EndDate, holiday.EndTime),
       repeat: holiday.Repeat,
-    }),
-  };
+    };
+  } else {
+    return {
+      startFullDay: false,
+      endFullDay: false,
+      repeat: false,
+    };
+  }
 });
-
-// TODO: start date ve end date bilgileri date olarak dönmeli, fe date'i convert etmeli
 
 onMounted(() => {
   resetForm({
