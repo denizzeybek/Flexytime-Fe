@@ -46,13 +46,10 @@ const selectButtonValue = ref('Teams');
 const selectButtonOptions = ref(['Employees', 'Teams']);
 
 const showSelectButton = computed(() => {
-  if (
-    route.name === ERouteNames.WorktimeUsageProductivityIndividuals ||
-    route.name === ERouteNames.WorktimeUsageProductivityTeam
-  ) {
-    return true;
+  if (route.fullPath.includes('employee')) {
+    return false;
   }
-  return false;
+  return true;
 });
 
 const buttonProps = computed<IButtonProps[]>(() => {

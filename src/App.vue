@@ -3,14 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useProfileStore } from '@/stores/profile/profile';
-
-const profileStore = useProfileStore();
-
-onMounted(async () => {
-  await profileStore.filter();
-});
 </script>
 
 <style>

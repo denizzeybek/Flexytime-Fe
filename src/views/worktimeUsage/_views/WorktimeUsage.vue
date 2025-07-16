@@ -16,17 +16,49 @@
 import UserBadge from '@/views/worktimeUsage/_components/UserBadge.vue';
 import Summary from '@/views/worktimeUsage/_components/summary/Index.vue';
 import WorktimeButtonGroups from '@/views/worktimeUsage/_components/WorktimeButtonGroups.vue';
-import { onMounted } from 'vue';
 import { useSectionsStore } from '@/stores/worktimeUsage/section';
+import { ref, provide, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const sectionsStore = useSectionsStore();
 
-onMounted(async () => {
-  const payload = {
-    interval: '',
-    perspective: 0,
-    teamId: null,
-  };
-  await sectionsStore.filterSection(payload);
+const payload = ref({
+  interval: '',
+  perspective: 0,
+  teamId: null,
 });
+
+const fetchSection = async () => {
+  try {
+    await sectionsStore.filter(payload.value);
+  } catch (error) {}
+};
+
+const handlePerspective = (event: any) => {
+  payload.value = event;
+  payload.value.interval = ''; // TODO: remove here when interval format changed
+
+  // Query'yi güncelle
+  const query = {
+    perspective: event.perspective, // string varsayımı
+    interval: event.interval, // örneğin "2024-01-01"
+    teamId: event.teamId, // örneğin "2024-01-31"
+  };
+
+  // Boş değerleri filtrele (opsiyonel)
+  const filteredQuery = Object.fromEntries(
+    Object.entries(query).filter(([_, v]) => v != null && v !== ''),
+  );
+
+  router.push({ query: filteredQuery });
+  console.log('here!!');
+  fetchSection();
+};
+
+provide('handlePerspective', handlePerspective);
+
+// onMounted(() => {
+//   handlePerspective(payload.value);
+// })
 </script>

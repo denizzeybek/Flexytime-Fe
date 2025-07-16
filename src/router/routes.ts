@@ -70,7 +70,7 @@ const routes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: '/clock/section',
+        path: '/clock/section/:id?',
         alias: '',
         name: ERouteNames.WorktimeUsage,
         component: WorktimeUsage,

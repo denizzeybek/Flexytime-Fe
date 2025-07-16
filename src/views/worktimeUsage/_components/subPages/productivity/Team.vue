@@ -9,15 +9,29 @@
         :rows="5"
         :rowsPerPageOptions="[5, 10, 20, 50]"
       >
-        <Column sortable field="Team" header="Team">
+        <Column v-if="!isTeam" sortable field="Employee" header="Name">
           <template #body="slotProps">
             <div class="flex items-center gap-3">
-              <FAvatar :label="slotProps.data.Team?.Abbreviation ?? ''" />
+              <FAvatar :label="slotProps.data.Employee?.Abbreviation ?? ''" />
+              <FText>{{ slotProps.data.Employee.Name }}</FText>
+            </div>
+          </template>
+        </Column>
+        <Column sortable field="Team" header="Team">
+          <template #body="slotProps">
+            <div
+              @click="handleTeamRoute(slotProps.data)"
+              class="flex items-center gap-3 cursor-pointer"
+            >
+              <FAvatar
+                v-if="slotProps.data.Team?.Abbreviation"
+                :label="slotProps.data.Team?.Abbreviation ?? ''"
+              />
               <FText>{{ slotProps.data.Team.Name }}</FText>
             </div>
           </template>
         </Column>
-        <Column sortable field="Supervisor" header="Supervisor">
+        <Column v-if="isTeam" sortable field="Supervisor" header="Supervisor">
           <template #body="slotProps">
             <div class="flex items-center gap-3">
               <FAvatar :label="slotProps.data.Supervisor?.Abbreviation ?? ''" />
@@ -74,10 +88,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 import { EDomain } from '@/enums/domain.enum';
 import { getDomainEnum } from '@/views/classification/_etc/helpers';
 import { useSectionsStore } from '@/stores/worktimeUsage/section';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const handlePerspective = inject('handlePerspective') as (event: any) => void;
 
 interface IProps {
   isLoading: boolean;
@@ -87,7 +105,24 @@ defineProps<IProps>();
 
 const sectionsStore = useSectionsStore();
 
-const teams = computed<any>(() => sectionsStore.Teamset?.Teams);
+const isTeam = computed(() => sectionsStore.Teamset?.IsTeam);
+
+const teams = computed<any>(() =>
+  isTeam.value ? sectionsStore.Teamset?.Teams : sectionsStore.Teamset?.Members,
+);
+
+const handleTeamRoute = (data) => {
+  const { ID } = data;
+  const currentTeamId = route.query.teamId;
+  if (!currentTeamId || currentTeamId !== ID) {
+    const payload = {
+      perspective: route.query?.perspective,
+      interval: route.query?.interval,
+      teamId: ID,
+    };
+    handlePerspective(payload);
+  }
+};
 </script>
 
 <style scoped></style>

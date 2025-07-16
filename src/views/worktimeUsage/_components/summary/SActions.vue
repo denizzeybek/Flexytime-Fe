@@ -33,11 +33,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch, inject, callWithErrorHandling } from 'vue';
 import { useForm } from 'vee-validate';
 import { boolean, string, object, array } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import dayjs from 'dayjs';
+import { convertDateToString } from '@/helpers/utils';
+import { useRoute } from 'vue-router';
+
+const handlePerspective = inject('handlePerspective') as (event: any) => void;
 
 enum EPerspective {
   TIME = 0,
@@ -47,6 +51,7 @@ enum EPerspective {
 }
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
+const route = useRoute();
 
 const perspectiveOptions = ref([
   { name: 'Time', value: EPerspective.TIME, icon: 'pi pi-clock' },
@@ -66,7 +71,7 @@ const validationSchema = object({
   date: array().required().label('Date').of(string().required().label('Date')),
 });
 
-const { handleSubmit, resetForm, defineField } = useForm({
+const { handleSubmit, resetForm, defineField, setFieldValue } = useForm({
   validationSchema,
 });
 
@@ -75,7 +80,12 @@ const [perspective] = defineField('perspective');
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
+    const payload = {
+      perspective: values.perspective.value,
+      interval: [convertDateToString(values.date[0]), convertDateToString(values.date[1])],
+      teamId: route.query?.teamId,
+    };
+    handlePerspective(payload);
   } catch (error: any) {
     showErrorMessage(error as any);
   }
@@ -83,29 +93,45 @@ const submitHandler = handleSubmit(async (values) => {
 
 const getInitialFormData = computed(() => {
   const worktimeData = {
-    perspective: { name: 'Cost', value: EPerspective.COST, icon: 'pi pi-dollar' },
     date: [dayjs().toDate(), dayjs().add(7, 'day').toDate()],
   };
+  let perspective = perspectiveOptions.value[0];
+  if (route?.query?.perspective) {
+    const currentPerspective = Number(route?.query.perspective);
+    perspective = perspectiveOptions.value.find((option) => option.value === currentPerspective)!;
+  }
 
   return {
+    perspective,
     ...(worktimeData && {
-      perspective: {
-        name: worktimeData.perspective.name,
-        value: worktimeData.perspective.value,
-        icon: worktimeData.perspective.icon,
-      },
       date: worktimeData.date,
     }),
   };
 });
 
 watch(
-  () => [date.value, perspective.value],
+  () => route.fullPath,
   () => {
     submitHandler();
   },
-  { immediate: false },
 );
+
+watch(
+  () => [date.value, perspective.value],
+  ([date, perspective]) => {
+    // submitHandler();
+    console.log('perspective ', perspective);
+    const payload = {
+      perspective: perspective.value,
+      interval: [convertDateToString(date[0]), convertDateToString(date[1])],
+      teamId: route.query?.teamId,
+    };
+    handlePerspective(payload);
+  },
+  { deep: true },
+);
+
+// TODO: burda bir de date'i ilgili format'a göre query'ye kaydedip watch etmen gerekir.
 
 onMounted(() => {
   resetForm({

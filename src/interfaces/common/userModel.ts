@@ -1,9 +1,27 @@
-export interface ITimeZone {
+export interface Timezone {
   ID: string;
   Name: string;
 }
 
-export interface IProfileUser {
+export interface Language {
+  Culture: string;
+  Code: string;
+  Name: string;
+}
+
+export interface Alerts {
+  IsLicenseDanger: boolean;
+  ExpireDays: number;
+  IsLicenseWarning: boolean;
+  Email: string;
+  IsConfirmation: boolean;
+  IsDownloaded: boolean;
+  IsWaitingData: boolean;
+  CardError: string | null;
+  IsCardError: boolean;
+}
+
+export interface Employee {
   id: string | null;
   fullname: string;
   teamname: string | null;
@@ -25,10 +43,9 @@ export interface IProfileUser {
   AnnualType: string | null;
   Email: string;
   CompanyName: string;
-  Wizard: IWizard;
 }
 
-export interface IWizard {
+export interface Wizard {
   IsSingleUser: boolean;
   IsFresh: boolean;
   Permissions: string[];
@@ -43,7 +60,7 @@ export interface IWizard {
   IsManager: boolean;
 }
 
-export interface IProfile {
+export interface UserModel {
   UserDuty: string | null;
   UserTitle: string;
   ImagePath: string;
@@ -52,21 +69,16 @@ export interface IProfile {
   IsMailSubscribe: boolean;
   HasGoogle: boolean;
   HasOffice: boolean;
+  Timezones: Timezone[];
   TimeZone: string;
+  Languages: Language[];
   LanguageCode: string;
+  HasOutlook: boolean;
+  GoogleCalendars: any[];
+  OfficeCalendars: any[];
+  OutlookCalendars: any[];
+  Alerts: Alerts;
+  Employee: Employee;
+  Wizard: Wizard;
   IsUnsubscribe: boolean;
-  Employee: IProfileUser;
-  Timezones: ITimeZone[];
-}
-
-export interface ILicanse {
-  CustomerName: string;
-  ExpireDate: string;
-  RemainingDays: number;
-  TotalUsers: number;
-  ActiveUsers: number;
-  LicensedUsers: number;
-  RemainingUsers: number;
-  IsUnsubscribe: true;
-  LicenseKey: string;
 }

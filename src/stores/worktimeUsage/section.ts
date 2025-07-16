@@ -39,42 +39,45 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
     DownloadKey: '',
   }),
   actions: {
+    async filter(payload) {
+      const url = '/webapi/clock/section';
+
+      const response = await axios.post<ISection>(url, payload);
+      this.Card = (response.data as ISection).Card;
+      this.Summary = (response.data as ISection).Summary;
+      this.Individuals = (response.data as ISection).Individuals;
+      this.WellBeings = (response.data as ISection).WellBeings;
+      this.Breadcrumb = (response.data as ISection).Breadcrumb;
+      this.Distributions = (response.data as ISection).Distributions;
+      this.Teamset = (response.data as ISection).Teamset;
+      this.Invitations = (response.data as ISection).Invitations;
+      this.DownloadKey = (response.data as ISection).DownloadKey;
+      return response.data;
+    },
     filterSection(payload) {
       const api = '/webapi/clock/section';
-      
+
       return new Promise((resolve, reject) => {
         const url = useMockData ? '/mockData.json' : api;
 
         axios
           .post(url, payload)
           .then((response: any) => {
-            this.Card = useMockData ? response[api].Card : (response as ISection).Card;
-            this.Summary = useMockData ? response[api].Summary : (response as ISection).Summary;
-            this.Individuals = useMockData
-              ? response[api].Individuals
-              : (response as ISection).Individuals;
-            this.WellBeings = useMockData
-              ? response[api].WellBeings
-              : (response as ISection).WellBeings;
-            this.Breadcrumb = useMockData
-              ? response[api].Breadcrumb
-              : (response as ISection).Breadcrumb;
-            this.Distributions = useMockData
-              ? response[api].Distributions
-              : (response as ISection).Distributions;
-            this.Teamset = useMockData ? response[api].Teamset : (response as ISection).Teamset;
-            this.Invitations = useMockData
-              ? response[api].Invitations
-              : (response as ISection).Invitations;
-            this.DownloadKey = useMockData
-              ? response[api].DownloadKey
-              : (response as ISection).DownloadKey;
+            this.Card = (response as ISection).Card;
+            this.Summary = (response as ISection).Summary;
+            this.Individuals = (response as ISection).Individuals;
+            this.WellBeings = (response as ISection).WellBeings;
+            this.Breadcrumb = (response as ISection).Breadcrumb;
+            this.Distributions = (response as ISection).Distributions;
+            this.Teamset = (response as ISection).Teamset;
+            this.Invitations = (response as ISection).Invitations;
+            this.DownloadKey = (response as ISection).DownloadKey;
             resolve(response);
           })
           .catch((error) => {
             reject(error);
           });
       });
-    },
+    }
   },
 });
