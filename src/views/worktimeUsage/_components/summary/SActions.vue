@@ -83,7 +83,9 @@ const submitHandler = handleSubmit(async (values) => {
     const payload = {
       perspective: values.perspective.value,
       interval: [convertDateToString(values.date[0]), convertDateToString(values.date[1])],
-      teamId: route.query?.teamId,
+      ...(route.query?.teamId
+        ? { teamId: route.query.teamId }
+        : { memberId: route.query.memberId }),
     };
     handlePerspective(payload);
   } catch (error: any) {
@@ -124,7 +126,9 @@ watch(
     const payload = {
       perspective: perspective.value,
       interval: [convertDateToString(date[0]), convertDateToString(date[1])],
-      teamId: route.query?.teamId,
+      ...(route.query?.teamId
+        ? { teamId: route.query.teamId }
+        : { memberId: route.query.memberId }),
     };
     handlePerspective(payload);
   },

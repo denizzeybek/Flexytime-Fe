@@ -11,7 +11,7 @@
       >
         <Column v-if="!isTeam" sortable field="Employee" header="Name">
           <template #body="slotProps">
-            <div class="flex items-center gap-3">
+            <div @click="handleIndividualRoute(slotProps.data)" class="flex items-center gap-3 cursor-pointer">
               <FAvatar :label="slotProps.data.Employee?.Abbreviation ?? ''" />
               <FText>{{ slotProps.data.Employee.Name }}</FText>
             </div>
@@ -119,6 +119,22 @@ const handleTeamRoute = (data) => {
       perspective: route.query?.perspective,
       interval: route.query?.interval,
       teamId: ID,
+    };
+    console.log('teams ', teams.value);
+    handlePerspective(payload);
+  }
+};
+
+const handleIndividualRoute = (data) => {
+  console.log('data ', data);
+  const { ID } = data;
+  const currentTeamId = route.query.teamId;
+  if (!currentTeamId || currentTeamId !== ID) {
+    const payload = {
+      perspective: route.query?.perspective,
+      interval: route.query?.interval,
+      memberId: ID,
+      isIndividual: true
     };
     handlePerspective(payload);
   }

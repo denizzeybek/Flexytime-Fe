@@ -2,6 +2,7 @@ import type { RouteRecordRaw } from 'vue-router';
 import { ERouteNames } from '@/router/routeNames.enum';
 import DefaultLayout from '@/layouts/default/DefaultLayout.vue';
 import WorktimeUsage from '@/views/worktimeUsage/_views/WorktimeUsage.vue';
+import WorktimeUsageEmployee from '@/views/worktimeUsage/_views/WorktimeUsageEmployee.vue';
 import ProductivityTeam from '@/views/worktimeUsage/_components/subPages/productivity/Team.vue'
 import ProductivityIndividuals from '@/views/worktimeUsage/_components/subPages/productivity/Individuals.vue'
 import ProductivityGraph from '@/views/worktimeUsage/_components/subPages/productivity/Graph.vue'
@@ -113,6 +114,36 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: ERouteNames.WorktimeUsage,
               name: ERouteNames.WorktimeUsage,
+            }
+          },
+        ],
+      },
+      {
+        path: '/clock/employee/:id?',
+        alias: '',
+        name: ERouteNames.WorktimeUsageEmployee,
+        component: WorktimeUsageEmployee,
+        meta: {
+          title: ERouteNames.WorktimeUsageEmployee,
+          name: ERouteNames.WorktimeUsageEmployee,
+        },
+        children: [
+          {
+            path: 'productivity-graph',
+            name: ERouteNames.WorktimeUsageProductivityGraphEmployee,
+            component: ProductivityGraph,
+            meta: {
+              title: ERouteNames.WorktimeUsageEmployee,
+              name: ERouteNames.WorktimeUsageEmployee,
+            }
+          },
+          {
+            path: 'distribution',
+            name: ERouteNames.WorktimeUsageDistributionEmployee,
+            component: Distribution,
+            meta: {
+              title: ERouteNames.WorktimeUsageEmployee,
+              name: ERouteNames.WorktimeUsageEmployee,
             }
           },
         ],

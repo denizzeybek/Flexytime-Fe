@@ -133,8 +133,32 @@ export interface ITeamset {
   Members: any[];
 }
 
+export interface IEmployee {
+  id: string;
+  fullname: string;
+  teamname: string | null;
+  teamid: string | null;
+  abbreviation: string;
+  avatarcolor: string;
+  title: string;
+  imageurl: string;
+  since: string;
+  uninstalldate: string;
+  islicensed: boolean;
+  Availability: number;
+  AvailabilityImageUrl: string;
+  Tags: any[]; // Tags detaylıysa ayrı interface tanımlanabilir
+  HasAnnual: boolean;
+  AnnualStart: string | null;
+  AnnualEnd: string | null;
+  AnnualDays: number;
+  AnnualType: string | null;
+  Email: string | null;
+  CompanyName: string | null;
+}
+
 export interface ISection {
-  Individuals: IIndividuals[]
+  Individuals: IIndividuals[];
   Card: ICard;
   Summary: ISummary[];
   WellBeings: any[];
@@ -144,4 +168,96 @@ export interface ISection {
   Teamset: ITeamset;
   Invitations: any[];
   DownloadKey: string;
+  Employee?: IEmployee[];
+}
+
+export interface IChart2 {
+  data: number[];
+  labels: string[];
+}
+
+export interface IChart {
+  data: any; // Eğer tip kesinleşirse (örneğin: number[]), burada güncelleme yapılabilir.
+  valueField: string | null;
+  titleField: string | null;
+}
+
+export interface IAllocation {
+  id: string;
+  name: string;
+  imageurl: string | null;
+  spend: string;
+  icon: string;
+  color: string;
+  frontcolor: string;
+
+  Allocations: IAllocation[]; // iç içe aynı yapı
+  Chart2: IChart2;
+  Chart: IChart;
+
+  Description: string | null;
+  Time: string | null;
+  Type: number;
+  BackgroundColor: string | null;
+  BorderColor: string | null;
+}
+
+export interface ICalendar {
+  view: string;
+  date: string;
+  events: ICalendarEvent[];
+}
+
+export interface ICalendarEvent {
+  [key: string]: any;
+}
+
+export interface IModelSummary {
+  Start: string;
+  End: string;
+  Remain: string;
+  Extra: string;
+  RemainPercent: string;
+  Allocations: IAllocation[];
+}
+
+export interface IWebClock {
+  ID: string | null;
+  Url: string;
+  TopicName: string;
+  Spent: string; // "00:35" gibi string süre
+  Date: string; // "17.07.2025"
+  AllocationName: string | null;
+  RecordDate: string; // ISO format gibi
+  AllocationId: string;
+  Domain: number;
+}
+
+export interface IWebClocks {
+  Name: string;
+  WebClocks: IWebClock[];
+  Type: number;
+  Spent: string;
+  Color: string;
+  Icon: string;
+  ID: string;
+  Chart: IChart;
+}
+
+export interface IIndividualEmployeeModel {
+    Allocations: IAllocation[];
+    Calendar: ICalendar[];
+    Employee: IEmployee[];
+    Graph: IGraphs[];
+    Manuals: any[];
+    Summary: ISummary;
+    WebClocks: IWebClocks[];
+    WellBeings: any[];
+  }
+
+export interface IIndividualEmployee {
+  Breadcrumb: IBreadcrumb[];
+  Card: ICard;
+  Model: IIndividualEmployeeModel;
+  Graphs: IGraphs[];
 }

@@ -45,29 +45,40 @@ const router = useRouter();
 const selectButtonValue = ref('Teams');
 const selectButtonOptions = ref(['Employees', 'Teams']);
 
+const isSection = computed(() => route.path.includes('section'));
+
 const showSelectButton = computed(() => {
-  if (route.fullPath.includes('employee')) {
+  if (!isSection.value) {
     return false;
   }
   return true;
 });
 
+
 const buttonProps = computed<IButtonProps[]>(() => {
   return [
-    {
-      label: 'Productivity',
-      routes: ['productivity-team', 'productivity-individuals'],
-      icon: 'pi pi-face-smile',
-      handleClick: () => {
-        handleProductivityButtonRoute();
-      },
-    },
+    ...(isSection.value
+      ? [
+          {
+            label: 'Productivity',
+            routes: ['productivity-team', 'productivity-individuals'],
+            icon: 'pi pi-face-smile',
+            handleClick: () => {
+              handleProductivityButtonRoute();
+            },
+          },
+        ]
+      : []),
     {
       label: 'Distribution',
       routes: ['distribution'],
       icon: 'pi pi-chart-pie',
       handleClick: () => {
-        router.push({ name: ERouteNames.WorktimeUsageDistribution });
+        router.push({
+          name: isSection.value
+            ? ERouteNames.WorktimeUsageDistribution
+            : ERouteNames.WorktimeUsageDistributionEmployee,
+        });
       },
     },
     {
@@ -75,14 +86,18 @@ const buttonProps = computed<IButtonProps[]>(() => {
       routes: ['productivity-graph'],
       icon: 'pi pi-chart-bar',
       handleClick: () => {
-        router.push({ name: ERouteNames.WorktimeUsageProductivityGraph });
+        router.push({
+          name: isSection.value
+            ? ERouteNames.WorktimeUsageProductivityGraph
+            : ERouteNames.WorktimeUsageProductivityGraphEmployee,
+        });
       },
     },
   ];
 });
 
 const path = computed(() => {
-  return route.path.split('/clock/section/')[1];
+  return isSection.value ? route.path.split('/clock/section/')[1] : route.path.split('/clock/employee/')[1];
 });
 
 const isVariantActive = (buttonProp: IButtonProps): ButtonVariant => {
