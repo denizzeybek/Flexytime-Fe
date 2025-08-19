@@ -17,6 +17,7 @@
         :numberOfMonths="numberOfMonths"
         :manualInput="manualInput"
         format="dd/mm/yy"
+        @value-change="handleChangeEvent"
       >
         <template #footer>
           <div v-if="primeProps?.selectionMode === 'range'" class="py-5 flex flex-wrap gap-2">
@@ -38,6 +39,11 @@ import dayjs from 'dayjs';
 import type { DatePickerProps } from 'primevue/datepicker';
 import { useField } from 'vee-validate';
 import { computed } from 'vue';
+
+interface IEmits {
+  (event: 'change', value: any): void;
+}
+const emit = defineEmits<IEmits>();
 
 enum EHelperButton {
   TODAY = 'today',
@@ -112,6 +118,10 @@ const buttonProps = [
     label: 'This year',
   }
 ]
+
+const handleChangeEvent = () => {
+  emit('change', value.value);  // Emit value on change
+};
 
 const {
   errorMessage: vError,

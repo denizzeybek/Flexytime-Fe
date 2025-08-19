@@ -25,6 +25,22 @@ export interface IProfileUser {
   AnnualType: string | null;
   Email: string;
   CompanyName: string;
+  Wizard: IWizard;
+}
+
+export interface IWizard {
+  IsSingleUser: boolean;
+  IsFresh: boolean;
+  Permissions: string[];
+  Roles: string[];
+  MemberId: string;
+  AccessKey: string | null;
+  Email: string;
+  Fullname: string;
+  CompanyName: string;
+  IsEmployee: boolean;
+  IsHR: boolean;
+  IsManager: boolean;
 }
 
 export interface IProfile {
@@ -40,6 +56,7 @@ export interface IProfile {
   LanguageCode: string;
   IsUnsubscribe: boolean;
   Employee: IProfileUser;
+  Timezones: ITimeZone[];
 }
 
 export interface ILicanse {

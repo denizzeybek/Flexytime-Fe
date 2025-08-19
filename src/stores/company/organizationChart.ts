@@ -18,26 +18,20 @@ export const useCompanyOrganizationChartsStore = defineStore(
       list: [],
     }),
     actions: {
-      filter() {
-        const api = '/webapi/company/organization';
-        return new Promise((resolve, reject) => {
-          const url = useMockData ? '/mockData.json' : api;
+      async filter() {
+        const url = '/webapi/company/organization';
 
-          axios
-            .post(url)
-            .then((response: any) => {
-              const organizations = useMockData
-                ? response[api]
-                : (response as IOrganizationChart).nodes;
+        const response = await axios.get<IOrganizationChart>(url);
+        const organizations = (response.data as IOrganizationChart).Nodes;
+        this.list = organizations;
 
-              this.list = organizations;
+        return response.data;
+      },
+      async save(payload: any) {
+        const url = '/webapi/company/organization/save';
 
-              resolve(organizations);
-            })
-            .catch((error) => {
-              reject(error);
-            });
-        });
+        const response = await axios.post<any>(url, payload);
+        return response.data;
       },
     },
   },

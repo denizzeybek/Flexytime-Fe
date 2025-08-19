@@ -1,7 +1,7 @@
 <template>
   <Card class="lg:w-[700px]">
     <template #content>
-      <form @submit="submitHandler" class="flex flex-col gap-12">
+      <form class="flex flex-col gap-12">
         <template v-for="(field, idx) in fields" :key="field.key">
           <div class="flex justify-between items-center">
             <div>
@@ -12,9 +12,10 @@
                 v-if="field.value.DataType === 2"
                 :name="`advanceds[${idx}].Value`"
                 class="w-[120x]"
+                @change="handleSwitchChange(field, field.value.SettingType, $event.target.value)"
               />
               <FDateTimePicker
-                v-else
+              v-else
                 class="grow w-[60px]"
                 :name="`advanceds[${idx}].Value`"
                 placeholder="Enter Time"
@@ -23,13 +24,14 @@
                   hourFormat: '24',
                   fluid: true,
                 }"
+                @change="handleDateChange(field, field.value.SettingType, $event)"
               />
             </div>
           </div>
         </template>
-        <div class="flex w-50 justify-center">
+        <!-- <div class="flex w-50 justify-center">
           <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" label="Save" />
-        </div>
+        </div> -->
       </form>
     </template>
   </Card>
@@ -38,10 +40,11 @@
 <script setup lang="ts">
 import { string, object, array, mixed } from 'yup';
 import { useFToast } from '@/composables/useFToast';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useFieldArray, useForm } from 'vee-validate';
 import { useSettingsAdvancedsStore } from '@/stores/settings/advanced';
 import type { IAdvanced } from '@/interfaces/settings/advanced';
+import { convertTimeToDate, convertDateToTime } from '@/helpers/utils';
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const advancedsStore = useSettingsAdvancedsStore();
@@ -58,29 +61,60 @@ const validationSchema = object({
     .required(),
 });
 
-const { handleSubmit, isSubmitting, resetForm } = useForm({
+const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
   validationSchema,
 });
 
 const { fields } = useFieldArray<IAdvanced>('advanceds');
 
-const submitHandler = handleSubmit(async (values) => {
+const submit = async (settingType: number, value: any) => {
   try {
-    console.log('values ', values);
-    showSuccessMessage('Permissions updated!');
+    let payload = [
+      {
+        SettingType: settingType,
+        Value: value === 'true',
+      } as {
+        SettingType: number;
+        Value: string | boolean;
+      },
+    ];
+    console.log('settingType ', settingType);
+    if (settingType === 0 || settingType === 1) {
+      // date formatını saat'e çevir
+      payload = [
+        {
+          SettingType: settingType,
+          Value: convertDateToTime(value),
+        },
+      ];
+    }
+    advancedsStore.save(payload);
+    showSuccessMessage('Advanced Permissions updated!');
   } catch (error: any) {
     showErrorMessage(error as any);
   }
-});
+};
 
 const getInitialFormData = computed(() => {
   return advancedsStore.list?.map((advanced) => ({
     TypeName: advanced.TypeName,
-    Value: advanced.DataType === 2 ? advanced.Value === 'true' : advanced.Value,
+    Value: advanced.DataType === 2 ? advanced.Value === 'true' : convertTimeToDate(advanced.Value),
+    // Value: advanced.Value,
     DataType: advanced.DataType,
     SettingType: advanced.SettingType,
   }));
 });
+
+const handleDateChange = (field: any, settingType: number, newValue: any) => {
+  field.Value = newValue;
+  submit(settingType, field.Value);
+};
+
+const handleSwitchChange = (field: any, settingType: number, newValue: any) => {
+  console.log('field ', field);
+  field.Value = newValue ? 'true' : 'false';
+  submit(settingType, field.Value);
+};
 
 onMounted(async () => {
   await advancedsStore.filter();

@@ -20,27 +20,28 @@ export const useClassificationApplicationsStore = defineStore(
       totalItems: 0,
     }),
     actions: {
-      filter() {
-        const api = '/webapi/category/allocations/query';
-        return new Promise((resolve, reject) => {
-          const url = useMockData ? '/mockData.json' : api;
+      async filter(payload) {
+        const url = '/webapi/category/allocations/query';
 
-          axios
-            .post(url)
-            .then((response: any) => {
-              const applications = useMockData
-                ? response[api]
-                : (response as IApplication).DTO.data;
+        const response = await axios.post<IApplication>(url, payload);
+        const applications = (response.data as IApplication).DTO?.data;
+        const total = (response.data as IApplication).DTO?.recordsTotal ?? 0;
 
-              this.list = applications;
-              this.totalItems = applications?.length || 0;
-
-              resolve(applications);
-            })
-            .catch((error) => {
-              reject(error);
-            });
+        this.list = applications;
+        this.totalItems = total;
+        return applications;
+      },
+      async save(payload) {
+        const url = '/webapi/category/allocation/save';
+        this.list = this.list.map((allocation) => {
+          if (allocation.ID === payload.ID) {
+            allocation.Domain = payload.Domain;
+            allocation.AlwaysOn = payload.AlwaysOn;
+          }
+          return allocation;
         });
+
+        return await axios.post<IApplication>(url, payload);
       },
     },
   },

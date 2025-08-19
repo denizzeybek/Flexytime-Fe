@@ -21,28 +21,28 @@
       </div>
 
       <div class="flex gap-4">
-        <div class="flex flex-col lg:flex-row items-start  gap-4 lg:gap-12 flex-1">
-          <FCheckbox name="startAllday" labelTop label="All Day" />
+        <div class="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 flex-1">
+          <FCheckbox name="startFullDay" labelTop label="All Day" />
           <FDateTimePicker
             label="Start Date"
             class="grow"
             name="startDate"
             :prime-props="{
-              showTime: startAllday ? false : true,
+              showTime: startFullDay ? false : true,
               hourFormat: '24',
               fluid: true,
             }"
           />
         </div>
         <Divider layout="vertical" />
-        <div class="flex flex-col lg:flex-row items-start  gap-4 lg:gap-12 flex-1">
-          <FCheckbox name="endAllday" labelTop label="All Day" />
+        <div class="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 flex-1">
+          <FCheckbox name="endFullDay" labelTop label="All Day" />
           <FDateTimePicker
             label="End Date"
             class="grow"
             name="endDate"
             :prime-props="{
-              showTime: endAllday ? false : true,
+              showTime: endFullDay ? false : true,
               hourFormat: '24',
               fluid: true,
             }"
@@ -63,6 +63,8 @@ import { useForm } from 'vee-validate';
 import { boolean, string, object } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import type { IAnnual } from '@/interfaces/hrSettings/annual';
+import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
+import { convertDateToString, convertStringToDate } from '@/helpers/utils';
 
 interface IProps {
   data?: IAnnual;
@@ -76,14 +78,17 @@ interface IEmits {
 const emit = defineEmits<IEmits>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
+const annualsStore = useHRSettingsAnnualsStore();
 
 const open = defineModel<boolean>('open');
-const employees = ref([
-  { name: 'Agnes Owens', value: '64015c5ee435600a443e8c32' },
-  { name: 'Danielle Hurst', value: '64015c5ee435600a443e8dc4' },
-  { name: 'Erik Johnson', value: '5g015c5ee435600dfr5e8c32' },
-  { name: 'Dani Ricciardo', value: '1d4f5c5ee435600a443e8c32' },
-]);
+const employees = computed(() => {
+  return annualsStore.members.map((member) => {
+    return {
+      name: member.Name,
+      value: member.ID,
+    };
+  });
+});
 
 const isEditing = computed(() => !!props.data);
 
@@ -96,9 +101,9 @@ const validationSchema = object({
     .required()
     .label('Employee Name'),
   leaveType: string().required().label('Employee name'),
-  startAllday: boolean().label('Start time all day'),
+  startFullDay: boolean().label('Start time all day'),
   startDate: string().required().label('Start date'),
-  endAllday: boolean().label('End time all day'),
+  endFullDay: boolean().label('End time all day'),
   endDate: string().required().label('End date'),
 
   //   check: boolean().required().isTrue('You must agree to terms and conditions').label('Check'),
@@ -108,8 +113,8 @@ const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
   validationSchema,
 });
 
-const [startAllday] = defineField('startAllday');
-const [endAllday] = defineField('endAllday');
+const [startFullDay] = defineField('startFullDay');
+const [endFullDay] = defineField('endFullDay');
 
 const handleClose = () => {
   resetForm();
@@ -118,7 +123,30 @@ const handleClose = () => {
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
+    let payload = {
+      StartDate: convertDateToString(values.startDate),
+      StartTime: values.startFullDay
+        ? '00:00'
+        : (convertDateToString(values.startDate, true) as unknown as any).time,
+      EndDate: convertDateToString(values.endDate),
+      EndTime: values.endFullDay
+        ? '00:00'
+        : (convertDateToString(values.endDate, true) as unknown as any).time,
+      Name: values.name,
+      StartFullDay: values.startFullDay,
+      EndFullDay: values.endFullDay,
+      Repeat: values.repeat,
+      MemberId: values.employeeName.value,
+      LeaveType: values.leaveType
+    };
+    if (isEditing.value) {
+      payload = {
+        ...payload,
+        ID: values.ID,
+      } as any;
+    }
+    console.log('payload ', payload);
+    await annualsStore.save(payload);
 
     emit('fetchAnnuals');
     showSuccessMessage('Annual updated!');
@@ -131,16 +159,23 @@ const submitHandler = handleSubmit(async (values) => {
 const getInitialFormData = computed(() => {
   const annual = props.data;
 
-  return {
-    ...(annual && {
+  if (annual) {
+    return {
+      ID: annual.ID,
       employeeName: { name: annual.MemberName, value: annual.MemberId },
       leaveType: annual.LeaveType,
-      startAllday: annual.StartFullDay,
-      startDate: annual.StartDate,
-      endAllday: annual.EndFullDay,
-      endDate: annual.EndDate,
-    }),
-  };
+      startFullDay: annual.StartFullDay,
+      startDate: convertStringToDate(annual.StartDate, annual.StartTime),
+      endFullDay: annual.EndFullDay,
+      endDate: convertStringToDate(annual.StartDate, annual.StartTime),
+    };
+  } else {
+    return {
+      startFullDay: false,
+      endFullDay: false,
+      repeat: false,
+    };
+  }
 });
 // TODO: start date ve end date bilgileri date olarak dönmeli, fe date'i convert etmeli
 

@@ -3,8 +3,14 @@
     :is-loading="isLoading"
     @new="handleNew"
     @edit="handleEdit"
+    @delete="handleDelete"
   />
-  <HolidayModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentHoliday" />
+  <HolidayModal
+    v-if="isModalOpen"
+    v-model:open="isModalOpen"
+    :data="currentHoliday"
+    @fetchHolidays="fetchHolidays"
+  />
 </template>
 
 <script setup lang="ts">
@@ -29,6 +35,15 @@ const handleNew = () => {
 const handleEdit = (annual) => {
   currentHoliday.value = annual;
   isModalOpen.value = true;
+};
+
+const handleDelete = async (ID) => {
+  try {
+    await holidaysStore.delete({ ID: ID });
+    await fetchHolidays();
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const fetchHolidays = async () => {

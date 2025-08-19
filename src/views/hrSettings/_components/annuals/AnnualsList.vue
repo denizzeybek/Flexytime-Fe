@@ -3,8 +3,14 @@
     :is-loading="isLoading"
     @new="handleNew"
     @edit="handleEdit"
+    @delete="handleDelete"
   />
-  <AnnualModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentAnnual" />
+  <AnnualModal
+    v-if="isModalOpen"
+    v-model:open="isModalOpen"
+    :data="currentAnnual"
+    @fetchAnnuals="fetchAnnuals"
+  />
 </template>
 
 <script setup lang="ts">
@@ -29,6 +35,11 @@ const handleNew = () => {
 const handleEdit = (annual) => {
   currentAnnual.value = annual;
   isModalOpen.value = true;
+};
+
+const handleDelete = async (ID) => {
+  await annualsStore.delete({ ID: ID });
+  await fetchAnnuals();
 };
 
 const fetchAnnuals = async () => {

@@ -17,7 +17,14 @@ export interface IAnnual {
   EndDateText: string;
 }
 
+export interface IAnnualMember {
+  ID: string;
+  Name: string;
+  Type: number;
+}
+
 export interface IAnnualDTO {
   ActiveAnnuals: IAnnual[];
   PassedAnnuals: IAnnual[];
+  Members: IAnnualMember[];
 }

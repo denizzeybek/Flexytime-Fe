@@ -3,12 +3,8 @@
     <Card class="w-40 h-full">
       <template #footer>
         <div class="flex flex-col items-center justify-center gap-3">
-          <Avatar
-            size="xlarge"
-            image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
-            shape="circle"
-          />
-          <div class="text-md text-center">Deniz Zeybek</div>
+          <Avatar size="xlarge" icon="pi pi-user" shape="circle" />
+          <div class="text-md text-center">{{ card.Name }}</div>
         </div>
       </template>
     </Card>
@@ -17,7 +13,12 @@
 
 <script setup lang="ts">
 import Avatar from 'primevue/avatar';
+import { useSectionsStore } from '@/stores/worktimeUsage/section';
+import { computed } from 'vue';
 
+const sectionsStore = useSectionsStore();
+
+const card = computed(() => sectionsStore.Card);
 </script>
 
 <style scoped></style>

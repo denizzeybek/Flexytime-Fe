@@ -90,6 +90,8 @@ const { model, depth = 0 } = defineProps<IProps>();
 const route = useRoute();
 const router = useRouter();
 
+// TODO: burda kaldım. route'lara id eklediğimde burda bir şeyler patladı kontrol et.
+
 const isOpen = ref(false);
 const href = router.resolve({ name: model?.routeName }).href;
 

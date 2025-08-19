@@ -1,45 +1,38 @@
 <template>
-  <div
-    :class="['border h-[72px] flex items-center w-[170px] lg:w-fit lg:flex-1 !rounded-xl !p-4', borderClass]"
-    outlined
-  >
-    <div class="flex items-center gap-2">
-      <Button :severity="severity" icon="pi pi-clock" class="!w-8 !h-8 !rounded-md"></Button>
-      <div class="flex flex-col justify-start">
-        <div :class="[textClass, 'text-sm']">{{ title }}</div>
-        <div class="text-f-black text-sm">{{ value }}</div>
+  <Card class="summary-badge h-fit" :class="borderClass">
+    <template #content>
+      <div class="flex items-center justify-center gap-2">
+        <SBadgeIcon :severity="severity" :title="title" :icon="icon" />
+        <span :class="textClass">{{ value }}</span>
       </div>
-    </div>
-  </div>
+    </template>
+  </Card>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import Card from 'primevue/card';
+import { SeverityMap } from '@/views/worktimeUsage/_etc/severityMap';
+import SBadgeIcon from '@/views/worktimeUsage/_components/summary/SBadgeIcon.vue';
 
 interface IProps {
   severity: string;
   title: string;
+  icon: string;
   value: any;
 }
 
 const props = defineProps<IProps>();
 
-// Utility map for dynamic class assignment
-const severityMap = {
-  success: 'success',
-  danger: 'danger',
-  warn: 'warn',
-  contrast: 'contrast',
-  info: 'info',
-  primary: 'primary',
-};
-
-// Computed properties for border and text classes
-const borderClass = computed(() => `card-border-${severityMap[props.severity] || 'default'}`);
-const textClass = computed(() => `card-text-${severityMap[props.severity] || 'default'}`);
+const borderClass = computed(() => `card-border-${SeverityMap[props.severity] || 'default'}`);
+const textClass = computed(() => `card-text-${SeverityMap[props.severity] || 'default'}`);
 </script>
 
-<style scoped>
+<style>
+.summary-badge .p-card-body{
+  @apply !px-2;
+}
+
 .card-border-success {
   @apply border border-f-success;
 }

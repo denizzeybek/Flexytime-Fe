@@ -1,7 +1,12 @@
 <template>
-  <div class="flex flex-wrap justify-between !gap-2">
+  <div class="grid grid-cols-2 lg:grid-cols-6 gap-2">
     <template v-for="(item, idx) in badgeList" :key="idx">
-      <SBadge class="" :severity="item.severity" :title="item.title" :value="item.value" />
+      <SBadge
+        :severity="item.severity!"
+        :title="item.title!"
+        :value="item.value"
+        :icon="item.icon!"
+      />
     </template>
   </div>
 </template>
@@ -9,16 +14,20 @@
 <script setup lang="ts">
 import SBadge from './SBadge.vue';
 import { computed } from 'vue';
+import { useSectionsStore } from '@/stores/worktimeUsage/section';
+import { useStaticBadge } from '@/views/worktimeUsage/_composables/useStaticBadge';
+import type { BadgeData } from '@/views/worktimeUsage/_composables/useStaticBadge';
 
-const badgeList = computed(() => {
-  return [
-    { severity: 'success', title: 'Work', value: '04:58' },
-    { severity: 'danger', title: 'Leisure', value: '04:58' },
-    { severity: 'warn', title: 'Meeting', value: '04:58' },
-    { severity: 'secondary', title: 'Unclassified', value: '04:58' },
-    { severity: 'info', title: 'Start Time', value: '04:58' },
-    { severity: 'primary', title: 'End Time', value: '04:58' },
-  ];
+const sectionsStore = useSectionsStore();
+const { mapStatisticTypeToBadge } = useStaticBadge();
+
+const badgeList = computed<BadgeData[]>(() => {
+  const summary = sectionsStore.Summary ?? [];
+  return summary
+    .map((summary) =>
+      mapStatisticTypeToBadge(summary.statisticType, summary.time)
+    )
+    .filter((item): item is BadgeData => item !== null);
 });
 </script>
 

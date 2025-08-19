@@ -6,7 +6,7 @@
         paginator
         :loading="isLoading"
         :value="employees"
-        :rows="5"
+        :rows="10"
         :rowsPerPageOptions="[5, 10, 20, 50]"
         v-model:filters="filters"
         @page="handlePage"

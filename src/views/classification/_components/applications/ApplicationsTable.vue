@@ -3,19 +3,23 @@
     <template #content>
       <DataTable
         tableStyle="min-width: 50rem"
+        paginator
+        :first="first"
         :loading="isLoading"
         :value="applications"
-        paginator
-        :rows="5"
-        :rowsPerPageOptions="[5, 10, 20, 50]"
+        :totalRecords="totalItems"
+        :rows="10"
+        lazy
+        @page="onPageChange"
+        @sort="onSortOrder"
       >
-        <Column field="Name" header="Name"> </Column>
-        <Column field="Teams" header="Teams"> </Column>
+        <Column sortable field="Name" header="Name"> </Column>
+        <Column sortable field="Teams" header="Teams"> </Column>
         <Column header="Always On">
           <template #body="slotProps">
             <Checkbox
               @change="
-                onAlwaysOnChange({ props: slotProps.data.ID, alwaysOn: !slotProps.data.AlwaysOn })
+                onAlwaysOnChange(slotProps.data)
               "
               :modelValue="slotProps.data.AlwaysOn"
               :binary="true"
@@ -29,16 +33,19 @@
                 icon="pi pi-wrench"
                 severity="success"
                 :outlined="getDomainEnum(slotProps.data.Domain) !== EDomain.WORK"
+                @click="updateDomain({ data: slotProps.data, Domain: EDomain.WORK })"
               />
               <Button
                 icon="pi pi-moon"
                 severity="danger"
                 :outlined="getDomainEnum(slotProps.data.Domain) !== EDomain.LEISURE"
+                @click="updateDomain({ data: slotProps.data, Domain: EDomain.LEISURE })"
               />
               <Button
                 icon="pi pi-calendar"
                 severity="warn"
                 :outlined="getDomainEnum(slotProps.data.Domain) !== EDomain.MEETING"
+                @click="updateDomain({ data: slotProps.data, Domain: EDomain.MEETING })"
               />
             </div>
           </template>
@@ -53,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useClassificationApplicationsStore } from '@/stores/classification/applications';
 import { getDomainEnum } from '@/views/classification/_etc/helpers';
 import { EDomain } from '@/enums/domain.enum';
@@ -65,22 +72,60 @@ interface IProps {
 
 defineProps<IProps>();
 
+interface IEmits {
+  (event: 'onPageChange', currentPage): void;
+  (event: 'onSortChange', sortField): void;
+}
+const emit = defineEmits<IEmits>();
+
 const applicationsStore = useClassificationApplicationsStore();
+
+const first = ref(0);
 
 const applications = computed(() => applicationsStore.list);
 
+const totalItems = computed(() => applicationsStore.totalItems);
+
+const onPageChange = (event: any) => {
+  first.value = event.first;
+  const offset = event.first;
+  const rows = event.rows;
+  emit('onPageChange', { offset, rows });
+};
+
+const onSortOrder = (event: any) => {
+  const { sortField } = event;
+  emit('onSortChange', sortField);
+};
+
 const onAlwaysOnChange = async (event) => {
   try {
-    const { props, alwaysOn } = event;
-    const { ID, Name, Domain } = props;
+    const { ID, AlwaysOn, Domain, Name } = event;
     const payload = {
       ID,
-      Name,
+      AlwaysOn: !AlwaysOn,
       Domain,
-      AlwaysOn: alwaysOn,
+      Name,
     };
 
-    // await applicationsStore.update(payload)
+    await applicationsStore.save(payload);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateDomain = async (event) => {
+  try {
+    const { data, Domain } = event;
+    const { ID, AlwaysOn, Name } = data;
+    const payload = {
+      ID,
+      AlwaysOn,
+      Domain,
+      Name,
+    };
+
+    await applicationsStore.save(payload);
   } catch (error) {
     console.log(error);
   }

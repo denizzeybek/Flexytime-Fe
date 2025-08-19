@@ -1,10 +1,11 @@
 <template>
-  <EmployeesTable
-    :is-loading="isLoading"
-    @new="handleNew"
-    @edit="handleEdit"
+  <EmployeesTable :is-loading="isLoading" @new="handleNew" @edit="handleEdit" />
+  <EmployeeModal
+    v-if="isModalOpen"
+    v-model:open="isModalOpen"
+    :data="currentEmployee"
+    @fetchEmployees="fetchEmployees"
   />
-  <EmployeeModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentEmployee" />
 </template>
 
 <script setup lang="ts">

@@ -11,8 +11,9 @@
         <div class="mt-auto mb-auto"></div>
         <div>
           <SBadgeGroup />
-        </div></div
-    ></template>
+        </div>
+      </div>
+    </template>
   </Card>
 </template>
 

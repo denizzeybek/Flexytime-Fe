@@ -1,43 +1,37 @@
 import { EStoreNames } from '@/stores/storeNames.enum';
 import axios from 'axios';
 import { defineStore } from 'pinia';
-import { useMockData } from '@/config';
 import type { IWorkingHourDay, IWorkingHour } from '@/interfaces/company/workingHour';
 
 interface State {
-  Days: IWorkingHourDay[];
-  MaxIdleTime: IWorkingHour['MaxIdleTime'];
-  ShiftRangeTime: IWorkingHour['ShiftRangeTime'];
-  TimeZone: IWorkingHour['TimeZone'];
+  days: IWorkingHourDay[];
+  maxIdleTime: IWorkingHour['MaxIdleTime'];
+  shiftRangeTime: IWorkingHour['ShiftRangeTime'];
+  timeZone: IWorkingHour['TimeZone'];
 }
 
 export const useCompanyWorkingHoursStore = defineStore(EStoreNames.COMPANY_WORKING_HOURS, {
   state: (): State => ({
-    Days: [],
-    MaxIdleTime: '',
-    ShiftRangeTime: '',
-    TimeZone: '',
+    days: [],
+    maxIdleTime: '',
+    shiftRangeTime: '',
+    timeZone: '',
   }),
   actions: {
-    filter() {
-      const api = '/webapi/company/workhours';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
+    async filter() {
+      const url = '/webapi/company/workhours';
+      const response = await axios.get<IWorkingHour>(url);
 
-        axios
-          .post(url)
-          .then((response: any) => {
-            this.Days = useMockData ? response[api].Days : (response as IWorkingHour).Days;
-            this.MaxIdleTime = useMockData ? response[api].MaxIdleTime : (response as IWorkingHour).MaxIdleTime;
-            this.ShiftRangeTime = useMockData ? response[api].ShiftRangeTime : (response as IWorkingHour).ShiftRangeTime;
-            this.TimeZone = useMockData ? response[api].TimeZone : (response as IWorkingHour).TimeZone;
+      this.days = (response.data as IWorkingHour).Days;
+      this.maxIdleTime = (response.data as IWorkingHour).MaxIdleTime;
+      this.shiftRangeTime = (response.data as IWorkingHour).ShiftRangeTime;
+      this.timeZone = (response.data as IWorkingHour).TimeZone;
 
-            resolve(response);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+      return response.data;
+    },
+    async save(payload) {
+      const url = '/webapi/company/workhours/save';
+      return await axios.post<IWorkingHour>(url, payload);
     },
   },
 });

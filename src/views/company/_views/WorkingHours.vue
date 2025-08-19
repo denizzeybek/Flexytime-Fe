@@ -7,13 +7,14 @@
             <template v-for="(field, idx) in fields" :key="field.key">
               <div class="flex items-center justify-start gap-2 lg:gap-8">
                 <FCheckbox
-                  :name="`workingDays[${idx}].IsWorkday`"
+                  :name="`days[${idx}].IsWorkday`"
                   :label="field.value?.Name"
-                  class="w-[200px] truncate lg:text-clip "
+                  class="w-[200px] truncate lg:text-clip"
                 />
+                <!-- day: {{ values.days[${idx}].StartTime }} -->
                 <FDateTimePicker
                   class="grow"
-                  :name="`workingDays[${idx}].StartTime`"
+                  :name="`days[${idx}].StartTime`"
                   placeholder="Enter Time"
                   :prime-props="{
                     timeOnly: true,
@@ -24,7 +25,7 @@
                 <span class="pi pi-arrow-right"></span>
                 <FDateTimePicker
                   class="grow"
-                  :name="`workingDays[${idx}].EndTime`"
+                  :name="`days[${idx}].EndTime`"
                   placeholder="Enter Time"
                   :prime-props="{
                     timeOnly: true,
@@ -39,7 +40,7 @@
             <div class="grow flex flex-col lg:flex-row justify-between gap-4">
               <FDateTimePicker
                 class="grow"
-                name="minimumRestTime"
+                name="maxIdleTime"
                 label="Minimum Rest Time"
                 placeholder="Enter min rest time"
                 :prime-props="{
@@ -50,7 +51,7 @@
               />
               <FDateTimePicker
                 class="grow"
-                name="workingInterval"
+                name="shiftRangeTime"
                 label="Working Interval Duration"
                 placeholder="Enter min working interval"
                 :prime-props="{
@@ -81,12 +82,14 @@
 
 <script setup lang="ts">
 import { useFieldArray, useForm } from 'vee-validate';
-import { computed, onMounted } from 'vue';
-import { boolean, string, object, array } from 'yup';
+import { computed, onMounted, watch } from 'vue';
+import { boolean, string, object, array, date, mixed } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import type { IWorkingHourDay } from '@/interfaces/company/workingHour';
 import { useCompanyWorkingHoursStore } from '@/stores/company/workingHours';
 import { useProfileStore } from '@/stores/profile/profile';
+import dayjs from 'dayjs';
+import { convertTimeToDate, convertDateToTime } from '@/helpers/utils';
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const workingHoursStore = useCompanyWorkingHoursStore();
@@ -97,23 +100,23 @@ const timeZoneList = computed(() =>
 );
 
 const timeZoneName = computed(
-  () => profileStore?.TimeZoneList?.find((item) => item.ID === workingHoursStore.TimeZone)?.Name,
+  () => profileStore?.TimeZoneList?.find((item) => item.ID === workingHoursStore.timeZone)?.Name,
 );
 
 const validationSchema = object({
-  workingDays: array()
+  days: array()
     .of(
       object().shape({
         Name: string().required(),
-        StartTime: string().required(),
-        EndTime: string().required(),
+        StartTime: mixed().required(),
+        EndTime: mixed().required(),
         IsWorkday: boolean().optional(),
       }),
     )
     .strict()
     .required(),
-  minimumRestTime: string().required(),
-  workingInterval: string().required(),
+  maxIdleTime: mixed().required(),
+  shiftRangeTime: mixed().required(),
   timeZone: object()
     .shape({
       name: string().label('Name'),
@@ -123,15 +126,31 @@ const validationSchema = object({
     .label('Country'),
 });
 
-const { handleSubmit, isSubmitting, resetForm } = useForm({
+const { handleSubmit, isSubmitting, resetForm, } = useForm({
   validationSchema,
 });
 
-const { fields } = useFieldArray<IWorkingHourDay>('workingDays');
+const { fields } = useFieldArray<IWorkingHourDay>('days');
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
+    const formattedDays = values.days.map((day) => ({
+      ...day,
+      StartTime: convertDateToTime(day.StartTime),
+      EndTime: convertDateToTime(day.EndTime),
+    }));
+    const payload = {
+      ...values,
+      days: formattedDays,
+      maxIdleTime: convertDateToTime(values.maxIdleTime),
+      shiftRangeTime: convertDateToTime(values.shiftRangeTime),
+      unclassified: false,
+      isShowContent: true,
+      title: 'Working Hours',
+      timeZone: values.timeZone.value,
+    };
+    await workingHoursStore.save(payload);
+    console.log('values ', payload);
     showSuccessMessage('working hours updated!');
   } catch (error: any) {
     showErrorMessage(error as any);
@@ -140,13 +159,20 @@ const submitHandler = handleSubmit(async (values) => {
 
 onMounted(async () => {
   await workingHoursStore.filter();
+  const days = workingHoursStore.days.map((day) => {
+    return {
+      ...day,
+      StartTime: convertTimeToDate(day.StartTime),
+      EndTime: convertTimeToDate(day.EndTime),
+    }
+  })
 
   resetForm({
     values: {
-      workingDays: workingHoursStore.Days,
-      minimumRestTime: workingHoursStore.MaxIdleTime,
-      workingInterval: workingHoursStore.ShiftRangeTime,
-      timeZone: { name: timeZoneName.value, value: workingHoursStore.TimeZone },
+      days,
+      maxIdleTime: convertTimeToDate(workingHoursStore.maxIdleTime),
+      shiftRangeTime: convertTimeToDate(workingHoursStore.shiftRangeTime),
+      timeZone: { name: timeZoneName.value, value: workingHoursStore.timeZone },
     },
   });
 });

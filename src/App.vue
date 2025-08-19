@@ -3,15 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useProfileStore } from '@/stores/profile/profile';
-
-const profileStore = useProfileStore();
-
-onMounted(async () => {
-  await profileStore.filterTimeZones();
-  await profileStore.filter();
-});
 </script>
 
 <style>
@@ -29,7 +20,7 @@ onMounted(async () => {
   @apply !border-transparent !text-f-dark-gray  !rounded-xl !py-3;
 }
 .p-tab.p-tab-active {
-  @apply !bg-white !text-black !rounded-xl !border-none !transform !scale-104;
+  @apply !bg-f-primary !text-white !rounded-xl  !transform !scale-104;
 }
 .p-tablist-active-bar {
   @apply !hidden;

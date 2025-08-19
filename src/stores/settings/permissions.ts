@@ -2,7 +2,7 @@ import { EStoreNames } from '@/stores/storeNames.enum';
 import axios from 'axios';
 import { defineStore } from 'pinia';
 import { useMockData } from '@/config';
-import type {IPermission} from '@/interfaces/settings/permission';
+import type { IPermission } from '@/interfaces/settings/permission';
 
 interface State {
   list: IPermission[];
@@ -15,25 +15,18 @@ export const useSettingsPermissionsStore = defineStore(EStoreNames.SETTINGS_PERM
     totalItems: 0,
   }),
   actions: {
-    filter() {
-      const api = '/webapi/setting/permissions';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
+    async filter() {
+      const url = '/webapi/setting/permissions';
+      const response = await axios.get<IPermission[]>(url);
 
-        axios
-          .post(url)
-          .then((response: any) => {
-            const permissions = useMockData ? response[api] : (response as IPermission);
+      this.list = response.data as IPermission[];
+      this.totalItems = this.list?.length || 0;
 
-            this.list = permissions;
-            this.totalItems = permissions?.length || 0;
-
-            resolve(permissions);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+      return response.data;
+    },
+    async save(payload) {
+      const url = '/webapi/setting/permission/save';
+      return await axios.post<IPermission>(url, payload);
     },
   },
 });

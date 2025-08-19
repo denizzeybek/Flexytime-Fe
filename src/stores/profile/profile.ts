@@ -1,9 +1,8 @@
 import { EStoreNames } from '@/stores/storeNames.enum';
 import axios from 'axios';
 import { defineStore } from 'pinia';
-import { useMockData } from '@/config';
 import type { ITimeZone, IProfileUser, IProfile, ILicanse } from '@/interfaces/profile/profile';
-
+import type {UserModel, Timezone, Language, Alerts, Employee, Wizard} from '@/interfaces/common/userModel';
 interface State {
   TimeZoneList: ITimeZone[];
   User: IProfileUser;
@@ -25,59 +24,24 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     LanguageCode: '',
   }),
   actions: {
-    filter() {
-      const api = '/webapi/profile';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
+    async filter() {
+      const url = '/webapi/profile';
+      const response = await axios.get<IProfile>(url);
+      this.GeneralProfile = response.data as IProfile;
+      this.User = (response.data as IProfile).Employee;
+      this.TimeZone = (response.data as IProfile).TimeZone;
+      this.LanguageCode = (response.data as IProfile).LanguageCode;
+      this.IsMailSubscribe = (response.data as IProfile).IsMailSubscribe;
+      this.TimeZoneList  = (response.data as IProfile).Timezones;
 
-        axios
-          .post(url)
-          .then((response: any) => {
-            this.GeneralProfile = useMockData ? response[api] : (response as IProfile);
-            this.User = useMockData ? response[api].Employee : (response as IProfile).Employee;
-            this.TimeZone = useMockData ? response[api].TimeZone : (response as IProfile).TimeZone;
-            this.LanguageCode = useMockData ? response[api].LanguageCode : (response as IProfile).LanguageCode;
-            this.IsMailSubscribe = useMockData
-              ? response[api].IsMailSubscribe
-              : (response as IProfile).IsMailSubscribe;
-            resolve(response);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+      return response.data;
     },
-    filterLicense() {
-      const api = '/webapi/license';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
-
-        axios
-          .post(url)
-          .then((response: any) => {
-            this.License = useMockData ? response[api] : (response as ILicanse);
-            resolve(response);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
-    },
-    filterTimeZones() {
-      const api = '/webapi/company/timezones';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
-
-        axios
-          .post(url)
-          .then((response: any) => {
-            this.TimeZoneList = useMockData ? response[api] : (response as ITimeZone);
-            resolve(response);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+    async filterLicense() {
+      const url = '/webapi/license';
+      const response = await axios.post<ILicanse>(url);
+      this.License = response.data as ILicanse;
+      
+      return response.data;
     },
   },
 });

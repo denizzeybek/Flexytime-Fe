@@ -1,8 +1,10 @@
 import { Regex } from '@/constants/regex';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 dayjs.extend(duration);
+dayjs.extend(customParseFormat);
 
 /**
  * Returns a function that will only be executed after a certain amount of time has passed since the last time it was called.
@@ -99,4 +101,52 @@ export const calculateTimeDifference = (start: string, end: string): string => {
   const diff = endMoment.diff(startMoment);
   const diffDuration = dayjs.duration(diff);
   return diffDuration.format('HH:mm:ss');
+};
+
+export const convertTimeToDate = (time) => {
+  // Saat formatını düzelt: noktayı iki nokta ile değiştir
+  const formattedTime = time.replace('.', ':');
+
+  // Saat değeri ile Date objesi oluştur
+  let parsedTime = new Date(`1970-01-01T${formattedTime}:00`);
+
+  // Saat ve dakikayı sıfırla
+  parsedTime.setHours(parsedTime.getHours()); // Saat olduğu gibi bırak
+  parsedTime.setMinutes(0); // Dakikaları sıfırla
+  parsedTime.setSeconds(0); // Saniyeleri sıfırla
+
+  // Dönüşüm sonrası alınan saat, Date formatında döndürülür
+  return parsedTime;
+};
+
+export const convertDateToTime = (date) => {
+  return dayjs(date).format('HH:mm');
+};
+
+export const convertDateToString = (
+  dateString: string,
+  extractTime = false,
+): string | { date: string; time: string } => {
+  const date = dayjs(dateString);
+
+  if (extractTime) {
+    return {
+      date: date.format('DD.MM.YYYY'),
+      time: date.format('HH:mm'),
+    };
+  }
+
+  return date.format('DD.MM.YYYY');
+};
+
+export const convertStringToDate = (dateString: string, timeString?: string): Date => {
+  const fullString = timeString
+    ? `${dateString} ${timeString}`
+    : dateString;
+
+  const format = timeString
+    ? 'DD.MM.YYYY HH:mm'
+    : 'DD.MM.YYYY';
+
+  return dayjs(fullString, format).toDate();
 };
