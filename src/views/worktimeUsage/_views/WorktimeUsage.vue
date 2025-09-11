@@ -17,7 +17,7 @@ import UserBadge from '@/views/worktimeUsage/_components/UserBadge.vue';
 import Summary from '@/views/worktimeUsage/_components/summary/Index.vue';
 import WorktimeButtonGroups from '@/views/worktimeUsage/_components/WorktimeButtonGroups.vue';
 import { useSectionsStore } from '@/stores/worktimeUsage/section';
-import { ref, provide, onMounted } from 'vue';
+import { ref, provide } from 'vue';
 import { useRouter } from 'vue-router';
 import { ERouteNames } from '@/router/routeNames.enum';
 

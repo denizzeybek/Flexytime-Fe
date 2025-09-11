@@ -1,6 +1,8 @@
 <template>
   <div class="bg-f-white px-5 py-2 rounded-xl flex justify-center w-full lg:w-fit">
-    <Breadcrumb :home="home" :model="breadCrumb">
+    <Skeleton v-if="sectionsStore.isLoading" height="1rem" width="20rem" />
+
+    <Breadcrumb v-else :home="home" :model="breadCrumb">
       <template #item="{ item, props }">
         <!-- {{ item }} -->
         <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
@@ -20,6 +22,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useSectionsStore } from '@/stores/worktimeUsage/section';
+import Skeleton from 'primevue/skeleton';
 
 const home = ref({
   icon: 'pi pi-home',

@@ -4,7 +4,7 @@
       <DataTable
         tableStyle="min-width: 50rem"
         paginator
-        :loading="isLoading"
+        :loading="sectionsStore.isLoading"
         :value="teams"
         :rows="5"
         :rowsPerPageOptions="[5, 10, 20, 50]"
@@ -96,12 +96,6 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const handlePerspective = inject('handlePerspective') as (event: any) => void;
-
-interface IProps {
-  isLoading: boolean;
-}
-
-defineProps<IProps>();
 
 const sectionsStore = useSectionsStore();
 
