@@ -22,6 +22,7 @@ const bgClass = computed(() => `card-bg-${SeverityMap[props.severity] || 'defaul
 </script>
 
 <style scoped>
+@reference "@/custom-tailwind.css";
 .card-bg-success {
   @apply bg-f-success text-white;
 }

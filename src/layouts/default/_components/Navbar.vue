@@ -7,7 +7,7 @@
             <img class="transform scale-90" src="@/components/images/login-logo.png" />
           </span>
         </div>
-        <ul class="space-y-2 font-medium max-w-[328px]">
+        <ul class="flex flex-col gap-2 font-medium max-w-[328px]">
           <NavItem :nav-items="navItems" />
         </ul>
       </div>
@@ -126,6 +126,7 @@ const navItems = ref<IModel[]>([
 </script>
 
 <style>
+@reference "@/custom-tailwind.css";
 .itemClass {
   @apply flex items-center cursor-pointer  px-2 hover:border hover:border-purple-600 hover:rounded-md py-2;
 }

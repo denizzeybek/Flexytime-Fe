@@ -29,7 +29,8 @@ const textClass = computed(() => `card-text-${SeverityMap[props.severity] || 'de
 </script>
 
 <style>
-.summary-badge .p-card-body{
+@reference "@/custom-tailwind.css";
+.summary-badge .p-card-body {
   @apply !px-2;
 }
 

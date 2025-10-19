@@ -3,7 +3,9 @@
     "allow": [
       "Bash(mkdir:*)",
       "Bash(tree:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(yarn dev)",
+      "Bash(pkill -f \"vite --port\")"
     ],
     "deny": [],
     "ask": []

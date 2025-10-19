@@ -33,7 +33,7 @@
       </li>
       <div v-if="!filteredOptions.length" class="px-3 py-2 gap-4 w-full flex flex-col">
         <FText innerText="No option found" />
-        <Button @click="addNewOption" label="Add" icon="pi pi-plus" class="flex-1" outlined/>
+        <Button @click="addNewOption" label="Add" icon="pi pi-plus" class="flex-1" outlined />
       </div>
     </ul>
     <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
@@ -139,6 +139,7 @@ const listeners = {
 </script>
 
 <style scoped>
+@reference "@/custom-tailwind.css";
 .unstyled:focus {
   outline: none;
 }

@@ -23,8 +23,8 @@
 </template>
 
 <script lang="ts" setup>
-import { EIconNames } from '@/common/enums/icons.enum';
-import { colors } from '@/constants/colors';
+// import { EIconNames } from '@/common/enums/icons.enum';
+// import { colors } from '@/constants/colors';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { computed } from 'vue';
 
@@ -45,10 +45,11 @@ const props = defineProps<IProps>();
 const src = computed(() => `/images/onboarding/${props.ad?.image?.name}`);
 </script>
 
-<style lang="scss" scoped>
-// aside {
+<style scoped>
+@reference "@/custom-tailwind.css";
+/* // aside {
 //   background-image: url('/images/onboarding/bg.png');
-// }
+// } */
 
 img {
   @apply absolute bottom-0 w-[400px];
