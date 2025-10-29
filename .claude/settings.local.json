@@ -5,7 +5,8 @@
       "Bash(tree:*)",
       "WebSearch",
       "Bash(yarn dev)",
-      "Bash(pkill -f \"vite --port\")"
+      "Bash(pkill -f \"vite --port\")",
+      "Bash(yarn type-check)"
     ],
     "deny": [],
     "ask": []
