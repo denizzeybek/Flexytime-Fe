@@ -2,10 +2,11 @@
   <router-view />
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <style>
+@reference "@/custom-tailwind.css";
+
 /* #region tablist */
 .p-tablist-content {
   @apply !px-5;

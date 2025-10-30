@@ -75,6 +75,7 @@ const onSelect = (e: any) => {
 </script>
 
 <style>
+@reference "@/custom-tailwind.css";
 .p-togglebutton-checked::before {
   @apply !bg-f-primary;
 }
