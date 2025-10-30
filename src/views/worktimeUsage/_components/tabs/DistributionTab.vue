@@ -91,7 +91,7 @@ import { computed } from 'vue';
 import Card from 'primevue/card';
 import Chart from 'primevue/chart';
 import Skeleton from 'primevue/skeleton';
-import type { IDistribution } from '../../types';
+import type { IDistribution } from '../../_types';
 
 interface IProps {
   distributions?: IDistribution[];
@@ -173,7 +173,7 @@ const chartOptions = computed(() => {
 });
 
 // Badge helper functions
-function getBadgeClass(statisticType: string): string {
+const getBadgeClass = (statisticType: string): string => {
   const mapping: Record<string, string> = {
     work: 'bg-green-500',
     meeting: 'bg-yellow-500',
@@ -181,9 +181,9 @@ function getBadgeClass(statisticType: string): string {
     unclassified: 'bg-gray-500',
   };
   return mapping[statisticType.toLowerCase()] || 'bg-blue-500';
-}
+};
 
-function getBadgeIcon(statisticType: string): string {
+const getBadgeIcon = (statisticType: string): string => {
   const mapping: Record<string, string> = {
     work: 'pi pi-wrench',
     meeting: 'pi pi-crown',
@@ -191,9 +191,9 @@ function getBadgeIcon(statisticType: string): string {
     unclassified: 'pi pi-question',
   };
   return mapping[statisticType.toLowerCase()] || 'pi pi-chart-bar';
-}
+};
 
-function getBadgeTitle(statisticType: string): string {
+const getBadgeTitle = (statisticType: string): string => {
   const mapping: Record<string, string> = {
     work: 'Work',
     meeting: 'Meeting',
@@ -201,5 +201,5 @@ function getBadgeTitle(statisticType: string): string {
     unclassified: 'Unclassified',
   };
   return mapping[statisticType.toLowerCase()] || statisticType;
-}
+};
 </script>

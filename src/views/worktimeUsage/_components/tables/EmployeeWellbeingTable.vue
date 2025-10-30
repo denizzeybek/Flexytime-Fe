@@ -39,27 +39,7 @@
     <Column field="TeamName" header="Team" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
-        <a
-          v-else-if="slotProps.data.Team"
-          href="#"
-          class="text-gray-900 hover:text-gray-600 hover:underline cursor-pointer"
-          @click.prevent="handleTeamClick(slotProps.data.ID)"
-        >
-          {{ slotProps.data.TeamName }}
-        </a>
-      </template>
-    </Column>
-
-    <Column field="Tags" header="Tags">
-      <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="3rem" />
-        <div
-          v-else-if="slotProps.data.Tags && slotProps.data.Tags.length > 0"
-          class="flex gap-1 flex-wrap"
-        >
-          <Tag v-for="(tag, idx) in slotProps.data.Tags" :key="idx" :value="tag" severity="info" />
-        </div>
-        <span v-else>-</span>
+        <span v-else>{{ slotProps.data.TeamName || '-' }}</span>
       </template>
     </Column>
 
@@ -77,51 +57,39 @@
       </template>
     </Column>
 
-    <Column field="Work.time" header="Work" sortable>
+    <Column field="Wellbeing.Danger" header="Problems">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" />
-        <div v-else class="flex items-center gap-2">
-          <i class="pi pi-wrench text-green-600"></i>
-          <span class="font-semibold">
-            {{ slotProps.data.Work?.time || '-' }}
-          </span>
-        </div>
+        <Skeleton v-if="isLoading" height="1.5rem" width="3rem" />
+        <Tag
+          v-else-if="slotProps.data.Wellbeing?.Danger?.length > 0"
+          severity="danger"
+          :value="slotProps.data.Wellbeing.Danger.length"
+        />
+        <span v-else>-</span>
       </template>
     </Column>
 
-    <Column field="Leisure.time" header="Leisure" sortable>
+    <Column field="Wellbeing.Warning" header="Warnings">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" />
-        <div v-else class="flex items-center gap-2">
-          <i class="pi pi-calendar-clock text-red-600"></i>
-          <span class="font-semibold">
-            {{ slotProps.data.Leisure?.time || '-' }}
-          </span>
-        </div>
+        <Skeleton v-if="isLoading" height="1.5rem" width="3rem" />
+        <Tag
+          v-else-if="slotProps.data.Wellbeing?.Warning?.length > 0"
+          severity="warn"
+          :value="slotProps.data.Wellbeing.Warning.length"
+        />
+        <span v-else>-</span>
       </template>
     </Column>
 
-    <Column field="Meeting.time" header="Meeting" sortable>
+    <Column field="Wellbeing.Success" header="Achievements">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" />
-        <div v-else class="flex items-center gap-2">
-          <i class="pi pi-crown text-yellow-600"></i>
-          <span class="font-semibold">
-            {{ slotProps.data.Meeting?.time || '-' }}
-          </span>
-        </div>
-      </template>
-    </Column>
-
-    <Column field="Unclassified.time" header="Unclassified" sortable>
-      <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" />
-        <div v-else class="flex items-center gap-2">
-          <i class="pi pi-question text-gray-600"></i>
-          <span class="font-semibold">
-            {{ slotProps.data.Unclassified?.time || '-' }}
-          </span>
-        </div>
+        <Skeleton v-if="isLoading" height="1.5rem" width="3rem" />
+        <Tag
+          v-else-if="slotProps.data.Wellbeing?.Success?.length > 0"
+          severity="success"
+          :value="slotProps.data.Wellbeing.Success.length"
+        />
+        <span v-else>-</span>
       </template>
     </Column>
   </DataTable>
@@ -133,8 +101,8 @@ import Column from 'primevue/column';
 import Avatar from 'primevue/avatar';
 import Tag from 'primevue/tag';
 import Skeleton from 'primevue/skeleton';
-import { useWorktimeNavigation } from '../../composables';
-import type { IIndividual } from '../../types';
+import { useWorktimeNavigation } from '../../_composables';
+import type { IIndividual } from '../../_types';
 
 interface IProps {
   individuals?: IIndividual[];
@@ -146,7 +114,7 @@ const props = withDefaults(defineProps<IProps>(), {
   isLoading: false,
 });
 
-const { handleTeamClick, handleEmployeeClick } = useWorktimeNavigation();
+const { handleEmployeeClick } = useWorktimeNavigation();
 
 // Skeleton dummy data - 5 rows for loading state
 const skeletonData = Array.from({ length: 5 }, (_, i) => ({

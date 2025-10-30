@@ -1,14 +1,12 @@
 <template>
-  <div class="productivity-tab">
-    <!-- Individual View: Always show individuals -->
-    <EmployeeProductivityTable
-      v-if="viewMode === 'individual'"
-      :individuals="individuals"
-      :is-loading="isLoading"
-    />
+  <div class="wellbeing-tab">
+    <!-- Individual View: Placeholder -->
+    <div v-if="viewMode === 'individual'" class="p-4 text-center text-gray-500">
+      <p>Wellbeing data for individual view will be implemented soon.</p>
+    </div>
 
     <!-- Employees View: Always show all employees -->
-    <EmployeeProductivityTable
+    <EmployeeWellbeingTable
       v-else-if="viewMode === 'employees'"
       :individuals="individuals"
       :is-loading="isLoading"
@@ -17,14 +15,14 @@
     <!-- Team View with displayMode toggle -->
     <template v-else-if="viewMode === 'team'">
       <!-- Show teams when displayMode is 'team' -->
-      <TeamProductivityTable
+      <TeamWellbeingTable
         v-if="displayMode === 'team' && (isLoading || teams.length > 0)"
         :teams="teams"
         :is-loading="isLoading"
       />
 
       <!-- Show individuals when displayMode is 'employees' OR no teams exist (leaf node) -->
-      <EmployeeProductivityTable
+      <EmployeeWellbeingTable
         v-else-if="isLoading || (displayMode === 'employees' && individuals.length > 0) || (teams.length === 0 && individuals.length > 0)"
         :individuals="individuals"
         :is-loading="isLoading"
@@ -44,9 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import TeamProductivityTable from '../tables/TeamProductivityTable.vue';
-import EmployeeProductivityTable from '../tables/EmployeeProductivityTable.vue';
-import type { ViewMode, DisplayMode, ITeam, IIndividual } from '../../types';
+import TeamWellbeingTable from '../tables/TeamWellbeingTable.vue';
+import EmployeeWellbeingTable from '../tables/EmployeeWellbeingTable.vue';
+import type { ViewMode, DisplayMode, ITeam, IIndividual } from '../../_types';
 
 interface IProps {
   viewMode: ViewMode;

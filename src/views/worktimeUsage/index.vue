@@ -179,19 +179,19 @@ import TabPanel from 'primevue/tabpanel';
 import Button from 'primevue/button';
 
 // Components
-import Message from './components/common/Message.vue';
-import UserBadge from './components/common/UserBadge.vue';
-import Summary from './components/common/Summary.vue';
-import ProductivityTab from './components/tabs/ProductivityTab.vue';
-import WellbeingTab from './components/tabs/WellbeingTab.vue';
-import DistributionTab from './components/tabs/DistributionTab.vue';
-import GraphTab from './components/tabs/GraphTab.vue';
-import WebHistoryTab from './components/tabs/WebHistoryTab.vue';
+import Message from './_components/common/Message.vue';
+import UserBadge from './_components/common/UserBadge.vue';
+import Summary from './_components/common/Summary.vue';
+import ProductivityTab from './_components/tabs/ProductivityTab.vue';
+import WellbeingTab from './_components/tabs/WellbeingTab.vue';
+import DistributionTab from './_components/tabs/DistributionTab.vue';
+import GraphTab from './_components/tabs/GraphTab.vue';
+import WebHistoryTab from './_components/tabs/WebHistoryTab.vue';
 
 // Store and Composables
-import { useWorktimeStore } from './store/worktimeStore';
-import { useWorktimeQuery, useWorktimeNavigation } from './composables';
-import type { TabType, DisplayMode, IWebClock } from './types';
+import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
+import { useWorktimeQuery, useWorktimeNavigation } from './_composables';
+import type { TabType, DisplayMode, IWebClock } from './_types';
 
 // Store
 const store = useWorktimeStore();
@@ -274,11 +274,11 @@ const availableTabs = computed<Array<{ key: TabType; label: string }>>(() => {
 });
 
 // Functions
-function showTab(tabKey: TabType): boolean {
+const showTab = (tabKey: TabType): boolean => {
   return availableTabs.value.some((tab) => tab.key === tabKey);
-}
+};
 
-async function fetchData() {
+const fetchData = async () => {
   try {
     errorMessage.value = null;
 
@@ -309,17 +309,17 @@ async function fetchData() {
     console.error('Error fetching data:', error);
     errorMessage.value = 'An unexpected error occurred while fetching data.';
   }
-}
+};
 
-function handleDownload() {
+const handleDownload = () => {
   // TODO: Implement download functionality
   console.log('Download report clicked');
-}
+};
 
-function handleToggleDomain(webClock: IWebClock, newDomain: number) {
+const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
   // TODO: Implement domain toggle API call
   console.log('Toggle domain:', webClock, newDomain);
-}
+};
 
 // Watchers
 watch(

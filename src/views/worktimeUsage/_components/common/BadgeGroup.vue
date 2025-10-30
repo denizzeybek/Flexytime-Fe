@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import SummaryBadge from './SummaryBadge.vue';
-import type { ISummary } from '../../types';
+import type { ISummary } from '../../_types';
 
 interface IProps {
   summary?: ISummary[];
@@ -37,7 +37,7 @@ const badgeList = computed<IBadgeData[]>(() => {
     .filter((item): item is IBadgeData => item !== null);
 });
 
-function mapStatisticTypeToBadge(statisticType: string, value: any): IBadgeData | null {
+const mapStatisticTypeToBadge = (statisticType: string, value: any): IBadgeData | null => {
   const mapping: Record<string, Omit<IBadgeData, 'value'>> = {
     work: {
       severity: 'success',
@@ -75,5 +75,5 @@ function mapStatisticTypeToBadge(statisticType: string, value: any): IBadgeData 
   if (!base) return null;
 
   return { ...base, value };
-}
+};
 </script>

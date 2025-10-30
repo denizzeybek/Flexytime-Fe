@@ -36,7 +36,7 @@ import { computed } from 'vue';
 import Avatar from 'primevue/avatar';
 import Skeleton from 'primevue/skeleton';
 import Card from 'primevue/card';
-import type { ICard } from '../../types';
+import type { ICard } from '../../_types';
 
 interface IProps {
   card?: ICard | null;

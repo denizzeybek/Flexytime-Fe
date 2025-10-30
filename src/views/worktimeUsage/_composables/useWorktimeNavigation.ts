@@ -6,7 +6,7 @@
  */
 
 import { useWorktimeQuery } from './useWorktimeQuery';
-import type { INavigationTarget } from '../types';
+import type { INavigationTarget } from '../_types';
 
 export function useWorktimeNavigation() {
   const { navigateToTeam, navigateToIndividual } = useWorktimeQuery();
@@ -15,41 +15,41 @@ export function useWorktimeNavigation() {
    * Handle department/team name click
    * Navigates to that team's view
    */
-  function handleTeamClick(teamId: string) {
+  const handleTeamClick = (teamId: string) => {
     navigateToTeam(teamId);
-  }
+  };
 
   /**
    * Handle supervisor/employee name click
    * Navigates to that person's individual view
    */
-  function handleEmployeeClick(memberId: string) {
+  const handleEmployeeClick = (memberId: string) => {
     navigateToIndividual(memberId);
-  }
+  };
 
   /**
    * Generic navigation handler based on target
    */
-  function handleNavigate(target: INavigationTarget) {
+  const handleNavigate = (target: INavigationTarget) => {
     if (target.view === 'team') {
       navigateToTeam(target.id);
     } else if (target.view === 'individual') {
       navigateToIndividual(target.id);
     }
-  }
+  };
 
   /**
    * Check if a cell should be clickable
    */
-  function isClickableCell(field: string): boolean {
+  const isClickableCell = (field: string): boolean => {
     const clickableFields = ['TeamName', 'SuperVisorName', 'EmployeeName', 'Team'];
     return clickableFields.includes(field);
-  }
+  };
 
   /**
    * Get navigation target from cell data
    */
-  function getNavigationTarget(field: string, rowData: any): INavigationTarget | null {
+  const getNavigationTarget = (field: string, rowData: any): INavigationTarget | null => {
     switch (field) {
       case 'TeamName':
       case 'Team':
@@ -70,7 +70,7 @@ export function useWorktimeNavigation() {
       default:
         return null;
     }
-  }
+  };
 
   return {
     handleTeamClick,

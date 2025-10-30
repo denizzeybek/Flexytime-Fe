@@ -1,12 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mkdir:*)",
-      "Bash(tree:*)",
-      "WebSearch",
-      "Bash(yarn dev)",
-      "Bash(pkill -f \"vite --port\")",
-      "Bash(yarn type-check)"
+      "Bash(find src/views/worktimeUsage/_components/tabs -name \"*.vue\" -type f -exec sed -i '' 's/\\(const [a-zA-Z_][a-zA-Z0-9_]* = \\)(/\\1(/; s/): \\([a-zA-Z<>|{}[\\],:? ]*\\) {/) => {/g' {} ;)"
     ],
     "deny": [],
     "ask": []

@@ -45,7 +45,7 @@ import { ref, watch, onMounted } from 'vue';
 import Button from 'primevue/button';
 import DatePicker from 'primevue/datepicker';
 import Select from 'primevue/select';
-import { useWorktimeQuery } from '../../composables';
+import { useWorktimeQuery } from '../../_composables';
 
 interface IEmits {
   (e: 'download'): void;
@@ -89,7 +89,7 @@ onMounted(() => {
   }
 });
 
-function handleDateChange(value: Date[] | null) {
+const handleDateChange = (value: Date[] | null) => {
   if (value && value.length === 2 && value[0] && value[1]) {
     const formatDate = (date: Date) => {
       const year = date.getFullYear();
@@ -101,13 +101,13 @@ function handleDateChange(value: Date[] | null) {
     const interval = `${formatDate(value[0])}_${formatDate(value[1])}`;
     updateInterval(interval);
   }
-}
+};
 
-function handlePerspectiveChange() {
+const handlePerspectiveChange = () => {
   updatePerspective(selectedPerspective.value.value);
-}
+};
 
-function handleDownload() {
+const handleDownload = () => {
   emit('download');
-}
+};
 </script>

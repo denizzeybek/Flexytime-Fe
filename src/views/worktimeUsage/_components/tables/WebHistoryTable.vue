@@ -96,7 +96,7 @@ import Column from 'primevue/column';
 import Tag from 'primevue/tag';
 import Button from 'primevue/button';
 import Skeleton from 'primevue/skeleton';
-import type { IWebClock } from '../../types';
+import type { IWebClock } from '../../_types';
 
 interface IProps {
   webClocks?: IWebClock[];
@@ -114,9 +114,9 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const emit = defineEmits<IEmits>();
 
-function handleToggleDomain(webClock: IWebClock, newDomain: number) {
+const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
   emit('toggle-domain', webClock, newDomain);
-}
+};
 
 // Skeleton dummy data - 10 rows for loading state (web history usually has more rows)
 const skeletonData = Array.from({ length: 10 }, (_, i) => ({

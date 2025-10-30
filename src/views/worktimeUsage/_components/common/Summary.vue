@@ -21,7 +21,7 @@ import Card from 'primevue/card';
 import Breadcrumb from './Breadcrumb.vue';
 import ActionsBar from './ActionsBar.vue';
 import BadgeGroup from './BadgeGroup.vue';
-import type { IBreadcrumb, ISummary } from '../../types';
+import type { IBreadcrumb, ISummary } from '../../_types';
 
 interface IProps {
   breadcrumbItems?: IBreadcrumb[];
@@ -41,17 +41,17 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const emit = defineEmits<IEmits>();
 
-function handleDownload() {
+const handleDownload = () => {
   emit('download');
-}
+};
 </script>
 
 <style scoped>
 @reference "@/custom-tailwind.css";
-::v-deep .p-card-content {
+:deep(.p-card-content) {
   @apply !h-full;
 }
-::v-deep .p-card-body {
+:deep(.p-card-body) {
   @apply !h-full;
 }
 </style>

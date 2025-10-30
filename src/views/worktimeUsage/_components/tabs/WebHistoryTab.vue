@@ -66,7 +66,7 @@
 import Card from 'primevue/card';
 import Skeleton from 'primevue/skeleton';
 import WebHistoryTable from '../tables/WebHistoryTable.vue';
-import type { IWebClocks, IWebClock } from '../../types';
+import type { IWebClocks, IWebClock } from '../../_types';
 
 interface IProps {
   webClocks?: IWebClocks[];
@@ -84,12 +84,12 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const emit = defineEmits<IEmits>();
 
-function handleToggleDomain(webClock: IWebClock, newDomain: number) {
+const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
   emit('toggle-domain', webClock, newDomain);
-}
+};
 
 // Badge helper function based on allocation Type
-function getBadgeClass(type: number): string {
+const getBadgeClass = (type: number): string => {
   const mapping: Record<number, string> = {
     4: 'bg-green-500',   // Work
     3: 'bg-yellow-500',  // Meeting
@@ -97,5 +97,5 @@ function getBadgeClass(type: number): string {
     1: 'bg-gray-500',    // Unclassified
   };
   return mapping[type] || 'bg-blue-500';
-}
+};
 </script>

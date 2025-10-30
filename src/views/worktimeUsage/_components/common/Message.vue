@@ -32,7 +32,7 @@ watch(
   }
 );
 
-function handleClose() {
+const handleClose = () => {
   visible.value = false;
-}
+};
 </script>

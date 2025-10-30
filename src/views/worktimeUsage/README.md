@@ -34,37 +34,39 @@ This module provides three main view modes for tracking and analyzing employee w
 worktimeUsage/
 ├── README.md                          # This file
 ├── index.vue                          # Main container component
-├── types/                            # TypeScript type definitions
+├── _types/                           # TypeScript type definitions
 │   ├── api.ts                        # API request/response types
 │   ├── common.ts                     # Shared types and enums
 │   └── index.ts                      # Type exports
-├── store/                            # Pinia store
-│   └── worktimeStore.ts              # State management & API calls
-├── composables/                      # Vue composables
+├── _composables/                     # Vue composables
 │   ├── useWorktimeQuery.ts           # URL query parameter management
 │   ├── useWorktimeNavigation.ts      # Navigation helpers
 │   └── index.ts                      # Composable exports
-├── components/
-│   ├── common/                       # Shared layout components
-│   │   ├── Message.vue               # Information/error messages
-│   │   ├── UserBadge.vue             # User card display
-│   │   ├── Summary.vue               # Summary section container
-│   │   ├── Breadcrumb.vue            # Navigation breadcrumb
-│   │   ├── ActionsBar.vue            # Download, date picker, perspective
-│   │   ├── BadgeGroup.vue            # Summary metrics badges
-│   │   └── SummaryBadge.vue          # Individual metric badge
-│   ├── tabs/                         # Tab content components
-│   │   ├── ProductivityTab.vue       # Productivity metrics
-│   │   ├── WellbeingTab.vue          # Wellbeing indicators
-│   │   ├── DistributionTab.vue       # Time distribution charts
-│   │   ├── GraphTab.vue              # Activity graphs
-│   │   └── WebHistoryTab.vue         # Web browsing history
-│   └── tables/                       # Data table components
-│       ├── TeamProductivityTable.vue
-│       ├── TeamWellbeingTable.vue
-│       ├── EmployeeProductivityTable.vue
-│       ├── EmployeeWellbeingTable.vue
-│       └── WebHistoryTable.vue
+└── _components/
+    ├── common/                       # Shared layout components
+    │   ├── Message.vue               # Information/error messages
+    │   ├── UserBadge.vue             # User card display
+    │   ├── Summary.vue               # Summary section container
+    │   ├── Breadcrumb.vue            # Navigation breadcrumb
+    │   ├── ActionsBar.vue            # Download, date picker, perspective
+    │   ├── BadgeGroup.vue            # Summary metrics badges
+    │   └── SummaryBadge.vue          # Individual metric badge
+    ├── tabs/                         # Tab content components
+    │   ├── ProductivityTab.vue       # Productivity metrics
+    │   ├── WellbeingTab.vue          # Wellbeing indicators
+    │   ├── DistributionTab.vue       # Time distribution charts
+    │   ├── GraphTab.vue              # Activity graphs
+    │   └── WebHistoryTab.vue         # Web browsing history
+    └── tables/                       # Data table components
+        ├── TeamProductivityTable.vue
+        ├── TeamWellbeingTable.vue
+        ├── EmployeeProductivityTable.vue
+        ├── EmployeeWellbeingTable.vue
+        └── WebHistoryTable.vue
+
+Pinia Store (following project convention):
+src/stores/worktimeUsage/
+└── worktimeStore.ts                  # State management & API calls
 ```
 
 ## 🔌 API Integration
@@ -329,6 +331,32 @@ Navigate to `/clock` to access Worktime Usage.
 ```bash
 yarn type-check
 ```
+
+### Code Style Guidelines
+
+**Functions**: Always use ES6 arrow functions
+
+```typescript
+// ✅ Correct
+const myFunction = (param: string): ReturnType => {
+  // implementation
+};
+
+const asyncFunction = async (param: string): Promise<ReturnType> => {
+  // implementation
+};
+
+// ❌ Incorrect
+function myFunction(param: string): ReturnType {
+  // implementation
+}
+```
+
+**Key Points:**
+- Use `const` with arrow functions for all function declarations
+- Include type annotations for parameters and return types
+- For async functions, use `const name = async () => {}`
+- Composable exports use `export function` wrapper, but internal functions use arrow syntax
 
 ### Adding New Features
 

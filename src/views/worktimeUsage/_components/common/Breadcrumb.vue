@@ -25,8 +25,8 @@
 import { computed } from 'vue';
 import PBreadcrumb from 'primevue/breadcrumb';
 import Skeleton from 'primevue/skeleton';
-import { useWorktimeNavigation } from '../../composables';
-import type { IBreadcrumb } from '../../types';
+import { useWorktimeNavigation } from '../../_composables';
+import type { IBreadcrumb } from '../../_types';
 
 interface IProps {
   items?: IBreadcrumb[];
@@ -52,9 +52,9 @@ const breadcrumbItems = computed(() => {
   }));
 });
 
-function handleNavigate(item: any) {
+const handleNavigate = (item: any) => {
   if (item.id) {
     handleTeamClick(item.id);
   }
-}
+};
 </script>

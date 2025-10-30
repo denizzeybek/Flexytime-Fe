@@ -14,7 +14,7 @@ import type {
   IEmployeeResponse,
   ILoadingState,
   IErrorState,
-} from '../types';
+} from '@/views/worktimeUsage/_types';
 
 interface State {
   // Section data (Team/Department view + Individuals list)

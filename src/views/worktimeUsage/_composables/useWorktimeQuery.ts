@@ -7,7 +7,7 @@
 
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import type { IWorktimeQuery, ViewMode, TabType } from '../types';
+import type { IWorktimeQuery, ViewMode, TabType } from '../_types';
 
 export function useWorktimeQuery() {
   const route = useRoute();
@@ -30,19 +30,19 @@ export function useWorktimeQuery() {
   /**
    * Get default tab based on view mode
    */
-  function getDefaultTab(view: ViewMode): TabType {
+  const getDefaultTab = (view: ViewMode): TabType => {
     if (view === 'individual') {
       // Individual view doesn't have productivity, default to distribution
       return 'distribution';
     }
     // Team and employees views default to productivity
     return 'productivity';
-  }
+  };
 
   /**
    * Get default interval (last 7 days)
    */
-  function getDefaultInterval(): string {
+  const getDefaultInterval = (): string => {
     const end = new Date();
     const start = new Date();
     start.setDate(start.getDate() - 7);
@@ -55,13 +55,13 @@ export function useWorktimeQuery() {
     };
 
     return `${formatDate(start)}_${formatDate(end)}`;
-  }
+  };
 
   /**
    * Update query parameters
    * Merges with existing query params
    */
-  async function updateQuery(updates: Partial<IWorktimeQuery>) {
+  const updateQuery = async (updates: Partial<IWorktimeQuery>) => {
     const newQuery = {
       ...route.query,
       ...updates,
@@ -77,64 +77,64 @@ export function useWorktimeQuery() {
     await router.push({
       query: newQuery,
     });
-  }
+  };
 
   /**
    * Navigate to team view
    */
-  async function navigateToTeam(teamId: string | null) {
+  const navigateToTeam = async (teamId: string | null) => {
     await updateQuery({
       view: 'team',
       tab: 'productivity',
       teamId: teamId,
       memberId: null,
     });
-  }
+  };
 
   /**
    * Navigate to employees view
    */
-  async function navigateToEmployees() {
+  const navigateToEmployees = async () => {
     await updateQuery({
       view: 'employees',
       tab: 'productivity',
       teamId: null,
       memberId: null,
     });
-  }
+  };
 
   /**
    * Navigate to individual view
    */
-  async function navigateToIndividual(memberId: string) {
+  const navigateToIndividual = async (memberId: string) => {
     await updateQuery({
       view: 'individual',
       tab: 'distribution',
       teamId: null,
       memberId: memberId,
     });
-  }
+  };
 
   /**
    * Change active tab
    */
-  async function changeTab(tab: TabType) {
+  const changeTab = async (tab: TabType) => {
     await updateQuery({ tab });
-  }
+  };
 
   /**
    * Update interval (date range)
    */
-  async function updateInterval(interval: string) {
+  const updateInterval = async (interval: string) => {
     await updateQuery({ interval });
-  }
+  };
 
   /**
    * Update perspective
    */
-  async function updatePerspective(perspective: number) {
+  const updatePerspective = async (perspective: number) => {
     await updateQuery({ perspective });
-  }
+  };
 
   return {
     // Computed

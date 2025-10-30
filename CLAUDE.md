@@ -69,9 +69,15 @@ Follow this order in Vue SFCs:
 4. Composables and stores
 5. Reactive references (`ref`)
 6. Computed properties
-7. Functions
+7. Functions (use ES6 arrow functions: `const myFunction = () => {}`)
 8. Watchers
 9. Lifecycle hooks (`onMounted`, etc.)
+
+#### Code Style Guidelines
+- **Functions**: Always use ES6 arrow functions (`const functionName = () => {}`) instead of `function` declarations
+- **Async Functions**: Use arrow syntax (`const functionName = async () => {}`)
+- **Type Annotations**: Include return type annotations for arrow functions when applicable
+- **Composables**: Export functions use `export function` wrapper, but internal functions use arrow syntax
 
 #### Authentication
 - Uses JWT tokens stored in localStorage

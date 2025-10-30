@@ -16,7 +16,7 @@
 import { computed } from 'vue';
 import Chart from 'primevue/chart';
 import ProgressSpinner from 'primevue/progressspinner';
-import type { IGraph } from '../../types';
+import type { IGraph } from '../../_types';
 
 interface IProps {
   graphs?: IGraph | null;

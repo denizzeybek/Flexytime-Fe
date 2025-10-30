@@ -143,8 +143,8 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Avatar from 'primevue/avatar';
 import Skeleton from 'primevue/skeleton';
-import { useWorktimeNavigation } from '../../composables';
-import type { ITeam } from '../../types';
+import { useWorktimeNavigation } from '../../_composables';
+import type { ITeam } from '../../_types';
 
 interface IProps {
   teams?: ITeam[];
