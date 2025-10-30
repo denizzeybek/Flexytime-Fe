@@ -7,6 +7,7 @@ import ProductivityTeam from '@/views/worktimeUsage/_components/subPages/product
 import ProductivityIndividuals from '@/views/worktimeUsage/_components/subPages/productivity/Individuals.vue'
 import ProductivityGraph from '@/views/worktimeUsage/_components/subPages/productivity/Graph.vue'
 import Distribution from '@/views/worktimeUsage/_components/subPages/distribution/Distribution.vue'
+import WorktimeUsageV2 from '@/views/worktimeUsageV2/index.vue';
 
 
 // Classification
@@ -117,6 +118,15 @@ const routes: RouteRecordRaw[] = [
             }
           },
         ],
+      },
+      {
+        path: '/clock/v2',
+        name: ERouteNames.WorktimeUsageV2,
+        component: WorktimeUsageV2,
+        meta: {
+          title: ERouteNames.WorktimeUsageV2,
+          name: ERouteNames.WorktimeUsageV2,
+        },
       },
       {
         path: '/clock/employee/:id?',
