@@ -1,568 +1,407 @@
-# Worktime Usage Module
+# Worktime Usage
 
-This module manages the core functionality for tracking, visualizing, and analyzing employee work time data. It provides comprehensive dashboards for both team-level and individual-level productivity insights with multiple visualization modes (productivity tables, distribution charts, and graphs).
+Modern worktime usage module built with Vue 3 Composition API, TypeScript, and PrimeVue components.
 
-## Directory Structure
+## 🎯 Overview
+
+This module provides three main view modes for tracking and analyzing employee work time:
+
+1. **Team View** - Hierarchical department/team structure with productivity and wellbeing metrics
+2. **Employees View** - Flat list of all employees with comprehensive analytics
+3. **Individual View** - Detailed single-user view with distribution, web history, and graphs
+
+## 🏗️ Architecture
+
+### Technology Stack
+
+- **Vue 3** - Composition API with `<script setup>` syntax
+- **TypeScript** - Full type safety with strict typing
+- **Pinia** - State management with API response caching
+- **PrimeVue 4.x** - UI component library
+- **Vue Router** - URL-based state management with query parameters
+
+### Key Design Principles
+
+1. **URL as Source of Truth**: All view state is persisted in URL query parameters
+2. **Smart API Caching**: API requests are cached and only re-fetched when necessary
+3. **Type Safety**: Comprehensive TypeScript types for all data structures
+4. **Component Reusability**: Shared components across different views
+5. **Browser Navigation**: Full support for back/forward buttons
+
+## 📁 Project Structure
 
 ```
-src/views/worktimeUsage/
-├── _views/
-│   ├── WorktimeUsage.vue          # Main team dashboard container
-│   └── WorktimeUsageEmployee.vue  # Individual employee dashboard container
-├── _components/
-│   ├── UserBadge.vue              # User profile card display
-│   ├── WorktimeButtonGroups.vue   # Navigation buttons for different views
-│   ├── subPages/
-│   │   ├── productivity/
-│   │   │   ├── Team.vue           # Team productivity data table
-│   │   │   ├── Individuals.vue    # Individual employees data table
-│   │   │   └── Graph.vue          # Productivity graph visualization
-│   │   └── distribution/
-│   │       └── Distribution.vue   # Time distribution pie charts
-│   └── summary/
-│       ├── Index.vue              # Summary container component
-│       ├── SActions.vue           # Action buttons for summary
-│       ├── SBadge.vue             # Individual summary badge
-│       ├── SBadgeGroup.vue        # Group of summary badges
-│       ├── SBadgeIcon.vue         # Icon component for badges
-│       └── SBreadcrumb.vue        # Navigation breadcrumb
-├── _composables/
-│   └── useStaticBadge.ts          # Utility for mapping statistic types to UI badges
-└── _etc/
-    └── severityMap.ts             # Severity color mapping constants
+worktimeUsage/
+├── README.md                          # This file
+├── index.vue                          # Main container component
+├── types/                            # TypeScript type definitions
+│   ├── api.ts                        # API request/response types
+│   ├── common.ts                     # Shared types and enums
+│   └── index.ts                      # Type exports
+├── store/                            # Pinia store
+│   └── worktimeStore.ts              # State management & API calls
+├── composables/                      # Vue composables
+│   ├── useWorktimeQuery.ts           # URL query parameter management
+│   ├── useWorktimeNavigation.ts      # Navigation helpers
+│   └── index.ts                      # Composable exports
+├── components/
+│   ├── common/                       # Shared layout components
+│   │   ├── Message.vue               # Information/error messages
+│   │   ├── UserBadge.vue             # User card display
+│   │   ├── Summary.vue               # Summary section container
+│   │   ├── Breadcrumb.vue            # Navigation breadcrumb
+│   │   ├── ActionsBar.vue            # Download, date picker, perspective
+│   │   ├── BadgeGroup.vue            # Summary metrics badges
+│   │   └── SummaryBadge.vue          # Individual metric badge
+│   ├── tabs/                         # Tab content components
+│   │   ├── ProductivityTab.vue       # Productivity metrics
+│   │   ├── WellbeingTab.vue          # Wellbeing indicators
+│   │   ├── DistributionTab.vue       # Time distribution charts
+│   │   ├── GraphTab.vue              # Activity graphs
+│   │   └── WebHistoryTab.vue         # Web browsing history
+│   └── tables/                       # Data table components
+│       ├── TeamProductivityTable.vue
+│       ├── TeamWellbeingTable.vue
+│       ├── EmployeeProductivityTable.vue
+│       ├── EmployeeWellbeingTable.vue
+│       └── WebHistoryTable.vue
 ```
 
-## File Responsibilities
+## 🔌 API Integration
 
-### Main Views
+### Endpoints
 
-#### `WorktimeUsage.vue`
-**Purpose**: Main dashboard container for team-level worktime analytics
+#### 1. `/webapi/clock/section`
 
-**Key Features**:
-- Displays warning messages and notifications
-- Renders user profile badge and summary components
-- Provides navigation between different sub-views via `<router-view>`
-- Manages perspective switching between team and individual views
-- Handles query parameters for filtering (perspective, interval, teamId)
+Used for **Team** and **Employees** views.
 
-**Data Flow**:
-- Uses `useSectionsStore` for team-level data management
-- Provides `handlePerspective` function to child components via Vue's provide/inject
-- Manages navigation between team and individual routes based on perspective
-
-#### `WorktimeUsageEmployee.vue`
-**Purpose**: Individual employee dashboard container
-
-**Key Features**:
-- Similar structure to team dashboard but focused on individual employee data
-- Handles employee-specific data filtering and navigation
-- Uses different API endpoint (`/webapi/clock/employeev2`) for individual data
-
-### Core Components
-
-#### `UserBadge.vue`
-**Purpose**: Displays current user's profile information
-
-**Features**:
-- Shows user avatar, name, and basic info
-- Implements loading skeleton during data fetch
-- Responsive design (hidden on small screens)
-- Data sourced from `sectionsStore.Card`
-
-#### `WorktimeButtonGroups.vue`
-**Purpose**: Dynamic navigation system for different worktime views
-
-**Key Features**:
-- Conditional button rendering based on current route (section vs employee)
-- Toggle between "Employees" and "Teams" via SelectButton
-- Automatic route switching when perspective changes
-- Dynamic button states (active/outlined) based on current path
-
-**Navigation Logic**:
-```typescript
-// Route determination based on context
-const isSection = computed(() => route.path.includes('section'));
-
-// Dynamic button configuration
-const buttonProps = computed(() => {
-  return [
-    ...(isSection.value ? [/* Productivity button */] : []),
-    { /* Distribution button */ },
-    { /* Graph button */ }
-  ];
-});
-```
-
-### Sub-Page Components
-
-#### `productivity/Team.vue`
-**Purpose**: Displays team or individual productivity data in table format
-
-**Key Features**:
-- DataTable with pagination and sorting
-- Conditional columns based on team vs individual view
-- Clickable rows for navigation to deeper levels
-- Time-based metrics display (Start, End, Work, Leisure, Meeting, Unclassified)
-- Loading states with skeleton components
-
-**Navigation Pattern**:
-```typescript
-const handleTeamRoute = (data) => {
-  const payload = {
-    perspective: route.query?.perspective,
-    interval: route.query?.interval,
-    teamId: data.ID,
-  };
-  handlePerspective(payload);
-};
-
-const handleIndividualRoute = (data) => {
-  const payload = {
-    perspective: route.query?.perspective,
-    interval: route.query?.interval,
-    memberId: data.ID,
-    isIndividual: true
-  };
-  handlePerspective(payload);
-};
-```
-
-#### `productivity/Individuals.vue`
-**Purpose**: Displays individual employees in table format
-
-**Features**:
-- Employee-focused data table with team information
-- Tags system for employee categorization
-- Time metrics identical to team view
-- Read-only view (no navigation clicks)
-
-#### `distribution/Distribution.vue`
-**Purpose**: Visualizes time distribution using pie charts
-
-**Key Features**:
-- Multiple doughnut charts for different statistic types
-- Chart.js integration with custom styling
-- Application breakdown alongside charts
-- Dynamic color schemes for chart segments
-- No data state handling with illustrations
-
-**Chart Data Transformation**:
-```typescript
-const transformDataToChartFormat = (rawData) => {
-  const colors = ['#06b6d4', '#FFC165', '#6b7280', ...];
-  const labels = rawData.map(item => item.label);
-  const data = rawData.map(item => item.value);
-  
-  return {
-    labels,
-    datasets: [{
-      data,
-      backgroundColor: colors.slice(0, rawData.length),
-      hoverBackgroundColor: hoverColors.slice(0, rawData.length),
-    }],
-  };
-};
-```
-
-### Summary Components
-
-#### `summary/Index.vue`
-**Purpose**: Container for summary information display
-
-**Layout Structure**:
-- Header with breadcrumb navigation and action buttons
-- Flexible layout with badge groups for metrics
-- Card-based design for consistent UI
-
-#### Summary Sub-Components
-- **`SActions.vue`**: Action buttons for summary operations
-- **`SBadge.vue`**: Individual metric badge display
-- **`SBadgeGroup.vue`**: Groups multiple badges together
-- **`SBadgeIcon.vue`**: Icon representation for different statistic types
-- **`SBreadcrumb.vue`**: Navigation breadcrumb for current context
-
-## Data Flow & State Management
-
-### Store Integration
-
-#### `useSectionsStore` (Primary Store)
-**Location**: `src/stores/worktimeUsage/section.ts`
-
-**State Structure**:
-```typescript
-interface State {
-  Card: ICard;                    // User profile information
-  Individuals?: IIndividuals[];   // Individual employee data
-  Summary?: ISummary[];           // Summary statistics
-  Breadcrumb?: IBreadcrumb[];     // Navigation breadcrumbs
-  Distributions?: IDistributions[]; // Distribution chart data
-  Graphs?: IGraphs[];             // Graph visualization data
-  Teamset?: ITeamset;             // Team/member hierarchical data
-  isLoading: boolean;             // Loading state
-}
-```
-
-**API Actions**:
-- `filter(payload)` - Team/section data via `/webapi/clock/section`
-- `filterEmployee(payload)` - Individual data via `/webapi/clock/employeev2`
-- `filterSection(payload)` - Alternative section filtering
-
-### Data Flow Pattern
-
-1. **Route Navigation** → Query parameters updated
-2. **Component receives perspective change** → `handlePerspective` called
-3. **Store action triggered** → API call with payload
-4. **State updated** → Components reactively re-render
-5. **Loading states managed** → Skeleton components during fetch
-
-### Query Parameter Management
-
-**Team View Parameters**:
+**Request:**
 ```typescript
 {
-  perspective: number,    // View perspective identifier
-  interval: string,      // Time interval filter
-  teamId: string        // Selected team ID
+  Perspective: number;    // 0=Time, 1=Cost, 2=Rate, 3=InShift
+  Interval: string;       // Format: "YYYY-MM-DD_YYYY-MM-DD"
+  TeamId: string | null;  // Team ID or null for root
 }
 ```
 
-**Individual View Parameters**:
+**Response:** Contains:
+- `Card` - User badge information
+- `Summary` - Metric badges (work, leisure, meeting, etc.)
+- `Breadcrumb` - Navigation path
+- `Teamset` - Team hierarchy data
+- `Individuals` - Employee list (used for employees view)
+- `Distributions` - Time distribution data
+- `Graphs` - Activity graphs
+
+**Re-fetch conditions:**
+- When `Interval` changes (date picker)
+- When `Perspective` changes (perspective selector)
+- When `TeamId` changes (team navigation)
+
+#### 2. `/webapi/clock/employeev2`
+
+Used for **Individual** view.
+
+**Request:**
 ```typescript
 {
-  perspective: number,    // View perspective identifier
-  interval: string,      // Time interval filter
-  memberId: string       // Selected member ID
+  Perspective: number;
+  Interval: string;
+  MemberId: string;       // Employee ID
 }
 ```
 
-## Routing & Navigation
+**Response:** Contains:
+- `Card` - User information
+- `Summary` - Individual metrics
+- `Breadcrumb` - Navigation path (transformed to Section format via `transformBreadcrumbs()`)
+- `Distributions` - Time distribution
+- `Graphs` - Activity graphs
+- `WebClocks` - Web browsing history grouped by allocation type
 
-### Route Structure
+**Re-fetch conditions:**
+- When `Interval` changes
+- When `Perspective` changes
+- When `MemberId` changes (user navigation)
 
-**Team Routes** (`/clock/section/:id?`):
-- Base: `WorktimeUsage` → `WorktimeUsageProductivityTeam`
-- Productivity Individuals: `WorktimeUsageProductivityIndividuals`
-- Distribution: `WorktimeUsageDistribution`
-- Graph: `WorktimeUsageProductivityGraph`
+**Note:** Employee endpoint returns breadcrumbs in format `{Url, Name, IsEnabled}` which is transformed to Section format `{id, title, path, isLastElement}` in the store.
 
-**Employee Routes** (`/clock/employee/:id?`):
-- Base: `WorktimeUsageEmployee` → `WorktimeUsageDistributionEmployee`
-- Graph: `WorktimeUsageProductivityGraphEmployee`
+## 🧭 State Management
 
-### Navigation Pattern
+### URL Query Parameters
 
-**Provide/Inject Pattern for Perspective Handling**:
+The application state is managed through URL query parameters:
+
 ```typescript
-// Parent provides
-provide('handlePerspective', handlePerspective);
-
-// Children inject
-const handlePerspective = inject('handlePerspective') as (event: any) => void;
-```
-
-This pattern allows deep component communication without prop drilling.
-
-## Development Patterns
-
-### Component Composition
-
-**Standard Component Structure**:
-```vue
-<template>
-  <!-- PrimeVue Card wrapper -->
-  <Card>
-    <template #content>
-      <!-- DataTable or Chart content -->
-    </template>
-  </Card>
-</template>
-
-<script setup lang="ts">
-// 1. Imports
-// 2. Store composition
-// 3. Computed properties
-// 4. Event handlers
-// 5. Reactive data transformations
-</script>
-```
-
-### State Management Pattern
-
-**Reactive Store Integration**:
-```typescript
-// Store composition
-const sectionsStore = useSectionsStore();
-
-// Reactive computed properties
-const teams = computed(() => 
-  isTeam.value ? sectionsStore.Teamset?.Teams : sectionsStore.Teamset?.Members
-);
-
-// Loading state management
-const isLoading = computed(() => sectionsStore.isLoading);
-```
-
-### Data Transformation Pattern
-
-**API Response to UI Data**:
-```typescript
-// Chart data transformation
-const chartData = computed(() => {
-  const distributions = sectionsStore.Distributions;
-  return distributions?.map((distribution) => ({
-    ...distribution,
-    applications: distribution.Applications,
-    chart: transformDataToChartFormat(distribution.Chart),
-  }));
-});
-```
-
-## Common Pitfalls
-
-### 1. ⚠️ Route Parameter Handling
-**Problem**: Query parameters can be undefined or strings when expecting numbers
-```typescript
-// ❌ Dangerous - may cause type errors
-const teamId = route.query.teamId;
-
-// ✅ Safe with validation
-const teamId = route.query.teamId ?? '';
-const perspective = Number(route.query.perspective) || 0;
-```
-
-### 2. 🔄 Navigation Loop Prevention
-**Problem**: Clicking the same item repeatedly triggers unnecessary API calls
-```typescript
-// ✅ Check current state before navigating
-const handleTeamRoute = (data) => {
-  const currentTeamId = route.query.teamId;
-  if (!currentTeamId || currentTeamId !== data.ID) {
-    // Only navigate if different from current
-    handlePerspective(payload);
-  }
-};
-```
-
-### 3. 📊 Chart Data Validation
-**Problem**: Charts fail when data is undefined or malformed
-```typescript
-// ✅ Always validate data before rendering
-<template v-if="distribution.applications?.length">
-  <Chart :data="distribution.chart" />
-</template>
-<div v-else>
-  <!-- No data state -->
-</div>
-```
-
-### 4. 🎯 Inject/Provide Type Safety
-**Problem**: Injected functions may be undefined
-```typescript
-// ✅ Type assertion with fallback
-const handlePerspective = inject('handlePerspective') as (event: any) => void;
-
-// Or with validation
-const handlePerspective = inject('handlePerspective');
-if (!handlePerspective) {
-  console.error('handlePerspective not provided');
-  return;
-}
-```
-
-### 5. 🔄 Loading State Management
-**Problem**: Components render empty state during loading
-```typescript
-// ✅ Always handle loading states
-<template v-if="sectionsStore.isLoading">
-  <Skeleton width="100%" height="100%" />
-</template>
-<template v-else-if="teams?.length">
-  <!-- Data content -->
-</template>
-<template v-else>
-  <!-- Empty state -->
-</template>
-```
-
-## Code Examples
-
-### Adding New Statistic Type
-
-1. **Update Interface**:
-```typescript
-// src/interfaces/worktimeUsage/section.ts
-export interface ISummary {
-  statisticType: 'work' | 'meeting' | 'leisure' | 'unclassified' | 'newType';
-  // ...
-}
-```
-
-2. **Add Badge Mapping**:
-```typescript
-// src/views/worktimeUsage/_composables/useStaticBadge.ts
-const mapping: Record<string, Omit<BadgeData, 'value'>> = {
-  // ... existing mappings
-  newType: {
-    severity: 'info',
-    title: 'New Type',
-    icon: 'pi pi-star',
-  },
-};
-```
-
-3. **Update Severity Map** (if needed):
-```typescript
-// src/views/worktimeUsage/_etc/severityMap.ts
-export const SeverityMap = {
-  // ... existing
-  newSeverity: 'new-severity',
-};
-```
-
-### Creating New Sub-View
-
-1. **Create Component**:
-```vue
-<!-- src/views/worktimeUsage/_components/subPages/newView/NewView.vue -->
-<template>
-  <Card>
-    <template #content>
-      <!-- Your content -->
-    </template>
-  </Card>
-</template>
-
-<script setup lang="ts">
-import { computed } from 'vue';
-import { useSectionsStore } from '@/stores/worktimeUsage/section';
-
-const sectionsStore = useSectionsStore();
-const data = computed(() => sectionsStore.SomeData);
-</script>
-```
-
-2. **Add Route**:
-```typescript
-// src/router/routes.ts - within WorktimeUsage children
 {
-  path: 'new-view',
-  name: ERouteNames.WorktimeUsageNewView,
-  component: NewView,
-  meta: {
-    title: ERouteNames.WorktimeUsage,
-    name: ERouteNames.WorktimeUsage,
-  }
+  view: 'team' | 'employees' | 'individual',  // Current view mode
+  tab: TabType,                                // Active tab
+  teamId?: string,                             // Current team (team view)
+  memberId?: string,                           // Current user (individual view)
+  interval: string,                            // Date range
+  perspective: number                          // Metric perspective
 }
 ```
 
-3. **Update Button Groups**:
-```typescript
-// src/views/worktimeUsage/_components/WorktimeButtonGroups.vue
-const buttonProps = computed(() => [
-  // ... existing buttons
-  {
-    label: 'New View',
-    routes: ['new-view'],
-    icon: 'pi pi-new-icon',
-    handleClick: () => {
-      router.push({ name: ERouteNames.WorktimeUsageNewView });
-    },
-  },
-]);
-```
+### Pinia Store (`useWorktimeStore`)
 
-### Custom Chart Implementation
+**State:**
+- `sectionData` - Cached section API response
+- `employeeData` - Cached employee API response
+- `loading` - Loading states for API calls
+- `error` - Error states
+- `lastSectionRequest` - Last section request for cache comparison
+- `lastEmployeeRequest` - Last employee request for cache comparison
 
+**Actions:**
+- `fetchSectionData(payload, force?)` - Fetch team/employees data
+- `fetchEmployeeData(payload, force?)` - Fetch individual data
+- `transformBreadcrumbs(breadcrumbs)` - Convert employee breadcrumb format to section format
+- `clearSectionData()` - Clear section cache
+- `clearEmployeeData()` - Clear employee cache
+- `resetStore()` - Reset entire store
+
+**Getters:**
+- `getSectionData` - Get section data
+- `getEmployeeData` - Get employee data
+- `getIndividuals` - Get individuals list
+- `getTeams` - Get teams list
+- `isSectionLoading` / `isEmployeeLoading` / `isLoading`
+- `getSectionError` / `getEmployeeError`
+
+## 📊 View Modes and Tabs
+
+### Team View
+
+**Available Tabs:**
+- **Productivity** (default) - Team performance table
+- **Wellbeing** - Team wellbeing indicators
+- **Distribution** - Time distribution charts
+- **Graph** - Activity line/bar charts
+
+**Right Panel:**
+- Graph visualization
+- Team/Employees toggle
+- Clickable team hierarchy or employee list
+
+### Employees View
+
+**Available Tabs:**
+- **Productivity** (default) - Employee list with metrics
+- **Wellbeing** - Employee wellbeing indicators
+- **Distribution** - Time distribution charts
+- **Graph** - Activity graphs
+
+**Right Panel:**
+- Graph visualization
+- Team/Employees toggle
+- Clickable lists for navigation
+
+### Individual View
+
+**Available Tabs:**
+- **Wellbeing** - Individual wellbeing (placeholder)
+- **Distribution** (default) - Personal time distribution
+- **Web History** - Browsing history grouped into 3 separate tables:
+  - Work (green badge with wrench icon)
+  - Meeting (yellow badge with crown icon)
+  - Leisure (red badge with calendar-clock icon)
+  - Unclassified (gray badge with question icon)
+  - Each table shows domain classification with action buttons to change category
+
+**Right Panel:**
+- Graph (only shown when Distribution tab is active)
+
+## 🔄 Navigation Flow
+
+### Clickable Elements
+
+| Element | Navigation Target | View | Condition |
+|---------|------------------|------|-----------|
+| Department Name | Team view for that department | Team | Always clickable |
+| Supervisor Name | Individual view for supervisor | Team/Individual | Only if `MemberId` or `MemberUrl` exists |
+| Employee Name | Individual view for employee | All | Always clickable |
+| Team Name | Team view for that team | Employees | Always clickable |
+| Breadcrumb Item | Team view for hierarchy level | All | Always clickable |
+
+**Note:** When supervisor lacks `MemberId`/`MemberUrl`, the cell displays as non-clickable gray text instead of a blue link.
+
+### Navigation Composables
+
+**`useWorktimeQuery`** - URL query management
+- `currentQuery` - Current query parameters
+- `updateQuery()` - Update any query parameter
+- `navigateToTeam()` - Navigate to team view
+- `navigateToEmployees()` - Navigate to employees view
+- `navigateToIndividual()` - Navigate to individual view
+- `changeTab()` - Change active tab
+- `updateInterval()` - Update date range
+- `updatePerspective()` - Update perspective
+
+**`useWorktimeNavigation`** - Navigation helpers
+- `handleTeamClick()` - Handle team link clicks
+- `handleEmployeeClick()` - Handle employee link clicks
+- `handleNavigate()` - Generic navigation handler
+- `isClickableCell()` - Check if table cell is clickable
+- `getNavigationTarget()` - Get navigation target from cell
+
+## 🎨 Components
+
+### Common Components
+
+**Message** - Display info/error messages
 ```vue
-<template>
-  <Card>
-    <template #content>
-      <Chart
-        type="line"
-        :data="chartData"
-        :options="chartOptions"
-        class="w-full h-96"
-      />
-    </template>
-  </Card>
-</template>
-
-<script setup lang="ts">
-import { computed } from 'vue';
-import Chart from 'primevue/chart';
-
-const chartData = computed(() => {
-  // Transform your store data
-  return {
-    labels: ['Jan', 'Feb', 'Mar'],
-    datasets: [{
-      label: 'Work Hours',
-      data: [65, 59, 80],
-      borderColor: '#06b6d4',
-      backgroundColor: 'rgba(6, 182, 212, 0.1)',
-      tension: 0.4
-    }]
-  };
-});
-
-const chartOptions = computed(() => ({
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-  },
-  scales: {
-    y: {
-      beginAtZero: true
-    }
-  }
-}));
-</script>
+<Message message="Error occurred" severity="error" />
 ```
 
-## API Integration
+**UserBadge** - Display user card with height matching
+```vue
+<UserBadge :card="cardData" :is-loading="loading" />
+```
+- Uses `h-full` to match container height
+- Shows skeleton loader during loading state
+- Displays user avatar, name, and title
 
-### Request Payload Structure
+**Summary** - Summary section with breadcrumb, actions, and badges
+```vue
+<Summary
+  :breadcrumb-items="breadcrumb"
+  :summary-items="summary"
+  :is-loading="loading"
+  @download="handleDownload"
+/>
+```
+- Uses `h-full` and `justify-between` for height matching with UserBadge
+- Custom scoped styles ensure PrimeVue Card body and content take full height
 
-**Team Section Request**:
-```typescript
-interface SectionPayload {
-  interval: string;      // Time interval filter
-  perspective: number;   // View perspective
-  teamId: string | null; // Team identifier
-}
+**ActionsBar** - Date picker, perspective selector, download button
+```vue
+<ActionsBar @download="handleDownload" />
 ```
 
-**Employee Request**:
-```typescript
-interface EmployeePayload {
-  interval: string;      // Time interval filter
-  perspective: number;   // View perspective
-  memberId: string;      // Employee identifier
-}
+### Tab Components
+
+All tab components accept:
+- `view-mode` - Current view mode (team/employees/individual)
+- `is-loading` - Loading state
+- View-specific data props
+
+### Table Components
+
+All table components accept:
+- Data array (teams/individuals/webClocks)
+- `is-loading` - Loading state with skeleton loaders
+- Emit navigation events
+
+**Features:**
+- **Skeleton Loaders**: All tables show animated skeleton placeholders during loading
+- **Icon Indicators**: Productivity tables display colored icons for Work (wrench), Leisure (calendar-clock), Meeting (crown), and Unclassified (question)
+- **Smart Links**: Links appear as `text-gray-900` and show `hover:text-blue-600 hover:underline` on hover
+- **Conditional Navigation**: Supervisor links only clickable when `MemberId` or `MemberUrl` exists
+
+## 🚀 Usage
+
+### Accessing the Module
+
+Navigate to `/clock` to access Worktime Usage.
+
+### Example Query Parameters
+
+**Team View:**
+```
+/clock?view=team&tab=productivity&perspective=0&interval=2025-01-01_2025-01-07
 ```
 
-### Response Data Structure
+**Employees View:**
+```
+/clock?view=employees&tab=wellbeing&perspective=0&interval=2025-01-01_2025-01-07
+```
 
-**Section Response** (`ISection`):
-- `Card`: User profile information
-- `Summary`: Metric summary badges
-- `Individuals`: Individual employee data
-- `Teamset`: Hierarchical team/member data
-- `Distributions`: Time distribution charts
-- `Breadcrumb`: Navigation context
-- `WellBeings`: Wellness metrics
-- `Invitations`: Team invitations
-- `DownloadKey`: Export functionality
+**Individual View:**
+```
+/clock?view=individual&tab=distribution&memberId=6291770957a0318a082d51fc&perspective=0&interval=2025-01-01_2025-01-07
+```
 
-## Testing Considerations
+## 🧪 Development
 
-- **Route Parameter Validation**: Test with missing/invalid query parameters
-- **Data Loading States**: Verify skeleton components during API calls
-- **Navigation Flow**: Test team → individual → team transitions
-- **Chart Rendering**: Validate with empty/malformed chart data
-- **Responsive Design**: Test UserBadge visibility on different screen sizes
-- **Error Handling**: Test API failure scenarios
-- **Provide/Inject**: Verify parent-child communication works correctly
+### Running Type Check
+
+```bash
+yarn type-check
+```
+
+### Adding New Features
+
+1. **New Tab**:
+   - Create tab component in `components/tabs/`
+   - Add tab type to `types/common.ts`
+   - Add to `availableTabs` in `index.vue`
+
+2. **New API Endpoint**:
+   - Add request/response types in `types/api.ts`
+   - Add action in `store/worktimeStore.ts`
+   - Update main component to call new action
+
+3. **New Navigation Target**:
+   - Add route in `useWorktimeQuery.ts`
+   - Update `useWorktimeNavigation.ts` handlers
+
+## ✅ Success Criteria
+
+- [x] No TypeScript errors (`yarn type-check` passes)
+- [x] URL state working (refresh + browser navigation)
+- [x] All views and tabs render correctly
+- [x] API requests are not unnecessarily repeated
+- [x] Navigation links working
+- [x] README is up-to-date and clear
+- [x] Code is clean and maintainable
+
+## 🐛 Known Issues / Future Improvements
+
+- [ ] Download report functionality needs implementation
+- [ ] Web history domain toggle needs API integration
+- [ ] Individual wellbeing tab needs content
+- [ ] Chart configurations could be moved to composables
+- [x] Add loading skeletons for better UX
+- [ ] Add error retry mechanisms
+- [ ] Implement data export functionality
+
+## 📝 Notes
+
+- All data fetching goes through Pinia store for caching
+- Browser back/forward buttons work automatically due to Vue Router integration
+- TypeScript strict mode is enabled for maximum type safety
+- URL query parameters manage all view state
+
+## 🔗 Related Files
+
+- Route configuration: `src/router/routes.ts`
+- Route names enum: `src/router/routeNames.enum.ts`
+- Store names: `src/stores/storeNames.enum.ts` (if needed)
+
+## 🎨 UI/UX Features
+
+### Skeleton Loaders
+All tables and tabs implement skeleton loaders during data fetching:
+- **Tables**: 5 skeleton rows (10 for WebHistory) with appropriate shapes (circles for avatars, rectangles for text)
+- **Distribution Tab**: 4 skeleton cards in 2x2 grid with circular chart placeholders
+- **Web History Tab**: 3 skeleton cards with table skeletons
+
+### Link Styling
+- Default state: `text-gray-900` (dark gray)
+- Hover state: `text-blue-600` with underline
+- Provides subtle, professional appearance while maintaining clear interactivity
+
+### Icon Indicators
+Productivity tables display colored icons next to time values:
+- 🔧 Work: Green wrench icon (`pi-wrench`)
+- 👑 Meeting: Yellow crown icon (`pi-crown`)
+- 📅 Leisure: Red calendar-clock icon (`pi-calendar-clock`)
+- ❓ Unclassified: Gray question icon (`pi-question`)
+
+### Height Matching
+UserBadge and Summary components use `h-full` with flexbox to ensure equal heights regardless of content amount, creating a balanced layout.
+
+---
+
+Last updated: 2025-10-30

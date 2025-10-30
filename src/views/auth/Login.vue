@@ -86,7 +86,7 @@ const submitHandler = handleSubmit(async (values) => {
     // const user = await profileStore.filter();
     // commonUsersStore.setUser(user as any);
     router.push({
-      name: ERouteNames.WorktimeUsageProductivityTeam,
+      name: ERouteNames.WorktimeUsage,
     });
   } catch (error: any) {
     showErrorMessage(error as any);

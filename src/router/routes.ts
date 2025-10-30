@@ -1,13 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 import { ERouteNames } from '@/router/routeNames.enum';
 import DefaultLayout from '@/layouts/default/DefaultLayout.vue';
-import WorktimeUsage from '@/views/worktimeUsage/_views/WorktimeUsage.vue';
-import WorktimeUsageEmployee from '@/views/worktimeUsage/_views/WorktimeUsageEmployee.vue';
-import ProductivityTeam from '@/views/worktimeUsage/_components/subPages/productivity/Team.vue'
-import ProductivityIndividuals from '@/views/worktimeUsage/_components/subPages/productivity/Individuals.vue'
-import ProductivityGraph from '@/views/worktimeUsage/_components/subPages/productivity/Graph.vue'
-import Distribution from '@/views/worktimeUsage/_components/subPages/distribution/Distribution.vue'
-import WorktimeUsageV2 from '@/views/worktimeUsageV2/index.vue';
+import WorktimeUsage from '@/views/worktimeUsage/index.vue';
 
 
 // Classification
@@ -72,7 +66,7 @@ const routes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: '/clock/section/:id?',
+        path: '/clock',
         alias: '',
         name: ERouteNames.WorktimeUsage,
         component: WorktimeUsage,
@@ -80,83 +74,6 @@ const routes: RouteRecordRaw[] = [
           title: ERouteNames.WorktimeUsage,
           name: ERouteNames.WorktimeUsage,
         },
-        children: [
-          {
-            path: 'productivity-individuals',
-            name: ERouteNames.WorktimeUsageProductivityIndividuals,
-            component: ProductivityIndividuals,
-            meta: {
-              title: ERouteNames.WorktimeUsage,
-              name: ERouteNames.WorktimeUsage,
-            }
-          },
-          {
-            path: 'productivity-team',
-            name: ERouteNames.WorktimeUsageProductivityTeam,
-            component: ProductivityTeam,
-            meta: {
-              title: ERouteNames.WorktimeUsage,
-              name: ERouteNames.WorktimeUsage,
-            }
-          },
-          {
-            path: 'productivity-graph',
-            name: ERouteNames.WorktimeUsageProductivityGraph,
-            component: ProductivityGraph,
-            meta: {
-              title: ERouteNames.WorktimeUsage,
-              name: ERouteNames.WorktimeUsage,
-            }
-          },
-          {
-            path: 'distribution',
-            name: ERouteNames.WorktimeUsageDistribution,
-            component: Distribution,
-            meta: {
-              title: ERouteNames.WorktimeUsage,
-              name: ERouteNames.WorktimeUsage,
-            }
-          },
-        ],
-      },
-      {
-        path: '/clock/v2',
-        name: ERouteNames.WorktimeUsageV2,
-        component: WorktimeUsageV2,
-        meta: {
-          title: ERouteNames.WorktimeUsageV2,
-          name: ERouteNames.WorktimeUsageV2,
-        },
-      },
-      {
-        path: '/clock/employee/:id?',
-        alias: '',
-        name: ERouteNames.WorktimeUsageEmployee,
-        component: WorktimeUsageEmployee,
-        meta: {
-          title: ERouteNames.WorktimeUsageEmployee,
-          name: ERouteNames.WorktimeUsageEmployee,
-        },
-        children: [
-          {
-            path: 'productivity-graph',
-            name: ERouteNames.WorktimeUsageProductivityGraphEmployee,
-            component: ProductivityGraph,
-            meta: {
-              title: ERouteNames.WorktimeUsageEmployee,
-              name: ERouteNames.WorktimeUsageEmployee,
-            }
-          },
-          {
-            path: 'distribution',
-            name: ERouteNames.WorktimeUsageDistributionEmployee,
-            component: Distribution,
-            meta: {
-              title: ERouteNames.WorktimeUsageEmployee,
-              name: ERouteNames.WorktimeUsageEmployee,
-            }
-          },
-        ],
       },
       {
         path: '/classification',

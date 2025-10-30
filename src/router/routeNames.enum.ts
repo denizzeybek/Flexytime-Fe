@@ -20,14 +20,6 @@ export enum ERouteNames {
 
   // WorktimeUsage
   WorktimeUsage = 'Worktime Usage',
-  WorktimeUsageEmployee = 'Worktime Usage Employee',
-  WorktimeUsageProductivityTeam = 'Productivity Team',
-  WorktimeUsageProductivityIndividuals = 'Productivity Individuals',
-  WorktimeUsageProductivityGraph = 'Productivity Graph',
-  WorktimeUsageDistribution = 'Distribution',
-  WorktimeUsageProductivityGraphEmployee = 'Productivity Graph',
-  WorktimeUsageDistributionEmployee = 'Distribution',
-  WorktimeUsageV2 = 'Worktime Usage V2',
 
   // Classification
   Classification = 'Classification',

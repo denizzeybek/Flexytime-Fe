@@ -54,13 +54,8 @@ const navItems = ref<IModel[]>([
   },
   {
     label: 'Worktime Usage',
-    icon: 'pi pi-clock',
-    routeName: ERouteNames.WorktimeUsageProductivityTeam,
-  },
-  {
-    label: 'Worktime Usage V2',
     icon: 'pi pi-chart-line',
-    routeName: ERouteNames.WorktimeUsageV2,
+    routeName: ERouteNames.WorktimeUsage,
   },
   {
     label: 'Time Entries',

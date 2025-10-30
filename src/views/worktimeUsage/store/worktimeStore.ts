@@ -1,5 +1,5 @@
 /**
- * Worktime Usage V2 Pinia Store
+ * Worktime Usage Pinia Store
  *
  * Manages state and API requests for worktime usage data
  * Caches responses to avoid unnecessary API calls
@@ -34,7 +34,7 @@ interface State {
   lastEmployeeRequest: IEmployeeRequest | null;
 }
 
-export const useWorktimeStoreV2 = defineStore('worktimeUsageV2', {
+export const useWorktimeStore = defineStore('worktimeUsage', {
   state: (): State => ({
     sectionData: null,
     employeeData: null,

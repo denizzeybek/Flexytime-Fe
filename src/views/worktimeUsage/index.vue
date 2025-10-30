@@ -189,12 +189,12 @@ import GraphTab from './components/tabs/GraphTab.vue';
 import WebHistoryTab from './components/tabs/WebHistoryTab.vue';
 
 // Store and Composables
-import { useWorktimeStoreV2 } from './store/worktimeStore';
+import { useWorktimeStore } from './store/worktimeStore';
 import { useWorktimeQuery, useWorktimeNavigation } from './composables';
 import type { TabType, DisplayMode, IWebClock } from './types';
 
 // Store
-const store = useWorktimeStoreV2();
+const store = useWorktimeStore();
 
 // Composables
 const { currentQuery, changeTab } = useWorktimeQuery();
