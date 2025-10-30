@@ -1,9 +1,8 @@
 import App from '@/App.vue'
 import router from '@/router'
-import '@/styles/index.scss'
 import { createApp } from 'vue'
 import plugins from './plugins'
-import '@/style.css'
+import '@/custom-tailwind.css'
 import  '@/plugins/axios'
 import { OpenAPI } from '@/client';
 

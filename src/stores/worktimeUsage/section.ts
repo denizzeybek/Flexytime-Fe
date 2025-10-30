@@ -30,6 +30,7 @@ interface State {
   Invitations?: any[];
   DownloadKey?: string;
   IndividualEmployeeModel?: IIndividualEmployeeModel;
+  isLoading: boolean;
 }
 
 export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, {
@@ -44,11 +45,12 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
     Invitations: [],
     DownloadKey: '',
     IndividualEmployeeModel: {} as IIndividualEmployeeModel,
+    isLoading: false,
   }),
   actions: {
     async filter(payload) {
       const url = '/webapi/clock/section';
-
+      this.isLoading = true;
       const response = await axios.post<ISection>(url, payload);
       this.Card = (response.data as ISection).Card;
       this.Summary = (response.data as ISection).Summary;
@@ -59,10 +61,12 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
       this.Teamset = (response.data as ISection).Teamset;
       this.Invitations = (response.data as ISection).Invitations;
       this.DownloadKey = (response.data as ISection).DownloadKey;
+      this.isLoading = false;
       return response.data;
     },
     async filterSection(payload) {
       const url = '/webapi/clock/section';
+      this.isLoading = true;
 
       const response = await axios.post<ISection>(url, payload);
       this.Card = (response.data as ISection).Card;
@@ -74,10 +78,12 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
       this.Teamset = (response.data as ISection).Teamset;
       this.Invitations = (response.data as ISection).Invitations;
       this.DownloadKey = (response.data as ISection).DownloadKey;
+      this.isLoading = false;
       return response.data;
     },
     async filterEmployee(payload) {
       const url = '/webapi/clock/employeev2';
+      this.isLoading = true;
 
       const response = await axios.post<ISection>(url, payload);
       this.Card = (response.data as ISection).Card;
@@ -86,6 +92,7 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
       this.WellBeings = (response.data as ISection).WellBeings;
       this.Distributions = (response.data as ISection).Distributions;
       this.Graphs = (response.data as ISection).Graphs;
+      this.isLoading = false;
       return response.data;
     },
   },
