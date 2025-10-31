@@ -33,22 +33,40 @@
       </template>
     </Column>
     <Column sortable field="Fullname" header="Full Name">
-      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.Fullname }}</FText>
+      </template>
     </Column>
     <Column sortable field="Email" header="Email">
-      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.Email }}</FText>
+      </template>
     </Column>
     <Column sortable field="CreateDate" header="Create Date">
-      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.CreateDate }}</FText>
+      </template>
     </Column>
     <Column field="LastActivityDate" header="Last Activity Date">
-      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.LastActivityDate || '-' }}</FText>
+      </template>
     </Column>
     <Column field="DashboardActivityDate" header="Dashboard Activity Date">
-      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.DashboardActivityDate || '-' }}</FText>
+      </template>
     </Column>
     <Column field="License" header="License">
-      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.License }}</FText>
+      </template>
     </Column>
     <Column header="Actions">
       <template #body="slotProps">
@@ -123,51 +141,41 @@ const companies = computed(() => {
 });
 
 const handlePage = (e) => {
-  console.log('e ', e);
+  console.log(e);
+  // Handle pagination if needed
 };
 
-// const handleAlwaysOnChange = async (event) => {
-//   try {
-//     const { props, alwaysOn } = event;
-//     const { ID, Name, Domain } = props;
-//     const payload = {
-//       ID,
-//       Name,
-//       Domain,
-//       AlwaysOn: alwaysOn,
-//     };
-//     console.log(payload);
-
-//     // await companiesStore.update()
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-const handleEdit = (employee: ICompany) => {
-  emit('edit', employee);
+const handleEdit = (company: ICompany) => {
+  emit('edit', company);
 };
 
-const handleDelete = (employeeID: string) => {
-  console.log(employeeID);
-  // companiesStore.deleteEmployee(employeeID);
+const handleDelete = (companyID: string) => {
+  // TODO: Implement delete functionality
+  console.log(companyID);
+  // companiesStore.deleteCompany(companyID);
 };
 
-const handleOptionClick = (option: EOptionsDropdown, employee: ICompany) => {
+const handleOptionClick = (option: EOptionsDropdown, company: ICompany) => {
   if (option === EOptionsDropdown.Edit) {
-    handleEdit(employee);
+    handleEdit(company);
   } else if (option === EOptionsDropdown.Delete) {
-    handleDelete(employee.ID);
+    handleDelete(company.ID);
   }
 };
 
 // Skeleton dummy data - 5 rows for loading state
 const skeletonData = Array.from({ length: 5 }, (_, i) => ({
   ID: `skeleton-${i}`,
-  HostName: '',
-  TopicName: '',
-  Teams: '',
-  AlwaysOn: false,
+  Name: '',
+  Fullname: '',
+  Email: '',
+  Password: null,
+  UserCount: 0,
+  Month: 0,
+  License: '',
+  CreateDate: '',
+  LastActivityDate: null,
+  DashboardActivityDate: null,
 }));
 </script>
 

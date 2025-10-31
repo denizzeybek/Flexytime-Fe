@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, watch } from 'vue';
 import { useForm } from 'vee-validate';
 import { string, object, number } from 'yup';
 import { useFToast } from '@/composables/useFToast';
@@ -98,24 +98,36 @@ const submitHandler = handleSubmit(async (values) => {
   }
 });
 
-const getInitialFormData = computed(() => {
+const getInitialFormData = () => {
   const company = props.data;
 
-  return {
-    ...(company && {
-      name: company.Name,
-      fullname: company.Fullname,
-      email: company.Email,
-      password: company.Password,
-      userCount: company.UserCount,
-      userPeriod: company.Month,
-    }),
-  };
-});
+  if (!company) return {};
 
-onMounted(() => {
-  resetForm({
-    values: getInitialFormData.value,
-  });
-});
+  return {
+    name: company.Name,
+    fullname: company.Fullname,
+    email: company.Email,
+    password: company.Password || '',
+    userCount: company.UserCount,
+    userPeriod: company.Month,
+  };
+};
+
+// Reset form whenever modal opens or data changes
+watch(
+  [open, () => props.data],
+  ([isOpen]) => {
+    if (isOpen) {
+      if (isEditing.value) {
+        // Edit mode: populate form with existing data
+        resetForm({
+          values: getInitialFormData(),
+        });
+      } else {
+        // Add mode: clear form completely
+        resetForm();
+      }
+    }
+  },
+);
 </script>

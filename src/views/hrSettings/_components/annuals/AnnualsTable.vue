@@ -33,10 +33,16 @@
       </template>
     </Column>
     <Column sortable field="LeaveType" header="Leave Type">
-      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.LeaveType }}</FText>
+      </template>
     </Column>
     <Column sortable field="Days" header="Days">
-      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.Days }}</FText>
+      </template>
     </Column>
     <Column sortable field="StartDate" header="StartDate">
       <template #body="slotProps">
@@ -164,7 +170,8 @@ const skeletonData = Array.from({ length: 5 }, (_, i) => ({
   LeaveType: '',
   Days: '',
   StartDate: '',
+  StartTime: '',
   EndDate: '',
-  Actions: '',
+  EndTime: '',
 }));
 </script>

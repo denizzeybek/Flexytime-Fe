@@ -33,7 +33,10 @@
       </template>
     </Column>
     <Column sortable field="RoleName" header="Role Name">
-      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.RoleName }}</FText>
+      </template>
     </Column>
     <Column field="Tags" header="Tags">
       <template #body="slotProps">
@@ -47,13 +50,22 @@
       </template>
     </Column>
     <Column sortable field="TitleName" header="Title Name">
-      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.TitleName }}</FText>
+      </template>
     </Column>
     <Column sortable field="TeamName" header="Team Name">
-      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.TeamName }}</FText>
+      </template>
     </Column>
     <Column field="Salary" header="Salary">
-      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.Salary }}</FText>
+      </template>
     </Column>
     <Column header="Enabled">
       <template #body="slotProps">
@@ -150,19 +162,16 @@ const handlePage = (e) => {
 
 const handleAlwaysOnChange = async (event) => {
   try {
-    const { props, alwaysOn } = event;
-    const { ID, Name, Domain } = props;
+    const { props: employeeID, alwaysOn } = event;
     const payload = {
-      ID,
-      Name,
-      Domain,
-      AlwaysOn: alwaysOn,
+      ID: employeeID,
+      Enabled: alwaysOn,
     };
-    console.log('payload ', payload);
-
-    // await employeesStore.update()
+    console.log(payload);
+    // TODO: Implement update employee enabled status
+    // await employeesStore.updateEnabled(payload);
   } catch (error) {
-    console.log(error);
+    console.error('Error updating employee status:', error);
   }
 };
 
@@ -186,11 +195,13 @@ const handleOptionClick = (option: EOptionsDropdown, employee: IEmployeeMember) 
 // Skeleton dummy data - 5 rows for loading state
 const skeletonData = Array.from({ length: 5 }, (_, i) => ({
   ID: `skeleton-${i}`,
-  HostName: '',
-  TopicName: '',
-  Teams: '',
-  AlwaysOn: false,
-  Domain: 0,
+  MemberName: '',
+  RoleName: '',
+  Tags: [],
+  TitleName: '',
+  TeamName: '',
+  Salary: '',
+  Enabled: false,
 }));
 </script>
 
