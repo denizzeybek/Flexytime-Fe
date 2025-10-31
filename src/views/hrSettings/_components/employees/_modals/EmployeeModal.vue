@@ -194,14 +194,14 @@
                 />
               </div> -->
                 <div class="flex lg:flex-col flex-1 gap-4">
-                  <FInput class="grow" id="memberName" label="Full Name" name="memberName" />
-                  <FInput class="grow" type="email" id="email" label="Email" name="email" />
-                  <FCheckbox v-if="isEditing" name="enabled" labelLeft label="Enabled" />
+                  <FInput class="grow" id="memberName" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
+                  <FInput class="grow" type="email" id="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
+                  <FCheckbox v-if="isEditing" name="enabled" labelLeft :label="t('pages.hrSettings.employees.modal.enabled.label')" />
                 </div>
               </div>
               <Divider />
               <div class="flex gap-4 flex-1">
-                <FPassword class="grow" id="password" label="Password" name="password" />
+                <FPassword class="grow" id="password" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
                 <!-- <FPassword
                 class="grow"
                 id="repeatPassword"

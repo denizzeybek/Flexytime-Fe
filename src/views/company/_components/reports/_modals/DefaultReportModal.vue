@@ -2,7 +2,7 @@
   <Dialog
     v-model:visible="open"
     modal
-    :header="isEditing ? 'Update report' : 'Add report'"
+    :header="isEditing ? t('pages.company.reports.modal.update.header') : t('pages.company.reports.modal.add.header')"
     class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
@@ -10,18 +10,18 @@
       <div class="flex gap-4 flex-1">
         <FSelect
           class="grow"
-          label="Report Type"
+          :label="t('pages.company.reports.modal.reportType.label')"
           name="reportType"
-          placeholder="Select report type"
+          :placeholder="t('pages.company.reports.modal.reportType.placeholder')"
           :options="reportTypeOptions"
         />
       </div>
       <div class="flex gap-4 flex-1">
         <FSelect
           class="grow"
-          label="Frequency"
+          :label="t('pages.company.reports.modal.frequency.label')"
           name="frequency"
-          placeholder="Select frequency"
+          :placeholder="t('pages.company.reports.modal.frequency.placeholder')"
           :options="frequencyOptions"
         />
       </div>
@@ -29,8 +29,8 @@
         <FMultiSelect
           class="grow"
           name="teams"
-          label="Team"
-          placeholder="Select team(s)"
+          :label="t('pages.company.reports.modal.team.label')"
+          :placeholder="t('pages.company.reports.modal.team.placeholder')"
           :options="teamOptions"
           :prime-props="{
             maxSelectedLabels: 3,
@@ -38,16 +38,16 @@
         />
       </div>
       <div class="flex flex-col gap-4 flex-1">
-        <FEmailList name="to" label="To" />
+        <FEmailList name="to" :label="t('pages.company.reports.modal.emailTo.label')" />
       </div>
       <div class="flex flex-col gap-4 flex-1">
-        <FEmailList name="cc" label="Cc" />
+        <FEmailList name="cc" :label="t('pages.company.reports.modal.emailCc.label')" />
       </div>
       <div class="flex flex-col gap-4 flex-1">
-        <FEmailList name="bcc" label="Bcc" />
+        <FEmailList name="bcc" :label="t('pages.company.reports.modal.emailBcc.label')" />
       </div>
       <div class="flex w-50 justify-center">
-        <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" label="Save" />
+        <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('common.buttons.save')" />
       </div>
     </form>
   </Dialog>
@@ -57,10 +57,14 @@
 import { computed, onMounted } from 'vue';
 import { useForm } from 'vee-validate';
 import { string, object, array } from 'yup';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFToast } from '@/composables/useFToast';
 import type { IReportItem } from '@/interfaces/company/report';
 import { useCompanyReportsStore } from '@/stores/company/reports';
 import { ReportFrequency } from '@/views/company/_etc/reportFrequency.enum';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   data?: IReportItem;

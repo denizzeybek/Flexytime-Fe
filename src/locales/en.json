@@ -249,6 +249,11 @@
         "advanced": "Advanced",
         "download": "Download",
         "referBonus": "Refer & Get Bonus"
+      },
+      "pageHeader": {
+        "upgrade": {
+          "label": "Upgrade"
+        }
       }
     },
     "worktimeUsage": {
@@ -263,6 +268,20 @@
         "cost": "Cost",
         "rate": "Rate",
         "inShift": "In Shift"
+      },
+      "tables": {
+        "teamProductivity": {
+          "columns": {
+            "departmentName": "Department Name",
+            "supervisor": "Supervisor",
+            "startTime": "Start Time",
+            "endTime": "End Time",
+            "work": "Work",
+            "leisure": "Leisure",
+            "meeting": "Meeting",
+            "unclassified": "Unclassified"
+          }
+        }
       }
     },
     "dashboard": {
@@ -2184,6 +2203,40 @@
         "titleName": {
           "placeholder": "Enter TitleName"
         }
+      },
+      "reports": {
+        "modal": {
+          "add": {
+            "header": "Add report"
+          },
+          "update": {
+            "header": "Update report"
+          },
+          "reportType": {
+            "label": "Report Type",
+            "placeholder": "Select report type"
+          },
+          "frequency": {
+            "label": "Frequency",
+            "placeholder": "Select frequency"
+          },
+          "team": {
+            "label": "Team",
+            "placeholder": "Select team(s)"
+          },
+          "emailTo": {
+            "label": "To"
+          },
+          "emailCc": {
+            "label": "Cc"
+          },
+          "emailBcc": {
+            "label": "Bcc"
+          }
+        },
+        "elasticPieChart": {
+          "selectBillable": "Select billable"
+        }
       }
     },
     "hrSettings": {
@@ -2247,6 +2300,21 @@
             "added": "Employee added!",
             "updated": "Employee updated!"
           }
+        },
+        "table": {
+          "columns": {
+            "name": "Name",
+            "roleName": "Role Name",
+            "tags": "Tags",
+            "titleName": "Title Name",
+            "teamName": "Team Name",
+            "salary": "Salary",
+            "enabled": "Enabled",
+            "actions": "Actions"
+          },
+          "empty": "No employees found.",
+          "addUser": "Add User",
+          "totalText": "In total there are {count} employees."
         }
       },
       "holidays": {
@@ -2286,16 +2354,29 @@
           }
         },
         "modal": {
-          "addTitle": "Add Annual",
-          "updateTitle": "Update Annual",
-          "employeeLabel": "Employee Name",
-          "selectEmployee": "Select employee",
-          "leaveTypeLabel": "Leave Type",
-          "enterLeaveType": "Enter leave type",
-          "allDay": "All Day",
-          "startDateLabel": "Start Date",
-          "endDateLabel": "End Date",
-          "save": "Save"
+          "add": {
+            "header": "Add Annual"
+          },
+          "update": {
+            "header": "Update Annual"
+          },
+          "employeeName": {
+            "label": "Employee Name",
+            "placeholder": "Select employee"
+          },
+          "leaveType": {
+            "label": "Leave Type",
+            "placeholder": "Enter leave type"
+          },
+          "allDay": {
+            "label": "All Day"
+          },
+          "startDate": {
+            "label": "Start Date"
+          },
+          "endDate": {
+            "label": "End Date"
+          }
         }
       }
     },

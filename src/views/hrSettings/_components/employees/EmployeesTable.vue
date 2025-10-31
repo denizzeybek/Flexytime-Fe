@@ -49,25 +49,25 @@
         <div v-else></div>
       </template>
     </Column>
-    <Column sortable field="TitleName" header="Title Name">
+    <Column sortable field="TitleName" :header="t('pages.hrSettings.employees.table.columns.titleName')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.TitleName }}</FText>
       </template>
     </Column>
-    <Column sortable field="TeamName" header="Team Name">
+    <Column sortable field="TeamName" :header="t('pages.hrSettings.employees.table.columns.teamName')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.TeamName }}</FText>
       </template>
     </Column>
-    <Column field="Salary" header="Salary">
+    <Column field="Salary" :header="t('pages.hrSettings.employees.table.columns.salary')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.Salary }}</FText>
       </template>
     </Column>
-    <Column header="Enabled">
+    <Column :header="t('pages.hrSettings.employees.table.columns.enabled')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <Checkbox
@@ -83,7 +83,7 @@
         />
       </template>
     </Column>
-    <Column header="Actions">
+    <Column :header="t('pages.hrSettings.employees.table.columns.actions')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <OptionsDropdown
@@ -96,8 +96,8 @@
 
     <template #footer>
       <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-        <Button icon="pi pi-plus" label="Add User" @click="emit('new')" class="shadow-sm" />
-        <FText> In total there are {{ employees ? employees.length : 0 }} employees. </FText>
+        <Button icon="pi pi-plus" :label="t('pages.hrSettings.employees.table.addUser')" @click="emit('new')" class="shadow-sm" />
+        <FText> {{ t('pages.hrSettings.employees.table.totalText', { count: employees ? employees.length : 0 }) }} </FText>
       </div>
     </template>
   </DataTable>

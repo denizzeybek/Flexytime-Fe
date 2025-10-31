@@ -10,7 +10,7 @@
       <Button
         size="large"
         icon="pi pi-shopping-cart"
-        label="Upgrade"
+        :label="t('pages.layouts.pageHeader.upgrade.label')"
         severity="warn"
         class="shadow-md hover:shadow-lg transition-all"
       />
@@ -22,9 +22,12 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import ProfileMenu from '@/components/ui/local/ProfileMenu.vue';
 import { useRoute } from 'vue-router';
 
+const { t } = useI18n<{ message: MessageSchema }>();
 const route = useRoute();
 
 interface IEmits {
