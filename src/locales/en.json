@@ -2221,6 +2221,69 @@
           "save": "Save"
         }
       }
+    },
+    "hrSettings": {
+      "search": {
+        "placeholder": "Keyword Search"
+      },
+      "employees": {
+        "table": {
+          "columns": {
+            "name": "Name",
+            "roleName": "Role Name",
+            "tags": "Tags"
+          },
+          "empty": "No customers found.",
+          "title": "Title",
+          "team": "Team",
+          "selectTags": "Select tag(s)"
+        }
+      },
+      "holidays": {
+        "table": {
+          "columns": {
+            "name": "Name",
+            "days": "Days",
+            "startDate": "StartDate",
+            "endDate": "End Date",
+            "actions": "Actions"
+          }
+        },
+        "modal": {
+          "addTitle": "Add Holiday",
+          "updateTitle": "Update Holiday",
+          "nameLabel": "Name",
+          "enterName": "Enter name",
+          "allDay": "All Day",
+          "startDateLabel": "Start Date",
+          "endDateLabel": "End Date",
+          "repeatYearly": "Repeat every year",
+          "save": "Save"
+        }
+      },
+      "annuals": {
+        "table": {
+          "columns": {
+            "name": "Name",
+            "days": "Days",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "actions": "Actions"
+          }
+        },
+        "modal": {
+          "addTitle": "Add Annual",
+          "updateTitle": "Update Annual",
+          "employeeLabel": "Employee Name",
+          "selectEmployee": "Select employee",
+          "leaveTypeLabel": "Leave Type",
+          "enterLeaveType": "Enter leave type",
+          "allDay": "All Day",
+          "startDateLabel": "Start Date",
+          "endDateLabel": "End Date",
+          "save": "Save"
+        }
+      }
     }
   },
   "common": {

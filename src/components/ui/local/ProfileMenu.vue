@@ -10,7 +10,7 @@
     size="large"
     pt:root="bg-f-white rounded-md px-4 py-2 border border-gray-300 "
   >
-    <ProfileBadge title="Deniz Zeybek" onlyTitle />
+    <ProfileBadge :title="userTitle" onlyTitle />
   </Button>
 
   <div class="card flex justify-center">
@@ -30,30 +30,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useLogout } from '@/composables/useLogout';
 
+const { t } = useI18n<{ message: MessageSchema }>();
 const { logout } = useLogout();
 
 const menu = ref();
+const userTitle = ref('Tech Lead');
 
 const toggle = (event) => {
   menu.value.toggle(event);
 };
 
-const items = ref([
+const items = computed(() => [
   {
-    label: 'Tech Lead',
+    label: t('common.profile.profile'),
     items: [
       {
-        label: 'Profile',
+        label: t('common.profile.profile'),
         icon: 'pi pi-user',
         route: { name: ERouteNames.ProfileBasic },
       },
       {
-        label: 'Logout',
+        label: t('common.profile.logout'),
         icon: 'pi pi-sign-out',
         method: () => {
           logout();

@@ -5,7 +5,7 @@
         <Tabs :value="route.name?.toString()!" class="w-fit h-fit">
           <TabList>
             <Tab v-for="(tab, idx) in items" :key="idx" :value="tab.route" @click="tab.method">
-              <span class="font-medium">{{ tab.label }}</span>
+              <span class="font-medium">{{ t(tab.labelKey) }}</span>
             </Tab>
           </TabList>
         </Tabs>
@@ -13,7 +13,7 @@
           <FDateTimePicker
             class="min-w-[15rem]"
             name="date"
-            placeholder="Enter date"
+            :placeholder="t('pages.timesheets.timeManagement.datePlaceholder')"
             :showPrevNextButtons="true"
             :prime-props="{
               showTime: false,
@@ -36,6 +36,8 @@
 
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useRoute, useRouter } from 'vue-router';
 import { useTimesheetsTimeManagementsStore } from '@/stores/timeSheets/timeManagement';
@@ -43,6 +45,8 @@ import { useForm } from 'vee-validate';
 import { array, string, object } from 'yup';
 import dayjs from 'dayjs';
 import Card from 'primevue/card';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 
 const timeManagementsStore = useTimesheetsTimeManagementsStore();
@@ -56,14 +60,14 @@ const maxDate = ref(new Date());
 const items = ref([
   {
     route: ERouteNames.TimeManagementPerson,
-    label: ERouteNames.TimeManagementPerson,
+    labelKey: 'pages.layouts.navbar.timeManagement',
     method: () => {
       router.push({ name: ERouteNames.TimeManagementPerson });
     },
   },
   {
     route: ERouteNames.TimeManagementProject,
-    label: ERouteNames.TimeManagementProject,
+    labelKey: 'pages.layouts.navbar.timeManagement',
     method: () => {
       router.push({ name: ERouteNames.TimeManagementProject });
     },

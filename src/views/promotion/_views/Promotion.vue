@@ -2,19 +2,18 @@
   <div class="flex flex-col justify-between items-center h-full gap-4">
     <div class="flex flex-col justify-center items-center gap-4">
       <FText as="h1"
-        >Recommend to friends, get <span class="text-f-warn">bonus membership</span>
+        >{{ t('pages.promotion.title') }} <span class="text-f-warn">{{ t('pages.promotion.bonusText') }}</span>
       </FText>
       <FText class="text-center">
-        Get 1 month of free Flexytime subscription <br />
-        for every friend you reccomend who installs Flexytime on their computer. *
+        {{ t('pages.promotion.description') }}
       </FText>
-      <span class="text-xs text-gray-400">* Valid for up to 50 people</span>
+      <span class="text-xs text-gray-400">{{ t('pages.promotion.disclaimer') }}</span>
     </div>
 
     <Card class="w-2/3 my-12 shadow-lg border border-gray-100 rounded-2xl">
       <template #header>
         <div class="w-full flex items-center justify-center p-4">
-          <FText as="h4">Invite by Email</FText>
+          <FText as="h4">{{ t('pages.promotion.inviteByEmail') }}</FText>
         </div>
       </template>
       <template #content>
@@ -23,7 +22,7 @@
             <FEmailList name="emails" :is-clear="isClear"/>
             <Button
               type="submit"
-              label="Add your friend"
+              :label="t('pages.promotion.addFriendButton')"
               :disabled="isSubmitting"
               :loading="isSubmitting"
               class="shadow-sm"
@@ -34,22 +33,22 @@
     </Card>
 
     <div class="w-full items-center flex flex-col gap-4">
-      <FText>Or invite in a different way </FText>
+      <FText>{{ t('pages.promotion.alternativeInvite') }}</FText>
       <div class="w-2/3 flex justify-center gap-4">
-        <InputText class="flex-1" placeholder="Enter your friend's email" :value="link" disabled />
-        <Button @click="copyText" :icon="isCopied ? 'pi pi-check' : ''" label="Copy Link" class="shadow-sm" />
+        <InputText class="flex-1" :placeholder="t('pages.promotion.emailPlaceholder')" :value="link" disabled />
+        <Button @click="copyText" :icon="isCopied ? 'pi pi-check' : ''" :label="t('pages.promotion.copyLink')" class="shadow-sm" />
       </div>
       <div class="flex gap-4">
         <Button
           @click="isBonusModalOpen = true"
           severity="link"
-          label="Bonus Earned"
+          :label="t('pages.promotion.bonusEarned')"
           class="!text-f-warn !underline"
         ></Button>
         <Button
           @click="isPrevInvitationsModalOpen = true"
           severity="link"
-          label="Previous Invitations"
+          :label="t('pages.promotion.previousInvitations')"
           class="!underline"
         ></Button>
       </div>
@@ -65,6 +64,8 @@
 <script setup lang="ts">
 // TODO:: stepler için gerekli olan datayı topla ona göre stepleri aktif yap
 import { ref, computed, onMounted } from 'vue';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFToast } from '@/composables/useFToast';
 import { usePromotionsStore } from '@/stores/promotion/promotion';
 import { copyToClipboard } from '@/helpers/utils';
@@ -72,6 +73,8 @@ import PrevInvitationsModal from '../_components/PrevInvitationsModal.vue';
 import BonusModal from '../_components/BonusModal.vue';
 import { useForm } from 'vee-validate';
 import { string, object, array } from 'yup';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const promotionsStore = usePromotionsStore();

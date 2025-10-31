@@ -14,16 +14,16 @@
           <InputIcon>
             <i class="pi pi-search" />
           </InputIcon>
-          <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+          <InputText v-model="filters['global'].value" :placeholder="t('pages.hrSettings.search.placeholder')" />
         </IconField>
       </div>
     </template>
     <template #empty>
       <div class="w-full flex justify-center py-8">
-        <FText>No customers found.</FText>
+        <FText>{{ t('pages.hrSettings.employees.table.empty') }}</FText>
       </div>
     </template>
-    <Column sortable field="MemberName" header="Name">
+    <Column sortable field="MemberName" :header="t('pages.hrSettings.employees.table.columns.name')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <div v-else class="flex items-center gap-3">
@@ -32,13 +32,13 @@
         </div>
       </template>
     </Column>
-    <Column sortable field="RoleName" header="Role Name">
+    <Column sortable field="RoleName" :header="t('pages.hrSettings.employees.table.columns.roleName')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.RoleName }}</FText>
       </template>
     </Column>
-    <Column field="Tags" header="Tags">
+    <Column field="Tags" :header="t('pages.hrSettings.employees.table.columns.tags')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <div v-else-if="slotProps.data.Tags?.length" class="flex flex-col gap-1">
@@ -104,6 +104,8 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { ref, computed } from 'vue';
 import Tag from 'primevue/tag';
 import Checkbox from 'primevue/checkbox';
@@ -113,6 +115,8 @@ import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
 import { FilterMatchMode } from '@primevue/core/api';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   isLoading: boolean;
