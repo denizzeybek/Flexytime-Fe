@@ -233,6 +233,62 @@
         "redirecting": "Verified, redirecting...",
         "verifying": "Verifying...",
         "error_msg": "The verification link is expired. Please go back and click 'Resend' to get a new link."
+      },
+      "authLayout": {
+        "language": {
+          "turkish": "Turkish",
+          "english": "English"
+        },
+        "ads": {
+          "login": {
+            "title": "Get powerful productivity insights in minutes",
+            "features": {
+              "feature1": "Get a clear picture of how your teams work.",
+              "feature2": "Measure and improve productivity.",
+              "feature3": "Uncover inefficient processes and bottlenecks.",
+              "feature4": "Prevent quiet quitting, burnout, and high turnover.",
+              "feature5": "See who needs coaching or breaks.",
+              "feature6": "Spot and save money on unused software.",
+              "feature7": "Protect and grow your company's profits."
+            }
+          },
+          "register": {
+            "title": "Create a free account now",
+            "features": {
+              "feature1": "Track and measure your team's productivity.",
+              "feature2": "Measure and improve productivity.",
+              "feature3": "Uncover inefficient processes and bottlenecks.",
+              "feature4": "Prevent quiet quitting, burnout, and high turnover.",
+              "feature5": "See who needs coaching or breaks.",
+              "feature6": "Spot and save money on unused software.",
+              "feature7": "Protect and grow your company's profits."
+            }
+          },
+          "download": {
+            "title": "Install Flexytime on your computer",
+            "features": {
+              "feature1": "Track and measure your team's productivity.",
+              "feature2": "Measure and improve productivity.",
+              "feature3": "Uncover inefficient processes and bottlenecks.",
+              "feature4": "Prevent quiet quitting, burnout, and high turnover.",
+              "feature5": "See who needs coaching or breaks.",
+              "feature6": "Spot and save money on unused software.",
+              "feature7": "Protect and grow your company's profits."
+            }
+          },
+          "forgotPassword": {
+            "title": "Reset Password",
+            "features": {
+              "feature1": "Track and measure your team's productivity.",
+              "feature2": "Measure and improve productivity.",
+              "feature3": "Uncover inefficient processes and bottlenecks.",
+              "feature4": "Prevent quiet quitting, burnout, and high turnover.",
+              "feature5": "See who needs coaching or breaks.",
+              "feature6": "Spot and save money on unused software.",
+              "feature7": "Protect and grow your company's profits."
+            }
+          }
+        }
       }
     },
     "layouts": {

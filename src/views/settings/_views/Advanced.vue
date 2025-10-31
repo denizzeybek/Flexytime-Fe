@@ -33,7 +33,7 @@
           </template>
         </template>
         <!-- <div class="flex w-50 justify-center">
-          <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" label="Save" />
+          <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('common.buttons.save')" />
         </div> -->
       </form>
     </template>

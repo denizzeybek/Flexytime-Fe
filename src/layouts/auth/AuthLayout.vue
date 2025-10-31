@@ -16,8 +16,12 @@
 </template>
 
 <script lang="ts" setup>
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
 import AuthAside from './_components/Authside.vue';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 type TAdName = 'login' | 'register' | 'download' | 'forgot-password';
 
@@ -29,22 +33,22 @@ withDefaults(defineProps<IProps>(), {
 });
 
 const languagesList = [
-  { name: 'Turkish', value: 'tr' },
-  { name: 'English', value: 'en' },
+  { name: t('pages.auth.authLayout.language.turkish'), value: 'tr' },
+  { name: t('pages.auth.authLayout.language.english'), value: 'en' },
 ];
 
 const ads = computed(() => {
   return {
     login: {
-      title: 'Get powerful productivity insights in minutes',
+      title: t('pages.auth.authLayout.ads.login.title'),
       features: [
-        'Get a clear picture of how your teams work.',
-        'Measure and improve productivity.',
-        'Uncover inefficient processes and bottlenecks.',
-        'Prevent quiet quitting, burnout, and high turnover.',
-        'See who needs coaching or breaks.',
-        'Spot and save money on unused software.',
-        'Protect and grow your company’s profits.',
+        t('pages.auth.authLayout.ads.login.features.feature1'),
+        t('pages.auth.authLayout.ads.login.features.feature2'),
+        t('pages.auth.authLayout.ads.login.features.feature3'),
+        t('pages.auth.authLayout.ads.login.features.feature4'),
+        t('pages.auth.authLayout.ads.login.features.feature5'),
+        t('pages.auth.authLayout.ads.login.features.feature6'),
+        t('pages.auth.authLayout.ads.login.features.feature7'),
       ],
       // image: {
       //   name: 'business-invoice-ad.png',
@@ -52,39 +56,39 @@ const ads = computed(() => {
       // },
     },
     register: {
-      title: 'Create a free account now',
+      title: t('pages.auth.authLayout.ads.register.title'),
       features: [
-        'Track and measure your team"s productivity.',
-        'Measure and improve productivity.',
-        'Uncover inefficient processes and bottlenecks.',
-        'Prevent quiet quitting, burnout, and high turnover.',
-        'See who needs coaching or breaks.',
-        'Spot and save money on unused software.',
-        'Protect and grow your company’s profits.',
+        t('pages.auth.authLayout.ads.register.features.feature1'),
+        t('pages.auth.authLayout.ads.register.features.feature2'),
+        t('pages.auth.authLayout.ads.register.features.feature3'),
+        t('pages.auth.authLayout.ads.register.features.feature4'),
+        t('pages.auth.authLayout.ads.register.features.feature5'),
+        t('pages.auth.authLayout.ads.register.features.feature6'),
+        t('pages.auth.authLayout.ads.register.features.feature7'),
       ],
     },
     download: {
-      title: 'Install Flexytime on your computer',
+      title: t('pages.auth.authLayout.ads.download.title'),
       features: [
-        'Track and measure your team"s productivity.',
-        'Measure and improve productivity.',
-        'Uncover inefficient processes and bottlenecks.',
-        'Prevent quiet quitting, burnout, and high turnover.',
-        'See who needs coaching or breaks.',
-        'Spot and save money on unused software.',
-        'Protect and grow your company’s profits.',
+        t('pages.auth.authLayout.ads.download.features.feature1'),
+        t('pages.auth.authLayout.ads.download.features.feature2'),
+        t('pages.auth.authLayout.ads.download.features.feature3'),
+        t('pages.auth.authLayout.ads.download.features.feature4'),
+        t('pages.auth.authLayout.ads.download.features.feature5'),
+        t('pages.auth.authLayout.ads.download.features.feature6'),
+        t('pages.auth.authLayout.ads.download.features.feature7'),
       ],
     },
     'forgot-password': {
-      title: 'Reset Password',
+      title: t('pages.auth.authLayout.ads.forgotPassword.title'),
       features: [
-        'Track and measure your team"s productivity.',
-        'Measure and improve productivity.',
-        'Uncover inefficient processes and bottlenecks.',
-        'Prevent quiet quitting, burnout, and high turnover.',
-        'See who needs coaching or breaks.',
-        'Spot and save money on unused software.',
-        'Protect and grow your company’s profits.',
+        t('pages.auth.authLayout.ads.forgotPassword.features.feature1'),
+        t('pages.auth.authLayout.ads.forgotPassword.features.feature2'),
+        t('pages.auth.authLayout.ads.forgotPassword.features.feature3'),
+        t('pages.auth.authLayout.ads.forgotPassword.features.feature4'),
+        t('pages.auth.authLayout.ads.forgotPassword.features.feature5'),
+        t('pages.auth.authLayout.ads.forgotPassword.features.feature6'),
+        t('pages.auth.authLayout.ads.forgotPassword.features.feature7'),
       ],
     },
   };
