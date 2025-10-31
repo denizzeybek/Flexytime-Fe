@@ -13,13 +13,13 @@
       </div>
       <div class="flex flex-col gap-4 pb-4 lg:pb-8">
         <RouterLink class="w-full" block :to="{ name: ERouteNames.SettingsDownload }">
-          <Button type="button" icon="pi pi-download" label="Download" class="w-full" />
+          <Button type="button" icon="pi pi-download" :label="$t('pages.layouts.navbar.download')" class="w-full" />
         </RouterLink>
         <RouterLink class="w-full" block :to="{ name: ERouteNames.Promotion }">
           <Button
             type="button"
             icon="pi pi-gift"
-            label="Refer & Get Bonus"
+            :label="$t('pages.layouts.navbar.referBonus')"
             severity="warn"
             class="w-full"
           />
@@ -37,84 +37,87 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
 import NavItem from './NavItem.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import type { IModel } from './NavChildItem.vue';
 
 
+const { t } = useI18n();
+
 const navItems = ref<IModel[]>([
   {
-    label: 'Companies',
+    label: t('pages.layouts.navbar.companies'),
     icon: 'pi pi-building',
     routeName: ERouteNames.SettingsCompanies,
   },
   {
-    label: 'Worktime Usage',
+    label: t('pages.layouts.navbar.worktimeUsage'),
     icon: 'pi pi-chart-line',
     routeName: ERouteNames.WorktimeUsage,
   },
   {
-    label: 'Time Entries',
+    label: t('pages.layouts.navbar.timeEntries'),
     routeName: ERouteNames.TimeEntriesManual,
   },
   {
-    label: 'Time Management',
+    label: t('pages.layouts.navbar.timeManagement'),
     routeName: ERouteNames.TimeManagementPerson,
   },
   {
-    label: 'Reports',
+    label: t('pages.layouts.navbar.reports'),
     routeName: ERouteNames.CompanyReportsElastic,
   },
   {
-    label: 'HR Settings',
+    label: t('pages.layouts.navbar.hrSettings'),
     icon: 'pi pi-users',
     routeName: ERouteNames.HRSettings,
     children: [
       {
-        label: 'Employees',
+        label: t('pages.layouts.navbar.employees'),
         routeName: ERouteNames.HRSettingsEmployees,
       },
       {
-        label: 'Annual Leaves',
+        label: t('pages.layouts.navbar.annualLeaves'),
         routeName: ERouteNames.HRSettingsActiveAnnuals,
       },
       {
-        label: 'Holidays',
+        label: t('pages.layouts.navbar.holidays'),
         routeName: ERouteNames.HRSettingsHolidays,
       },
     ],
   },
   {
-    label: 'Company',
+    label: t('pages.layouts.navbar.company'),
     icon: 'pi pi-building',
     routeName: ERouteNames.Company,
     children: [
       {
-        label: 'Organization Chart',
+        label: t('pages.layouts.navbar.organizationChart'),
         routeName: ERouteNames.CompanyOrganizationChart,
       },
       {
-        label: 'Working Hours',
+        label: t('pages.layouts.navbar.workingHours'),
         routeName: ERouteNames.CompanyWorkingHours,
       },
     ],
   },
   {
-    label: 'Settings',
+    label: t('pages.layouts.navbar.settings'),
     icon: 'pi pi-cog',
     routeName: ERouteNames.Settings,
     children: [
       {
-        label: 'Classification',
+        label: t('pages.layouts.navbar.classification'),
         routeName: ERouteNames.ClassificationWebAddresses,
       },
       {
-        label: 'Permissions',
+        label: t('pages.layouts.navbar.permissions'),
         routeName: ERouteNames.SettingsPermissions,
       },
       {
-        label: 'Advanced',
+        label: t('pages.layouts.navbar.advanced'),
         routeName: ERouteNames.SettingsAdvanced,
       },
     ],

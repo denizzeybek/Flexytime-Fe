@@ -4,9 +4,9 @@
       <li
         class="items-center hidden gap-2 px-12 py-4 text-lg lg:ml-4 font-normal rounded-lg lg:grid-rows-1 lg:grid text-gray-600 lg:grid-cols-8"
       >
-        <div class="lg:col-span-2 lg:ml-4">Team Name</div>
-        <div class="lg:col-span-2 lg:ml-4">Member Name</div>
-        <div class="text-center lg:col-span-2">Title</div>
+        <div class="lg:col-span-2 lg:ml-4">{{ t('pages.company.organizationChart.header.teamName') }}</div>
+        <div class="lg:col-span-2 lg:ml-4">{{ t('pages.company.organizationChart.header.memberName') }}</div>
+        <div class="text-center lg:col-span-2">{{ t('pages.company.organizationChart.header.title') }}</div>
         <div></div>
         <!---->
         <div></div>
@@ -25,19 +25,23 @@
     </template>
     <template #footer>
       <div class="flex justify-between gap-3 pt-5 border-t border-gray-100">
-        <Button @click="handleAddTeam" icon="pi pi-plus" label="Add Team" class="shadow-sm" />
-        <Button severity="info" label="Save" @click="handleSave" class="shadow-sm"/>
+        <Button @click="handleAddTeam" icon="pi pi-plus" :label="t('pages.company.organizationChart.buttons.addTeam')" class="shadow-sm" />
+        <Button severity="info" :label="t('pages.company.organizationChart.buttons.save')" @click="handleSave" class="shadow-sm"/>
       </div>
     </template>
   </Card>
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { ref, onMounted, watch } from 'vue';
 import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
 import OrganizationItem from '@/views/company/_components/organizationChart/OrganizationItem.vue';
 import { useFToast } from '@/composables/useFToast';
 import { useCompanyOrganizationChartsStore } from '@/stores/company/organizationChart';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showErrorMessage, showSuccessMessage } = useFToast();
 const organizationsStore = useCompanyOrganizationChartsStore();

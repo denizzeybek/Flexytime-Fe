@@ -1,18 +1,18 @@
 <template>
   <AuthLayout adName="forgot-password">
     <div class="flex flex-col justify-center w-full max-w-xs m-auto">
-      <FText as="h1" class="mb-8 text-center"> Reset Password </FText>
+      <FText as="h1" class="mb-8 text-center"> {{ $t('pages.auth.forgotPassword.title') }} </FText>
 
       <form class="flex flex-col gap-5" @submit="submitHandler">
         <div class="relative">
-          <FPassword id="password" label="Password" name="password" />
+          <FPassword id="password" :label="$t('pages.auth.forgotPassword.form.password.label')" name="password" :placeholder="$t('pages.auth.forgotPassword.form.password.placeholder')" />
         </div>
 
         <Button
           :disabled="isSubmitting"
           :loading="isSubmitting"
           type="submit"
-          label="Reset Password"
+          :label="$t('pages.auth.forgotPassword.form.button')"
           class="w-full"
         />
       </form>

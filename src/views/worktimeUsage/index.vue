@@ -53,7 +53,7 @@
                     currentQuery.tab !== 'graph' &&
                     (currentQuery.view !== 'individual' || currentQuery.tab === 'distribution')
                   "
-                  :label="showGraphBelow ? 'Hide Graph' : 'Show Graph'"
+                  :label="showGraphBelow ? $t('pages.worktimeUsage.hideGraph') : $t('pages.worktimeUsage.showGraph')"
                   :icon="showGraphBelow ? 'pi pi-eye-slash' : 'pi pi-chart-line'"
                   :severity="showGraphBelow ? 'secondary' : 'primary'"
                   raised
@@ -67,14 +67,14 @@
                   class="flex gap-1 p-1 bg-gray-100 rounded-xl"
                 >
                   <Button
-                    label="Team"
+                    :label="$t('pages.worktimeUsage.teamLabel')"
                     :severity="displayMode === 'team' ? 'primary' : 'secondary'"
                     :text="displayMode !== 'team'"
                     class="rounded-lg"
                     @click="displayMode = 'team'"
                   />
                   <Button
-                    label="Employees"
+                    :label="$t('pages.worktimeUsage.employeesLabel')"
                     :severity="displayMode === 'employees' ? 'primary' : 'secondary'"
                     :text="displayMode !== 'employees'"
                     class="rounded-lg"

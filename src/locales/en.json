@@ -4,6 +4,63 @@
     "auth": {
       "login": {
         "title": "Login",
+        "form": {
+          "email": {
+            "label": "Email",
+            "placeholder": "Enter your email"
+          },
+          "password": {
+            "label": "Password",
+            "placeholder": "Enter your password"
+          },
+          "submit": "Sign In"
+        },
+        "forgotPassword": "Forgot Password",
+        "googleLogin": "Login with Google",
+        "newHereText": "New here?",
+        "createAccount": "Create a new account"
+      },
+      "forgotPassword": {
+        "title": "Reset Password",
+        "form": {
+          "password": {
+            "label": "Password",
+            "placeholder": "Enter your password"
+          },
+          "button": "Reset Password"
+        }
+      },
+      "register": {
+        "title": "Create a Free Account",
+        "googleLogin": "Login with Google",
+        "orRegister": "or register with your email",
+        "form": {
+          "companyName": {
+            "label": "Company Name",
+            "placeholder": "Enter company name"
+          },
+          "fullName": {
+            "label": "Full Name",
+            "placeholder": "Enter full name"
+          },
+          "email": {
+            "label": "Email",
+            "placeholder": "Enter email"
+          },
+          "password": {
+            "label": "Password",
+            "placeholder": "Enter password"
+          },
+          "button": "Let's Get Started"
+        },
+        "haveAccount": "Already have an account?",
+        "signIn": "Sign in"
+      },
+      "wizardDownload": {
+        "skipButton": "Skip"
+      },
+      "oldLogin": {
+        "title": "Login",
         "banner": {
           "invoice-ad": {
             "title": "Send globally recognized invoices",
@@ -170,123 +227,42 @@
         "redirecting": "Verified, redirecting...",
         "verifying": "Verifying...",
         "error_msg": "The verification link is expired. Please go back and click 'Resend' to get a new link."
-      },
-      "register": {
-        "steps": {
-          "create_account": "Create Account",
-          "account_details": "Account Details",
-          "address": "Address"
-        },
-        "account_details": {
-          "title": "Account Details",
-          "form": {
-            "warning_text": "Please only use Latin characters.",
-            "first_name": {
-              "label": "First Name",
-              "placeholder": "First Name"
-            },
-            "last_name": {
-              "label": "Last Name",
-              "placeholder": "Last Name"
-            },
-            "email": {
-              "label": "Email",
-              "placeholder": "Email"
-            },
-            "phone_number": {
-              "label": "Phone Number",
-              "placeholder": "Phone Number",
-              "test": "Invalid phone number"
-            },
-            "date_of_birth": {
-              "label": "Date of Birth",
-              "placeholder": "Date of Birth",
-              "test": "You must be at least 18 years old."
-            },
-            "identity_number": {
-              "label": "Identity Number",
-              "placeholder": "Identity Number",
-              "tooltip": "This is a number that’s used to verify your identity. It’s usually written on your national ID card.",
-              "not_all_chars_same": "Invalid Identity Number"
-            },
-            "button": "Next",
-            "citizenship_country": {
-              "label": "Country of Citizenship"
-            },
-            "ssn": {
-              "label": "Social Security Number"
-            }
-          }
-        },
-        "company_details": {
-          "title": "Company Details",
-          "steps": {
-            "create_account": "Create Account",
-            "company_details": "Company Details"
-          },
-          "form": {
-            "email": {
-              "label": "Company Email",
-              "placeholder": "Email",
-              "test": "The business and company domains do not match."
-            },
-            "terms": {
-              "label": "I agree with the {link}.",
-              "link": "Business Agreement",
-              "placeholder": "Business Agreement",
-              "isTrue": "Business Agreement must be agreed."
-            },
-            "button": "Complete",
-            "name": "Company Name",
-            "country": "Country of Residence",
-            "state": "State",
-            "city": "City",
-            "zip_code": "Zip Code",
-            "address": "Address",
-            "know_vat": {
-              "yes": "VAT, EIN or Tax ID",
-              "no": "Trade Registration Number"
-            },
-            "tax_id": "Company’s VAT, EIN or Tax ID",
-            "registration_number": "Company’s Trade Registration Number",
-            "tax_office": "Tax Office",
-            "pan_number": "Company's PAN Number (optional)",
-            "phone": "Company's phone number",
-            "website": "Website"
-          }
-        },
-        "address": {
-          "title": "Address",
-          "form": {
-            "address": {
-              "label": "Address",
-              "placeholder": "Address"
-            },
-            "country": {
-              "label": "Country of Residence",
-              "placeholder": "Country of Residence"
-            },
-            "state": {
-              "label": "State",
-              "placeholder": "State"
-            },
-            "city": {
-              "label": "City",
-              "placeholder": "City"
-            },
-            "zip_code": {
-              "label": "Zip Code",
-              "placeholder": "Zip Code"
-            },
-            "terms": {
-              "validation": "The Terms of Use must be agreed.",
-              "schema_label": "Terms of Use",
-              "label": "I agree with the {link}.",
-              "link": "Contractor Agreement"
-            },
-            "button": "Complete"
-          }
-        }
+      }
+    },
+    "layouts": {
+      "navbar": {
+        "companies": "Companies",
+        "worktimeUsage": "Worktime Usage",
+        "timeEntries": "Time Entries",
+        "timeManagement": "Time Management",
+        "reports": "Reports",
+        "hrSettings": "HR Settings",
+        "employees": "Employees",
+        "annualLeaves": "Annual Leaves",
+        "holidays": "Holidays",
+        "company": "Company",
+        "organizationChart": "Organization Chart",
+        "workingHours": "Working Hours",
+        "settings": "Settings",
+        "classification": "Classification",
+        "permissions": "Permissions",
+        "advanced": "Advanced",
+        "download": "Download",
+        "referBonus": "Refer & Get Bonus"
+      }
+    },
+    "worktimeUsage": {
+      "showGraph": "Show Graph",
+      "hideGraph": "Hide Graph",
+      "teamLabel": "Team",
+      "employeesLabel": "Employees",
+      "downloadReportTooltip": "Download Report",
+      "selectPerspective": "Select perspective",
+      "perspectives": {
+        "time": "Time",
+        "cost": "Cost",
+        "rate": "Rate",
+        "inShift": "In Shift"
       }
     },
     "dashboard": {
@@ -2150,12 +2126,101 @@
         }
       },
       "empty_message": {
-        "1": "You don’t have any projects yet.",
-        "2": "You don’t have any active projects.",
-        "3": "You don’t have any projects marked as completed.",
-        "4": "You don’t have any archived projects."
+        "1": "You don't have any projects yet.",
+        "2": "You don't have any active projects.",
+        "3": "You don't have any projects marked as completed.",
+        "4": "You don't have any archived projects."
       },
       "page_title": "Projects"
+    },
+    "download": {
+      "title": "Automatic time control for your business",
+      "description": "Control your employees' time in the best way and increase the productivity of your business. Make it easy to follow up with an automatic schedule.",
+      "windows": {
+        "label": "Windows"
+      },
+      "macos": {
+        "label": "Macos"
+      },
+      "downloadButton": "Download",
+      "imageAlt": "flexy mac"
+    },
+    "timesheets": {
+      "timeManagement": {
+        "datePlaceholder": "Enter date"
+      }
+    },
+    "promotion": {
+      "title": "Recommend to friends, get",
+      "bonusText": "bonus membership",
+      "description": "Get 1 month of free Flexytime subscription for every friend you reccomend who installs Flexytime on their computer. *",
+      "disclaimer": "* Valid for up to 50 people",
+      "inviteByEmail": "Invite by Email",
+      "addFriendButton": "Add your friend",
+      "alternativeInvite": "Or invite in a different way",
+      "emailPlaceholder": "Enter your friend's email",
+      "copyLink": "Copy Link",
+      "bonusEarned": "Bonus Earned",
+      "previousInvitations": "Previous Invitations",
+      "modals": {
+        "bonusModal": {
+          "title": "Bonus Earned",
+          "emailAddress": "Email Address",
+          "sendDate": "Send Date",
+          "usageDate": "Usage Date",
+          "footerText": "In total there are {count} promotionsList."
+        },
+        "prevInvitationsModal": {
+          "title": "Previous Invitations",
+          "emailAddress": "Email Address",
+          "sendDate": "Send Date",
+          "isDownloaded": "IsDownloaded",
+          "footerText": "In total there are {count} promotionsList."
+        }
+      }
+    },
+    "classification": {
+      "table": {
+        "columns": {
+          "name": "Name",
+          "teams": "Teams",
+          "topic": "Topic",
+          "alwaysOn": "Always On",
+          "actions": "Actions"
+        },
+        "footer": {
+          "applications": "In total there are {0} applications.",
+          "webAddresses": "In total there are {0} webAddresses."
+        }
+      },
+      "search": {
+        "placeholder": "Search"
+      }
+    },
+    "company": {
+      "organizationChart": {
+        "header": {
+          "teamName": "Team Name",
+          "memberName": "Member Name",
+          "title": "Title"
+        },
+        "buttons": {
+          "addTeam": "Add Team",
+          "save": "Save"
+        }
+      },
+      "workingHours": {
+        "form": {
+          "enterTime": "Enter Time",
+          "minRestTime": "Minimum Rest Time",
+          "enterMinRestTime": "Enter min rest time",
+          "workingIntervalDuration": "Working Interval Duration",
+          "enterMinWorkingInterval": "Enter min working interval",
+          "timezone": "Timezone",
+          "selectEmployee": "Select employee",
+          "save": "Save"
+        }
+      }
     }
   },
   "common": {
@@ -2257,6 +2322,10 @@
     "kyc_warning": {
       "description": "Please verify your ID to be able to receive payments.",
       "button": "Verify your ID"
+    },
+    "profile": {
+      "profile": "Profile",
+      "logout": "Logout"
     }
   }
 }

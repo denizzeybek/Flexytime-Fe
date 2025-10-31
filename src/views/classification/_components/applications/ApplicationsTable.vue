@@ -10,19 +10,19 @@
         @page="onPageChange"
         @sort="onSortOrder"
       >
-        <Column sortable field="Name" header="Name">
+        <Column sortable field="Name" :header="t('pages.classification.table.columns.name')">
           <template #body="slotProps">
             <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
             <span v-else>{{ slotProps.data.Name }}</span>
           </template>
         </Column>
-        <Column sortable field="Teams" header="Teams">
+        <Column sortable field="Teams" :header="t('pages.classification.table.columns.teams')">
           <template #body="slotProps">
             <Skeleton v-if="isLoading" height="1.5rem" width="6rem" />
             <span v-else>{{ slotProps.data.Teams }}</span>
           </template>
         </Column>
-        <Column header="Always On">
+        <Column :header="t('pages.classification.table.columns.alwaysOn')">
           <template #body="slotProps">
             <Skeleton v-if="isLoading" width="2rem" height="2rem" class="rounded" />
             <Checkbox
@@ -35,7 +35,7 @@
             />
           </template>
         </Column>
-        <Column header="Actions">
+        <Column :header="t('pages.classification.table.columns.actions')">
           <template #body="slotProps">
             <div v-if="isLoading" class="flex gap-3">
               <Skeleton width="2.5rem" height="2.5rem" class="rounded-lg" />
@@ -66,18 +66,22 @@
         </Column>
 
         <template #footer>
-          In total there are {{ applications ? applications.length : 0 }} applications.
+          {{ t('pages.classification.table.footer.applications', [applications ? applications.length : 0]) }}
         </template>
       </DataTable>
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
 import Skeleton from 'primevue/skeleton';
 import { useClassificationApplicationsStore } from '@/stores/classification/applications';
 import { getDomainEnum } from '@/views/classification/_etc/helpers';
 import { EDomain } from '@/enums/domain.enum';
 import Checkbox from 'primevue/checkbox';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   isLoading: boolean;

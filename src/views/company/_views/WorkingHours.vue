@@ -17,7 +17,7 @@
                   <FDateTimePicker
                     class="grow"
                     :name="`days[${idx}].StartTime`"
-                    placeholder="Enter Time"
+                    :placeholder="t('pages.company.workingHours.form.enterTime')"
                     :prime-props="{
                       timeOnly: true,
                       hourFormat: '24',
@@ -28,7 +28,7 @@
                   <FDateTimePicker
                     class="grow"
                     :name="`days[${idx}].EndTime`"
-                    placeholder="Enter Time"
+                    :placeholder="t('pages.company.workingHours.form.enterTime')"
                     :prime-props="{
                       timeOnly: true,
                       hourFormat: '24',
@@ -43,8 +43,8 @@
                 <FDateTimePicker
                   class="grow"
                   name="maxIdleTime"
-                  label="Minimum Rest Time"
-                  placeholder="Enter min rest time"
+                  :label="t('pages.company.workingHours.form.minRestTime')"
+                  :placeholder="t('pages.company.workingHours.form.enterMinRestTime')"
                   :prime-props="{
                     timeOnly: true,
                     hourFormat: '24',
@@ -54,8 +54,8 @@
                 <FDateTimePicker
                   class="grow"
                   name="shiftRangeTime"
-                  label="Working Interval Duration"
-                  placeholder="Enter min working interval"
+                  :label="t('pages.company.workingHours.form.workingIntervalDuration')"
+                  :placeholder="t('pages.company.workingHours.form.enterMinWorkingInterval')"
                   :prime-props="{
                     timeOnly: true,
                     hourFormat: '24',
@@ -66,9 +66,9 @@
               <div class="grow">
                 <FSelect
                   class="grow"
-                  label="Timezone"
+                  :label="t('pages.company.workingHours.form.timezone')"
                   name="timeZone"
-                  placeholder="Select employee"
+                  :placeholder="t('pages.company.workingHours.form.selectEmployee')"
                   :options="timeZoneList"
                 />
               </div>
@@ -79,7 +79,7 @@
               :disabled="isSubmitting"
               :loading="isSubmitting"
               type="submit"
-              label="Save"
+              :label="t('pages.company.workingHours.form.save')"
               class="shadow-sm"
             />
           </div>
@@ -90,6 +90,8 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFieldArray, useForm } from 'vee-validate';
 import { computed, onMounted, ref } from 'vue';
 import { boolean, string, object, array, mixed } from 'yup';
@@ -99,6 +101,8 @@ import { useCompanyWorkingHoursStore } from '@/stores/company/workingHours';
 import { useProfileStore } from '@/stores/profile/profile';
 import { convertTimeToDate, convertDateToTime } from '@/helpers/utils';
 import Skeleton from 'primevue/skeleton';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const workingHoursStore = useCompanyWorkingHoursStore();
