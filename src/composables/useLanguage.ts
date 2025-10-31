@@ -2,7 +2,14 @@ import { ref } from 'vue';
 import { EStorageKeys } from '@/constants/storageKeys';
 import { setI18nLanguage, type Language } from '@/plugins/i18n';
 
-const currentLanguage = ref<Language>('en');
+// Initialize currentLanguage from localStorage immediately
+const savedLanguage = localStorage.getItem(EStorageKeys.LANGUAGE) as Language | null;
+const currentLanguage = ref<Language>(savedLanguage || 'en');
+
+// Set i18n language on module load
+if (currentLanguage.value) {
+  setI18nLanguage(currentLanguage.value);
+}
 
 export const useLanguage = () => {
   // Initialize language from localStorage or default to 'en'
@@ -27,15 +34,6 @@ export const useLanguage = () => {
       { name: 'Türkçe', value: 'tr' as Language },
     ];
   };
-
-  // Initialize on first use
-  if (!localStorage.getItem(EStorageKeys.LANGUAGE)) {
-    initLanguage();
-  } else {
-    const savedLanguage = localStorage.getItem(EStorageKeys.LANGUAGE) as Language;
-    currentLanguage.value = savedLanguage;
-    setI18nLanguage(savedLanguage);
-  }
 
   return {
     currentLanguage,
