@@ -18,7 +18,7 @@
       <!-- <Button size="large" icon="pi pi-question" outlined severity="contrast" /> -->
       <FSelect
         name="language"
-        :value="selectedLanguage"
+        v-model="selectedLanguageModel"
         :options="languageOptions"
         @update:model-value="handleLanguageChange"
         class="max-w-[140px]"
@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import { computed } from 'vue';
+import { ref, watch } from 'vue';
 import ProfileMenu from '@/components/ui/local/ProfileMenu.vue';
 import { useRoute } from 'vue-router';
 import { useLanguage } from '@/composables/useLanguage';
@@ -48,8 +48,11 @@ defineEmits<IEmits>();
 
 const languageOptions = getLanguageOptions();
 
-const selectedLanguage = computed(() => {
-  return languageOptions.find(lang => lang.value === currentLanguage.value);
+const selectedLanguageModel = ref(languageOptions.find(lang => lang.value === currentLanguage.value));
+
+// Watch currentLanguage changes and update model
+watch(currentLanguage, (newLang) => {
+  selectedLanguageModel.value = languageOptions.find(lang => lang.value === newLang);
 });
 
 const handleLanguageChange = async (option: { name: string; value: 'en' | 'tr' }) => {

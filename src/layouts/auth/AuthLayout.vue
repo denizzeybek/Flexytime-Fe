@@ -5,7 +5,7 @@
       <div class="px-4 flex justify-between items-center w-full lg:pt-3 mb-10">
         <FSelect
           name="language"
-          :value="selectedLanguage"
+          v-model="selectedLanguageModel"
           :options="languageOptions"
           @update:model-value="handleLanguageChange"
           class="max-w-[140px] ms-auto"
@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import AuthAside from './_components/Authside.vue';
 import { useLanguage } from '@/composables/useLanguage';
 
@@ -37,8 +37,11 @@ withDefaults(defineProps<IProps>(), {
 
 const languageOptions = getLanguageOptions();
 
-const selectedLanguage = computed(() => {
-  return languageOptions.find(lang => lang.value === currentLanguage.value);
+const selectedLanguageModel = ref(languageOptions.find(lang => lang.value === currentLanguage.value));
+
+// Watch currentLanguage changes and update model
+watch(currentLanguage, (newLang) => {
+  selectedLanguageModel.value = languageOptions.find(lang => lang.value === newLang);
 });
 
 const handleLanguageChange = async (option: { name: string; value: 'en' | 'tr' }) => {
