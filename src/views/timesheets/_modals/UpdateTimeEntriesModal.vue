@@ -1,7 +1,7 @@
 <template>
   <Dialog
     v-model:visible="open"
-    header="Categorize Time Entries"
+    :header="t('pages.timesheets.updateTimeEntriesModal.header')"
     position="bottom"
     class="lg:!w-4/5 !w-full"
     :style="{ width: '50rem' }"
@@ -13,7 +13,7 @@
       <div class="w-full flex items-center gap-4 flex-col lg:flex-row">
         <div class="flex items-center gap-2 w-full">
           <FAvatar>{{ selectedItemCount }}</FAvatar>
-          <FText as="h5">item(s) selected</FText>
+          <FText as="h5">{{ t('pages.timesheets.updateTimeEntriesModal.itemsSelected') }}</FText>
         </div>
         <div class="flex items-center gap-4 w-full justify-between lg:justify-end">
           <Button
@@ -24,7 +24,7 @@
             :outlined="isBillable"
           />
 
-          <Button severity="info" label="ADD" class="w-[150px]" icon="pi pi-plus" type="submit" />
+          <Button severity="info" :label="t('common.buttons.add')" class="w-[150px]" icon="pi pi-plus" type="submit" />
           <div class="flex flex-col gap-2 justify-center items-center">
             <Button
               icon="pi pi-list"
@@ -32,7 +32,7 @@
               unstyled
               type="button"
               class="w-fit text-f-success"
-              v-tooltip.top="'Manual'"
+              :v-tooltip.top="t('pages.timesheets.updateTimeEntriesModal.layoutButton.manual')"
             />
           </div>
         </div>
@@ -40,7 +40,7 @@
       <div class="flex items-center gap-4 w-full">
         <FSelect
           name="project"
-          placeholder="Select project"
+          :placeholder="t('pages.timesheets.updateTimeEntriesModal.project.placeholder')"
           :options="projectOptions"
           :headerAddBtn="true"
           :prime-props="{
@@ -51,7 +51,7 @@
         <FMultiSelect
           name="tags"
           class="w-full lg:w-fit"
-          placeholder="Select tag(s)"
+          :placeholder="t('pages.timesheets.updateTimeEntriesModal.tags.placeholder')"
           :options="tagOptions"
           :headerAddBtn="true"
           :prime-props="{
@@ -66,11 +66,15 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFToast } from '@/composables/useFToast';
 import { useForm } from 'vee-validate';
 import { ref, computed } from 'vue';
 import { array, object, string } from 'yup';
 import { ELayout } from '@/views/timesheets/_etc/layout.enum';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   data?: any;
@@ -187,7 +191,7 @@ const { handleSubmit, resetForm } = useForm({
 const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
-    showSuccessMessage('Time entry entered!');
+    showSuccessMessage(t('pages.timesheets.updateTimeEntriesModal.messages.success'));
 
     resetForm();
   } catch (error: any) {

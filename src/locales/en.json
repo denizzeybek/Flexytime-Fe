@@ -2148,6 +2148,70 @@
     "timesheets": {
       "timeManagement": {
         "datePlaceholder": "Enter date"
+      },
+      "enterTime": {
+        "timeEntry": {
+          "placeholder": "What are you working on?"
+        },
+        "timeInput": {
+          "placeholder": "00:00"
+        },
+        "project": {
+          "placeholder": "Select project"
+        },
+        "tags": {
+          "placeholder": "Select tag(s)"
+        },
+        "layoutButtons": {
+          "timer": "Timer",
+          "manual": "Manual"
+        },
+        "messages": {
+          "success": "Time entry entered!"
+        }
+      },
+      "enteredTimes": {
+        "timeEntry": {
+          "placeholder": "What are you working on?"
+        },
+        "timeInput": {
+          "placeholder": "00:00"
+        },
+        "project": {
+          "placeholder": "Select project"
+        },
+        "tags": {
+          "placeholder": "Select tag(s)"
+        },
+        "layoutButtons": {
+          "timer": "Timer",
+          "manual": "Manual"
+        },
+        "messages": {
+          "success": "Time entry entered!"
+        }
+      },
+      "updateTimeEntriesModal": {
+        "header": "Categorize Time Entries",
+        "itemsSelected": "item(s) selected",
+        "project": {
+          "placeholder": "Select project"
+        },
+        "tags": {
+          "placeholder": "Select tag(s)"
+        },
+        "layoutButton": {
+          "manual": "Manual"
+        },
+        "messages": {
+          "success": "Time entry entered!"
+        }
+      },
+      "person": {
+        "toggleAll": "Toggle All"
+      },
+      "project": {
+        "toggleAll": "Toggle All"
       }
     },
     "promotion": {
@@ -2225,6 +2289,21 @@
     "hrSettings": {
       "search": {
         "placeholder": "Keyword Search"
+      },
+      "annualsTable": {
+        "emptyMessage": "No customers found.",
+        "columns": {
+          "name": "Name",
+          "leaveType": "Leave Type",
+          "days": "Days",
+          "startDate": "StartDate",
+          "endDate": "End Date",
+          "actions": "Actions"
+        },
+        "buttons": {
+          "addAnnual": "Add Annual"
+        },
+        "footerText": "In total there are {count} annuals."
       },
       "employees": {
         "table": {
@@ -2448,6 +2527,23 @@
         "email": "{field} is not valid",
         "matches": "{field} is not valid"
       }
+    },
+    "buttons": {
+      "start": "START",
+      "stop": "STOP",
+      "add": "ADD",
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "save": "Save",
+      "delete": "Delete",
+      "edit": "Edit"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "search": {
+      "placeholder": "Keyword Search"
     },
     "error": {
       "invalid_credentials": "Your email or password is wrong.",

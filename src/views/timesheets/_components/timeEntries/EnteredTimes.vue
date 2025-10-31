@@ -10,7 +10,7 @@
                   :name="`timeEntries[${idx}].timeEntry`"
                   class="flex-1"
                   customClass="unstyled"
-                  placeholder="What are you working on?"
+                  :placeholder="t('pages.timesheets.enteredTimes.timeEntry.placeholder')"
                   list="timeEntryOptions"
                   unstyled
                   :datalistOptions="timeEntryOptions"
@@ -31,7 +31,7 @@
                     <FInput
                       :name="`timeEntries[${idx}].startTime`"
                       customClass="unstyled time-input"
-                      placeholder="00:00"
+                      :placeholder="t('pages.timesheets.enteredTimes.timeInput.placeholder')"
                       :transformValue="transformTimeValue"
                       unstyled
                     />
@@ -39,7 +39,7 @@
                     <FInput
                       :name="`timeEntries[${idx}].endTime`"
                       customClass="unstyled time-input"
-                      placeholder="00:00"
+                      :placeholder="t('pages.timesheets.enteredTimes.timeInput.placeholder')"
                       :transformValue="transformTimeValue"
                       unstyled
                     />
@@ -70,7 +70,7 @@
                     unstyled
                     type="button"
                     class="w-fit text-f-success"
-                    v-tooltip.top="'Timer'"
+                    :v-tooltip.top="t('pages.timesheets.enteredTimes.layoutButtons.timer')"
                   />
                   <Button
                     v-else
@@ -79,7 +79,7 @@
                     unstyled
                     type="button"
                     class="w-fit text-f-success"
-                    v-tooltip.top="'Manual'"
+                    :v-tooltip.top="t('pages.timesheets.enteredTimes.layoutButtons.manual')"
                   />
                 </div>
               </div>
@@ -87,7 +87,7 @@
             <div class="flex items-center gap-4 w-full">
               <FSelect
                 :name="`timeEntries[${idx}].project`"
-                placeholder="Select project"
+                :placeholder="t('pages.timesheets.enteredTimes.project.placeholder')"
                 :options="projectOptions"
                 :headerAddBtn="true"
                 :prime-props="{
@@ -98,7 +98,7 @@
               <FMultiSelect
                 :name="`timeEntries[${idx}].tags`"
                 class="w-full lg:w-fit"
-                placeholder="Select tag(s)"
+                :placeholder="t('pages.timesheets.enteredTimes.tags.placeholder')"
                 :options="tagOptions"
                 :headerAddBtn="true"
                 :prime-props="{
@@ -115,6 +115,8 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFToast } from '@/composables/useFToast';
 import { transformTimeValue } from '@/helpers/utils';
 import { useFieldArray, useForm } from 'vee-validate';
@@ -122,6 +124,8 @@ import { ref, watch, computed } from 'vue';
 import { array, object, string } from 'yup';
 import dayjs from 'dayjs';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 enum ELayout {
   TIMER = 'timer',
@@ -204,7 +208,7 @@ const { fields } = useFieldArray<any>('timeEntries');
 const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
-    showSuccessMessage('Time entry entered!');
+    showSuccessMessage(t('pages.timesheets.enteredTimes.messages.success'));
   } catch (error: any) {
     showErrorMessage(error as any);
   }

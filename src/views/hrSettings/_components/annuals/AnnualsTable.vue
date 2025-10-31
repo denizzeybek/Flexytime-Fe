@@ -14,16 +14,16 @@
           <InputIcon>
             <i class="pi pi-search" />
           </InputIcon>
-          <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+          <InputText v-model="filters['global'].value" :placeholder="t('common.search.placeholder')" />
         </IconField>
       </div>
     </template>
     <template #empty>
       <div class="w-full flex justify-center py-8">
-        <FText>No customers found.</FText>
+        <FText>{{ t('pages.hrSettings.annualsTable.emptyMessage') }}</FText>
       </div>
     </template>
-    <Column sortable field="MemberName" header="Name">
+    <Column sortable field="MemberName" :header="t('pages.hrSettings.annualsTable.columns.name')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <div v-else class="flex items-center gap-3">
@@ -32,19 +32,19 @@
         </div>
       </template>
     </Column>
-    <Column sortable field="LeaveType" header="Leave Type">
+    <Column sortable field="LeaveType" :header="t('pages.hrSettings.annualsTable.columns.leaveType')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.LeaveType }}</FText>
       </template>
     </Column>
-    <Column sortable field="Days" header="Days">
+    <Column sortable field="Days" :header="t('pages.hrSettings.annualsTable.columns.days')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.Days }}</FText>
       </template>
     </Column>
-    <Column sortable field="StartDate" header="StartDate">
+    <Column sortable field="StartDate" :header="t('pages.hrSettings.annualsTable.columns.startDate')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <div v-else class="flex flex-col items-start gap-2">
@@ -53,7 +53,7 @@
         </div>
       </template>
     </Column>
-    <Column sortable field="EndDate" header="End Date">
+    <Column sortable field="EndDate" :header="t('pages.hrSettings.annualsTable.columns.endDate')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <div v-else class="flex flex-col items-start gap-2">
@@ -62,7 +62,7 @@
         </div>
       </template>
     </Column>
-    <Column header="Actions">
+    <Column :header="t('pages.hrSettings.annualsTable.columns.actions')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <OptionsDropdown
@@ -75,14 +75,16 @@
 
     <template v-if="isActiveAnnuals" #footer>
       <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-        <Button icon="pi pi-plus" label="Add Annual" @click="emit('new')" />
-        <FText> In total there are {{ annuals ? annuals.length : 0 }} annuals. </FText>
+        <Button icon="pi pi-plus" :label="t('pages.hrSettings.annualsTable.buttons.addAnnual')" @click="emit('new')" />
+        <FText>{{ t('pages.hrSettings.annualsTable.footerText', { count: annuals ? annuals.length : 0 }) }}</FText>
       </div>
     </template>
   </DataTable>
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { ref, computed } from 'vue';
 import Skeleton from 'primevue/skeleton';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
@@ -92,6 +94,8 @@ import type { IAnnual } from '@/interfaces/hrSettings/annual';
 import { FilterMatchMode } from '@primevue/core/api';
 import { useRoute } from 'vue-router';
 import { ERouteNames } from '@/router/routeNames.enum';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   isLoading: boolean;
@@ -122,12 +126,12 @@ const filters = ref({
 
 const options = ref([
   {
-    label: 'Edit',
+    label: t('common.actions.edit'),
     icon: 'pi pi-pencil',
     value: EOptionsDropdown.Edit,
   },
   {
-    label: 'Delete',
+    label: t('common.actions.delete'),
     icon: 'pi pi-trash',
     value: EOptionsDropdown.Delete,
   },
