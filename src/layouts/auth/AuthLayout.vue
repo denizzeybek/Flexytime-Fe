@@ -41,9 +41,9 @@ const selectedLanguage = computed(() => {
   return languageOptions.find(lang => lang.value === currentLanguage.value);
 });
 
-const handleLanguageChange = (option: { name: string; value: 'en' | 'tr' }) => {
+const handleLanguageChange = async (option: { name: string; value: 'en' | 'tr' }) => {
   if (option && option.value) {
-    changeLanguage(option.value);
+    await changeLanguage(option.value);
   }
 };
 

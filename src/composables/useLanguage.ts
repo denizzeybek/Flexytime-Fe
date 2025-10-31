@@ -1,34 +1,30 @@
-import { ref, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { ref } from 'vue';
 import { EStorageKeys } from '@/constants/storageKeys';
+import { setI18nLanguage, type Language } from '@/plugins/i18n';
 
-type TLanguage = 'en' | 'tr';
-
-const currentLanguage = ref<TLanguage>('en');
+const currentLanguage = ref<Language>('en');
 
 export const useLanguage = () => {
-  const { locale } = useI18n();
-
   // Initialize language from localStorage or default to 'en'
-  const initLanguage = () => {
-    const savedLanguage = localStorage.getItem(EStorageKeys.LANGUAGE) as TLanguage | null;
+  const initLanguage = async () => {
+    const savedLanguage = localStorage.getItem(EStorageKeys.LANGUAGE) as Language | null;
     const language = savedLanguage || 'en';
     currentLanguage.value = language;
-    locale.value = language;
+    await setI18nLanguage(language);
   };
 
   // Change language and save to localStorage
-  const changeLanguage = (language: TLanguage) => {
+  const changeLanguage = async (language: Language) => {
     currentLanguage.value = language;
-    locale.value = language;
     localStorage.setItem(EStorageKeys.LANGUAGE, language);
+    await setI18nLanguage(language);
   };
 
   // Get language options for select component
   const getLanguageOptions = () => {
     return [
-      { name: 'English', value: 'en' as TLanguage },
-      { name: 'Türkçe', value: 'tr' as TLanguage },
+      { name: 'English', value: 'en' as Language },
+      { name: 'Türkçe', value: 'tr' as Language },
     ];
   };
 
@@ -36,9 +32,9 @@ export const useLanguage = () => {
   if (!localStorage.getItem(EStorageKeys.LANGUAGE)) {
     initLanguage();
   } else {
-    const savedLanguage = localStorage.getItem(EStorageKeys.LANGUAGE) as TLanguage;
+    const savedLanguage = localStorage.getItem(EStorageKeys.LANGUAGE) as Language;
     currentLanguage.value = savedLanguage;
-    locale.value = savedLanguage;
+    setI18nLanguage(savedLanguage);
   }
 
   return {
