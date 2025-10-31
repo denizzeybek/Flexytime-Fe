@@ -28,21 +28,25 @@
 import { ref } from 'vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import type { MessageSchema } from '@/plugins/i18n';
 import Card from 'primevue/card';
 
 const route = useRoute();
 const router = useRouter();
+const { t } = useI18n<{ message: MessageSchema }>();
+
 const items = ref([
   {
     route: ERouteNames.CompanyReportsElastic,
-    label: ERouteNames.CompanyReportsElastic,
+    label: t('pages.company.reports.tabs.elastic'),
     method: () => {
       router.push({ name: ERouteNames.CompanyReportsElastic });
     },
   },
   {
     route: ERouteNames.CompanyReportsDefault,
-    label: ERouteNames.CompanyReportsDefault,
+    label: t('pages.company.reports.tabs.default'),
     method: () => {
       router.push({ name: ERouteNames.CompanyReportsDefault });
     },

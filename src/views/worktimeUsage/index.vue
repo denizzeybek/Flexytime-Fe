@@ -161,10 +161,13 @@ import WebHistoryTab from './_components/tabs/WebHistoryTab.vue';
 // Store and Composables
 import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
 import { useWorktimeQuery } from './_composables';
+import { useI18n } from 'vue-i18n';
+import type { MessageSchema } from '@/plugins/i18n';
 import type { TabType, DisplayMode, IWebClock } from './_types';
 
 // Store
 const store = useWorktimeStore();
+const { t } = useI18n<{ message: MessageSchema }>();
 
 // Composables
 const { currentQuery, changeTab } = useWorktimeQuery();
@@ -226,16 +229,16 @@ const availableTabs = computed<Array<{ key: TabType; label: string }>>(() => {
 
   if (currentQuery.value.view === 'individual') {
     tabs.push(
-      { key: 'wellbeing' as TabType, label: 'Wellbeing' },
-      { key: 'distribution' as TabType, label: 'Distribution' },
-      { key: 'webHistory' as TabType, label: 'Web History' },
+      { key: 'wellbeing' as TabType, label: t('pages.worktimeUsage.tabs.wellbeing') },
+      { key: 'distribution' as TabType, label: t('pages.worktimeUsage.tabs.distribution') },
+      { key: 'webHistory' as TabType, label: t('pages.worktimeUsage.tabs.webHistory') },
     );
   } else {
     tabs.push(
-      { key: 'productivity' as TabType, label: 'Productivity' },
-      { key: 'wellbeing' as TabType, label: 'Wellbeing' },
-      { key: 'distribution' as TabType, label: 'Distribution' },
-      { key: 'graph' as TabType, label: 'Graph' },
+      { key: 'productivity' as TabType, label: t('pages.worktimeUsage.tabs.productivity') },
+      { key: 'wellbeing' as TabType, label: t('pages.worktimeUsage.tabs.wellbeing') },
+      { key: 'distribution' as TabType, label: t('pages.worktimeUsage.tabs.distribution') },
+      { key: 'graph' as TabType, label: t('pages.worktimeUsage.tabs.graph') },
     );
   }
 

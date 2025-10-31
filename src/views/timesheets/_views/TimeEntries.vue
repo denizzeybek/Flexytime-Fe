@@ -23,23 +23,26 @@ import { ref, watch } from 'vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useRoute, useRouter } from 'vue-router';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
+import { useI18n } from 'vue-i18n';
+import type { MessageSchema } from '@/plugins/i18n';
 import Card from 'primevue/card';
 
 const route = useRoute();
 const router = useRouter();
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const items = ref([
   {
     route: ERouteNames.TimeEntriesManual,
-    label: ERouteNames.TimeEntriesManual,
+    label: t('pages.timesheets.timeEntries.manual.label'),
     method: () => {
       router.push({ name: ERouteNames.TimeEntriesManual });
     },
   },
   {
     route: ERouteNames.TimeEntriesUnclassified,
-    label: ERouteNames.TimeEntriesUnclassified,
+    label: t('pages.timesheets.timeEntries.unclassified.label'),
     method: () => {
       router.push({ name: ERouteNames.TimeEntriesUnclassified });
     },

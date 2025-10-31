@@ -331,6 +331,13 @@
         "rate": "Rate",
         "inShift": "In Shift"
       },
+      "tabs": {
+        "productivity": "Productivity",
+        "wellbeing": "Wellbeing",
+        "distribution": "Distribution",
+        "graph": "Graph",
+        "webHistory": "Web History"
+      },
       "tables": {
         "teamProductivity": {
           "columns": {
@@ -590,6 +597,14 @@
           "success": "Time entry entered!"
         }
       },
+      "timeEntries": {
+        "manual": {
+          "label": "Manual"
+        },
+        "unclassified": {
+          "label": "Unclassified"
+        }
+      },
       "updateTimeEntriesModal": {
         "header": "Categorize Time Entries",
         "itemsSelected": "item(s) selected",
@@ -731,6 +746,10 @@
         }
       },
       "reports": {
+        "tabs": {
+          "elastic": "Elastic",
+          "default": "Default"
+        },
         "modal": {
           "add": {
             "header": "Add report"
@@ -922,6 +941,12 @@
       }
     },
     "profile": {
+      "tabs": {
+        "basic": "Basic",
+        "license": "License",
+        "communications": "Communications",
+        "password": "Password"
+      },
       "basic": {
         "profileImage": {
           "alt": "Profile image"

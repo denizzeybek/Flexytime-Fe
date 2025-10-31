@@ -22,34 +22,38 @@
 import { ref } from 'vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import type { MessageSchema } from '@/plugins/i18n';
 
 const route = useRoute();
 const router = useRouter();
+const { t } = useI18n<{ message: MessageSchema }>();
+
 const items = ref([
   {
     route: ERouteNames.ProfileBasic,
-    label: ERouteNames.ProfileBasic,
+    label: t('pages.profile.tabs.basic'),
     method: () => {
       router.push({ name: ERouteNames.ProfileBasic });
     },
   },
   {
     route: ERouteNames.ProfileLicense,
-    label: ERouteNames.ProfileLicense,
+    label: t('pages.profile.tabs.license'),
     method: () => {
       router.push({ name: ERouteNames.ProfileLicense });
     },
   },
   // {
   //   route: ERouteNames.ProfileCommunication,
-  //   label: ERouteNames.ProfileCommunication,
+  //   label: t('pages.profile.tabs.communications'),
   //   method: () => {
   //     router.push({ name: ERouteNames.ProfileCommunication });
   //   },
   // },
   {
     route: ERouteNames.ProfilePassword,
-    label: ERouteNames.ProfilePassword,
+    label: t('pages.profile.tabs.password'),
     method: () => {
       router.push({ name: ERouteNames.ProfilePassword });
     },
