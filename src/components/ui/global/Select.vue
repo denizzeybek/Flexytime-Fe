@@ -5,7 +5,7 @@
       v-model="value"
       :options="options"
       optionLabel="name"
-      :placeholder="placeholder"
+      :placeholder="finalPlaceholder"
       :invalid="!!errorMessage"
       @change="onSelect($event)"
       v-on="validationListeners"
@@ -18,7 +18,7 @@
           <div v-if="slotProps?.value?.name">{{ slotProps?.value?.name }}</div>
         </div>
         <span v-else>
-          {{ placeholder }}
+          {{ finalPlaceholder }}
         </span>
       </template>
       <template #option="slotProps">
@@ -58,6 +58,7 @@ import { useI18n } from 'vue-i18n';
 import type { IOption } from '@/common/interfaces/option.interface';
 import Select, { type SelectProps } from 'primevue/select';
 import { useField } from 'vee-validate';
+import { computed } from 'vue';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
@@ -78,9 +79,11 @@ export interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
-  placeholder: 'Select an option',
+  placeholder: '',
   customWidth: 'w-full',
 });
+
+const finalPlaceholder = computed(() => props.placeholder || t('components.select.placeholder'));
 
 interface IEmits {
   (event: 'selected', value: any): void;

@@ -1145,13 +1145,16 @@
   "components": {
     "input": {
       "noOptionFound": "No option found",
-      "addButton": "Add"
+      "addButton": "Add",
+      "placeholder": "Enter text"
     },
     "select": {
-      "addNew": "Add new"
+      "addNew": "Add new",
+      "placeholder": "Select an option"
     },
     "multiSelect": {
-      "addNew": "Add new"
+      "addNew": "Add new",
+      "placeholder": "Select an option"
     },
     "dateTimePicker": {
       "today": "Today",
@@ -1160,7 +1163,11 @@
       "last30Days": "Last 30 days",
       "thisMonth": "This month",
       "previousMonth": "Previous Month",
-      "thisYear": "This year"
+      "thisYear": "This year",
+      "placeholder": "Enter date"
+    },
+    "password": {
+      "placeholder": "Enter password"
     },
     "emailList": {
       "invalidEmail": "Please enter a valid email address.",

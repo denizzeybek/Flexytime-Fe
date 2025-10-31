@@ -3,7 +3,7 @@
     <label :for="id">{{ label }}</label>
     <Password
       v-model="model"
-      :placeholder="placeholder"
+      :placeholder="finalPlaceholder"
       class="w-full"
       :toggleMask="toggleMask"
       :feedback="feedback"
@@ -23,6 +23,8 @@ import type { PasswordProps } from 'primevue/password';
 import { computed } from 'vue';
 import { useField } from 'vee-validate';
 import Password from 'primevue/password';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 
 interface IProps {
   id: string;
@@ -40,12 +42,17 @@ interface IProps {
   feedback?: boolean;
 }
 
+const { t } = useI18n<{ message: MessageSchema }>();
+
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
   validatingAsync: false,
   toggleMask: true,
   feedback: false,
+  placeholder: '',
 });
+
+const finalPlaceholder = computed(() => props.placeholder || t('components.password.placeholder'));
 
 // const passwordVisible = ref(false);
 // const isFocused = ref(false);

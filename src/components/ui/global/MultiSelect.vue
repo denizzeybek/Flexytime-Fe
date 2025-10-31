@@ -5,7 +5,7 @@
       v-model="value"
       :options="options"
       optionLabel="name"
-      :placeholder="placeholder"
+      :placeholder="finalPlaceholder"
       :invalid="!!errorMessage"
       @change="onSelect($event)"
       v-on="validationListeners"
@@ -61,6 +61,7 @@ import type { IOption } from '@/common/interfaces/option.interface';
 import MultiSelect, { type MultiSelectProps } from 'primevue/multiselect';
 import Tag from 'primevue/tag';
 import { useField } from 'vee-validate';
+import { computed } from 'vue';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
@@ -89,10 +90,12 @@ export interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
-  placeholder: 'Select an option',
+  placeholder: '',
   customWidth: 'w-full',
   chip: true,
 });
+
+const finalPlaceholder = computed(() => props.placeholder || t('components.multiSelect.placeholder'));
 
 interface IEmits {
   (event: 'selected', value: any): void;

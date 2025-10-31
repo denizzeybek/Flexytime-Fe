@@ -8,7 +8,7 @@
         :id="id"
         :data-error="!!errorMessage"
         :data-valid="isValid"
-        :placeholder="placeholder"
+        :placeholder="finalPlaceholder"
         :disabled="disabled"
         class="w-full"
         :invalid="!!errorMessage"
@@ -84,12 +84,14 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
-  placeholder: 'Enter date',
+  placeholder: '',
   numberOfMonths: 2,
   manualInput: true,
   format: 'YY/MM/DDDD',
   showPrevNextButtons: false
 });
+
+const finalPlaceholder = computed(() => props.placeholder || t('components.dateTimePicker.placeholder'));
 
 const buttonProps = computed(() => [
   {
