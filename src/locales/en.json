@@ -643,6 +643,22 @@
           "saved": "Saved!"
         }
       },
+      "workingHours": {
+        "form": {
+          "enterTime": "Enter time",
+          "minRestTime": "Minimum rest time",
+          "enterMinRestTime": "Enter minimum rest time",
+          "workingIntervalDuration": "Working interval duration",
+          "enterMinWorkingInterval": "Enter minimum working interval",
+          "timezone": "Timezone",
+          "selectEmployee": "Select timezone",
+          "save": "Save"
+        },
+        "title": "Working Hours",
+        "messages": {
+          "updated": "Working hours updated!"
+        }
+      },
       "reports": {
         "modal": {
           "add": {

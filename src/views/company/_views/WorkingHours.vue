@@ -161,12 +161,12 @@ const submitHandler = handleSubmit(async (values) => {
       shiftRangeTime: convertDateToTime(values.shiftRangeTime),
       unclassified: false,
       isShowContent: true,
-      title: 'Working Hours',
+      title: t('pages.company.workingHours.title'),
       timeZone: values.timeZone.value,
     };
     await workingHoursStore.save(payload);
     console.log('values ', payload);
-    showSuccessMessage('working hours updated!');
+    showSuccessMessage(t('pages.company.workingHours.messages.updated'));
   } catch (error: any) {
     showErrorMessage(error as any);
   }
