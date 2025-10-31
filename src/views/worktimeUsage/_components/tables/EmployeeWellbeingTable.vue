@@ -7,7 +7,7 @@
     :rows-per-page-options="[5, 10, 20, 50]"
     table-style="min-width: 50rem"
   >
-    <Column field="EmployeeName" header="Employee Name" sortable>
+    <Column field="EmployeeName" :header="t('pages.worktimeUsage.tables.employeeWellbeing.columns.employeeName')" sortable>
       <template #body="slotProps">
         <div v-if="isLoading" class="flex items-center gap-2">
           <Skeleton shape="circle" size="2.5rem" />
@@ -36,28 +36,28 @@
       </template>
     </Column>
 
-    <Column field="TeamName" header="Team" sortable>
+    <Column field="TeamName" :header="t('pages.worktimeUsage.tables.employeeWellbeing.columns.team')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <span v-else>{{ slotProps.data.TeamName || '-' }}</span>
       </template>
     </Column>
 
-    <Column field="Start.time" header="Start Time" sortable>
+    <Column field="Start.time" :header="t('pages.worktimeUsage.tables.employeeWellbeing.columns.startTime')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <span v-else>{{ slotProps.data.Start?.time || '-' }}</span>
       </template>
     </Column>
 
-    <Column field="End.time" header="End Time" sortable>
+    <Column field="End.time" :header="t('pages.worktimeUsage.tables.employeeWellbeing.columns.endTime')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <span v-else>{{ slotProps.data.End?.time || '-' }}</span>
       </template>
     </Column>
 
-    <Column field="Wellbeing.Danger" header="Problems">
+    <Column field="Wellbeing.Danger" :header="t('pages.worktimeUsage.tables.employeeWellbeing.columns.problems')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="3rem" />
         <Tag
@@ -69,7 +69,7 @@
       </template>
     </Column>
 
-    <Column field="Wellbeing.Warning" header="Warnings">
+    <Column field="Wellbeing.Warning" :header="t('pages.worktimeUsage.tables.employeeWellbeing.columns.warnings')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="3rem" />
         <Tag
@@ -81,7 +81,7 @@
       </template>
     </Column>
 
-    <Column field="Wellbeing.Success" header="Achievements">
+    <Column field="Wellbeing.Success" :header="t('pages.worktimeUsage.tables.employeeWellbeing.columns.achievements')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="3rem" />
         <Tag
@@ -96,6 +96,8 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Avatar from 'primevue/avatar';
@@ -103,6 +105,8 @@ import Tag from 'primevue/tag';
 import Skeleton from 'primevue/skeleton';
 import { useWorktimeNavigation } from '../../_composables';
 import type { IIndividual } from '../../_types';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   individuals?: IIndividual[];

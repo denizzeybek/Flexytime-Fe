@@ -15,7 +15,8 @@
       "Bash(for file in /Users/denizzeybek/Documents/Flexytime-Fe/src/views/timesheets/_views/*.vue)",
       "Bash(wc:*)",
       "Bash(awk:*)",
-      "Bash(yarn --version)"
+      "Bash(yarn --version)",
+      "Bash(xargs -I {} sh -c 'grep -q \"\"\"\"useI18n\"\"\"\" {} || echo {}')"
     ],
     "deny": [],
     "ask": []

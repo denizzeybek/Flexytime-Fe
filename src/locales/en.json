@@ -281,6 +281,41 @@
             "meeting": "Meeting",
             "unclassified": "Unclassified"
           }
+        },
+        "employeeWellbeing": {
+          "columns": {
+            "employeeName": "Employee Name",
+            "team": "Team",
+            "startTime": "Start Time",
+            "endTime": "End Time",
+            "problems": "Problems",
+            "warnings": "Warnings",
+            "achievements": "Achievements"
+          }
+        },
+        "teamWellbeing": {
+          "columns": {
+            "departmentName": "Department Name",
+            "supervisor": "Supervisor",
+            "startTime": "Start Time",
+            "endTime": "End Time",
+            "problems": "Problems",
+            "warnings": "Warnings",
+            "achievements": "Achievements"
+          }
+        },
+        "employeeProductivity": {
+          "columns": {
+            "employeeName": "Employee Name",
+            "team": "Team",
+            "tags": "Tags",
+            "startTime": "Start Time",
+            "endTime": "End Time",
+            "work": "Work",
+            "leisure": "Leisure",
+            "meeting": "Meeting",
+            "unclassified": "Unclassified"
+          }
         }
       }
     },
