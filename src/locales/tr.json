@@ -125,7 +125,7 @@
     "layouts": {
       "navbar": {
         "companies": "Şirketler",
-        "worktimeUsage": "Çalışma Zamanı Kullanımı",
+        "worktimeUsage": "Çalışma Zamanı",
         "timeEntries": "Zaman Kayıtları",
         "timeManagement": "Zaman Yönetimi",
         "reports": "Raporlar",
@@ -134,7 +134,7 @@
         "annualLeaves": "Yıllık İzinler",
         "holidays": "Tatiller",
         "company": "Şirket",
-        "organizationChart": "Organizasyon Şeması",
+        "organizationChart": "Organizasyon",
         "workingHours": "Çalışma Saatleri",
         "settings": "Ayarlar",
         "classification": "Sınıflandırma",
@@ -179,7 +179,7 @@
             "work": "İş",
             "leisure": "Boş Zaman",
             "meeting": "Toplantı",
-            "unclassified": "Sınıflandırılmamış"
+            "unclassified": "Belirsiz"
           }
         },
         "employeeWellbeing": {
@@ -214,7 +214,7 @@
             "work": "İş",
             "leisure": "Boş Zaman",
             "meeting": "Toplantı",
-            "unclassified": "Sınıflandırılmamış"
+            "unclassified": "Belirsiz"
           }
         }
       }
@@ -315,6 +315,10 @@
       "permissions": {
         "save": {
           "label": "Kaydet"
+        },
+        "options": {
+          "everyone": "Herkes",
+          "admin": "Yönetici"
         },
         "messages": {
           "updated": "İzinler güncellendi!"
@@ -433,7 +437,7 @@
           "label": "Manuel"
         },
         "unclassified": {
-          "label": "Sınıflandırılmamış"
+          "label": "Belirsiz"
         }
       },
       "updateTimeEntriesModal": {
@@ -979,19 +983,19 @@
     "Forgot Password": "Şifremi Unuttum",
     "Register": "Kayıt Ol",
     "Download": "İndir",
-    "Worktime Usage": "Çalışma Zamanı Kullanımı",
+    "Worktime Usage": "Çalışma Zamanı",
     "Classification": "Sınıflandırma",
     "Web Addresses": "Web Adresleri",
     "Applications": "Uygulamalar",
     "Timesheets": "Zaman Çizelgeleri",
     "Time Entries": "Zaman Kayıtları",
     "Time Entries Manual": "Manuel Zaman Kayıtları",
-    "Unclassified Time Entries": "Sınıflandırılmamış Zaman Kayıtları",
+    "Unclassified Time Entries": "Belirsiz Zaman Kayıtları",
     "Time Management": "Zaman Yönetimi",
     "Person": "Kişi",
     "Project": "Proje",
     "Company": "Şirket",
-    "Organization Chart": "Organizasyon Şeması",
+    "Organization Chart": "Organizasyon",
     "Working Hours": "Çalışma Saatleri",
     "Reports": "Raporlar",
     "Elastic Reports": "Elastik Raporlar",
@@ -1054,7 +1058,7 @@
         "work": "İş",
         "meeting": "Toplantı",
         "leisure": "Boş Zaman",
-        "unclassified": "Sınıflandırılmamış",
+        "unclassified": "Belirsiz",
         "startTime": "Başlangıç Saati",
         "endTime": "Bitiş Saati"
       }
@@ -1110,7 +1114,7 @@
         "markAsWork": "İş Olarak İşaretle",
         "markAsMeeting": "Toplantı Olarak İşaretle",
         "markAsLeisure": "Boş Zaman Olarak İşaretle",
-        "markAsUnclassified": "Sınıflandırılmamış Olarak İşaretle"
+        "markAsUnclassified": "Belirsiz Olarak İşaretle"
       }
     }
   }

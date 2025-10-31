@@ -45,10 +45,10 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const permissionsStore = useSettingsPermissionsStore();
 
-const options = [
-  { label: 'Everyone', value: false },
-  { label: 'Admin', value: true },
-];
+const options = computed(() => [
+  { label: t('pages.settings.permissions.options.everyone'), value: false },
+  { label: t('pages.settings.permissions.options.admin'), value: true },
+]);
 const isLoading = ref(false);
 
 const validationSchema = object({
@@ -104,7 +104,9 @@ const getInitialFormData = computed(() => {
     Name: permission.Name,
     Enabled: permission.Enabled,
     VisibleOnlyByAdmin: {
-      label: permission.VisibleOnlyByAdmin ? 'Admin' : 'Everyone',
+      label: permission.VisibleOnlyByAdmin
+        ? t('pages.settings.permissions.options.admin')
+        : t('pages.settings.permissions.options.everyone'),
       value: permission.VisibleOnlyByAdmin,
     },
     Id: permission.Id,
