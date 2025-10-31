@@ -1,5 +1,5 @@
 <template>
-  <Card class="summary-badge h-fit shadow-md hover:shadow-lg transition-shadow rounded-xl overflow-hidden border" :class="bgLightClass">
+  <Card class="summary-badge h-full shadow-md hover:shadow-lg transition-shadow rounded-xl overflow-hidden border" :class="bgLightClass">
     <template #content>
       <div class="flex items-center justify-center gap-3">
         <div
@@ -8,7 +8,7 @@
         >
           <i :class="icon" class="text-white text-base"></i>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col items-center justify-center">
           <span class="text-xs text-gray-500 font-medium">{{ title }}</span>
           <span :class="textClass" class="font-bold text-base">{{ value }}</span>
         </div>
