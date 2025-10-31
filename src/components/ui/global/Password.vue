@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-2">
     <label :for="id">{{ label }}</label>
     <Password
-      v-model="value as unknown as string"
+      v-model="model"
       :placeholder="placeholder"
       class="w-full"
       :toggleMask="toggleMask"
@@ -62,6 +62,10 @@ const {
 });
 const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
 
+const model = computed<string>({
+  get: () => value.value as unknown as string,
+  set: (v) => (value.value = v),
+});
 // const listeners = {
 //   ...props.customEvents,
 //   blur: (e: InputEvent) => {

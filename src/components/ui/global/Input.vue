@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-2 relative" v-click-outside="handleOutsideClick">
     <label :for="id">{{ label }}</label>
     <InputText
-      v-model="value as unknown as string"
+      v-model="model"
       :id="id"
       :data-error="!!errorMessage"
       :data-valid="isValid"
@@ -89,6 +89,11 @@ const {
   syncVModel: true,
 });
 const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
+
+const model = computed<string>({
+  get: () => value.value as unknown as string,
+  set: v => (value.value = v)
+});
 
 const filterOptions = () => {
   const filter = (value.value as string)?.toLowerCase();

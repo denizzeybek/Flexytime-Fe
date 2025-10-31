@@ -4,12 +4,12 @@
     <div class="flex items-center gap-1">
       <Button v-if="showPrevNextButtons" @click="handleWeek(EWeek.PREV)" type="button" icon="pi pi-angle-left" />
       <DatePicker
-        v-model="value as any"
+        v-model="value"
         :id="id"
         :data-error="!!errorMessage"
         :data-valid="isValid"
         :placeholder="placeholder"
-        :disabled="disabled as boolean"
+        :disabled="disabled"
         class="w-full"
         :invalid="!!errorMessage"
         :class="[customClass]"
@@ -125,7 +125,7 @@ const handleChangeEvent = () => {
 const {
   errorMessage: vError,
   value,
-} = useField(() => props.name, undefined, {
+} = useField<Date | Date[] | (Date | null)[] | null>(() => props.name, undefined, {
   validateOnValueUpdate: false,
   syncVModel: true,
 });
@@ -174,8 +174,11 @@ const handleChange = (btnType: EHelperButton) => {
 };
 
 const handleWeek = (week: EWeek) => {
-  const startDate = dayjs((value.value as string[])[0]);
-  const endDate = dayjs((value.value as string[])[1]);
+  if (!value.value || !Array.isArray(value.value)) return;
+
+  const startDate = dayjs(value.value[0]);
+  const endDate = dayjs(value.value[1]);
+
   if (week === EWeek.PREV) {
     value.value = [startDate.subtract(1, 'week').toDate(), endDate.subtract(1, 'week').toDate()];
   } else {
