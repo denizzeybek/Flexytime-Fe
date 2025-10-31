@@ -22,9 +22,12 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyReportsStore } from '@/stores/company/reports';
 import type { IReportDataset } from '@/interfaces/company/report';
 
+const { t } = useI18n<{ message: MessageSchema }>();
 const reportsStore = useCompanyReportsStore();
 
 const chartData = computed(() => {
@@ -82,15 +85,15 @@ const summary = computed(() => {
   const summaryData = reportsStore?.summary;
   return [
     {
-      label: 'Total',
+      label: t('components.reports.summary.total'),
       value: summaryData?.Total,
     },
     {
-      label: 'Billable',
+      label: t('components.reports.summary.billable'),
       value: summaryData?.Billable,
     },
     {
-      label: 'Unbillable',
+      label: t('components.reports.summary.unbillable'),
       value: summaryData?.Unbillable,
     },
   ];

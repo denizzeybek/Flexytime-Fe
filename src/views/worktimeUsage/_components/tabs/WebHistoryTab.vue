@@ -40,7 +40,7 @@
                 <span class="font-semibold text-lg">{{ group.Name }}</span>
               </div>
               <div class="flex items-center gap-2">
-                <span class="font-medium">Total Time:</span>
+                <span class="font-medium">{{ $t('components.webHistory.totalTime') }}:</span>
                 <span class="font-semibold">{{ group.Spent }}</span>
               </div>
             </div>
@@ -57,16 +57,20 @@
     </template>
     <div v-else-if="!isLoading" class="flex flex-col items-center gap-8 py-8">
       <img src="@/assets/images/noData.svg" alt="No Data" />
-      <span class="text-gray-500">No web history data available.</span>
+      <span class="text-gray-500">{{ $t('components.webHistory.noDataAvailable') }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+import { type MessageSchema } from '@/plugins/i18n';
 import Card from 'primevue/card';
 import Skeleton from 'primevue/skeleton';
 import WebHistoryTable from '../tables/WebHistoryTable.vue';
 import type { IWebClocks, IWebClock } from '../../_types';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   webClocks?: IWebClocks[];

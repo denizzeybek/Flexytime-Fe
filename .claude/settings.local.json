@@ -1,22 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(find src/views/worktimeUsage/_components/tabs -name \"*.vue\" -type f -exec sed -i '' 's/\\(const [a-zA-Z_][a-zA-Z0-9_]* = \\)(/\\1(/; s/): \\([a-zA-Z<>|{}[\\],:? ]*\\) {/) => {/g' {} ;)",
-      "Bash(yarn lint:*)",
-      "Bash(yarn type-check:*)",
-      "Bash(find:*)",
-      "Bash(python3:*)",
-      "Bash(node -e:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(cat:*)",
-      "Bash(for file in /Users/denizzeybek/Documents/Flexytime-Fe/src/views/hrSettings/_components/holidays/*.vue)",
-      "Bash(done)",
-      "Bash(for file in /Users/denizzeybek/Documents/Flexytime-Fe/src/views/timesheets/_views/*.vue)",
-      "Bash(wc:*)",
-      "Bash(awk:*)",
-      "Bash(yarn --version)",
-      "Bash(xargs -I {} sh -c 'grep -q \"\"\"\"useI18n\"\"\"\" {} || echo {}')"
+      "Bash(while read file)",
+      "Bash(do grep -E '>[A-Za-z][a-z]+ ' $file)",
+      "Bash(echo:*)",
+      "Bash(break done)"
     ],
     "deny": [],
     "ask": []
