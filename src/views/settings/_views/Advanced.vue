@@ -20,7 +20,7 @@
                   v-else
                   class="grow w-[60px]"
                   :name="`advanceds[${idx}].Value`"
-                  placeholder="Enter Time"
+                  :placeholder="t('pages.settings.advanced.time.placeholder')"
                   :prime-props="{
                     timeOnly: true,
                     hourFormat: '24',
@@ -42,6 +42,8 @@
 
 <script setup lang="ts">
 import { string, object, array, mixed } from 'yup';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFToast } from '@/composables/useFToast';
 import { computed, onMounted, ref } from 'vue';
 import { useFieldArray, useForm } from 'vee-validate';
@@ -49,6 +51,8 @@ import { useSettingsAdvancedsStore } from '@/stores/settings/advanced';
 import type { IAdvanced } from '@/interfaces/settings/advanced';
 import { convertTimeToDate, convertDateToTime } from '@/helpers/utils';
 import Skeleton from 'primevue/skeleton';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const advancedsStore = useSettingsAdvancedsStore();

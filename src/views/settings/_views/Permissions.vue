@@ -21,7 +21,7 @@
             </div>
           </template>
           <div class="flex w-50 justify-center">
-            <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" label="Save" />
+            <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('pages.settings.permissions.save.label')" />
           </div>
         </template>
       </form>
@@ -31,12 +31,16 @@
 
 <script setup lang="ts">
 import { boolean, string, object, array } from 'yup';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFToast } from '@/composables/useFToast';
 import { computed, onMounted, ref } from 'vue';
 import { useFieldArray, useForm } from 'vee-validate';
 import { useSettingsPermissionsStore } from '@/stores/settings/permissions';
 import type { IPermission } from '@/interfaces/settings/permission';
 import Skeleton from 'primevue/skeleton';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const permissionsStore = useSettingsPermissionsStore();

@@ -2,7 +2,7 @@
   <Dialog
     v-model:visible="open"
     modal
-    header="Edit Employee"
+    :header="t('pages.hrSettings.employees.modal.header')"
     class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
@@ -10,9 +10,9 @@
       <Tabs v-model:value="activeTab">
         <div class="!flex !justify-center">
           <TabList>
-            <Tab :value="0">Employee</Tab>
-            <Tab :value="1">Team Manager</Tab>
-            <Tab :value="2">System Admin</Tab>
+            <Tab :value="0">{{ t('pages.hrSettings.employees.modal.tab.employee') }}</Tab>
+            <Tab :value="1">{{ t('pages.hrSettings.employees.modal.tab.teamManager') }}</Tab>
+            <Tab :value="2">{{ t('pages.hrSettings.employees.modal.tab.systemAdmin') }}</Tab>
           </TabList>
         </div>
         <TabPanels>
@@ -47,9 +47,9 @@
                 />
               </div> -->
                 <div class="flex lg:flex-col flex-1 gap-4">
-                  <FInput class="grow" id="memberName" label="Full Name" name="memberName" />
-                  <FInput class="grow" type="email" id="email" label="Email" name="email" />
-                  <FCheckbox v-if="isEditing" name="enabled" labelLeft label="Enabled" />
+                  <FInput class="grow" id="memberName" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
+                  <FInput class="grow" type="email" id="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
+                  <FCheckbox v-if="isEditing" name="enabled" labelLeft :label="t('pages.hrSettings.employees.modal.enabled.label')" />
                 </div>
               </div>
               <div class="flex gap-4 flex-1">
@@ -57,22 +57,22 @@
                   id="title"
                   class="grow"
                   name="title"
-                  label="Title"
-                  placeholder="Title"
+                  :label="t('pages.hrSettings.employees.modal.title.label')"
+                  :placeholder="t('pages.hrSettings.employees.modal.title.placeholder')"
                   :options="titleOptions"
                 />
                 <FSelect
                   id="team"
                   class="grow"
                   name="team"
-                  label="Team"
-                  placeholder="Team"
+                  :label="t('pages.hrSettings.employees.modal.team.label')"
+                  :placeholder="t('pages.hrSettings.employees.modal.team.placeholder')"
                   :options="teamOptions"
                 />
                 <FInput
                   class="grow"
                   id="operatingUser"
-                  label="Operating User"
+                  :label="t('pages.hrSettings.employees.modal.operatingUser.label')"
                   name="operatingUser"
                 />
               </div>
@@ -80,19 +80,19 @@
                 <FMultiSelect
                   name="tags"
                   class="grow"
-                  placeholder="Select tag(s)"
-                  label="Tag"
+                  :placeholder="t('pages.hrSettings.employees.modal.tags.placeholder')"
+                  :label="t('pages.hrSettings.employees.modal.tags.label')"
                   :options="tagOptions"
                   :headerAddBtn="false"
                   :prime-props="{
                     maxSelectedLabels: 3,
                   }"
                 />
-                <FInput class="grow" id="salary" label="Salary" name="salary" />
+                <FInput class="grow" id="salary" :label="t('pages.hrSettings.employees.modal.salary.label')" name="salary" />
               </div>
               <Divider />
               <div class="flex gap-4 flex-1">
-                <FPassword class="grow" id="password" label="Password" name="password" />
+                <FPassword class="grow" id="password" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
                 <!-- <FPassword
                 class="grow"
                 id="repeatPassword"
@@ -232,9 +232,13 @@ import { computed, onMounted, ref } from 'vue';
 import { useForm } from 'vee-validate';
 import { boolean, string, object, array, number } from 'yup';
 import { toTypedSchema } from '@vee-validate/yup';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFToast } from '@/composables/useFToast';
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   data?: IEmployeeMember;

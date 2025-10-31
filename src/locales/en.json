@@ -2261,6 +2261,46 @@
           "save": "Save"
         }
       },
+      "employees": {
+        "modal": {
+          "header": "Edit Employee",
+          "tab": {
+            "employee": "Employee",
+            "teamManager": "Team Manager",
+            "systemAdmin": "System Admin"
+          },
+          "memberName": {
+            "label": "Full Name"
+          },
+          "email": {
+            "label": "Email"
+          },
+          "enabled": {
+            "label": "Enabled"
+          },
+          "title": {
+            "label": "Title",
+            "placeholder": "Title"
+          },
+          "team": {
+            "label": "Team",
+            "placeholder": "Team"
+          },
+          "operatingUser": {
+            "label": "Operating User"
+          },
+          "tags": {
+            "label": "Tag",
+            "placeholder": "Select tag(s)"
+          },
+          "salary": {
+            "label": "Salary"
+          },
+          "password": {
+            "label": "Password"
+          }
+        }
+      },
       "annuals": {
         "table": {
           "columns": {
@@ -2282,6 +2322,115 @@
           "startDateLabel": "Start Date",
           "endDateLabel": "End Date",
           "save": "Save"
+        }
+      }
+    },
+    "profile": {
+      "basic": {
+        "profileImage": {
+          "alt": "Profile image"
+        },
+        "fullName": {
+          "label": "Full Name"
+        },
+        "email": {
+          "label": "Email"
+        },
+        "role": {
+          "label": "Role"
+        },
+        "language": {
+          "label": "Language",
+          "placeholder": "Select language"
+        },
+        "timezone": {
+          "label": "Timezone",
+          "placeholder": "Select timezone"
+        },
+        "save": {
+          "label": "Save"
+        }
+      },
+      "password": {
+        "password": {
+          "label": "Password"
+        },
+        "repeatPassword": {
+          "label": "Repeat Password"
+        },
+        "save": {
+          "label": "Save"
+        }
+      },
+      "license": {
+        "companyName": {
+          "label": "Company Name"
+        },
+        "totalUser": {
+          "label": "Total User"
+        },
+        "licensedUser": {
+          "label": "Licensed User"
+        },
+        "licensePurchased": {
+          "label": "License Purchased"
+        },
+        "licenseRemained": {
+          "label": "License Remained"
+        },
+        "expireDate": {
+          "label": "Expire Date"
+        },
+        "daysLeft": {
+          "label": "Days Left"
+        },
+        "buyLicense": {
+          "label": "Buy License"
+        }
+      }
+    },
+    "settings": {
+      "advanced": {
+        "time": {
+          "placeholder": "Enter Time"
+        }
+      },
+      "permissions": {
+        "save": {
+          "label": "Save"
+        }
+      }
+    },
+    "company": {
+      "elasticForm": {
+        "teams": {
+          "placeholder": "Select team(s)"
+        },
+        "employees": {
+          "placeholder": "Select employee(s)"
+        },
+        "projects": {
+          "placeholder": "Select project(s)"
+        },
+        "billable": {
+          "placeholder": "Select billable"
+        },
+        "date": {
+          "placeholder": "Enter date"
+        },
+        "clear": {
+          "label": "Clear"
+        }
+      },
+      "organizationItem": {
+        "title": {
+          "placeholder": "Enter Name"
+        },
+        "memberName": {
+          "placeholder": "Enter MemberName"
+        },
+        "titleName": {
+          "placeholder": "Enter TitleName"
         }
       }
     }

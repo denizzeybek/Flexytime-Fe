@@ -15,7 +15,7 @@
           <img
             v-if="src"
             :src="src"
-            alt="Image"
+            :alt="t('pages.profile.basic.profileImage.alt')"
             class="shadow-md rounded-xl w-full sm:w-64"
             style="filter: grayscale(100%)"
           />
@@ -36,17 +36,17 @@
         />
       </div>
       <div class="flex lg:flex-col flex-1 gap-4">
-        <FInput class="grow" id="fullName" label="Full Name" name="fullName" />
-        <FInput class="grow" type="email" id="email" label="Email" name="email" />
+        <FInput class="grow" id="fullName" :label="t('pages.profile.basic.fullName.label')" name="fullName" />
+        <FInput class="grow" type="email" id="email" :label="t('pages.profile.basic.email.label')" name="email" />
       </div>
     </div>
     <div class="flex gap-4 flex-1">
-      <FInput class="grow" id="role" label="Role" name="role" />
+      <FInput class="grow" id="role" :label="t('pages.profile.basic.role.label')" name="role" />
       <FSelect
         class="grow"
-        label="Language"
+        :label="t('pages.profile.basic.language.label')"
         name="language"
-        placeholder="Select language"
+        :placeholder="t('pages.profile.basic.language.placeholder')"
         :options="languagesList"
       />
     </div>
@@ -54,9 +54,9 @@
     <div class="grow">
       <FSelect
         class="grow"
-        label="Timezone"
+        :label="t('pages.profile.basic.timezone.label')"
         name="timeZone"
-        placeholder="Select timezone"
+        :placeholder="t('pages.profile.basic.timezone.placeholder')"
         :options="timeZoneList"
       />
     </div>
@@ -64,7 +64,7 @@
     <div class="flex justify-center gap-2">
       <Button
         type="submit"
-        label="Save"
+        :label="t('pages.profile.basic.save.label')"
         :disabled="isSubmitting"
         @click.stop="submitHandler"
         :loading="isSubmitting"
@@ -77,8 +77,12 @@
 import { computed, onMounted, ref } from 'vue';
 import { useForm } from 'vee-validate';
 import { string, object } from 'yup';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useProfileStore } from '@/stores/profile/profile';
 import { useFToast } from '@/composables/useFToast';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const profileStore = useProfileStore();
