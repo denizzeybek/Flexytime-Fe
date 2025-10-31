@@ -316,6 +316,10 @@
         "save": {
           "label": "Save"
         },
+        "options": {
+          "everyone": "Everyone",
+          "admin": "Admin"
+        },
         "messages": {
           "updated": "Permissions updated!"
         }
