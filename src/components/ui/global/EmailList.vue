@@ -38,11 +38,15 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { computed, ref, watch } from 'vue';
 import { useField } from 'vee-validate';
 import { string } from 'yup';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   id: string;
@@ -68,7 +72,7 @@ const isTypeEmail = computed(() => props.type === 'email');
 
 const inputValidationType = computed(() => {
   return isTypeEmail.value
-    ? string().email('Please enter a valid email address.').required()
+    ? string().email(t('components.emailList.invalidEmail')).required()
     : string().required();
 });
 
@@ -87,19 +91,21 @@ const errorMessage = computed(() => props.errorMessage ?? vError.value);
 const addToList = () => {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailPattern.test(itemInput.value) && isTypeEmail.value) {
-    localErrorMessage.value = 'Please enter a valid email address.';
+    localErrorMessage.value = t('components.emailList.invalidEmail');
     return;
   } else if (
     itemInput.value &&
     props.regexPattern &&
     !props.regexPattern.test(itemInput.value)
   ) {
-    localErrorMessage.value = `Please enter a valid ${
-      props.label ?? props.name
-    }`;
+    localErrorMessage.value = t('components.emailList.invalidFormat', {
+      field: props.label ?? props.name,
+    });
     return;
   } else if (!itemInput.value && !isTypeEmail.value) {
-    localErrorMessage.value = `Please enter ${props.label ?? props.name}`;
+    localErrorMessage.value = t('components.emailList.required', {
+      field: props.label ?? props.name,
+    });
     return;
   }
   resetField();

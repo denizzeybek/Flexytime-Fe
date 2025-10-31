@@ -32,8 +32,8 @@
         {{ option }}
       </li>
       <div v-if="!filteredOptions.length" class="px-3 py-2 gap-4 w-full flex flex-col">
-        <FText innerText="No option found" />
-        <Button @click="addNewOption" label="Add" icon="pi pi-plus" class="flex-1" outlined />
+        <FText :innerText="t('components.input.noOptionFound')" />
+        <Button @click="addNewOption" :label="t('components.input.addButton')" icon="pi pi-plus" class="flex-1" outlined />
       </div>
     </ul>
     <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
@@ -41,9 +41,13 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import type { InputTextProps } from 'primevue/inputtext';
 import { ref, computed, type InputHTMLAttributes } from 'vue';
 import { useField } from 'vee-validate';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   id: string;

@@ -35,7 +35,7 @@
           <Button
             class="!w-full"
             outlined
-            label="Add new"
+            :label="t('components.select.addNew')"
             icon="pi pi-plus"
             @click.stop="emit('addList')"
             type="button"
@@ -53,9 +53,13 @@
 </template>
 
 <script lang="ts" setup>
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import type { IOption } from '@/common/interfaces/option.interface';
 import Select, { type SelectProps } from 'primevue/select';
 import { useField } from 'vee-validate';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 export interface IProps {
   name: string;

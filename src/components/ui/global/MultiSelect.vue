@@ -37,7 +37,7 @@
           <Button
             class="!w-full"
             outlined
-            label="Add new"
+            :label="t('components.multiSelect.addNew')"
             icon="pi pi-plus"
             @click.stop="emit('addList')"
             type="button"
@@ -55,10 +55,14 @@
 </template>
 
 <script lang="ts" setup>
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import type { IOption } from '@/common/interfaces/option.interface';
 import MultiSelect, { type MultiSelectProps } from 'primevue/multiselect';
 import Tag from 'primevue/tag';
 import { useField } from 'vee-validate';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface ChipSlotProps {
   value: any;

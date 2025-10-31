@@ -34,10 +34,14 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import dayjs from 'dayjs';
 import type { DatePickerProps } from 'primevue/datepicker';
 import { useField } from 'vee-validate';
 import { computed } from 'vue';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IEmits {
   (event: 'change', value: any): void;
@@ -87,36 +91,36 @@ const props = withDefaults(defineProps<IProps>(), {
   showPrevNextButtons: false
 });
 
-const buttonProps = [
+const buttonProps = computed(() => [
   {
     key: EHelperButton.TODAY,
-    label: 'Today',
+    label: t('components.dateTimePicker.today'),
   },
   {
     key: EHelperButton.YESTERDAY,
-    label: 'Yesterday',
+    label: t('components.dateTimePicker.yesterday'),
   },
   {
     key: EHelperButton.LAST_7_DAYS,
-    label: 'Last 7 days',
+    label: t('components.dateTimePicker.last7Days'),
   },
   {
     key: EHelperButton.LAST_30_DAYS,
-    label: 'Last 30 days',
+    label: t('components.dateTimePicker.last30Days'),
   },
   {
     key: EHelperButton.THIS_MONTH,
-    label: 'This month',
+    label: t('components.dateTimePicker.thisMonth'),
   },
   {
     key: EHelperButton.PREVIOUS_MONTH,
-    label: 'Previous Month',
+    label: t('components.dateTimePicker.previousMonth'),
   },
   {
     key: EHelperButton.THIS_YEAR,
-    label: 'This year',
+    label: t('components.dateTimePicker.thisYear'),
   }
-]
+])
 
 const handleChangeEvent = () => {
   emit('change', value.value);  // Emit value on change

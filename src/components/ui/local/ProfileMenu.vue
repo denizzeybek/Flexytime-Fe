@@ -41,7 +41,7 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const { logout } = useLogout();
 
 const menu = ref();
-const userTitle = ref('Tech Lead');
+const userTitle = ref(t('components.profileMenu.defaultTitle'));
 
 const toggle = (event) => {
   menu.value.toggle(event);

@@ -2485,5 +2485,34 @@
       "profile": "Profile",
       "logout": "Logout"
     }
+  },
+  "components": {
+    "input": {
+      "noOptionFound": "No option found",
+      "addButton": "Add"
+    },
+    "select": {
+      "addNew": "Add new"
+    },
+    "multiSelect": {
+      "addNew": "Add new"
+    },
+    "dateTimePicker": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "last7Days": "Last 7 days",
+      "last30Days": "Last 30 days",
+      "thisMonth": "This month",
+      "previousMonth": "Previous Month",
+      "thisYear": "This year"
+    },
+    "emailList": {
+      "invalidEmail": "Please enter a valid email address.",
+      "invalidFormat": "Please enter a valid {field}",
+      "required": "Please enter {field}"
+    },
+    "profileMenu": {
+      "defaultTitle": "Tech Lead"
+    }
   }
 }
