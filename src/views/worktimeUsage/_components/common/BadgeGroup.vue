@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-2 lg:grid-cols-6 gap-2">
+  <div class="grid grid-cols-2 lg:grid-cols-6 gap-3">
     <template v-for="(item, idx) in badgeList" :key="idx">
       <SummaryBadge
         :severity="item.severity"

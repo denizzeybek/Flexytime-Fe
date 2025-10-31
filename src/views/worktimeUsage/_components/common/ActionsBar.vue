@@ -1,11 +1,10 @@
 <template>
-  <div class="flex gap-2 items-center w-full lg:w-fit">
+  <div class="flex gap-2.5 items-center w-full lg:w-fit">
     <Button
       v-tooltip.top="'Download Report'"
       icon="pi pi-arrow-circle-down"
       severity="secondary"
       type="button"
-      outlined
       @click="handleDownload"
     />
     <DatePicker
@@ -22,6 +21,7 @@
       :options="perspectiveOptions"
       option-label="name"
       placeholder="Select perspective"
+      class="min-w-40"
       @change="handlePerspectiveChange"
     >
       <template #value="slotProps">

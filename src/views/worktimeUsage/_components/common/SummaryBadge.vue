@@ -1,16 +1,16 @@
 <template>
-  <Card class="summary-badge h-fit" :class="borderClass">
+  <Card class="summary-badge h-fit shadow-md hover:shadow-lg transition-shadow rounded-xl overflow-hidden border" :class="bgLightClass">
     <template #content>
-      <div class="flex items-center justify-center gap-2">
+      <div class="flex items-center justify-center gap-3">
         <div
-          class="flex items-center justify-center w-8 h-8 rounded-full"
+          class="flex items-center justify-center w-10 h-10 rounded-full shadow-sm"
           :class="bgClass"
         >
-          <i :class="icon" class="text-white text-sm"></i>
+          <i :class="icon" class="text-white text-base"></i>
         </div>
         <div class="flex flex-col">
-          <span class="text-xs text-gray-600">{{ title }}</span>
-          <span :class="textClass" class="font-semibold">{{ value }}</span>
+          <span class="text-xs text-gray-500 font-medium">{{ title }}</span>
+          <span :class="textClass" class="font-bold text-base">{{ value }}</span>
         </div>
       </div>
     </template>
@@ -45,13 +45,14 @@ const mappedSeverity = computed(() => severityMap[props.severity] || 'default');
 const borderClass = computed(() => `card-border-${mappedSeverity.value}`);
 const textClass = computed(() => `card-text-${mappedSeverity.value}`);
 const bgClass = computed(() => `bg-${mappedSeverity.value}`);
+const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);
 </script>
 
 <style>
 @reference "@/custom-tailwind.css";
 
 .summary-badge :deep(.p-card-body) {
-  @apply !px-2 !py-2;
+  @apply !px-3 !py-3;
 }
 
 .summary-badge :deep(.p-card-content) {
@@ -113,5 +114,24 @@ const bgClass = computed(() => `bg-${mappedSeverity.value}`);
 }
 .bg-primary {
   @apply bg-purple-500;
+}
+
+.bg-light-success {
+  @apply bg-green-50 border-green-200;
+}
+.bg-light-danger {
+  @apply bg-red-50 border-red-200;
+}
+.bg-light-warn {
+  @apply bg-yellow-50 border-yellow-200;
+}
+.bg-light-secondary {
+  @apply bg-gray-50 border-gray-200;
+}
+.bg-light-info {
+  @apply bg-blue-50 border-blue-200;
+}
+.bg-light-primary {
+  @apply bg-purple-50 border-purple-200;
 }
 </style>

@@ -1,22 +1,23 @@
 <template>
-  <div class="worktime-usage-v2 p-4">
+  <div class="worktime-usage-v2">
     <!-- Error Message -->
     <Message
       v-if="errorMessage"
       :message="errorMessage"
       severity="error"
       @close="errorMessage = null"
+      class="mb-6"
     />
 
     <!-- Main Layout Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-6">
       <!-- Left Column: User Badge -->
-      <div class="lg:col-span-2">
+      <div class="lg:col-span-3">
         <UserBadge :card="currentCard" :is-loading="isLoading" />
       </div>
 
       <!-- Middle Column: Summary -->
-      <div class="lg:col-span-10">
+      <div class="lg:col-span-9">
         <Summary
           :breadcrumb-items="currentBreadcrumb"
           :summary-items="currentSummary"
@@ -27,20 +28,20 @@
     </div>
 
     <!-- Content Area -->
-    <div class="mt-4">
-      <Card>
+    <div>
+      <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
         <template #content>
           <Tabs v-model:value="activeTabIndex">
             <!-- Tab List with Buttons -->
-            <div class="flex items-center justify-between ">
-              <TabList>
-                <Tab v-for="tab in availableTabs" :key="tab.key" :value="tab.key">
+            <div class="flex items-center justify-between mb-6 pb-5 border-b border-gray-100">
+              <TabList class="flex-1">
+                <Tab v-for="tab in availableTabs" :key="tab.key" :value="tab.key" class="font-medium">
                   {{ tab.label }}
                 </Tab>
               </TabList>
 
               <!-- Right Side Buttons -->
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2.5">
                 <!-- Graph Toggle Button (shown when not in graph tab) -->
                 <Button
                   v-if="currentQuery.tab !== 'graph' && (currentQuery.view !== 'individual' || currentQuery.tab === 'distribution')"
@@ -48,21 +49,27 @@
                   :icon="showGraphBelow ? 'pi pi-eye-slash' : 'pi pi-chart-line'"
                   :severity="showGraphBelow ? 'secondary' : 'primary'"
                   size="small"
+                  raised
+                  class="shadow-sm"
                   @click="showGraphBelow = !showGraphBelow"
                 />
 
                 <!-- Team/Employees Toggle (only for team view) -->
-                <div v-if="currentQuery.view === 'team'" class="flex gap-2">
+                <div v-if="currentQuery.view === 'team'" class="flex gap-1 p-1 bg-gray-100 rounded-xl">
                   <Button
                     label="Team"
                     :severity="displayMode === 'team' ? 'primary' : 'secondary'"
+                    :text="displayMode !== 'team'"
                     size="small"
+                    class="rounded-lg"
                     @click="displayMode = 'team'"
                   />
                   <Button
                     label="Employees"
                     :severity="displayMode === 'employees' ? 'primary' : 'secondary'"
+                    :text="displayMode !== 'employees'"
                     size="small"
+                    class="rounded-lg"
                     @click="displayMode = 'employees'"
                   />
                 </div>
@@ -70,12 +77,12 @@
             </div>
 
             <!-- Show Graph View (when button is active) -->
-            <div v-if="showGraphBelow && currentQuery.tab !== 'graph'">
+            <div v-if="showGraphBelow && currentQuery.tab !== 'graph'" class="mt-1">
               <GraphTab :graphs="currentGraphs" :is-loading="isLoading" />
             </div>
 
             <!-- Tab Panels (hidden when graph is shown) -->
-            <TabPanels v-else>
+            <TabPanels v-else class="mt-1">
               <!-- Productivity Tab -->
               <TabPanel v-if="showTab('productivity')" value="productivity">
                 <ProductivityTab

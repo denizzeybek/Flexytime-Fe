@@ -1,9 +1,9 @@
 <template>
-  <Card class="w-full h-full">
+  <Card class="w-full h-full shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
     <template #content>
-      <div class="flex flex-col justify-between h-full flex-1 gap-4">
+      <div class="flex flex-col justify-between h-full flex-1 gap-5">
         <div
-          class="flex md:flex-row flex-col justify-between md:items-center items-start gap-2 md:gap-0 w-full"
+          class="flex md:flex-row flex-col justify-between md:items-center items-start gap-3 md:gap-0 w-full"
         >
           <Breadcrumb :items="breadcrumbItems" :is-loading="isLoading" />
           <ActionsBar @download="handleDownload" />
