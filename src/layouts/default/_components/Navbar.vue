@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
 import NavItem from './NavItem.vue';
@@ -46,7 +46,7 @@ import type { IModel } from './NavChildItem.vue';
 
 const { t } = useI18n();
 
-const navItems = ref<IModel[]>([
+const navItems = computed<IModel[]>(() => [
   {
     label: t('pages.layouts.navbar.companies'),
     icon: 'pi pi-building',
