@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useRoute, useRouter } from 'vue-router';
 import { useTimesheetsTimeManagementsStore } from '@/stores/timeSheets/timeManagement';

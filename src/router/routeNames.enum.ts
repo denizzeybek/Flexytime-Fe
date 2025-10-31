@@ -29,7 +29,7 @@ export enum ERouteNames {
   // TimeSheets
   Timesheets = 'Timesheets',
   TimeEntries = 'Time Entries',
-  TimeEntriesManual = 'Time Entries',
+  TimeEntriesManual = 'Time Entries Manual',
   TimeEntriesUnclassified = 'Unclassified Time Entries',
   TimeManagement = 'Time Management',
   TimeManagementPerson = 'Person',

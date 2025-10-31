@@ -68,7 +68,7 @@
 <script setup lang="ts">
 import { useFToast } from '@/composables/useFToast';
 import { useForm } from 'vee-validate';
-import { onMounted, ref, watch, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { array, object, string } from 'yup';
 import { ELayout } from '@/views/timesheets/_etc/layout.enum';
 
@@ -82,7 +82,7 @@ const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const open = defineModel<boolean>('open');
 
-const timeEntryOptions = ['Lansman projesi', 'Reconcilliation', 'Settlement'];
+// const timeEntryOptions = ['Lansman projesi', 'Reconcilliation', 'Settlement'];
 const projectOptions = [
   {
     name: 'Clearing',
@@ -180,7 +180,7 @@ const selectedItemCount = computed(() => {
   return count;
 });
 
-const { handleSubmit, resetForm, defineField } = useForm({
+const { handleSubmit, resetForm } = useForm({
   validationSchema,
 });
 

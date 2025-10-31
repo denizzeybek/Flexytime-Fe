@@ -8,7 +8,7 @@
     aria-controls="overlay_menu"
     unstyled
     size="large"
-    pt:root="bg-f-white rounded-md px-4 border border-gray-300 "
+    pt:root="bg-f-white rounded-md px-4 py-2 border border-gray-300 "
   >
     <ProfileBadge title="Deniz Zeybek" onlyTitle />
   </Button>
@@ -33,10 +33,8 @@
 import { ref } from 'vue';
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
-import { useRouter } from 'vue-router';
 import { useLogout } from '@/composables/useLogout';
 
-const router = useRouter();
 const { logout } = useLogout();
 
 const menu = ref();

@@ -1,4 +1,4 @@
-  import { initializeIntercom } from '@/helpers/intercom'
+  // import { initializeIntercom } from '@/helpers/intercom'
   import { EStoreNames } from '@/stores/storeNames.enum'
   import { defineStore } from 'pinia'
   
@@ -21,10 +21,12 @@
         this.user = payload?.user
       },
       async fetchUser(token: string) {
+        console.log('token ', token);
         // burda elinde token var ama login değil, tekrar user'ı fetch ediceksin
         return ''
       },
       async updateProfile(payload: any) {
+        console.log('payload ', payload);
         // const response = await UsersService.userProfileControllerUpsert(payload)
         // this.profile = response
         // return response

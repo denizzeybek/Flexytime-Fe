@@ -82,13 +82,12 @@
 
 <script setup lang="ts">
 import { useFieldArray, useForm } from 'vee-validate';
-import { computed, onMounted, watch } from 'vue';
-import { boolean, string, object, array, date, mixed } from 'yup';
+import { computed, onMounted } from 'vue';
+import { boolean, string, object, array, mixed } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import type { IWorkingHourDay } from '@/interfaces/company/workingHour';
 import { useCompanyWorkingHoursStore } from '@/stores/company/workingHours';
 import { useProfileStore } from '@/stores/profile/profile';
-import dayjs from 'dayjs';
 import { convertTimeToDate, convertDateToTime } from '@/helpers/utils';
 
 const { showSuccessMessage, showErrorMessage } = useFToast();

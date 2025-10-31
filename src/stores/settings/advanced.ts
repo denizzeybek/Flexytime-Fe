@@ -1,7 +1,6 @@
 import { EStoreNames } from '@/stores/storeNames.enum';
 import axios from 'axios';
 import { defineStore } from 'pinia';
-import { useMockData } from '@/config';
 import type { IAdvanced } from '@/interfaces/settings/advanced';
 
 interface State {

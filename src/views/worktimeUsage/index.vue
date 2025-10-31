@@ -12,12 +12,12 @@
     <!-- Main Layout Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-6">
       <!-- Left Column: User Badge -->
-      <div class="lg:col-span-3">
+      <div class="lg:col-span-2">
         <UserBadge :card="currentCard" :is-loading="isLoading" />
       </div>
 
       <!-- Middle Column: Summary -->
-      <div class="lg:col-span-9">
+      <div class="lg:col-span-10">
         <Summary
           :breadcrumb-items="currentBreadcrumb"
           :summary-items="currentSummary"
@@ -197,7 +197,7 @@ import WebHistoryTab from './_components/tabs/WebHistoryTab.vue';
 
 // Store and Composables
 import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
-import { useWorktimeQuery, useWorktimeNavigation } from './_composables';
+import { useWorktimeQuery } from './_composables';
 import type { TabType, DisplayMode, IWebClock } from './_types';
 
 // Store
@@ -205,7 +205,7 @@ const store = useWorktimeStore();
 
 // Composables
 const { currentQuery, changeTab } = useWorktimeQuery();
-const { handleTeamClick, handleEmployeeClick } = useWorktimeNavigation();
+// const { handleTeamClick, handleEmployeeClick } = useWorktimeNavigation();
 
 // Local State
 const displayMode = ref<DisplayMode>('team');

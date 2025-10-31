@@ -114,6 +114,7 @@ const copyText = () => {
       isCopied.value = false;
     }, 2000);
   } catch (error) {
+    console.log(error);
     isCopied.value = false;
   }
 };

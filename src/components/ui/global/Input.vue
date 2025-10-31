@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import type { InputTextProps } from 'primevue/inputtext';
-import { ref, computed, type InputHTMLAttributes, onMounted } from 'vue';
+import { ref, computed, type InputHTMLAttributes } from 'vue';
 import { useField } from 'vee-validate';
 
 interface IProps {

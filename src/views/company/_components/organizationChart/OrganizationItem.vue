@@ -1,3 +1,5 @@
+<!-- eslint-disable vue/no-mutating-props -->
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <div @click="toggle" @dblclick="changeType" :style="{ paddingLeft: `${indent}px` }">
     <div class="border border-f-gray p-4 rounded-md flex justify-between items-center flex-col lg:flex-row gap-8 mb-5">
@@ -121,6 +123,7 @@ const toggle = () => (isOpen.value = !isOpen.value);
 
 const changeType = () => {
   if (!isFolder.value) {
+    // eslint-disable-next-line vue/no-mutating-props
     model.children = [];
     addChild();
     isOpen.value = true;
@@ -130,9 +133,11 @@ const changeType = () => {
 const addChild = () => {
   // Check if children is already initialized
   if (!Array.isArray(model?.children)) {
+    // eslint-disable-next-line vue/no-mutating-props
     model.children = [];
   }
   // Add a new child element
+  // eslint-disable-next-line vue/no-mutating-props
   model?.children?.push({
     children: [],
     title: 'Title',

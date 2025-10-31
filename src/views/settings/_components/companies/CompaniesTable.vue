@@ -120,28 +120,30 @@ const handlePage = (e) => {
   console.log('e ', e);
 };
 
-const handleAlwaysOnChange = async (event) => {
-  try {
-    const { props, alwaysOn } = event;
-    const { ID, Name, Domain } = props;
-    const payload = {
-      ID,
-      Name,
-      Domain,
-      AlwaysOn: alwaysOn,
-    };
+// const handleAlwaysOnChange = async (event) => {
+//   try {
+//     const { props, alwaysOn } = event;
+//     const { ID, Name, Domain } = props;
+//     const payload = {
+//       ID,
+//       Name,
+//       Domain,
+//       AlwaysOn: alwaysOn,
+//     };
+//     console.log(payload);
 
-    // await companiesStore.update()
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     // await companiesStore.update()
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 const handleEdit = (employee: ICompany) => {
   emit('edit', employee);
 };
 
 const handleDelete = (employeeID: string) => {
+  console.log(employeeID);
   // companiesStore.deleteEmployee(employeeID);
 };
 

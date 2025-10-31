@@ -60,7 +60,7 @@ const { showSuccessMessage, showErrorMessage } = useFToast();
 const profileStore = useProfileStore();
 const router = useRouter();
 
-const hasProfileImage = computed(() => !!profileStore?.GeneralProfile.ImagePath);
+// const hasProfileImage = computed(() => !!profileStore?.GeneralProfile.ImagePath);
 
 const validationSchema = object({
   companyName: string().required().label('Company Name'),
@@ -72,7 +72,7 @@ const validationSchema = object({
   daysLeft: string().required().label('Days Left'),
 });
 
-const { handleSubmit, isSubmitting, resetForm } = useForm({
+const { handleSubmit, resetForm } = useForm({
   validationSchema,
 });
 

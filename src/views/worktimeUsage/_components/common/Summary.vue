@@ -33,7 +33,7 @@ interface IEmits {
   (e: 'download'): void;
 }
 
-const props = withDefaults(defineProps<IProps>(), {
+withDefaults(defineProps<IProps>(), {
   breadcrumbItems: () => [],
   summaryItems: () => [],
   isLoading: false,

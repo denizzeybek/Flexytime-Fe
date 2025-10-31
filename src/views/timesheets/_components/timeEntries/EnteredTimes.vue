@@ -118,7 +118,7 @@
 import { useFToast } from '@/composables/useFToast';
 import { transformTimeValue } from '@/helpers/utils';
 import { useFieldArray, useForm } from 'vee-validate';
-import { onMounted, ref, watch, computed } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { array, object, string } from 'yup';
 import dayjs from 'dayjs';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
@@ -195,7 +195,7 @@ const validationSchema = object({
   ),
 });
 
-const { handleSubmit, resetForm, defineField } = useForm({
+const { handleSubmit, resetForm } = useForm({
   validationSchema,
 });
 

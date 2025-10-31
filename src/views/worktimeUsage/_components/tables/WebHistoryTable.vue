@@ -107,7 +107,7 @@ interface IEmits {
   (e: 'toggle-domain', webClock: IWebClock, newDomain: number): void;
 }
 
-const props = withDefaults(defineProps<IProps>(), {
+withDefaults(defineProps<IProps>(), {
   webClocks: () => [],
   isLoading: false,
 });

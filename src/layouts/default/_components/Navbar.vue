@@ -38,14 +38,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
-import { useRoute } from 'vue-router';
 import NavItem from './NavItem.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import type { IModel } from './NavChildItem.vue';
 
-const route = useRoute();
 
-const expandedKeys = ref({});
 const navItems = ref<IModel[]>([
   {
     label: 'Companies',

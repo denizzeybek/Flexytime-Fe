@@ -16,8 +16,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
-import AuthAside, { type IAd } from './_components/Authside.vue';
+import { computed } from 'vue';
+import AuthAside from './_components/Authside.vue';
 
 type TAdName = 'login' | 'register' | 'download' | 'forgot-password';
 

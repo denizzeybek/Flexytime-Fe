@@ -38,7 +38,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import Avatar from 'primevue/avatar';
 import Skeleton from 'primevue/skeleton';
 import Card from 'primevue/card';
@@ -49,7 +48,7 @@ interface IProps {
   isLoading?: boolean;
 }
 
-const props = withDefaults(defineProps<IProps>(), {
+withDefaults(defineProps<IProps>(), {
   card: null,
   isLoading: false,
 });

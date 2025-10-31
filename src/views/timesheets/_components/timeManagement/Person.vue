@@ -47,7 +47,7 @@ const columns = computed(() => {
 });
 
 const toggleApplications = () => {
-  let _expandedKeys = { ...expandedKeys.value };
+  const _expandedKeys = { ...expandedKeys.value };
   if (!isOpen.value) {
     personData.value.forEach((element, idx) => {
       _expandedKeys[idx] = true;

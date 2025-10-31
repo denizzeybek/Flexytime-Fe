@@ -2,7 +2,6 @@ import type { IHoliday } from '@/interfaces/hrSettings/holiday';
 import { EStoreNames } from '@/stores/storeNames.enum';
 import axios from 'axios';
 import { defineStore } from 'pinia';
-import { useMockData } from '@/config';
 
 interface State {
   list: IHoliday[];

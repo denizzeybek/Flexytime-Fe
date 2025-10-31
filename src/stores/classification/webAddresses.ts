@@ -1,7 +1,6 @@
 import type {
   IWebAddress,
   IWebAddressDTOData,
-  IWebaddressDTOPayload,
 } from '@/interfaces/classification/webAddress';
 import { EStoreNames } from '@/stores/storeNames.enum';
 import axios from 'axios';

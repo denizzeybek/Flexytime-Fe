@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import type { PasswordProps } from 'primevue/password';
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useField } from 'vee-validate';
 import Password from 'primevue/password';
 
@@ -47,42 +47,42 @@ const props = withDefaults(defineProps<IProps>(), {
   feedback: false,
 });
 
-const passwordVisible = ref(false);
-const isFocused = ref(false);
-const input = ref<HTMLInputElement>();
+// const passwordVisible = ref(false);
+// const isFocused = ref(false);
+// const input = ref<HTMLInputElement>();
 
 const {
   errorMessage: vError,
   value,
-  handleBlur,
-  handleChange,
+  // handleBlur,
+  // handleChange,
 } = useField(() => props.name, undefined, {
   validateOnValueUpdate: false,
   syncVModel: true,
 });
 const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
 
-const listeners = {
-  ...props.customEvents,
-  blur: (e: InputEvent) => {
-    handleBlur(e, true);
-    props.customEvents?.blur?.(e);
-    isFocused.value = false;
-  },
-  change: (e: InputEvent) => {
-    handleChange(e);
-    props.customEvents?.change?.(e);
-  },
-  input: (e: InputEvent) => {
-    const value = props.transformValue ? props.transformValue(e) : e;
-    handleChange(value, !!errorMessage.value);
-    props.customEvents?.input?.(e);
-  },
-  focus: (e: InputEvent) => {
-    props.customEvents?.focus?.(e);
-    isFocused.value = true;
-  },
-};
+// const listeners = {
+//   ...props.customEvents,
+//   blur: (e: InputEvent) => {
+//     handleBlur(e, true);
+//     props.customEvents?.blur?.(e);
+//     isFocused.value = false;
+//   },
+//   change: (e: InputEvent) => {
+//     handleChange(e);
+//     props.customEvents?.change?.(e);
+//   },
+//   input: (e: InputEvent) => {
+//     const value = props.transformValue ? props.transformValue(e) : e;
+//     handleChange(value, !!errorMessage.value);
+//     props.customEvents?.input?.(e);
+//   },
+//   focus: (e: InputEvent) => {
+//     props.customEvents?.focus?.(e);
+//     isFocused.value = true;
+//   },
+// };
 </script>
 
 <style scoped></style>

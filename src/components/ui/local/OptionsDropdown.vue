@@ -13,7 +13,7 @@
 
     <div class="card flex justify-center">
       <Menu ref="menu" :model="options" :popup="true">
-        <template #item="{ item, props }">
+        <template #item="{ item }">
           <a
             v-ripple
             class="flex items-center gap-3 px-4 py-2"

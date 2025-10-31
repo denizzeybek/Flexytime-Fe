@@ -70,7 +70,7 @@ interface IProps {
   isWizard?: boolean
 }
 
-const props = defineProps<IProps>();
+defineProps<IProps>();
 
 const downloadsStore = useSettingsDownloadsStore();
 const { findActiveComputer, onDownloadButtonClicked } = useDownloadApp();
@@ -90,6 +90,7 @@ const copyDownloadKeyText = () => {
       isCopied.value = false;
     }, 2000);
   } catch (error) {
+    console.log(error);
     isCopied.value = false;
   }
 };

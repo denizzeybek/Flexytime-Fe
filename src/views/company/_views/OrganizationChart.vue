@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
 import OrganizationItem from '@/views/company/_components/organizationChart/OrganizationItem.vue';
 import { useFToast } from '@/composables/useFToast';

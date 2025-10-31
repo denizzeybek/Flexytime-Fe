@@ -153,6 +153,7 @@ const handleAlwaysOnChange = async (event) => {
       Domain,
       AlwaysOn: alwaysOn,
     };
+    console.log('payload ', payload);
 
     // await employeesStore.update()
   } catch (error) {
@@ -165,6 +166,7 @@ const handleEdit = (employee: IEmployeeMember) => {
 };
 
 const handleDelete = (employeeID: string) => {
+  console.log('employeeID ', employeeID);
   // employeesStore.deleteEmployee(employeeID);
 };
 

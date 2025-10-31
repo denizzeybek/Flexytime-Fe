@@ -1,12 +1,12 @@
 import { EStorageKeys } from '@/constants/storageKeys';
-import { useAuthStore } from '@/stores/auth';
+// import { useAuthStore } from '@/stores/auth';
 import { useCommonUsersStore } from '@/stores/common/users';
 import { nextTick } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { ERouteNames } from './routeNames.enum';
 import { useLogout } from '@/composables/useLogout';
 import routes from './routes';
-import { useProfileStore } from '@/stores/profile/profile';
+// import { useProfileStore } from '@/stores/profile/profile';
 const router = createRouter({
   history: createWebHistory(),
   routes,
@@ -16,13 +16,13 @@ const router = createRouter({
 let isRefreshing = false;
 router.beforeEach(async (to, _, next) => {
   const usersStore = useCommonUsersStore();
-  const profileStore = useProfileStore();
-  const authStore = useAuthStore();
+  // const profileStore = useProfileStore();
+  // const authStore = useAuthStore();
 
   const requiresAuth = to.meta.requiresAuth === true;
   const requiresUnAuth = to.meta.requiresAuth === false;
 
-  let token = localStorage.getItem(EStorageKeys.TOKEN);
+  const token = localStorage.getItem(EStorageKeys.TOKEN);
   const hasToken = !!token;
 
   const { logout } = useLogout();
@@ -40,6 +40,7 @@ router.beforeEach(async (to, _, next) => {
         isRefreshing = false;
         return next(); // refresh başarılı
       } catch (err) {
+        console.error(err);
         isRefreshing = false;
         return logout();
       }

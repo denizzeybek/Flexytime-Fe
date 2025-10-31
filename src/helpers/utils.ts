@@ -59,6 +59,7 @@ export const isValidRegex = (pattern: string) => {
     new RegExp(pattern);
     return true;
   } catch (e) {
+    console.log(e);
     return false;
   }
 };
@@ -108,7 +109,7 @@ export const convertTimeToDate = (time) => {
   const formattedTime = time.replace('.', ':');
 
   // Saat değeri ile Date objesi oluştur
-  let parsedTime = new Date(`1970-01-01T${formattedTime}:00`);
+  const parsedTime = new Date(`1970-01-01T${formattedTime}:00`);
 
   // Saat ve dakikayı sıfırla
   parsedTime.setHours(parsedTime.getHours()); // Saat olduğu gibi bırak

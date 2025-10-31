@@ -103,6 +103,7 @@ const handleEdit = (annual: IReportItem) => {
 };
 
 const handleDelete = (employeeID: string) => {
+  console.log('employeeID ', employeeID);
   // annualsStore.deleteEmployee(employeeID);
 };
 

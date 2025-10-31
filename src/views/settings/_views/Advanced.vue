@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import { string, object, array, mixed } from 'yup';
 import { useFToast } from '@/composables/useFToast';
-import { computed, onMounted, watch } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useFieldArray, useForm } from 'vee-validate';
 import { useSettingsAdvancedsStore } from '@/stores/settings/advanced';
 import type { IAdvanced } from '@/interfaces/settings/advanced';
@@ -61,7 +61,7 @@ const validationSchema = object({
     .required(),
 });
 
-const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
+const { resetForm } = useForm({
   validationSchema,
 });
 

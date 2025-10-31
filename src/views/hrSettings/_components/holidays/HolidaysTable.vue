@@ -83,7 +83,6 @@ import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import type { IHoliday } from '@/interfaces/hrSettings/holiday';
 import { FilterMatchMode } from '@primevue/core/api';
-import { useRoute } from 'vue-router';
 
 interface IProps {
   isLoading: boolean;
@@ -100,7 +99,6 @@ interface IEmits {
 const emit = defineEmits<IEmits>();
 
 const holidaysStore = useHRSettingsHolidaysStore();
-const route = useRoute();
 
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },

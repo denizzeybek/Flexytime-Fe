@@ -31,7 +31,6 @@
   </div>
     <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
   </div>
-  </input>
 </template>
 
 <script setup lang="ts">

@@ -57,14 +57,14 @@ import { string, object } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
-import { useProfileStore } from '@/stores/profile/profile';
-import { useCommonUsersStore } from '@/stores/common/users';
+// import { useProfileStore } from '@/stores/profile/profile';
+// import { useCommonUsersStore } from '@/stores/common/users';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const profileStore = useProfileStore();
-const commonUsersStore = useCommonUsersStore();
-const { showSuccessMessage, showErrorMessage } = useFToast();
+// const profileStore = useProfileStore();
+// const commonUsersStore = useCommonUsersStore();
+const { showErrorMessage } = useFToast();
 
 const validationSchema = object({
   email: string().email().required().label('Email'),

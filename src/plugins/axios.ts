@@ -2,7 +2,7 @@ import axios from 'axios';
 import router from '@/router/index';
 import { EStorageKeys } from '@/constants/storageKeys';
 import { EHeader } from '@/common/enums/token.enum';
-import { authLoginHeader, bearerHeader } from '@/helpers/auth';
+// import { authLoginHeader, bearerHeader } from '@/helpers/auth';
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.interceptors.request.use(

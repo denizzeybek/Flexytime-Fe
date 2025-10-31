@@ -230,7 +230,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useForm } from 'vee-validate';
-import { boolean, string, object, array, number, ref as yupRef } from 'yup';
+import { boolean, string, object, array, number } from 'yup';
 import { toTypedSchema } from '@vee-validate/yup';
 import { useFToast } from '@/composables/useFToast';
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
@@ -252,7 +252,7 @@ const employeesStore = useHRSettingsEmployeesStore();
 
 const open = defineModel<boolean>('open');
 const activeTab = ref(0);
-const src = ref();
+// const src = ref();
 const isClear = ref(false);
 const isOnMounted = ref(false);
 
@@ -401,16 +401,16 @@ const handleClose = () => {
   resetForm();
 };
 
-const onFileSelect = (event) => {
-  const file = event.files[0];
-  const reader = new FileReader();
+// const onFileSelect = (event) => {
+//   const file = event.files[0];
+//   const reader = new FileReader();
 
-  reader.onload = async (e) => {
-    src.value = e?.target?.result;
-  };
+//   reader.onload = async (e) => {
+//     src.value = e?.target?.result;
+//   };
 
-  reader.readAsDataURL(file);
-};
+//   reader.readAsDataURL(file);
+// };
 
 const submitHandler = handleSubmit(async (values) => {
   try {

@@ -54,16 +54,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useForm } from 'vee-validate';
-import { boolean, string, object, array } from 'yup';
+import { string, object, array } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import type { IReportItem } from '@/interfaces/company/report';
 import { useCompanyReportsStore } from '@/stores/company/reports';
 import { ReportFrequency } from '@/views/company/_etc/reportFrequency.enum';
-
-const emailErrorMessage = ref('');
-const emails = ref([]);
 
 interface IProps {
   data?: IReportItem;
@@ -134,7 +131,7 @@ const validationSchema = object({
     .of(string().email('Please enter a valid email address.').required('Email is required.')),
 });
 
-const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
+const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema,
 });
 

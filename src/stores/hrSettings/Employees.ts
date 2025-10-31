@@ -5,7 +5,6 @@ import type {
   IEmployeeTitle,
   IManagerTitle,
   IEmployeeTeam,
-  IEmployeeTag,
   IEmployeeInvitation,
 } from '@/interfaces/hrSettings/employee';
 import { EStoreNames } from '@/stores/storeNames.enum';

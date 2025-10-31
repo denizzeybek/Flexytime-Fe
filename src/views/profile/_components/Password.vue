@@ -39,7 +39,7 @@ const validationSchema = object({
     .label('Repeat Password'),
 });
 
-const { handleSubmit, isSubmitting, resetForm } = useForm({
+const { handleSubmit, isSubmitting } = useForm({
   validationSchema,
 });
 

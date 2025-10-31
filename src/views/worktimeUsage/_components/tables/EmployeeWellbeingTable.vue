@@ -109,7 +109,7 @@ interface IProps {
   isLoading?: boolean;
 }
 
-const props = withDefaults(defineProps<IProps>(), {
+withDefaults(defineProps<IProps>(), {
   individuals: () => [],
   isLoading: false,
 });
