@@ -4,7 +4,7 @@
       <div class="block lg:hidden">
         <Button size="large" icon="pi pi-bars" text rounded @click="$emit('drawerChange', true)" />
       </div>
-      <h1 class="text-3xl font-semibold text-gray-800 tracking-tight">{{ route.name }}</h1>
+      <h1 class="text-3xl font-semibold text-gray-800 tracking-tight">{{ localizedRouteName }}</h1>
     </div>
     <div class="hidden lg:flex items-center gap-3">
       <Button
@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import ProfileMenu from '@/components/ui/local/ProfileMenu.vue';
 import { useRoute } from 'vue-router';
 import { useLanguage } from '@/composables/useLanguage';
@@ -39,6 +39,14 @@ import { useLanguage } from '@/composables/useLanguage';
 const { t } = useI18n<{ message: MessageSchema }>();
 const route = useRoute();
 const { currentLanguage, changeLanguage, getLanguageOptions } = useLanguage();
+
+const localizedRouteName = computed(() => {
+  const routeName = route.name as string;
+  if (!routeName) return '';
+  // Try to get translation, fallback to route name if not found
+  const key = `routes.${routeName}` as any;
+  return t(key);
+});
 
 interface IEmits {
   (event: 'drawerChange', val: boolean): void;
