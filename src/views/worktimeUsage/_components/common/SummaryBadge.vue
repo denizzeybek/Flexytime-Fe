@@ -48,7 +48,7 @@ const bgClass = computed(() => `bg-${mappedSeverity.value}`);
 const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);
 </script>
 
-<style>
+<style scoped>
 @reference "@/custom-tailwind.css";
 
 .summary-badge :deep(.p-card-body) {
@@ -79,22 +79,22 @@ const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);
 }
 
 .card-text-success {
-  @apply text-green-600;
+  @apply text-green-700;
 }
 .card-text-danger {
-  @apply text-red-600;
+  @apply text-red-700;
 }
 .card-text-warn {
-  @apply text-yellow-600;
+  @apply text-orange-700;
 }
 .card-text-secondary {
-  @apply text-gray-600;
+  @apply text-slate-700;
 }
 .card-text-info {
-  @apply text-blue-600;
+  @apply text-blue-700;
 }
 .card-text-primary {
-  @apply text-purple-600;
+  @apply text-purple-700;
 }
 
 .bg-success {
@@ -104,10 +104,10 @@ const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);
   @apply bg-red-500;
 }
 .bg-warn {
-  @apply bg-yellow-500;
+  @apply bg-orange-500;
 }
 .bg-secondary {
-  @apply bg-gray-500;
+  @apply bg-slate-500;
 }
 .bg-info {
   @apply bg-blue-500;
@@ -117,21 +117,21 @@ const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);
 }
 
 .bg-light-success {
-  @apply bg-green-50 border-green-200;
+  @apply bg-green-50/80 border-green-200/50;
 }
 .bg-light-danger {
-  @apply bg-red-50 border-red-200;
+  @apply bg-red-50/80 border-red-200/50;
 }
 .bg-light-warn {
-  @apply bg-yellow-50 border-yellow-200;
+  @apply bg-orange-50/80 border-orange-200/50;
 }
 .bg-light-secondary {
-  @apply bg-gray-50 border-gray-200;
+  @apply bg-slate-50/80 border-slate-200/50;
 }
 .bg-light-info {
-  @apply bg-blue-50 border-blue-200;
+  @apply bg-blue-50/80 border-blue-200/50;
 }
 .bg-light-primary {
-  @apply bg-purple-50 border-purple-200;
+  @apply bg-purple-50/80 border-purple-200/50;
 }
 </style>

@@ -1,96 +1,101 @@
 <template>
-  <Card>
-    <template #content>
-      <DataTable
-        tableStyle="min-width: 50rem"
-        paginator
-        :loading="isLoading"
-        :value="employees"
-        :rows="10"
-        :rowsPerPageOptions="[5, 10, 20, 50]"
-        v-model:filters="filters"
-        @page="handlePage"
-      >
-        <template #header>
-          <div class="flex justify-end">
-            <IconField>
-              <InputIcon>
-                <i class="pi pi-search" />
-              </InputIcon>
-              <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
-            </IconField>
-          </div>
-        </template>
-        <template #empty>
-          <div class="w-full flex justify-center py-8">
-            <FText>No customers found.</FText>
-          </div>
-        </template>
-        <template #loading>
-          <div class="w-full flex justify-center py-8">
-            <FText> Loading customers data. Please wait. </FText>
-          </div>
-        </template>
-        <Column sortable field="MemberName" header="Name">
-          <template #body="slotProps">
-            <div class="flex items-center gap-3">
-              <FAvatar :label="slotProps.data.MemberName" />
-              <FText>{{ slotProps.data.MemberName }}</FText>
-            </div>
-          </template>
-        </Column>
-        <Column sortable field="RoleName" header="Role Name"> </Column>
-        <Column field="Tags" header="Tags">
-          <template #body="slotProps">
-            <div v-if="slotProps.data.Tags?.length" class="flex flex-col gap-1">
-              <div v-for="(tag, idx) in slotProps.data.Tags" :key="idx">
-                <Tag :value="tag" />
-              </div>
-            </div>
-            <div v-else></div>
-          </template>
-        </Column>
-        <Column sortable field="TitleName" header="Title Name"> </Column>
-        <Column sortable field="TeamName" header="Team Name"> </Column>
-        <Column field="Salary" header="Salary"> </Column>
-        <Column header="Enabled">
-          <template #body="slotProps">
-            <Checkbox
-              @change="
-                handleAlwaysOnChange({
-                  props: slotProps.data.ID,
-                  alwaysOn: !slotProps.data.Enabled,
-                })
-              "
-              :modelValue="slotProps.data.Enabled"
-              :binary="true"
-            />
-          </template>
-        </Column>
-        <Column header="Actions">
-          <template #body="slotProps">
-            <OptionsDropdown
-              :options="options"
-              @optionClick="handleOptionClick($event, slotProps.data)"
-            />
-          </template>
-        </Column>
-
-        <template #footer>
-          <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-            <Button icon="pi pi-plus" label="Add User" @click="emit('new')" />
-            <FText> In total there are {{ employees ? employees.length : 0 }} employees. </FText>
-          </div>
-        </template>
-      </DataTable>
+  <DataTable
+    tableStyle="min-width: 50rem"
+    paginator
+    :value="isLoading ? skeletonData : employees"
+    :rows="10"
+    :rowsPerPageOptions="[5, 10, 20, 50]"
+    v-model:filters="filters"
+    @page="handlePage"
+  >
+    <template #header>
+      <div class="flex justify-end">
+        <IconField>
+          <InputIcon>
+            <i class="pi pi-search" />
+          </InputIcon>
+          <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+        </IconField>
+      </div>
     </template>
-  </Card>
+    <template #empty>
+      <div class="w-full flex justify-center py-8">
+        <FText>No customers found.</FText>
+      </div>
+    </template>
+    <Column sortable field="MemberName" header="Name">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <div v-else class="flex items-center gap-3">
+          <FAvatar :label="slotProps.data.MemberName" />
+          <FText>{{ slotProps.data.MemberName }}</FText>
+        </div>
+      </template>
+    </Column>
+    <Column sortable field="RoleName" header="Role Name">
+      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+    </Column>
+    <Column field="Tags" header="Tags">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <div v-else-if="slotProps.data.Tags?.length" class="flex flex-col gap-1">
+          <div v-for="(tag, idx) in slotProps.data.Tags" :key="idx">
+            <Tag :value="tag" />
+          </div>
+        </div>
+        <div v-else></div>
+      </template>
+    </Column>
+    <Column sortable field="TitleName" header="Title Name">
+      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+    </Column>
+    <Column sortable field="TeamName" header="Team Name">
+      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+    </Column>
+    <Column field="Salary" header="Salary">
+      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+    </Column>
+    <Column header="Enabled">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Checkbox
+          v-else
+          @change="
+            handleAlwaysOnChange({
+              props: slotProps.data.ID,
+              alwaysOn: !slotProps.data.Enabled,
+            })
+          "
+          :modelValue="slotProps.data.Enabled"
+          :binary="true"
+        />
+      </template>
+    </Column>
+    <Column header="Actions">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <OptionsDropdown
+          v-else
+          :options="options"
+          @optionClick="handleOptionClick($event, slotProps.data)"
+        />
+      </template>
+    </Column>
+
+    <template #footer>
+      <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
+        <Button icon="pi pi-plus" label="Add User" @click="emit('new')" class="shadow-sm" />
+        <FText> In total there are {{ employees ? employees.length : 0 }} employees. </FText>
+      </div>
+    </template>
+  </DataTable>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import Tag from 'primevue/tag';
 import Checkbox from 'primevue/checkbox';
+import Skeleton from 'primevue/skeleton';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
@@ -177,6 +182,16 @@ const handleOptionClick = (option: EOptionsDropdown, employee: IEmployeeMember) 
     handleDelete(employee.ID);
   }
 };
+
+// Skeleton dummy data - 5 rows for loading state
+const skeletonData = Array.from({ length: 5 }, (_, i) => ({
+  ID: `skeleton-${i}`,
+  HostName: '',
+  TopicName: '',
+  Teams: '',
+  AlwaysOn: false,
+  Domain: 0,
+}));
 </script>
 
 <style scoped></style>

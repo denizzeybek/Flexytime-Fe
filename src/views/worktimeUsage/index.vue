@@ -35,7 +35,12 @@
             <!-- Tab List with Buttons -->
             <div class="flex items-center justify-between mb-6 pb-5 border-b border-gray-100">
               <TabList class="flex-1">
-                <Tab v-for="tab in availableTabs" :key="tab.key" :value="tab.key" class="font-medium">
+                <Tab
+                  v-for="tab in availableTabs"
+                  :key="tab.key"
+                  :value="tab.key"
+                  class="font-medium"
+                >
                   {{ tab.label }}
                 </Tab>
               </TabList>
@@ -44,23 +49,27 @@
               <div class="flex items-center gap-2.5">
                 <!-- Graph Toggle Button (shown when not in graph tab) -->
                 <Button
-                  v-if="currentQuery.tab !== 'graph' && (currentQuery.view !== 'individual' || currentQuery.tab === 'distribution')"
+                  v-if="
+                    currentQuery.tab !== 'graph' &&
+                    (currentQuery.view !== 'individual' || currentQuery.tab === 'distribution')
+                  "
                   :label="showGraphBelow ? 'Hide Graph' : 'Show Graph'"
                   :icon="showGraphBelow ? 'pi pi-eye-slash' : 'pi pi-chart-line'"
                   :severity="showGraphBelow ? 'secondary' : 'primary'"
-                  size="small"
                   raised
                   class="shadow-sm"
                   @click="showGraphBelow = !showGraphBelow"
                 />
 
                 <!-- Team/Employees Toggle (only for team view) -->
-                <div v-if="currentQuery.view === 'team'" class="flex gap-1 p-1 bg-gray-100 rounded-xl">
+                <div
+                  v-if="currentQuery.view === 'team'"
+                  class="flex gap-1 p-1 bg-gray-100 rounded-xl"
+                >
                   <Button
                     label="Team"
                     :severity="displayMode === 'team' ? 'primary' : 'secondary'"
                     :text="displayMode !== 'team'"
-                    size="small"
                     class="rounded-lg"
                     @click="displayMode = 'team'"
                   />
@@ -68,7 +77,6 @@
                     label="Employees"
                     :severity="displayMode === 'employees' ? 'primary' : 'secondary'"
                     :text="displayMode !== 'employees'"
-                    size="small"
                     class="rounded-lg"
                     @click="displayMode = 'employees'"
                   />
@@ -107,10 +115,7 @@
 
               <!-- Distribution Tab -->
               <TabPanel v-if="showTab('distribution')" value="distribution">
-                <DistributionTab
-                  :distributions="currentDistributions"
-                  :is-loading="isLoading"
-                />
+                <DistributionTab :distributions="currentDistributions" :is-loading="isLoading" />
               </TabPanel>
 
               <!-- Graph Tab -->
@@ -127,47 +132,6 @@
                 />
               </TabPanel>
             </TabPanels>
-
-            <!-- Team/Employee List Below -->
-            <!-- <div v-if="currentQuery.view !== 'individual' && (displayMode === 'team' || displayMode === 'employees')" class="mt-4 border-t pt-4">
-              <div v-if="displayMode === 'team' && teams.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                <div
-                  v-for="team in teams"
-                  :key="team.ID"
-                  class="p-3 border rounded cursor-pointer hover:bg-gray-50 transition-colors"
-                  @click="handleTeamClick(team.ID)"
-                >
-                  <div class="font-semibold">{{ team.TeamName }}</div>
-                  <div class="text-sm text-gray-600">{{ team.SuperVisorName }}</div>
-                </div>
-              </div>
-
-              <div v-else-if="displayMode === 'employees' && individuals.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                <div
-                  v-for="individual in individuals"
-                  :key="individual.ID"
-                  class="p-3 border rounded cursor-pointer hover:bg-gray-50 flex items-center gap-2 transition-colors"
-                  @click="handleEmployeeClick(individual.Employee.MemberUrl)"
-                >
-                  <Avatar
-                    v-if="individual.Employee.ImageUrl"
-                    :image="individual.Employee.ImageUrl"
-                    shape="circle"
-                    size="normal"
-                  />
-                  <Avatar
-                    v-else
-                    :label="individual.Employee.Abbreviation"
-                    shape="circle"
-                    size="normal"
-                  />
-                  <div>
-                    <div class="font-semibold">{{ individual.EmployeeName }}</div>
-                    <div class="text-sm text-gray-600">{{ individual.TeamName }}</div>
-                  </div>
-                </div>
-              </div>
-            </div> -->
           </Tabs>
         </template>
       </Card>
@@ -194,7 +158,6 @@ import WellbeingTab from './_components/tabs/WellbeingTab.vue';
 import DistributionTab from './_components/tabs/DistributionTab.vue';
 import GraphTab from './_components/tabs/GraphTab.vue';
 import WebHistoryTab from './_components/tabs/WebHistoryTab.vue';
-
 // Store and Composables
 import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
 import { useWorktimeQuery } from './_composables';
@@ -205,7 +168,6 @@ const store = useWorktimeStore();
 
 // Composables
 const { currentQuery, changeTab } = useWorktimeQuery();
-// const { handleTeamClick, handleEmployeeClick } = useWorktimeNavigation();
 
 // Local State
 const displayMode = ref<DisplayMode>('team');
@@ -266,14 +228,14 @@ const availableTabs = computed<Array<{ key: TabType; label: string }>>(() => {
     tabs.push(
       { key: 'wellbeing' as TabType, label: 'Wellbeing' },
       { key: 'distribution' as TabType, label: 'Distribution' },
-      { key: 'webHistory' as TabType, label: 'Web History' }
+      { key: 'webHistory' as TabType, label: 'Web History' },
     );
   } else {
     tabs.push(
       { key: 'productivity' as TabType, label: 'Productivity' },
       { key: 'wellbeing' as TabType, label: 'Wellbeing' },
       { key: 'distribution' as TabType, label: 'Distribution' },
-      { key: 'graph' as TabType, label: 'Graph' }
+      { key: 'graph' as TabType, label: 'Graph' },
     );
   }
 
@@ -337,7 +299,7 @@ watch(
     // Hide graph when switching tabs
     showGraphBelow.value = false;
   },
-  { deep: true }
+  { deep: true },
 );
 
 watch(activeTabIndex, (newTab) => {

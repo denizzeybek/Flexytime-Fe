@@ -1,14 +1,14 @@
 <template>
-  <Card>
+  <Card class="shadow-md border border-gray-100 rounded-xl">
     <template #header>
       <div class="w-full flex items-center justify-between flex-wrap px-5 pt-5">
-        <section id="summary" class="flex gap-4 flex-col lg:flex-row">
+        <section id="summary" class="flex gap-5 flex-col lg:flex-row">
           <div v-for="(item, idx) in summary" :key="idx" class="flex items-center gap-2">
-            <FText>{{ item.label }}</FText>
-            <FText as="h6">{{ item.value }}</FText>
+            <FText class="text-gray-600">{{ item.label }}</FText>
+            <FText as="h6" class="font-semibold">{{ item.value }}</FText>
           </div>
         </section>
-        <Button icon="pi pi-download" severity="secondary" outlined />
+        <Button icon="pi pi-download" severity="secondary" outlined class="shadow-sm" />
       </div>
     </template>
     <template #content>

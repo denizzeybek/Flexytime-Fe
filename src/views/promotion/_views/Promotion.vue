@@ -11,7 +11,7 @@
       <span class="text-xs text-gray-400">* Valid for up to 50 people</span>
     </div>
 
-    <Card class="w-2/3 my-12">
+    <Card class="w-2/3 my-12 shadow-lg border border-gray-100 rounded-2xl">
       <template #header>
         <div class="w-full flex items-center justify-center p-4">
           <FText as="h4">Invite by Email</FText>
@@ -19,13 +19,14 @@
       </template>
       <template #content>
         <form @submit="submitHandler">
-          <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-5">
             <FEmailList name="emails" :is-clear="isClear"/>
             <Button
               type="submit"
               label="Add your friend"
               :disabled="isSubmitting"
               :loading="isSubmitting"
+              class="shadow-sm"
             />
           </div>
         </form>
@@ -36,7 +37,7 @@
       <FText>Or invite in a different way </FText>
       <div class="w-2/3 flex justify-center gap-4">
         <InputText class="flex-1" placeholder="Enter your friend's email" :value="link" disabled />
-        <Button @click="copyText" :icon="isCopied ? 'pi pi-check' : ''" label="Copy Link" />
+        <Button @click="copyText" :icon="isCopied ? 'pi pi-check' : ''" label="Copy Link" class="shadow-sm" />
       </div>
       <div class="flex gap-4">
         <Button

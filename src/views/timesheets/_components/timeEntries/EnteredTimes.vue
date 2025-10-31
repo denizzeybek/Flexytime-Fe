@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-5">
     <template v-for="(field, idx) in fields" :key="field.key">
-      <Card>
+      <Card class="shadow-md border border-gray-100 rounded-xl hover:shadow-lg transition-shadow">
         <template #content>
-          <form @submit="submitHandler">
+          <form @submit="submitHandler" class="space-y-5">
             <div class="w-full flex items-center gap-4 flex-col lg:flex-row">
               <div class="flex w-full">
                 <FInput

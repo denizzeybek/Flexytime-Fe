@@ -1,84 +1,84 @@
 <template>
-  <Card>
-    <template #content>
-      <DataTable
-        tableStyle="min-width: 50rem"
-        paginator
-        :loading="isLoading"
-        :value="annuals"
-        :rows="5"
-        :rowsPerPageOptions="[5, 10, 20, 50]"
-        v-model:filters="filters"
-        @page="handlePage"
-      >
-        <template #header>
-          <div class="flex justify-end">
-            <IconField>
-              <InputIcon>
-                <i class="pi pi-search" />
-              </InputIcon>
-              <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
-            </IconField>
-          </div>
-        </template>
-        <template #empty>
-          <div class="w-full flex justify-center py-8">
-            <FText>No customers found.</FText>
-          </div>
-        </template>
-        <template #loading>
-          <div class="w-full flex justify-center py-8">
-            <FText> Loading annual data. Please wait. </FText>
-          </div>
-        </template>
-        <Column sortable field="MemberName" header="Name">
-          <template #body="slotProps">
-            <div class="flex items-center gap-3">
-              <FAvatar :label="slotProps.data.MemberName" />
-              <FText>{{ slotProps.data.MemberName }}</FText>
-            </div>
-          </template>
-        </Column>
-        <Column sortable field="LeaveType" header="Leave Type"> </Column>
-        <Column sortable field="Days" header="Days"> </Column>
-        <Column sortable field="StartDate" header="StartDate">
-          <template #body="slotProps">
-            <div class="flex flex-col items-start gap-2">
-              <FText>{{ slotProps.data.StartDate }}</FText>
-              <FText>{{ slotProps.data.StartTime }}</FText>
-            </div>
-          </template>
-        </Column>
-        <Column sortable field="EndDate" header="End Date">
-          <template #body="slotProps">
-            <div class="flex flex-col items-start gap-2">
-              <FText>{{ slotProps.data.EndDate }}</FText>
-              <FText>{{ slotProps.data.EndTime }}</FText>
-            </div>
-          </template>
-        </Column>
-        <Column header="Actions">
-          <template #body="slotProps">
-            <OptionsDropdown
-              :options="options"
-              @optionClick="handleOptionClick($event, slotProps.data)"
-            />
-          </template>
-        </Column>
-
-        <template v-if="isActiveAnnuals" #footer>
-          <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-            <Button icon="pi pi-plus" label="Add Annual" @click="emit('new')" />
-            <FText> In total there are {{ annuals ? annuals.length : 0 }} annuals. </FText>
-          </div>
-        </template>
-      </DataTable>
+  <DataTable
+    tableStyle="min-width: 50rem"
+    paginator
+    :value="isLoading ? skeletonData : annuals"
+    :rows="5"
+    :rowsPerPageOptions="[5, 10, 20, 50]"
+    v-model:filters="filters"
+    @page="handlePage"
+  >
+    <template #header>
+      <div class="flex justify-end">
+        <IconField>
+          <InputIcon>
+            <i class="pi pi-search" />
+          </InputIcon>
+          <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+        </IconField>
+      </div>
     </template>
-  </Card>
+    <template #empty>
+      <div class="w-full flex justify-center py-8">
+        <FText>No customers found.</FText>
+      </div>
+    </template>
+    <Column sortable field="MemberName" header="Name">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <div v-else class="flex items-center gap-3">
+          <FAvatar :label="slotProps.data.MemberName" />
+          <FText>{{ slotProps.data.MemberName }}</FText>
+        </div>
+      </template>
+    </Column>
+    <Column sortable field="LeaveType" header="Leave Type">
+      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+    </Column>
+    <Column sortable field="Days" header="Days">
+      <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+    </Column>
+    <Column sortable field="StartDate" header="StartDate">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <div v-else class="flex flex-col items-start gap-2">
+          <FText>{{ slotProps.data.StartDate }}</FText>
+          <FText>{{ slotProps.data.StartTime }}</FText>
+        </div>
+      </template>
+    </Column>
+    <Column sortable field="EndDate" header="End Date">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <div v-else class="flex flex-col items-start gap-2">
+          <FText>{{ slotProps.data.EndDate }}</FText>
+          <FText>{{ slotProps.data.EndTime }}</FText>
+        </div>
+      </template>
+    </Column>
+    <Column header="Actions">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <OptionsDropdown
+          v-else
+          :options="options"
+          @optionClick="handleOptionClick($event, slotProps.data)"
+        />
+      </template>
+    </Column>
+
+    <template v-if="isActiveAnnuals" #footer>
+      <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
+        <Button icon="pi pi-plus" label="Add Annual" @click="emit('new')" />
+        <FText> In total there are {{ annuals ? annuals.length : 0 }} annuals. </FText>
+      </div>
+    </template>
+  </DataTable>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import Skeleton from 'primevue/skeleton';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
@@ -146,7 +146,7 @@ const handleEdit = (annual: IAnnual) => {
 };
 
 const handleDelete = (ID: string) => {
-  emit('delete', ID)
+  emit('delete', ID);
 };
 
 const handleOptionClick = (option: EOptionsDropdown, annual: IAnnual) => {
@@ -156,4 +156,15 @@ const handleOptionClick = (option: EOptionsDropdown, annual: IAnnual) => {
     handleDelete(annual.ID);
   }
 };
+
+// Skeleton dummy data - 5 rows for loading state
+const skeletonData = Array.from({ length: 5 }, (_, i) => ({
+  ID: `skeleton-${i}`,
+  MemberName: '',
+  LeaveType: '',
+  Days: '',
+  StartDate: '',
+  EndDate: '',
+  Actions: '',
+}));
 </script>

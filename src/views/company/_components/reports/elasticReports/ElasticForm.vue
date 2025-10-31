@@ -1,6 +1,8 @@
 <template>
-  <form class="flex flex-col gap-4" @submit="submitHandler">
-    <div class="flex items-center gap-4 flex-wrap lg:flex-nowrap">
+  <Card class="shadow-md border border-gray-100 rounded-xl">
+    <template #content>
+      <form class="flex flex-col gap-5" @submit="submitHandler">
+        <div class="flex items-center gap-4 flex-wrap lg:flex-nowrap">
       <FMultiSelect
         class="flex-1"
         name="teams"
@@ -47,13 +49,16 @@
           manuelInput: true,
         }"
       />
-      <Button @click="resetForm()" type="button" label="Clear" severity="info" outlined />
-    </div>
-  </form>
+      <Button @click="resetForm()" type="button" label="Clear" severity="info" outlined class="shadow-sm" />
+        </div>
+      </form>
+    </template>
+  </Card>
 </template>
 
 <script setup lang="ts">
 import { useReport } from '@/views/company/_composables/useReport';
+import Card from 'primevue/card';
 
 const { teamOptions, employeeOptions, projectOptions, billibleOptions } = useReport();
 

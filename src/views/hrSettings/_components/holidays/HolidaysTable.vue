@@ -1,83 +1,79 @@
 <template>
-  <Card>
-    <template #content>
-      <DataTable
-        tableStyle="min-width: 50rem"
-        paginator
-        :loading="isLoading"
-        :value="holidays"
-        :rows="5"
-        :rowsPerPageOptions="[5, 10, 20, 50]"
-        v-model:filters="filters"
-        @page="handlePage"
-      >
-        <template #header>
-          <div class="flex justify-end">
-            <IconField>
-              <InputIcon>
-                <i class="pi pi-search" />
-              </InputIcon>
-              <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
-            </IconField>
-          </div>
-        </template>
-        <template #empty>
-          <div class="w-full flex justify-center py-8">
-            <FText>No customers found.</FText>
-          </div>
-        </template>
-        <template #loading>
-          <div class="w-full flex justify-center py-8">
-            <FText> Loading holiday data. Please wait. </FText>
-          </div>
-        </template>
-        <Column sortable field="Name" header="Name">
-          <template #body="slotProps">
-            <div class="flex items-center gap-3">
-              <FAvatar :label="slotProps.data.Name" />
-              <FText>{{ slotProps.data.Name }}</FText>
-            </div>
-          </template>
-        </Column>
-        <Column sortable field="Days" header="Days"> </Column>
-        <Column sortable field="StartDate" header="StartDate">
-          <template #body="slotProps">
-            <div class="flex flex-col items-start gap-2">
-              <FText>{{ slotProps.data.StartDate }}</FText>
-              <FText>{{ slotProps.data.StartTime }}</FText>
-            </div>
-          </template>
-        </Column>
-        <Column sortable field="EndDate" header="End Date">
-          <template #body="slotProps">
-            <div class="flex flex-col items-start gap-2">
-              <FText>{{ slotProps.data.EndDate }}</FText>
-              <FText>{{ slotProps.data.EndTime }}</FText>
-            </div>
-          </template>
-        </Column>
-        <Column header="Actions">
-          <template #body="slotProps">
-            <OptionsDropdown
-              :options="options"
-              @optionClick="handleOptionClick($event, slotProps.data)"
-            />
-          </template>
-        </Column>
-
-        <template #footer>
-          <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-            <Button icon="pi pi-plus" label="Add Holiday" @click="emit('new')" />
-            <FText> In total there are {{ holidays ? holidays.length : 0 }} holidays. </FText>
-          </div>
-        </template>
-      </DataTable>
+  <DataTable
+    tableStyle="min-width: 50rem"
+    paginator
+    :value="isLoading ? skeletonData : holidays"
+    :rows="5"
+    :rowsPerPageOptions="[5, 10, 20, 50]"
+    v-model:filters="filters"
+    @page="handlePage"
+  >
+    <template #header>
+      <div class="flex justify-end">
+        <IconField>
+          <InputIcon>
+            <i class="pi pi-search" />
+          </InputIcon>
+          <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+        </IconField>
+      </div>
     </template>
-  </Card>
+    <template #empty>
+      <div class="w-full flex justify-center py-8">
+        <FText>No customers found.</FText>
+      </div>
+    </template>
+    <Column sortable field="Name" header="Name">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <div v-else class="flex items-center gap-3">
+          <FAvatar :label="slotProps.data.Name" />
+          <FText>{{ slotProps.data.Name }}</FText>
+        </div>
+      </template>
+    </Column>
+    <Column sortable field="Days" header="Days"> </Column>
+    <Column sortable field="StartDate" header="StartDate">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <div v-else class="flex flex-col items-start gap-2">
+          <FText>{{ slotProps.data.StartDate }}</FText>
+          <FText>{{ slotProps.data.StartTime }}</FText>
+        </div>
+      </template>
+    </Column>
+    <Column sortable field="EndDate" header="End Date">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <div v-else class="flex flex-col items-start gap-2">
+          <FText>{{ slotProps.data.EndDate }}</FText>
+          <FText>{{ slotProps.data.EndTime }}</FText>
+        </div>
+      </template>
+    </Column>
+    <Column header="Actions">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" width="2.5rem" height="2.5rem" class="rounded-lg" />
+        <OptionsDropdown
+          v-else
+          :options="options"
+          @optionClick="handleOptionClick($event, slotProps.data)"
+        />
+      </template>
+    </Column>
+
+    <template #footer>
+      <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
+        <Button icon="pi pi-plus" label="Add Holiday" @click="emit('new')" class="shadow-sm" />
+        <FText> In total there are {{ holidays ? holidays.length : 0 }} holidays. </FText>
+      </div>
+    </template>
+  </DataTable>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import Skeleton from 'primevue/skeleton';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
@@ -145,4 +141,13 @@ const handleOptionClick = (option: EOptionsDropdown, holiday: IHoliday) => {
     handleDelete(holiday.ID);
   }
 };
+
+// Skeleton dummy data - 5 rows for loading state
+const skeletonData = Array.from({ length: 5 }, (_, i) => ({
+  ID: `skeleton-${i}`,
+  Name: '',
+  Days: '',
+  StartDate: '',
+  EndDate: '',
+}));
 </script>

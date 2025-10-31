@@ -9,7 +9,7 @@
     />
     <DatePicker
       v-model="dateRange"
-      class="flex-1"
+      class="flex-1 min-w-56"
       selection-mode="range"
       :manual-input="false"
       date-format="yy-mm-dd"
@@ -21,7 +21,7 @@
       :options="perspectiveOptions"
       option-label="name"
       placeholder="Select perspective"
-      class="min-w-40"
+      class="w-18"
       @change="handlePerspectiveChange"
     >
       <template #value="slotProps">

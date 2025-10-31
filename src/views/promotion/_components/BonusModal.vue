@@ -15,9 +15,15 @@
           :rows="5"
           :rowsPerPageOptions="[5, 10, 20, 50]"
         >
-          <Column sortable field="EmailAddress" header="Email Address"> </Column>
-          <Column sortable field="SendDate" header="Send Date"> </Column>
-          <Column field="UsageDate" header="Usage Date"> </Column>
+          <Column sortable field="EmailAddress" header="Email Address">
+            <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+          </Column>
+          <Column sortable field="SendDate" header="Send Date">
+            <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+          </Column>
+          <Column field="UsageDate" header="Usage Date">
+            <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+          </Column>
 
           <template #footer>
             In total there are {{ promotionsList ? promotionsList.length : 0 }} promotionsList.
@@ -29,11 +35,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { usePromotionsStore } from '@/stores/promotion/promotion';
 
 const promotionsStore = usePromotionsStore();
-
+const isLoading = ref(true);
 const open = defineModel<boolean>('open');
 
 const promotionsList = computed(() => {

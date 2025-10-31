@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Card>
+    <Card class="shadow-md border border-gray-100 rounded-xl">
       <template #content>
-        <form @submit="submitHandler">
+        <form @submit="submitHandler" class="space-y-5">
           <div class="w-full flex items-center gap-4 flex-col lg:flex-row">
             <div class="flex w-full">
               <FInput

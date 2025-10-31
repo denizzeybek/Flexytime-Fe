@@ -10,7 +10,7 @@
         </div>
         <FText />
       </div>
-      <template v-for="(clock, tIdx) in field.value.Clocks">
+      <template v-for="(clock, tIdx) in field.value.Clocks" :key="tIdx">
         <div class="flex items-center gap-4">
           <FCheckbox :name="`unclassifiedtimeEntries[${idx}].Clocks[${tIdx}].Selected`" />
           <Card class="flex-1" :class="clock.Selected ? 'border-2 border-f-primary' : ''">
@@ -34,7 +34,7 @@
                   </div>
                 </div>
                 <div v-if="clock.Details.length" class="flex flex-col gap-2">
-                  <template v-for="(detail, dIdx) in clock.Details">
+                  <template v-for="(detail, dIdx) in clock.Details" :key="dIdx">
                     <div v-if="detail" class="flex items-center gap-4">
                       <FCheckbox
                         :name="`unclassifiedtimeEntries[${idx}].Clocks[${tIdx}].Details[${dIdx}].Selected`"

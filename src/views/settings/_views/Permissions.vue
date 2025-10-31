@@ -2,25 +2,28 @@
   <Card class="lg:w-[700px]">
     <template #content>
       <form @submit="submitHandler" class="flex flex-col gap-12">
-        <template v-for="(field, idx) in fields" :key="field.key">
-          <div
-            class="flex w-fit flex-col lg:flex-row lg:justify-between items-start gap-4 lg:items-center lg:w-full"
-          >
-            <div>
-              <FText>{{ field.value.Name }}</FText>
+        <Skeleton v-if="isLoading" height="100rem" width="w-full" />
+        <template v-else>
+          <template v-for="(field, idx) in fields" :key="field.key">
+            <div
+              class="flex w-fit flex-col lg:flex-row lg:justify-between items-start gap-4 lg:items-center lg:w-full"
+            >
+              <div>
+                <FText>{{ field.value.Name }}</FText>
+              </div>
+              <div class="flex items-center gap-12">
+                <FSwitch :name="`permissions[${idx}].Enabled`" />
+                <FSelectSwitchButton
+                  :name="`permissions[${idx}].VisibleOnlyByAdmin`"
+                  :options="options"
+                />
+              </div>
             </div>
-            <div class="flex items-center gap-12">
-              <FSwitch :name="`permissions[${idx}].Enabled`" />
-              <FSelectSwitchButton
-                :name="`permissions[${idx}].VisibleOnlyByAdmin`"
-                :options="options"
-              />
-            </div>
+          </template>
+          <div class="flex w-50 justify-center">
+            <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" label="Save" />
           </div>
         </template>
-        <div class="flex w-50 justify-center">
-          <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" label="Save" />
-        </div>
       </form>
     </template>
   </Card>
@@ -29,10 +32,11 @@
 <script setup lang="ts">
 import { boolean, string, object, array } from 'yup';
 import { useFToast } from '@/composables/useFToast';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useFieldArray, useForm } from 'vee-validate';
 import { useSettingsPermissionsStore } from '@/stores/settings/permissions';
 import type { IPermission } from '@/interfaces/settings/permission';
+import Skeleton from 'primevue/skeleton';
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const permissionsStore = useSettingsPermissionsStore();
@@ -41,6 +45,7 @@ const options = [
   { label: 'Everyone', value: false },
   { label: 'Admin', value: true },
 ];
+const isLoading = ref(false);
 
 const validationSchema = object({
   permissions: array()
@@ -65,12 +70,16 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 const { fields } = useFieldArray<IPermission>('permissions');
 
 const transformPermissions = (permissions) => {
-  const EnabledIdList = permissions.filter(permission => permission.Enabled).map(permission => permission.Id);
-  const AdminIdList = permissions.filter(permission => permission.VisibleOnlyByAdmin.value).map(permission => permission.Id);
+  const EnabledIdList = permissions
+    .filter((permission) => permission.Enabled)
+    .map((permission) => permission.Id);
+  const AdminIdList = permissions
+    .filter((permission) => permission.VisibleOnlyByAdmin.value)
+    .map((permission) => permission.Id);
 
   return {
     EnabledIdList,
-    AdminIdList
+    AdminIdList,
   };
 };
 
@@ -100,13 +109,18 @@ const getInitialFormData = computed(() => {
 });
 
 onMounted(async () => {
-  await permissionsStore.filter();
-
-  resetForm({
-    values: {
-      permissions: getInitialFormData.value,
-    },
-  });
+  try {
+    isLoading.value = true;
+    await permissionsStore.filter();
+    resetForm({
+      values: {
+        permissions: getInitialFormData.value,
+      },
+    });
+    isLoading.value = false;
+  } catch (error) {
+    console.log(error);
+  }
 });
 </script>
 

@@ -1,8 +1,8 @@
 <template>
-  <Card>
+  <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
     <template #header>
       <li
-        class="items-center hidden gap-2 px-12 py-4 text-lg lg:ml-4 font-normal rounded-lg lg:grid-rows-1 lg:grid text-r-secondary lg:grid-cols-8"
+        class="items-center hidden gap-2 px-12 py-4 text-lg lg:ml-4 font-normal rounded-lg lg:grid-rows-1 lg:grid text-gray-600 lg:grid-cols-8"
       >
         <div class="lg:col-span-2 lg:ml-4">Team Name</div>
         <div class="lg:col-span-2 lg:ml-4">Member Name</div>
@@ -13,8 +13,8 @@
       </li>
     </template>
     <template #content>
-      <div v-for="team in organizationList" :key="team.ID">
-        <ul class="flex flex-col gap-2">
+      <div v-for="team in organizationList" :key="team.ID" class="mb-5">
+        <ul class="flex flex-col gap-3">
           <OrganizationItem
             :model="team"
             @item-change="onItemChange($event)"
@@ -24,9 +24,9 @@
       </div>
     </template>
     <template #footer>
-      <div class="flex justify-between">
-        <Button @click="handleAddTeam" icon="pi pi-plus" label="Add Team" />
-        <Button severity="info" label="Save" @click="handleSave"/>
+      <div class="flex justify-between gap-3 pt-5 border-t border-gray-100">
+        <Button @click="handleAddTeam" icon="pi pi-plus" label="Add Team" class="shadow-sm" />
+        <Button severity="info" label="Save" @click="handleSave" class="shadow-sm"/>
       </div>
     </template>
   </Card>
