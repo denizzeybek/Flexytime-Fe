@@ -20,24 +20,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed } from 'vue';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useRoute, useRouter } from 'vue-router';
 import Card from 'primevue/card';
 
+const { t } = useI18n<{ message: MessageSchema }>();
+
 const route = useRoute();
 const router = useRouter();
-const items = ref([
+const items = computed(() => [
   {
     route: ERouteNames.ClassificationWebAddresses,
-    label: ERouteNames.ClassificationWebAddresses,
+    label: t('pages.classification.tabs.webAddresses'),
     method: () => {
       router.push({ name: ERouteNames.ClassificationWebAddresses });
     },
   },
   {
     route: ERouteNames.ClassificationApplications,
-    label: ERouteNames.ClassificationApplications,
+    label: t('pages.classification.tabs.applications'),
     method: () => {
       router.push({ name: ERouteNames.ClassificationApplications });
     },

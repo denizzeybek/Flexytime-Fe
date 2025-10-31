@@ -8,7 +8,14 @@
       "Bash(python3:*)",
       "Bash(node -e:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(cat:*)",
+      "Bash(for file in /Users/denizzeybek/Documents/Flexytime-Fe/src/views/hrSettings/_components/holidays/*.vue)",
+      "Bash(done)",
+      "Bash(for file in /Users/denizzeybek/Documents/Flexytime-Fe/src/views/timesheets/_views/*.vue)",
+      "Bash(wc:*)",
+      "Bash(awk:*)",
+      "Bash(yarn --version)"
     ],
     "deny": [],
     "ask": []

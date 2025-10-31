@@ -129,9 +129,9 @@
                 />
               </div> -->
                 <div class="flex lg:flex-col flex-1 gap-4">
-                  <FInput class="grow" id="memberName" label="Full Name" name="memberName" />
-                  <FInput class="grow" type="email" id="email" label="Email" name="email" />
-                  <FCheckbox v-if="isEditing" name="enabled" labelLeft label="Enabled" />
+                  <FInput class="grow" id="memberName" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
+                  <FInput class="grow" type="email" id="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
+                  <FCheckbox v-if="isEditing" name="enabled" labelLeft :label="t('pages.hrSettings.employees.modal.enabled.label')" />
                 </div>
               </div>
               <div class="flex gap-4 flex-1">
@@ -139,25 +139,25 @@
                   id="title"
                   class="grow"
                   name="title"
-                  label="Title"
-                  placeholder="Title"
+                  :label="t('pages.hrSettings.employees.modal.title.label')"
+                  :placeholder="t('pages.hrSettings.employees.modal.title.placeholder')"
                   :options="titleOptions"
                 />
                 <FSelect
                   id="team"
                   class="grow"
                   name="team"
-                  label="Team"
-                  placeholder="Team"
+                  :label="t('pages.hrSettings.employees.modal.team.label')"
+                  :placeholder="t('pages.hrSettings.employees.modal.team.placeholder')"
                   :options="teamOptions"
                 />
               </div>
               <div class="flex items-center gap-4 flex-1">
-                <FInput class="grow" id="salary" label="Salary" name="salary" />
+                <FInput class="grow" id="salary" :label="t('pages.hrSettings.employees.modal.salary.label')" name="salary" />
               </div>
               <Divider />
               <div class="flex gap-4 flex-1">
-                <FPassword class="grow" id="password" label="Password" name="password" />
+                <FPassword class="grow" id="password" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
                 <!-- <FPassword
                 class="grow"
                 id="repeatPassword"
@@ -215,10 +215,10 @@
       </Tabs>
     </template>
     <div class="flex justify-end gap-2">
-      <Button type="button" label="Cancel" severity="secondary" @click.stop="open = false"></Button>
+      <Button type="button" :label="t('common.buttons.cancel')" severity="secondary" @click.stop="open = false"></Button>
       <Button
         type="submit"
-        label="Save"
+        :label="t('common.buttons.save')"
         :disabled="isSubmitting"
         @click.stop="submitHandler"
         :loading="isSubmitting"
@@ -419,11 +419,11 @@ const handleClose = () => {
 const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
-    let text = 'Employee added!';
+    let text = t('pages.hrSettings.employees.modal.messages.added');
     let payload = {};
     if (isEditing.value) {
       const employee = props.data;
-      text = 'Employee updated!';
+      text = t('pages.hrSettings.employees.modal.messages.updated');
       payload = {
         id: employee?.ID,
         memberName: values.memberName,
