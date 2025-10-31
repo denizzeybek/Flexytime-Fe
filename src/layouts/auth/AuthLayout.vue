@@ -5,8 +5,9 @@
       <div class="px-4 flex justify-between items-center w-full lg:pt-3 mb-10">
         <FSelect
           name="language"
-          :value="{ name: 'Turkish', value: 'tr' }"
-          :options="languagesList"
+          :value="selectedLanguage"
+          :options="languageOptions"
+          @update:model-value="handleLanguageChange"
           class="max-w-[140px] ms-auto"
         />
       </div>
@@ -20,8 +21,10 @@ import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
 import AuthAside from './_components/Authside.vue';
+import { useLanguage } from '@/composables/useLanguage';
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const { currentLanguage, changeLanguage, getLanguageOptions } = useLanguage();
 
 type TAdName = 'login' | 'register' | 'download' | 'forgot-password';
 
@@ -32,10 +35,17 @@ withDefaults(defineProps<IProps>(), {
   adName: 'login',
 });
 
-const languagesList = [
-  { name: t('pages.auth.authLayout.language.turkish'), value: 'tr' },
-  { name: t('pages.auth.authLayout.language.english'), value: 'en' },
-];
+const languageOptions = getLanguageOptions();
+
+const selectedLanguage = computed(() => {
+  return languageOptions.find(lang => lang.value === currentLanguage.value);
+});
+
+const handleLanguageChange = (option: { name: string; value: 'en' | 'tr' }) => {
+  if (option && option.value) {
+    changeLanguage(option.value);
+  }
+};
 
 const ads = computed(() => {
   return {

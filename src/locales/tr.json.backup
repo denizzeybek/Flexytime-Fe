@@ -1,0 +1,2250 @@
+{
+  "language": "Dil",
+  "pages": {
+    "auth": {
+      "login": {
+        "title": "Hesabınıza Giriş Yapın",
+        "banner": {
+          "invoice-ad": {
+            "title": "Dünya çapında tanınan faturalar gönder",
+            "feature_1": "140 para birimi destekleniyoruz",
+            "feature_2": "190 ülkeyi desktekliyoruz",
+            "feature_3": "Abonelik yok, komisyon bazlı fiyatlandırma"
+          },
+          "fast-pay-ad": {
+            "title": "Rekor sürede ödemeni al.",
+            "feature_1": "Tüm ödemeler 24 saat içinde işleme alınır",
+            "feature_2": "Kripto dahil 140 para birimini destekleniyoruz",
+            "feature_3": "Müşterinin kayıt olması gerekmez"
+          },
+          "talent-client-ad": {
+            "title": "Müşterine yük olmaz.",
+            "feature_1": "Müşterinin kayıt olması gerekmez",
+            "feature_2": "Banka havaleleri ve kredi kartları kabul edilir",
+            "feature_3": "Güvenli ödemeler"
+          },
+          "crypto-pay-ad": {
+            "title": "Kripto ile ödeme al.",
+            "feature_1": "Doğrudan Binance cüzdanına",
+            "feature_2": "Anında ödemeler, beklemek yok",
+            "feature_3": "Sadece {'%'}1.5 ek ücret uygulanır"
+          },
+          "business-invoice-ad": {
+            "title": "Tüm dünyadan yeteneklerle çalışın.",
+            "feature_1": "Tekli ve toplu ödemeler",
+            "feature_2": "Muhasebeye uygun faturalar",
+            "feature_3": "190 ülkeyi desktekliyoruz"
+          }
+        },
+        "form": {
+          "email": {
+            "label": "E-posta",
+            "placeholder": "E-posta girin"
+          },
+          "password": {
+            "label": "Parola",
+            "placeholder": "Parolanızı girin"
+          },
+          "remember": "Beni Hatırla",
+          "submit": "Giriş"
+        },
+        "forgotPassword": "Parolanızı mı unuttunuz?",
+        "or": "veya",
+        "google": "Google ile yetenek olarak giriş yapın",
+        "newHere": "Üye değil misiniz? {link}",
+        "register": "Yeni Hesap Açın"
+      },
+      "forgot_password": {
+        "title": "Parolanızı mı unuttunuz?",
+        "label": "Endişelenmene gerek yok. Sıfırlama talimatlarını almak için e-posta adresini girmen yeterlidir.",
+        "form": {
+          "email": {
+            "label": "E-posta",
+            "placeholder": "E-postanı gir"
+          },
+          "button": "Gönder"
+        }
+      },
+      "check_email_message": {
+        "title": "Lütfen e-postanızı kontrol edin",
+        "check_link": "Şifrenizi sıfırlamanız için {link} adresine bir bağlantı gönderdik! Lütfen gelen kutunuzun yanı sıra spam klasörünüzü de kontrol edin.",
+        "resend_text": "Gelmedi mi? {link}",
+        "resend_link": "E-postayı yeniden gönder",
+        "success_msg": "E-posta gönderildi"
+      },
+      "reset_password": {
+        "title": "Yeni parolanı gir",
+        "label1": "Güçlü yapmayı unutma.",
+        "label2": "1234 veya doğum günleri kabul edilmeyecektir.",
+        "form": {
+          "password": {
+            "label": "Parola",
+            "placeholder": "Parola",
+            "test": "Geçersiz parola"
+          },
+          "btn": "Şifreyi kaydet"
+        },
+        "success_msg": "Parola güncellendi!"
+      },
+      "choose_account_type": {
+        "title": "Hesap türünü seçin",
+        "form": {
+          "talent": {
+            "label": "Bir yeteneğim",
+            "description": "Müşterilerime fatura kesmek ve ödeme almak istiyorum."
+          },
+          "business": {
+            "label": "Bir işletmeyi temsil ediyorum",
+            "description": "Yeteneklerimi yönetmek ve ödeme yapmak istiyorum."
+          },
+          "isTalent": {
+            "placeholder": "Hesap Türü"
+          },
+          "button": "İleri"
+        }
+      },
+      "create_form": {
+        "warning_text": "Lütfen sadece Latin karakterleri kullanın.",
+        "form": {
+          "first_name": {
+            "label": "Ad",
+            "placeholder": "Ad"
+          },
+          "last_name": {
+            "label": "Soyad",
+            "placeholder": "Soyad"
+          },
+          "email": {
+            "label": "E-posta",
+            "placeholder": "E-posta"
+          },
+          "password": {
+            "label": "Parola",
+            "placeholder": "Parola",
+            "test": "Geçersiz parola"
+          },
+          "terms_agreed": {
+            "label": "Kullanım Koşulları",
+            "placeholder": "Kullanım Koşulları"
+          }
+        },
+        "already": {
+          "title": "Zaten hesabın var mı? {link}",
+          "link": "Giriş yap"
+        },
+        "talent": {
+          "title": "Yetenek hesabı oluştur",
+          "button": "Yetenek hesabı oluştur",
+          "or": "veya",
+          "google_btn": "Google ile devam et",
+          "form": {
+            "email": {
+              "hint": "Geçerli bir e-posta olmalıdır."
+            }
+          }
+        },
+        "business": {
+          "title": "İşletme hesabı oluşturun",
+          "button": "İşletme hesabı oluşturun",
+          "form": {
+            "email": {
+              "hint": "Bir iş e-postası olmalı"
+            },
+            "terms": {
+              "label": "{link}ni kabul ediyorum.",
+              "link": "Kullanım Koşulları"
+            }
+          },
+          "corporate_email_error": "Lütfen geçerli bir kurumsal e-posta adresi kullan."
+        }
+      },
+      "verify_email": {
+        "title": "Lütfen e-postanızı doğrulayın",
+        "label": "<strong>{0}</strong> adresine bir doğrulama e-postası gönderdik. Lütfen Gelen Kutusu ile birlikte Spam klasörünüzü de kontrol etmeyi unutmayın.",
+        "resend_text": "Gelmedi mi? {link}",
+        "resend_link": "Doğrulama e-postasını tekrar gönder",
+        "success_msg": "E-posta gönderildi!"
+      },
+      "verify": {
+        "not_verified": "Doğrulanmadı",
+        "redirecting": "Doğrulandı, yönlendiriliyor...",
+        "verifying": "Doğrulanıyor...",
+        "error_msg": "Doğrulama bağlantısının süresi doldu. Lütfen geri dön ve yeni bir bağlantı almak için 'Yeniden Gönder' butonuna tıkla."
+      },
+      "register": {
+        "steps": {
+          "create_account": "Hesap Oluştur",
+          "account_details": "Hesap Detayları",
+          "address": "Adres"
+        },
+        "account_details": {
+          "title": "Hesap Detayları",
+          "form": {
+            "warning_text": "Lütfen sadece Latin karakterleri kullanın.",
+            "first_name": {
+              "label": "Ad",
+              "placeholder": "Ad"
+            },
+            "last_name": {
+              "label": "Soyad",
+              "placeholder": "Soyad"
+            },
+            "email": {
+              "label": "E-posta",
+              "placeholder": "E-posta"
+            },
+            "phone_number": {
+              "label": "Telefon Numarası",
+              "placeholder": "Telefon Numarası",
+              "test": "Geçersiz telefon numarası"
+            },
+            "date_of_birth": {
+              "label": "Doğum Tarihi",
+              "placeholder": "Doğum Tarihi",
+              "test": "En az 18 yaşında olmalısın."
+            },
+            "identity_number": {
+              "label": "Kimlik Numarası",
+              "placeholder": "Kimlik Numarası",
+              "tooltip": "Bu numara, kimliğinizi doğrulamak için kullanılır. TC kimlik numarası, yeni kimlik kartının ön yüzünde, sol üst köşede bulunur.",
+              "not_all_chars_same": "Geçersiz Kimlik Numarası"
+            },
+            "button": "İleri",
+            "citizenship_country": {
+              "label": "Vatandaşı olduğun ülke"
+            },
+            "ssn": {
+              "label": "Sosyal Güvenlik Numarası"
+            }
+          }
+        },
+        "company_details": {
+          "title": "Şirket Detayları",
+          "steps": {
+            "create_account": "Hesap Oluşturun",
+            "company_details": "Şirket Detayları"
+          },
+          "form": {
+            "email": {
+              "label": "Şirket E-postası",
+              "placeholder": "E-posta",
+              "test": "İşletme ve şirket alan adları eşleşmiyor."
+            },
+            "terms": {
+              "label": "{link}ni kabul ediyorum.",
+              "link": "Şirket Sözleşmesi",
+              "placeholder": "Şirket Sözleşmesi",
+              "isTrue": "Şirket Sözleşmesi kabul edilmelidir."
+            },
+            "button": "Tamamla",
+            "name": "Şirket Adı",
+            "country": "İkamet Edilen Ülke",
+            "state": "Eyalet",
+            "city": "Şehir",
+            "zip_code": "Posta Kodu",
+            "address": "Adres",
+            "know_vat": {
+              "yes": "KDV, EIN veya Vergi Numarası",
+              "no": "Ticaret Sicil Numarası"
+            },
+            "tax_id": "Şirketin KDV, EIN veya Vergi Numarası",
+            "registration_number": "Şirketin Ticaret Sicil Numarası",
+            "tax_office": "Vergi Dairesi",
+            "pan_number": "Şirketin PAN Numarası (isteğe bağlı)",
+            "phone": "Şirketin telefon numarası",
+            "website": "Web Sitesi"
+          }
+        },
+        "address": {
+          "title": "Adres",
+          "form": {
+            "address": {
+              "label": "Adres",
+              "placeholder": "Adres"
+            },
+            "country": {
+              "label": "İkamet Edilen Ülke",
+              "placeholder": "İkamet Edilen Ülke"
+            },
+            "state": {
+              "label": "Eyalet",
+              "placeholder": "Eyalet"
+            },
+            "city": {
+              "label": "Şehir",
+              "placeholder": "Şehir"
+            },
+            "zip_code": {
+              "label": "Posta Kodu",
+              "placeholder": "Posta Kodu"
+            },
+            "terms": {
+              "validation": "Kullanım koşulları kabul edilmelidir.",
+              "schema_label": "Kullanım Koşulları",
+              "label": "{link}ni kabul ediyorum.",
+              "link": "Freelancer Sözleşmesi"
+            },
+            "button": "Tamamla"
+          }
+        }
+      }
+    },
+    "dashboard": {
+      "page_title": "Ana Sayfa",
+      "invoice_card_title": "Son Faturalar",
+      "list_empty_msj": "Henüz faturanız yok.",
+      "invoice_no": "Fatura No: #{0}",
+      "activity": {
+        "total": "Faturalar toplamı",
+        "paid": "Ödenmiş faturalar toplamı",
+        "unpaid": "Ödenmemiş faturalar toplamı",
+        "invoice_count": "{0} fatura"
+      },
+      "talent": {
+        "card_title": "En Son Faturalandırılan Müşteriler",
+        "list_empty_msj": "Henüz hiçbir müşteriye fatura kesmediniz.",
+        "header": {
+          "title": "Ruul'a hoş geldin!",
+          "text": "Müşterilerini faturalandır, sözleşmeler oluştur ve ödemelerini kolaylıkla tahsil et."
+        },
+        "onboarding": {
+          "items": {
+            "add_client": {
+              "alt": "müşteri ekle",
+              "title": "Bir müşteri ekle",
+              "description": "Yalnızca müşterinin e-posta adresi ve şirket adı gereklidir. Bir dakikadan kısa sürer.",
+              "btn_text": "Şimdi Ekle"
+            },
+            "create_invoice": {
+              "alt": "Yeni Fatura",
+              "title": "İlk faturanı oluştur",
+              "description": "Hizmet detaylarını belirt ve müşterine dakikalar içinde fatura gönder.",
+              "btn_text": "Şimdi Oluştur"
+            },
+            "collect_payment": {
+              "alt": "Ödemelerini topla",
+              "title": "Ödeme hesabı ekle",
+              "description": "Ödemeleri doğrudan banka hesabına, Payoneer veya Binance cüzdanında topla.",
+              "btn_text": "Şimdi Ekle"
+            }
+          },
+          "badge_text": "Bitti"
+        }
+      },
+      "business": {
+        "card_title": "Ödeme Yapılan Yetenekler",
+        "list_empty_msj": "Henüz herhangi bir yeteneğe ödeme yapmadınız.",
+        "warning_alert": {
+          "title": "Ödenmemiş {0} faturanız var.",
+          "btn_text": "Ödenmeyen faturaları görün"
+        }
+      },
+      "changeLog": {
+        "header": "Birkaç iyileştirme yaptık... 👀",
+        "talent_titles": {
+          "1": "Birden fazla hizmet kalemli faturalar",
+          "2": "İyileştirilmiş fatura takibi",
+          "3": "Kolay anlaşılır sözleşmeler",
+          "4": "Ve çok daha fazlası..."
+        },
+        "business_titles": {
+          "1": "Birden fazla hizmet kalemli faturalar",
+          "2": "İyileştirilmiş fatura takibi",
+          "3": "Geliştirilmiş toplu faturalar 💪",
+          "4": "Ve çok daha fazlası..."
+        },
+        "learn_more": "Daha fazla bilgi"
+      },
+      "tour": {
+        "title": "Şirketinizi seçin",
+        "description": "Dahil olduğunuz tüm şirketler burada listelenecek ve seçilen şirkete ait bilgiler gösterilecektir. Tercihinizi istediğiniz zaman değiştirebilirsiniz."
+      },
+      "access_denied_warning": {
+        "title": "{companyName} şirketine dahil olmak için onay almanız gerekmektedir.",
+        "description": "{companyName} başka bir kullanıcı tarafından Ruul'a kaydedilmiş. Devam etmek için lütfen bizimle iletişime geçin.",
+        "logout": "Çıkış Yapın",
+        "support": {
+          "label": "Yardıma mı ihtiyacınız var? {link}",
+          "link": "Bize ulaşın"
+        }
+      },
+      "cenoa_banner": {
+        "title": "Cenoa burada! Doğrudan Cenoa cüzdanına Dijital Dolar (USDC) almaya başla! 🚀",
+        "link": "Şimdi Başla"
+      }
+    },
+    "invoices": {
+      "page_title": "Faturalar",
+      "transaction_status": {
+        "issued": "Oluşturuldu",
+        "in_progress": "İşleniyor",
+        "completed": "Ödendi",
+        "cancelled": "İptal edildi",
+        "rejected": "Reddedildi",
+        "approval_needed": "Onay Gerekiyor",
+        "received": "Oluşturuldu",
+        "sent": "Oluşturuldu",
+        "processing": "İşleniyor",
+        "paid_out": "Ödendi",
+        "warning": "Uyarı",
+        "waiting_approval": "Onay bekleniyor",
+        "waiting_for_payment": "Sprinque bekleniyor",
+        "sprinque_paid_us": "Sprinque ödeme yaptı",
+        "youve_paid_to_sprinque": "Sprinque'e ödeme yaptınız",
+        "client_paid_to_sprinque": "Müşteri ödemeyi yaptı"
+      },
+      "page_onboarding": {
+        "title": "İlk faturanı oluştur. 3 dakikanı alır.",
+        "button_title": "Yeni Fatura",
+        "features": {
+          "feature1": "Kripto dahil 140 para birimini destekleniyoruz",
+          "feature2": "Dünyaca tanınan",
+          "feature3": "Muhasebe dostu"
+        }
+      },
+      "new_invoice": "Yeni Fatura",
+      "tab_items": {
+        "all_invoices": "Tüm Faturalar",
+        "issued": "Oluşturuldu",
+        "in_progress": "İşleniyor",
+        "completed": "Ödendi",
+        "cancelled": "İptal edildi",
+        "rejected": "Reddedildi",
+        "archived": "Arşivlendi"
+      },
+      "talent_new_invoice": {
+        "page_title_result": "Fatura #{0}",
+        "page_title_no_result": "Yeni Fatura",
+        "form": {
+          "client": {
+            "label": "Müşteri",
+            "placeholder": "Müşteri seç",
+            "warning": "Henüz herhangi bir müşterin yok.",
+            "add_btn": "Şimdi Ekle",
+            "light_label": "Vergi numarası: {0}"
+          },
+          "contact": {
+            "label": "Faturanın gönderileceği kişi",
+            "placeholder": "Faturanın paylaşılacağı kişiyi seç"
+          },
+          "project": {
+            "label": "Proje",
+            "placeholder": "Proje seç",
+            "warning": "Henüz herhangi bir projen yok.",
+            "add_btn": "Şimdi Ekle"
+          },
+          "sub_category": {
+            "label": "Alt kategori",
+            "placeholder": "Alt kategori seç"
+          },
+          "invoice_currency": {
+            "label": "Faturanın para birimi"
+          },
+          "payment_currency": {
+            "label_payoneer": "Hesabın para birimi",
+            "validation": "Ödemenin Para Birimi",
+            "placeholder": "Para birimi seç",
+            "add_bank_account": "veya bir ödeme hesabı ekle",
+            "label_no_payoneer": "Ödemeyi alacağın para birimi"
+          },
+          "service_fee_payer": {
+            "label": "Hizmet bedelini üstlenen",
+            "options": {
+              "me": "Ben",
+              "my_client": "Müşterim"
+            },
+            "tooltip_body": "Ruul'un hizmet bedelini üstlenen taraftır."
+          },
+          "extra_notes": {
+            "label": "Ek Notlar",
+            "placeholder": "Müşterin için notun var mı?"
+          },
+          "file_upload": {
+            "label": "Dosya ekle",
+            "hint": "10 MB'a kadar dosya yüklenebilir."
+          },
+          "required_field": "Zorunlu alan",
+          "invalid_amount": "Geçersiz tutar",
+          "preview_btn": "E-posta Önizlemesi",
+          "send_btn": "Şimdi Gönder",
+          "category": {
+            "label": "Kategori",
+            "placeholder": "Kategori seç"
+          },
+          "bank_account": {
+            "label": "Ödemeyi alacağın hesap",
+            "placeholder": "Bir ödeme seçeneği seçin",
+            "preferred": "Yeteneğin tercihi",
+            "iban_end_with": "{0} ile biten IBAN",
+            "account_end_with": "{0} ile biten banka hesabı",
+            "commission": "Hizmet Bedeli: {'%'}{0}"
+          },
+          "description": {
+            "max_length": "Maksimum {0} karakter"
+          },
+          "single_service_item_turkey": "Türkiye'de kayıtlı şirketlere gönderilen faturalara yalnızca 1 hizmet kalemi eklenebilir."
+        },
+        "early_pay": {
+          "new": "Yeni",
+          "title": "Early Pay ile {availableCreditLimit} {creditLimitCurrency} kadar peşin ödeme alın!",
+          "description": "USD, EUR ve GBP cinsinden faturalar için, müşterinin onayından sonraki 24 saat içinde ödemeyi alabilirsin.",
+          "question": "Nasıl çalışır?",
+          "select_label": "Müşterin kaç gün içinde ödeme yapacak?",
+          "supported_currencies": "Faturanın para birimi USD, EUR veya GBP olmalıdır.",
+          "supported_range": "Fatura tutarı {minimumCreditLimit} - {availableCreditLimit} {creditLimitCurrency} arasında olmalıdır.",
+          "options": {
+            "no_early_pay": "Early Pay olmadan devam et",
+            "days": "{0} gün",
+            "fee": "Early Pay ücreti: %{0}"
+          },
+          "info_modal": {
+            "title": "Nasıl çalışır?",
+            "text1": "Müşterinin ödemeyi ne zaman yapacağını seç ve faturayı oluştur.",
+            "text2": "Fatura, seçtiğin ödeme süresini kabul ettiklerinden emin olmak için müşterinin onayına gönderilir.",
+            "text3": "Fatura onaylandıktan sonraki 24 saat içinde ödeme sana gönderilecek.",
+            "text4": "Müşterinin son ödeme tarihine kadar ödeme yapmak için zamanı olacaktır.",
+            "text5": "Ödemeyi yapmak için iş ortağımız Sprinque'den e-posta yoluyla bir ödeme bağlantısı alacaklar.",
+            "support": {
+              "label": "Sorularınız mı var? {link}",
+              "link": "Canlı destek ile bize ulaşın"
+            }
+          }
+        }
+      },
+      "business_new_invoice": {
+        "page_title_result": "Fatura #{0}",
+        "page_title_no_result": "Yeni Fatura",
+        "form": {
+          "talent": {
+            "label": "Yetenek",
+            "placeholder": "Yetenek seçin",
+            "warning": "Henüz herhangi bir yeteneğiniz yok.",
+            "add_btn": "Yeni Yetenek"
+          },
+          "project": {
+            "label": "Proje",
+            "placeholder": "Proje seçin",
+            "warning": "Henüz herhangi bir projeniz yok.",
+            "add_btn": "Şimdi Ekleyin"
+          },
+          "sub_category": {
+            "label": "Alt kategori",
+            "placeholder": "Alt kategori seçin"
+          },
+          "payment_currency": {
+            "label_payoneer": "Hesabın para birimi",
+            "validation": "Ödemenin Para Birimi",
+            "placeholder": "Para birimi seç",
+            "add_bank_account": "veya bir ödeme hesabı ekle",
+            "label_no_payoneer": "Yeteneğin ödemeyi alacağı para birimi"
+          },
+          "service_fee_payer": {
+            "label": "Hizmet bedelini üstlenen",
+            "options": {
+              "me": "Siz",
+              "my_talent": "Yeteneğiniz"
+            },
+            "tooltip_body": "Ruul'un hizmet bedelini üstlenen taraftır."
+          },
+          "invoice_currency": {
+            "label": "Faturanın para birimi"
+          },
+          "extra_notes": {
+            "label": "Ek Notlar",
+            "placeholder": "Yeteneğiniz için notunuz var mı?"
+          },
+          "file_upload": {
+            "label": "Dosya ekleyin",
+            "hint": "10 MB'a kadar dosya yüklenebilir."
+          },
+          "required_field": "Zorunlu alan",
+          "invalid_amount": "Geçersiz tutar",
+          "preview_btn": "E-posta Önizlemesi",
+          "send_btn": "Şimdi Gönderin",
+          "category": {
+            "label": "Kategori",
+            "placeholder": "Kategori seçin"
+          },
+          "bank_account": {
+            "label": "Ödemenin alınacağı hesap",
+            "placeholder": "Ödeme hesabını seçin",
+            "preferred": "Yeteneğin tercihi",
+            "iban_end_with": "{0} ile biten IBAN",
+            "account_end_with": "{0} ile biten banka hesabı",
+            "commission": "Hizmet Bedeli: {'%'}{0}"
+          },
+          "description": {
+            "max_length": "Maksimum {0} karakter"
+          }
+        }
+      },
+      "promo_code_card": {
+        "title": "Promosyon kodu kullanmak ister misin?",
+        "label": "Aşağıdaki kodlardan birini kullanabilirsin.",
+        "commission_rate": "Komisyon oranında {'%'}{0} indirim",
+        "earning_text": "Yetenek ödemesinden {0} {1} kazanç",
+        "company_payment": "Şirket ödemesinde {0} {1} indirim"
+      },
+      "bulk_invoice": {
+        "page_title": "Toplu Fatura",
+        "import_excel": "Excel dosyasını içe aktarın",
+        "error_text": "Tüm toplu faturalar için hizmet bedeli müşteri (siz) tarafından ödenir.",
+        "create_invoice": "Fatura Oluşturun",
+        "create_bulk": {
+          "title": "Ödenecek toplam tutar",
+          "form": {
+            "toggle_all_talents": "Tüm yetenekler",
+            "inputs": {
+              "invoice_currency": {
+                "label": "Ödemeyi yapacağınız para birimi"
+              },
+              "description": {
+                "label": "Açıklama"
+              }
+            },
+            "talents": {
+              "placeholder": "Yetenek e-postasını girin",
+              "new": {
+                "description": "Henüz herhangi bir yeteneğiniz yok.",
+                "btn": "Şimdi Ekleyin"
+              }
+            },
+            "projects": {
+              "placeholder": "Proje seçiniz",
+              "new": {
+                "description": "Henüz herhangi bir projen yok.",
+                "btn": "Şimdi Ekleyin"
+              }
+            },
+            "sub_category": {
+              "placeholder": "Alt kategori seçiniz"
+            },
+            "description": {
+              "placeholder": "İsteğe bağlı"
+            },
+            "financials": {
+              "title_show": "Fiyatlandırma detayını göster",
+              "title_hide": "Fiyatlandırma detayını gizle",
+              "total_payment": "Yeteneklerin toplam ödeme talebi",
+              "commission_fee": "Hizmet bedeli: ({'%'}{0})",
+              "subtotal": "Ara Toplam",
+              "vat": "KDV ({'%'}{0})",
+              "total_paid": "Ödenecek toplam tutar",
+              "distributed": "Yeteneklere dağıtılacak toplam tutar"
+            }
+          },
+          "column_names": {
+            "talent": "Yetenek",
+            "project": "Proje",
+            "sub_category": "Alt Kategori",
+            "description": "Açıklama",
+            "talent_will_receive": "Yeteneğin alacağı tutar"
+          },
+          "import_excel_modal": {
+            "title": "Excel dosyasını içe aktarın",
+            "title2": "Dosyayı buraya sürükleyip bırakın",
+            "title3": "veya",
+            "title4": "Dosya seçin",
+            "title5": "10MB'a kadar XLSX dosyaları desteklenir.",
+            "download_btn": "Örnek Excel dosyası indirin",
+            "import_btn": "İçe aktar",
+            "err_msg": "Toplam dosya boyutu 10MB'tan az olmalıdır."
+          }
+        },
+        "form": {
+          "invoice_currency": "Faturanın para birimi",
+          "invoice_description": "Fatura Açıklaması",
+          "required_field": "Zorunlu alan",
+          "description": "Açıklama",
+          "invalid_amount": "Geçersiz Tutar",
+          "payout_currency": "Yeteneğin ödemeyi alacağı para birimi"
+        },
+        "dropdown": {
+          "export_to_excel": "Excel dosyası olarak dışa aktarın",
+          "download_sample": "Örnek Excel dosyası indirin"
+        },
+        "success_msg": "Toplu fatura oluşturuldu!",
+        "recipients": {
+          "title": "Toplam",
+          "columns": {
+            "talent": "Yetenek",
+            "invoice_amount": "Fatura tutarı",
+            "commission_rate": "Komisyon oranı",
+            "talent_will_receive": "Yeteneğin alacağı tutar",
+            "description": "Açıklama"
+          },
+          "header": "#{0} numaralı faturanın alıcıları"
+        }
+      },
+      "services": {
+        "page_header": "Hizmetler",
+        "invoice_currency": {
+          "placeholder": "Para birimi seç",
+          "label": "Faturanın para birimi"
+        },
+        "service_description": {
+          "placeholder": "Hizmet Açıklaması"
+        },
+        "headers": {
+          "description": "Açıklama",
+          "quantity": "Miktar",
+          "unit_price": "Birim Fiyat"
+        },
+        "unit_price_placeholder": "Birim fiyat"
+      },
+      "financial": {
+        "total": "Toplam",
+        "applied_commission": "Uygulanan komisyon",
+        "rate": "*1 {invoiceCurrencyCode} = {exchangeRate} {payoutCurrencyCode}. Bu oran kur dalgalanması durumunda değişiklik gösterebilir.",
+        "commission_detail_list": {
+          "special_commission_rate": "Special commission rate",
+          "base_commission_fee": "Temel komisyon oranı",
+          "foreign_exchange_rate": "Kur dönüşüm ücreti",
+          "international_payment_rails_fee": "Uluslararası bankacılık ücreti",
+          "early_pay_fee": "EarlyPay fee",
+          "cross_border_fee": "Uluslararası işlem oranı",
+          "earlypay_fee": {
+            "label": "EarlyPay ücreti"
+          },
+          "crypto_payout_fee": "Kripto ödeme ücreti",
+          "low_volume_fee": {
+            "label": "Düşük hacimli işlem ücreti",
+            "tooltip_header": "Düşük Hacimli İşlem Ücreti",
+            "tooltip_body": "Küçük hacimli faturaların işlenebilmesi için nominal bir ücret uygulanır. 100€'nun altındaki faturalar 4.90€, 100€-250€ arasındakiler ise 2.90€ ücrete tabidir."
+          }
+        },
+        "total_pay_by_you": "Tarafınızdan ödenecek toplam tutar",
+        "total_pay_by_client": "Müşterin tarafından ödenecek toplam tutar",
+        "subtotal": "Ara Toplam",
+        "vat": "KDV",
+        "talent_payment_request": "Yeteneğin talep ettiği ödeme",
+        "your_payment_request": "Ödeme talebin",
+        "you_will_receive": "Alacağın tutar",
+        "talent_will_receive": "Yeteneğin alacağı tutar",
+        "first_invoice": "🥳 Hoş Geldin Bonusu! İlk faturan için {'%'}0 komisyon uygulanır."
+      },
+      "results": {
+        "error": {
+          "title": "Fatura oluşturulamadı.",
+          "label": "Lütfen {link} veya {secondLink}.",
+          "link": "tekrar dene",
+          "secondLink": "canlı destek ile bize ulaşın."
+        },
+        "success": {
+          "title": "Fatura {0} ile paylaşıldı. Şimdi ne olacak?",
+          "text": "Fatura yetenek ile paylaşıldı. Ödemeyi yapmanız bekleniyor.",
+          "business": {
+            "title": "Fatura yetenek ile paylaşıldı. Ödemeyi yapmanız bekleniyor.",
+            "make_payment_btn": "Ödeme Yapın"
+          },
+          "talent": {
+            "first": {
+              "label": "1. Fatura detayları {link} ile paylaşıldı.",
+              "link": "{0}"
+            },
+            "second": {
+              "label": "2. Müşterin ödemeyi yapmak için Ruul'a kaydolabilir veya {link} kullanabilir.",
+              "link": "ödeme bağlantısını"
+            },
+            "third": {
+              "label": "3. Müşterin ödemeyi yaptıktan sonra, ödeme bir iş günü içinde tercih ettiğin hesaba gönderilecektir."
+            },
+            "no_bank_account": {
+              "label": "3. Ödeme geldiğinde almak için {link}",
+              "link": "Ödeme hesabı ekle"
+            },
+            "add_payment_btn": "Ödeme hesabı ekle",
+            "copy_payment_btn": "Ödeme bağlantısını kopyala"
+          },
+          "download_btn": "İndir",
+          "see_details_link": "Fatura detayı",
+          "copy_success_msg": "Ödeme bağlantısı panoya kopyalandı!",
+          "early_pay": {
+            "text1": "1. Faturanın onaylanması için {link} adresine bir e-posta gönderdik.",
+            "text2": "2. Onaylandıktan sonra ödeme 24 saat içinde sana gönderilecektir.",
+            "text3": "3. İş ortağımız Sprinque'den e-posta yoluyla bir ödeme bağlantısı alacaklar.",
+            "text4": "4. Faturayı onayladıktan sonra ödeme yapmak için {0} gün süreleri olacaktır.",
+            "text5": {
+              "label": "3. Ödeme geldiğinde almak için {link}",
+              "linkText": "bir ödeme hesabı ekle."
+            }
+          }
+        }
+      },
+      "type_modal": {
+        "title": "Fatura Türünü Seçin",
+        "btn_text": "İleri",
+        "items": {
+          "bulk": {
+            "label": "Toplu Fatura",
+            "description": "Aynı anda birden fazla yetenek için fatura kesin ve ödeme yapın."
+          },
+          "single": {
+            "label": "Tek Fatura",
+            "description": "Tek bir yetenek için fatura oluşturun ve ödeme yapın."
+          }
+        }
+      },
+      "list": {
+        "invoice": "Fatura",
+        "amount": "Fatura tutarı",
+        "issued_on": "Oluşturulma tarihi",
+        "status": "Durum",
+        "copy_success_msg": "Bağlantı kopyalandı!",
+        "cancel_success_msg": "Fatura iptal edildi.",
+        "reject_success_msg": "Fatura reddedildi.",
+        "archive_success_msg": "Fatura arşivlendi.",
+        "unarchive_success_msg": "Fatura arşivden çıkarıldı."
+      },
+      "list_item": {
+        "copy": "Ödeme bağlantısını kopyala",
+        "cancel": "İptal et",
+        "reject": "Reddet",
+        "archive": "Arşivle",
+        "badge_tooltip": {
+          "title": "Fatura {0} ile paylaşıldı",
+          "text": "Faturayı {0} adresine e-posta ile gönderdik. Ruul'a kaydolarak veya e-postada bulunan <strong class='underline text-r-primary'> ödeme bağlantısını </strong>kullanarak ödeme yapabilirler.",
+          "btn_text": "Detayları görüntüle"
+        },
+        "pay_btn": "Ödeme Yapın",
+        "invoice_no": "Fatura #{0}",
+        "recipients": "Alıcılar",
+        "warning": "Uyarı",
+        "unarchive": "Arşivden çıkar"
+      },
+      "tracker": {
+        "talent": {
+          "received_text": "<strong>{0}</strong> sana bir fatura gönderdi. Müşterinin ödemeyi yapması bekleniyor.",
+          "issued_text": "Fatura <strong>{0}</strong> ile paylaşıldı. Müşterinin ödemeyi yapması bekleniyor.",
+          "received": {
+            "title": "{0} sana bir fatura gönderdi",
+            "footer": {
+              "title": "Müşterim ödemeyi yaptı ama fatura hala 'Oluşturuldu' görünüyor?",
+              "text": "Müşterin ödemeyi banka havalesi ile yaptıysa, 'ödendi' olarak işaretlemeyi unutmuş olabilir. Ödeme doğrulandıktan sonra fatura durumu güncellenecektir."
+            }
+          },
+          "issued": {
+            "title": "Fatura {0} ile paylaşıldı",
+            "footer": {
+              "title": "Müşterim ödemeyi yaptı ama fatura hala 'Oluşturuldu' görünüyor?",
+              "text": "Müşterin ödemeyi banka havalesi ile yaptıysa, 'ödendi' olarak işaretlemeyi unutmuş olabilir. Ödeme doğrulandıktan sonra fatura durumu güncellenecektir."
+            }
+          },
+          "in_progress": {
+            "title": "Ödeme işleniyor",
+            "types": {
+              "bank_account": "Müşterin ödemeyi yaptı. Ödeme bize ulaştığında, <strong>{0} ile biten banka hesabına</strong> gönderilecektir.",
+              "payoneer": "Müşterin ödemeyi yaptı. Ödeme bize ulaştığında, <strong>Payoneer hesabına {0}</strong> gönderilecektir.",
+              "binance": "Müşterin ödemeyi yaptı. Ödeme bize ulaştığında <strong>Binance hesabına USDC olarak</strong> gönderilecektir.",
+              "no_bank_account": "Müşterin ödemeyi yaptı. Lütfen ödemen bize ulaştığında alabilmek için bir ödeme hesabı ekle.",
+              "cenoa": "Müşterin ödemeyi yaptı. Ödeme bize ulaştığında <strong>Cenoa hesabına USDC olarak</strong> gönderilecektir."
+            },
+            "footer": {
+              "title": "Ödemeyi ne zaman alacağım?",
+              "text": "Aracı kurumların ödemeyi bize aktarması zaman alabilir. Ödeme bize ulaşınca 24 saat içinde sana göndereceğiz."
+            }
+          },
+          "completed": {
+            "title": "{0} ödendi",
+            "types": {
+              "bank_account": "Ödemen <strong>{0} ile biten banka hesabına</strong> gönderildi.",
+              "payoneer": "Ödemen <strong>Payoneer hesabına {0}</strong> gönderildi.",
+              "binance": "Ödemen <strong>USDC olarak Binance hesabına</strong>gönderildi.",
+              "no_bank_account": "Ödemeyi banka hesabına gönderdik.",
+              "cenoa": "Ödeme <strong> Cenoa hesabına (USDC) </strong> gönderildi."
+            },
+            "footer": {
+              "title": "Ödemem nerede?",
+              "text": "Bankanın ödemeyi işlemesi ve hesabına aktarması birkaç iş günü sürebilir."
+            }
+          },
+          "sprinque": {
+            "waiting_approval_text": "Fatura <strong>{0}</strong> ile paylaşıldı. Müşterinin onayı bekleniyor.",
+            "waiting_for_payment_text": "Müşterin faturayı onayladı. Ortağımız Sprinque'in ödemeyi bize göndermesini bekliyoruz. Müşterinin <strong>{0} </strong> tarihine kadar ödeme yapmak için zamanı var.",
+            "sprinque_paid_us_text": "Sprinque ödemeyi hesaplarımıza gönderdi. Bankamızın transferi tamamlamasını bekliyoruz.",
+            "client_paid_to_sprinque_text": "Müşterin ödemeyi Sprinque'e yaptı. İşlem tamamlandı.",
+            "waiting_approval": {
+              "title": "Müşterinin onayı gerekiyor",
+              "footer": {
+                "title": "Müşterimin onayı neden gerekli?",
+                "text": "Faturada Early Pay kullanılması ve son ödeme tarihi için müşterinin onayı gerekmektedir."
+              }
+            },
+            "waiting_for_payment": {
+              "title": "Sprinque'den ödeme bekleniyor",
+              "footer": {
+                "title": "Sprinque kimdir?",
+                "text": "Sprinque, işletmelerin kredi almasını ve ödemeyi son ödeme tarihine kadar ertelemesini sağlar. Bu hizmeti sunmak için Sprinque ile ortaklık kurduk."
+              }
+            },
+            "sprinque_paid_us": {
+              "title": "Ödemenin transfer edilmesini bekliyoruz",
+              "footer": {
+                "title": "Bu transfer ne kadar sürer?",
+                "text": "Genellikle sadece birkaç saat sürer. İş günleri dışında daha uzun sürebilir."
+              }
+            },
+            "completed": {
+              "title": "{0} ödendi",
+              "footer": {
+                "title": "Ödemem nerede?",
+                "text": "Bankanın ödemeyi işlemesi ve hesabına aktarması birkaç iş günü sürebilir."
+              }
+            },
+            "client_paid_to_sprinque": {
+              "title": "İşlem tamamlandı",
+              "footer": {
+                "title": "Ödemem nerede?",
+                "text": "Bankanın ödemeyi işlemesi ve hesabına aktarması birkaç iş günü sürebilir."
+              }
+            }
+          }
+        },
+        "business": {
+          "received_text": "<strong>{0}</strong> size bir fatura gönderdi. Ödemeyi yapmanız bekleniyor.",
+          "issued_text": "Fatura <strong>{0}</strong> ile paylaşıldı. Ödemeyi yapmanız bekleniyor.",
+          "received": {
+            "titlte": "{0} size bir fatura gönderdi",
+            "footer": {
+              "title": "Ödemeyi yaptım ama faturada hala 'Oluşturuldu' görünüyor?",
+              "text": "Banka havalesi ile ödeme yaptıysanız, 'ödendi' olarak işaretlemeyi unutmuş olabilirsiniz. Ödeme doğrulandıktan sonra fatura durumu güncellenecektir."
+            },
+            "title": "{0} size bir fatura gönderdi"
+          },
+          "issued": {
+            "title": "Fatura {0} ile paylaşıldı",
+            "footer": {
+              "title": "Ödemeyi yaptım ama faturada hala 'Oluşturuldu' görünüyor?",
+              "text": "Banka havalesi ile ödeme yaptıysanız, 'ödendi' olarak işaretlemeyi unutmuş olabilirsiniz. Ödeme doğrulandıktan sonra fatura durumu güncellenecektir."
+            }
+          },
+          "in_progress": {
+            "title": "Ödemeniz işleniyor",
+            "types": {
+              "bank_account": "<strong>Ödemeyi yaptınız.</strong> Ödeme bize ulaştığında, yeteneğin <strong>{0} ile biten banka hesabına</strong> gönderilecektir.",
+              "payoneer": "<strong>Ödemeyi yaptınız.</strong> Ödeme bize ulaştığında, yeteneğin <strong>Payoneer hesabına {0}</strong> gönderilecektir.",
+              "binance": "<strong>Ödemeyi yaptınız.</strong> Ödeme bize ulaştığında, yeteneğin <strong>Binance hesabına USDC olarak </strong> gönderilecektir.",
+              "no_bank_account": "<strong>Ödemeyi yaptınız.</strong> Ödeme bize ulaştığında yeteneğe gönderilecektir.",
+              "cenoa": "<strong>Ödemeyi yaptınız.</strong> Ödeme bize ulaştığında, yeteneğin <strong>Cenoa hesabına USDC olarak </strong> gönderilecektir."
+            },
+            "footer": {
+              "title": "Yeteneğim ödemesini ne zaman alacak?",
+              "text": "Aracı kurumların ödemeyi banka hesaplarımıza aktarması zaman alabilir. Ödeme bize ulaştığında 24 saat içinde yeteneğe gönderilecektir."
+            }
+          },
+          "completed": {
+            "title": "{0} yeteneğe gönderildi",
+            "types": {
+              "bank_account": "Ödeme yeteneğin <strong>{0} ile biten banka hesabına</strong> gönderildi.",
+              "payoneer": "Ödeme yeteneğin <strong>Payoneer hesabına {0}</strong> gönderildi.",
+              "binance": "Ödeme yeteneğin <strong>Binance hesabına USDC olarak</strong> gönderildi.",
+              "cenoa": "Ödeme yeteneğin <strong>Cenoa hesabına USDC olarak</strong> gönderildi."
+            },
+            "footer": {
+              "title": "Yeteneğin ödemesi nerede?",
+              "text": "Bankanın ödemeyi işlemesi ve yeteneğin hesabına aktarması birkaç iş günü sürebilir."
+            }
+          },
+          "bulk_invoice": {
+            "issued_text": "Fatura yeteneklerinizle paylaşıldı. Ödeme yapmanız bekleniyor.",
+            "in_progress_text": "<strong>Ödemeyi yaptınız.</strong> Ödeme bize ulaştığında alıcılara dağıtılacaktır.",
+            "completed_text": "Tüm yeteneklere ödeme yapıldı.",
+            "issued": {
+              "title": "Fatura yetenekler ile paylaşıldı",
+              "footer": {
+                "title": "Ödemeyi yaptım ama faturada hala 'Oluşturuldu' görünüyor?",
+                "text": "Banka havalesi ile ödeme yaptıysanız, 'ödendi' olarak işaretlemeyi unutmuş olabilirsiniz. Ödeme doğrulandıktan sonra fatura durumu güncellenecektir."
+              }
+            },
+            "in_progress": {
+              "title": "Ödemeniz işleniyor",
+              "footer": {
+                "title": "Yeteneğim ödemesini ne zaman alacak?",
+                "text": "Aracı kurumların ödemeyi banka hesaplarımıza aktarması zaman alabilir. Ödeme bize ulaştığında 24 saat içinde yeteneğe gönderilecektir."
+              }
+            },
+            "completed": {
+              "title": "{0} yeteneğe gönderildi",
+              "footer": {
+                "title": "Yeteneğin ödemesi nerede?",
+                "text": "Bankanın ödemeyi işlemesi ve yeteneğin hesabına aktarması birkaç iş günü sürebilir."
+              }
+            }
+          },
+          "sprinque": {
+            "approval_needed_text": "Ödeme, onayınızdan sonra 1 iş günü içinde yeteneğe gönderilecektir. Son ödeme tarihine kadar ödeme yapmak için hala zamanınız olacak.",
+            "waiting_for_payment_text": "Faturayı onayladınız. Ortağımız Sprinque'in ödemeyi bize göndermesini bekliyoruz. <strong>Ödeme için {0} tarihine kadar vaktiniz var.</strong>",
+            "sprinque_paid_us_text": "Sprinque ödemeyi hesaplarımıza gönderdi. Bankamızın transferi tamamlamasını bekliyoruz.",
+            "youve_paid_to_sprinque_text": "Sprinque'e ödemeyi yaptınız. İşlem tamamlandı.",
+            "approval_needed": {
+              "title": "Onayınız gerekli",
+              "footer": {
+                "title": "Onayıma neden ihtiyaç var?",
+                "text": "Faturada Early Pay kullanılması ve son ödeme tarihi için onayınız gerekmektedir."
+              }
+            },
+            "waiting_for_payment": {
+              "title": "Sprinque'den ödeme bekleniyor",
+              "footer": {
+                "title": "Ödemeyi neden Sprinque'e yapıyorum?",
+                "text": "Sprinque, işletmelerin kredi almasını ve ödemeyi son ödeme tarihine kadar ertelemesini sağlar. Bu hizmeti sunmak için Sprinque ile ortaklık kurduk."
+              }
+            },
+            "sprinque_paid_us": {
+              "title": "Ödemenin transfer edilmesini bekliyoruz",
+              "footer": {
+                "title": "Bu transfer ne kadar sürer?",
+                "text": "Genellikle sadece birkaç saat. İş günleri dışında daha uzun sürebilir."
+              }
+            },
+            "completed": {
+              "title": "{0} yeteneğe gönderildi",
+              "footer": {
+                "title": "Yeteneğin ödemesi nerede?",
+                "text": "Bankanın ödemeyi işlemesi ve yeteneğin hesabına aktarması birkaç iş günü sürebilir."
+              }
+            },
+            "youve_paid_to_sprinque": {
+              "title": "İşlem tamamlandı",
+              "footer": {
+                "title": "Yeteneğin ödemesi nerede?",
+                "text": "Bankanın ödemeyi işlemesi ve yeteneğin hesabına aktarması birkaç iş günü sürebilir."
+              }
+            }
+          }
+        },
+        "warning": "Uyarı"
+      },
+      "details": {
+        "page_title_transaction": "Fatura #{0}",
+        "page_title_no_transaction": "Fatura Detayı",
+        "bulk_invoice_transaction_details": {
+          "page_header": "İşlem Detayları",
+          "title": "sadece sizin tarafınızdan görülebilir",
+          "text": "Tüm toplu faturalar için hizmet bedeli müşteri (siz) tarafından ödenir."
+        },
+        "card": {
+          "page_header": "Fatura Detayı",
+          "print_btn": "Yazdır",
+          "download_btn": "İndir",
+          "payment_btn": "Ödeme Yapın",
+          "invoice_no": "Fatura #{0}",
+          "issued_on": "Oluşturulma Tarihi {0}",
+          "company_info": {
+            "is_guest": "Devam etmek için lütfen eksik şirket bilgilerini doldurun.",
+            "no_guest": "Müşterinden ödemeyi yapmadan önce eksik şirket bilgilerini tamamlaması istenecek."
+          },
+          "items": {
+            "title": "Hizmet Açıklaması",
+            "title_end": "Hizmet Bedeli",
+            "generated_bulk_invoice": "Toplu fatura ile oluşturuldu."
+          },
+          "summary": {
+            "sub_total": "Ara Toplam",
+            "vat": "KDV ({'%'}{0})",
+            "total": "Toplam",
+            "vat_withholding": "Tevkifat oranı ({'%'}{0})"
+          },
+          "header": {
+            "sent_by": "{email} tarafından gönderildi",
+            "shared_with": "{email} ile paylaşıldı"
+          }
+        },
+        "service_details_card": {
+          "project": "Proje",
+          "category": "Kategori",
+          "extra_notes": "Ek Notlar",
+          "sub_category": "Alt Kategori",
+          "attached_files": "Ekli Dosyalar",
+          "service_fee_payer": {
+            "label": "Hizmet Bedelini Üstlenen",
+            "talent": "Yetenek",
+            "talent_you": "Yetenek (Siz)",
+            "client": "Müşteri",
+            "client_you": "Müşteri (Siz)"
+          }
+        },
+        "transaction_details_card": {
+          "page_header": "İşlem Detayları",
+          "text": "yalnızca sizin tarafınızdan görülebilir"
+        },
+        "early_pay": {
+          "title": "Onayınız gerekli",
+          "description": "Fatura onaylandıktan sonra { talentFullName } için 24 saat içinde (ortağımız Sprinque tarafından) ödeme yapılacaktır.",
+          "payment_duration": "Ödemeyi yapmak için { paymentDuration } gününüz olacaktır.",
+          "agreement": {
+            "label": "Şirketim adına {link} kabul etmeye yetkiliyim.",
+            "link": "Early Pay sözleşmesi",
+            "accept": "Sözleşmeyi okudum ve kabul ediyorum.",
+            "alert": "'Lütfen devam etmek için sözleşmeyi kabul edin.'"
+          },
+          "how_it_works": "Bunu neden görüyorum?",
+          "buttons": {
+            "approve": "Faturayı onayla",
+            "reject": "Faturayı reddet"
+          },
+          "agreement_modal": {
+            "footer": {
+              "link": "https://ruul.io/terms-of-use"
+            }
+          },
+          "info_modal": {
+            "title": "Bunu neden görüyorum?",
+            "description": {
+              "label": "{talentFullName} en yeni özelliğimizi kullanarak bu faturayı oluşturdu, {link}",
+              "link": "Early Pay."
+            },
+            "text1": "Nasıl çalışır?",
+            "text2": "Yetenekler ödeme vadesini seçer ve onayınız üzerine ödemeyi 24 saat içinde kendilerine göndeririz.",
+            "text3": "Bu arada, son ödeme tarihine kadar ödemeyi yapmak için hâlâ zamanınız olacak.",
+            "text4": "Onayladıktan sonra ne olacak?",
+            "text5": "{talentFullName} iş ortağımız Sprinque tarafından 24 saat içinde ödenecektir. Ayrıca, ödemenizi {paymentDuration} gün içinde gerçekleştirmeniz için Sprinque tarafından e-posta ile bir ödeme bağlantısı alacaksınız.",
+            "support": {
+              "label": "Sorularınız mı var? {link}",
+              "link": "Canlı destek ile bize ulaşın"
+            }
+          },
+          "success": "Bu fatura Early Pay ile oluşturulmuştur. Tüm Early Pay ödemeleri iş ortağımız Sprinque tarafından gerçekleştirilmektedir. Ödemenizi {date} tarihine kadar tamamlamak için lütfen {email} adresine gönderilen bağlantıyı kullanın."
+        }
+      },
+      "empty_message": {
+        "1": "Henüz herhangi bir faturan yok.",
+        "2": "Oluşturulan faturan yok.",
+        "3": "İşlenen faturan yok.",
+        "4": "Ödenmiş faturan yok.",
+        "5": "İptal edilen faturan yok.",
+        "6": "Reddedilen faturan yok.",
+        "7": "Arşivlenmiş faturan yok."
+      },
+      "bank_transfer_warning": {
+        "cc_enabled_talent": "Ruul, adresi {country} olan şirketler için <strong> {invoiceCurrency} </strong> cinsinden banka havalelerini desteklemez. Bu fatura yalnızca kredi kartıyla ödenebilir. Müşterin banka havalesi ile ödeme yapmayı tercih ediyorsa, lütfen faturanın para birimi olarak {supportedCurrencies} seçeneklerinden birini kullan.",
+        "cc_enabled_business": "Ruul, adresi {country} olan şirketler için <strong> {invoiceCurrency} </strong> cinsinden banka havalelerini desteklemez. Bu fatura yalnızca kredi kartıyla ödenebilir. Banka havalesiyle ödemeyi tercih ederseniz, lütfen faturanın para birimi olarak {supportedCurrencies} seçeneklerinden birini kullanın.",
+        "cc_disabled_talent": "Ruul, adresi {country} olan şirketler için <strong> {invoiceCurrency} </strong> cinsinden banka havalelerini desteklemez. Müşterinin ödemeyi yapabilmesi için için lütfen faturanın para birimi olarak {supportedCurrencies} seçeneklerinden birini kullan.",
+        "cc_disabled_business": "Ruul, adresi {country} olan şirketler için <strong> {invoiceCurrency} </strong> cinsinden banka havalelerini desteklemez. Ödemeyi etkinleştirmek için lütfen faturanın para birimi olarak {supportedCurrencies} seçeneklerinden birini kullanın."
+      }
+    },
+    "clients": {
+      "page_title": "Müşteriler",
+      "items": {
+        "all_clients": "Tüm Müşteriler",
+        "verification_in_progress": "Doğrulama Devam Ediyor",
+        "verified": "Doğrulandı",
+        "not_verified": "Doğrulanmadı"
+      },
+      "empty_message": {
+        "1": "Henüz herhangi bir müşterin yok.",
+        "2": "Doğrulaması devam eden herhangi bir müşterin yok.",
+        "3": "Henüz doğrulanmış bir müşterin yok.",
+        "4": "Doğrulanmamış müşterin yok."
+      },
+      "client_details": {
+        "page_title": "Müşteri Detayı",
+        "list": {
+          "invoices": "Faturalar",
+          "invoiced": "Faturalandırılan",
+          "paid": "Ödendi",
+          "biggest_payment": "En Büyük Ödeme",
+          "smallest_payment": "En Küçük Ödeme"
+        },
+        "items": {
+          "invoices": "Faturalar",
+          "agreements": "Sözleşmeler",
+          "contracts": "Sözleşmeler",
+          "contacts": "İletişim"
+        },
+        "list_item": {
+          "set_default": "Varsayılan olarak ayarla"
+        }
+      },
+      "client_filter_options": {
+        "recently_added": "Son Eklenenler",
+        "az": " A-Z"
+      },
+      "new_client_btn": "Yeni Müşteri",
+      "client_list_item": {
+        "tooltip": "Müşterinden ödemeyi yapmadan önce eksik şirket bilgilerini tamamlaması istenecek. Bilgiler tamamlandıktan kısa süre sonra müşterin doğrulanacak.",
+        "dropdown_options": {
+          "new_invoice": "Yeni Fatura",
+          "new_agreement": "Yeni Sözleşme",
+          "client_details": "Müşteri Detayı",
+          "archive": "Arşivle"
+        },
+        "statuses": {
+          "verified": "Doğrulandı",
+          "not_verified": "Doğrulanmadı",
+          "verification_in_progress": "Doğrulama Devam Ediyor"
+        }
+      },
+      "offcanvas": {
+        "title": "Müşteri Ekle",
+        "form": {
+          "business_form": {
+            "email": {
+              "label": "Müşterinin e-postası",
+              "placeholder": "{'örnek: jane@acme.com'}",
+              "tooltip": {
+                "header": "Müşterinin e-posta adresi",
+                "body": "Faturanın gönderileceği e-posta adresi."
+              }
+            },
+            "first_name": "Müşterinin adı",
+            "last_name": "Müşterinin soyadı",
+            "continue_btn": "Devam et"
+          },
+          "email_search_result": {
+            "single_company": {
+              "submit_btn": "Evet, müşteri ekle",
+              "info": "Aradığınız şirket bu değilse lütfen müşterinizle iletişime geçin."
+            },
+            "multi_company": {
+              "question": "Müşterin birden fazla şirkete dahil. Hangi şirkete fatura kesmek istersin?",
+              "submit_btn": "Müşteri ekle",
+              "info": "Aradığın şirketi bulamıyorsan lütfen müşterinden Ruul'a eklemesini iste.",
+              "tax_id": "Vergi numarası: {0}"
+            },
+            "invitation": "{email} adresine bildirim e-postası gönder",
+            "support": {
+              "label": "Sorun mu yaşıyorsun? {link}",
+              "link": "Bize Ulaş"
+            }
+          },
+          "company_form": {
+            "title": "Aşağıdaki alanların girilmesi doğrulama sürecini hızlandıracaktır",
+            "address": {
+              "label": "Şirketin adresi",
+              "placeholder": "Adres"
+            },
+            "city": {
+              "label": "Şehir",
+              "placeholder": "Şehir"
+            },
+            "zip_code": {
+              "label": "Posta kodu",
+              "placeholder": "Posta kodu"
+            },
+            "website": {
+              "label": "Websitesi",
+              "placeholder": "Web Sitesi"
+            }
+          },
+          "vat_search": {
+            "country": "Şirketin bulunduğu ülke",
+            "state": "Eyalet",
+            "question": {
+              "label": "Müşterinin <strong class='inline'>Vergi numarası, EIN veya Ticaret Sicil Numarasını biliyor musun?</strong>",
+              "yes_btn": "Evet, biliyorum",
+              "no_btn": "Hayır, bilmiyorum"
+            },
+            "inputs": {
+              "tax_id": {
+                "label": "KDV, EIN, Vergi Numarası veya Ticaret Sicil Numarası",
+                "tooltip": {
+                  "header": "Şirketin vergi numarası",
+                  "body": "Müşterinin ülkesine bağlı olarak Vergi Numarası, EIN veya Ticaret Sicil Numarası olarak adlandırılabilir. Eğer bilmiyorsan, lütfen müşterinle iletişime geç. Fatura kesebilmek için müşterinin bu numaraya sahip olması gereklidir."
+                }
+              },
+              "company_name": {
+                "label": "Şirketin adı"
+              }
+            },
+            "mismatch_alert": "Girdiğin e-postaya ait alan adı vergi numarasıyla <strong>eşleşmiyor</strong>. Lütfen girdiğin bilgileri kontrol edip tekrar dene.",
+            "info_text": "Müşterinden ödemeyi yapmadan önce eksik şirket bilgilerini tamamlaması istenecek. Bilgiler tamamlandıktan kısa süre sonra müşterin doğrulanacak.",
+            "invitation": "{email} adresine bildirim e-postası gönder",
+            "continue_btn": "İleri",
+            "manual_btn": "Hayır, manuel olarak ekle",
+            "add_btn": "Evet, müşteri ekle",
+            "create_btn": "Müşteri Ekle",
+            "support": {
+              "label": "Sorun mu yaşıyorsun? {link}",
+              "link": "Bize Ulaş"
+            },
+            "free_mail": {
+              "support": {
+                "label": "Aradığın şirket bu değilse, lütfen {link}.",
+                "link": "bize ulaş"
+              },
+              "company_domain_corporate_warning": "Bu şirketi bir müşteri olarak eklemek için <strong> kurumsal e-posta </strong> adresi girmen gerekmektedir."
+            }
+          },
+          "success_msg": "Müşteri eklendi!"
+        },
+        "company_overview": {
+          "question": "Aşağıdaki bilgiler doğru mu?",
+          "name": "Şirket Adı",
+          "website": "Web Sitesi",
+          "country": "Şirketin bulunduğu ülke",
+          "state": "Eyalet",
+          "city": "Şehir",
+          "zip_code": "Posta Kodu",
+          "address": "Adres",
+          "tax_id": "KDV, EIN veya Vergi Numarası",
+          "registration_number": "Ticaret Sicil Numarası",
+          "tax_office": "Vergi Dairesi",
+          "pan_number": "PAN Numarası",
+          "phone_no": "Şirketin Telefon Numarası",
+          "button": "Evet, müşteri ekle"
+        }
+      },
+      "onboarding": {
+        "title": "Fatura göndermeye başlamak için ilk müşterini ekle!",
+        "text": "Yalnızca bir dakika sürer ve hemen fatura göndermeye başlayabilirsin.",
+        "add_btn": "Yeni Müşteri"
+      }
+    },
+    "contracts": {
+      "page_title": "Sözleşmeler",
+      "new_agreement_btn": "Yeni Sözleşme",
+      "list_item": {
+        "status": {
+          "sent": "Gönderildi",
+          "accepted": "Kabul Edildi",
+          "rejected": "Reddedildi",
+          "received": "Gelen"
+        }
+      },
+      "tab_items": {
+        "all_agreements": "Tüm Sözleşmeler",
+        "issued": "Gönderildi",
+        "received": "Gelenler"
+      },
+      "contract_list": {
+        "header": {
+          "agreement": "Sözleşme",
+          "type": "Tür",
+          "issued_on": "Oluşturulma tarihi",
+          "status": "Durum"
+        },
+        "list_item": {
+          "title": {
+            "is_service": "Hizmet Şartları ve Koşulları",
+            "no_service": "Gizlilik Sözleşmesi"
+          },
+          "dropdown_options": {
+            "accept": "Kabul Et",
+            "reject": "Reddet",
+            "delete": "Sil",
+            "download": "İndir",
+            "print": "Yazdır",
+            "accepted_success": "Sözleşme kabul edildi!",
+            "rejected_success": "Sözleşme reddedildi!",
+            "deleted_success": "Sözleşme silindi!"
+          },
+          "old_agreement": "Eski sözleşmeler yalnızca indirilebilir."
+        }
+      },
+      "create_service_terms": {
+        "page_title": "Yeni Hizmet Hüküm ve Koşulları",
+        "form": {
+          "btn_text": "İleri",
+          "page_title": "Yeni Hizmet Hüküm ve Koşulları"
+        },
+        "contract": {
+          "success_msg": "Sözleşme gönderildi!"
+        }
+      },
+      "contract_details": {
+        "page_title": "Sözleşme {0}",
+        "details": "Detaylar",
+        "header": {
+          "time": "Oluşturulma Tarihi {0}",
+          "reject_btn": "Reddet",
+          "reject_success": "Sözleşme reddedildi!",
+          "accept_btn": "Kabul Et",
+          "accept_success": "Sözleşme kabul edildi!",
+          "delete_btn": "Sil",
+          "delete_success": "Sözleşme silindi!",
+          "print_btn": "Yazdır",
+          "download_btn": "İndir",
+          "send_btn": "Sözleşmeyi Gönder"
+        },
+        "nda": {
+          "success_msg": "Sözleşme gönderildi!"
+        },
+        "service_contract": "Hizmet Şartları ve Koşulları",
+        "nda_contract": "Gizlilik Sözleşmesi"
+      },
+      "contract_type_modal": {
+        "title": "Sözleşme türünü seç",
+        "btn_text": "İleri",
+        "items": {
+          "service": {
+            "label": "Hizmet Şartları ve Koşulları",
+            "description": "Hizmet ve ödeme koşulları hakkında."
+          },
+          "agreement": {
+            "label": "Gizlilik Sözleşmesi (NDA)",
+            "description": "Gizli materyaller ve paylaşım izinleri hakkında."
+          }
+        }
+      },
+      "nda_form": {
+        "btn_text": "İleri"
+      },
+      "create_nda": {
+        "page_title": "Yeni Gizlilik Sözleşmesi (NDA)"
+      },
+      "onboarding": {
+        "talent": {
+          "title": "İlk sözleşmeni oluştur ve güvenle freelance çalış.",
+          "text_1": "Hizmet Sözleşmeleri ve Gizlilik Sözleşmeleri için Şablonlar",
+          "text_2": "Hem senin hem de müşterin için adil",
+          "text_3": "Anlaşılması kolay sözleşmeler, yalnızca birkaç dakika alır",
+          "btn_text": "Yeni Sözleşme"
+        },
+        "business": {
+          "title": "Güvenli bir şekilde çalışmak için ilk sözleşmenizi oluşturun.",
+          "text_1": "Hizmet Sözleşmeleri ve Gizlilik Sözleşmeleri için Şablonlar",
+          "text_2": "Hem sizin hem de yeteneğiniz için adil",
+          "text_3": "Anlaşılması kolay sözleşmeler, yalnızca birkaç dakika alır",
+          "btn_text": "Yeni Sözleşme"
+        }
+      },
+      "empty_message": {
+        "1": "Henüz herhangi bir sözleşmen yok.",
+        "2": "Henüz herhangi bir sözleşme göndermedin.",
+        "3": "Henüz herhangi bir sözleşme almadın."
+      }
+    },
+    "talents": {
+      "page_title": "Yetenekler",
+      "new_talent_btn": "Yeni Yetenek",
+      "onboarding": {
+        "title": "Fatura göndermeye başlamak için bir yetenek ekleyin",
+        "description": "Dünyanın her yerinden yetenekleri kolayca yönetin.",
+        "btn_text": "Şimdi Ekle"
+      },
+      "list_item": {
+        "dropdown_options": {
+          "new_invoice": "Yeni Fatura",
+          "new_agreement": "Yeni Sözleşme",
+          "talent_details": "Yetenek Detayları"
+        },
+        "badge_title": {
+          "registered": "Kayıtlı",
+          "email_confirmed": "E-posta Onaylandı",
+          "profile_completed": "Profil Tamamlandı",
+          "active": "Aktif",
+          "inactive": "Aktif değil",
+          "not_registered": "Davet edildi",
+          "guest": "Misafir",
+          "invited": "Davet edildi"
+        }
+      },
+      "offcanvas": {
+        "title": "Yeni yetenek ekleyin",
+        "success_msg": "Yetenek eklendi!",
+        "form": {
+          "first_name": {
+            "label": "Ad",
+            "placeholder": "Adını gir"
+          },
+          "last_name": {
+            "label": "Soyad",
+            "placeholder": "Soyadını gir"
+          },
+          "email": {
+            "label": "E-posta",
+            "placeholder": "E-posta gir"
+          },
+          "country": {
+            "label": "Yeteneğin bulunduğu ülke"
+          },
+          "add_btn": "Yetenek Ekle"
+        }
+      },
+      "details": {
+        "page_title": "Yetenek Detayları",
+        "tab_items": {
+          "invoices": "Faturalar",
+          "agreements": "Sözleşmeler"
+        },
+        "summary": {
+          "invoices": "Faturalar",
+          "invoiced": "Faturalandırılan",
+          "paid": "Ödendi"
+        }
+      }
+    },
+    "not_found": {
+      "title": "Sayfa bulunamadı.",
+      "text": "Üzgünüz aradığınız sayfayı bulamadık.",
+      "btn_text": "Ana sayfaya geri dön",
+      "link": "Ruul"
+    },
+    "promo_code": {
+      "page_title": "Promosyon Kodları",
+      "btn_text": "Yeni Promosyon Kodu",
+      "empty_message": "Henüz herhangi bir promosyon kodun yok.",
+      "list_item": {
+        "description": {
+          "commission": "komisyon ücretinde {'%'}{0} indirim",
+          "payout": "yeteneğin ödemesine ek {0} kazanç",
+          "payment": "müşterinin ödemesinde {0} indirim"
+        },
+        "badge_title": {
+          "active": "Aktif",
+          "inactive": "Aktif değil"
+        }
+      },
+      "offcanvas": {
+        "title": "Yeni Promosyon Kodu",
+        "code": "Kod",
+        "btn_text": "Kaydet",
+        "success_msg": "Promosyon kodu eklendi!"
+      }
+    },
+    "payments": {
+      "bank_transfer": {
+        "invoice_summary": {
+          "title": "Ödenecek toplam tutar",
+          "invoice_no": "Fatura No: #{0}",
+          "breakdown": {
+            "hide": "Fiyatlandırma detayını gizle",
+            "show": "Fiyatlandırma detayını göster"
+          },
+          "paid_talent": "Yetenek tarafından ödenen",
+          "paid_you": "Tarafınızdan ödenen",
+          "items": {
+            "amount": "Fatura tutarı",
+            "commission": "Komisyon Ücreti",
+            "credit_fee": "Kredi kartı ücreti",
+            "total": "Ödenecek toplam tutar",
+            "receive": "Yeteneğin alacağı tutar",
+            "payment_request": "Yeteneğin talep ettiği ödeme",
+            "subtotal": "Ara Toplam",
+            "vat": "KDV",
+            "receive_bulk": "Yeteneklere dağıtılacak toplam tutar",
+            "payment_request_bulk": "Yeteneklerin toplam ödeme talebi"
+          }
+        },
+        "text_1": "Havale için kullanacağım banka hesabının faturalandırma işlemi detaylarında belirtilen kuruma ait olduğunu ve aksi takdirde ödememin iptal edilerek oluşacak komisyon oranı ve hizmet bedeli masraflarının tarafıma yansıtılacağını kabul ediyorum.",
+        "text_2": "Banka havalesi yaparken yukarıda belirtilen fatura numarasını işlem açıklaması alanına gireceğimi beyan eder, aksi takdirde yaptığım ödeme işlem ile ilişkilendirilemeyeceği için yeteneğe ödeme gönderilemeyeceğini kabul ederim.",
+        "text_3": "Yukarıdaki bilgilerle ödemeyi tamamladım.",
+        "agree_1": {
+          "warning": "Kullanım Koşulları kabul edilmelidir.",
+          "label": "Kullanım Koşulları",
+          "required": "Zorunlu alan"
+        },
+        "agree_2": {
+          "warning": "Kullanım Koşulları kabul edilmelidir.",
+          "label": "Kullanım Koşulları",
+          "required": "Zorunlu alan"
+        },
+        "fields": {
+          "beneficiary_name": "Hesap Sahibinin Adı",
+          "routing_code": "ABA Numarası",
+          "bank_name": "Banka Adı",
+          "total": "Toplam",
+          "account_number": "Hesap Numarası",
+          "account_number_sub": "(ACH & Wire)",
+          "description": "Açıklama",
+          "swift": "SWIFT Kodu",
+          "branch_code": "Şube Kodu",
+          "bank_code": "Banka kodu",
+          "institution_number": "Kurum Numarası",
+          "transit_number": "Transit Numarası",
+          "sort_number": "Sort Numarası"
+        }
+      },
+      "choose": {
+        "title": "Yabancı para birimlerindeki kredi kartı ödemeleri Türk Lirası'na çevrilerek işlenecektir.",
+        "tooltip": {
+          "header": "Hükümet düzenlemeleri",
+          "body": "Türk Hükümeti'nin düzenleyici yönergeleri nedeniyle, Türk Lirası dışındaki bir para birimindeki kredi kartı ödemeleri Türk Lirası'na dönüştürülecek ve tahsil edilecektir. Banka havalesini tercih ediyorsanız, lütfen fatura para biriminizi EUR, USD, GBP veya Türk Lirası olarak ayarlayın. Anlayışınız ve işbirliğiniz için teşekkür ederiz.",
+          "link": "Neden?"
+        },
+        "btn_text": {
+          "card": "Kredi kartı ile devam edin",
+          "bank_transfer": "Banka havalesi ile devam edin"
+        },
+        "payment_methods": {
+          "bank": {
+            "label": "Banka havalesi ile ödeyin",
+            "descriptions": "Ödemeyi Ruul'un yerel banka hesaplarına gönderin. Ödemeniz onaylandıktan sonra, 24 saat içinde yeteneğe gönderilecektir."
+          },
+          "card": {
+            "label": "Kredi kartı ile ödeyin",
+            "descriptions": "Faturayı ödemek için şirketinizin kredi kartını kullanın. Ödeme başarılı olduktan sonra, 24 saat içinde yeteneğe gönderilecektir.",
+            "badge": "{0} ek ücret uygulanır"
+          }
+        },
+        "no_payment_method": {
+          "label": "Faturanın para birimi, banka havalesi ile ödeme yapmak için uygun değildir. Banka havalesine uygun bir para birimi ile yeni bir fatura oluşturmak için lütfen {link}.",
+          "link": "bize ulaş"
+        },
+        "phone_modal": {
+          "header": "Telefon numarası gerekli",
+          "label": "Telefon Numarası",
+          "invalid": "Geçersiz",
+          "btn": "Kaydet",
+          "success": "Telefon numarası kaydedildi!"
+        },
+        "business_agreement": {
+          "label": "{link}ni kabul ediyorum.",
+          "link": "Şirket Sözleşmesi",
+          "placeholder": "Şirket Sözleşmesi",
+          "isTrue": "Şirket Sözleşmesi kabul edilmelidir."
+        }
+      },
+      "credit_card": {
+        "stripe": {
+          "agree": {
+            "true": "Kullanım koşulları kabul edilmelidir.",
+            "label": "Kullanım Koşulları",
+            "required": "Zorunlu alan"
+          },
+          "footer": {
+            "text": "Kullandığım kredi kartının faturada belirtilen kuruma ait olduğunu ve aksi takdirde ödemenin iptal edilerek oluşacak komisyon ve hizmet bedeli masraflarının tarafıma yansıtılacağını kabul ediyorum.",
+            "btn_text": "İleri"
+          },
+          "err_msg": "Ödeme alınamadı"
+        },
+        "pay_tr": {
+          "name": {
+            "label": "Kart üzerindeki isim"
+          },
+          "number": {
+            "label": "Kart numarası",
+            "test": "Kart numarası geçersiz"
+          },
+          "date": {
+            "label": "Son kullanma tarihi",
+            "test": "Son kullanma tarihi geçersiz"
+          },
+          "cvc": {
+            "label": "CVC",
+            "test": "CVC geçersiz",
+            "required": "Zorunlu alan"
+          },
+          "agree": {
+            "label": "Kullanım Koşulları",
+            "true": "Kullanım koşulları kabul edilmelidir",
+            "required": "Zorunlu alan"
+          }
+        },
+        "errors": {
+          "is_guest": "Bu şirket için kredi kartı ödemeleri desteklenmemektedir.",
+          "no_guest": "Bu şirket için kredi kartı ödemeleri desteklenmemektedir."
+        }
+      },
+      "guest": {
+        "header": {
+          "invoice_no": "Fatura No: #{0}",
+          "footer": {
+            "text": "Zaten üye misiniz?",
+            "link": "Oturum açın"
+          }
+        },
+        "payment_pages": {
+          "titles": {
+            "make_payment": "Ödeme Yapın",
+            "bank_transfer": "Banka havalesi ile ödeme yapın",
+            "credit_card": "Kredi kartı ile ödeme yapın",
+            "results": "Ödeme Sonucu",
+            "payments": "Ödemeler"
+          }
+        },
+        "verify_business_modal": {
+          "text_1": "{0} size Ruul aracılığıyla bir fatura gönderdi",
+          "text_2": "Doğrulama e-postası almak için lütfen yeteneğinizle paylaştığınız e-postayı <strong>({0})</strong> girin.",
+          "email": "E-posta",
+          "btn_text": "Doğrulama e-postası gönder",
+          "link": "Ruul hakkında daha fazla bilgi",
+          "check": "Lütfen e-postanızı kontrol edin",
+          "sent": "<strong>{0}</strong> adresine bir doğrulama bağlantısı gönderdik.",
+          "spam": "Lütfen gelen kutunuzu ve spam klasörünüzü kontrol edin.",
+          "warning": "Gelmedi mi?",
+          "resend_text": "E-postayı yeniden gönder",
+          "success_msg": "Doğrulama kodu gönderildi!"
+        },
+        "company_form": {
+          "title": "Lütfen şirket bilgilerini doldurun",
+          "success_msg": "Şirket bilgileri güncellendi.",
+          "terms": {
+            "label": "{link}ni kabul ediyorum.",
+            "link": "Şirket Sözleşmesi",
+            "placeholder": "Şirket Sözleşmesi",
+            "isTrue": "Şirket Sözleşmesi kabul edilmelidir."
+          },
+          "button": "Kaydet",
+          "name": "Şirket Adı",
+          "country": "Şirketin kayıtlı olduğu ülke",
+          "state": "Eyalet",
+          "city": "Şehir",
+          "zip_code": "Posta Kodu",
+          "address": "Adres",
+          "know_vat": {
+            "yes": "KDV, EIN veya Vergi Numarası",
+            "no": "Ticaret Sicil Numarası"
+          },
+          "tax_id": "Şirketin KDV, EIN veya Vergi Numarası",
+          "registration_number": "Şirketin Ticaret Sicil Numarası",
+          "tax_office": "Vergi Dairesi",
+          "pan_number": "Şirketin PAN Numarası (isteğe bağlı)",
+          "phone": "Telefon numarası",
+          "company_phone": "Şirketin telefon numarası",
+          "website": "Web Sitesi"
+        }
+      },
+      "pay_tr_result": {
+        "btn_text": "Kapat",
+        "text": "İşleniyor..."
+      },
+      "result": {
+        "no": "Fatura No: #{0}",
+        "payment_result": "Ödeme Sonucu",
+        "error": {
+          "title": "Ödeme başarısız",
+          "link_text_1": "Lütfen",
+          "link_text_2": "tekrar dene",
+          "link_text_3": "veya",
+          "link_text_4": "canlı destek ile bize ulaş"
+        },
+        "success": {
+          "title": "Ödeme gönderildi! Sırada ne var?",
+          "text_1": "Ödeme hesabımıza ulaştıktan sonra,",
+          "text_2": "24 saat içinde yeteneğe gönderilir.",
+          "btn_text": "Faturalara geri dön",
+          "link_text": "Fatura detayları",
+          "btn_text_2": "Faturayı takip etmek için kaydol"
+        }
+      },
+      "page_titles": {
+        "make_payment": "Ödeme Yapın",
+        "bank_transfer": "Banka havalesi ile ödeme yapın",
+        "credit_card": "Kredi kartı ile ödeme yapın"
+      }
+    },
+    "payment_accounts": {
+      "page_title": "Ödeme Hesapları",
+      "onboarding_title": "Gelecek ödemelerini alabilmek için bir hesap ekle.",
+      "onboarding_btn": "Şimdi Ekle",
+      "search_btn": "Yeni Ödeme Hesabı",
+      "account_item": {
+        "default_badge_title": "Varsayılan Ödeme Hesabı",
+        "dropdown_options": {
+          "remove": "Kaldır",
+          "default": "Varsayılan olarak ayarla",
+          "remove_succeed": "Banka hesabı kaldırıldı.",
+          "default_succeed": "Varsayılan hesabın olarak ayarlandı."
+        },
+        "status": {
+          "not_created": "Oluşturulmadı",
+          "in_progress": "Devam Ediyor",
+          "approved": "Onaylandı",
+          "declined": "Reddedildi",
+          "in_progress_tooltip": {
+            "header": "Hesabın doğrulanıyor",
+            "content": "Kullanılabilir olduğundan emin olmak için hesabını doğruluyoruz. Her şey yolunda olduğunda sana haber vereceğiz."
+          },
+          "declined_tooltip": {
+            "content": "Sorunu çözmek için lütfen bizimle iletişime geçin."
+          }
+        },
+        "others": "Diğerleri"
+      },
+      "features": {
+        "feature_1": "Doğrudan banka hesabına ödeme al",
+        "feature_2": "Kripto dahil 140 para birimini destekleniyoruz",
+        "feature_3": "2 dakikadan az sürer"
+      },
+      "offcanvas": {
+        "account_types": {
+          "binance": {
+            "description": "Binance güvencesiyle kripto ödeme al."
+          },
+          "bank": {
+            "label": "Banka Hesabı",
+            "description": "Ödemeleri doğrudan banka hesabına al."
+          },
+          "kyc_alert": {
+            "not_started": "Devam etmek için kimliğini doğrulaman gerekir.",
+            "pending": {
+              "title": "Kimlik doğrulaması devam ediyor",
+              "description": "Doğrulama tamamlandıktan sonra devam edebilirsin. Bu işlem genellikle birkaç dakika sürer."
+            }
+          },
+          "buttons": {
+            "next": "İleri",
+            "verifyId": "Kimliğini doğrula"
+          },
+          "cenoa": {
+            "description": "Doğrudan Cenoa cüzdanına Dijital Dolar (USDC) cinsinden ödeme al.",
+            "tooltip": "Ekli bir Cenoa hesabın bulunuyor.",
+            "link": "Daha fazla bilgi",
+            "badge": "Yeni"
+          }
+        },
+        "titles": {
+          "add": "Ödeme Hesabı Ekle",
+          "banking": "Banka Hesabı Ekle",
+          "add_binance": "Binance Hesabı Ekle",
+          "add_cenoa": "Cenoa Hesabı Oluştur",
+          "connect_cenoa": "Cenoa hesabını bağla"
+        },
+        "binance_details": {
+          "options": {
+            "new_account": {
+              "label": "Yeni Binance hesabı oluşturmak istiyorum",
+              "description": "Binance tarafından belirlenen görevleri tamamla ve spot ticarette kullanmak üzere 600 USDC'ye varan ödüller kazan."
+            },
+            "existing_account": {
+              "label": "Mevcut Binance hesabımı bağlamak istiyorum ",
+              "description": "Oturum aç ve Binance hesabını bağla. 30 saniyeden kısa sürer."
+            }
+          },
+          "agreement": {
+            "checkbox": {
+              "label": "{link}nı kabul edilyorum",
+              "link": "Kullanım Koşulları"
+            },
+            "content": "Ödeme yöntemim olarak kripto para birimini seçtiğimde, kripto para birimi işlemleri yoluyla elde edilen gelirlerin beyan edilmesinden yalnızca benim sorumlu olduğumu onaylıyor ve kabul ediyorum. Yetki alanımdaki kripto para varlıklarıyla ilgili tüm ilgili yerel düzenlemelere ve vergi yasalarına uymam gerektiğini anlıyorum. Ruul OÜ, kripto para ödemelerini kullanmamdan kaynaklanan hiçbir yasal veya vergi yükümlülüğüne ilişkin hiçbir sorumluluk kabul etmez."
+          },
+          "btn_text": "İleri"
+        },
+        "overview": {
+          "title": "Aşağıdaki bilgiler doğru mu?",
+          "no_btn": "Hayır, düzenle",
+          "yes_btn": "Evet, banka hesabı ekle",
+          "country": "Ülke",
+          "currency": "Para birimi",
+          "iban": "IBAN",
+          "bank_name": "Banka Adı",
+          "swift": "SWIFT Kodu",
+          "beneficiary_name": "Hesap Sahibinin Adı",
+          "id_number": "Kimlik Numarası",
+          "zip_code": "Posta Kodu"
+        },
+        "country_warning": {
+          "label": "Hesabın ülkesi: <strong> {0} </strong> <br /> IBAN'ın ülkesi: <strong> {1} </strong> <br /> IBAN, hesabın bulunduğu ülkeye ait olmalıdır. Lütfen girilen bilgileri kontrol et."
+        },
+        "cenoa_details": {
+          "options": {
+            "new_account": {
+              "label": "Yeni Cenoa hesabı oluştur",
+              "description": "QR kodunu tara ve Cenoa uygulamasını saniyeler içinde indir."
+            },
+            "existing_account": {
+              "label": "Mevcut Cenoa hesabını bağla",
+              "description": "Cenoa hesabını bir dakikadan kısa sürede bağla."
+            }
+          },
+          "agreement": {
+            "checkbox": {
+              "label": "{link}nı kabul ediyorum.",
+              "link": "Kullanım Koşulları"
+            },
+            "content": "Ödeme yöntemim olarak kripto para birimini seçtiğimde, kripto para birimi işlemleri yoluyla elde edilen gelirlerin beyan edilmesinden yalnızca benim sorumlu olduğumu onaylıyor ve kabul ediyorum. Yetki alanımdaki kripto para varlıklarıyla ilgili tüm ilgili yerel düzenlemelere ve vergi yasalarına uymam gerektiğini anlıyorum. Ruul OÜ, kripto para ödemelerini kullanmamdan kaynaklanan hiçbir yasal veya vergi yükümlülüğüne ilişkin hiçbir sorumluluk kabul etmez."
+          },
+          "btn_text": "İleri"
+        },
+        "cenoa_new": {
+          "download_app": "Cenoa uygulamasını indirmek için QR kodunu tara.",
+          "btn": "Tamamlandı"
+        },
+        "cenoa_exist": {
+          "form": {
+            "pCountry": "Ülke kodu",
+            "phone_number": {
+              "label": "Telefon numarası"
+            },
+            "verification_code": {
+              "label": "Tek seferlik doğrulama kodunu gir",
+              "error_label": "Doğrulama kodu",
+              "placeholder": "Doğrulama kodu"
+            },
+            "resend_text": "Kod almadın mı? {resend_link}",
+            "resend_link": "Tekrar Gönder",
+            "resend_succeed": "Kod gönderildi"
+          },
+          "verify_btn": "Doğrulama Kodu Gönder",
+          "submit_btn": "Cenoa hesabını bağla"
+        }
+      },
+      "bank_account": {
+        "country": {
+          "label": "Hesabın bulunduğu ülke",
+          "placeholder": "Banka hesabının bulunduğu ülkeyi seç"
+        },
+        "currency": {
+          "label": "Para birimi",
+          "placeholder": "Hesabın para birimini seç"
+        },
+        "add_btn": "Banka Hesabı Ekle",
+        "swift_link": "SWIFT/BIC numaranızı <a href='http://www.swift.com/bsl/facelets/bicsearch.faces' target='_blank' class='underline cursor-pointer'>buradan</a> bulabilirsiniz",
+        "success_msg": "Banka hesabı eklendi!",
+        "iban": {
+          "label": "IBAN",
+          "check_iban_btn": "IBAN kontrolü",
+          "valid_btn": "Geçerli",
+          "invalid_btn": "Geçersiz",
+          "iban_err_msg": "Geçersiz IBAN",
+          "iban_success_msg": "Geçerli IBAN"
+        },
+        "unsupportedWarn": {
+          "label": "Şu anda bu faturanın ülkesi için seçilen para birimini desteklemiyoruz. Sorunu çözmek için lütfen {link}.",
+          "link": "bize ulaş"
+        },
+        "bank_name_other": {
+          "label": "Banka adı",
+          "hint": "Lütfen yalnızca İngilizce karakterler gir."
+        }
+      },
+      "provider_redirect": {
+        "binance": {
+          "create_succeed": "Binance hesabı eklendi!",
+          "create_failed": "Binance hesabı eklenemedi."
+        }
+      }
+    },
+    "settings": {
+      "tabs": {
+        "account": "Hesap",
+        "profile": "Profil",
+        "companies": "Şirketler",
+        "company": "Şirket",
+        "company_details": "Şirket Detayları"
+      },
+      "account": {
+        "title": "Parolayı Değiştir",
+        "current_password": "Mevcut Parola",
+        "new_password": "Yeni Parola",
+        "link": "Parolanızı mı unuttunuz?",
+        "btn_text": {
+          "talent": "Parolayı Değiştir",
+          "business": "Parolayı Değiştirin"
+        },
+        "success_msg": "Parola güncellendi!"
+      },
+      "companies": {
+        "btn_text": "Yeni Şirket",
+        "update_success_msg": "Mevcut şirket güncellendi",
+        "list_item": {
+          "show_details": "Şirket Detayları",
+          "statuses": {
+            "verified": "Doğrulandı",
+            "not_verified": "Doğrulanmadı",
+            "verification_in_progress": "Doğrulama Devam Ediyor",
+            "unknown": "Bilinmeyen"
+          }
+        },
+        "empty_message": "Henüz herhangi bir şirketiniz yok.",
+        "offcanvas": {
+          "title": "Yeni şirket ekleyin",
+          "success_msg": "Şirket eklendi",
+          "form": {
+            "name": {
+              "label": "Şirket adı"
+            },
+            "email": {
+              "label": "Şirket E-postası"
+            },
+            "country": {
+              "label": "Şirketin kayıtlı olduğu ülke"
+            },
+            "state": {
+              "label": "Eyalet"
+            },
+            "city": {
+              "label": "Şehir"
+            },
+            "zip_code": {
+              "label": "Posta Kodu"
+            },
+            "address": {
+              "label": "Adres"
+            },
+            "tax_id": {
+              "label": "Şirketin KDV, EIN veya Vergi Numarası"
+            },
+            "registration_number": {
+              "label": "Şirketin Ticaret Sicil Numarası"
+            },
+            "tax_office": {
+              "label": "Vergi Dairesi"
+            },
+            "pan_number": {
+              "label": "Şirketin PAN Numarası (isteğe bağlı)"
+            },
+            "phone": {
+              "label": "Şirketin telefon numarası"
+            },
+            "website": {
+              "label": "Web Sitesi"
+            },
+            "terms": {
+              "label": "{link}ni kabul ediyorum.",
+              "link": "Şirket Sözleşmesi",
+              "placeholder": "Şirket Sözleşmesi",
+              "isTrue": "Şirket Sözleşmesi kabul edilmelidir."
+            },
+            "add_btn": "Şimdi Ekle",
+            "know_vat": {
+              "yes": {
+                "label": "KDV, EIN veya Vergi Numarası"
+              },
+              "no": {
+                "label": "Ticaret Sicil Numarası"
+              }
+            }
+          }
+        }
+      },
+      "company_details": {
+        "success_msg": "E-postalar güncellendi!",
+        "overview": {
+          "statuses": {
+            "verified": "Doğrulandı",
+            "not_verified": "Doğrulanmadı",
+            "pending": "Doğrulama Devam Ediyor"
+          },
+          "list": {
+            "company": "Şirketin bulunduğu ülke",
+            "state": "Eyalet",
+            "city": "Şehir",
+            "zip_code": "Posta Kodu",
+            "address": "Adres",
+            "tax_id": "KDV, EIN veya Vergi Numarası",
+            "registration_number": "Ticaret Sicil Numarası",
+            "tax_office": "Vergi Dairesi",
+            "phone": "Telefon Numarası",
+            "pan_number": "Şirketin PAN Numarası",
+            "website": "Web Sitesi"
+          }
+        },
+        "email": {
+          "title": "İşlem e-postaları şu adreslere gönderilir",
+          "multiple_email": {
+            "email": "Lütfen bir e-posta girin",
+            "add_more": "<strong class='font-semibold'>Boşluk</strong> veya <strong class='font-semibold'>Enter</strong> ile daha fazlasını ekleyin",
+            "save_btn": "Kaydedin",
+            "edit_btn": "Düzenleyin"
+          }
+        },
+        "team": {
+          "title": "Takım",
+          "item": {
+            "badges": {
+              "admin": "Admin",
+              "owner": "Yönetici",
+              "user": "Kullanıcı"
+            }
+          }
+        }
+      },
+      "profile": {
+        "card": {
+          "talent": {
+            "text": "Yukarıdaki bilgileri değiştirmek istiyorsan lütfen {link}",
+            "link": "bize ulaş",
+            "born_in": "Doğum tarihi: {0} "
+          },
+          "business": {
+            "text": "Yukarıdaki bilgileri değiştirmek istiyorsanız lütfen {link}",
+            "link": "bize ulaşın"
+          }
+        },
+        "phone": "Telefon Numarası",
+        "phone_country": "Telefon Ülkesi",
+        "invalid_number": "Geçersiz telefon numarası",
+        "language": "Dil",
+        "gender": {
+          "label": "Cinsiyet",
+          "placeholder": "Cinsiyet"
+        },
+        "occupation": {
+          "label": "Meslek",
+          "placeholder": "Mesleğini seç"
+        },
+        "btn_text": "Profili Güncelle",
+        "success_msg": "Profil güncellendi!",
+        "genders": {
+          "male": "Erkek",
+          "female": "Kadın",
+          "other": "Diğer"
+        }
+      },
+      "forgot_password": {
+        "reset_page": {
+          "title": "Şifreyi yenile"
+        }
+      }
+    },
+    "projects": {
+      "new_project_btn": "Yeni Proje",
+      "offcanvas": {
+        "update_success_msg": "Proje güncellendi!",
+        "create_success_msg": "Proje oluşturuldu!",
+        "title": {
+          "edit": "Düzenle",
+          "new": "Yeni Proje"
+        },
+        "form": {
+          "name": {
+            "label": "Proje Adı",
+            "placeholder": "Proje adını gir"
+          },
+          "job_category": {
+            "label": "Hizmet Kategorisi",
+            "placeholder": "Hizmet kategorisi seç"
+          },
+          "button": {
+            "edit": "Düzenle",
+            "new": "Proje Ekle"
+          }
+        }
+      },
+      "empty_msg": "Henüz herhangi bir projen yok.",
+      "tab_items": {
+        "all_projects": "Tüm Projeleler",
+        "active": "Aktif",
+        "completed": "Tamamlandı",
+        "archived": "Arşivlendi"
+      },
+      "list_item": {
+        "dropdown_options": {
+          "edit": "Düzenle",
+          "project_details": "Proje detayı",
+          "new_invoice": "Fatura ekle",
+          "new_agreement": "Sözleşme ekle",
+          "set_as_active": "Aktif olarak işaretle",
+          "mark_as_completed": "Tamamlandı olarak işaretle",
+          "archive": "Arşivle",
+          "unarchive": "Arşivden çıkar",
+          "archived_success_msg": "Proje arşivlendi.",
+          "unarchived_success_msg": "Proje arşivden çıkarıldı.",
+          "completed_success_msg": "Proje tamamlandı!",
+          "active_success_msg": "Proje aktif olarak ayarlandı!"
+        },
+        "status": {
+          "active": "Aktif",
+          "completed": "Tamamlandı",
+          "archived": "Arşivlendi"
+        }
+      },
+      "details": {
+        "page_title": "Proje Detayı",
+        "items": {
+          "invoices": "Faturalar",
+          "agreements": "Sözleşmeler"
+        }
+      },
+      "onboarding": {
+        "talent": {
+          "title": "İlk projeni oluştur ve faturalandırmaya başla!",
+          "text": "Saniyeler içinde faturalarını ve anlaşmalarını kolayca düzenle.",
+          "btn_text": "Yeni Proje"
+        },
+        "business": {
+          "title": "İlk projenizi oluştur ve faturalandırmaya başlayın!",
+          "text": "Saniyeler içinde faturalarınızı ve anlaşmalarınızı kolayca düzenleyin.",
+          "btn_text": "Yeni Proje"
+        }
+      },
+      "empty_message": {
+        "1": "Henüz herhangi bir projen yok.",
+        "2": "Aktif projen yok.",
+        "3": "Tamamlandı olarak işaretlenen projen yok.",
+        "4": "Arşivlenmiş projen yok."
+      },
+      "page_title": "Projeler"
+    }
+  },
+  "common": {
+    "validation": {
+      "mixed": {
+        "default": "varsayılan",
+        "required": "{field} alanı gereklidir",
+        "notValid": "{field} geçerli değil"
+      },
+      "string": {
+        "min": "{field} en az {min} karakter uzunluğunda olmalıdır",
+        "max": "{field} en fazla {max} karakter uzunluğunda olmalıdır",
+        "email": "{field} geçerli değil",
+        "matches": "{field} geçerli değil"
+      }
+    },
+    "error": {
+      "invalid_credentials": "E-postan veya şifren yanlış.",
+      "required": "Zorunlu alan"
+    },
+    "kyc_statuses": {
+      "verify_kyc": {
+        "modal": {
+          "title": "Kimliğini doğrula",
+          "success_msg": "Başvuru başarıyla gönderildi"
+        }
+      }
+    },
+    "embedded_select": {
+      "no_match": "{0} için eşleşen sonuç yok"
+    },
+    "file_input": {
+      "select_text": "Dosya seç",
+      "spinner_text": "Yükleniyor...",
+      "no_file_text": "Seçili dosya yok",
+      "error_msg": "{0} dosya boyutu 10 MB'tan küçük olmalıdır.",
+      "duplicate_error_msg": "{0} dosya çoktan eklendi."
+    },
+    "select": {
+      "no_result": "<strong>{0}</strong> için eşleşen sonuç yok",
+      "no_result_with_label": "<strong>{1}</strong> için eşleşen {0} yok",
+      "add_new": "Yeni ekle"
+    },
+    "multi_select": {
+      "no_result": "Sonuç bulamadık."
+    },
+    "password_strength": {
+      "label": "Parolan şunları içermelidir:",
+      "rules": {
+        "uppercase": "büyük harfli bir karakter",
+        "lowercase": "küçük harfli bir karakter",
+        "number": "bir sayı",
+        "min": "en az 8 karakter"
+      }
+    },
+    "no_data": {
+      "message": "Veri Bulunamadı"
+    },
+    "sidebar": {
+      "dashboard": "Ana Sayfa",
+      "invoices": "Faturalar",
+      "clients": "Müşteriler",
+      "talents": "Yetenekler",
+      "projects": "Projeler",
+      "payment_accounts": "Ödeme Hesapları",
+      "contracts": "Sözleşmeler",
+      "talent": "Yetenek",
+      "business": "Kurumsal"
+    },
+    "input": {
+      "validating": "Doğrulanıyor..."
+    },
+    "search_input": {
+      "placeholder": "Arama",
+      "no_data": "<strong>{0}</strong> için eşleşme yok"
+    },
+    "pagination": {
+      "footer": "{1} öğeden 1 ile {0} arası gösteriliyor",
+      "show_more": "Daha Fazla"
+    },
+    "add_more": {
+      "btn_text": "Daha fazla ekle"
+    },
+    "profile_dropdown": {
+      "promo_codes": "Promosyon Kodları",
+      "logout": "Çıkış Yap",
+      "settings": "Ayarlar",
+      "support": "Destek",
+      "give_feedback": "Geri Bildirim"
+    },
+    "service_units": {
+      "item": "adet",
+      "hour": "saat",
+      "day": "gün",
+      "week": "hafta",
+      "month": "ay"
+    },
+    "or": "veya"
+  }
+}

@@ -16,6 +16,13 @@
       />
       <!-- <Button size="large" icon="pi pi-youtube" severity="danger" /> -->
       <!-- <Button size="large" icon="pi pi-question" outlined severity="contrast" /> -->
+      <FSelect
+        name="language"
+        :value="selectedLanguage"
+        :options="languageOptions"
+        @update:model-value="handleLanguageChange"
+        class="max-w-[140px]"
+      />
       <ProfileMenu />
     </div>
   </div>
@@ -24,15 +31,30 @@
 <script setup lang="ts">
 import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
 import ProfileMenu from '@/components/ui/local/ProfileMenu.vue';
 import { useRoute } from 'vue-router';
+import { useLanguage } from '@/composables/useLanguage';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const route = useRoute();
+const { currentLanguage, changeLanguage, getLanguageOptions } = useLanguage();
 
 interface IEmits {
   (event: 'drawerChange', val: boolean): void;
 }
 
 defineEmits<IEmits>();
+
+const languageOptions = getLanguageOptions();
+
+const selectedLanguage = computed(() => {
+  return languageOptions.find(lang => lang.value === currentLanguage.value);
+});
+
+const handleLanguageChange = (option: { name: string; value: 'en' | 'tr' }) => {
+  if (option && option.value) {
+    changeLanguage(option.value);
+  }
+};
 </script>

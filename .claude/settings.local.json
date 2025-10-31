@@ -6,7 +6,13 @@
       "Bash(placeholder=[A-Z])",
       "Bash(title=[A-Z])",
       "Bash(header=[A-Z] $file)",
-      "Bash(then echo $file fi fi done)"
+      "Bash(then echo $file fi fi done)",
+      "Bash(while read f)",
+      "Bash(do if ! grep -q \"useI18n\" \"$f\")",
+      "Bash(then echo \"$f\" fi done)",
+      "Bash(yarn build:*)",
+      "Bash(git show:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []
