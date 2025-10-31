@@ -153,7 +153,7 @@ const submitHandler = handleSubmit(async (values) => {
     await annualsStore.save(payload);
 
     emit('fetchAnnuals');
-    showSuccessMessage('Annual updated!');
+    showSuccessMessage(t('pages.hrSettings.annuals.modal.messages.updated'));
     handleClose();
   } catch (error: any) {
     showErrorMessage(error as any);

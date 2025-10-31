@@ -84,7 +84,7 @@ const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
 
-    showSuccessMessage('Report created!');
+    showSuccessMessage(t('pages.company.reports.elasticReports.messages.created'));
   } catch (error: any) {
     showErrorMessage(error as any);
   }

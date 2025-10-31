@@ -103,7 +103,7 @@ const { handleSubmit, isSubmitting } = useForm({
 const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
-    showSuccessMessage('Users invited!');
+    showSuccessMessage(t('pages.promotion.messages.success'));
     isClear.value = true;
   } catch (error: any) {
     showErrorMessage(error as any);

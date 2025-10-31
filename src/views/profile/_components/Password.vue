@@ -51,7 +51,7 @@ const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
 
-    showSuccessMessage('Holiday updated!');
+    showSuccessMessage(t('pages.profile.password.messages.updated'));
   } catch (error: any) {
     showErrorMessage(error as any);
   }

@@ -121,7 +121,7 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
-    showSuccessMessage('working hours updated!');
+    showSuccessMessage(t('pages.profile.basic.messages.updated'));
   } catch (error: any) {
     showErrorMessage(error as any);
   }

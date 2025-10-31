@@ -45,11 +45,15 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { useForm } from 'vee-validate';
 import { string, object } from 'yup';
 import { useFToast } from '@/composables/useFToast';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
@@ -67,7 +71,7 @@ const { handleSubmit, isSubmitting } = useForm({
 const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
-    showSuccessMessage('Registered!');
+    showSuccessMessage(t('pages.auth.register.messages.success'));
   } catch (error: any) {
     showErrorMessage(error as any);
   }

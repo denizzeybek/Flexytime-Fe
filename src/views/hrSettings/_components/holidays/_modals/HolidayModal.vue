@@ -130,7 +130,7 @@ const submitHandler = handleSubmit(async (values) => {
     console.log('payload ', payload);
     await holidaysStore.save(payload);
     emit('fetchHolidays');
-    showSuccessMessage('Holiday updated!');
+    showSuccessMessage(t('pages.hrSettings.holidays.modal.messages.updated'));
     handleClose();
   } catch (error: any) {
     showErrorMessage(error as any);

@@ -28,6 +28,9 @@
             "placeholder": "Enter your password"
           },
           "button": "Reset Password"
+        },
+        "messages": {
+          "success": "Logged in!"
         }
       },
       "register": {
@@ -54,7 +57,10 @@
           "button": "Let's Get Started"
         },
         "haveAccount": "Already have an account?",
-        "signIn": "Sign in"
+        "signIn": "Sign in",
+        "messages": {
+          "success": "Registered!"
+        }
       },
       "wizardDownload": {
         "skipButton": "Skip"
@@ -407,11 +413,17 @@
       "advanced": {
         "time": {
           "placeholder": "Enter Time"
+        },
+        "messages": {
+          "updated": "Advanced Permissions updated!"
         }
       },
       "permissions": {
         "save": {
           "label": "Save"
+        },
+        "messages": {
+          "updated": "Permissions updated!"
         }
       },
       "companies": {
@@ -557,6 +569,9 @@
       "copyLink": "Copy Link",
       "bonusEarned": "Bonus Earned",
       "previousInvitations": "Previous Invitations",
+      "messages": {
+        "success": "Users invited!"
+      },
       "modals": {
         "bonusModal": {
           "title": "Bonus Earned",
@@ -687,6 +702,15 @@
           },
           "emailBcc": {
             "label": "Bcc"
+          },
+          "messages": {
+            "updated": "Report updated!",
+            "created": "Report created!"
+          }
+        },
+        "elasticReports": {
+          "messages": {
+            "created": "Report created!"
           }
         },
         "elasticPieChart": {
@@ -795,7 +819,10 @@
           "startDateLabel": "Start Date",
           "endDateLabel": "End Date",
           "repeatYearly": "Repeat every year",
-          "save": "Save"
+          "save": "Save",
+          "messages": {
+            "updated": "Holiday updated!"
+          }
         }
       },
       "annuals": {
@@ -831,6 +858,9 @@
           },
           "endDate": {
             "label": "End Date"
+          },
+          "messages": {
+            "updated": "Annual updated!"
           }
         }
       }
@@ -859,6 +889,9 @@
         },
         "save": {
           "label": "Save"
+        },
+        "messages": {
+          "updated": "working hours updated!"
         }
       },
       "password": {
@@ -870,6 +903,9 @@
         },
         "save": {
           "label": "Save"
+        },
+        "messages": {
+          "updated": "Holiday updated!"
         }
       },
       "license": {
@@ -896,6 +932,9 @@
         },
         "buyLicense": {
           "label": "Buy License"
+        },
+        "messages": {
+          "updated": "working hours updated!"
         }
       }
     }

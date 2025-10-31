@@ -99,7 +99,7 @@ const submit = async (settingType: number, value: any) => {
       ];
     }
     advancedsStore.save(payload);
-    showSuccessMessage('Advanced Permissions updated!');
+    showSuccessMessage(t('pages.settings.advanced.messages.updated'));
   } catch (error: any) {
     showErrorMessage(error as any);
   }

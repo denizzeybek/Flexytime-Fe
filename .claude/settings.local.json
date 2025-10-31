@@ -4,7 +4,9 @@
       "Bash(while read file)",
       "Bash(do grep -E '>[A-Za-z][a-z]+ ' $file)",
       "Bash(echo:*)",
-      "Bash(break done)"
+      "Bash(break done)",
+      "Bash(for file in /Users/denizzeybek/Documents/Flexytime-Fe/src/components/ui/global/Avatar.vue /Users/denizzeybek/Documents/Flexytime-Fe/src/components/ui/global/MultiSelect.vue /Users/denizzeybek/Documents/Flexytime-Fe/src/components/ui/global/Input.vue)",
+      "Bash(do echo \"=== $file ===\" grep \"label=\" \"$file\")"
     ],
     "deny": [],
     "ask": []

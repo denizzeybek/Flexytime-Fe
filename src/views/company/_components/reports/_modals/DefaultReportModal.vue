@@ -148,9 +148,9 @@ const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
     if (isEditing.value) {
-      showSuccessMessage('Report updated!');
+      showSuccessMessage(t('pages.company.reports.modal.messages.updated'));
     } else {
-      showSuccessMessage('Report created!');
+      showSuccessMessage(t('pages.company.reports.modal.messages.created'));
     }
 
     emit('fetchDefaultReports');

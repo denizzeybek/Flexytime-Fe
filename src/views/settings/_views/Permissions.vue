@@ -93,7 +93,7 @@ const submitHandler = handleSubmit(async (values) => {
     const payload = transformPermissions(values.permissions);
     console.log('payload ', payload);
     await permissionsStore.save(payload);
-    showSuccessMessage('Permissions updated!');
+    showSuccessMessage(t('pages.settings.permissions.messages.updated'));
   } catch (error: any) {
     showErrorMessage(error as any);
   }
