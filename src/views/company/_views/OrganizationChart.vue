@@ -53,7 +53,7 @@ const isLoading = ref(false);
 const handleAddTeam = () => {
   organizationList.value.push({
     children: [],
-    title: 'New Item',
+    title: t('pages.company.organizationChart.newItem'),
   });
 };
 
@@ -108,7 +108,7 @@ const handleSave = async () => {
       Nodes: organizationList.value
     }
     await organizationsStore.save(payload);
-    showSuccessMessage('Saved!')
+    showSuccessMessage(t('pages.company.organizationChart.messages.saved'))
     await fetchOrganizationChart();
   } catch (error) {
     console.error(error)
