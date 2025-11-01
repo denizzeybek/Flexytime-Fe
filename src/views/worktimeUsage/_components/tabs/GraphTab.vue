@@ -14,13 +14,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { type MessageSchema } from '@/plugins/i18n';
 import Chart from 'primevue/chart';
 import ProgressSpinner from 'primevue/progressspinner';
 import type { IGraph } from '../../_types';
 
-const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   graphs?: IGraph | null;
@@ -44,20 +41,47 @@ const chartData = computed(() => {
   return setChartData(props.graphs.Summary);
 });
 
-// Set chart data with proper formatting
+// Color palette matching SummaryBadge severity colors
+const getColorForLabel = (label: string): { bg: string; border: string } => {
+  const normalizedLabel = label?.toLowerCase() || '';
+
+  // Colors matching SummaryBadge component (same as project design)
+  const colorMap: Record<string, { bg: string; border: string }> = {
+    work: { bg: 'rgba(34, 197, 94, 0.8)', border: 'rgb(34, 197, 94)' }, // 🟢 Green-500 (success)
+    meeting: { bg: 'rgba(249, 115, 22, 0.8)', border: 'rgb(249, 115, 22)' }, // 🟠 Orange-500 (warn)
+    leisure: { bg: 'rgba(239, 68, 68, 0.8)', border: 'rgb(239, 68, 68)' }, // 🔴 Red-500 (danger)
+    unclassified: { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' }, // ⚪ Slate-500 (secondary)
+  };
+
+  // Match the label to a color (case-insensitive)
+  for (const [key, value] of Object.entries(colorMap)) {
+    if (normalizedLabel.includes(key)) {
+      return value;
+    }
+  }
+
+  // Default fallback color
+  return { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' }; // Slate-500
+};
+
+// Set chart data with proper formatting and custom colors
 const setChartData = (source: IGraph['Summary']) => {
   return {
     labels: source?.labels,
-    datasets: source?.datasets?.map((ds) => ({
-      ...ds,
-      backgroundColor: Array.isArray(ds.backgroundColor)
-        ? ds.backgroundColor
-        : ds.data?.map(() => ds.backgroundColor),
-      borderColor: Array.isArray(ds.borderColor)
-        ? ds.borderColor
-        : ds.data?.map(() => ds.borderColor),
-      borderWidth: ds.borderWidth || 1,
-    })),
+    datasets: source?.datasets?.map((ds) => {
+      const colors = getColorForLabel(ds.label || '');
+
+      return {
+        ...ds,
+        backgroundColor: Array.isArray(ds.backgroundColor)
+          ? ds.data?.map(() => colors.bg)
+          : ds.data?.map(() => colors.bg),
+        borderColor: Array.isArray(ds.borderColor)
+          ? ds.data?.map(() => colors.border)
+          : ds.data?.map(() => colors.border),
+        borderWidth: ds.borderWidth || 2,
+      };
+    }),
   };
 };
 
@@ -75,7 +99,23 @@ const chartOptions = computed(() => {
       legend: {
         labels: {
           color: textColor,
+          padding: 15,
+          font: {
+            size: 13,
+            weight: 500,
+          },
+          usePointStyle: true,
+          pointStyle: 'circle',
         },
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        borderColor: 'rgba(255, 255, 255, 0.2)',
+        borderWidth: 1,
+        padding: 12,
+        cornerRadius: 8,
       },
     },
     scales: {
@@ -83,19 +123,21 @@ const chartOptions = computed(() => {
         stacked: true,
         ticks: {
           color: textColorSecondary,
-          font: { weight: 500 }
+          font: { weight: 500 },
         },
         grid: {
           display: false,
-          drawBorder: false
+          drawBorder: false,
         },
       },
       y: {
         stacked: true,
-        ticks: { color: textColorSecondary },
+        ticks: {
+          color: textColorSecondary,
+        },
         grid: {
           color: surfaceBorder,
-          drawBorder: false
+          drawBorder: false,
         },
       },
     },

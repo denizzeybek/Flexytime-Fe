@@ -12,7 +12,8 @@
       "Bash(then echo \"$f\" fi done)",
       "Bash(yarn build:*)",
       "Bash(git show:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(yarn type-check:*)"
     ],
     "deny": [],
     "ask": []

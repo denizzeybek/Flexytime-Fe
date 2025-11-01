@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-2 lg:grid-cols-6 gap-3">
+  <div class="grid gap-3" :class="gridColsClass">
     <template v-for="(item, idx) in badgeList" :key="idx">
       <SummaryBadge
         :severity="item.severity"
@@ -39,6 +39,22 @@ const badgeList = computed<IBadgeData[]>(() => {
   return props.summary
     .map((item) => mapStatisticTypeToBadge(item.statisticType, item.time))
     .filter((item): item is IBadgeData => item !== null);
+});
+
+// Dynamic grid columns based on badge count
+const gridColsClass = computed(() => {
+  const count = badgeList.value.length;
+
+  // Mobile: always 2 columns
+  // Desktop: match the number of badges (4 or 6)
+  if (count === 4) {
+    return 'grid-cols-2 lg:grid-cols-4';
+  } else if (count === 6) {
+    return 'grid-cols-2 lg:grid-cols-6';
+  }
+
+  // Fallback for other cases
+  return 'grid-cols-2 lg:grid-cols-4';
 });
 
 const mapStatisticTypeToBadge = (statisticType: string, value: any): IBadgeData | null => {
