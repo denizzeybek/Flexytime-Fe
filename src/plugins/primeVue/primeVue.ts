@@ -1,3 +1,4 @@
+/* eslint-disable vue/no-reserved-component-names */
 import { type App } from 'vue';
 import PrimeVue from 'primevue/config';
 import ToastService from 'primevue/toastservice';

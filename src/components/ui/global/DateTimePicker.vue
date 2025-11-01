@@ -4,12 +4,12 @@
     <div class="flex items-center gap-1">
       <Button v-if="showPrevNextButtons" @click="handleWeek(EWeek.PREV)" type="button" icon="pi pi-angle-left" />
       <DatePicker
-        v-model="value as any"
+        v-model="value"
         :id="id"
         :data-error="!!errorMessage"
         :data-valid="isValid"
-        :placeholder="placeholder"
-        :disabled="disabled as boolean"
+        :placeholder="finalPlaceholder"
+        :disabled="disabled"
         class="w-full"
         :invalid="!!errorMessage"
         :class="[customClass]"
@@ -31,14 +31,17 @@
   </div>
     <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
   </div>
-  </input>
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import dayjs from 'dayjs';
 import type { DatePickerProps } from 'primevue/datepicker';
 import { useField } from 'vee-validate';
 import { computed } from 'vue';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IEmits {
   (event: 'change', value: any): void;
@@ -81,43 +84,45 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
-  placeholder: 'Enter date',
+  placeholder: '',
   numberOfMonths: 2,
   manualInput: true,
   format: 'YY/MM/DDDD',
   showPrevNextButtons: false
 });
 
-const buttonProps = [
+const finalPlaceholder = computed(() => props.placeholder || t('components.dateTimePicker.placeholder'));
+
+const buttonProps = computed(() => [
   {
     key: EHelperButton.TODAY,
-    label: 'Today',
+    label: t('components.dateTimePicker.today'),
   },
   {
     key: EHelperButton.YESTERDAY,
-    label: 'Yesterday',
+    label: t('components.dateTimePicker.yesterday'),
   },
   {
     key: EHelperButton.LAST_7_DAYS,
-    label: 'Last 7 days',
+    label: t('components.dateTimePicker.last7Days'),
   },
   {
     key: EHelperButton.LAST_30_DAYS,
-    label: 'Last 30 days',
+    label: t('components.dateTimePicker.last30Days'),
   },
   {
     key: EHelperButton.THIS_MONTH,
-    label: 'This month',
+    label: t('components.dateTimePicker.thisMonth'),
   },
   {
     key: EHelperButton.PREVIOUS_MONTH,
-    label: 'Previous Month',
+    label: t('components.dateTimePicker.previousMonth'),
   },
   {
     key: EHelperButton.THIS_YEAR,
-    label: 'This year',
+    label: t('components.dateTimePicker.thisYear'),
   }
-]
+])
 
 const handleChangeEvent = () => {
   emit('change', value.value);  // Emit value on change
@@ -126,7 +131,7 @@ const handleChangeEvent = () => {
 const {
   errorMessage: vError,
   value,
-} = useField(() => props.name, undefined, {
+} = useField<Date | Date[] | (Date | null)[] | null>(() => props.name, undefined, {
   validateOnValueUpdate: false,
   syncVModel: true,
 });
@@ -175,8 +180,11 @@ const handleChange = (btnType: EHelperButton) => {
 };
 
 const handleWeek = (week: EWeek) => {
-  const startDate = dayjs((value.value as string[])[0]);
-  const endDate = dayjs((value.value as string[])[1]);
+  if (!value.value || !Array.isArray(value.value)) return;
+
+  const startDate = dayjs(value.value[0]);
+  const endDate = dayjs(value.value[1]);
+
   if (week === EWeek.PREV) {
     value.value = [startDate.subtract(1, 'week').toDate(), endDate.subtract(1, 'week').toDate()];
   } else {

@@ -1,24 +1,38 @@
 <template>
-  <Card>
-    <template #content>
-      <DataTable
+  <DataTable
         tableStyle="min-width: 50rem"
         paginator
         :first="first"
-        :loading="isLoading"
-        :value="webAddresses"
+        :value="isLoading ? skeletonData : webAddresses"
         :totalRecords="totalItems"
         :rows="10"
         lazy
         @page="onPageChange"
         @sort="onSortOrder"
       >
-        <Column sortable field="HostName" header="Name"> </Column>
-        <Column sortable field="TopicName" header="Topic"> </Column>
-        <Column field="Teams" header="Teams"> </Column>
-        <Column header="Always On">
+        <Column sortable field="HostName" :header="t('pages.classification.table.columns.name')">
           <template #body="slotProps">
+            <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+            <span v-else>{{ slotProps.data.HostName }}</span>
+          </template>
+        </Column>
+        <Column sortable field="TopicName" :header="t('pages.classification.table.columns.topic')">
+          <template #body="slotProps">
+            <Skeleton v-if="isLoading" height="1.5rem" width="8rem" />
+            <span v-else>{{ slotProps.data.TopicName }}</span>
+          </template>
+        </Column>
+        <Column field="Teams" :header="t('pages.classification.table.columns.teams')">
+          <template #body="slotProps">
+            <Skeleton v-if="isLoading" height="1.5rem" width="6rem" />
+            <span v-else>{{ slotProps.data.Teams }}</span>
+          </template>
+        </Column>
+        <Column :header="t('pages.classification.table.columns.alwaysOn')">
+          <template #body="slotProps">
+            <Skeleton v-if="isLoading" width="2rem" height="2rem" class="rounded" />
             <Checkbox
+              v-else
               @change="onAlwaysOnChange(slotProps.data)"
               :modelValue="slotProps.data.AlwaysOn"
               :binary="true"
@@ -29,11 +43,16 @@
            <template #body="slotProps">
             <i class="pi pi-clock""></i>
             {{ getTimeData(slotProps.data.Timeout.time) }}
-          </template> 
+          </template>
         </Column> -->
-        <Column header="Actions">
+        <Column :header="t('pages.classification.table.columns.actions')">
           <template #body="slotProps">
-            <div class="flex gap-3">
+            <div v-if="isLoading" class="flex gap-3">
+              <Skeleton width="2.5rem" height="2.5rem" class="rounded-lg" />
+              <Skeleton width="2.5rem" height="2.5rem" class="rounded-lg" />
+              <Skeleton width="2.5rem" height="2.5rem" class="rounded-lg" />
+            </div>
+            <div v-else class="flex gap-3">
               <Button
                 icon="pi pi-wrench"
                 severity="success"
@@ -56,18 +75,21 @@
           </template>
         </Column>
 
-        <template #footer> In total there are {{ totalItems }} webAddresses. </template>
+        <template #footer> {{ t('pages.classification.table.footer.webAddresses', [totalItems]) }} </template>
       </DataTable>
-    </template>
-  </Card>
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
+import Skeleton from 'primevue/skeleton';
 import { EDomain } from '@/enums/domain.enum';
 import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses';
 import { getDomainEnum } from '@/views/classification/_etc/helpers';
 import Checkbox from 'primevue/checkbox';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   isLoading: boolean;
@@ -133,6 +155,16 @@ const updateDomain = async (event) => {
     console.log(error);
   }
 };
+
+// Skeleton dummy data - 5 rows for loading state
+const skeletonData = Array.from({ length: 5 }, (_, i) => ({
+  ID: `skeleton-${i}`,
+  HostName: '',
+  TopicName: '',
+  Teams: '',
+  AlwaysOn: false,
+  Domain: 0,
+}));
 </script>
 
 <style scoped></style>

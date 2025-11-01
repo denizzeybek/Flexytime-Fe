@@ -44,7 +44,7 @@
                   <span class="font-semibold text-lg">{{ getBadgeTitle(distribution.statisticType) }}</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="font-medium">Total Time:</span>
+                  <span class="font-medium">{{ $t('components.distribution.totalTime') }}:</span>
                   <span class="font-semibold">{{ distribution.time }}</span>
                 </div>
               </div>
@@ -70,7 +70,7 @@
               </template>
               <div v-else class="flex flex-col items-center gap-8 py-8">
                 <img src="@/assets/images/noData.svg" alt="No Data" />
-                <span class="text-gray-500">No Data Available</span>
+                <span class="text-gray-500">{{ $t('components.distribution.noDataAvailable') }}</span>
               </div>
             </template>
           </Card>
@@ -81,17 +81,21 @@
     <!-- Empty state (only when not loading and no data) -->
     <div v-if="!isLoading && (!distributions || distributions.length === 0)" class="flex flex-col items-center gap-8 py-8">
       <img src="@/assets/images/noData.svg" alt="No Data" />
-      <span class="text-gray-500">No distribution data available.</span>
+      <span class="text-gray-500">{{ $t('components.distribution.noDistributionData') }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { type MessageSchema } from '@/plugins/i18n';
 import Card from 'primevue/card';
 import Chart from 'primevue/chart';
 import Skeleton from 'primevue/skeleton';
 import type { IDistribution } from '../../_types';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   distributions?: IDistribution[];
@@ -195,10 +199,10 @@ const getBadgeIcon = (statisticType: string): string => {
 
 const getBadgeTitle = (statisticType: string): string => {
   const mapping: Record<string, string> = {
-    work: 'Work',
-    meeting: 'Meeting',
-    leisure: 'Leisure',
-    unclassified: 'Unclassified',
+    work: t('components.badges.statisticType.work'),
+    meeting: t('components.badges.statisticType.meeting'),
+    leisure: t('components.badges.statisticType.leisure'),
+    unclassified: t('components.badges.statisticType.unclassified'),
   };
   return mapping[statisticType.toLowerCase()] || statisticType;
 };

@@ -2,7 +2,7 @@
   <Dialog
     v-model:visible="open"
     modal
-    header="Edit Employee"
+    :header="t('pages.hrSettings.employees.modal.header')"
     class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
@@ -10,9 +10,9 @@
       <Tabs v-model:value="activeTab">
         <div class="!flex !justify-center">
           <TabList>
-            <Tab :value="0">Employee</Tab>
-            <Tab :value="1">Team Manager</Tab>
-            <Tab :value="2">System Admin</Tab>
+            <Tab :value="0">{{ t('pages.hrSettings.employees.modal.tab.employee') }}</Tab>
+            <Tab :value="1">{{ t('pages.hrSettings.employees.modal.tab.teamManager') }}</Tab>
+            <Tab :value="2">{{ t('pages.hrSettings.employees.modal.tab.systemAdmin') }}</Tab>
           </TabList>
         </div>
         <TabPanels>
@@ -47,9 +47,9 @@
                 />
               </div> -->
                 <div class="flex lg:flex-col flex-1 gap-4">
-                  <FInput class="grow" id="memberName" label="Full Name" name="memberName" />
-                  <FInput class="grow" type="email" id="email" label="Email" name="email" />
-                  <FCheckbox v-if="isEditing" name="enabled" labelLeft label="Enabled" />
+                  <FInput class="grow" id="memberName" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
+                  <FInput class="grow" type="email" id="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
+                  <FCheckbox v-if="isEditing" name="enabled" labelLeft :label="t('pages.hrSettings.employees.modal.enabled.label')" />
                 </div>
               </div>
               <div class="flex gap-4 flex-1">
@@ -57,22 +57,22 @@
                   id="title"
                   class="grow"
                   name="title"
-                  label="Title"
-                  placeholder="Title"
+                  :label="t('pages.hrSettings.employees.modal.title.label')"
+                  :placeholder="t('pages.hrSettings.employees.modal.title.placeholder')"
                   :options="titleOptions"
                 />
                 <FSelect
                   id="team"
                   class="grow"
                   name="team"
-                  label="Team"
-                  placeholder="Team"
+                  :label="t('pages.hrSettings.employees.modal.team.label')"
+                  :placeholder="t('pages.hrSettings.employees.modal.team.placeholder')"
                   :options="teamOptions"
                 />
                 <FInput
                   class="grow"
                   id="operatingUser"
-                  label="Operating User"
+                  :label="t('pages.hrSettings.employees.modal.operatingUser.label')"
                   name="operatingUser"
                 />
               </div>
@@ -80,19 +80,19 @@
                 <FMultiSelect
                   name="tags"
                   class="grow"
-                  placeholder="Select tag(s)"
-                  label="Tag"
+                  :placeholder="t('pages.hrSettings.employees.modal.tags.placeholder')"
+                  :label="t('pages.hrSettings.employees.modal.tags.label')"
                   :options="tagOptions"
                   :headerAddBtn="false"
                   :prime-props="{
                     maxSelectedLabels: 3,
                   }"
                 />
-                <FInput class="grow" id="salary" label="Salary" name="salary" />
+                <FInput class="grow" id="salary" :label="t('pages.hrSettings.employees.modal.salary.label')" name="salary" />
               </div>
               <Divider />
               <div class="flex gap-4 flex-1">
-                <FPassword class="grow" id="password" label="Password" name="password" />
+                <FPassword class="grow" id="password" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
                 <!-- <FPassword
                 class="grow"
                 id="repeatPassword"
@@ -129,9 +129,9 @@
                 />
               </div> -->
                 <div class="flex lg:flex-col flex-1 gap-4">
-                  <FInput class="grow" id="memberName" label="Full Name" name="memberName" />
-                  <FInput class="grow" type="email" id="email" label="Email" name="email" />
-                  <FCheckbox v-if="isEditing" name="enabled" labelLeft label="Enabled" />
+                  <FInput class="grow" id="memberName" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
+                  <FInput class="grow" type="email" id="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
+                  <FCheckbox v-if="isEditing" name="enabled" labelLeft :label="t('pages.hrSettings.employees.modal.enabled.label')" />
                 </div>
               </div>
               <div class="flex gap-4 flex-1">
@@ -139,25 +139,25 @@
                   id="title"
                   class="grow"
                   name="title"
-                  label="Title"
-                  placeholder="Title"
+                  :label="t('pages.hrSettings.employees.modal.title.label')"
+                  :placeholder="t('pages.hrSettings.employees.modal.title.placeholder')"
                   :options="titleOptions"
                 />
                 <FSelect
                   id="team"
                   class="grow"
                   name="team"
-                  label="Team"
-                  placeholder="Team"
+                  :label="t('pages.hrSettings.employees.modal.team.label')"
+                  :placeholder="t('pages.hrSettings.employees.modal.team.placeholder')"
                   :options="teamOptions"
                 />
               </div>
               <div class="flex items-center gap-4 flex-1">
-                <FInput class="grow" id="salary" label="Salary" name="salary" />
+                <FInput class="grow" id="salary" :label="t('pages.hrSettings.employees.modal.salary.label')" name="salary" />
               </div>
               <Divider />
               <div class="flex gap-4 flex-1">
-                <FPassword class="grow" id="password" label="Password" name="password" />
+                <FPassword class="grow" id="password" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
                 <!-- <FPassword
                 class="grow"
                 id="repeatPassword"
@@ -194,14 +194,14 @@
                 />
               </div> -->
                 <div class="flex lg:flex-col flex-1 gap-4">
-                  <FInput class="grow" id="memberName" label="Full Name" name="memberName" />
-                  <FInput class="grow" type="email" id="email" label="Email" name="email" />
-                  <FCheckbox v-if="isEditing" name="enabled" labelLeft label="Enabled" />
+                  <FInput class="grow" id="memberName" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
+                  <FInput class="grow" type="email" id="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
+                  <FCheckbox v-if="isEditing" name="enabled" labelLeft :label="t('pages.hrSettings.employees.modal.enabled.label')" />
                 </div>
               </div>
               <Divider />
               <div class="flex gap-4 flex-1">
-                <FPassword class="grow" id="password" label="Password" name="password" />
+                <FPassword class="grow" id="password" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
                 <!-- <FPassword
                 class="grow"
                 id="repeatPassword"
@@ -215,10 +215,10 @@
       </Tabs>
     </template>
     <div class="flex justify-end gap-2">
-      <Button type="button" label="Cancel" severity="secondary" @click.stop="open = false"></Button>
+      <Button type="button" :label="t('common.buttons.cancel')" severity="secondary" @click.stop="open = false"></Button>
       <Button
         type="submit"
-        label="Save"
+        :label="t('common.buttons.save')"
         :disabled="isSubmitting"
         @click.stop="submitHandler"
         :loading="isSubmitting"
@@ -230,11 +230,15 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useForm } from 'vee-validate';
-import { boolean, string, object, array, number, ref as yupRef } from 'yup';
+import { boolean, string, object, array, number } from 'yup';
 import { toTypedSchema } from '@vee-validate/yup';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFToast } from '@/composables/useFToast';
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   data?: IEmployeeMember;
@@ -252,7 +256,7 @@ const employeesStore = useHRSettingsEmployeesStore();
 
 const open = defineModel<boolean>('open');
 const activeTab = ref(0);
-const src = ref();
+// const src = ref();
 const isClear = ref(false);
 const isOnMounted = ref(false);
 
@@ -401,25 +405,25 @@ const handleClose = () => {
   resetForm();
 };
 
-const onFileSelect = (event) => {
-  const file = event.files[0];
-  const reader = new FileReader();
+// const onFileSelect = (event) => {
+//   const file = event.files[0];
+//   const reader = new FileReader();
 
-  reader.onload = async (e) => {
-    src.value = e?.target?.result;
-  };
+//   reader.onload = async (e) => {
+//     src.value = e?.target?.result;
+//   };
 
-  reader.readAsDataURL(file);
-};
+//   reader.readAsDataURL(file);
+// };
 
 const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
-    let text = 'Employee added!';
+    let text = t('pages.hrSettings.employees.modal.messages.added');
     let payload = {};
     if (isEditing.value) {
       const employee = props.data;
-      text = 'Employee updated!';
+      text = t('pages.hrSettings.employees.modal.messages.updated');
       payload = {
         id: employee?.ID,
         memberName: values.memberName,

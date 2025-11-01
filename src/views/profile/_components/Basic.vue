@@ -15,7 +15,7 @@
           <img
             v-if="src"
             :src="src"
-            alt="Image"
+            :alt="t('pages.profile.basic.profileImage.alt')"
             class="shadow-md rounded-xl w-full sm:w-64"
             style="filter: grayscale(100%)"
           />
@@ -36,27 +36,31 @@
         />
       </div>
       <div class="flex lg:flex-col flex-1 gap-4">
-        <FInput class="grow" id="fullName" label="Full Name" name="fullName" />
-        <FInput class="grow" type="email" id="email" label="Email" name="email" />
+        <FInput class="grow" id="fullName" :label="t('pages.profile.basic.fullName.label')" name="fullName" />
+        <FInput class="grow" type="email" id="email" :label="t('pages.profile.basic.email.label')" name="email" />
       </div>
     </div>
     <div class="flex gap-4 flex-1">
-      <FInput class="grow" id="role" label="Role" name="role" />
-      <FSelect
-        class="grow"
-        label="Language"
-        name="language"
-        placeholder="Select language"
-        :options="languagesList"
-      />
+      <FInput class="grow" id="role" :label="t('pages.profile.basic.role.label')" name="role" />
+      <div class="flex flex-col gap-2 grow">
+        <label class="text-sm font-medium">{{ t('pages.profile.basic.language.label') }}</label>
+        <Select
+          v-model="selectedLanguageModel"
+          :options="languageOptions"
+          optionLabel="name"
+          :placeholder="t('pages.profile.basic.language.placeholder')"
+          @update:model-value="handleLanguageChange"
+          class="w-full"
+        />
+      </div>
     </div>
 
     <div class="grow">
       <FSelect
         class="grow"
-        label="Timezone"
+        :label="t('pages.profile.basic.timezone.label')"
         name="timeZone"
-        placeholder="Select timezone"
+        :placeholder="t('pages.profile.basic.timezone.placeholder')"
         :options="timeZoneList"
       />
     </div>
@@ -64,7 +68,7 @@
     <div class="flex justify-center gap-2">
       <Button
         type="submit"
-        label="Save"
+        :label="t('pages.profile.basic.save.label')"
         :disabled="isSubmitting"
         @click.stop="submitHandler"
         :loading="isSubmitting"
@@ -74,21 +78,29 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useForm } from 'vee-validate';
 import { string, object } from 'yup';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useProfileStore } from '@/stores/profile/profile';
 import { useFToast } from '@/composables/useFToast';
+import { useLanguage } from '@/composables/useLanguage';
+import Select from 'primevue/select';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const profileStore = useProfileStore();
+const { currentLanguage, changeLanguage, getLanguageOptions } = useLanguage();
 
 const src = ref();
 
-const languagesList = [
-  { name: 'Turkish', value: 'tr' },
-  { name: 'English', value: 'en' },
-];
+// Language options and model (independent from form)
+const languageOptions = getLanguageOptions();
+const selectedLanguageModel = ref<{ name: string; value: 'en' | 'tr' } | undefined>(
+  languageOptions.find((lang) => lang.value === currentLanguage.value),
+);
 
 const timeZoneList = computed(() =>
   profileStore?.TimeZoneList?.map((item) => ({ name: item.Name, value: item.ID })),
@@ -100,10 +112,6 @@ const validationSchema = object({
   fullName: string().required().label('Full Name'),
   email: string().required().email().label('Email'),
   role: string().required().label('Role'),
-  language: object().shape({
-    name: string().label('Name'),
-    value: string().label('language').required(),
-  }),
   timeZone: object().shape({
     name: string().label('Name'),
     value: string().label('Time zone').required(),
@@ -117,7 +125,7 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
-    showSuccessMessage('working hours updated!');
+    showSuccessMessage(t('pages.profile.basic.messages.updated'));
   } catch (error: any) {
     showErrorMessage(error as any);
   }
@@ -134,24 +142,38 @@ const onFileSelect = (event) => {
   reader.readAsDataURL(file);
 };
 
+// Handle language change - independent from form
+const handleLanguageChange = async (option: { name: string; value: 'en' | 'tr' }) => {
+  if (option && option.value) {
+    await changeLanguage(option.value);
+  }
+};
+
+// Watch currentLanguage changes and update model
+watch(currentLanguage, (newLang) => {
+  selectedLanguageModel.value = languageOptions.find((lang) => lang.value === newLang);
+});
+
 const getInitialFormData = computed(() => {
   const user = profileStore?.User;
   const timeZone = profileStore?.TimeZone;
   const timeZoneName = timeZoneList.value.find((item) => item.value === timeZone)?.name;
-  const LanguageCode = profileStore?.LanguageCode;
-  const LanguageName = languagesList.find((item) => item.value === LanguageCode)?.name;
 
   return {
     fullName: user.fullname,
     email: user.Email,
     role: user.title,
     timeZone: { name: timeZoneName, value: timeZone },
-    language: { name: LanguageName, value: LanguageCode },
   };
 });
 
 onMounted(async () => {
   await profileStore.filter();
+
+  // Set initial language model
+  selectedLanguageModel.value = languageOptions.find(
+    (lang) => lang.value === currentLanguage.value,
+  );
 
   resetForm({
     values: getInitialFormData.value,

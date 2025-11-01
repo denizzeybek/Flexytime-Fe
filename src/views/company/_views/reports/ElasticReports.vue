@@ -11,6 +11,8 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { onMounted, watch } from 'vue';
 import { useCompanyReportsStore } from '@/stores/company/reports';
 import { useForm } from 'vee-validate';
@@ -20,6 +22,8 @@ import ElasticForm from '@/views/company/_components/reports/elasticReports/Elas
 import ElasticBarChart from '@/views/company/_components/reports/elasticReports/ElasticBarChart.vue';
 import ElasticPieChart from '@/views/company/_components/reports/elasticReports/ElasticPieChart.vue';
 import { EGroupOptions } from '@/views/company/_etc/groupOptions.enum';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const reportsStore = useCompanyReportsStore();
@@ -84,7 +88,7 @@ const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
 
-    showSuccessMessage('Report created!');
+    showSuccessMessage(t('pages.company.reports.elasticReports.messages.created'));
   } catch (error: any) {
     showErrorMessage(error as any);
   }

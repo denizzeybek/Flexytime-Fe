@@ -1,16 +1,16 @@
 <template>
-  <Card class="summary-badge h-fit" :class="borderClass">
+  <Card class="summary-badge h-full shadow-md hover:shadow-lg transition-shadow rounded-xl overflow-hidden border" :class="bgLightClass">
     <template #content>
-      <div class="flex items-center justify-center gap-2">
+      <div class="flex items-center justify-center gap-3 h-full">
         <div
-          class="flex items-center justify-center w-8 h-8 rounded-full"
+          class="flex items-center justify-center min-w-10 min-h-10 rounded-full shadow-sm"
           :class="bgClass"
         >
-          <i :class="icon" class="text-white text-sm"></i>
+          <i :class="icon" class="text-white text-base"></i>
         </div>
-        <div class="flex flex-col">
-          <span class="text-xs text-gray-600">{{ title }}</span>
-          <span :class="textClass" class="font-semibold">{{ value }}</span>
+        <div class="flex flex-col items-start justify-center">
+          <span class="text-xs text-gray-500 font-medium">{{ title }}</span>
+          <span :class="textClass" class="font-bold text-base">{{ value }}</span>
         </div>
       </div>
     </template>
@@ -42,16 +42,17 @@ const severityMap: Record<string, string> = {
 
 const mappedSeverity = computed(() => severityMap[props.severity] || 'default');
 
-const borderClass = computed(() => `card-border-${mappedSeverity.value}`);
+// const borderClass = computed(() => `card-border-${mappedSeverity.value}`);
 const textClass = computed(() => `card-text-${mappedSeverity.value}`);
 const bgClass = computed(() => `bg-${mappedSeverity.value}`);
+const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);
 </script>
 
-<style>
+<style scoped>
 @reference "@/custom-tailwind.css";
 
 .summary-badge :deep(.p-card-body) {
-  @apply !px-2 !py-2;
+  @apply !px-3 !py-3;
 }
 
 .summary-badge :deep(.p-card-content) {
@@ -78,22 +79,22 @@ const bgClass = computed(() => `bg-${mappedSeverity.value}`);
 }
 
 .card-text-success {
-  @apply text-green-600;
+  @apply text-green-700;
 }
 .card-text-danger {
-  @apply text-red-600;
+  @apply text-red-700;
 }
 .card-text-warn {
-  @apply text-yellow-600;
+  @apply text-orange-700;
 }
 .card-text-secondary {
-  @apply text-gray-600;
+  @apply text-slate-700;
 }
 .card-text-info {
-  @apply text-blue-600;
+  @apply text-blue-700;
 }
 .card-text-primary {
-  @apply text-purple-600;
+  @apply text-purple-700;
 }
 
 .bg-success {
@@ -103,15 +104,34 @@ const bgClass = computed(() => `bg-${mappedSeverity.value}`);
   @apply bg-red-500;
 }
 .bg-warn {
-  @apply bg-yellow-500;
+  @apply bg-orange-500;
 }
 .bg-secondary {
-  @apply bg-gray-500;
+  @apply bg-slate-500;
 }
 .bg-info {
   @apply bg-blue-500;
 }
 .bg-primary {
   @apply bg-purple-500;
+}
+
+.bg-light-success {
+  @apply bg-green-50/80 border-green-200/50;
+}
+.bg-light-danger {
+  @apply bg-red-50/80 border-red-200/50;
+}
+.bg-light-warn {
+  @apply bg-orange-50/80 border-orange-200/50;
+}
+.bg-light-secondary {
+  @apply bg-slate-50/80 border-slate-200/50;
+}
+.bg-light-info {
+  @apply bg-blue-50/80 border-blue-200/50;
+}
+.bg-light-primary {
+  @apply bg-purple-50/80 border-purple-200/50;
 }
 </style>

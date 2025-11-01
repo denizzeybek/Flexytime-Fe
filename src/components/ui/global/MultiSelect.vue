@@ -5,7 +5,7 @@
       v-model="value"
       :options="options"
       optionLabel="name"
-      :placeholder="placeholder"
+      :placeholder="finalPlaceholder"
       :invalid="!!errorMessage"
       @change="onSelect($event)"
       v-on="validationListeners"
@@ -37,7 +37,7 @@
           <Button
             class="!w-full"
             outlined
-            label="Add new"
+            :label="t('components.multiSelect.addNew')"
             icon="pi pi-plus"
             @click.stop="emit('addList')"
             type="button"
@@ -55,10 +55,15 @@
 </template>
 
 <script lang="ts" setup>
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import type { IOption } from '@/common/interfaces/option.interface';
 import MultiSelect, { type MultiSelectProps } from 'primevue/multiselect';
 import Tag from 'primevue/tag';
 import { useField } from 'vee-validate';
+import { computed } from 'vue';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface ChipSlotProps {
   value: any;
@@ -85,10 +90,12 @@ export interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
-  placeholder: 'Select an option',
+  placeholder: '',
   customWidth: 'w-full',
   chip: true,
 });
+
+const finalPlaceholder = computed(() => props.placeholder || t('components.multiSelect.placeholder'));
 
 interface IEmits {
   (event: 'selected', value: any): void;

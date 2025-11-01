@@ -1,20 +1,20 @@
 <template>
-  <Card>
+  <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
     <template #header>
       <li
-        class="items-center hidden gap-2 px-12 py-4 text-lg lg:ml-4 font-normal rounded-lg lg:grid-rows-1 lg:grid text-r-secondary lg:grid-cols-8"
+        class="items-center hidden gap-2 px-12 py-4 text-lg lg:ml-4 font-normal rounded-lg lg:grid-rows-1 lg:grid text-gray-600 lg:grid-cols-8"
       >
-        <div class="lg:col-span-2 lg:ml-4">Team Name</div>
-        <div class="lg:col-span-2 lg:ml-4">Member Name</div>
-        <div class="text-center lg:col-span-2">Title</div>
+        <div class="lg:col-span-2 lg:ml-4">{{ t('pages.company.organizationChart.header.teamName') }}</div>
+        <div class="lg:col-span-2 lg:ml-4">{{ t('pages.company.organizationChart.header.memberName') }}</div>
+        <div class="text-center lg:col-span-2">{{ t('pages.company.organizationChart.header.title') }}</div>
         <div></div>
         <!---->
         <div></div>
       </li>
     </template>
     <template #content>
-      <div v-for="team in organizationList" :key="team.ID">
-        <ul class="flex flex-col gap-2">
+      <div v-for="team in organizationList" :key="team.ID" class="mb-5">
+        <ul class="flex flex-col gap-3">
           <OrganizationItem
             :model="team"
             @item-change="onItemChange($event)"
@@ -24,20 +24,24 @@
       </div>
     </template>
     <template #footer>
-      <div class="flex justify-between">
-        <Button @click="handleAddTeam" icon="pi pi-plus" label="Add Team" />
-        <Button severity="info" label="Save" @click="handleSave"/>
+      <div class="flex justify-between gap-3 pt-5 border-t border-gray-100">
+        <Button @click="handleAddTeam" icon="pi pi-plus" :label="t('pages.company.organizationChart.buttons.addTeam')" class="shadow-sm" />
+        <Button severity="info" :label="t('pages.company.organizationChart.buttons.save')" @click="handleSave" class="shadow-sm"/>
       </div>
     </template>
   </Card>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
+import { ref, onMounted, watch } from 'vue';
 import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
 import OrganizationItem from '@/views/company/_components/organizationChart/OrganizationItem.vue';
 import { useFToast } from '@/composables/useFToast';
 import { useCompanyOrganizationChartsStore } from '@/stores/company/organizationChart';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showErrorMessage, showSuccessMessage } = useFToast();
 const organizationsStore = useCompanyOrganizationChartsStore();
@@ -49,7 +53,7 @@ const isLoading = ref(false);
 const handleAddTeam = () => {
   organizationList.value.push({
     children: [],
-    title: 'New Item',
+    title: t('pages.company.organizationChart.newItem'),
   });
 };
 
@@ -104,7 +108,7 @@ const handleSave = async () => {
       Nodes: organizationList.value
     }
     await organizationsStore.save(payload);
-    showSuccessMessage('Saved!')
+    showSuccessMessage(t('pages.company.organizationChart.messages.saved'))
     await fetchOrganizationChart();
   } catch (error) {
     console.error(error)

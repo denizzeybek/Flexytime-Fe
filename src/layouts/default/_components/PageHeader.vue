@@ -1,25 +1,78 @@
 <template>
-  <div class="flex justify-between items-center ">
-    <div class="flex items-center">
+  <div
+    class="flex justify-between items-center py-4 px-6 bg-white rounded-2xl shadow-lg border border-gray-100"
+  >
+    <div class="flex items-center gap-3">
       <div class="block lg:hidden">
-        <Button size="large" icon="pi pi-bars" unstyled @click="$emit('drawerChange', true)" />
+        <Button icon="pi pi-bars" text rounded @click="$emit('drawerChange', true)" />
       </div>
-      <div class=":pl-4 lg:pl-0  text-2xl">{{ route.name }}</div>
+      <h1 class="text-2xl font-semibold text-gray-800 tracking-tight">{{ localizedRouteName }}</h1>
     </div>
-    <div class="hidden lg:flex gap-3">
-      <Button size="large" icon="pi pi-shopping-cart" label="Upgrade" severity="warn" />
+    <div class="hidden lg:flex items-center gap-3">
+      <!-- Command Palette Trigger -->
+      <Button
+        @click="openCommandPalette"
+        text
+        severity="secondary"
+        class="hidden md:flex !px-3 !py-2.5 !text-sm !text-gray-500 !bg-gray-50 hover:!bg-gray-100 !border !border-gray-200 !rounded-lg"
+        :pt="{
+          root: { class: 'hidden md:flex items-center gap-2' },
+          label: { class: 'flex items-center gap-2 text-sm font-normal' }
+        }"
+      >
+        <template #default>
+          <i class="pi pi-search text-xs" />
+          <kbd class="px-2 py-0.5 text-xs font-medium text-gray-600 bg-gray-100 border border-gray-300 rounded">
+            {{ isMac ? '⌘' : 'Ctrl' }}
+          </kbd>
+          <kbd class="px-2 py-0.5 text-xs font-medium text-gray-600 bg-gray-100 border border-gray-300 rounded">
+            K
+          </kbd>
+        </template>
+      </Button>
+      <Button
+        icon="pi pi-shopping-cart"
+        :label="t('pages.layouts.pageHeader.upgrade.label')"
+        severity="warn"
+        class="shadow-md hover:shadow-lg transition-all"
+      />
       <!-- <Button size="large" icon="pi pi-youtube" severity="danger" /> -->
       <!-- <Button size="large" icon="pi pi-question" outlined severity="contrast" /> -->
       <ProfileMenu />
     </div>
+
+    <!-- Command Palette Modal -->
+    <CommandPalette ref="commandPaletteRef" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
+import { ref, computed } from 'vue';
 import ProfileMenu from '@/components/ui/local/ProfileMenu.vue';
+import CommandPalette from '@/components/ui/local/CommandPalette.vue';
 import { useRoute } from 'vue-router';
 
+const { t } = useI18n<{ message: MessageSchema }>();
 const route = useRoute();
+
+// Command Palette
+const commandPaletteRef = ref<InstanceType<typeof CommandPalette> | null>(null);
+
+const isMac = computed(() => navigator.platform.toUpperCase().indexOf('MAC') >= 0);
+
+const openCommandPalette = () => {
+  commandPaletteRef.value?.openDialog();
+};
+
+const localizedRouteName = computed(() => {
+  const routeName = route.name as string;
+  if (!routeName) return '';
+  // Try to get translation, fallback to route name if not found
+  const key = `routes.${routeName}` as any;
+  return t(key);
+});
 
 interface IEmits {
   (event: 'drawerChange', val: boolean): void;

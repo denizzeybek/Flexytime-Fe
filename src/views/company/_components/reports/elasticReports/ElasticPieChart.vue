@@ -1,18 +1,18 @@
 <template>
-  <Card>
+  <Card class="shadow-md border border-gray-100 rounded-xl">
     <template #header>
-      <div class="flex gap-2 w-fit px-5 pt-5">
+      <div class="flex gap-3 w-fit px-5 pt-5">
         <FSelect
           class="flex-1"
           name="group1"
-          placeholder="Select billible"
+          :placeholder="t('pages.company.reports.elasticPieChart.selectBillable')"
           :options="groupOptions"
         />
 
         <FSelect
           class="flex-1"
           name="group2"
-          placeholder="Select billible"
+          :placeholder="t('pages.company.reports.elasticPieChart.selectBillable')"
           :options="groupOptions"
         />
       </div>
@@ -36,9 +36,13 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useReport } from '@/views/company/_composables/useReport';
 import { computed } from 'vue';
 import { useCompanyReportsStore } from '@/stores/company/reports';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   group1Title: string;

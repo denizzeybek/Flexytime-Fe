@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-2 lg:grid-cols-6 gap-2">
+  <div class="grid grid-cols-2 lg:grid-cols-6 gap-3">
     <template v-for="(item, idx) in badgeList" :key="idx">
       <SummaryBadge
         :severity="item.severity"
@@ -13,8 +13,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { type MessageSchema } from '@/plugins/i18n';
 import SummaryBadge from './SummaryBadge.vue';
 import type { ISummary } from '../../_types';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   summary?: ISummary[];
@@ -41,32 +45,32 @@ const mapStatisticTypeToBadge = (statisticType: string, value: any): IBadgeData 
   const mapping: Record<string, Omit<IBadgeData, 'value'>> = {
     work: {
       severity: 'success',
-      title: 'Work',
+      title: t('components.badges.statisticType.work'),
       icon: 'pi pi-wrench',
     },
     meeting: {
       severity: 'warn',
-      title: 'Meeting',
+      title: t('components.badges.statisticType.meeting'),
       icon: 'pi pi-crown',
     },
     leisure: {
       severity: 'danger',
-      title: 'Leisure',
+      title: t('components.badges.statisticType.leisure'),
       icon: 'pi pi-calendar-clock',
     },
     unclassified: {
       severity: 'secondary',
-      title: 'Unclassified',
+      title: t('components.badges.statisticType.unclassified'),
       icon: 'pi pi-question',
     },
     starttime: {
       severity: 'info',
-      title: 'Start Time',
+      title: t('components.badges.statisticType.startTime'),
       icon: 'pi pi-clock',
     },
     endtime: {
       severity: 'primary',
-      title: 'End Time',
+      title: t('components.badges.statisticType.endTime'),
       icon: 'pi pi-clock',
     },
   };

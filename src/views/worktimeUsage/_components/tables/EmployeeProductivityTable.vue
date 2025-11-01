@@ -7,7 +7,7 @@
     :rows-per-page-options="[5, 10, 20, 50]"
     table-style="min-width: 50rem"
   >
-    <Column field="EmployeeName" header="Employee Name" sortable>
+    <Column field="EmployeeName" :header="t('pages.worktimeUsage.tables.employeeProductivity.columns.employeeName')" sortable>
       <template #body="slotProps">
         <div v-if="isLoading" class="flex items-center gap-2">
           <Skeleton shape="circle" size="2.5rem" />
@@ -36,7 +36,7 @@
       </template>
     </Column>
 
-    <Column field="TeamName" header="Team" sortable>
+    <Column field="TeamName" :header="t('pages.worktimeUsage.tables.employeeProductivity.columns.team')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <a
@@ -50,7 +50,7 @@
       </template>
     </Column>
 
-    <Column field="Tags" header="Tags">
+    <Column field="Tags" :header="t('pages.worktimeUsage.tables.employeeProductivity.columns.tags')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="3rem" />
         <div
@@ -63,21 +63,21 @@
       </template>
     </Column>
 
-    <Column field="Start.time" header="Start Time" sortable>
+    <Column field="Start.time" :header="t('pages.worktimeUsage.tables.employeeProductivity.columns.startTime')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <span v-else>{{ slotProps.data.Start?.time || '-' }}</span>
       </template>
     </Column>
 
-    <Column field="End.time" header="End Time" sortable>
+    <Column field="End.time" :header="t('pages.worktimeUsage.tables.employeeProductivity.columns.endTime')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <span v-else>{{ slotProps.data.End?.time || '-' }}</span>
       </template>
     </Column>
 
-    <Column field="Work.time" header="Work" sortable>
+    <Column field="Work.time" :header="t('pages.worktimeUsage.tables.employeeProductivity.columns.work')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <div v-else class="flex items-center gap-2">
@@ -89,7 +89,7 @@
       </template>
     </Column>
 
-    <Column field="Leisure.time" header="Leisure" sortable>
+    <Column field="Leisure.time" :header="t('pages.worktimeUsage.tables.employeeProductivity.columns.leisure')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <div v-else class="flex items-center gap-2">
@@ -101,7 +101,7 @@
       </template>
     </Column>
 
-    <Column field="Meeting.time" header="Meeting" sortable>
+    <Column field="Meeting.time" :header="t('pages.worktimeUsage.tables.employeeProductivity.columns.meeting')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <div v-else class="flex items-center gap-2">
@@ -113,7 +113,7 @@
       </template>
     </Column>
 
-    <Column field="Unclassified.time" header="Unclassified" sortable>
+    <Column field="Unclassified.time" :header="t('pages.worktimeUsage.tables.employeeProductivity.columns.unclassified')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <div v-else class="flex items-center gap-2">
@@ -128,6 +128,8 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Avatar from 'primevue/avatar';
@@ -136,12 +138,14 @@ import Skeleton from 'primevue/skeleton';
 import { useWorktimeNavigation } from '../../_composables';
 import type { IIndividual } from '../../_types';
 
+const { t } = useI18n<{ message: MessageSchema }>();
+
 interface IProps {
   individuals?: IIndividual[];
   isLoading?: boolean;
 }
 
-const props = withDefaults(defineProps<IProps>(), {
+withDefaults(defineProps<IProps>(), {
   individuals: () => [],
   isLoading: false,
 });

@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { ref, computed } from 'vue';
 
 export const useTimer = () => {

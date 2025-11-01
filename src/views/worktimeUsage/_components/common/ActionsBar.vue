@@ -1,16 +1,15 @@
 <template>
-  <div class="flex gap-2 items-center w-full lg:w-fit">
+  <div class="flex gap-2.5 items-center w-full lg:w-fit">
     <Button
-      v-tooltip.top="'Download Report'"
+      :v-tooltip.top="$t('pages.worktimeUsage.downloadReportTooltip')"
       icon="pi pi-arrow-circle-down"
       severity="secondary"
       type="button"
-      outlined
       @click="handleDownload"
     />
     <DatePicker
       v-model="dateRange"
-      class="flex-1"
+      class="flex-1 min-w-56"
       selection-mode="range"
       :manual-input="false"
       date-format="yy-mm-dd"
@@ -21,7 +20,8 @@
       v-model="selectedPerspective"
       :options="perspectiveOptions"
       option-label="name"
-      placeholder="Select perspective"
+      :placeholder="$t('pages.worktimeUsage.selectPerspective')"
+      class="w-18"
       @change="handlePerspectiveChange"
     >
       <template #value="slotProps">
@@ -41,7 +41,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Button from 'primevue/button';
 import DatePicker from 'primevue/datepicker';
 import Select from 'primevue/select';
@@ -52,6 +53,7 @@ interface IEmits {
 }
 
 const emit = defineEmits<IEmits>();
+const { t } = useI18n();
 
 const { currentQuery, updateInterval, updatePerspective } = useWorktimeQuery();
 
@@ -63,10 +65,10 @@ enum EPerspective {
 }
 
 const perspectiveOptions = [
-  { name: 'Time', value: EPerspective.TIME, icon: 'pi pi-clock' },
-  { name: 'Cost', value: EPerspective.COST, icon: 'pi pi-dollar' },
-  { name: 'Rate', value: EPerspective.RATE, icon: 'pi pi-percentage' },
-  { name: 'In Shift', value: EPerspective.IN_SHIFT, icon: 'pi pi-wrench' },
+  { name: t('pages.worktimeUsage.perspectives.time'), value: EPerspective.TIME, icon: 'pi pi-clock' },
+  { name: t('pages.worktimeUsage.perspectives.cost'), value: EPerspective.COST, icon: 'pi pi-dollar' },
+  { name: t('pages.worktimeUsage.perspectives.rate'), value: EPerspective.RATE, icon: 'pi pi-percentage' },
+  { name: t('pages.worktimeUsage.perspectives.inShift'), value: EPerspective.IN_SHIFT, icon: 'pi pi-wrench' },
 ];
 
 const dateRange = ref<Date[]>([]);

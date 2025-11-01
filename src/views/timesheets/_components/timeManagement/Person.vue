@@ -1,31 +1,31 @@
 <template>
-  <Card>
-    <template #content>
-      <div class="w-full flex justify-end">
-        <Button @click="toggleApplications" label="Toggle All" />
-      </div>
-      <TreeTable
-        v-model:expandedKeys="expandedKeys"
-        :value="personData"
-        tableStyle="min-width: 50rem"
-      >
-        <Column v-for="col of columns" :key="col.field" :field="col.field" :expander="col.expander">
-          <template #header>
-            <div class="flex flex-col gap-3 justify-center items-center">
-              <div>{{ col.header.title }}</div>
-              <div class="font-medium">{{ col.header.subTitle }}</div>
-            </div>
-          </template>
-        </Column>
-      </TreeTable>
-    </template>
-  </Card>
+  <div class="w-full flex justify-end">
+    <Button @click="toggleApplications" :label="t('pages.timesheets.person.toggleAll')" />
+  </div>
+  <TreeTable
+    v-model:expandedKeys="expandedKeys"
+    :value="personData"
+    tableStyle="min-width: 50rem"
+  >
+    <Column v-for="col of columns" :key="col.field" :field="col.field" :expander="col.expander">
+      <template #header>
+        <div class="flex flex-col gap-3 justify-center items-center">
+          <div>{{ col.header.title }}</div>
+          <div class="font-medium">{{ col.header.subTitle }}</div>
+        </div>
+      </template>
+    </Column>
+  </TreeTable>
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useTimesheetsTimeManagementsStore } from '@/stores/timeSheets/timeManagement';
 import { computed, ref } from 'vue';
 import { useTimeManagement } from '../../_composables/useTimeManagement';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const timeManagementsStore = useTimesheetsTimeManagementsStore();
 const { generateDateRange, generateTableColumns, generateTableData } = useTimeManagement();
@@ -47,7 +47,7 @@ const columns = computed(() => {
 });
 
 const toggleApplications = () => {
-  let _expandedKeys = { ...expandedKeys.value };
+  const _expandedKeys = { ...expandedKeys.value };
   if (!isOpen.value) {
     personData.value.forEach((element, idx) => {
       _expandedKeys[idx] = true;

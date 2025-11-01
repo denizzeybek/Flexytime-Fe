@@ -1,7 +1,6 @@
 import { EStoreNames } from '@/stores/storeNames.enum';
 import axios from 'axios';
 import { defineStore } from 'pinia';
-import { useMockData } from '@/config';
 import type {
   ISection,
   ICard,
@@ -11,10 +10,6 @@ import type {
   IGraphs,
   ITeamset,
   IIndividuals,
-  IIndividualEmployee,
-  IAllocation,
-  ICalendar,
-  IEmployee,
   IIndividualEmployeeModel,
 } from '@/interfaces/worktimeUsage/section';
 

@@ -1,15 +1,16 @@
 <template>
-  <div class="worktime-usage-v2 p-4">
+  <div class="worktime-usage-v2">
     <!-- Error Message -->
     <Message
       v-if="errorMessage"
       :message="errorMessage"
       severity="error"
       @close="errorMessage = null"
+      class="mb-6"
     />
 
     <!-- Main Layout Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-6">
       <!-- Left Column: User Badge -->
       <div class="lg:col-span-2">
         <UserBadge :card="currentCard" :is-loading="isLoading" />
@@ -27,42 +28,56 @@
     </div>
 
     <!-- Content Area -->
-    <div class="mt-4">
-      <Card>
+    <div>
+      <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
         <template #content>
           <Tabs v-model:value="activeTabIndex">
             <!-- Tab List with Buttons -->
-            <div class="flex items-center justify-between ">
-              <TabList>
-                <Tab v-for="tab in availableTabs" :key="tab.key" :value="tab.key">
+            <div class="flex items-center justify-between mb-6 pb-5 border-b border-gray-100">
+              <TabList class="flex-1">
+                <Tab
+                  v-for="tab in availableTabs"
+                  :key="tab.key"
+                  :value="tab.key"
+                  class="font-medium"
+                >
                   {{ tab.label }}
                 </Tab>
               </TabList>
 
               <!-- Right Side Buttons -->
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2.5">
                 <!-- Graph Toggle Button (shown when not in graph tab) -->
                 <Button
-                  v-if="currentQuery.tab !== 'graph' && (currentQuery.view !== 'individual' || currentQuery.tab === 'distribution')"
-                  :label="showGraphBelow ? 'Hide Graph' : 'Show Graph'"
+                  v-if="
+                    currentQuery.tab !== 'graph' &&
+                    (currentQuery.view !== 'individual' || currentQuery.tab === 'distribution')
+                  "
+                  :label="showGraphBelow ? $t('pages.worktimeUsage.hideGraph') : $t('pages.worktimeUsage.showGraph')"
                   :icon="showGraphBelow ? 'pi pi-eye-slash' : 'pi pi-chart-line'"
                   :severity="showGraphBelow ? 'secondary' : 'primary'"
-                  size="small"
+                  raised
+                  class="shadow-sm"
                   @click="showGraphBelow = !showGraphBelow"
                 />
 
                 <!-- Team/Employees Toggle (only for team view) -->
-                <div v-if="currentQuery.view === 'team'" class="flex gap-2">
+                <div
+                  v-if="currentQuery.view === 'team'"
+                  class="flex gap-1 p-1 bg-gray-100 rounded-xl"
+                >
                   <Button
-                    label="Team"
+                    :label="$t('pages.worktimeUsage.teamLabel')"
                     :severity="displayMode === 'team' ? 'primary' : 'secondary'"
-                    size="small"
+                    :text="displayMode !== 'team'"
+                    class="rounded-lg"
                     @click="displayMode = 'team'"
                   />
                   <Button
-                    label="Employees"
+                    :label="$t('pages.worktimeUsage.employeesLabel')"
                     :severity="displayMode === 'employees' ? 'primary' : 'secondary'"
-                    size="small"
+                    :text="displayMode !== 'employees'"
+                    class="rounded-lg"
                     @click="displayMode = 'employees'"
                   />
                 </div>
@@ -70,12 +85,12 @@
             </div>
 
             <!-- Show Graph View (when button is active) -->
-            <div v-if="showGraphBelow && currentQuery.tab !== 'graph'">
+            <div v-if="showGraphBelow && currentQuery.tab !== 'graph'" class="mt-1">
               <GraphTab :graphs="currentGraphs" :is-loading="isLoading" />
             </div>
 
             <!-- Tab Panels (hidden when graph is shown) -->
-            <TabPanels v-else>
+            <TabPanels v-else class="mt-1">
               <!-- Productivity Tab -->
               <TabPanel v-if="showTab('productivity')" value="productivity">
                 <ProductivityTab
@@ -100,10 +115,7 @@
 
               <!-- Distribution Tab -->
               <TabPanel v-if="showTab('distribution')" value="distribution">
-                <DistributionTab
-                  :distributions="currentDistributions"
-                  :is-loading="isLoading"
-                />
+                <DistributionTab :distributions="currentDistributions" :is-loading="isLoading" />
               </TabPanel>
 
               <!-- Graph Tab -->
@@ -120,47 +132,6 @@
                 />
               </TabPanel>
             </TabPanels>
-
-            <!-- Team/Employee List Below -->
-            <!-- <div v-if="currentQuery.view !== 'individual' && (displayMode === 'team' || displayMode === 'employees')" class="mt-4 border-t pt-4">
-              <div v-if="displayMode === 'team' && teams.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                <div
-                  v-for="team in teams"
-                  :key="team.ID"
-                  class="p-3 border rounded cursor-pointer hover:bg-gray-50 transition-colors"
-                  @click="handleTeamClick(team.ID)"
-                >
-                  <div class="font-semibold">{{ team.TeamName }}</div>
-                  <div class="text-sm text-gray-600">{{ team.SuperVisorName }}</div>
-                </div>
-              </div>
-
-              <div v-else-if="displayMode === 'employees' && individuals.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                <div
-                  v-for="individual in individuals"
-                  :key="individual.ID"
-                  class="p-3 border rounded cursor-pointer hover:bg-gray-50 flex items-center gap-2 transition-colors"
-                  @click="handleEmployeeClick(individual.Employee.MemberUrl)"
-                >
-                  <Avatar
-                    v-if="individual.Employee.ImageUrl"
-                    :image="individual.Employee.ImageUrl"
-                    shape="circle"
-                    size="normal"
-                  />
-                  <Avatar
-                    v-else
-                    :label="individual.Employee.Abbreviation"
-                    shape="circle"
-                    size="normal"
-                  />
-                  <div>
-                    <div class="font-semibold">{{ individual.EmployeeName }}</div>
-                    <div class="text-sm text-gray-600">{{ individual.TeamName }}</div>
-                  </div>
-                </div>
-              </div>
-            </div> -->
           </Tabs>
         </template>
       </Card>
@@ -187,18 +158,19 @@ import WellbeingTab from './_components/tabs/WellbeingTab.vue';
 import DistributionTab from './_components/tabs/DistributionTab.vue';
 import GraphTab from './_components/tabs/GraphTab.vue';
 import WebHistoryTab from './_components/tabs/WebHistoryTab.vue';
-
 // Store and Composables
 import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
-import { useWorktimeQuery, useWorktimeNavigation } from './_composables';
+import { useWorktimeQuery } from './_composables';
+import { useI18n } from 'vue-i18n';
+import type { MessageSchema } from '@/plugins/i18n';
 import type { TabType, DisplayMode, IWebClock } from './_types';
 
 // Store
 const store = useWorktimeStore();
+const { t } = useI18n<{ message: MessageSchema }>();
 
 // Composables
 const { currentQuery, changeTab } = useWorktimeQuery();
-const { handleTeamClick, handleEmployeeClick } = useWorktimeNavigation();
 
 // Local State
 const displayMode = ref<DisplayMode>('team');
@@ -257,16 +229,16 @@ const availableTabs = computed<Array<{ key: TabType; label: string }>>(() => {
 
   if (currentQuery.value.view === 'individual') {
     tabs.push(
-      { key: 'wellbeing' as TabType, label: 'Wellbeing' },
-      { key: 'distribution' as TabType, label: 'Distribution' },
-      { key: 'webHistory' as TabType, label: 'Web History' }
+      { key: 'wellbeing' as TabType, label: t('pages.worktimeUsage.tabs.wellbeing') },
+      { key: 'distribution' as TabType, label: t('pages.worktimeUsage.tabs.distribution') },
+      { key: 'webHistory' as TabType, label: t('pages.worktimeUsage.tabs.webHistory') },
     );
   } else {
     tabs.push(
-      { key: 'productivity' as TabType, label: 'Productivity' },
-      { key: 'wellbeing' as TabType, label: 'Wellbeing' },
-      { key: 'distribution' as TabType, label: 'Distribution' },
-      { key: 'graph' as TabType, label: 'Graph' }
+      { key: 'productivity' as TabType, label: t('pages.worktimeUsage.tabs.productivity') },
+      { key: 'wellbeing' as TabType, label: t('pages.worktimeUsage.tabs.wellbeing') },
+      { key: 'distribution' as TabType, label: t('pages.worktimeUsage.tabs.distribution') },
+      { key: 'graph' as TabType, label: t('pages.worktimeUsage.tabs.graph') },
     );
   }
 
@@ -330,7 +302,7 @@ watch(
     // Hide graph when switching tabs
     showGraphBelow.value = false;
   },
-  { deep: true }
+  { deep: true },
 );
 
 watch(activeTabIndex, (newTab) => {

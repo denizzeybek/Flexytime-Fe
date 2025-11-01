@@ -3,4 +3,5 @@ export enum EStorageKeys {
   USER = 'user',
   AUTHENTICATION = 'authentication',
   REFRESH_TOKEN = 'refresh_token',
+  LANGUAGE = 'language',
 }

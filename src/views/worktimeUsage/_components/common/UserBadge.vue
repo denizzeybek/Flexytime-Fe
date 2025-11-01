@@ -1,28 +1,34 @@
 <template>
   <div class="hidden sm:block h-full">
-    <Card class="w-40 h-full flex flex-col">
+    <Card class="h-full flex flex-col shadow-lg border border-gray-100 hover:shadow-xl transition-shadow rounded-2xl overflow-hidden">
       <template #footer>
-        <div class="flex flex-col items-center justify-center gap-3 flex-1">
+        <div class="flex flex-col items-center justify-center gap-3.5 flex-1 py-2">
           <template v-if="isLoading">
-            <Skeleton shape="circle" size="4rem" class="mr-2" />
-            <Skeleton height="1rem" />
+            <Skeleton shape="circle" size="5rem" class="mr-2" />
+            <Skeleton height="1.25rem" class="w-28" />
           </template>
           <template v-else-if="card">
-            <Avatar
-              v-if="card.ImageUrl"
-              :image="card.ImageUrl"
-              size="xlarge"
-              shape="circle"
-            />
-            <Avatar
-              v-else
-              :label="card.Abbreviation"
-              size="xlarge"
-              shape="circle"
-            />
-            <div class="text-md text-center font-medium">{{ card.Name }}</div>
-            <div v-if="card.Title" class="text-sm text-center text-gray-600">
-              {{ card.Title }}
+            <div class="relative">
+              <Avatar
+                v-if="card.ImageUrl"
+                :image="card.ImageUrl"
+                size="xlarge"
+                shape="circle"
+                class="border-2 border-gray-200"
+              />
+              <Avatar
+                v-else
+                :label="card.Abbreviation"
+                size="xlarge"
+                shape="circle"
+                class="border-2 border-gray-200"
+              />
+            </div>
+            <div class="text-center px-3">
+              <div class="text-base font-semibold text-gray-800 mb-1">{{ card.Name }}</div>
+              <div v-if="card.Title" class="text-sm text-gray-500">
+                {{ card.Title }}
+              </div>
             </div>
           </template>
         </div>
@@ -32,7 +38,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import Avatar from 'primevue/avatar';
 import Skeleton from 'primevue/skeleton';
 import Card from 'primevue/card';
@@ -43,7 +48,7 @@ interface IProps {
   isLoading?: boolean;
 }
 
-const props = withDefaults(defineProps<IProps>(), {
+withDefaults(defineProps<IProps>(), {
   card: null,
   isLoading: false,
 });

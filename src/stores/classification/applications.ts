@@ -1,12 +1,10 @@
 import type {
   IApplication,
   IApplicationDTOData,
-  IApplicationDTOPayload,
 } from '@/interfaces/classification/application';
 import { EStoreNames } from '@/stores/storeNames.enum';
 import axios from 'axios';
 import { defineStore } from 'pinia';
-import { useMockData } from '@/config';
 interface State {
   list: IApplicationDTOData[];
   totalItems: number;

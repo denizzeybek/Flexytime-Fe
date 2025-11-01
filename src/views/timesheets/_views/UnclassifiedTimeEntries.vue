@@ -10,7 +10,7 @@
         </div>
         <FText />
       </div>
-      <template v-for="(clock, tIdx) in field.value.Clocks">
+      <template v-for="(clock, tIdx) in field.value.Clocks" :key="tIdx">
         <div class="flex items-center gap-4">
           <FCheckbox :name="`unclassifiedtimeEntries[${idx}].Clocks[${tIdx}].Selected`" />
           <Card class="flex-1" :class="clock.Selected ? 'border-2 border-f-primary' : ''">
@@ -34,7 +34,7 @@
                   </div>
                 </div>
                 <div v-if="clock.Details.length" class="flex flex-col gap-2">
-                  <template v-for="(detail, dIdx) in clock.Details">
+                  <template v-for="(detail, dIdx) in clock.Details" :key="dIdx">
                     <div v-if="detail" class="flex items-center gap-4">
                       <FCheckbox
                         :name="`unclassifiedtimeEntries[${idx}].Clocks[${tIdx}].Details[${dIdx}].Selected`"
@@ -67,19 +67,18 @@
 
 <script setup lang="ts">
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
-import { useFToast } from '@/composables/useFToast';
-import { onMounted, ref, watch, computed, nextTick } from 'vue';
+// import { useFToast } from '@/composables/useFToast';
+import { ref, watch } from 'vue';
 import { useFieldArray, useForm } from 'vee-validate';
-import { array, boolean, object, string } from 'yup';
+import { array, boolean, object } from 'yup';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import UpdateTimeEntriesModal from '../_modals/UpdateTimeEntriesModal.vue';
-import type { IRecordItem } from '@/interfaces/timeSheet/timeEntry';
 
 dayjs.extend(customParseFormat);
 
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
-const { showSuccessMessage, showErrorMessage } = useFToast();
+// const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const modalOpen = ref(false);
 const selectedItems = ref([]);
@@ -105,20 +104,20 @@ const validationSchema = object({
   ),
 });
 
-const { handleSubmit, resetForm, defineField } = useForm({
+const { resetForm } = useForm({
   validationSchema,
 });
 
 const { fields } = useFieldArray<any>('unclassifiedtimeEntries');
 
-const submitHandler = handleSubmit(async (values) => {
-  try {
-    console.log('values ', values);
-    showSuccessMessage('Time entry entered!');
-  } catch (error: any) {
-    showErrorMessage(error as any);
-  }
-});
+// const submitHandler = handleSubmit(async (values) => {
+//   try {
+//     console.log('values ', values);
+//     showSuccessMessage('Time entry entered!');
+//   } catch (error: any) {
+//     showErrorMessage(error as any);
+//   }
+// });
 
 const calculateMinuteDifference = (startDate, endDate) => {
   const start = dayjs(startDate, 'DD.MM.YYYY HH:mm');
@@ -215,6 +214,7 @@ watch(
   () => fields.value,
   (newValue, oldValue) => {
     const oldData = oldValue.map((element) => element.value);
+    console.log(oldData);
     const newData = newValue.map((element) => element.value);
 
     // TODO:: burda eski ve yeni datayı kıyaslayıp hangi elemanın değiştiğini bulup ona göre işlem yapılacak

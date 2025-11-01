@@ -2,7 +2,7 @@
   <Dialog
     v-model:visible="open"
     modal
-    :header="isEditing ? 'Update Annual' : 'Add Annual'"
+    :header="isEditing ? t('pages.hrSettings.annuals.modal.update.header') : t('pages.hrSettings.annuals.modal.add.header')"
     class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
@@ -10,21 +10,21 @@
       <div class="flex gap-4 flex-1">
         <FSelect
           class="grow"
-          label="Employee Name"
+          :label="t('pages.hrSettings.annuals.modal.employeeName.label')"
           name="employeeName"
-          placeholder="Select employee"
+          :placeholder="t('pages.hrSettings.annuals.modal.employeeName.placeholder')"
           :options="employees"
         />
       </div>
       <div class="flex gap-4 flex-1">
-        <FInput class="grow" label="Leave Type" name="leaveType" placeholder="Enter leave type" />
+        <FInput class="grow" :label="t('pages.hrSettings.annuals.modal.leaveType.label')" name="leaveType" :placeholder="t('pages.hrSettings.annuals.modal.leaveType.placeholder')" />
       </div>
 
       <div class="flex gap-4">
         <div class="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 flex-1">
-          <FCheckbox name="startFullDay" labelTop label="All Day" />
+          <FCheckbox name="startFullDay" labelTop :label="t('pages.hrSettings.annuals.modal.allDay.label')" />
           <FDateTimePicker
-            label="Start Date"
+            :label="t('pages.hrSettings.annuals.modal.startDate.label')"
             class="grow"
             name="startDate"
             :prime-props="{
@@ -36,9 +36,9 @@
         </div>
         <Divider layout="vertical" />
         <div class="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 flex-1">
-          <FCheckbox name="endFullDay" labelTop label="All Day" />
+          <FCheckbox name="endFullDay" labelTop :label="t('pages.hrSettings.annuals.modal.allDay.label')" />
           <FDateTimePicker
-            label="End Date"
+            :label="t('pages.hrSettings.annuals.modal.endDate.label')"
             class="grow"
             name="endDate"
             :prime-props="{
@@ -51,20 +51,24 @@
       </div>
 
       <div class="flex w-50 justify-center">
-        <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" label="Save" />
+        <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('common.buttons.save')" />
       </div>
     </form>
   </Dialog>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useForm } from 'vee-validate';
 import { boolean, string, object } from 'yup';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFToast } from '@/composables/useFToast';
 import type { IAnnual } from '@/interfaces/hrSettings/annual';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 import { convertDateToString, convertStringToDate } from '@/helpers/utils';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   data?: IAnnual;
@@ -149,7 +153,7 @@ const submitHandler = handleSubmit(async (values) => {
     await annualsStore.save(payload);
 
     emit('fetchAnnuals');
-    showSuccessMessage('Annual updated!');
+    showSuccessMessage(t('pages.hrSettings.annuals.modal.messages.updated'));
     handleClose();
   } catch (error: any) {
     showErrorMessage(error as any);

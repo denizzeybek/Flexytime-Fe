@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-2 relative" v-click-outside="handleOutsideClick">
     <label :for="id">{{ label }}</label>
     <InputText
-      v-model="value as unknown as string"
+      v-model="model"
       :id="id"
       :data-error="!!errorMessage"
       :data-valid="isValid"
@@ -32,8 +32,8 @@
         {{ option }}
       </li>
       <div v-if="!filteredOptions.length" class="px-3 py-2 gap-4 w-full flex flex-col">
-        <FText innerText="No option found" />
-        <Button @click="addNewOption" label="Add" icon="pi pi-plus" class="flex-1" outlined />
+        <FText :innerText="t('components.input.noOptionFound')" />
+        <Button @click="addNewOption" :label="t('components.input.addButton')" icon="pi pi-plus" class="flex-1" outlined />
       </div>
     </ul>
     <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
@@ -41,9 +41,13 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import type { InputTextProps } from 'primevue/inputtext';
-import { ref, computed, type InputHTMLAttributes, onMounted } from 'vue';
+import { ref, computed, type InputHTMLAttributes } from 'vue';
 import { useField } from 'vee-validate';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   id: string;
@@ -89,6 +93,11 @@ const {
   syncVModel: true,
 });
 const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
+
+const model = computed<string>({
+  get: () => value.value as unknown as string,
+  set: v => (value.value = v)
+});
 
 const filterOptions = () => {
   const filter = (value.value as string)?.toLowerCase();

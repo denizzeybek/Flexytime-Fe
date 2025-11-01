@@ -7,14 +7,14 @@
     :rows-per-page-options="[10, 20, 50, 100]"
     table-style="min-width: 50rem"
   >
-    <Column field="Date" header="Date" sortable>
+    <Column field="Date" :header="$t('components.webHistoryTable.columns.date')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <span v-else>{{ slotProps.data.Date }}</span>
       </template>
     </Column>
 
-    <Column field="Url" header="URL" sortable>
+    <Column field="Url" :header="$t('components.webHistoryTable.columns.url')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <a
@@ -29,21 +29,21 @@
       </template>
     </Column>
 
-    <Column field="TopicName" header="Category" sortable>
+    <Column field="TopicName" :header="$t('components.webHistoryTable.columns.category')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="5rem" />
         <Tag v-else :value="slotProps.data.TopicName" />
       </template>
     </Column>
 
-    <Column field="Spent" header="Time" sortable>
+    <Column field="Spent" :header="$t('components.webHistoryTable.columns.time')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <span v-else class="font-semibold">{{ slotProps.data.Spent }}</span>
       </template>
     </Column>
 
-    <Column header="Actions">
+    <Column :header="$t('components.webHistoryTable.columns.actions')">
       <template #body="slotProps">
         <div v-if="isLoading" class="flex gap-2">
           <Skeleton width="2rem" height="2rem" />
@@ -57,7 +57,7 @@
             icon="pi pi-wrench"
             size="small"
             severity="success"
-            v-tooltip.top="'Mark as Work'"
+            :v-tooltip.top="$t('components.webHistoryTable.tooltips.markAsWork')"
             @click="handleToggleDomain(slotProps.data, 4)"
           />
           <Button
@@ -65,7 +65,7 @@
             icon="pi pi-crown"
             size="small"
             severity="warn"
-            v-tooltip.top="'Mark as Meeting'"
+            :v-tooltip.top="$t('components.webHistoryTable.tooltips.markAsMeeting')"
             @click="handleToggleDomain(slotProps.data, 3)"
           />
           <Button
@@ -73,7 +73,7 @@
             icon="pi pi-calendar-clock"
             size="small"
             severity="danger"
-            v-tooltip.top="'Mark as Leisure'"
+            :v-tooltip.top="$t('components.webHistoryTable.tooltips.markAsLeisure')"
             @click="handleToggleDomain(slotProps.data, 2)"
           />
           <Button
@@ -81,7 +81,7 @@
             icon="pi pi-question"
             size="small"
             severity="secondary"
-            v-tooltip.top="'Mark as Unclassified'"
+            :v-tooltip.top="$t('components.webHistoryTable.tooltips.markAsUnclassified')"
             @click="handleToggleDomain(slotProps.data, 1)"
           />
         </div>
@@ -91,12 +91,16 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+import { type MessageSchema } from '@/plugins/i18n';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Tag from 'primevue/tag';
 import Button from 'primevue/button';
 import Skeleton from 'primevue/skeleton';
 import type { IWebClock } from '../../_types';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   webClocks?: IWebClock[];
@@ -107,7 +111,7 @@ interface IEmits {
   (e: 'toggle-domain', webClock: IWebClock, newDomain: number): void;
 }
 
-const props = withDefaults(defineProps<IProps>(), {
+withDefaults(defineProps<IProps>(), {
   webClocks: () => [],
   isLoading: false,
 });

@@ -22,12 +22,12 @@
   const isModalOpen = ref(false);
   
   const handleNew = () => {
-    isModalOpen.value = true;
     currentCompany.value = undefined;
+    isModalOpen.value = true;
   };
-  
-  const handleEdit = (employee) => {
-    currentCompany.value = employee;
+
+  const handleEdit = (company) => {
+    currentCompany.value = company;
     isModalOpen.value = true;
   };
   

@@ -2,7 +2,7 @@
   <Card>
     <template #content>
       <div class="w-full flex justify-end">
-        <Button @click="toggleApplications" label="Toggle All" />
+        <Button @click="toggleApplications" :label="t('pages.timesheets.project.toggleAll')" />
       </div>
       <TreeTable
         v-model:expandedKeys="expandedKeys"
@@ -23,9 +23,13 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useTimesheetsTimeManagementsStore } from '@/stores/timeSheets/timeManagement';
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useTimeManagement } from '../../_composables/useTimeManagement';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const timeManagementsStore = useTimesheetsTimeManagementsStore();
 const { generateDateRange, generateTableColumns, generateTableData } = useTimeManagement();
@@ -47,7 +51,7 @@ const columns = computed(() => {
 });
 
 const toggleApplications = () => {
-  let _expandedKeys = { ...expandedKeys.value };
+  const _expandedKeys = { ...expandedKeys.value };
   if (!isOpen.value) {
     projectData.value.forEach((element, idx) => {
       _expandedKeys[idx] = true;

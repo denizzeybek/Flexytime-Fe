@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full min-h-screen 3xl:justify-center">
+  <div class="flex w-full min-h-screen bg-gray-100 3xl:justify-center">
     <div class="flex flex-col max-w-[1800px] w-full relative">
       <Sidebar />
       <MobileSidebar v-model="visible" @drawerChange="visible = $event" />

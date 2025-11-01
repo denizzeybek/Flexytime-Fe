@@ -3,7 +3,6 @@ import { EStorageKeys } from '@/constants/storageKeys';
 import { computed } from 'vue';
 import { EStoreNames } from '@/stores/storeNames.enum';
 import { useUsersStore } from './users';
-import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import qs from 'qs';
 import type { LoginModel, LoginResponse } from '@/client';

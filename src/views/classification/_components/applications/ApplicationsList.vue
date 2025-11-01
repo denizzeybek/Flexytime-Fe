@@ -5,16 +5,20 @@
     @onSortChange="handleSortChange"
   />
   <Teleport v-if="isOnMounted" to="#table-search">
-    <InputText v-model.lazy="searchText" placeholder="Search" />
+    <InputText v-model.lazy="searchText" :placeholder="t('pages.classification.search.placeholder')" />
   </Teleport>
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFToast } from '@/composables/useFToast';
 import { useClassificationApplicationsStore } from '@/stores/classification/applications';
 import { onMounted, ref, watch } from 'vue';
 import ApplicationsTable from './ApplicationsTable.vue';
 import InputText from 'primevue/inputtext';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const applicationsStore = useClassificationApplicationsStore();
 const { showErrorMessage } = useFToast();

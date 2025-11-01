@@ -1,7 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "Bash(find src/views/worktimeUsage/_components/tabs -name \"*.vue\" -type f -exec sed -i '' 's/\\(const [a-zA-Z_][a-zA-Z0-9_]* = \\)(/\\1(/; s/): \\([a-zA-Z<>|{}[\\],:? ]*\\) {/) => {/g' {} ;)"
+      "Bash(do if ! grep -q useI18n $file)",
+      "Bash(then if grep -Eq label=[A-Z])",
+      "Bash(placeholder=[A-Z])",
+      "Bash(title=[A-Z])",
+      "Bash(header=[A-Z] $file)",
+      "Bash(then echo $file fi fi done)",
+      "Bash(while read f)",
+      "Bash(do if ! grep -q \"useI18n\" \"$f\")",
+      "Bash(then echo \"$f\" fi done)",
+      "Bash(yarn build:*)",
+      "Bash(git show:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

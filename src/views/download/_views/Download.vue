@@ -8,7 +8,7 @@
           icon="pi pi-microsoft"
           severity="contrast"
           :outlined="isMacos"
-          label="Windows"
+          :label="t('pages.download.windows.label')"
           size="large"
           class="flex-1"
           @click="activeComputer = EComputerNames.WINDOWS"
@@ -17,23 +17,22 @@
           icon="pi pi-apple"
           severity="contrast"
           :outlined="!isMacos"
-          label="Macos"
+          :label="t('pages.download.macos.label')"
           size="large"
           class="flex-1"
           @click="activeComputer = EComputerNames.MAC"
         />
       </div>
-      <span class="!text-6xl font-semibold">Automatic time control for your business </span>
+      <span class="!text-6xl font-semibold">{{ t('pages.download.title') }}</span>
       <FText>
-        Control your employees' time in the best way and increase the productivity of your business.
-        Make it easy to follow up with an automatic schedule.
+        {{ t('pages.download.description') }}
       </FText>
       <div class="flex gap-4 w-full mt-12">
         <Button
           icon="pi pi-download"
           severity="info"
           size="large"
-          label="Download"
+          :label="t('pages.download.downloadButton')"
           class="flex-1 w-full"
           @click="onDownloadButtonClicked(isMacos)"
         />
@@ -54,23 +53,27 @@
       </template>
     </div>
     <div v-if="!isWizard" class="h-full flex items-center justify-end">
-      <img alt="flexy mac" src="@/assets/images/flexymac.png" />
+      <img :alt="t('pages.download.imageAlt')" src="@/assets/images/flexymac.png" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useSettingsDownloadsStore } from '@/stores/settings/download';
 import { copyToClipboard } from '@/helpers/utils';
 import { EComputerNames } from '@/common/enums/computer.enum';
 import { useDownloadApp } from '@/composables/useDownloadapp';
 
+const { t } = useI18n<{ message: MessageSchema }>();
+
 interface IProps {
   isWizard?: boolean
 }
 
-const props = defineProps<IProps>();
+defineProps<IProps>();
 
 const downloadsStore = useSettingsDownloadsStore();
 const { findActiveComputer, onDownloadButtonClicked } = useDownloadApp();
@@ -90,6 +93,7 @@ const copyDownloadKeyText = () => {
       isCopied.value = false;
     }, 2000);
   } catch (error) {
+    console.log(error);
     isCopied.value = false;
   }
 };

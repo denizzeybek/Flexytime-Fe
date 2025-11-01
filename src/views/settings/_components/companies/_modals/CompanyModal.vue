@@ -2,54 +2,58 @@
   <Dialog
     v-model:visible="open"
     modal
-    :header="isEditing ? 'Update Company' : 'Add Company'"
+    :header="isEditing ? t('pages.settings.companies.modal.updateTitle') : t('pages.settings.companies.modal.addTitle')"
     class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
     <form class="flex flex-col gap-6" @submit="submitHandler">
       <div class="flex gap-4 flex-1">
-        <FInput class="flex-1" label="Company Name" name="name" placeholder="Enter company name" />
+        <FInput class="flex-1" :label="t('pages.settings.companies.modal.companyName.label')" name="name" :placeholder="t('pages.settings.companies.modal.companyName.placeholder')" />
         <FInput
           class="flex-1"
-          label="Authorized Name"
+          :label="t('pages.settings.companies.modal.authorizedName.label')"
           name="fullname"
-          placeholder="Enter authorized name"
+          :placeholder="t('pages.settings.companies.modal.authorizedName.placeholder')"
         />
       </div>
 
       <div class="flex gap-4 flex-1">
         <FInput
           class="flex-1"
-          label="Authorized Email"
+          :label="t('pages.settings.companies.modal.authorizedEmail.label')"
           name="email"
-          placeholder="Enter authorized email"
+          :placeholder="t('pages.settings.companies.modal.authorizedEmail.placeholder')"
         />
-        <FPassword class="flex-1" id="password" label="Password" name="password" />
+        <FPassword class="flex-1" id="password" :label="t('pages.settings.companies.modal.password.label')" name="password" />
       </div>
 
       <div class="flex gap-4 flex-1">
-        <FInput class="flex-1" label="User Count" name="userCount" placeholder="Enter user count" />
+        <FInput class="flex-1" :label="t('pages.settings.companies.modal.userCount.label')" name="userCount" :placeholder="t('pages.settings.companies.modal.userCount.placeholder')" />
         <FInput
           class="flex-1"
-          label="User Period"
+          :label="t('pages.settings.companies.modal.userPeriod.label')"
           name="userPeriod"
-          placeholder="Enter user period"
+          :placeholder="t('pages.settings.companies.modal.userPeriod.placeholder')"
         />
       </div>
 
       <div class="flex w-50 justify-center">
-        <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" label="Save" />
+        <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('common.buttons.save')" />
       </div>
     </form>
   </Dialog>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, watch } from 'vue';
 import { useForm } from 'vee-validate';
 import { string, object, number } from 'yup';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFToast } from '@/composables/useFToast';
 import type { ICompany } from '@/interfaces/settings/company';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   data?: ICompany;
@@ -91,31 +95,43 @@ const submitHandler = handleSubmit(async (values) => {
     console.log('values ', values);
 
     emit('fetchCompanies');
-    showSuccessMessage('Company updated!');
+    showSuccessMessage(isEditing.value ? t('pages.settings.companies.modal.messages.updated') : t('pages.settings.companies.modal.messages.added'));
     handleClose();
   } catch (error: any) {
     showErrorMessage(error as any);
   }
 });
 
-const getInitialFormData = computed(() => {
+const getInitialFormData = () => {
   const company = props.data;
 
-  return {
-    ...(company && {
-      name: company.Name,
-      fullname: company.Fullname,
-      email: company.Email,
-      password: company.Password,
-      userCount: company.UserCount,
-      userPeriod: company.Month,
-    }),
-  };
-});
+  if (!company) return {};
 
-onMounted(() => {
-  resetForm({
-    values: getInitialFormData.value,
-  });
-});
+  return {
+    name: company.Name,
+    fullname: company.Fullname,
+    email: company.Email,
+    password: company.Password || '',
+    userCount: company.UserCount,
+    userPeriod: company.Month,
+  };
+};
+
+// Reset form whenever modal opens or data changes
+watch(
+  [open, () => props.data],
+  ([isOpen]) => {
+    if (isOpen) {
+      if (isEditing.value) {
+        // Edit mode: populate form with existing data
+        resetForm({
+          values: getInitialFormData(),
+        });
+      } else {
+        // Add mode: clear form completely
+        resetForm();
+      }
+    }
+  },
+);
 </script>

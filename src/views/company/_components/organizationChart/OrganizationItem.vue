@@ -1,3 +1,5 @@
+<!-- eslint-disable vue/no-mutating-props -->
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <div @click="toggle" @dblclick="changeType" :style="{ paddingLeft: `${indent}px` }">
     <div class="border border-f-gray p-4 rounded-md flex justify-between items-center flex-col lg:flex-row gap-8 mb-5">
@@ -10,7 +12,7 @@
             v-model="clonedModel.title"
             id="title"
             name="title"
-            placeholder="Enter Name"
+            :placeholder="t('pages.company.organizationItem.title.placeholder')"
           />
           <div v-else class="text-md">
             {{ clonedModel?.title }}
@@ -22,14 +24,14 @@
             v-model="clonedModel.MemberName"
             id="MemberName"
             name="MemberName"
-            placeholder="Enter MemberName"
+            :placeholder="t('pages.company.organizationItem.memberName.placeholder')"
           />
           <InputText
             v-if="isEditing"
             v-model="clonedModel.TitleName"
             id="TitleName"
             name="TitleName"
-            placeholder="Enter TitleName"
+            :placeholder="t('pages.company.organizationItem.titleName.placeholder')"
           />
         </template>
 
@@ -91,8 +93,12 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
 import { computed, ref, watch } from 'vue';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   model: IOrganizationChartNodes;
@@ -121,6 +127,7 @@ const toggle = () => (isOpen.value = !isOpen.value);
 
 const changeType = () => {
   if (!isFolder.value) {
+    // eslint-disable-next-line vue/no-mutating-props
     model.children = [];
     addChild();
     isOpen.value = true;
@@ -130,9 +137,11 @@ const changeType = () => {
 const addChild = () => {
   // Check if children is already initialized
   if (!Array.isArray(model?.children)) {
+    // eslint-disable-next-line vue/no-mutating-props
     model.children = [];
   }
   // Add a new child element
+  // eslint-disable-next-line vue/no-mutating-props
   model?.children?.push({
     children: [],
     title: 'Title',

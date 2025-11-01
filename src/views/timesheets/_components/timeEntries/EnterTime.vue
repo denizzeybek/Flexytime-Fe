@@ -1,15 +1,15 @@
 <template>
   <div>
-    <Card>
+    <Card class="shadow-md border border-gray-100 rounded-xl">
       <template #content>
-        <form @submit="submitHandler">
+        <form @submit="submitHandler" class="space-y-5">
           <div class="w-full flex items-center gap-4 flex-col lg:flex-row">
             <div class="flex w-full">
               <FInput
                 name="timeEntry"
                 class="flex-1"
                 customClass="unstyled"
-                placeholder="What are you working on?"
+                :placeholder="t('pages.timesheets.enterTime.timeEntry.placeholder')"
                 list="timeEntryOptions"
                 unstyled
                 :datalistOptions="timeEntryOptions"
@@ -29,7 +29,7 @@
                   <FInput
                     name="startTime"
                     customClass="unstyled time-input"
-                    placeholder="00:00"
+                    :placeholder="t('pages.timesheets.enterTime.timeInput.placeholder')"
                     :transformValue="transformTimeValue"
                     unstyled
                   />
@@ -37,7 +37,7 @@
                   <FInput
                     name="endTime"
                     customClass="unstyled time-input"
-                    placeholder="00:00"
+                    :placeholder="t('pages.timesheets.enterTime.timeInput.placeholder')"
                     :transformValue="transformTimeValue"
                     unstyled
                   />
@@ -63,10 +63,10 @@
                 v-if="isTimerLayout"
                 :severity="!isRunning ? 'info' : 'danger'"
                 @click.stop="isRunning ? stopTimer() : startTimer()"
-                :label="!isRunning ? 'START' : 'STOP'"
+                :label="!isRunning ? t('common.buttons.start') : t('common.buttons.stop')"
                 :type="isRunning ? 'button' : 'submit'"
               />
-              <Button v-if="isManualLayout" severity="info" label="ADD" type="submit" />
+              <Button v-if="isManualLayout" severity="info" :label="t('common.buttons.add')" type="submit" />
               <div class="flex flex-col gap-2 justify-center items-center">
                 <Button
                   @click="activeLayout = ELayout.TIMER"
@@ -76,7 +76,7 @@
                   unstyled
                   type="button"
                   class="w-fit"
-                  v-tooltip.top="'Timer'"
+                  :v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.timer')"
                 />
                 <Button
                   @click="activeLayout = ELayout.MANUAL"
@@ -86,7 +86,7 @@
                   unstyled
                   type="button"
                   class="w-fit"
-                  v-tooltip.top="'Manual'"
+                  :v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.manual')"
                 />
               </div>
             </div>
@@ -94,7 +94,7 @@
           <div class="flex items-center gap-4 w-full">
             <FSelect
               name="project"
-              placeholder="Select project"
+              :placeholder="t('pages.timesheets.enterTime.project.placeholder')"
               :options="projectOptions"
               :headerAddBtn="true"
               :prime-props="{
@@ -105,7 +105,7 @@
             <FMultiSelect
               name="tags"
               class="w-full lg:w-fit"
-              placeholder="Select tag(s)"
+              :placeholder="t('pages.timesheets.enterTime.tags.placeholder')"
               :options="tagOptions"
               :headerAddBtn="true"
               :prime-props="{
@@ -121,6 +121,8 @@
 </template>
 
 <script setup lang="ts">
+import { type MessageSchema } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 import { useFToast } from '@/composables/useFToast';
 import { calculateTimeDifference, transformTimeValue } from '@/helpers/utils';
 import { useForm } from 'vee-validate';
@@ -130,6 +132,8 @@ import { useTimer } from '../../_composables/useTimer';
 import dayjs from 'dayjs';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 import { ELayout } from '@/views/timesheets/_etc/layout.enum';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
@@ -230,7 +234,7 @@ const submitHandler = handleSubmit(async (values) => {
       date: isTimerLayout.value ? dayjs().toDate() : values.date,
     };
     timeEntriesStore.addManualTimeEntries(payload);
-    showSuccessMessage('Time entry entered!');
+    showSuccessMessage(t('pages.timesheets.enterTime.messages.success'));
 
     if (activeLayout.value === ELayout.TIMER) {
       resetTimer();

@@ -7,7 +7,7 @@
             @click="router.push({ name: ERouteNames.WorktimeUsage })"
             severity="contrast"
             class="!px-12"
-            label="Skip"
+            :label="$t('pages.auth.wizardDownload.skipButton')"
           />
         </template>
       </Download>

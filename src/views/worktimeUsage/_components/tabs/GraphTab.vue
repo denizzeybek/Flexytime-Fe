@@ -7,16 +7,20 @@
       <Chart type="bar" :data="chartData" :options="chartOptions" class="h-[30rem]" />
     </div>
     <div v-else class="text-center text-gray-500 p-8">
-      <p>No graph data available.</p>
+      <p>{{ $t('components.graph.noDataAvailable') }}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { type MessageSchema } from '@/plugins/i18n';
 import Chart from 'primevue/chart';
 import ProgressSpinner from 'primevue/progressspinner';
 import type { IGraph } from '../../_types';
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   graphs?: IGraph | null;
