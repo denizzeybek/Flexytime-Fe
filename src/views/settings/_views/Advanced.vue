@@ -1,40 +1,36 @@
 <template>
-  <Card class="lg:w-[700px]">
+  <Card class="w-full">
     <template #content>
-      <form class="flex flex-col gap-12">
+      <form class="flex flex-col gap-8">
         <Skeleton v-if="isLoading" height="100rem" width="w-full" />
         <template v-else>
-          <template v-for="(field, idx) in fields" :key="field.key">
-            <div class="flex justify-between items-center">
-              <div>
-                <FText class="w-[250px] lg:max-w-[350px]">{{ field.value.TypeName }}</FText>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <template v-for="(field, idx) in fields" :key="field.key">
+              <div class="flex flex-col gap-3">
+                <FText class="font-medium">{{ field.value.TypeName }}</FText>
+                <div class="flex items-center">
+                  <FSwitch
+                    v-if="field.value.DataType === 2"
+                    :name="`advanceds[${idx}].Value`"
+                    @change="handleSwitchChange(field, field.value.SettingType, $event.target.value)"
+                  />
+                  <FDateTimePicker
+                    v-else
+                    class="w-full"
+                    :name="`advanceds[${idx}].Value`"
+                    :placeholder="t('pages.settings.advanced.time.placeholder')"
+                    :prime-props="{
+                      timeOnly: true,
+                      hourFormat: '24',
+                      fluid: true,
+                    }"
+                    @change="handleDateChange(field, field.value.SettingType, $event)"
+                  />
+                </div>
               </div>
-              <div class="flex items-center gap-12">
-                <FSwitch
-                  v-if="field.value.DataType === 2"
-                  :name="`advanceds[${idx}].Value`"
-                  class="w-[120x]"
-                  @change="handleSwitchChange(field, field.value.SettingType, $event.target.value)"
-                />
-                <FDateTimePicker
-                  v-else
-                  class="grow w-[60px]"
-                  :name="`advanceds[${idx}].Value`"
-                  :placeholder="t('pages.settings.advanced.time.placeholder')"
-                  :prime-props="{
-                    timeOnly: true,
-                    hourFormat: '24',
-                    fluid: true,
-                  }"
-                  @change="handleDateChange(field, field.value.SettingType, $event)"
-                />
-              </div>
-            </div>
-          </template>
+            </template>
+          </div>
         </template>
-        <!-- <div class="flex w-50 justify-center">
-          <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('common.buttons.save')" />
-        </div> -->
       </form>
     </template>
   </Card>

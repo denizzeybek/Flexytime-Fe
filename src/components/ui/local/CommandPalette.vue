@@ -71,7 +71,7 @@
                 <i class="pi pi-arrow-right text-sm" />
                 <div class="flex-1">
                   <div class="font-medium">{{ route.label }}</div>
-                  <div v-if="route.path" class="text-xs text-gray-500 mt-0.5">{{ route.path }}</div>
+                  <!-- <div v-if="route.path" class="text-xs text-gray-500 mt-0.5">{{ route.path }}</div> -->
                 </div>
               </template>
             </Button>

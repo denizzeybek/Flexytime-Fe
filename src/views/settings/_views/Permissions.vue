@@ -1,26 +1,24 @@
 <template>
-  <Card class="lg:w-[700px]">
+  <Card class="w-full">
     <template #content>
-      <form @submit="submitHandler" class="flex flex-col gap-12">
+      <form @submit="submitHandler" class="flex flex-col gap-8">
         <Skeleton v-if="isLoading" height="100rem" width="w-full" />
         <template v-else>
-          <template v-for="(field, idx) in fields" :key="field.key">
-            <div
-              class="flex w-fit flex-col lg:flex-row lg:justify-between items-start gap-4 lg:items-center lg:w-full"
-            >
-              <div>
-                <FText>{{ field.value.Name }}</FText>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <template v-for="(field, idx) in fields" :key="field.key">
+              <div class="flex flex-col gap-3">
+                <FText class="font-medium">{{ field.value.Name }}</FText>
+                <div class="flex items-center gap-4">
+                  <FSwitch :name="`permissions[${idx}].Enabled`" />
+                  <FSelectSwitchButton
+                    :name="`permissions[${idx}].VisibleOnlyByAdmin`"
+                    :options="options"
+                  />
+                </div>
               </div>
-              <div class="flex items-center gap-12">
-                <FSwitch :name="`permissions[${idx}].Enabled`" />
-                <FSelectSwitchButton
-                  :name="`permissions[${idx}].VisibleOnlyByAdmin`"
-                  :options="options"
-                />
-              </div>
-            </div>
-          </template>
-          <div class="flex w-50 justify-center">
+            </template>
+          </div>
+          <div class="flex justify-center mt-6">
             <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('pages.settings.permissions.save.label')" />
           </div>
         </template>
