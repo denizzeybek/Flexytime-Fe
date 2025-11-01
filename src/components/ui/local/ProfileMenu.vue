@@ -8,7 +8,7 @@
     aria-controls="overlay_menu"
     unstyled
     size="large"
-    pt:root="bg-f-white rounded-md px-4 py-2 border border-gray-300 "
+    pt:root="bg-f-white rounded-md px-2 py-1 border border-gray-300 "
   >
     <ProfileBadge :title="userTitle" onlyTitle />
   </Button>

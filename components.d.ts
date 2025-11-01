@@ -14,6 +14,7 @@ declare module 'vue' {
     Chart: typeof import('primevue/chart')['default']
     Checkbox: typeof import('./src/components/ui/global/Checkbox.vue')['default']
     Column: typeof import('primevue/column')['default']
+    CommandPalette: typeof import('./src/components/ui/local/CommandPalette.vue')['default']
     DataTable: typeof import('primevue/datatable')['default']
     DateTimePicker: typeof import('./src/components/ui/global/DateTimePicker.vue')['default']
     Dialog: typeof import('primevue/dialog')['default']

@@ -1032,6 +1032,10 @@
       "addNew": "Yeni ekle",
       "placeholder": "Bir seçenek seçin"
     },
+    "commandPalette": {
+      "placeholder": "Sayfa ara...",
+      "noResults": "Sayfa bulunamadı"
+    },
     "dateTimePicker": {
       "today": "Bugün",
       "yesterday": "Dün",

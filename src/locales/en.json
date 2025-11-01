@@ -1032,6 +1032,10 @@
       "addNew": "Add new",
       "placeholder": "Select an option"
     },
+    "commandPalette": {
+      "placeholder": "Search pages...",
+      "noResults": "No pages found"
+    },
     "dateTimePicker": {
       "today": "Today",
       "yesterday": "Yesterday",
