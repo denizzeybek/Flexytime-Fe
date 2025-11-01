@@ -17,6 +17,8 @@ import { useI18n } from 'vue-i18n';
 import { type MessageSchema } from '@/plugins/i18n';
 import SummaryBadge from './SummaryBadge.vue';
 import type { ISummary } from '../../_types';
+import { ESeverity } from '@/enums/severity.enum';
+import { EStatisticType } from '@/enums/statisticType.enum';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
@@ -29,7 +31,7 @@ const props = withDefaults(defineProps<IProps>(), {
 });
 
 interface IBadgeData {
-  severity: string;
+  severity: ESeverity;
   title: string;
   icon: string;
   value: any;
@@ -59,33 +61,33 @@ const gridColsClass = computed(() => {
 
 const mapStatisticTypeToBadge = (statisticType: string, value: any): IBadgeData | null => {
   const mapping: Record<string, Omit<IBadgeData, 'value'>> = {
-    work: {
-      severity: 'success',
+    [EStatisticType.WORK]: {
+      severity: ESeverity.SUCCESS,
       title: t('components.badges.statisticType.work'),
       icon: 'pi pi-wrench',
     },
-    meeting: {
-      severity: 'warn',
+    [EStatisticType.MEETING]: {
+      severity: ESeverity.WARN,
       title: t('components.badges.statisticType.meeting'),
       icon: 'pi pi-crown',
     },
-    leisure: {
-      severity: 'danger',
+    [EStatisticType.LEISURE]: {
+      severity: ESeverity.DANGER,
       title: t('components.badges.statisticType.leisure'),
       icon: 'pi pi-calendar-clock',
     },
-    unclassified: {
-      severity: 'secondary',
+    [EStatisticType.UNCLASSIFIED]: {
+      severity: ESeverity.SECONDARY,
       title: t('components.badges.statisticType.unclassified'),
       icon: 'pi pi-question',
     },
-    starttime: {
-      severity: 'info',
+    [EStatisticType.START_TIME]: {
+      severity: ESeverity.INFO,
       title: t('components.badges.statisticType.startTime'),
       icon: 'pi pi-clock',
     },
-    endtime: {
-      severity: 'primary',
+    [EStatisticType.END_TIME]: {
+      severity: ESeverity.PRIMARY,
       title: t('components.badges.statisticType.endTime'),
       icon: 'pi pi-clock',
     },

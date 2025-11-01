@@ -13,7 +13,8 @@
       "Bash(yarn build:*)",
       "Bash(git show:*)",
       "Bash(grep:*)",
-      "Bash(yarn type-check:*)"
+      "Bash(yarn type-check:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

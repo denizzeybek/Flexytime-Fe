@@ -14,7 +14,7 @@
     <template #content>
       <div class="flex justify-center items-center !w-full">
         <FText class="-rotate-90">{{ unitText }}</FText>
-        <Chart type="bar" :data="chartData" :options="chartOptions" class="flex-1 !w-full" />
+        <Chart :type="EChartType.BAR" :data="chartData" :options="chartOptions" class="flex-1 !w-full" />
       </div>
     </template>
   </Card>
@@ -26,6 +26,7 @@ import { useI18n } from 'vue-i18n';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyReportsStore } from '@/stores/company/reports';
 import type { IReportDataset } from '@/interfaces/company/report';
+import { EChartType } from '@/enums/chartType.enum';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const reportsStore = useCompanyReportsStore();

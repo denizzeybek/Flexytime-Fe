@@ -57,6 +57,7 @@ import { string, object } from 'yup';
 import { useFToast } from '@/composables/useFToast';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
+import { EGrantType } from '@/enums/grantType.enum';
 // import { useProfileStore } from '@/stores/profile/profile';
 // import { useCommonUsersStore } from '@/stores/common/users';
 
@@ -80,7 +81,7 @@ const submitHandler = handleSubmit(async (values) => {
     const payload = {
       username: values.email,
       password: values.password,
-      grant_type: 'password',
+      grant_type: EGrantType.PASSWORD,
     };
     await authStore.login(payload);
     // const user = await profileStore.filter();

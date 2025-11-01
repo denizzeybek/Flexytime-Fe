@@ -29,7 +29,7 @@
           <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" />
         </DataTable>
 
-        <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-[30rem]" />
+        <Chart :type="EChartType.PIE" :data="chartData" :options="chartOptions" class="w-full md:w-[30rem]" />
       </div>
     </template>
   </Card>
@@ -41,6 +41,7 @@ import { useI18n } from 'vue-i18n';
 import { useReport } from '@/views/company/_composables/useReport';
 import { computed } from 'vue';
 import { useCompanyReportsStore } from '@/stores/company/reports';
+import { EChartType } from '@/enums/chartType.enum';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 

@@ -20,9 +20,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import Card from 'primevue/card';
+import { ESeverity } from '@/enums/severity.enum';
 
 interface IProps {
-  severity: string;
+  severity: ESeverity;
   title: string;
   icon: string;
   value: any;
@@ -30,14 +31,18 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const severityMap: Record<string, string> = {
-  success: 'success',
-  danger: 'danger',
-  warn: 'warn',
-  warning: 'warn',
-  secondary: 'secondary',
-  info: 'info',
-  primary: 'primary',
+const severityMap: Record<ESeverity, string> = {
+  [ESeverity.SUCCESS]: 'success',
+  [ESeverity.DANGER]: 'danger',
+  [ESeverity.WARN]: 'warn',
+  [ESeverity.WARNING]: 'warn',
+  [ESeverity.SECONDARY]: 'secondary',
+  [ESeverity.INFO]: 'info',
+  [ESeverity.PRIMARY]: 'primary',
+  [ESeverity.ERROR]: 'danger',
+  [ESeverity.HELP]: 'info',
+  [ESeverity.CONTRAST]: 'secondary',
+  [ESeverity.LINK]: 'primary',
 };
 
 const mappedSeverity = computed(() => severityMap[props.severity] || 'default');

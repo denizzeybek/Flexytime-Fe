@@ -4,7 +4,7 @@
       <ProgressSpinner />
     </div>
     <div v-else-if="chartData" class="card">
-      <Chart type="bar" :data="chartData" :options="chartOptions" class="h-[30rem]" />
+      <Chart :type="EChartType.BAR" :data="chartData" :options="chartOptions" class="h-[30rem]" />
     </div>
     <div v-else class="text-center text-gray-500 p-8">
       <p>{{ $t('components.graph.noDataAvailable') }}</p>
@@ -17,6 +17,7 @@ import { computed } from 'vue';
 import Chart from 'primevue/chart';
 import ProgressSpinner from 'primevue/progressspinner';
 import type { IGraph } from '../../_types';
+import { EChartType } from '@/enums/chartType.enum';
 
 
 interface IProps {

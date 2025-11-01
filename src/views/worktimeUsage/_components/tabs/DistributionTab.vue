@@ -53,7 +53,7 @@
               <template v-if="distribution.applications?.length">
                 <div class="grid grid-cols-4 gap-4">
                   <Chart
-                    type="doughnut"
+                    :type="EChartType.DOUGHNUT"
                     :data="distribution.chart"
                     :options="chartOptions"
                     class="w-full col-span-2"
@@ -94,6 +94,7 @@ import Card from 'primevue/card';
 import Chart from 'primevue/chart';
 import Skeleton from 'primevue/skeleton';
 import type { IDistribution } from '../../_types';
+import { EChartType } from '@/enums/chartType.enum';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
