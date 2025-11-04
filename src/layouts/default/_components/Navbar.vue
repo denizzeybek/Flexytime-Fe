@@ -133,7 +133,7 @@ const navItems = computed<IModel[]>(() => [
 </script>
 
 <style>
-@reference "@/tailwind-overwrites.css";
+@reference "@/tailwind.css";
 .itemClass {
   @apply flex items-center cursor-pointer  px-2 hover:border hover:border-purple-600 hover:rounded-md py-2;
 }

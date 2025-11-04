@@ -6,7 +6,7 @@ import router from '@/router';
 
 import plugins from './plugins';
 
-import '@/tailwind-overwrites.css';
+import '@/tailwind.css';
 
 import '@/plugins/axios';
 

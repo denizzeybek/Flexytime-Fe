@@ -59,7 +59,7 @@ const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);
 </script>
 
 <style scoped>
-@reference "@/tailwind-overwrites.css";
+@reference "@/tailwind.css";
 
 .summary-badge :deep(.p-card-body) {
   @apply !px-3 !py-3;

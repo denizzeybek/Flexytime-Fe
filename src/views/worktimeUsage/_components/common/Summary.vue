@@ -49,7 +49,7 @@ const handleDownload = () => {
 </script>
 
 <style scoped>
-@reference "@/tailwind-overwrites.css";
+@reference "@/tailwind.css";
 :deep(.p-card-content) {
   @apply !h-full;
 }
