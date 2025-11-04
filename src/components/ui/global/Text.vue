@@ -35,7 +35,7 @@ const classes = computed(() => {
 </script>
 
 <style scoped>
-@reference "@/custom-tailwind.css";
+@reference "@/tailwind-overwrites.css";
 h1,
 h2,
 h3,

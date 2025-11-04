@@ -13,7 +13,12 @@
       </div>
       <div class="flex flex-col gap-4 pb-4 lg:pb-8">
         <RouterLink class="w-full" block :to="{ name: ERouteNames.SettingsDownload }">
-          <Button type="button" icon="pi pi-download" :label="$t('pages.layouts.navbar.download')" class="w-full" />
+          <Button
+            type="button"
+            icon="pi pi-download"
+            :label="$t('pages.layouts.navbar.download')"
+            class="w-full"
+          />
         </RouterLink>
         <RouterLink class="w-full" block :to="{ name: ERouteNames.Promotion }">
           <Button
@@ -45,7 +50,6 @@ import { ERouteNames } from '@/router/routeNames.enum';
 import NavItem from './NavItem.vue';
 
 import type { IModel } from './NavChildItem.vue';
-
 
 const { t } = useI18n();
 
@@ -129,7 +133,7 @@ const navItems = computed<IModel[]>(() => [
 </script>
 
 <style>
-@reference "@/custom-tailwind.css";
+@reference "@/tailwind-overwrites.css";
 .itemClass {
   @apply flex items-center cursor-pointer  px-2 hover:border hover:border-purple-600 hover:rounded-md py-2;
 }

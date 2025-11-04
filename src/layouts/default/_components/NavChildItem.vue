@@ -121,7 +121,7 @@ watch(
 </script>
 
 <style scoped>
-@reference '@/custom-tailwind.css';
+@reference '@/tailwind-overwrites.css';
 
 .root-folder {
   @apply flex gap-2 items-center px-3 py-[9px] lg:py-[5px] rounded-lg cursor-pointer  border border-transparent active:bg-f-off-white transition-colors duration-200 ease-in-out;

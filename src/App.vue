@@ -5,7 +5,7 @@
 <script setup lang="ts"></script>
 
 <style>
-@reference "@/custom-tailwind.css";
+@reference "@/tailwind-overwrites.css";
 
 /* #region tablist */
 .p-tablist-content {

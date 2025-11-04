@@ -47,7 +47,7 @@ const src = computed(() => `/images/onboarding/${props.ad?.image?.name}`);
 </script>
 
 <style scoped>
-@reference "@/custom-tailwind.css";
+@reference "@/tailwind-overwrites.css";
 /* // aside {
 //   background-image: url('/images/onboarding/bg.png');
 // } */

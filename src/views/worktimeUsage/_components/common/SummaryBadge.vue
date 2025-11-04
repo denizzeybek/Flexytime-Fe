@@ -1,5 +1,8 @@
 <template>
-  <Card class="summary-badge h-full shadow-md hover:shadow-lg transition-shadow rounded-xl overflow-hidden border" :class="bgLightClass">
+  <Card
+    class="summary-badge h-full shadow-md hover:shadow-lg transition-shadow rounded-xl overflow-hidden border"
+    :class="bgLightClass"
+  >
     <template #content>
       <div class="flex items-center justify-center gap-3 h-full">
         <div
@@ -56,7 +59,7 @@ const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);
 </script>
 
 <style scoped>
-@reference "@/custom-tailwind.css";
+@reference "@/tailwind-overwrites.css";
 
 .summary-badge :deep(.p-card-body) {
   @apply !px-3 !py-3;

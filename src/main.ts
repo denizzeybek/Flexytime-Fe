@@ -1,24 +1,24 @@
-import { createApp } from 'vue'
+import { createApp } from 'vue';
 
-import App from '@/App.vue'
+import App from '@/App.vue';
 import { OpenAPI } from '@/client';
-import router from '@/router'
+import router from '@/router';
 
-import plugins from './plugins'
+import plugins from './plugins';
 
-import '@/custom-tailwind.css'
+import '@/tailwind-overwrites.css';
 
-import  '@/plugins/axios'
+import '@/plugins/axios';
 
-OpenAPI.BASE = import.meta.env.VITE_API_URL
+OpenAPI.BASE = import.meta.env.VITE_API_URL;
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(router)
-app.use(plugins)
+app.use(router);
+app.use(plugins);
 
 app.config.errorHandler = (err, vm, info) => {
-  console.error('app error handler: ', err, vm, info)
-}
+  console.error('app error handler: ', err, vm, info);
+};
 // app.config.globalProperties.$axios = axiosInstance
-app.mount('#app')
+app.mount('#app');

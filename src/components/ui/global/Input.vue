@@ -33,7 +33,13 @@
       </li>
       <div v-if="!filteredOptions.length" class="px-3 py-2 gap-4 w-full flex flex-col">
         <FText :innerText="t('components.input.noOptionFound')" />
-        <Button :label="t('components.input.addButton')" icon="pi pi-plus" class="flex-1" outlined @click="addNewOption" />
+        <Button
+          :label="t('components.input.addButton')"
+          icon="pi pi-plus"
+          class="flex-1"
+          outlined
+          @click="addNewOption"
+        />
       </div>
     </ul>
     <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
@@ -41,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, type InputHTMLAttributes,ref } from 'vue';
+import { computed, type InputHTMLAttributes, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useField } from 'vee-validate';
@@ -101,7 +107,7 @@ const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : v
 
 const model = computed<string>({
   get: () => value.value as unknown as string,
-  set: v => (value.value = v)
+  set: (v) => (value.value = v),
 });
 
 const filterOptions = () => {
@@ -153,7 +159,7 @@ const listeners = {
 </script>
 
 <style scoped>
-@reference "@/custom-tailwind.css";
+@reference "@/tailwind-overwrites.css";
 .unstyled:focus {
   outline: none;
 }
