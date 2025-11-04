@@ -37,23 +37,24 @@
 </template>
 
 <script setup lang="ts">
-import { string, object, array, mixed } from 'yup';
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
-import { useFToast } from '@/composables/useFToast';
 import { computed, onMounted, ref } from 'vue';
-import { useFieldArray, useForm } from 'vee-validate';
-import { useSettingsAdvancedsStore } from '@/stores/settings/advanced';
-import type { IAdvanced } from '@/interfaces/settings/advanced';
-import { convertTimeToDate, convertDateToTime } from '@/helpers/utils';
+import { useI18n } from 'vue-i18n';
+
 import Skeleton from 'primevue/skeleton';
+import { useFieldArray, useForm } from 'vee-validate';
+import { array, mixed,object, string } from 'yup';
+
+import { useFToast } from '@/composables/useFToast';
+import { convertDateToTime,convertTimeToDate } from '@/helpers/utils';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useSettingsAdvancedsStore } from '@/stores/settings/advanced';
+
+import type { IAdvanced } from '@/interfaces/settings/advanced';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const advancedsStore = useSettingsAdvancedsStore();
-
-const isLoading = ref(false);
 
 const validationSchema = object({
   advanceds: array()
@@ -72,6 +73,18 @@ const { resetForm } = useForm({
 });
 
 const { fields } = useFieldArray<IAdvanced>('advanceds');
+
+const isLoading = ref(false);
+
+const getInitialFormData = computed(() => {
+  return advancedsStore.list?.map((advanced) => ({
+    TypeName: advanced.TypeName,
+    Value: advanced.DataType === 2 ? advanced.Value === 'true' : convertTimeToDate(advanced.Value),
+    // Value: advanced.Value,
+    DataType: advanced.DataType,
+    SettingType: advanced.SettingType,
+  }));
+});
 
 const submit = async (settingType: number, value: any) => {
   try {
@@ -100,16 +113,6 @@ const submit = async (settingType: number, value: any) => {
     showErrorMessage(error as any);
   }
 };
-
-const getInitialFormData = computed(() => {
-  return advancedsStore.list?.map((advanced) => ({
-    TypeName: advanced.TypeName,
-    Value: advanced.DataType === 2 ? advanced.Value === 'true' : convertTimeToDate(advanced.Value),
-    // Value: advanced.Value,
-    DataType: advanced.DataType,
-    SettingType: advanced.SettingType,
-  }));
-});
 
 const handleDateChange = (field: any, settingType: number, newValue: any) => {
   field.Value = newValue;

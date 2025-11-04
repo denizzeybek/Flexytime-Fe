@@ -42,8 +42,8 @@
           :icon="isCopied ? 'pi pi-check' : ''"
           severity="warn"
           size="large"
-          @click="copyDownloadKeyText"
           :label="downloadsStore.ServiceKey"
+          @click="copyDownloadKeyText"
         />
       </div>
       <template v-if="isWizard">
@@ -59,21 +59,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
-import { type MessageSchema } from '@/plugins/i18n';
+import { computed,onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useSettingsDownloadsStore } from '@/stores/settings/download';
-import { copyToClipboard } from '@/helpers/utils';
+
 import { EComputerNames } from '@/common/enums/computer.enum';
 import { useDownloadApp } from '@/composables/useDownloadapp';
+import { copyToClipboard } from '@/helpers/utils';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useSettingsDownloadsStore } from '@/stores/settings/download';
+
+defineProps<IProps>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   isWizard?: boolean
 }
-
-defineProps<IProps>();
 
 const downloadsStore = useSettingsDownloadsStore();
 const { findActiveComputer, onDownloadButtonClicked } = useDownloadApp();

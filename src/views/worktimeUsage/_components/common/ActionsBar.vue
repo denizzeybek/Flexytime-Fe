@@ -41,11 +41,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { onMounted,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import Button from 'primevue/button';
 import DatePicker from 'primevue/datepicker';
 import Select from 'primevue/select';
+
 import { useWorktimeQuery } from '../../_composables';
 
 interface IEmits {
@@ -74,23 +76,6 @@ const perspectiveOptions = [
 const dateRange = ref<Date[]>([]);
 const selectedPerspective = ref(perspectiveOptions[0]);
 
-// Initialize from query
-onMounted(() => {
-  // Parse interval from query (format: YYYY-MM-DD_YYYY-MM-DD)
-  if (currentQuery.value.interval) {
-    const [start, end] = currentQuery.value.interval.split('_');
-    dateRange.value = [new Date(start), new Date(end)];
-  }
-
-  // Set perspective from query
-  const perspectiveFromQuery = perspectiveOptions.find(
-    (opt) => opt.value === currentQuery.value.perspective
-  );
-  if (perspectiveFromQuery) {
-    selectedPerspective.value = perspectiveFromQuery;
-  }
-});
-
 const handleDateChange = (value: Date[] | null) => {
   if (value && value.length === 2 && value[0] && value[1]) {
     const formatDate = (date: Date) => {
@@ -112,4 +97,21 @@ const handlePerspectiveChange = () => {
 const handleDownload = () => {
   emit('download');
 };
+
+// Initialize from query
+onMounted(() => {
+  // Parse interval from query (format: YYYY-MM-DD_YYYY-MM-DD)
+  if (currentQuery.value.interval) {
+    const [start, end] = currentQuery.value.interval.split('_');
+    dateRange.value = [new Date(start), new Date(end)];
+  }
+
+  // Set perspective from query
+  const perspectiveFromQuery = perspectiveOptions.find(
+    (opt) => opt.value === currentQuery.value.perspective
+  );
+  if (perspectiveFromQuery) {
+    selectedPerspective.value = perspectiveFromQuery;
+  }
+});
 </script>

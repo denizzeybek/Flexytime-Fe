@@ -1,15 +1,18 @@
+import { defineStore } from 'pinia';
+
+import axios from 'axios';
+
+import { EStoreNames } from '@/stores/storeNames.enum';
+
 import type {
-  IEmployeeMember,
   IEmployee,
+  IEmployeeInvitation,
+  IEmployeeMember,
   IEmployeeRole,
+  IEmployeeTeam,
   IEmployeeTitle,
   IManagerTitle,
-  IEmployeeTeam,
-  IEmployeeInvitation,
 } from '@/interfaces/hrSettings/employee';
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
-import { defineStore } from 'pinia';
 
 interface State {
   list: IEmployeeMember[];

@@ -14,11 +14,13 @@
 </template>
 
 <script setup lang="ts">
-import AnnualsTable from './AnnualsTable.vue';
 import { onMounted, ref } from 'vue';
-import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
+
 import { useFToast } from '@/composables/useFToast';
+import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
+
 import AnnualModal from './_modals/AnnualModal.vue';
+import AnnualsTable from './AnnualsTable.vue';
 
 const annualsStore = useHRSettingsAnnualsStore();
 const { showErrorMessage } = useFToast();

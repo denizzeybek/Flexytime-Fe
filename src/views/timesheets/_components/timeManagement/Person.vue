@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex justify-end">
-    <Button @click="toggleApplications" :label="t('pages.timesheets.person.toggleAll')" />
+    <Button :label="t('pages.timesheets.person.toggleAll')" @click="toggleApplications" />
   </div>
   <TreeTable
     v-model:expandedKeys="expandedKeys"
@@ -19,10 +19,12 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
-import { useTimesheetsTimeManagementsStore } from '@/stores/timeSheets/timeManagement';
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import { type MessageSchema } from '@/plugins/i18n';
+import { useTimesheetsTimeManagementsStore } from '@/stores/timeSheets/timeManagement';
+
 import { useTimeManagement } from '../../_composables/useTimeManagement';
 
 const { t } = useI18n<{ message: MessageSchema }>();

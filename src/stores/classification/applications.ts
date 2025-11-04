@@ -1,10 +1,13 @@
+import { defineStore } from 'pinia';
+
+import axios from 'axios';
+
+import { EStoreNames } from '@/stores/storeNames.enum';
+
 import type {
   IApplication,
   IApplicationDTOData,
 } from '@/interfaces/classification/application';
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
-import { defineStore } from 'pinia';
 interface State {
   list: IApplicationDTOData[];
   totalItems: number;

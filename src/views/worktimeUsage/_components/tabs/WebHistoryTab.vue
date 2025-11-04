@@ -26,7 +26,7 @@
         </Card>
       </template>
       <!-- When loaded, show actual data -->
-      <template v-else v-for="group in props.webClocks" :key="group.ID">
+      <template v-for="group in props.webClocks" v-else :key="group.ID">
         <Card v-if="group.WebClocks && group.WebClocks.length > 0">
           <template #header>
             <div class="flex items-center justify-between p-4">
@@ -65,8 +65,10 @@
 <script setup lang="ts">
 import Card from 'primevue/card';
 import Skeleton from 'primevue/skeleton';
+
 import WebHistoryTable from '../tables/WebHistoryTable.vue';
-import type { IWebClocks, IWebClock } from '../../_types';
+
+import type { IWebClock,IWebClocks } from '../../_types';
 
 
 interface IProps {

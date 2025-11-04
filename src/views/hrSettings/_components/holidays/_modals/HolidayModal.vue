@@ -53,35 +53,36 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { useForm } from 'vee-validate';
-import { boolean, string, object } from 'yup';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
+
+import { useForm } from 'vee-validate';
+import { boolean, object,string } from 'yup';
+
 import { useFToast } from '@/composables/useFToast';
-import type { IHoliday } from '@/interfaces/hrSettings/holiday';
 import { convertDateToString, convertStringToDate } from '@/helpers/utils';
+import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import type { IHoliday } from '@/interfaces/hrSettings/holiday';
 
 interface IProps {
   data?: IHoliday;
 }
 
-const props = defineProps<IProps>();
-
 interface IEmits {
   (event: 'fetchHolidays'): void;
   (event: 'hide', val: any): void;
 }
+
+const props = defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
 
+const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const holidaysStore = useHRSettingsHolidaysStore();
 
 const open = defineModel<boolean>('open');
-
-const isEditing = computed(() => !!props.data);
 
 const validationSchema = object({
   name: string().required().label('Holiday Name'),
@@ -98,6 +99,30 @@ const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
 
 const [startFullDay] = defineField('startFullDay');
 const [endFullDay] = defineField('endFullDay');
+
+const isEditing = computed(() => !!props.data);
+
+const getInitialFormData = computed(() => {
+  const holiday = props.data;
+
+  if (holiday) {
+    return {
+      ID: holiday.ID,
+      name: holiday.Name,
+      startFullDay: holiday.StartFullDay,
+      startDate: convertStringToDate(holiday.StartDate, holiday.StartTime),
+      endFullDay: holiday.EndFullDay,
+      endDate: convertStringToDate(holiday.EndDate, holiday.EndTime),
+      repeat: holiday.Repeat,
+    };
+  } else {
+    return {
+      startFullDay: false,
+      endFullDay: false,
+      repeat: false,
+    };
+  }
+});
 
 const handleClose = () => {
   resetForm();
@@ -134,28 +159,6 @@ const submitHandler = handleSubmit(async (values) => {
     handleClose();
   } catch (error: any) {
     showErrorMessage(error as any);
-  }
-});
-
-const getInitialFormData = computed(() => {
-  const holiday = props.data;
-
-  if (holiday) {
-    return {
-      ID: holiday.ID,
-      name: holiday.Name,
-      startFullDay: holiday.StartFullDay,
-      startDate: convertStringToDate(holiday.StartDate, holiday.StartTime),
-      endFullDay: holiday.EndFullDay,
-      endDate: convertStringToDate(holiday.EndDate, holiday.EndTime),
-      repeat: holiday.Repeat,
-    };
-  } else {
-    return {
-      startFullDay: false,
-      endFullDay: false,
-      repeat: false,
-    };
   }
 });
 

@@ -139,16 +139,18 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import Avatar from 'primevue/avatar';
-import Skeleton from 'primevue/skeleton';
-import { useWorktimeNavigation } from '../../_composables';
-import type { ITeam } from '../../_types';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import Avatar from 'primevue/avatar';
+import Column from 'primevue/column';
+import DataTable from 'primevue/datatable';
+import Skeleton from 'primevue/skeleton';
+
+import { type MessageSchema } from '@/plugins/i18n';
+
+import { useWorktimeNavigation } from '../../_composables';
+
+import type { ITeam } from '../../_types';
 
 interface IProps {
   teams?: ITeam[];
@@ -159,6 +161,8 @@ withDefaults(defineProps<IProps>(), {
   teams: () => [],
   isLoading: false,
 });
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { handleTeamClick, handleEmployeeClick } = useWorktimeNavigation();
 

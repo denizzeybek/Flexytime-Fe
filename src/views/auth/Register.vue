@@ -23,7 +23,7 @@
 
         <FInput id="fullName" :label="$t('pages.auth.register.form.fullName.label')" name="fullName" :placeholder="$t('pages.auth.register.form.fullName.placeholder')" />
 
-        <FInput type="email" id="email" :label="$t('pages.auth.register.form.email.label')" name="email" :placeholder="$t('pages.auth.register.form.email.placeholder')" />
+        <FInput id="email" type="email" :label="$t('pages.auth.register.form.email.label')" name="email" :placeholder="$t('pages.auth.register.form.email.placeholder')" />
 
         <FPassword id="password" :label="$t('pages.auth.register.form.password.label')" name="password" :placeholder="$t('pages.auth.register.form.password.placeholder')" />
 
@@ -45,13 +45,15 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import { ERouteNames } from '@/router/routeNames.enum';
-import AuthLayout from '@/layouts/auth/AuthLayout.vue';
+
 import { useForm } from 'vee-validate';
-import { string, object } from 'yup';
+import { object,string } from 'yup';
+
 import { useFToast } from '@/composables/useFToast';
+import AuthLayout from '@/layouts/auth/AuthLayout.vue';
+import { type MessageSchema } from '@/plugins/i18n';
+import { ERouteNames } from '@/router/routeNames.enum';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 

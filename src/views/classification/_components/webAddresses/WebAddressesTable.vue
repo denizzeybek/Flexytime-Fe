@@ -33,9 +33,9 @@
             <Skeleton v-if="isLoading" width="2rem" height="2rem" class="rounded" />
             <Checkbox
               v-else
-              @change="onAlwaysOnChange(slotProps.data)"
               :modelValue="slotProps.data.AlwaysOn"
               :binary="true"
+              @change="onAlwaysOnChange(slotProps.data)"
             />
           </template>
         </Column>
@@ -80,29 +80,31 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import Checkbox from 'primevue/checkbox';
 import Skeleton from 'primevue/skeleton';
+
 import { EDomain } from '@/enums/domain.enum';
+import { type MessageSchema } from '@/plugins/i18n';
 import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses';
 import { getDomainEnum } from '@/views/classification/_etc/helpers';
-import Checkbox from 'primevue/checkbox';
-
-const { t } = useI18n<{ message: MessageSchema }>();
 
 interface IProps {
   isLoading: boolean;
 }
 
-defineProps<IProps>();
-
 interface IEmits {
   (event: 'onPageChange', currentPage): void;
   (event: 'onSortChange', sortField): void;
 }
+
+defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
 
+const { t } = useI18n<{ message: MessageSchema }>();
 const webAddressesStore = useClassificationWebAddressesStore();
 
 const first = ref(0);

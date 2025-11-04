@@ -59,42 +59,35 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { useForm } from 'vee-validate';
-import { boolean, string, object } from 'yup';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import { useFToast } from '@/composables/useFToast';
-import type { IAnnual } from '@/interfaces/hrSettings/annual';
-import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
-import { convertDateToString, convertStringToDate } from '@/helpers/utils';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { useForm } from 'vee-validate';
+import { boolean, object,string } from 'yup';
+
+import { useFToast } from '@/composables/useFToast';
+import { convertDateToString, convertStringToDate } from '@/helpers/utils';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
+
+import type { IAnnual } from '@/interfaces/hrSettings/annual';
 
 interface IProps {
   data?: IAnnual;
 }
 
-const props = defineProps<IProps>();
-
 interface IEmits {
   (event: 'fetchAnnuals'): void;
 }
+
+const props = defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
 
+const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const annualsStore = useHRSettingsAnnualsStore();
 
 const open = defineModel<boolean>('open');
-const employees = computed(() => {
-  return annualsStore.members.map((member) => {
-    return {
-      name: member.Name,
-      value: member.ID,
-    };
-  });
-});
-
-const isEditing = computed(() => !!props.data);
 
 const validationSchema = object({
   employeeName: object()
@@ -119,6 +112,38 @@ const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
 
 const [startFullDay] = defineField('startFullDay');
 const [endFullDay] = defineField('endFullDay');
+
+const employees = computed(() => {
+  return annualsStore.members.map((member) => {
+    return {
+      name: member.Name,
+      value: member.ID,
+    };
+  });
+});
+
+const isEditing = computed(() => !!props.data);
+
+const getInitialFormData = computed(() => {
+  const annual = props.data;
+  return {
+    ...(annual && {
+      ID: annual.ID,
+      employeeName: { name: annual.MemberName, value: annual.MemberId },
+      leaveType: annual.LeaveType,
+      name: annual.Name,
+      startFullDay: annual.StartFullDay,
+      startDate: annual.StartFullDay
+        ? convertStringToDate(annual.StartDate)
+        : convertStringToDate(`${annual.StartDate} ${annual.StartTime}`),
+      endFullDay: annual.EndFullDay,
+      endDate: annual.EndFullDay
+        ? convertStringToDate(annual.EndDate)
+        : convertStringToDate(`${annual.EndDate} ${annual.EndTime}`),
+      repeat: annual.Repeat,
+    }),
+  };
+});
 
 const handleClose = () => {
   resetForm();
@@ -159,29 +184,6 @@ const submitHandler = handleSubmit(async (values) => {
     showErrorMessage(error as any);
   }
 });
-
-const getInitialFormData = computed(() => {
-  const annual = props.data;
-
-  if (annual) {
-    return {
-      ID: annual.ID,
-      employeeName: { name: annual.MemberName, value: annual.MemberId },
-      leaveType: annual.LeaveType,
-      startFullDay: annual.StartFullDay,
-      startDate: convertStringToDate(annual.StartDate, annual.StartTime),
-      endFullDay: annual.EndFullDay,
-      endDate: convertStringToDate(annual.StartDate, annual.StartTime),
-    };
-  } else {
-    return {
-      startFullDay: false,
-      endFullDay: false,
-      repeat: false,
-    };
-  }
-});
-// TODO: start date ve end date bilgileri date olarak dönmeli, fe date'i convert etmeli
 
 onMounted(() => {
   resetForm({

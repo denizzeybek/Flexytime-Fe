@@ -1,16 +1,19 @@
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
 import { defineStore } from 'pinia';
+
+import axios from 'axios';
+
+import { EStoreNames } from '@/stores/storeNames.enum';
+
 import type {
-  ISection,
-  ICard,
-  ISummary,
   IBreadcrumb,
+  ICard,
   IDistributions,
   IGraphs,
-  ITeamset,
-  IIndividuals,
   IIndividualEmployeeModel,
+  IIndividuals,
+  ISection,
+  ISummary,
+  ITeamset,
 } from '@/interfaces/worktimeUsage/section';
 
 interface State {

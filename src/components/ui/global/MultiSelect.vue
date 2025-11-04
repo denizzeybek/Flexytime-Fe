@@ -7,12 +7,12 @@
       optionLabel="name"
       :placeholder="finalPlaceholder"
       :invalid="!!errorMessage"
-      @change="onSelect($event)"
-      v-on="validationListeners"
       :class="[customWidth]"
       v-bind="primeProps"
       filter
       :display="chip ? 'chip' : 'comma'"
+      @change="onSelect($event)"
+      v-on="validationListeners"
     >
       <template #option="slotProps">
         <div class="flex items-center">
@@ -20,7 +20,7 @@
         </div>
       </template>
       <template #chip="{ value, removeCallback }: ChipSlotProps">
-        <Tag icon="pi pi-times" @click="removeCallback" severity="primary">{{ value.name }}</Tag>
+        <Tag icon="pi pi-times" severity="primary" @click="removeCallback">{{ value.name }}</Tag>
       </template>
 
       <!-- <template #chip="{ value, removeCallback }">
@@ -39,8 +39,8 @@
             outlined
             :label="t('components.multiSelect.addNew')"
             icon="pi pi-plus"
-            @click.stop="emit('addList')"
             type="button"
+            @click.stop="emit('addList')"
           />
         </div>
       </template>
@@ -55,15 +55,16 @@
 </template>
 
 <script lang="ts" setup>
-import { type MessageSchema } from '@/plugins/i18n';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { IOption } from '@/common/interfaces/option.interface';
+
 import MultiSelect, { type MultiSelectProps } from 'primevue/multiselect';
 import Tag from 'primevue/tag';
 import { useField } from 'vee-validate';
-import { computed } from 'vue';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { type MessageSchema } from '@/plugins/i18n';
+
+import type { IOption } from '@/common/interfaces/option.interface';
 
 interface ChipSlotProps {
   value: any;
@@ -88,6 +89,12 @@ export interface IProps {
   headerAddBtn?: boolean;
 }
 
+interface IEmits {
+  (event: 'selected', value: any): void;
+  (event: 'addList'): void;
+  (event: 'update:modelValue', value: IOption[]): void;
+}
+
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
   placeholder: '',
@@ -95,14 +102,9 @@ const props = withDefaults(defineProps<IProps>(), {
   chip: true,
 });
 
-const finalPlaceholder = computed(() => props.placeholder || t('components.multiSelect.placeholder'));
-
-interface IEmits {
-  (event: 'selected', value: any): void;
-  (event: 'addList'): void;
-  (event: 'update:modelValue', value: IOption[]): void;
-}
 const emit = defineEmits<IEmits>();
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { errorMessage, value, handleBlur, handleChange } = useField<IOption[]>(
   () => props.name,
@@ -112,6 +114,8 @@ const { errorMessage, value, handleBlur, handleChange } = useField<IOption[]>(
     syncVModel: true,
   },
 );
+
+const finalPlaceholder = computed(() => props.placeholder || t('components.multiSelect.placeholder'));
 
 const validationListeners = {
   blur: (e: InputEvent) => handleBlur(e, true),

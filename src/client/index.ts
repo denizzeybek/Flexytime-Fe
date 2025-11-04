@@ -4,10 +4,8 @@
  
 export { ApiError } from './core/ApiError';
 export { CancelablePromise, CancelError } from './core/CancelablePromise';
-export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
-
+export { OpenAPI } from './core/OpenAPI';
 export type { LoginModel } from './models/LoginModel';
 export type { LoginResponse } from './models/LoginResponse';
-
 export { AuthService } from './services/AuthService';

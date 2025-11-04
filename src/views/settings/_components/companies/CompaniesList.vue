@@ -8,11 +8,13 @@
   </template>
   
   <script setup lang="ts">
-  import CompaniesTable from './CompaniesTable.vue';
   import { onMounted, ref } from 'vue';
-  import { useSettingsCompaniesStore } from '@/stores/settings/companies';
+
   import { useFToast } from '@/composables/useFToast';
+  import { useSettingsCompaniesStore } from '@/stores/settings/companies';
+
   import CompanyModal from './_modals/CompanyModal.vue';
+  import CompaniesTable from './CompaniesTable.vue';
   
   const companiesStore = useSettingsCompaniesStore();
   const { showErrorMessage } = useFToast();

@@ -14,11 +14,13 @@
 </template>
 
 <script setup lang="ts">
-import HolidaysTable from './HolidaysTable.vue';
 import { onMounted, ref } from 'vue';
-import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
+
 import { useFToast } from '@/composables/useFToast';
+import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
+
 import HolidayModal from './_modals/HolidayModal.vue';
+import HolidaysTable from './HolidaysTable.vue';
 
 const holidaysStore = useHRSettingsHolidaysStore();
 const { showErrorMessage } = useFToast();

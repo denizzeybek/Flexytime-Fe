@@ -92,15 +92,16 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { type MessageSchema } from '@/plugins/i18n';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import Tag from 'primevue/tag';
-import Button from 'primevue/button';
-import Skeleton from 'primevue/skeleton';
-import type { IWebClock } from '../../_types';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import Button from 'primevue/button';
+import Column from 'primevue/column';
+import DataTable from 'primevue/datatable';
+import Skeleton from 'primevue/skeleton';
+import Tag from 'primevue/tag';
+
+import { type MessageSchema } from '@/plugins/i18n';
+
+import type { IWebClock } from '../../_types';
 
 interface IProps {
   webClocks?: IWebClock[];
@@ -117,6 +118,8 @@ withDefaults(defineProps<IProps>(), {
 });
 
 const emit = defineEmits<IEmits>();
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
   emit('toggle-domain', webClock, newDomain);

@@ -1,7 +1,10 @@
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
 import { defineStore } from 'pinia';
-import type { ITimeZone, IProfileUser, IProfile, ILicanse } from '@/interfaces/profile/profile';
+
+import axios from 'axios';
+
+import { EStoreNames } from '@/stores/storeNames.enum';
+
+import type { ILicanse,IProfile, IProfileUser, ITimeZone } from '@/interfaces/profile/profile';
 // import type {UserModel, Timezone, Language, Alerts, Employee, Wizard} from '@/interfaces/common/userModel';
 interface State {
   TimeZoneList: ITimeZone[];

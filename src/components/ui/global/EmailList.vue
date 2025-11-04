@@ -10,8 +10,8 @@
 
       <div class="flex gap-3">
         <InputText
-          :type="type"
           v-model="itemInput"
+          :type="type"
           class="flex-1"
           :class="{ 'p-invalid': !!errorMessage }"
           @blur="handleBlur"
@@ -38,15 +38,15 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
 import { computed, ref, watch } from 'vue';
-import { useField } from 'vee-validate';
-import { string } from 'yup';
+import { useI18n } from 'vue-i18n';
+
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import { useField } from 'vee-validate';
+import { string } from 'yup';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { type MessageSchema } from '@/plugins/i18n';
 
 interface IProps {
   id: string;
@@ -64,9 +64,7 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const emit = defineEmits(['update:modelValue']);
 
-const itemInput = ref<string>('');
-const itemList = ref<string[]>(props.modelValue || []);
-const localErrorMessage = ref<string>('');
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const isTypeEmail = computed(() => props.type === 'email');
 
@@ -85,6 +83,10 @@ const {
   validateOnValueUpdate: false,
   syncVModel: true,
 });
+
+const itemInput = ref<string>('');
+const itemList = ref<string[]>(props.modelValue || []);
+const localErrorMessage = ref<string>('');
 
 const errorMessage = computed(() => props.errorMessage ?? vError.value);
 

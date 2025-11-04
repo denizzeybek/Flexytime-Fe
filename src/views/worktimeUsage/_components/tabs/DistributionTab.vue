@@ -89,14 +89,15 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { type MessageSchema } from '@/plugins/i18n';
+
 import Card from 'primevue/card';
 import Chart from 'primevue/chart';
 import Skeleton from 'primevue/skeleton';
-import type { IDistribution } from '../../_types';
-import { EChartType } from '@/enums/chartType.enum';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { EChartType } from '@/enums/chartType.enum';
+import { type MessageSchema } from '@/plugins/i18n';
+
+import type { IDistribution } from '../../_types';
 
 interface IProps {
   distributions?: IDistribution[];
@@ -108,6 +109,8 @@ const props = withDefaults(defineProps<IProps>(), {
   isLoading: false,
 });
 
+const { t } = useI18n<{ message: MessageSchema }>();
+
 // Transform chart data for each distribution
 const chartData = computed(() => {
   return props.distributions?.map((distribution) => {
@@ -117,6 +120,23 @@ const chartData = computed(() => {
       chart: transformDataToChartFormat(distribution.Chart),
     };
   });
+});
+
+// Chart options with usePointStyle
+const chartOptions = computed(() => {
+  const documentStyle = getComputedStyle(document.documentElement);
+  const textColor = documentStyle.getPropertyValue('--p-text-color');
+
+  return {
+    plugins: {
+      legend: {
+        labels: {
+          usePointStyle: true,
+          color: textColor,
+        },
+      },
+    },
+  };
 });
 
 // Transform raw data to chart format with colors
@@ -159,23 +179,6 @@ const transformDataToChartFormat = (rawData: any[]) => {
     ],
   };
 };
-
-// Chart options with usePointStyle
-const chartOptions = computed(() => {
-  const documentStyle = getComputedStyle(document.documentElement);
-  const textColor = documentStyle.getPropertyValue('--p-text-color');
-
-  return {
-    plugins: {
-      legend: {
-        labels: {
-          usePointStyle: true,
-          color: textColor,
-        },
-      },
-    },
-  };
-});
 
 // Badge helper functions
 const getBadgeClass = (statisticType: string): string => {

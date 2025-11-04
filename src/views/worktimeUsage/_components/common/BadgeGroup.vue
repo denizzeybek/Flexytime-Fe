@@ -14,21 +14,18 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { type MessageSchema } from '@/plugins/i18n';
-import SummaryBadge from './SummaryBadge.vue';
-import type { ISummary } from '../../_types';
+
 import { ESeverity } from '@/enums/severity.enum';
 import { EStatisticType } from '@/enums/statisticType.enum';
+import { type MessageSchema } from '@/plugins/i18n';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import SummaryBadge from './SummaryBadge.vue';
+
+import type { ISummary } from '../../_types';
 
 interface IProps {
   summary?: ISummary[];
 }
-
-const props = withDefaults(defineProps<IProps>(), {
-  summary: () => [],
-});
 
 interface IBadgeData {
   severity: ESeverity;
@@ -36,6 +33,12 @@ interface IBadgeData {
   icon: string;
   value: any;
 }
+
+const props = withDefaults(defineProps<IProps>(), {
+  summary: () => [],
+});
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const badgeList = computed<IBadgeData[]>(() => {
   return props.summary

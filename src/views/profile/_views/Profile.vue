@@ -20,9 +20,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { ERouteNames } from '@/router/routeNames.enum';
-import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+
+import { ERouteNames } from '@/router/routeNames.enum';
+
 import type { MessageSchema } from '@/plugins/i18n';
 
 const route = useRoute();

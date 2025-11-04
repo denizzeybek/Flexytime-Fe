@@ -4,11 +4,11 @@
     <main class="flex w-full overflow-auto flex-col items-center min-h-screen bg-f-tertiary-purple">
       <div class="px-4 flex justify-between items-center w-full lg:pt-3 mb-10">
         <FSelect
-          name="language"
           v-model="selectedLanguageModel"
+          name="language"
           :options="languageOptions"
-          @update:model-value="handleLanguageChange"
           class="max-w-[140px] ms-auto"
+          @update:model-value="handleLanguageChange"
         />
       </div>
       <slot></slot>
@@ -17,38 +17,30 @@
 </template>
 
 <script lang="ts" setup>
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
 import { computed, ref, watch } from 'vue';
-import AuthAside from './_components/Authside.vue';
-import { useLanguage } from '@/composables/useLanguage';
+import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n<{ message: MessageSchema }>();
-const { currentLanguage, changeLanguage, getLanguageOptions } = useLanguage();
+import { useLanguage } from '@/composables/useLanguage';
+import { type MessageSchema } from '@/plugins/i18n';
+
+import AuthAside from './_components/Authside.vue';
 
 type TAdName = 'login' | 'register' | 'download' | 'forgot-password';
 
 interface IProps {
   adName: TAdName;
 }
+
 withDefaults(defineProps<IProps>(), {
   adName: 'login',
 });
 
+const { t } = useI18n<{ message: MessageSchema }>();
+const { currentLanguage, changeLanguage, getLanguageOptions } = useLanguage();
+
 const languageOptions = getLanguageOptions();
 
 const selectedLanguageModel = ref(languageOptions.find(lang => lang.value === currentLanguage.value));
-
-// Watch currentLanguage changes and update model
-watch(currentLanguage, (newLang) => {
-  selectedLanguageModel.value = languageOptions.find(lang => lang.value === newLang);
-});
-
-const handleLanguageChange = async (option: { name: string; value: 'en' | 'tr' }) => {
-  if (option && option.value) {
-    await changeLanguage(option.value);
-  }
-};
 
 const ads = computed(() => {
   return {
@@ -105,5 +97,15 @@ const ads = computed(() => {
       ],
     },
   };
+});
+
+const handleLanguageChange = async (option: { name: string; value: 'en' | 'tr' }) => {
+  if (option && option.value) {
+    await changeLanguage(option.value);
+  }
+};
+
+watch(currentLanguage, (newLang) => {
+  selectedLanguageModel.value = languageOptions.find(lang => lang.value === newLang);
 });
 </script>

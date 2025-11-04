@@ -11,15 +11,17 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
 import { onMounted, watch } from 'vue';
-import { useCompanyReportsStore } from '@/stores/company/reports';
+import { useI18n } from 'vue-i18n';
+
 import { useForm } from 'vee-validate';
-import { string, object, array } from 'yup';
+import { array,object, string } from 'yup';
+
 import { useFToast } from '@/composables/useFToast';
-import ElasticForm from '@/views/company/_components/reports/elasticReports/ElasticForm.vue';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useCompanyReportsStore } from '@/stores/company/reports';
 import ElasticBarChart from '@/views/company/_components/reports/elasticReports/ElasticBarChart.vue';
+import ElasticForm from '@/views/company/_components/reports/elasticReports/ElasticForm.vue';
 import ElasticPieChart from '@/views/company/_components/reports/elasticReports/ElasticPieChart.vue';
 import { EGroupOptions } from '@/views/company/_etc/groupOptions.enum';
 

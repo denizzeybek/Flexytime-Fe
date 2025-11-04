@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
  
-import type { LoginModel } from '../models/LoginModel';
-import type { LoginResponse } from '../models/LoginResponse';
 import qs from 'qs';
 
-import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
+
+import type { CancelablePromise } from '../core/CancelablePromise';
+import type { LoginModel } from '../models/LoginModel';
+import type { LoginResponse } from '../models/LoginResponse';
 export class AuthService {
   /**
    * @param body

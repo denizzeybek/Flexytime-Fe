@@ -6,8 +6,9 @@
 </template>
 
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue';
 import { computed } from 'vue';
+
+import type { HTMLAttributes } from 'vue';
 
 interface IProps {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'info' | 'ps';

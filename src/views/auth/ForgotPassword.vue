@@ -21,12 +21,14 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import AuthLayout from '@/layouts/auth/AuthLayout.vue';
+
 import { useForm } from 'vee-validate';
-import { string, object } from 'yup';
+import { object,string } from 'yup';
+
 import { useFToast } from '@/composables/useFToast';
+import AuthLayout from '@/layouts/auth/AuthLayout.vue';
+import { type MessageSchema } from '@/plugins/i18n';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 

@@ -1,7 +1,9 @@
+import { useToast } from 'vue-toastification'
+
 import ErrorToast from '@/components/ui/global/ErrorToast.vue'
 import SuccessToast from '@/components/ui/global/SuccessToast.vue'
+
 import type { HTMLAttributes } from 'vue'
-import { useToast } from 'vue-toastification'
 
 export const useFToast = () => {
   const toast = useToast()

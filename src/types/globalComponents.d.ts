@@ -21,10 +21,10 @@ import RRadioOption from '@/components/ui/global/RadioOption.vue'
 import RSearchInput from '@/components/ui/global/SearchInput.vue'
 import RSelect from '@/components/ui/global/Select.vue'
 import RSpinner from '@/components/ui/global/Spinner.vue'
+import RStepper from '@/components/ui/global/Stepper.vue'
 import RTabs from '@/components/ui/global/Tabs.vue'
 import RText from '@/components/ui/global/Text.vue'
 import RTooltip from '@/components/ui/global/Tooltip.vue'
-import RStepper from '@/components/ui/global/Stepper.vue'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {

@@ -11,7 +11,6 @@
     <div class="hidden lg:flex items-center gap-3">
       <!-- Command Palette Trigger -->
       <Button
-        @click="openCommandPalette"
         text
         severity="secondary"
         class="hidden md:flex !px-3 !py-2.5 !text-sm !text-gray-500 !bg-gray-50 hover:!bg-gray-100 !border !border-gray-200 !rounded-lg"
@@ -19,6 +18,7 @@
           root: { class: 'hidden md:flex items-center gap-2' },
           label: { class: 'flex items-center gap-2 text-sm font-normal' }
         }"
+        @click="openCommandPalette"
       >
         <template #default>
           <i class="pi pi-search text-xs" />
@@ -47,24 +47,26 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
+import { computed,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ref, computed } from 'vue';
-import ProfileMenu from '@/components/ui/local/ProfileMenu.vue';
-import CommandPalette from '@/components/ui/local/CommandPalette.vue';
 import { useRoute } from 'vue-router';
+
+import CommandPalette from '@/components/ui/local/CommandPalette.vue';
+import ProfileMenu from '@/components/ui/local/ProfileMenu.vue';
+import { type MessageSchema } from '@/plugins/i18n';
+
+interface IEmits {
+  (event: 'drawerChange', val: boolean): void;
+}
+
+defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const route = useRoute();
 
-// Command Palette
 const commandPaletteRef = ref<InstanceType<typeof CommandPalette> | null>(null);
 
 const isMac = computed(() => navigator.platform.toUpperCase().indexOf('MAC') >= 0);
-
-const openCommandPalette = () => {
-  commandPaletteRef.value?.openDialog();
-};
 
 const localizedRouteName = computed(() => {
   const routeName = route.name as string;
@@ -74,9 +76,8 @@ const localizedRouteName = computed(() => {
   return t(key);
 });
 
-interface IEmits {
-  (event: 'drawerChange', val: boolean): void;
-}
+const openCommandPalette = () => {
+  commandPaletteRef.value?.openDialog();
+};
 
-defineEmits<IEmits>();
 </script>

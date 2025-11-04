@@ -7,8 +7,9 @@
 </template>
 
 <script setup lang="ts">
-import EmployeesList from '@/views/hrSettings/_components/employees/EmployeesList.vue';
 import Card from 'primevue/card';
+
+import EmployeesList from '@/views/hrSettings/_components/employees/EmployeesList.vue';
 </script>
 
 <style scoped></style>

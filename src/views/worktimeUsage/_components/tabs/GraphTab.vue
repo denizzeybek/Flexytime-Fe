@@ -14,10 +14,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+
 import Chart from 'primevue/chart';
 import ProgressSpinner from 'primevue/progressspinner';
-import type { IGraph } from '../../_types';
+
 import { EChartType } from '@/enums/chartType.enum';
+
+import type { IGraph } from '../../_types';
 
 
 interface IProps {
@@ -41,50 +44,6 @@ const chartData = computed(() => {
 
   return setChartData(props.graphs.Summary);
 });
-
-// Color palette matching SummaryBadge severity colors
-const getColorForLabel = (label: string): { bg: string; border: string } => {
-  const normalizedLabel = label?.toLowerCase() || '';
-
-  // Colors matching SummaryBadge component (same as project design)
-  const colorMap: Record<string, { bg: string; border: string }> = {
-    work: { bg: 'rgba(34, 197, 94, 0.8)', border: 'rgb(34, 197, 94)' }, // 🟢 Green-500 (success)
-    meeting: { bg: 'rgba(249, 115, 22, 0.8)', border: 'rgb(249, 115, 22)' }, // 🟠 Orange-500 (warn)
-    leisure: { bg: 'rgba(239, 68, 68, 0.8)', border: 'rgb(239, 68, 68)' }, // 🔴 Red-500 (danger)
-    unclassified: { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' }, // ⚪ Slate-500 (secondary)
-  };
-
-  // Match the label to a color (case-insensitive)
-  for (const [key, value] of Object.entries(colorMap)) {
-    if (normalizedLabel.includes(key)) {
-      return value;
-    }
-  }
-
-  // Default fallback color
-  return { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' }; // Slate-500
-};
-
-// Set chart data with proper formatting and custom colors
-const setChartData = (source: IGraph['Summary']) => {
-  return {
-    labels: source?.labels,
-    datasets: source?.datasets?.map((ds) => {
-      const colors = getColorForLabel(ds.label || '');
-
-      return {
-        ...ds,
-        backgroundColor: Array.isArray(ds.backgroundColor)
-          ? ds.data?.map(() => colors.bg)
-          : ds.data?.map(() => colors.bg),
-        borderColor: Array.isArray(ds.borderColor)
-          ? ds.data?.map(() => colors.border)
-          : ds.data?.map(() => colors.border),
-        borderWidth: ds.borderWidth || 2,
-      };
-    }),
-  };
-};
 
 // Chart options with stacking and custom styling
 const chartOptions = computed(() => {
@@ -144,4 +103,48 @@ const chartOptions = computed(() => {
     },
   };
 });
+
+// Color palette matching SummaryBadge severity colors
+const getColorForLabel = (label: string): { bg: string; border: string } => {
+  const normalizedLabel = label?.toLowerCase() || '';
+
+  // Colors matching SummaryBadge component (same as project design)
+  const colorMap: Record<string, { bg: string; border: string }> = {
+    work: { bg: 'rgba(34, 197, 94, 0.8)', border: 'rgb(34, 197, 94)' }, // 🟢 Green-500 (success)
+    meeting: { bg: 'rgba(249, 115, 22, 0.8)', border: 'rgb(249, 115, 22)' }, // 🟠 Orange-500 (warn)
+    leisure: { bg: 'rgba(239, 68, 68, 0.8)', border: 'rgb(239, 68, 68)' }, // 🔴 Red-500 (danger)
+    unclassified: { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' }, // ⚪ Slate-500 (secondary)
+  };
+
+  // Match the label to a color (case-insensitive)
+  for (const [key, value] of Object.entries(colorMap)) {
+    if (normalizedLabel.includes(key)) {
+      return value;
+    }
+  }
+
+  // Default fallback color
+  return { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' }; // Slate-500
+};
+
+// Set chart data with proper formatting and custom colors
+const setChartData = (source: IGraph['Summary']) => {
+  return {
+    labels: source?.labels,
+    datasets: source?.datasets?.map((ds) => {
+      const colors = getColorForLabel(ds.label || '');
+
+      return {
+        ...ds,
+        backgroundColor: Array.isArray(ds.backgroundColor)
+          ? ds.data?.map(() => colors.bg)
+          : ds.data?.map(() => colors.bg),
+        borderColor: Array.isArray(ds.borderColor)
+          ? ds.data?.map(() => colors.border)
+          : ds.data?.map(() => colors.border),
+        borderWidth: ds.borderWidth || 2,
+      };
+    }),
+  };
+};
 </script>

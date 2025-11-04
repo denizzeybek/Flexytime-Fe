@@ -1,11 +1,11 @@
 <template>
   <div>
-    <form @submit="submitHandler" class="flex flex-col gap-12">
+    <form class="flex flex-col gap-12" @submit="submitHandler">
       <div class="flex flex-col lg:flex-row gap-4 lg:gap-12">
-        <FPassword class="flex-1" id="password" :label="t('pages.profile.password.password.label')" name="password" />
+        <FPassword id="password" class="flex-1" :label="t('pages.profile.password.password.label')" name="password" />
         <FPassword
-          class="flex-1"
           id="repeatPassword"
+          class="flex-1"
           :label="t('pages.profile.password.repeatPassword.label')"
           name="repeatPassword"
         />
@@ -15,8 +15,8 @@
           type="submit"
           :label="t('pages.profile.password.save.label')"
           :disabled="isSubmitting"
-          @click.stop="submitHandler"
           :loading="isSubmitting"
+          @click.stop="submitHandler"
         ></Button>
       </div>
     </form>
@@ -24,11 +24,13 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from 'vee-validate';
-import { string, object, ref as yupRef } from 'yup';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
+
+import { useForm } from 'vee-validate';
+import { object, ref as yupRef,string } from 'yup';
+
 import { useFToast } from '@/composables/useFToast';
+import { type MessageSchema } from '@/plugins/i18n';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
@@ -43,7 +45,7 @@ const validationSchema = object({
     .label('Repeat Password'),
 });
 
-const { handleSubmit, isSubmitting } = useForm({
+const { handleSubmit,  isSubmitting } = useForm({
   validationSchema,
 });
 

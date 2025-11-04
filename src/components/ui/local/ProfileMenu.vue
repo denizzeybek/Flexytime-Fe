@@ -1,7 +1,6 @@
 <template>
   <Button
     type="button"
-    @click="toggle"
     outlined
     aria-haspopup="true"
     severity="contrast"
@@ -9,6 +8,7 @@
     unstyled
     size="large"
     pt:root="bg-f-white rounded-md px-2 py-1 border border-gray-300 "
+    @click="toggle"
   >
     <ProfileBadge :title="userTitle" onlyTitle />
   </Button>
@@ -30,22 +30,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { type MessageSchema } from '@/plugins/i18n';
+import { computed,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
-import { ERouteNames } from '@/router/routeNames.enum';
 import { useLogout } from '@/composables/useLogout';
+import { type MessageSchema } from '@/plugins/i18n';
+import { ERouteNames } from '@/router/routeNames.enum';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { logout } = useLogout();
 
 const menu = ref();
 const userTitle = ref(t('components.profileMenu.defaultTitle'));
-
-const toggle = (event) => {
-  menu.value.toggle(event);
-};
 
 const items = computed(() => [
   {
@@ -66,6 +63,10 @@ const items = computed(() => [
     ],
   },
 ]);
+
+const toggle = (event) => {
+  menu.value.toggle(event);
+};
 </script>
 
 <style scoped></style>

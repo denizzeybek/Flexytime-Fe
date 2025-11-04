@@ -25,21 +25,23 @@
     </template>
     <template #footer>
       <div class="flex justify-between gap-3 pt-5 border-t border-gray-100">
-        <Button @click="handleAddTeam" icon="pi pi-plus" :label="t('pages.company.organizationChart.buttons.addTeam')" class="shadow-sm" />
-        <Button severity="info" :label="t('pages.company.organizationChart.buttons.save')" @click="handleSave" class="shadow-sm"/>
+        <Button icon="pi pi-plus" :label="t('pages.company.organizationChart.buttons.addTeam')" class="shadow-sm" @click="handleAddTeam" />
+        <Button severity="info" :label="t('pages.company.organizationChart.buttons.save')" class="shadow-sm" @click="handleSave"/>
       </div>
     </template>
   </Card>
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ref, onMounted, watch } from 'vue';
-import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
-import OrganizationItem from '@/views/company/_components/organizationChart/OrganizationItem.vue';
+
 import { useFToast } from '@/composables/useFToast';
+import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyOrganizationChartsStore } from '@/stores/company/organizationChart';
+import OrganizationItem from '@/views/company/_components/organizationChart/OrganizationItem.vue';
+
+import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 

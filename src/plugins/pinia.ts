@@ -1,6 +1,7 @@
-import { EStoreNames } from '@/stores/storeNames.enum'
-import { createPinia, getActivePinia, type Pinia, type Store } from 'pinia'
 import { type App } from 'vue'
+import { createPinia, getActivePinia, type Pinia, type Store } from 'pinia'
+
+import { EStoreNames } from '@/stores/storeNames.enum'
 
 interface ExtendedPinia extends Pinia {
   _s: Map<string, Store>

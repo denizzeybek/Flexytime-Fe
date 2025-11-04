@@ -2,45 +2,45 @@
   <div>
     <form class="flex flex-col gap-8">
       <div class="flex flex-col flex-1 gap-4">
-        <FInput disabled class="grow" id="companyName" :label="t('pages.profile.license.companyName.label')" name="companyName" />
+        <FInput id="companyName" disabled class="grow" :label="t('pages.profile.license.companyName.label')" name="companyName" />
       </div>
       <div class="flex gap-4 flex-1">
-        <FInput disabled class="flex-1" id="totalUser" :label="t('pages.profile.license.totalUser.label')" name="totalUser" />
+        <FInput id="totalUser" disabled class="flex-1" :label="t('pages.profile.license.totalUser.label')" name="totalUser" />
         <FInput
+          id="licensedUser"
           disabled
           class="flex-1"
-          id="licensedUser"
           :label="t('pages.profile.license.licensedUser.label')"
           name="licensedUser"
         />
       </div>
       <div class="flex gap-4 flex-1">
         <FInput
+          id="licansePurchased"
           disabled
           class="flex-1"
-          id="licansePurchased"
           :label="t('pages.profile.license.licensePurchased.label')"
           name="licansePurchased"
         />
         <FInput
+          id="licanseRemained"
           disabled
           class="flex-1"
-          id="licanseRemained"
           :label="t('pages.profile.license.licenseRemained.label')"
           name="licanseRemained"
         />
       </div>
       <div class="flex gap-4 flex-1">
-        <FInput disabled class="flex-1" id="expireDate" :label="t('pages.profile.license.expireDate.label')" name="expireDate" />
-        <FInput disabled class="flex-1" id="daysLeft" :label="t('pages.profile.license.daysLeft.label')" name="daysLeft" />
+        <FInput id="expireDate" disabled class="flex-1" :label="t('pages.profile.license.expireDate.label')" name="expireDate" />
+        <FInput id="daysLeft" disabled class="flex-1" :label="t('pages.profile.license.daysLeft.label')" name="daysLeft" />
       </div>
     </form>
     <div class="flex justify-center mt-4">
       <Button
-        @click="router.push({ name: ERouteNames.Classification })"
         type="button"
         severity="warn"
         :label="t('pages.profile.license.buyLicense.label')"
+        @click="router.push({ name: ERouteNames.Classification })"
         @click.stop="submitHandler"
       ></Button>
     </div>
@@ -49,14 +49,16 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { useForm } from 'vee-validate';
-import { string, object } from 'yup';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import { useProfileStore } from '@/stores/profile/profile';
-import { useFToast } from '@/composables/useFToast';
-import { ERouteNames } from '@/router/routeNames.enum';
 import { useRouter } from 'vue-router';
+
+import { useForm } from 'vee-validate';
+import { object,string } from 'yup';
+
+import { useFToast } from '@/composables/useFToast';
+import { type MessageSchema } from '@/plugins/i18n';
+import { ERouteNames } from '@/router/routeNames.enum';
+import { useProfileStore } from '@/stores/profile/profile';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
@@ -76,7 +78,7 @@ const validationSchema = object({
   daysLeft: string().required().label('Days Left'),
 });
 
-const { handleSubmit, resetForm } = useForm({
+const { handleSubmit,  resetForm } = useForm({
   validationSchema,
 });
 

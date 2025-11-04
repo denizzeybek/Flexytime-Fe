@@ -45,12 +45,13 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { type MessageSchema } from '@/plugins/i18n';
-import TeamProductivityTable from '../tables/TeamProductivityTable.vue';
-import EmployeeProductivityTable from '../tables/EmployeeProductivityTable.vue';
-import type { ViewMode, DisplayMode, ITeam, IIndividual } from '../../_types';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { type MessageSchema } from '@/plugins/i18n';
+
+import EmployeeProductivityTable from '../tables/EmployeeProductivityTable.vue';
+import TeamProductivityTable from '../tables/TeamProductivityTable.vue';
+
+import type { DisplayMode, IIndividual,ITeam, ViewMode } from '../../_types';
 
 interface IProps {
   viewMode: ViewMode;
@@ -66,4 +67,7 @@ withDefaults(defineProps<IProps>(), {
   individuals: () => [],
   isLoading: false,
 });
+
+const { t } = useI18n<{ message: MessageSchema }>();
+
 </script>

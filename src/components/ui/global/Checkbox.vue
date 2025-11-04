@@ -20,8 +20,8 @@
         :trueValue="checkedValue"
         :falseValue="uncheckedValue"
         :disabled="disabled"
-        @change="handleChange"
         class="hidden"
+        @change="handleChange"
       />
       <span
         class="flex items-center justify-center w-5 h-5 transition-colors duration-100 border rounded-sm min-w-5 min-h-5 active:ring-2 active:ring-f-stroke"
@@ -37,7 +37,7 @@
       {{ label }}
       <slot></slot>
     </label>
-    <small class="p-error text-red-500" v-if="errorMessage" type="error">
+    <small v-if="errorMessage" class="p-error text-red-500" type="error">
       {{ errorMessage }}
     </small>
   </div>

@@ -2,10 +2,10 @@
   <div class="flex flex-col gap-2">
     <label :for="id">{{ label }}</label>
     <div class="flex items-center gap-1">
-      <Button v-if="showPrevNextButtons" @click="handleWeek(EWeek.PREV)" type="button" icon="pi pi-angle-left" />
+      <Button v-if="showPrevNextButtons" type="button" icon="pi pi-angle-left" @click="handleWeek(EWeek.PREV)" />
       <DatePicker
-        v-model="value"
         :id="id"
+        v-model="value"
         :data-error="!!errorMessage"
         :data-valid="isValid"
         :placeholder="finalPlaceholder"
@@ -21,47 +21,28 @@
       >
         <template #footer>
           <div v-if="primeProps?.selectionMode === 'range'" class="py-5 flex flex-wrap gap-2">
-            <Button v-for="(prop, idx) in buttonProps" :key="idx" @click="handleChange(prop.key)" class="w-[80px] !text-sm">
+            <Button v-for="(prop, idx) in buttonProps" :key="idx" class="w-[80px] !text-sm" @click="handleChange(prop.key)">
               {{prop.label}}
             </Button>
           </div>
         </template>
       </DatePicker>
-      <Button v-if="showPrevNextButtons" @click="handleWeek(EWeek.NEXT)" type="button" icon="pi pi-angle-right" />
+      <Button v-if="showPrevNextButtons" type="button" icon="pi pi-angle-right" @click="handleWeek(EWeek.NEXT)" />
   </div>
     <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
   </div>
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
-import dayjs from 'dayjs';
-import type { DatePickerProps } from 'primevue/datepicker';
-import { useField } from 'vee-validate';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import dayjs from 'dayjs';
+import { useField } from 'vee-validate';
 
-interface IEmits {
-  (event: 'change', value: any): void;
-}
-const emit = defineEmits<IEmits>();
+import { type MessageSchema } from '@/plugins/i18n';
 
-enum EHelperButton {
-  TODAY = 'today',
-  YESTERDAY = 'yesterday',
-  LAST_7_DAYS = 'last_7_days',
-  LAST_30_DAYS = 'last_30_days',
-  THIS_MONTH = 'this_month',
-  PREVIOUS_MONTH = 'previous_year',
-  THIS_YEAR = 'this_year'
-}
-
-enum EWeek {
-  PREV = -1,
-  NEXT = 1,
-}
+import type { DatePickerProps } from 'primevue/datepicker';
 
 interface IProps {
   id: string;
@@ -82,6 +63,25 @@ interface IProps {
   showPrevNextButtons?:boolean;
 }
 
+interface IEmits {
+  (event: 'change', value: any): void;
+}
+
+enum EHelperButton {
+  TODAY = 'today',
+  YESTERDAY = 'yesterday',
+  LAST_7_DAYS = 'last_7_days',
+  LAST_30_DAYS = 'last_30_days',
+  THIS_MONTH = 'this_month',
+  PREVIOUS_MONTH = 'previous_year',
+  THIS_YEAR = 'this_year'
+}
+
+enum EWeek {
+  PREV = -1,
+  NEXT = 1,
+}
+
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
   placeholder: '',
@@ -91,7 +91,21 @@ const props = withDefaults(defineProps<IProps>(), {
   showPrevNextButtons: false
 });
 
+const emit = defineEmits<IEmits>();
+
+const { t } = useI18n<{ message: MessageSchema }>();
+
+const {
+  errorMessage: vError,
+  value,
+} = useField<Date | Date[] | (Date | null)[] | null>(() => props.name, undefined, {
+  validateOnValueUpdate: false,
+  syncVModel: true,
+});
+
 const finalPlaceholder = computed(() => props.placeholder || t('components.dateTimePicker.placeholder'));
+
+const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
 
 const buttonProps = computed(() => [
   {
@@ -127,16 +141,6 @@ const buttonProps = computed(() => [
 const handleChangeEvent = () => {
   emit('change', value.value);  // Emit value on change
 };
-
-const {
-  errorMessage: vError,
-  value,
-} = useField<Date | Date[] | (Date | null)[] | null>(() => props.name, undefined, {
-  validateOnValueUpdate: false,
-  syncVModel: true,
-});
-
-const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
 
 const handleChange = (btnType: EHelperButton) => {
   switch (btnType) {

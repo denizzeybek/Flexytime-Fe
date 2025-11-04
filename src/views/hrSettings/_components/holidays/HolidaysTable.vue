@@ -1,11 +1,11 @@
 <template>
   <DataTable
+    v-model:filters="filters"
     tableStyle="min-width: 50rem"
     paginator
     :value="isLoading ? skeletonData : holidays"
     :rows="5"
     :rowsPerPageOptions="[5, 10, 20, 50]"
-    v-model:filters="filters"
     @page="handlePage"
   >
     <template #header>
@@ -64,7 +64,7 @@
 
     <template #footer>
       <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-        <Button icon="pi pi-plus" :label="t('pages.hrSettings.holidays.table.addButton')" @click="emit('new')" class="shadow-sm" />
+        <Button icon="pi pi-plus" :label="t('pages.hrSettings.holidays.table.addButton')" class="shadow-sm" @click="emit('new')" />
         <FText>{{ t('pages.hrSettings.holidays.table.totalCount', { count: holidays ? holidays.length : 0 }) }}</FText>
       </div>
     </template>
@@ -72,23 +72,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import Skeleton from 'primevue/skeleton';
-import { type MessageSchema } from '@/plugins/i18n';
+import { computed,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
+
+import { FilterMatchMode } from '@primevue/core/api';
+import Skeleton from 'primevue/skeleton';
+
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
-import type { IHoliday } from '@/interfaces/hrSettings/holiday';
-import { FilterMatchMode } from '@primevue/core/api';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import type { IHoliday } from '@/interfaces/hrSettings/holiday';
 
 interface IProps {
   isLoading: boolean;
 }
-
-defineProps<IProps>();
 
 interface IEmits {
   (event: 'new'): void;
@@ -96,7 +95,11 @@ interface IEmits {
   (event: 'delete', ID: string): void;
 }
 
+defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const holidaysStore = useHRSettingsHolidaysStore();
 

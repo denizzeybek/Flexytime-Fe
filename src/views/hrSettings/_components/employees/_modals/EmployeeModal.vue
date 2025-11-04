@@ -47,8 +47,8 @@
                 />
               </div> -->
                 <div class="flex lg:flex-col flex-1 gap-4">
-                  <FInput class="grow" id="memberName" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
-                  <FInput class="grow" type="email" id="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
+                  <FInput id="memberName" class="grow" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
+                  <FInput id="email" class="grow" type="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
                   <FCheckbox v-if="isEditing" name="enabled" labelLeft :label="t('pages.hrSettings.employees.modal.enabled.label')" />
                 </div>
               </div>
@@ -70,8 +70,8 @@
                   :options="teamOptions"
                 />
                 <FInput
-                  class="grow"
                   id="operatingUser"
+                  class="grow"
                   :label="t('pages.hrSettings.employees.modal.operatingUser.label')"
                   name="operatingUser"
                 />
@@ -88,11 +88,11 @@
                     maxSelectedLabels: 3,
                   }"
                 />
-                <FInput class="grow" id="salary" :label="t('pages.hrSettings.employees.modal.salary.label')" name="salary" />
+                <FInput id="salary" class="grow" :label="t('pages.hrSettings.employees.modal.salary.label')" name="salary" />
               </div>
               <Divider />
               <div class="flex gap-4 flex-1">
-                <FPassword class="grow" id="password" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
+                <FPassword id="password" class="grow" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
                 <!-- <FPassword
                 class="grow"
                 id="repeatPassword"
@@ -129,8 +129,8 @@
                 />
               </div> -->
                 <div class="flex lg:flex-col flex-1 gap-4">
-                  <FInput class="grow" id="memberName" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
-                  <FInput class="grow" type="email" id="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
+                  <FInput id="memberName" class="grow" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
+                  <FInput id="email" class="grow" type="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
                   <FCheckbox v-if="isEditing" name="enabled" labelLeft :label="t('pages.hrSettings.employees.modal.enabled.label')" />
                 </div>
               </div>
@@ -153,11 +153,11 @@
                 />
               </div>
               <div class="flex items-center gap-4 flex-1">
-                <FInput class="grow" id="salary" :label="t('pages.hrSettings.employees.modal.salary.label')" name="salary" />
+                <FInput id="salary" class="grow" :label="t('pages.hrSettings.employees.modal.salary.label')" name="salary" />
               </div>
               <Divider />
               <div class="flex gap-4 flex-1">
-                <FPassword class="grow" id="password" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
+                <FPassword id="password" class="grow" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
                 <!-- <FPassword
                 class="grow"
                 id="repeatPassword"
@@ -194,14 +194,14 @@
                 />
               </div> -->
                 <div class="flex lg:flex-col flex-1 gap-4">
-                  <FInput class="grow" id="memberName" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
-                  <FInput class="grow" type="email" id="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
+                  <FInput id="memberName" class="grow" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
+                  <FInput id="email" class="grow" type="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
                   <FCheckbox v-if="isEditing" name="enabled" labelLeft :label="t('pages.hrSettings.employees.modal.enabled.label')" />
                 </div>
               </div>
               <Divider />
               <div class="flex gap-4 flex-1">
-                <FPassword class="grow" id="password" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
+                <FPassword id="password" class="grow" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
                 <!-- <FPassword
                 class="grow"
                 id="repeatPassword"
@@ -220,8 +220,8 @@
         type="submit"
         :label="t('common.buttons.save')"
         :disabled="isSubmitting"
-        @click.stop="submitHandler"
         :loading="isSubmitting"
+        @click.stop="submitHandler"
       ></Button>
     </div>
   </Dialog>
@@ -229,28 +229,31 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { useForm } from 'vee-validate';
-import { boolean, string, object, array, number } from 'yup';
-import { toTypedSchema } from '@vee-validate/yup';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
+
+import { toTypedSchema } from '@vee-validate/yup';
+import { useForm } from 'vee-validate';
+import { array, boolean, number,object, string } from 'yup';
+
 import { useFToast } from '@/composables/useFToast';
-import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
+import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
 
 interface IProps {
   data?: IEmployeeMember;
 }
 
-const props = defineProps<IProps>();
-
 interface IEmits {
   (event: 'fetchEmployees'): void;
 }
+
+const props = defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
 
+const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const employeesStore = useHRSettingsEmployeesStore();
 
@@ -259,28 +262,6 @@ const activeTab = ref(0);
 // const src = ref();
 const isClear = ref(false);
 const isOnMounted = ref(false);
-
-const titleOptions = computed(() => {
-  return employeesStore.employeeTitles.map((employee) => {
-    return {
-      name: employee.Name,
-      value: employee.ID,
-    };
-  });
-});
-
-const tagOptions = computed(() => {
-  return employeesStore.tags;
-});
-
-const teamOptions = computed(() => {
-  return employeesStore.teams.map((employee) => {
-    return {
-      name: employee.Name,
-      value: employee.ID,
-    };
-  });
-});
 
 const isEditing = computed(() => !!props.data);
 const validationSchema: any = computed(() => {
@@ -396,25 +377,60 @@ const validationSchema: any = computed(() => {
   // }
 });
 
-const { handleSubmit, isSubmitting, values, resetForm } = useForm({
+const { handleSubmit,  isSubmitting, values, resetForm } = useForm({
   validationSchema,
+});
+
+const titleOptions = computed(() => {
+  return employeesStore.employeeTitles.map((employee) => {
+    return {
+      name: employee.Name,
+      value: employee.ID,
+    };
+  });
+});
+
+const tagOptions = computed(() => {
+  return employeesStore.tags;
+});
+
+const teamOptions = computed(() => {
+  return employeesStore.teams.map((employee) => {
+    return {
+      name: employee.Name,
+      value: employee.ID,
+    };
+  });
+});
+
+const getInitialFormData = computed(() => {
+  const employee = props.data;
+
+  return {
+    ...(employee && {
+      memberName: employee.MemberName,
+      email: employee.Email,
+      enabled: employee.Enabled,
+      title: {
+        name: employee.TitleName,
+        value: employee.TitleId,
+      },
+      team: {
+        name: employee.TeamName,
+        value: employee.TeamId,
+      },
+      operatingUser: employee.WindowsIdentity,
+      salary: employee.Salary,
+      password: employee.Password,
+      repeatPassword: employee.Password,
+    }),
+  };
 });
 
 const handleClose = () => {
   open.value = false;
   resetForm();
 };
-
-// const onFileSelect = (event) => {
-//   const file = event.files[0];
-//   const reader = new FileReader();
-
-//   reader.onload = async (e) => {
-//     src.value = e?.target?.result;
-//   };
-
-//   reader.readAsDataURL(file);
-// };
 
 const submitHandler = handleSubmit(async (values) => {
   try {
@@ -484,30 +500,6 @@ const submitHandler = handleSubmit(async (values) => {
   } catch (error: any) {
     showErrorMessage(error as any);
   }
-});
-
-const getInitialFormData = computed(() => {
-  const employee = props.data;
-
-  return {
-    ...(employee && {
-      memberName: employee.MemberName,
-      email: employee.Email,
-      enabled: employee.Enabled,
-      title: {
-        name: employee.TitleName,
-        value: employee.TitleId,
-      },
-      team: {
-        name: employee.TeamName,
-        value: employee.TeamId,
-      },
-      operatingUser: employee.WindowsIdentity,
-      salary: employee.Salary,
-      password: employee.Password,
-      repeatPassword: employee.Password,
-    }),
-  };
 });
 
 onMounted(() => {

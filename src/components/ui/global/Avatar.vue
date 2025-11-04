@@ -5,8 +5,9 @@
 </template>
 
 <script setup lang="ts">
-import Avatar, { type AvatarProps } from 'primevue/avatar';
 import { computed } from 'vue';
+
+import Avatar, { type AvatarProps } from 'primevue/avatar';
 
 interface IProps {
   primeProps?: AvatarProps;

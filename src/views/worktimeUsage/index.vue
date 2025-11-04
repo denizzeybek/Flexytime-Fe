@@ -5,8 +5,8 @@
       v-if="errorMessage"
       :message="errorMessage"
       severity="error"
-      @close="errorMessage = null"
       class="mb-6"
+      @close="errorMessage = null"
     />
 
     <!-- Main Layout Grid -->
@@ -140,30 +140,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
-import Card from 'primevue/card';
-import Tabs from 'primevue/tabs';
-import TabList from 'primevue/tablist';
-import Tab from 'primevue/tab';
-import TabPanels from 'primevue/tabpanels';
-import TabPanel from 'primevue/tabpanel';
+import { computed, onMounted,ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import Button from 'primevue/button';
+import Card from 'primevue/card';
+import Tab from 'primevue/tab';
+import TabList from 'primevue/tablist';
+import TabPanel from 'primevue/tabpanel';
+import TabPanels from 'primevue/tabpanels';
+import Tabs from 'primevue/tabs';
+
+// Store and Composables
+import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
 
 // Components
 import Message from './_components/common/Message.vue';
-import UserBadge from './_components/common/UserBadge.vue';
 import Summary from './_components/common/Summary.vue';
-import ProductivityTab from './_components/tabs/ProductivityTab.vue';
-import WellbeingTab from './_components/tabs/WellbeingTab.vue';
+import UserBadge from './_components/common/UserBadge.vue';
 import DistributionTab from './_components/tabs/DistributionTab.vue';
 import GraphTab from './_components/tabs/GraphTab.vue';
+import ProductivityTab from './_components/tabs/ProductivityTab.vue';
 import WebHistoryTab from './_components/tabs/WebHistoryTab.vue';
-// Store and Composables
-import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
+import WellbeingTab from './_components/tabs/WellbeingTab.vue';
 import { useWorktimeQuery } from './_composables';
-import { useI18n } from 'vue-i18n';
+
+import type { DisplayMode, IWebClock,TabType } from './_types';
 import type { MessageSchema } from '@/plugins/i18n';
-import type { TabType, DisplayMode, IWebClock } from './_types';
 
 // Store
 const store = useWorktimeStore();

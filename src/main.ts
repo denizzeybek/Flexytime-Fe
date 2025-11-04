@@ -1,10 +1,14 @@
-import App from '@/App.vue'
-import router from '@/router'
 import { createApp } from 'vue'
-import plugins from './plugins'
-import '@/custom-tailwind.css'
-import  '@/plugins/axios'
+
+import App from '@/App.vue'
 import { OpenAPI } from '@/client';
+import router from '@/router'
+
+import plugins from './plugins'
+
+import '@/custom-tailwind.css'
+
+import  '@/plugins/axios'
 
 OpenAPI.BASE = import.meta.env.VITE_API_URL
 

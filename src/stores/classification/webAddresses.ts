@@ -1,10 +1,13 @@
+import { defineStore } from 'pinia';
+
+import axios from 'axios';
+
+import { EStoreNames } from '@/stores/storeNames.enum';
+
 import type {
   IWebAddress,
   IWebAddressDTOData,
 } from '@/interfaces/classification/webAddress';
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
-import { defineStore } from 'pinia';
 interface State {
   list: IWebAddressDTOData[];
   totalItems: number;

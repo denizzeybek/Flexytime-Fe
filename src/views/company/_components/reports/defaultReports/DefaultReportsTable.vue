@@ -60,7 +60,7 @@
 
         <template #footer>
           <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-            <Button icon="pi pi-plus" :label="$t('components.defaultReports.addReport')" @click="emit('new')" class="shadow-sm" />
+            <Button icon="pi pi-plus" :label="$t('components.defaultReports.addReport')" class="shadow-sm" @click="emit('new')" />
             <FText>
               {{ $t('components.defaultReports.totalReports', { count: defaultReports ? defaultReports.length : 0 }) }}
             </FText>
@@ -74,28 +74,31 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { type MessageSchema } from '@/plugins/i18n';
+
+import Card from 'primevue/card';
 import Skeleton from 'primevue/skeleton';
-import { useCompanyReportsStore } from '@/stores/company/reports';
+
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
-import type { IReportItem } from '@/interfaces/company/report';
-import Card from 'primevue/card';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useCompanyReportsStore } from '@/stores/company/reports';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import type { IReportItem } from '@/interfaces/company/report';
 
 interface IProps {
   isLoading: boolean;
 }
-
-defineProps<IProps>();
 
 interface IEmits {
   (event: 'new'): void;
   (event: 'edit', value: IReportItem): void;
 }
 
+defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const reportsStore = useCompanyReportsStore();
 

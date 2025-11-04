@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <div @click="toggle" @dblclick="changeType" :style="{ paddingLeft: `${indent}px` }">
+  <div :style="{ paddingLeft: `${indent}px` }" @click="toggle" @dblclick="changeType">
     <div class="border border-f-gray p-4 rounded-md flex justify-between items-center flex-col lg:flex-row gap-8 mb-5">
       <div class="w-full flex justify-between lg:pr-48 gap-4">
         <div class="flex items-center gap-2">
@@ -9,8 +9,8 @@
           <FAvatar :label="clonedModel.title" />
           <InputText
             v-if="isEditing"
-            v-model="clonedModel.title"
             id="title"
+            v-model="clonedModel.title"
             name="title"
             :placeholder="t('pages.company.organizationItem.title.placeholder')"
           />
@@ -21,15 +21,15 @@
         <template v-if="isEditing">
           <InputText
             v-if="isEditing"
-            v-model="clonedModel.MemberName"
             id="MemberName"
+            v-model="clonedModel.MemberName"
             name="MemberName"
             :placeholder="t('pages.company.organizationItem.memberName.placeholder')"
           />
           <InputText
             v-if="isEditing"
-            v-model="clonedModel.TitleName"
             id="TitleName"
+            v-model="clonedModel.TitleName"
             name="TitleName"
             :placeholder="t('pages.company.organizationItem.titleName.placeholder')"
           />
@@ -49,31 +49,31 @@
           <Button
             severity="secondary"
             size="small"
-            @click="completeEdit"
             icon="pi pi-check"
             outlined
+            @click="completeEdit"
           ></Button>
           <Button
             severity="secondary"
             size="small"
-            @click="cancelEdit"
             icon="pi pi-times"
             outlined
+            @click="cancelEdit"
           ></Button>
         </template>
         <template v-else>
-          <Button severity="primary" size="small" @click.stop="addChild" icon="pi pi-plus"></Button>
+          <Button severity="primary" size="small" icon="pi pi-plus" @click.stop="addChild"></Button>
           <Button
             severity="info"
             size="small"
-            @click.stop="isEditing = true"
             icon="pi pi-pencil"
+            @click.stop="isEditing = true"
           ></Button>
           <Button
             severity="danger"
             size="small"
-            @click.stop="handleRemove"
             icon="pi pi-trash"
+            @click.stop="handleRemove"
           ></Button>
         </template>
       </div>
@@ -93,25 +93,28 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
-import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
 import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { type MessageSchema } from '@/plugins/i18n';
+
+import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
 
 interface IProps {
   model: IOrganizationChartNodes;
   depth?: number;
 }
 
-const { model, depth = 0 } = defineProps<IProps>();
-
 interface IEmits {
   (event: 'itemChange', value: IOrganizationChartNodes): void;
   (event: 'itemRemove', ID: string): void;
 }
+
+const { model, depth = 0 } = defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const clonedModel = ref();
 const initialClonedModel = ref();

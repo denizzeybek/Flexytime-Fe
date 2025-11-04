@@ -1,7 +1,10 @@
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
 import { defineStore } from 'pinia';
-import type { IWorkingHourDay, IWorkingHour } from '@/interfaces/company/workingHour';
+
+import axios from 'axios';
+
+import { EStoreNames } from '@/stores/storeNames.enum';
+
+import type { IWorkingHour,IWorkingHourDay } from '@/interfaces/company/workingHour';
 
 interface State {
   days: IWorkingHourDay[];

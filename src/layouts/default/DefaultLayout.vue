@@ -11,10 +11,11 @@
 </template>
 
 <script lang="ts" setup>
-import Sidebar from './_components/Sidebar.vue'
+import { ref } from 'vue'
+
 import MobileSidebar from './_components/MobileSidebar.vue'
 import PageWrapper from './_components/PageWrapper.vue'
-import { ref } from 'vue'
+import Sidebar from './_components/Sidebar.vue'
 
 const visible = ref(false)
 </script>

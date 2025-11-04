@@ -1,18 +1,18 @@
 <template>
-  <div @click="toggle" :style="{ paddingLeft: `${indent}px` }">
+  <div :style="{ paddingLeft: `${indent}px` }" @click="toggle">
     <li class="text-base list-none">
       <RouterLink
         v-if="!isFolder"
-        :to="{ name: model?.routeName }"
         v-slot="{ href, navigate }"
+        :to="{ name: model?.routeName }"
         custom
       >
         <!-- Link for non-folder items -->
         <a
           :href="href"
-          @click="navigate"
           :data-active="isActive"
           class="flex justify-between items-center"
+          @click="navigate"
         >
           <div class="flex items-center gap-2">
             <span
@@ -69,9 +69,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import type { ERouteNames } from '@/router/routeNames.enum';
+import { computed, ref, watch } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
+
+import type { ERouteNames } from '@/router/routeNames.enum';
 
 export interface IModel {
   label: string;

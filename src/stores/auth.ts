@@ -1,10 +1,14 @@
-import { defineStore } from 'pinia';
-import { EStorageKeys } from '@/constants/storageKeys';
 import { computed } from 'vue';
-import { EStoreNames } from '@/stores/storeNames.enum';
-import { useUsersStore } from './users';
+import { defineStore } from 'pinia';
+
 import axios from 'axios';
 import qs from 'qs';
+
+import { EStorageKeys } from '@/constants/storageKeys';
+import { EStoreNames } from '@/stores/storeNames.enum';
+
+import { useUsersStore } from './users';
+
 import type { LoginModel, LoginResponse } from '@/client';
 
 export const useAuthStore = defineStore(EStoreNames.AUTH, () => {

@@ -35,23 +35,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
-import { type MessageSchema } from '@/plugins/i18n';
+import { onMounted,ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ERouteNames } from '@/router/routeNames.enum';
 import { useRoute, useRouter } from 'vue-router';
-import { useTimesheetsTimeManagementsStore } from '@/stores/timeSheets/timeManagement';
-import { useForm } from 'vee-validate';
-import { array, string, object } from 'yup';
+
 import dayjs from 'dayjs';
 import Card from 'primevue/card';
+import { useForm } from 'vee-validate';
+import { array, object,string } from 'yup';
+
+import { type MessageSchema } from '@/plugins/i18n';
+import { ERouteNames } from '@/router/routeNames.enum';
+import { useTimesheetsTimeManagementsStore } from '@/stores/timeSheets/timeManagement';
 
 const { t } = useI18n<{ message: MessageSchema }>();
-
 
 const timeManagementsStore = useTimesheetsTimeManagementsStore();
 const route = useRoute();
 const router = useRouter();
+
+const validationSchema = object({
+  date: array().label('Date').of(string()),
+});
+
+const { resetForm, defineField } = useForm({
+  validationSchema,
+});
+
+const [date] = defineField('date');
 
 const startDate = '11/01/2024';
 const endDate = '11/07/2024';
@@ -73,16 +84,6 @@ const items = ref([
     },
   },
 ]);
-
-const validationSchema = object({
-  date: array().label('Date').of(string()),
-});
-
-const { resetForm, defineField } = useForm({
-  validationSchema,
-});
-
-const [date] = defineField('date');
 
 
 watch(

@@ -4,7 +4,7 @@
       <FText as="h1" class="mb-8 text-center"> {{ $t('pages.auth.login.title') }} </FText>
 
       <form class="flex flex-col gap-5" @submit="submitHandler">
-        <FInput type="email" id="email" :label="$t('pages.auth.login.form.email.label')" name="email" :placeholder="$t('pages.auth.login.form.email.placeholder')" />
+        <FInput id="email" type="email" :label="$t('pages.auth.login.form.email.label')" name="email" :placeholder="$t('pages.auth.login.form.email.placeholder')" />
 
         <div class="relative">
           <FPassword id="password" :label="$t('pages.auth.login.form.password.label')" name="password" :placeholder="$t('pages.auth.login.form.password.placeholder')" />
@@ -50,14 +50,16 @@
 </template>
 
 <script setup lang="ts">
-import { ERouteNames } from '@/router/routeNames.enum';
-import AuthLayout from '@/layouts/auth/AuthLayout.vue';
-import { useForm } from 'vee-validate';
-import { string, object } from 'yup';
-import { useFToast } from '@/composables/useFToast';
-import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
+
+import { useForm } from 'vee-validate';
+import { object,string } from 'yup';
+
+import { useFToast } from '@/composables/useFToast';
 import { EGrantType } from '@/enums/grantType.enum';
+import AuthLayout from '@/layouts/auth/AuthLayout.vue';
+import { ERouteNames } from '@/router/routeNames.enum';
+import { useAuthStore } from '@/stores/auth';
 // import { useProfileStore } from '@/stores/profile/profile';
 // import { useCommonUsersStore } from '@/stores/common/users';
 

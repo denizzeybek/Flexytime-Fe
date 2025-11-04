@@ -1,11 +1,12 @@
-import type { App } from 'vue';
+import vClickOutside from "click-outside-vue3";
 
+import primeVue from './primeVue/primeVue';
 import globalComponents from './globalComponents';
 import i18n from './i18n';
 import pinia from './pinia';
-import primeVue from './primeVue/primeVue';
-import vClickOutside from "click-outside-vue3";
 import toast from './toast';
+
+import type { App } from 'vue';
 
 export default {
   install(app: App) {

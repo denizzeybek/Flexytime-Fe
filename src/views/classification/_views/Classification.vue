@@ -21,11 +21,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import { ERouteNames } from '@/router/routeNames.enum';
 import { useRoute, useRouter } from 'vue-router';
+
 import Card from 'primevue/card';
+
+import { type MessageSchema } from '@/plugins/i18n';
+import { ERouteNames } from '@/router/routeNames.enum';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 

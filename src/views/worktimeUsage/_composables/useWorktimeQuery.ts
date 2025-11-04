@@ -7,7 +7,8 @@
 
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import type { IWorktimeQuery, ViewMode, TabType } from '../_types';
+
+import type { IWorktimeQuery, TabType,ViewMode } from '../_types';
 
 export function useWorktimeQuery() {
   const route = useRoute();

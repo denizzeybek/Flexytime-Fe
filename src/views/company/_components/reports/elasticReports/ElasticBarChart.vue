@@ -23,10 +23,12 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+import { EChartType } from '@/enums/chartType.enum';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyReportsStore } from '@/stores/company/reports';
+
 import type { IReportDataset } from '@/interfaces/company/report';
-import { EChartType } from '@/enums/chartType.enum';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const reportsStore = useCompanyReportsStore();

@@ -1,7 +1,7 @@
 <template>
   <Card class="w-full">
     <template #content>
-      <form @submit="submitHandler" class="flex flex-col gap-8">
+      <form class="flex flex-col gap-8" @submit="submitHandler">
         <Skeleton v-if="isLoading" height="100rem" width="w-full" />
         <template v-else>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -28,26 +28,23 @@
 </template>
 
 <script setup lang="ts">
-import { boolean, string, object, array } from 'yup';
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
-import { useFToast } from '@/composables/useFToast';
 import { computed, onMounted, ref } from 'vue';
-import { useFieldArray, useForm } from 'vee-validate';
-import { useSettingsPermissionsStore } from '@/stores/settings/permissions';
-import type { IPermission } from '@/interfaces/settings/permission';
+import { useI18n } from 'vue-i18n';
+
 import Skeleton from 'primevue/skeleton';
+import { useFieldArray, useForm } from 'vee-validate';
+import { array,boolean, object, string } from 'yup';
+
+import { useFToast } from '@/composables/useFToast';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useSettingsPermissionsStore } from '@/stores/settings/permissions';
+
+import type { IPermission } from '@/interfaces/settings/permission';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const permissionsStore = useSettingsPermissionsStore();
-
-const options = computed(() => [
-  { label: t('pages.settings.permissions.options.everyone'), value: false },
-  { label: t('pages.settings.permissions.options.admin'), value: true },
-]);
-const isLoading = ref(false);
 
 const validationSchema = object({
   permissions: array()
@@ -65,11 +62,33 @@ const validationSchema = object({
     .required(),
 });
 
-const { handleSubmit, isSubmitting, resetForm } = useForm({
+const { handleSubmit,  isSubmitting, resetForm } = useForm({
   validationSchema,
 });
 
 const { fields } = useFieldArray<IPermission>('permissions');
+
+const isLoading = ref(false);
+
+const options = computed(() => [
+  { label: t('pages.settings.permissions.options.everyone'), value: false },
+  { label: t('pages.settings.permissions.options.admin'), value: true },
+]);
+
+const getInitialFormData = computed(() => {
+  return permissionsStore.list.map((permission) => ({
+    Name: permission.Name,
+    Enabled: permission.Enabled,
+    VisibleOnlyByAdmin: {
+      label: permission.VisibleOnlyByAdmin
+        ? t('pages.settings.permissions.options.admin')
+        : t('pages.settings.permissions.options.everyone'),
+      value: permission.VisibleOnlyByAdmin,
+    },
+    Id: permission.Id,
+    Key: permission.Key,
+  }));
+});
 
 const transformPermissions = (permissions) => {
   const EnabledIdList = permissions
@@ -95,21 +114,6 @@ const submitHandler = handleSubmit(async (values) => {
   } catch (error: any) {
     showErrorMessage(error as any);
   }
-});
-
-const getInitialFormData = computed(() => {
-  return permissionsStore.list.map((permission) => ({
-    Name: permission.Name,
-    Enabled: permission.Enabled,
-    VisibleOnlyByAdmin: {
-      label: permission.VisibleOnlyByAdmin
-        ? t('pages.settings.permissions.options.admin')
-        : t('pages.settings.permissions.options.everyone'),
-      value: permission.VisibleOnlyByAdmin,
-    },
-    Id: permission.Id,
-    Key: permission.Key,
-  }));
 });
 
 onMounted(async () => {

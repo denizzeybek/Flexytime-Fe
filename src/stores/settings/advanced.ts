@@ -1,6 +1,9 @@
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
 import { defineStore } from 'pinia';
+
+import axios from 'axios';
+
+import { EStoreNames } from '@/stores/storeNames.enum';
+
 import type { IAdvanced } from '@/interfaces/settings/advanced';
 
 interface State {

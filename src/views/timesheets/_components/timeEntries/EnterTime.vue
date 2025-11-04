@@ -2,7 +2,7 @@
   <div>
     <Card class="shadow-md border border-gray-100 rounded-xl">
       <template #content>
-        <form @submit="submitHandler" class="space-y-5">
+        <form class="space-y-5" @submit="submitHandler">
           <div class="w-full flex items-center gap-4 flex-col lg:flex-row">
             <div class="flex w-full">
               <FInput
@@ -18,11 +18,11 @@
             </div>
             <div class="flex items-center gap-4 w-full justify-between lg:justify-end">
               <Button
-                @click="isBillable = !isBillable"
                 type="button"
                 icon="pi pi-dollar"
                 severity="success"
                 :outlined="isBillable"
+                @click="isBillable = !isBillable"
               />
               <div v-show="isManualLayout" class="flex gap-4">
                 <div class="flex items-center gap-1">
@@ -62,14 +62,13 @@
               <Button
                 v-if="isTimerLayout"
                 :severity="!isRunning ? 'info' : 'danger'"
-                @click.stop="isRunning ? stopTimer() : startTimer()"
                 :label="!isRunning ? t('common.buttons.start') : t('common.buttons.stop')"
                 :type="isRunning ? 'button' : 'submit'"
+                @click.stop="isRunning ? stopTimer() : startTimer()"
               />
               <Button v-if="isManualLayout" severity="info" :label="t('common.buttons.add')" type="submit" />
               <div class="flex flex-col gap-2 justify-center items-center">
                 <Button
-                  @click="activeLayout = ELayout.TIMER"
                   icon="pi pi-clock"
                   :class="isTimerLayout ? 'text-f-success' : 'text-f-black'"
                   outlined
@@ -77,9 +76,9 @@
                   type="button"
                   class="w-fit"
                   :v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.timer')"
+                  @click="activeLayout = ELayout.TIMER"
                 />
                 <Button
-                  @click="activeLayout = ELayout.MANUAL"
                   icon="pi pi-list"
                   :class="isManualLayout ? 'text-f-success' : 'text-f-black'"
                   outlined
@@ -87,6 +86,7 @@
                   type="button"
                   class="w-fit"
                   :v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.manual')"
+                  @click="activeLayout = ELayout.MANUAL"
                 />
               </div>
             </div>
@@ -121,17 +121,20 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
+import { computed,onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+import dayjs from 'dayjs';
+import { useForm } from 'vee-validate';
+import { array, object, string } from 'yup';
+
 import { useFToast } from '@/composables/useFToast';
 import { calculateTimeDifference, transformTimeValue } from '@/helpers/utils';
-import { useForm } from 'vee-validate';
-import { onMounted, ref, watch, computed } from 'vue';
-import { array, object, string } from 'yup';
-import { useTimer } from '../../_composables/useTimer';
-import dayjs from 'dayjs';
+import { type MessageSchema } from '@/plugins/i18n';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 import { ELayout } from '@/views/timesheets/_etc/layout.enum';
+
+import { useTimer } from '../../_composables/useTimer';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
@@ -169,13 +172,6 @@ const tagOptions = [
     value: 'Seller',
   },
 ];
-
-const activeLayout = ref(ELayout.TIMER);
-const isBillable = ref(false);
-const timeDifference = ref('');
-
-const isManualLayout = computed(() => activeLayout.value === ELayout.MANUAL);
-const isTimerLayout = computed(() => activeLayout.value === ELayout.TIMER);
 
 const validationSchema = object({
   timeEntry: string().required().label('Time entry'),
@@ -222,6 +218,13 @@ const { handleSubmit, resetForm, defineField } = useForm({
 
 const [startTime] = defineField('startTime');
 const [endTime] = defineField('endTime');
+
+const activeLayout = ref(ELayout.TIMER);
+const isBillable = ref(false);
+const timeDifference = ref('');
+
+const isManualLayout = computed(() => activeLayout.value === ELayout.MANUAL);
+const isTimerLayout = computed(() => activeLayout.value === ELayout.TIMER);
 
 const submitHandler = handleSubmit(async (values) => {
   try {

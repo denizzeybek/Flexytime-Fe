@@ -1,7 +1,9 @@
+import { defineStore } from 'pinia';
+
+import axios from 'axios';
+
 import { useMockData } from '@/config';
 import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
-import { defineStore } from 'pinia';
 
 interface State {
   manualTimeEntries: any[];

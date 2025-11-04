@@ -1,10 +1,12 @@
+import { nextTick } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
+
+import { useLogout } from '@/composables/useLogout';
 import { EStorageKeys } from '@/constants/storageKeys';
 // import { useAuthStore } from '@/stores/auth';
 import { useCommonUsersStore } from '@/stores/common/users';
-import { nextTick } from 'vue';
-import { createRouter, createWebHistory } from 'vue-router';
+
 import { ERouteNames } from './routeNames.enum';
-import { useLogout } from '@/composables/useLogout';
 import routes from './routes';
 // import { useProfileStore } from '@/stores/profile/profile';
 const router = createRouter({

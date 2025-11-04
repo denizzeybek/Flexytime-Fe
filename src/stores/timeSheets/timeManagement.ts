@@ -1,7 +1,10 @@
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
 import { defineStore } from 'pinia';
+
+import axios from 'axios';
+
 import { useMockData } from '@/config';
+import { EStoreNames } from '@/stores/storeNames.enum';
+
 import type { ITimeManagement } from '@/interfaces/timeSheet/timeManagement';
 
 interface State {

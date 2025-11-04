@@ -6,14 +6,16 @@
  */
 
 import { defineStore } from 'pinia';
+
 import axios from 'axios';
+
 import type {
-  ISectionRequest,
   IEmployeeRequest,
-  ISectionResponse,
   IEmployeeResponse,
-  ILoadingState,
   IErrorState,
+  ILoadingState,
+  ISectionRequest,
+  ISectionResponse,
 } from '@/views/worktimeUsage/_types';
 
 interface State {

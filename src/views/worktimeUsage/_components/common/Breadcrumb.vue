@@ -23,9 +23,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+
 import PBreadcrumb from 'primevue/breadcrumb';
 import Skeleton from 'primevue/skeleton';
+
 import { useWorktimeNavigation } from '../../_composables';
+
 import type { IBreadcrumb } from '../../_types';
 
 interface IProps {

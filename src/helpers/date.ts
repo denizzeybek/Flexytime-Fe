@@ -1,6 +1,7 @@
-import type { Language } from '@/plugins/i18n'
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
+
+import type { Language } from '@/plugins/i18n'
 
 dayjs.extend(LocalizedFormat)
 

@@ -1,7 +1,10 @@
-import type { IAnnual, IAnnualDTO, IAnnualMember } from '@/interfaces/hrSettings/annual';
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
 import { defineStore } from 'pinia';
+
+import axios from 'axios';
+
+import { EStoreNames } from '@/stores/storeNames.enum';
+
+import type { IAnnual, IAnnualDTO, IAnnualMember } from '@/interfaces/hrSettings/annual';
 
 interface State {
   activeList: IAnnual[];

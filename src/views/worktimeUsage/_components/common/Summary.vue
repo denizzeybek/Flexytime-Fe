@@ -18,9 +18,11 @@
 
 <script setup lang="ts">
 import Card from 'primevue/card';
-import Breadcrumb from './Breadcrumb.vue';
+
 import ActionsBar from './ActionsBar.vue';
 import BadgeGroup from './BadgeGroup.vue';
+import Breadcrumb from './Breadcrumb.vue';
+
 import type { IBreadcrumb, ISummary } from '../../_types';
 
 interface IProps {

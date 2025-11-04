@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+
 import PMessage from 'primevue/message';
 
 interface IProps {
@@ -25,14 +26,14 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const visible = ref(true);
 
+const handleClose = () => {
+  visible.value = false;
+};
+
 watch(
   () => props.message,
   () => {
     visible.value = true;
   }
 );
-
-const handleClose = () => {
-  visible.value = false;
-};
 </script>

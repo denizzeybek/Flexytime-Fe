@@ -29,8 +29,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
+
+import { type MessageSchema } from '@/plugins/i18n';
 import { usePromotionsStore } from '@/stores/promotion/promotion';
 
 const { t } = useI18n<{ message: MessageSchema }>();

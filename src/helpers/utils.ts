@@ -1,7 +1,8 @@
-import { Regex } from '@/constants/regex';
 import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import duration from 'dayjs/plugin/duration';
+
+import { Regex } from '@/constants/regex';
 
 dayjs.extend(duration);
 dayjs.extend(customParseFormat);

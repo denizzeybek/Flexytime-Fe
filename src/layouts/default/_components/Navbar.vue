@@ -38,9 +38,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
-import NavItem from './NavItem.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
+
+import NavItem from './NavItem.vue';
+
 import type { IModel } from './NavChildItem.vue';
 
 

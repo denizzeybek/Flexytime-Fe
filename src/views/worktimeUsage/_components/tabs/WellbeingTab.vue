@@ -43,12 +43,13 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { type MessageSchema } from '@/plugins/i18n';
-import TeamWellbeingTable from '../tables/TeamWellbeingTable.vue';
-import EmployeeWellbeingTable from '../tables/EmployeeWellbeingTable.vue';
-import type { ViewMode, DisplayMode, ITeam, IIndividual } from '../../_types';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { type MessageSchema } from '@/plugins/i18n';
+
+import EmployeeWellbeingTable from '../tables/EmployeeWellbeingTable.vue';
+import TeamWellbeingTable from '../tables/TeamWellbeingTable.vue';
+
+import type { DisplayMode, IIndividual,ITeam, ViewMode } from '../../_types';
 
 interface IProps {
   viewMode: ViewMode;
@@ -64,4 +65,7 @@ withDefaults(defineProps<IProps>(), {
   individuals: () => [],
   isLoading: false,
 });
+
+const { t } = useI18n<{ message: MessageSchema }>();
+
 </script>

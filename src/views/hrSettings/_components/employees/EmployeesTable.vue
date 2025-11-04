@@ -1,11 +1,11 @@
 <template>
   <DataTable
+    v-model:filters="filters"
     tableStyle="min-width: 50rem"
     paginator
     :value="isLoading ? skeletonData : employees"
     :rows="10"
     :rowsPerPageOptions="[5, 10, 20, 50]"
-    v-model:filters="filters"
     @page="handlePage"
   >
     <template #header>
@@ -72,14 +72,14 @@
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <Checkbox
           v-else
+          :modelValue="slotProps.data.Enabled"
+          :binary="true"
           @change="
             handleAlwaysOnChange({
               props: slotProps.data.ID,
               alwaysOn: !slotProps.data.Enabled,
             })
           "
-          :modelValue="slotProps.data.Enabled"
-          :binary="true"
         />
       </template>
     </Column>
@@ -96,7 +96,7 @@
 
     <template #footer>
       <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-        <Button icon="pi pi-plus" :label="t('pages.hrSettings.employees.table.addUser')" @click="emit('new')" class="shadow-sm" />
+        <Button icon="pi pi-plus" :label="t('pages.hrSettings.employees.table.addUser')" class="shadow-sm" @click="emit('new')" />
         <FText> {{ t('pages.hrSettings.employees.table.totalText', { count: employees ? employees.length : 0 }) }} </FText>
       </div>
     </template>
@@ -104,32 +104,35 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
+import { computed,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ref, computed } from 'vue';
-import Tag from 'primevue/tag';
+
+import { FilterMatchMode } from '@primevue/core/api';
 import Checkbox from 'primevue/checkbox';
 import Skeleton from 'primevue/skeleton';
-import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
+import Tag from 'primevue/tag';
+
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
-import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
-import { FilterMatchMode } from '@primevue/core/api';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
 
 interface IProps {
   isLoading: boolean;
 }
-
-defineProps<IProps>();
 
 interface IEmits {
   (event: 'new'): void;
   (event: 'edit', value: IEmployeeMember): void;
 }
 
+defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const employeesStore = useHRSettingsEmployeesStore();
 

@@ -49,7 +49,7 @@
           manuelInput: true,
         }"
       />
-      <Button @click="resetForm()" type="button" :label="t('pages.company.elasticForm.clear.label')" severity="info" outlined class="shadow-sm" />
+      <Button type="button" :label="t('pages.company.elasticForm.clear.label')" severity="info" outlined class="shadow-sm" @click="resetForm()" />
         </div>
       </form>
     </template>
@@ -57,14 +57,12 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import { useReport } from '@/views/company/_composables/useReport';
+
 import Card from 'primevue/card';
 
-const { t } = useI18n<{ message: MessageSchema }>();
-
-const { teamOptions, employeeOptions, projectOptions, billibleOptions } = useReport();
+import { type MessageSchema } from '@/plugins/i18n';
+import { useReport } from '@/views/company/_composables/useReport';
 
 interface IProps {
   isSubmitting: boolean;
@@ -73,6 +71,11 @@ interface IProps {
 }
 
 defineProps<IProps>();
+
+const { t } = useI18n<{ message: MessageSchema }>();
+
+const { teamOptions, employeeOptions, projectOptions, billibleOptions } = useReport();
+
 </script>
 
 <style scoped></style>
