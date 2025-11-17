@@ -67,6 +67,17 @@ interface IEmits {
   (event: 'change', value: any): void;
 }
 
+const props = withDefaults(defineProps<IProps>(), {
+  disabled: false,
+  placeholder: '',
+  numberOfMonths: 2,
+  manualInput: true,
+  format: 'YY/MM/DDDD',
+  showPrevNextButtons: false
+});
+
+const emit = defineEmits<IEmits>();
+
 enum EHelperButton {
   TODAY = 'today',
   YESTERDAY = 'yesterday',
@@ -81,17 +92,6 @@ enum EWeek {
   PREV = -1,
   NEXT = 1,
 }
-
-const props = withDefaults(defineProps<IProps>(), {
-  disabled: false,
-  placeholder: '',
-  numberOfMonths: 2,
-  manualInput: true,
-  format: 'YY/MM/DDDD',
-  showPrevNextButtons: false
-});
-
-const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 

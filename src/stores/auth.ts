@@ -4,12 +4,23 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import qs from 'qs';
 
+import { WizardApiService } from '@/client';
 import { EStorageKeys } from '@/constants/storageKeys';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import { useUsersStore } from './users';
 
-import type { LoginModel, LoginResponse } from '@/client';
+// OAuth types are not in OpenAPI spec as they're external OAuth2 endpoints
+interface LoginModel {
+  username: string;
+  password: string;
+  grant_type: string;
+}
+
+interface LoginResponse {
+  access_token?: string;
+  refresh_token?: string;
+}
 
 export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
   const usersStore = useUsersStore();
@@ -40,22 +51,18 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
       return response;
     },
 
-    async getProfile(result) {
+    async getProfile(result: any) {
       const languageCode = localStorage.getItem('languageCode');
       if (!languageCode) localStorage.setItem('languageCode', 'en');
-      const request = { languageCode: languageCode };
-      return new Promise((resolve, reject) => {
-        axios
-          .post('/webapi/wizard/profile`', request)
-          .then((response) => {
-            this.setAuth({ authentication: null, user: response });
-            result.user = response.data;
-            return resolve(result);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+
+      try {
+        const response = await WizardApiService.wizardApiGetProfile();
+        this.setAuth({ authentication: null, user: response });
+        result.user = response;
+        return result;
+      } catch (error) {
+        throw error;
+      }
     },
   };
 });

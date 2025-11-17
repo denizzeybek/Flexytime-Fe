@@ -260,9 +260,9 @@ const fetchData = async () => {
     if (currentQuery.value.view === 'individual' && currentQuery.value.memberId) {
       // Fetch individual data
       await store.fetchEmployeeData({
-        Perspective: currentQuery.value.perspective,
+        Perspective: String(currentQuery.value.perspective),
         Interval: currentQuery.value.interval,
-        MemberId: currentQuery.value.memberId,
+        MemberId: currentQuery.value.memberId ?? '',
       });
 
       if (store.getEmployeeError) {
@@ -271,9 +271,9 @@ const fetchData = async () => {
     } else {
       // Fetch section data (team or employees view)
       await store.fetchSectionData({
-        Perspective: currentQuery.value.perspective,
+        Perspective: String(currentQuery.value.perspective),
         Interval: currentQuery.value.interval,
-        TeamId: currentQuery.value.teamId || null,
+        TeamId: currentQuery.value.teamId ?? undefined,
       });
 
       if (store.getSectionError) {

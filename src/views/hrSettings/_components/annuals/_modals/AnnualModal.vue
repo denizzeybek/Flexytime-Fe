@@ -69,6 +69,7 @@ import { convertDateToString, convertStringToDate } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 
+import type { AnnualViewModel } from '@/client';
 import type { IAnnual } from '@/interfaces/hrSettings/annual';
 
 interface IProps {
@@ -167,12 +168,12 @@ const submitHandler = handleSubmit(async (values) => {
       Repeat: values.repeat,
       MemberId: values.employeeName.value,
       LeaveType: values.leaveType
-    };
+    } as AnnualViewModel;
     if (isEditing.value) {
       payload = {
         ...payload,
         ID: values.ID,
-      } as any;
+      } as AnnualViewModel;
     }
     console.log('payload ', payload);
     await annualsStore.save(payload);

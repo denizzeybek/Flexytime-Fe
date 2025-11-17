@@ -91,10 +91,7 @@ const submit = async (settingType: number, value: any) => {
     let payload = [
       {
         SettingType: settingType,
-        Value: value === 'true',
-      } as {
-        SettingType: number;
-        Value: string | boolean;
+        Value: String(value === 'true'),
       },
     ];
     console.log('settingType ', settingType);

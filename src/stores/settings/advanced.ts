@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia';
 
-import axios from 'axios';
-
+import { SettingApiService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { IAdvanced } from '@/interfaces/settings/advanced';
+import type { AdvancedPermissonViewModel, AdvancedSettingModifyModel } from '@/client';
 
 interface State {
-  list: IAdvanced[];
+  list: AdvancedPermissonViewModel[];
   totalItems: number;
 }
 
@@ -18,17 +17,15 @@ export const useSettingsAdvancedsStore = defineStore(EStoreNames.SETTINGS_ADVANC
   }),
   actions: {
     async filter() {
-      const url = '/webapi/setting/advances';
-      const response = await axios.get<IAdvanced[]>(url);
+      const data = await SettingApiService.settingApiAdvancedPermissions();
 
-      this.list = response.data as IAdvanced[];
-      this.totalItems = this.list?.length || 0;
+      this.list = data;
+      this.totalItems = data.length;
 
-      return response.data;
+      return data;
     },
-    async save(payload) {
-      const url = '/webapi/setting/advance/save';
-      return await axios.post<IAdvanced>(url, payload);
+    async save(payload: AdvancedSettingModifyModel[]) {
+      return await SettingApiService.settingApiSaveAdvancedPermissions(payload);
     },
   },
 });

@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia';
 
-import axios from 'axios';
-
+import { CompanyApiService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { IHoliday } from '@/interfaces/hrSettings/holiday';
+import type { HolidayViewModel, PerformReferenceModel } from '@/client';
 
 interface State {
-  list: IHoliday[];
+  list: HolidayViewModel[];
   totalItems: number;
 }
 
@@ -18,22 +17,16 @@ export const useHRSettingsHolidaysStore = defineStore(EStoreNames.HR_SETTINGS_HO
   }),
   actions: {
     async filter() {
-      const url = '/webapi/company/holidays';
-      const response = await axios.get<IHoliday[]>(url);
-
-      const data = response.data as IHoliday[];
+      const data = await CompanyApiService.companyApiHolidays();
       this.list = data;
       this.totalItems = data?.length || 0;
-
       return data;
     },
-    async save(payload) {
-      const url = '/webapi/company/holiday/save';
-      return await axios.post<any>(url, payload);
+    async save(payload: HolidayViewModel) {
+      return await CompanyApiService.companyApiSaveHoliday(payload);
     },
-    async delete(ID: { ID: string }) {
-      const url = '/webapi/company/holiday/delete';
-      return await axios.post<any>(url, ID);
+    async delete(ID: PerformReferenceModel) {
+      return await CompanyApiService.companyApiDeleteHoliday(ID);
     },
   },
 });

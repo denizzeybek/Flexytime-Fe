@@ -98,15 +98,15 @@ import { useI18n } from 'vue-i18n';
 
 import { type MessageSchema } from '@/plugins/i18n';
 
-import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
+import type { OrganizationNodeViewModel } from '@/client';
 
 interface IProps {
-  model: IOrganizationChartNodes;
+  model: OrganizationNodeViewModel;
   depth?: number;
 }
 
 interface IEmits {
-  (event: 'itemChange', value: IOrganizationChartNodes): void;
+  (event: 'itemChange', value: OrganizationNodeViewModel): void;
   (event: 'itemRemove', ID: string): void;
 }
 
@@ -174,8 +174,8 @@ watch(
   () => model,
   () => {
     if (model) {
-      initialClonedModel.value = JSON.parse(JSON.stringify(model)) as IOrganizationChartNodes;
-      clonedModel.value = model as IOrganizationChartNodes;
+      initialClonedModel.value = JSON.parse(JSON.stringify(model)) as OrganizationNodeViewModel;
+      clonedModel.value = model as OrganizationNodeViewModel;
     }
   },
   { immediate: true },

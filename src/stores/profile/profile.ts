@@ -1,50 +1,52 @@
 import { defineStore } from 'pinia';
 
-import axios from 'axios';
-
+import { ProfileApiService, SettingApiService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { ILicanse,IProfile, IProfileUser, ITimeZone } from '@/interfaces/profile/profile';
-// import type {UserModel, Timezone, Language, Alerts, Employee, Wizard} from '@/interfaces/common/userModel';
+import type {
+  EmployeeViewModel,
+  LicenseViewModel,
+  ProfileViewModel,
+  TimeZoneViewModel,
+} from '@/client';
+
 interface State {
-  TimeZoneList: ITimeZone[];
-  User: IProfileUser;
-  IsMailSubscribe: IProfile['IsMailSubscribe'];
-  License: ILicanse;
-  TimeZone: IProfile['TimeZone'];
-  LanguageCode: IProfile['LanguageCode'];
-  GeneralProfile: IProfile;
+  TimeZoneList: TimeZoneViewModel[];
+  User: EmployeeViewModel;
+  IsMailSubscribe: ProfileViewModel['IsMailSubscribe'];
+  License: LicenseViewModel;
+  TimeZone: ProfileViewModel['TimeZone'];
+  LanguageCode: ProfileViewModel['LanguageCode'];
+  GeneralProfile: ProfileViewModel;
 }
 
 export const useProfileStore = defineStore(EStoreNames.PROFILE, {
   state: (): State => ({
-    GeneralProfile: {} as IProfile,
-    User: {} as IProfileUser,
+    GeneralProfile: {} as ProfileViewModel,
+    User: {} as EmployeeViewModel,
     TimeZoneList: [],
     IsMailSubscribe: false,
-    License: {} as ILicanse,
+    License: {} as LicenseViewModel,
     TimeZone: '',
     LanguageCode: '',
   }),
   actions: {
     async filter() {
-      const url = '/webapi/profile';
-      const response = await axios.get<IProfile>(url);
-      this.GeneralProfile = response.data as IProfile;
-      this.User = (response.data as IProfile).Employee;
-      this.TimeZone = (response.data as IProfile).TimeZone;
-      this.LanguageCode = (response.data as IProfile).LanguageCode;
-      this.IsMailSubscribe = (response.data as IProfile).IsMailSubscribe;
-      this.TimeZoneList  = (response.data as IProfile).Timezones;
+      const data = await ProfileApiService.profileApiGetProfile();
+      this.GeneralProfile = data;
+      this.User = data.Employee ?? ({} as EmployeeViewModel);
+      this.TimeZone = data.TimeZone;
+      this.LanguageCode = data.LanguageCode;
+      this.IsMailSubscribe = data.IsMailSubscribe;
+      this.TimeZoneList = data.Timezones ?? [];
 
-      return response.data;
+      return data;
     },
     async filterLicense() {
-      const url = '/webapi/license';
-      const response = await axios.post<ILicanse>(url);
-      this.License = response.data as ILicanse;
-      
-      return response.data;
+      const data = await SettingApiService.settingApiLicense();
+      this.License = data;
+
+      return data;
     },
   },
 });

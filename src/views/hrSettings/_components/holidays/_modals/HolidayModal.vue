@@ -63,6 +63,7 @@ import { convertDateToString, convertStringToDate } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 
+import type { HolidayViewModel } from '@/client';
 import type { IHoliday } from '@/interfaces/hrSettings/holiday';
 
 interface IProps {
@@ -145,7 +146,7 @@ const submitHandler = handleSubmit(async (values) => {
       StartFullDay: values.startFullDay,
       EndFullDay: values.endFullDay,
       Repeat: values.repeat,
-    };
+    } as HolidayViewModel;
     if (isEditing.value) {
       payload = {
         ...payload,

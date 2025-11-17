@@ -1,8 +1,10 @@
 <template>
-  <div class="relative flex min-h-screen h-screen">
-    <AuthAside :ad="ads[adName]" />
-    <main class="flex w-full overflow-auto flex-col items-center min-h-screen bg-f-tertiary-purple">
-      <div class="px-4 flex justify-between items-center w-full lg:pt-3 mb-10">
+  <div class="relative flex h-screen overflow-hidden">
+    <!-- AuthAside hidden for cleaner login experience -->
+    <!-- <AuthAside :ad="ads[adName]" /> -->
+
+    <main class="flex w-full flex-col items-center h-screen bg-f-tertiary-purple overflow-y-auto">
+      <div class="px-4 flex justify-between items-center w-full py-3">
         <FSelect
           v-model="selectedLanguageModel"
           name="language"

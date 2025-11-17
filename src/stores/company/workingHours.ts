@@ -1,16 +1,15 @@
 import { defineStore } from 'pinia';
 
-import axios from 'axios';
-
+import { CompanyApiService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { IWorkingHour,IWorkingHourDay } from '@/interfaces/company/workingHour';
+import type { WorkDayViewModel, WorkSettingViewModel } from '@/client';
 
 interface State {
-  days: IWorkingHourDay[];
-  maxIdleTime: IWorkingHour['MaxIdleTime'];
-  shiftRangeTime: IWorkingHour['ShiftRangeTime'];
-  timeZone: IWorkingHour['TimeZone'];
+  days: WorkDayViewModel[];
+  maxIdleTime: WorkSettingViewModel['MaxIdleTime'];
+  shiftRangeTime: WorkSettingViewModel['ShiftRangeTime'];
+  timeZone: WorkSettingViewModel['TimeZone'];
 }
 
 export const useCompanyWorkingHoursStore = defineStore(EStoreNames.COMPANY_WORKING_HOURS, {
@@ -22,19 +21,17 @@ export const useCompanyWorkingHoursStore = defineStore(EStoreNames.COMPANY_WORKI
   }),
   actions: {
     async filter() {
-      const url = '/webapi/company/workhours';
-      const response = await axios.get<IWorkingHour>(url);
+      const data = await CompanyApiService.companyApiWorkHours();
 
-      this.days = (response.data as IWorkingHour).Days;
-      this.maxIdleTime = (response.data as IWorkingHour).MaxIdleTime;
-      this.shiftRangeTime = (response.data as IWorkingHour).ShiftRangeTime;
-      this.timeZone = (response.data as IWorkingHour).TimeZone;
+      this.days = data.Days ?? [];
+      this.maxIdleTime = data.MaxIdleTime;
+      this.shiftRangeTime = data.ShiftRangeTime;
+      this.timeZone = data.TimeZone;
 
-      return response.data;
+      return data;
     },
-    async save(payload) {
-      const url = '/webapi/company/workhours/save';
-      return await axios.post<IWorkingHour>(url, payload);
+    async save(payload: WorkSettingViewModel) {
+      return await CompanyApiService.companyApiSaveWorkHours(payload);
     },
   },
 });

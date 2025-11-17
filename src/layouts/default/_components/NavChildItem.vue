@@ -1,76 +1,56 @@
 <template>
-  <div :style="{ paddingLeft: `${indent}px` }" @click="toggle">
-    <li class="text-base list-none">
+  <li class="nav-item" :class="{ 'nav-item--child': depth > 0 }">
+    <!-- Folder item (has children) -->
+    <template v-if="isFolder">
+      <div class="nav-link nav-link--folder" @click="toggle">
+        <div class="nav-link__content">
+          <i v-if="model.icon" :class="['nav-link__icon', model.icon]"></i>
+          <span class="nav-link__label">{{ model.label }}</span>
+        </div>
+        <i :class="['nav-link__toggle', isOpen ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
+      </div>
+      <ul v-if="isOpen" class="nav-submenu">
+        <NavChildItem
+          v-for="(child, index) in model.children"
+          :key="index"
+          :model="child"
+          :depth="depth + 1"
+        />
+      </ul>
+    </template>
+
+    <!-- Regular link item (no children) -->
+    <template v-else>
       <RouterLink
-        v-if="!isFolder"
-        v-slot="{ href, navigate }"
-        :to="{ name: model?.routeName }"
+        v-slot="{ href, navigate, isActive }"
+        :to="{ name: model.routeName }"
         custom
       >
-        <!-- Link for non-folder items -->
         <a
           :href="href"
-          :data-active="isActive"
-          class="flex justify-between items-center"
+          :class="[
+            'nav-link',
+            {
+              'nav-link--active': isActive,
+              'nav-link--parent': depth === 0,
+              'nav-link--child': depth > 0
+            }
+          ]"
           @click="navigate"
         >
-          <div class="flex items-center gap-2">
-            <span
-              :class="[isActive ? '!text-f-white' : '!text-f-secondary', model?.icon]"
-              style="font-size: 1rem"
-            />
-            <FText
-              :as="isActive ? 'h6' : 'p'"
-              :class="[isActive ? '!text-f-white' : '!text-f-secondary']"
-            >
-              {{ model.label }}
-            </FText>
+          <div class="nav-link__content">
+            <i v-if="model.icon && depth === 0" :class="['nav-link__icon', model.icon]"></i>
+            <span class="nav-link__label">{{ model.label }}</span>
           </div>
-          <Button
-            v-show="isFolder"
-            :icon="iconClass"
-            unstyled
-            pt:root="flex items-center justify-center"
-          ></Button>
         </a>
       </RouterLink>
-      <div v-else class="flex justify-between items-center cursor-pointer">
-        <!-- Non-navigable folder items -->
-        <div class="flex items-center gap-2 root-folder">
-          <span
-            :class="[isActive ? '!text-f-white' : '!text-f-secondary', model?.icon]"
-            style="font-size: 1rem"
-          />
-          <FText
-            :as="isActive ? 'h6' : 'p'"
-            :class="[isActive ? '!text-f-white' : '!text-f-secondary']"
-          >
-            {{ model.label }}
-          </FText>
-        </div>
-        <Button
-          v-show="isFolder"
-          :icon="iconClass"
-          unstyled
-          pt:root="flex items-center justify-center"
-        ></Button>
-      </div>
-    </li>
-  </div>
-
-  <div v-show="isOpen" v-if="isFolder">
-    <NavChildItem
-      v-for="(childModel, index) in model.children"
-      :key="index"
-      :model="childModel"
-      :depth="depth + 1"
-    />
-  </div>
+    </template>
+  </li>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { RouterLink, useRoute, useRouter } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
 
 import type { ERouteNames } from '@/router/routeNames.enum';
 
@@ -86,34 +66,28 @@ interface IProps {
   depth?: number;
 }
 
-const { model, depth = 0 } = defineProps<IProps>();
+const props = withDefaults(defineProps<IProps>(), {
+  depth: 0,
+});
 
 const route = useRoute();
-const router = useRouter();
-
-// TODO: burda kaldım. route'lara id eklediğimde burda bir şeyler patladı kontrol et.
-
 const isOpen = ref(false);
-const href = router.resolve({ name: model?.routeName }).href;
 
-const isFolder = computed(() => model?.children && model?.children?.length);
-const indent = computed(() => depth * 25);
-const iconClass = computed(() => (isOpen.value ? 'pi pi-angle-down' : 'pi pi-angle-right'));
+const isFolder = computed(() => props.model.children && props.model.children.length > 0);
 
-const isActive = computed(
-  () => route.name === model?.routeName || route?.fullPath?.split('/')[1] === href?.split('/')[1],
-);
-// Methods
-const toggle = () => (isOpen.value = !isOpen.value);
+const toggle = () => {
+  isOpen.value = !isOpen.value;
+};
 
+// Auto-expand if active child
 watch(
-  route,
+  () => route.name,
   () => {
-    if (isFolder.value) {
-      isOpen.value =
-        model?.children?.some((child) => {
-          return child.routeName === route.name;
-        }) || false;
+    if (isFolder.value && props.model.children) {
+      const hasActiveChild = props.model.children.some((child) => child.routeName === route.name);
+      if (hasActiveChild) {
+        isOpen.value = true;
+      }
     }
   },
   { immediate: true },
@@ -123,14 +97,69 @@ watch(
 <style scoped>
 @reference '@/tailwind.css';
 
-.root-folder {
-  @apply flex gap-2 items-center px-3 py-[9px] lg:py-[5px] rounded-lg cursor-pointer  border border-transparent active:bg-f-off-white transition-colors duration-200 ease-in-out;
-}
-a {
-  @apply flex gap-2 items-center px-3 py-[9px] lg:py-[5px] rounded-lg cursor-pointer hover:border-f-stroke border border-transparent active:bg-f-off-white transition-colors duration-200 ease-in-out;
+.nav-item {
+  @apply list-none;
 }
 
-a[data-active='true'] {
-  @apply bg-f-primary  border-f-stroke;
+.nav-item--child {
+  @apply pl-6;
 }
+
+.nav-link {
+  @apply flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer border border-transparent transition-all duration-200;
+}
+
+.nav-link:hover {
+  @apply border-f-stroke;
+}
+
+.nav-link__content {
+  @apply flex items-center gap-2;
+}
+
+.nav-link__icon {
+  @apply text-base text-f-secondary;
+}
+
+.nav-link__label {
+  @apply text-base text-f-secondary;
+}
+
+.nav-link__toggle {
+  @apply text-sm text-f-secondary;
+}
+
+/* Parent link styles */
+.nav-link--parent.nav-link--active {
+  @apply bg-f-primary border-f-stroke;
+}
+
+.nav-link--parent.nav-link--active .nav-link__icon,
+.nav-link--parent.nav-link--active .nav-link__label {
+  @apply text-f-white font-semibold;
+}
+
+/* Child link styles */
+.nav-link--child.nav-link--active {
+  @apply bg-f-off-white border-l-4 border-l-f-primary;
+}
+
+.nav-link--child.nav-link--active .nav-link__label {
+  @apply text-f-primary font-semibold;
+}
+
+/* Folder link styles */
+.nav-link--folder {
+  @apply flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer border border-transparent transition-all duration-200;
+}
+
+.nav-link--folder:hover {
+  @apply border-f-stroke;
+}
+
+.nav-submenu {
+  @apply list-none mt-1 space-y-1;
+}
+
+
 </style>

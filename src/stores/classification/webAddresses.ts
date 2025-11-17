@@ -1,13 +1,34 @@
 import { defineStore } from 'pinia';
 
-import axios from 'axios';
-
+import { CategoryApiService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type {
-  IWebAddress,
-  IWebAddressDTOData,
-} from '@/interfaces/classification/webAddress';
+import type { DataTableQueryModel, WebAddressModifyModel } from '@/client';
+
+interface IWebAddressDTOData {
+  HostName: string;
+  DomainDisplay: string;
+  Name: string;
+  IsWork: boolean;
+  IsMeeting: boolean;
+  IsLeisure: boolean;
+  TopicName: string;
+  Actions?: null;
+  Customise?: null;
+  Timeout: any;
+  AlwaysOn: boolean;
+  ID: string;
+  Domain: string;
+}
+
+// Backend returns a DataTable response with DTO structure (not in OpenAPI spec)
+interface DataTableResponse {
+  DTO?: {
+    data: IWebAddressDTOData[];
+    recordsTotal: number;
+  };
+}
+
 interface State {
   list: IWebAddressDTOData[];
   totalItems: number;
@@ -21,28 +42,27 @@ export const useClassificationWebAddressesStore = defineStore(
       totalItems: 0,
     }),
     actions: {
-      async filter(payload) {
-        const url = '/webapi/category/webaddresses/query';
-
-        const response = await axios.post<IWebAddress>(url, payload);
-        const webAddresses = (response.data as IWebAddress).DTO?.data;
-        const total = (response.data as IWebAddress).DTO?.recordsTotal ?? 0;
+      async filter(payload: DataTableQueryModel) {
+        const response = (await CategoryApiService.categoryApiQueryWebAddresses(
+          payload,
+        )) as unknown as DataTableResponse;
+        const webAddresses = response.DTO?.data ?? [];
+        const total = response.DTO?.recordsTotal ?? 0;
 
         this.list = webAddresses;
         this.totalItems = total;
         return webAddresses;
       },
-      async save(payload) {
-        const url = '/webapi/category/webaddress/save';
+      async save(payload: WebAddressModifyModel) {
         this.list = this.list.map((webAddress) => {
           if (webAddress.ID === payload.ID) {
-            webAddress.Domain = payload.Domain;
-            webAddress.AlwaysOn = payload.AlwaysOn;
+            webAddress.Domain = String(payload.Domain ?? '');
+            webAddress.AlwaysOn = payload.AlwaysOn ?? false;
           }
           return webAddress;
         });
 
-        return await axios.post<IWebAddress>(url, payload);
+        return await CategoryApiService.categoryApiSaveWebAddress(payload);
       },
     },
   },

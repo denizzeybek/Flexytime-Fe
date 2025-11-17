@@ -158,14 +158,11 @@ const submitHandler = handleSubmit(async (values) => {
       EndTime: convertDateToTime(day.EndTime),
     }));
     const payload = {
-      ...values,
-      days: formattedDays,
-      maxIdleTime: convertDateToTime(values.maxIdleTime),
-      shiftRangeTime: convertDateToTime(values.shiftRangeTime),
-      unclassified: false,
-      isShowContent: true,
-      title: t('pages.company.workingHours.title'),
-      timeZone: values.timeZone.value,
+      Days: formattedDays,
+      MaxIdleTime: convertDateToTime(values.maxIdleTime),
+      ShiftRangeTime: convertDateToTime(values.shiftRangeTime),
+      Unclassified: false,
+      TimeZone: values.timeZone.value,
     };
     await workingHoursStore.save(payload);
     console.log('values ', payload);

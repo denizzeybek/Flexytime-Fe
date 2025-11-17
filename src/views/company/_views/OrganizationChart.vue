@@ -41,14 +41,14 @@ import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyOrganizationChartsStore } from '@/stores/company/organizationChart';
 import OrganizationItem from '@/views/company/_components/organizationChart/OrganizationItem.vue';
 
-import type { IOrganizationChartNodes } from '@/interfaces/company/organizationChart';
+import type { OrganizationNodeViewModel } from '@/client';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showErrorMessage, showSuccessMessage } = useFToast();
 const organizationsStore = useCompanyOrganizationChartsStore();
 
-const organizationList = ref<IOrganizationChartNodes[]>([]);
+const organizationList = ref<OrganizationNodeViewModel[]>([]);
 
 const isLoading = ref(false);
 
@@ -59,7 +59,7 @@ const handleAddTeam = () => {
   });
 };
 
-const onItemChange = (item: IOrganizationChartNodes) => {
+const onItemChange = (item: OrganizationNodeViewModel) => {
   organizationList.value = recursiveReplaceById(organizationList.value, item.ID, item);
 };
 

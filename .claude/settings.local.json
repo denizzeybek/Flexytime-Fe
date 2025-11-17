@@ -22,7 +22,9 @@
       "Bash(node /Users/denizzeybek/Documents/Flexytime-Fe/scripts/checkVueOrder.js:*)",
       "Bash(for file in EmployeeProductivityTable.vue EmployeeWellbeingTable.vue TeamProductivityTable.vue TeamWellbeingTable.vue WebHistoryTable.vue)",
       "Bash(do path=\"/Users/denizzeybek/Documents/Flexytime-Fe/src/views/worktimeUsage/_components/tables/$file\" sed -n '18,30p' \"$path\")",
-      "WebSearch"
+      "WebSearch",
+      "mcp__context7__resolve-library-id",
+      "WebFetch(domain:primevue.org)"
     ],
     "deny": [],
     "ask": []

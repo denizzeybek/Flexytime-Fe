@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia';
 
-import axios from 'axios';
-
+import { SettingApiService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { IPermission } from '@/interfaces/settings/permission';
+import type { PermissionModifyViewModel, PermissonViewModel } from '@/client';
 
 interface State {
-  list: IPermission[];
+  list: PermissonViewModel[];
   totalItems: number;
 }
 
@@ -18,17 +17,15 @@ export const useSettingsPermissionsStore = defineStore(EStoreNames.SETTINGS_PERM
   }),
   actions: {
     async filter() {
-      const url = '/webapi/setting/permissions';
-      const response = await axios.get<IPermission[]>(url);
+      const data = await SettingApiService.settingApiPermissions();
 
-      this.list = response.data as IPermission[];
-      this.totalItems = this.list?.length || 0;
+      this.list = data;
+      this.totalItems = data.length;
 
-      return response.data;
+      return data;
     },
-    async save(payload) {
-      const url = '/webapi/setting/permission/save';
-      return await axios.post<IPermission>(url, payload);
+    async save(payload: PermissionModifyViewModel) {
+      return await SettingApiService.settingApiSavePermissions(payload);
     },
   },
 });

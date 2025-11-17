@@ -33,9 +33,9 @@
               <div class="flex items-center gap-2">
                 <div
                   class="flex items-center justify-center w-10 h-10 rounded-full"
-                  :class="getBadgeClass(group.Type)"
+                  :class="getBadgeClass(group.Type ?? 0)"
                 >
-                  <i :class="getIconClass(group.Type)" class="text-white"></i>
+                  <i :class="getIconClass(group.Type ?? 0)" class="text-white"></i>
                 </div>
                 <span class="font-semibold text-lg">{{ group.Name }}</span>
               </div>

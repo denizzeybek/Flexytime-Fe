@@ -42,7 +42,7 @@ const { t } = useI18n<{ message: MessageSchema }>();
 
 const badgeList = computed<IBadgeData[]>(() => {
   return props.summary
-    .map((item) => mapStatisticTypeToBadge(item.statisticType, item.time))
+    .map((item) => mapStatisticTypeToBadge(item.statisticType ?? '', item.time ?? ''))
     .filter((item): item is IBadgeData => item !== null);
 });
 

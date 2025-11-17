@@ -7,20 +7,22 @@
 
 import { defineStore } from 'pinia';
 
-import axios from 'axios';
+import { ClockApiService } from '@/client';
 
 import type {
-  IEmployeeRequest,
+  ClockEmployeeRequest,
+  ClockSection2Response,
+  ClockSectionRequest,
+} from '@/client';
+import type {
   IEmployeeResponse,
   IErrorState,
   ILoadingState,
-  ISectionRequest,
-  ISectionResponse,
 } from '@/views/worktimeUsage/_types';
 
 interface State {
   // Section data (Team/Department view + Individuals list)
-  sectionData: ISectionResponse | null;
+  sectionData: ClockSection2Response | null;
 
   // Employee data (Individual view)
   employeeData: IEmployeeResponse | null;
@@ -32,8 +34,8 @@ interface State {
   error: IErrorState;
 
   // Last request payloads for caching logic
-  lastSectionRequest: ISectionRequest | null;
-  lastEmployeeRequest: IEmployeeRequest | null;
+  lastSectionRequest: ClockSectionRequest | null;
+  lastEmployeeRequest: ClockEmployeeRequest | null;
 }
 
 export const useWorktimeStore = defineStore('worktimeUsage', {
@@ -56,7 +58,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     /**
      * Get section data (team/department view)
      */
-    getSectionData: (state): ISectionResponse | null => state.sectionData,
+    getSectionData: (state): ClockSection2Response | null => state.sectionData,
 
     /**
      * Get employee data (individual view)
@@ -164,7 +166,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * @param payload - Request payload with Perspective, Interval, TeamId
      * @param force - Force refresh even if same request exists
      */
-    async fetchSectionData(payload: ISectionRequest, force = false): Promise<ISectionResponse | null> {
+    async fetchSectionData(payload: ClockSectionRequest, force = false): Promise<ClockSection2Response | null> {
       // Check if we need to make a new request
       if (!force && this.lastSectionRequest && this.sectionData) {
         const isSameRequest =
@@ -185,12 +187,12 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         // TODO: delete here when fix datepicker
         payload.Interval = '';
 
-        const response = await axios.post<ISectionResponse>('/webapi/clock/section', payload);
+        const response = await ClockApiService.clockApiGetSection(payload);
 
-        this.sectionData = response.data;
+        this.sectionData = response;
         this.lastSectionRequest = { ...payload };
 
-        return response.data;
+        return response;
       } catch (err: any) {
         this.error.section = err?.response?.data?.message || 'Failed to fetch section data';
         console.error('Error fetching section data:', err);
@@ -207,13 +209,13 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * @param payload - Request payload with Perspective, Interval, MemberId
      * @param force - Force refresh even if same request exists
      */
-    async fetchEmployeeData(payload: IEmployeeRequest, force = false): Promise<IEmployeeResponse | null> {
+    async fetchEmployeeData(payload: ClockEmployeeRequest, force = false): Promise<IEmployeeResponse | null> {
       // Extract just the ID from MemberId if it contains a full path
-      const cleanMemberId = payload.MemberId.includes('/')
+      const cleanMemberId = payload.MemberId?.includes('/')
         ? payload.MemberId.split('/').pop() || payload.MemberId
         : payload.MemberId;
 
-      const cleanPayload = {
+      const cleanPayload: ClockEmployeeRequest = {
         ...payload,
         MemberId: cleanMemberId,
       };
@@ -235,20 +237,19 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         this.loading.employee = true;
         this.error.employee = null;
 
-
         // TODO: delete here when fix datepicker
         cleanPayload.Interval = '';
-        const response = await axios.post<any>('/webapi/clock/employeev2', cleanPayload);
+        const response = await ClockApiService.clockApiGetEmployee(cleanPayload);
 
         // Transform API response to match our IEmployeeResponse interface
         const transformedData: IEmployeeResponse = {
-          Card: response.data.Card,
-          Breadcrumb: this.transformBreadcrumbs(response.data.Breadcrumbs || []),
-          Summary: this.transformSummary(response.data.Model?.Summary?.Allocations || []),
-          WellBeings: response.data.Model?.WellBeings || [],
-          Distributions: this.transformDistributions(response.data.Model?.Allocations || []),
-          Graphs: response.data.Model?.Graph || null,
-          WebClocks: response.data.Model?.WebClocks || [],
+          Card: response.Card!,
+          Breadcrumb: this.transformBreadcrumbs(response.Breadcrumbs || []),
+          Summary: this.transformSummary(response.Model?.Summary?.Allocations || []),
+          WellBeings: response.Model?.WellBeings || [],
+          Distributions: this.transformDistributions(response.Model?.Allocations || []),
+          Graphs: response.Model?.Graph ?? {} as any,
+          WebClocks: response.Model?.WebClocks || [],
         };
 
         this.employeeData = transformedData;

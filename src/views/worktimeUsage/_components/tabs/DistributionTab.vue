@@ -37,11 +37,11 @@
                 <div class="flex items-center gap-2">
                   <div
                     class="flex items-center justify-center w-10 h-10 rounded-full"
-                    :class="getBadgeClass(distribution.statisticType)"
+                    :class="getBadgeClass(distribution.statisticType ?? '')"
                   >
-                    <i :class="getBadgeIcon(distribution.statisticType)" class="text-white"></i>
+                    <i :class="getBadgeIcon(distribution.statisticType ?? '')" class="text-white"></i>
                   </div>
-                  <span class="font-semibold text-lg">{{ getBadgeTitle(distribution.statisticType) }}</span>
+                  <span class="font-semibold text-lg">{{ getBadgeTitle(distribution.statisticType ?? '') }}</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <span class="font-medium">{{ $t('components.distribution.totalTime') }}:</span>
@@ -117,7 +117,7 @@ const chartData = computed(() => {
     return {
       ...distribution,
       applications: distribution.Applications,
-      chart: transformDataToChartFormat(distribution.Chart),
+      chart: transformDataToChartFormat(distribution.Chart ?? []),
     };
   });
 });

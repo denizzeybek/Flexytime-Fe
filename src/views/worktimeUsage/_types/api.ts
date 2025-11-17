@@ -2,235 +2,120 @@
  * API Request and Response Type Definitions for Worktime Usage V2
  */
 
+import type {
+  ClockEmployeeRequest,
+  ClockSectionRequest,
+} from '@/client';
+
 // ============================================
-// API Request Payloads
+// API Request Payloads - Use OpenAPI types directly
 // ============================================
 
 /**
  * Request payload for /clock/section endpoint
  * Used for Team and Department views, also provides Individuals data
  */
-export interface ISectionRequest {
-  Perspective: number;
-  Interval: string;
-  TeamId: string | null;
-}
+export type ISectionRequest = ClockSectionRequest;
 
 /**
  * Request payload for /clock/employee endpoint
  * Used for Individual employee view
  */
-export interface IEmployeeRequest {
-  Perspective: number;
-  Interval: string;
-  MemberId: string;
-}
+export type IEmployeeRequest = ClockEmployeeRequest;
+
+import type {
+  CardViewModel,
+  ClockBreadCrumb,
+  ClockDistribution,
+  ClockGraphGroup,
+  ClockSectionIndividual,
+  ClockSectionMember,
+  ClockSectionSupervisorAvatar,
+  ClockSectionTeam,
+  ClockSectionTeamAvatar,
+  ClockSectionTeamset,
+  ClockStatistic,
+  ClockWellBeingItem,
+  SectionClockSummary,
+  WebClockAllocationViewModel,
+  WebClockViewModel,
+} from '@/client';
 
 // ============================================
-// Common Shared Types
+// Common Shared Types - Use OpenAPI types
 // ============================================
 
-export interface IUserType {
-  Name: string;
-  Availability: string;
-  Abbreviation: string;
-  ImageUrl: string;
-  MemberUrl: string;
-  OnLeave: boolean;
-  LeaveType: string;
-}
+export type IUserType = ClockSectionTeamAvatar;
 
-export interface ISupervisor {
-  Name: string;
-  Abbreviation: string;
-  ImageUrl: string;
-  Availability: string;
-  MemberId?: string;
-  MemberUrl?: string;
-}
+export type ISupervisor = ClockSectionSupervisorAvatar;
 
-export interface ITimeMetric {
-  time: string;
-  statisticType: string;
-}
+export type ITimeMetric = ClockStatistic;
 
-export interface IWellbeing {
-  Danger: any[];
-  Warning: any[];
-  Success: any[];
-}
+export type IWellbeing = ClockWellBeingItem;
 
 // ============================================
-// Card & User Badge
+// Card & User Badge - Use OpenAPI types
 // ============================================
 
-export interface ICard {
-  ImageUrl: string;
-  Name: string;
-  Title: string;
-  Abbreviation: string;
-  Email: string;
-  Availability: string;
-}
+export type ICard = CardViewModel;
 
 // ============================================
-// Summary & Badges
+// Summary & Badges - Use OpenAPI types
 // ============================================
 
-export interface ISummary {
-  id: string;
-  statisticType: string;
-  time: string;
-}
+export type ISummary = SectionClockSummary;
 
 // ============================================
-// Breadcrumb
+// Breadcrumb - Use OpenAPI types
 // ============================================
 
-export interface IBreadcrumb {
-  id: string;
-  title: string;
-  path: string;
-  isLastElement: boolean;
-}
+export type IBreadcrumb = ClockBreadCrumb;
 
 // ============================================
-// Team View Data
+// Team View Data - Use OpenAPI types
 // ============================================
 
-export interface ITeam {
-  ID: string;
-  TeamName: string;
-  SuperVisorName: string;
-  Team: IUserType;
-  Supervisor: ISupervisor;
-  Start: ITimeMetric;
-  End: ITimeMetric;
-  Work: ITimeMetric;
-  Leisure: ITimeMetric;
-  Meeting: ITimeMetric;
-  Unclassified: ITimeMetric;
-  Wellbeing: IWellbeing;
-}
+export type ITeam = ClockSectionTeam;
 
-export interface ITeamset {
-  IsTeam: boolean;
-  Teams: ITeam[];
-  Members: any[];
-}
+export type ITeamset = ClockSectionTeamset;
 
 // ============================================
-// Employee/Individual List Data
+// Employee/Individual List Data - Use OpenAPI types
 // ============================================
 
-export interface IIndividual {
-  ID: string;
-  EmployeeName: string;
-  TeamName: string;
-  Employee: IUserType;
-  Start: ITimeMetric;
-  End: ITimeMetric;
-  Work: ITimeMetric;
-  Leisure: ITimeMetric;
-  Meeting: ITimeMetric;
-  Unclassified: ITimeMetric;
-  Wellbeing: IWellbeing;
-  Team: IUserType;
-  Tags: string[];
-  TagsDisplay: string;
-}
+export type IIndividual = ClockSectionIndividual;
 
 // ============================================
-// Distribution Data
+// Distribution Data - Use OpenAPI types
 // ============================================
 
-export interface IDistribution {
-  id: string;
-  statisticType: string;
-  time: string;
-  Applications: {
-    imgPath: string;
-    title: string;
-    time: string;
-  }[];
-  Chart: {
-    label: string;
-    value: number;
-  }[];
-}
+export type IDistribution = ClockDistribution;
 
 // ============================================
-// Graph Data
+// Graph Data - Use OpenAPI types
 // ============================================
 
-export interface IGraph {
-  WellBeings?: any[];
-  Summary?: {
-    datasets: {
-      label: string;
-      data: number[];
-      fill: boolean;
-      backgroundColor: string;
-      borderColor: string;
-      borderWidth: number;
-      stack: string;
-    }[];
-    labels: string[];
-    Unit: string;
-  };
-}
+export type IGraph = ClockGraphGroup;
 
 // ============================================
-// Web History Data
+// Web History Data - Use OpenAPI types
 // ============================================
 
-export interface IWebClock {
-  ID: string | null;
-  Url: string;
-  TopicName: string;
-  Spent: string;
-  Date: string;
-  AllocationName: string | null;
-  RecordDate: string;
-  AllocationId: string;
-  Domain: number;
-}
+export type IWebClock = WebClockViewModel;
 
-export interface IWebClocks {
-  Name: string;
-  WebClocks: IWebClock[];
-  Type: number;
-  Spent: string;
-  Color: string;
-  Icon: string;
-  ID: string;
-  Chart: {
-    data: any;
-    valueField: string | null;
-    titleField: string | null;
-  };
-}
+export type IWebClocks = WebClockAllocationViewModel;
 
 // ============================================
 // API Response Types
 // ============================================
 
+import type { ClockSection2Response } from '@/client';
+
 /**
  * Response from /clock/section endpoint
  * Contains team/department data AND individuals list
  */
-export interface ISectionResponse {
-  Card: ICard;
-  Summary: ISummary[];
-  WellBeings: any[];
-  Breadcrumb: IBreadcrumb[];
-  Distributions: IDistribution[];
-  Graphs: IGraph;
-  Teamset: ITeamset;
-  Individuals: IIndividual[];
-  Invitations: any[];
-  DownloadKey: string;
-}
+export type ISectionResponse = ClockSection2Response;
 
 /**
  * Response from /clock/employee endpoint

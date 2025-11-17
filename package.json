@@ -17,7 +17,8 @@
     "commit": "superclaude commit --interactive",
     "release:prep": "superclaude changelog && superclaude readme",
     "code:review": "superclaude review --verbose",
-    "docs:update": "superclaude docs"
+    "docs:update": "superclaude docs",
+    "gcl": "openapi --input https://api.flexytime.com/swagger/docs/v1 --output ./src/client --client axios"
   },
   "dependencies": {
     "@primevue/themes": "^4.2.0",

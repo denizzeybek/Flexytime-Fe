@@ -436,7 +436,7 @@ const submitHandler = handleSubmit(async (values) => {
   try {
     console.log('values ', values);
     let text = t('pages.hrSettings.employees.modal.messages.added');
-    let payload = {};
+    let payload: any = {};
     if (isEditing.value) {
       const employee = props.data;
       text = t('pages.hrSettings.employees.modal.messages.updated');
