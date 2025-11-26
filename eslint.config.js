@@ -34,6 +34,7 @@ export default [
           order: ['template', 'script', 'style'],
         },
       ],
+      'vue/valid-v-bind': 'off',
 
       // Enforce Composition API style
       'vue/component-api-style': ['error', ['script-setup']],

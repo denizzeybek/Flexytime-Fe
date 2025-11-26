@@ -10,7 +10,6 @@ import type {
   ClockEmployeeRequest,
   ClockGraphGroup,
   ClockInvitation,
-  ClockSection2Response,
   ClockSectionIndividual,
   ClockSectionRequest,
   ClockSectionTeamset,

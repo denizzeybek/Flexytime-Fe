@@ -2,7 +2,7 @@
   <div class="wellbeing-tab">
     <!-- Individual View: Placeholder -->
     <div v-if="viewMode === 'individual'" class="p-4 text-center text-gray-500">
-      <p>{{ $t('components.wellbeing.individualViewComingSoon') }}</p>
+      <p>{{ t('components.wellbeing.individualViewComingSoon') }}</p>
     </div>
 
     <!-- Employees View: Always show all employees -->
@@ -30,13 +30,13 @@
 
       <!-- Empty state (only show when NOT loading and no data) -->
       <div v-else-if="!isLoading" class="text-center text-gray-500 p-8">
-        <p>{{ $t('components.wellbeing.noDataAvailable') }}</p>
+        <p>{{ t('components.wellbeing.noDataAvailable') }}</p>
       </div>
     </template>
 
     <!-- Fallback empty state -->
     <div v-else-if="!isLoading" class="text-center text-gray-500 p-8">
-      <p>{{ $t('components.wellbeing.noDataAvailable') }}</p>
+      <p>{{ t('components.wellbeing.noDataAvailable') }}</p>
     </div>
   </div>
 </template>

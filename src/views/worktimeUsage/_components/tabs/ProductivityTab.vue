@@ -32,13 +32,13 @@
 
       <!-- Empty state (only show when NOT loading and no data) -->
       <div v-else-if="!isLoading" class="text-center text-gray-500 p-8">
-        <p>{{ $t('components.productivity.noDataAvailable') }}</p>
+        <p>{{ t('components.productivity.noDataAvailable') }}</p>
       </div>
     </template>
 
     <!-- Fallback empty state -->
     <div v-else-if="!isLoading" class="text-center text-gray-500 p-8">
-      <p>{{ $t('components.productivity.noDataAvailable') }}</p>
+      <p>{{ t('components.productivity.noDataAvailable') }}</p>
     </div>
   </div>
 </template>

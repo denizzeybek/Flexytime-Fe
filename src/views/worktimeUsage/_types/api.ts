@@ -29,7 +29,6 @@ import type {
   ClockDistribution,
   ClockGraphGroup,
   ClockSectionIndividual,
-  ClockSectionMember,
   ClockSectionSupervisorAvatar,
   ClockSectionTeam,
   ClockSectionTeamAvatar,
