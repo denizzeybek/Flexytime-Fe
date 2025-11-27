@@ -184,9 +184,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         this.loading.section = true;
         this.error.section = null;
 
-        // TODO: delete here when fix datepicker
-        payload.Interval = '';
-
         const response = await ClockApiService.clockApiGetSection(payload);
 
         this.sectionData = response;

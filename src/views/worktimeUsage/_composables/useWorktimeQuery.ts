@@ -41,21 +41,16 @@ export function useWorktimeQuery() {
   };
 
   /**
-   * Get default interval (last 7 days)
+   * Get default interval (today)
+   * Format: DD.MM.YYYY-1 (1 = bugün)
    */
   const getDefaultInterval = (): string => {
-    const end = new Date();
-    const start = new Date();
-    start.setDate(start.getDate() - 7);
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
 
-    const formatDate = (date: Date) => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    };
-
-    return `${formatDate(start)}_${formatDate(end)}`;
+    return `${day}.${month}.${year}-1`;
   };
 
   /**

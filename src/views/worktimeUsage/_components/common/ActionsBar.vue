@@ -14,7 +14,7 @@
       :manual-input="false"
       date-format="yy-mm-dd"
       show-button-bar
-      @update:model-value="handleDateChange as any"
+      @update:model-value="handleDateChange"
     />
     <Select
       v-model="selectedPerspective"
@@ -76,16 +76,21 @@ const perspectiveOptions = [
 const dateRange = ref<Date[]>([]);
 const selectedPerspective = ref(perspectiveOptions[0]);
 
-const handleDateChange = (value: Date[] | null) => {
-  if (value && value.length === 2 && value[0] && value[1]) {
-    const formatDate = (date: Date) => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    };
+const handleDateChange = (value: Date | Date[] | (Date | null)[] | null | undefined): void => {
+  if (value && Array.isArray(value) && value.length === 2 && value[0] && value[1]) {
+    const startDate = value[0] as Date;
+    const endDate = value[1] as Date;
 
-    const interval = `${formatDate(value[0])}_${formatDate(value[1])}`;
+    // Calculate difference in days
+    const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include end date
+
+    // Format: DD.MM.YYYY-{days}
+    const day = String(endDate.getDate()).padStart(2, '0');
+    const month = String(endDate.getMonth() + 1).padStart(2, '0');
+    const year = endDate.getFullYear();
+
+    const interval = `${day}.${month}.${year}-${diffDays}`;
     updateInterval(interval);
   }
 };
@@ -100,10 +105,20 @@ const handleDownload = () => {
 
 // Initialize from query
 onMounted(() => {
-  // Parse interval from query (format: YYYY-MM-DD_YYYY-MM-DD)
+  // Parse interval from query (format: DD.MM.YYYY-{days})
   if (currentQuery.value.interval) {
-    const [start, end] = currentQuery.value.interval.split('_');
-    dateRange.value = [new Date(start), new Date(end)];
+    const [dateStr, daysStr] = currentQuery.value.interval.split('-');
+    const days = parseInt(daysStr, 10);
+
+    // Parse DD.MM.YYYY
+    const [day, month, year] = dateStr.split('.').map(Number);
+    const endDate = new Date(year, month - 1, day);
+
+    // Calculate start date
+    const startDate = new Date(endDate);
+    startDate.setDate(startDate.getDate() - (days - 1)); // -1 because days includes end date
+
+    dateRange.value = [startDate, endDate];
   }
 
   // Set perspective from query
