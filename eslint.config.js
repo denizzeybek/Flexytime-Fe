@@ -12,7 +12,13 @@ export default [
   },
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/node_modules/**'],
+    ignores: [
+      '**/dist/**',
+      '**/dist-ssr/**',
+      '**/coverage/**',
+      '**/node_modules/**',
+      'src/client/**', // Auto-generated OpenAPI code
+    ],
   },
   ...vue.configs['flat/essential'],
   ...typescript(),

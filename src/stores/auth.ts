@@ -1,19 +1,15 @@
 import { computed } from 'vue';
 import { defineStore } from 'pinia';
 
-import {
-  AccountApiService,
-  LoginService,
-  OpenAPI,
-  ProfileApiService,
-  WizardApiService,
-} from '@/client';
+import { AccountApiService, OpenAPI, ProfileApiService, WizardApiService } from '@/client';
+import { LoginService } from '@/customClient';
 import { EStorageKeys } from '@/constants/storageKeys';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import { useUsersStore } from './users';
 
-import type { AccountRegisterViewModel, LoginRequest } from '@/client';
+import type { AccountRegisterViewModel } from '@/client';
+import type { LoginRequest } from '@/customClient';
 
 export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
   const usersStore = useUsersStore();

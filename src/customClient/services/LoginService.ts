@@ -1,12 +1,13 @@
-/* manually created - not generated */
+/* Custom service - not auto-generated */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CancelablePromise } from '@/client/core/CancelablePromise';
+import { OpenAPI } from '@/client/core/OpenAPI';
+import { request as __request } from '@/client/core/request';
+
 import type { LoginRequest } from '../models/LoginRequest';
 import type { TokenResponse } from '../models/TokenResponse';
-import type { CancelablePromise } from '../../core/CancelablePromise';
-import { OpenAPI } from '../../core/OpenAPI';
-import { request as __request } from '../../core/request';
 
 export class LoginService {
   /**

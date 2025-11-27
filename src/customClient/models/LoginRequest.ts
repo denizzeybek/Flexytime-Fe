@@ -1,4 +1,4 @@
-/* manually created - not generated */
+/* Custom model - not auto-generated */
 /* istanbul ignore file */
 /* tslint:disable */
 import type { EGrantType } from '@/enums/grantType.enum';

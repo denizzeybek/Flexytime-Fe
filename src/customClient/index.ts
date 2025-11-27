@@ -1,4 +1,4 @@
-/* manually created - not generated */
+/* Custom client services - not auto-generated */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
