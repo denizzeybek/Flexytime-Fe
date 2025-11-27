@@ -1,28 +1,19 @@
 import { computed } from 'vue';
 import { defineStore } from 'pinia';
 
-import axios from 'axios';
-import qs from 'qs';
-
-import { AccountApiService, WizardApiService } from '@/client';
+import {
+  AccountApiService,
+  LoginService,
+  OpenAPI,
+  ProfileApiService,
+  WizardApiService,
+} from '@/client';
 import { EStorageKeys } from '@/constants/storageKeys';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import { useUsersStore } from './users';
 
-import type { AccountRegisterViewModel } from '@/client';
-
-// OAuth types are not in OpenAPI spec as they're external OAuth2 endpoints
-interface LoginModel {
-  username: string;
-  password: string;
-  grant_type: string;
-}
-
-interface LoginResponse {
-  access_token?: string;
-  refresh_token?: string;
-}
+import type { AccountRegisterViewModel, LoginRequest } from '@/client';
 
 export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
   const usersStore = useUsersStore();
@@ -41,16 +32,45 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
       }
     },
     $reset() {
-      //   OpenAPI.TOKEN = undefined
+      OpenAPI.TOKEN = undefined;
       localStorage.removeItem(EStorageKeys.AUTHENTICATION);
+      localStorage.removeItem(EStorageKeys.TOKEN);
     },
-    async login(payload: LoginModel) {
+    async login(payload: LoginRequest) {
       console.log('payload 1 ', payload);
-      const response = await axios.post<LoginResponse>('/oauth/token', qs.stringify(payload));
-      const { access_token, refresh_token } = response.data;
-      localStorage.setItem(EStorageKeys.TOKEN, access_token!);
-      localStorage.setItem(EStorageKeys.REFRESH_TOKEN, refresh_token!);
+      const response = await LoginService.login(payload);
+      const { access_token: token } = response;
+
+      // Store token
+      if (token) {
+        localStorage.setItem(EStorageKeys.TOKEN, token);
+        OpenAPI.TOKEN = token; // Set for all API requests
+      }
+
       return response;
+    },
+
+    async refreshToken() {
+      try {
+        // Verify and refresh token using profileApiVerifyToken
+        const response = await ProfileApiService.profileApiVerifyToken();
+        const { Token: token, IsValid } = response;
+
+        if (!IsValid || !token) {
+          throw new Error('Token is invalid');
+        }
+
+        // Update token (replace with new one)
+        localStorage.setItem(EStorageKeys.TOKEN, token);
+        OpenAPI.TOKEN = token;
+
+        return response;
+      } catch (error) {
+        // Clear token on error
+        localStorage.removeItem(EStorageKeys.TOKEN);
+        OpenAPI.TOKEN = undefined;
+        throw error;
+      }
     },
 
     async getProfile(result: any) {

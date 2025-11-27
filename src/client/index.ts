@@ -159,3 +159,8 @@ export { ReportApiService } from './services/ReportApiService';
 export { SettingApiService } from './services/SettingApiService';
 export { TimesheetApiService } from './services/TimesheetApiService';
 export { WizardApiService } from './services/WizardApiService';
+
+// Manual services (not auto-generated)
+export { LoginService } from './manual/services/LoginService';
+export type { LoginRequest } from './manual/models/LoginRequest';
+export type { TokenResponse } from './manual/models/TokenResponse';

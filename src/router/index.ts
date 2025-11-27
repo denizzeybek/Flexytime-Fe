@@ -1,9 +1,10 @@
 import { nextTick } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
+import { OpenAPI } from '@/client';
 import { useLogout } from '@/composables/useLogout';
 import { EStorageKeys } from '@/constants/storageKeys';
-// import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth';
 import { useCommonUsersStore } from '@/stores/common/users';
 
 import { ERouteNames } from './routeNames.enum';
@@ -16,10 +17,9 @@ const router = createRouter({
 
 // GUARD
 let isRefreshing = false;
-router.beforeEach(async (to, _, next) => {
+router.beforeEach(async (to, from, next) => {
   const usersStore = useCommonUsersStore();
-  // const profileStore = useProfileStore();
-  // const authStore = useAuthStore();
+  const authStore = useAuthStore();
 
   const requiresAuth = to.meta.requiresAuth === true;
   const requiresUnAuth = to.meta.requiresAuth === false;
@@ -29,33 +29,47 @@ router.beforeEach(async (to, _, next) => {
 
   const { logout } = useLogout();
 
+  // Set token for OpenAPI if exists in localStorage but not in OpenAPI
+  if (hasToken && !OpenAPI.TOKEN) {
+    OpenAPI.TOKEN = token;
+  }
+
   if (requiresAuth) {
     if (!hasToken) {
       return next({ name: ERouteNames.Login });
     }
 
-    if (!usersStore.isAuthenticated && !isRefreshing) {
+    // Skip token refresh if coming from login page (fresh token)
+    const comingFromLogin = from.name === ERouteNames.Login;
+
+    // Refresh token on each protected route access if user not authenticated
+    if (!usersStore.isAuthenticated && !isRefreshing && !comingFromLogin) {
       isRefreshing = true;
 
       try {
-        // await profileStore.filter();
+        // Refresh access token using auth store
+        await authStore.refreshToken();
+
+        // TODO: Fetch user profile here if needed
+        // await authStore.getProfile({});
+
         isRefreshing = false;
-        return next(); // refresh başarılı
+        return next(); // refresh successful
       } catch (err) {
-        console.error(err);
+        console.error('Token refresh failed:', err);
         isRefreshing = false;
         return logout();
       }
     }
 
-    return next(); // token var ve user bilgisi güncel
+    return next(); // token valid and user authenticated
   }
 
   if (requiresUnAuth && hasToken) {
-    return next(false); // hiçbir yere yönlendirme, mevcut sayfada kal
+    return next(false); // stay on current page
   }
 
-  return next(); // public veya özel durum olmayan route'lar
+  return next(); // public or non-auth routes
 });
 
 // if (to.name === ERouteNames.ForgotPassword_Reset) {
