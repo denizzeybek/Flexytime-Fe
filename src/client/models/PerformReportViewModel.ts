@@ -1,7 +1,7 @@
 /* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
- 
+/* eslint-disable */
 import type { PerformNameValueModel } from './PerformNameValueModel';
 import type { ReportViewModel } from './ReportViewModel';
 export type PerformReportViewModel = {

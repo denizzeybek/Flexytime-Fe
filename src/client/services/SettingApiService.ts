@@ -4,7 +4,6 @@
 /* eslint-disable */
 import type { AdvancedPermissonViewModel } from '../models/AdvancedPermissonViewModel';
 import type { AdvancedSettingModifyModel } from '../models/AdvancedSettingModifyModel';
-import type { CompanyReferenceModel } from '../models/CompanyReferenceModel';
 import type { CompanyViewModel } from '../models/CompanyViewModel';
 import type { DataResultViewModel } from '../models/DataResultViewModel';
 import type { DownloadViewModel } from '../models/DownloadViewModel';
@@ -12,6 +11,7 @@ import type { InvitationModifyViewModel } from '../models/InvitationModifyViewMo
 import type { InvitationViewModel } from '../models/InvitationViewModel';
 import type { LicenseModifyViewModel } from '../models/LicenseModifyViewModel';
 import type { LicenseViewModel } from '../models/LicenseViewModel';
+import type { PerformReferenceModel } from '../models/PerformReferenceModel';
 import type { PermissionModifyViewModel } from '../models/PermissionModifyViewModel';
 import type { PermissonViewModel } from '../models/PermissonViewModel';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -24,7 +24,7 @@ export class SettingApiService {
      * @throws ApiError
      */
     public static settingApiDeleteCompany(
-        model: CompanyReferenceModel,
+        model: PerformReferenceModel,
     ): CancelablePromise<DataResultViewModel> {
         return __request(OpenAPI, {
             method: 'POST',
@@ -62,7 +62,7 @@ export class SettingApiService {
      * @throws ApiError
      */
     public static settingApiGetCompany(
-        model: CompanyReferenceModel,
+        model: PerformReferenceModel,
     ): CancelablePromise<DataResultViewModel> {
         return __request(OpenAPI, {
             method: 'POST',

@@ -4,11 +4,13 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import qs from 'qs';
 
-import { WizardApiService } from '@/client';
+import { AccountApiService, WizardApiService } from '@/client';
 import { EStorageKeys } from '@/constants/storageKeys';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import { useUsersStore } from './users';
+
+import type { AccountRegisterViewModel } from '@/client';
 
 // OAuth types are not in OpenAPI spec as they're external OAuth2 endpoints
 interface LoginModel {
@@ -60,6 +62,15 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
         this.setAuth({ authentication: null, user: response });
         result.user = response;
         return result;
+      } catch (error) {
+        throw error;
+      }
+    },
+
+    async register(payload: AccountRegisterViewModel) {
+      try {
+        const response = await AccountApiService.accountApiRegister(payload);
+        return response;
       } catch (error) {
         throw error;
       }

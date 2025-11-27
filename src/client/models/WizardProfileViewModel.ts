@@ -1,7 +1,7 @@
 /* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
- 
+/* eslint-disable */
 export type WizardProfileViewModel = {
     IsSingleUser?: boolean;
     IsFresh?: boolean;
@@ -13,6 +13,5 @@ export type WizardProfileViewModel = {
     Fullname?: string;
     CompanyName?: string;
     IsEmployee?: boolean;
-    IsHR?: boolean;
 };
 

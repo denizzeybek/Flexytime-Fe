@@ -1,7 +1,7 @@
 /* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
- 
+/* eslint-disable */
 import type { ClockInvitation } from './ClockInvitation';
 import type { DefinitionMemberViewModel } from './DefinitionMemberViewModel';
 import type { TheMemberViewModel } from './TheMemberViewModel';

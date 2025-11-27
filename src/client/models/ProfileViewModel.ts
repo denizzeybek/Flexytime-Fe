@@ -1,7 +1,7 @@
 /* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
- 
+/* eslint-disable */
 import type { AlertViewModel } from './AlertViewModel';
 import type { CalendarFolder } from './CalendarFolder';
 import type { EmployeeViewModel } from './EmployeeViewModel';

@@ -1,7 +1,7 @@
 /* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
- 
+/* eslint-disable */
 import type { AlertViewModel } from './AlertViewModel';
 import type { BreadCrumbViewModel } from './BreadCrumbViewModel';
 import type { CardViewModel } from './CardViewModel';

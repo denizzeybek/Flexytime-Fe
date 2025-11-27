@@ -1,7 +1,7 @@
 /* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
- 
+/* eslint-disable */
 import type { ClockSectionSupervisorAvatar } from './ClockSectionSupervisorAvatar';
 import type { ClockSectionTeamAvatar } from './ClockSectionTeamAvatar';
 import type { ClockStatistic } from './ClockStatistic';

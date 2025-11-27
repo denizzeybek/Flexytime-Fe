@@ -124,16 +124,22 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
 import { useForm } from 'vee-validate';
-import { object,string } from 'yup';
+import { object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { type MessageSchema } from '@/plugins/i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
+import { useAuthStore } from '@/stores/auth';
 
+import type { AccountRegisterViewModel } from '@/client';
+
+const router = useRouter();
 const { t } = useI18n<{ message: MessageSchema }>();
+const authStore = useAuthStore();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
@@ -150,8 +156,18 @@ const { handleSubmit, isSubmitting } = useForm({
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
+    const registerPayload: AccountRegisterViewModel = {
+      FullName: values.fullName,
+      CompanyName: values.companyName,
+      Email: values.email,
+      Password: values.password,
+    };
+
+    await authStore.register(registerPayload);
     showSuccessMessage(t('pages.auth.register.messages.success'));
+
+    // Navigate to login page after successful registration
+    router.push({ name: ERouteNames.WorktimeUsage });
   } catch (error: any) {
     showErrorMessage(error as any);
   }

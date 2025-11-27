@@ -9,6 +9,7 @@ import type { ProfileModifyViewModel } from '../models/ProfileModifyViewModel';
 import type { ProfilePasswordViewModel } from '../models/ProfilePasswordViewModel';
 import type { ProfileTimezoneViewModel } from '../models/ProfileTimezoneViewModel';
 import type { ProfileViewModel } from '../models/ProfileViewModel';
+import type { VerifyTokenViewModel } from '../models/VerifyTokenViewModel';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -101,6 +102,16 @@ export class ProfileApiService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/webapi/profile/confirm',
+        });
+    }
+    /**
+     * @returns VerifyTokenViewModel OK
+     * @throws ApiError
+     */
+    public static profileApiVerifyToken(): CancelablePromise<VerifyTokenViewModel> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/webapi/profile/verifyToken',
         });
     }
 }

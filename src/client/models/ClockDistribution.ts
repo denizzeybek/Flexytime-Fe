@@ -1,7 +1,7 @@
 /* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
- 
+/* eslint-disable */
 import type { ClockDistributionChart } from './ClockDistributionChart';
 import type { ClockDistributionItem } from './ClockDistributionItem';
 export type ClockDistribution = {

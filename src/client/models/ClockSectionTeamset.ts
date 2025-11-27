@@ -1,7 +1,7 @@
 /* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
- 
+/* eslint-disable */
 import type { ClockSectionMember } from './ClockSectionMember';
 import type { ClockSectionTeam } from './ClockSectionTeam';
 export type ClockSectionTeamset = {
