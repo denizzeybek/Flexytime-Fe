@@ -3,7 +3,7 @@
     :value="isLoading ? skeletonData : webClocks"
     striped-rows
     paginator
-    :rows="20"
+    :rows="10"
     :rows-per-page-options="[10, 20, 50, 100]"
     table-style="min-width: 50rem"
   >

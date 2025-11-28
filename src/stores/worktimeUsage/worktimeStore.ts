@@ -279,11 +279,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         this.loading.employee = true;
         this.error.employee = null;
 
-        // TODO: delete here when fix datepicker
-        cleanPayload.Interval = '';
         const response = await ClockApiService.clockApiGetEmployee(cleanPayload);
-
-        console.log('📊 Employee API Response:', response);
 
         // Check if API returned null/empty data (happens for employee role)
         // If so, build Card and Breadcrumb from profile data

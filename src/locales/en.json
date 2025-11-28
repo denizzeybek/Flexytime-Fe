@@ -1200,7 +1200,8 @@
         "markAsMeeting": "Mark as Meeting",
         "markAsLeisure": "Mark as Leisure",
         "markAsUnclassified": "Mark as Unclassified"
-      }
+      },
+      "noData": "No web history found."
     },
     "errors": {
       "unauthorized": {

@@ -1200,7 +1200,8 @@
         "markAsMeeting": "Toplantı Olarak İşaretle",
         "markAsLeisure": "Boş Zaman Olarak İşaretle",
         "markAsUnclassified": "Belirsiz Olarak İşaretle"
-      }
+      },
+      "noData": "Web geçmişi bulunamadı."
     },
     "errors": {
       "unauthorized": {
