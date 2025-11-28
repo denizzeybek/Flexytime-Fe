@@ -16,7 +16,7 @@
         v-bind="primeProps"
         :numberOfMonths="numberOfMonths"
         :manualInput="manualInput"
-        format="dd/mm/yy"
+        :date-format="dateFormat"
         @value-change="handleChangeEvent"
       >
         <template #footer>
@@ -40,6 +40,7 @@ import { useI18n } from 'vue-i18n';
 import dayjs from 'dayjs';
 import { useField } from 'vee-validate';
 
+import { useDateFormat } from '@/composables/useDateFormat';
 import { type MessageSchema } from '@/plugins/i18n';
 
 import type { DatePickerProps } from 'primevue/datepicker';
@@ -94,6 +95,7 @@ enum EWeek {
 }
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const { dateFormat } = useDateFormat();
 
 const {
   errorMessage: vError,

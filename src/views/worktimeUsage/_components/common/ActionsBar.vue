@@ -13,7 +13,7 @@
       class="flex-1 min-w-56"
       selection-mode="range"
       :manual-input="false"
-      date-format="yy-mm-dd"
+      :date-format="dateFormat"
       show-button-bar
       @update:model-value="handleDateChange"
     />
@@ -50,6 +50,7 @@ import DatePicker from 'primevue/datepicker';
 import Select from 'primevue/select';
 
 import { useAuthorization } from '@/composables/useAuthorization';
+import { useDateFormat } from '@/composables/useDateFormat';
 
 import { useWorktimeQuery } from '../../_composables';
 
@@ -62,6 +63,7 @@ const { t } = useI18n();
 
 const { currentQuery, updateInterval, updatePerspective } = useWorktimeQuery();
 const { canAccessWorktimeUsage } = useAuthorization();
+const { dateFormat } = useDateFormat();
 
 enum EPerspective {
   TIME = 0,
