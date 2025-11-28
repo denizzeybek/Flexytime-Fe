@@ -15,12 +15,12 @@
   <div class="card flex justify-center">
     <Menu ref="menu" :model="items" class="w-40 lg:w-60" :popup="true">
       <template #item="{ item, props }">
-        <a v-ripple class="flex items-center" v-bind="props.action" @click="item?.method()">
+        <a v-ripple class="flex items-center" v-bind="props.action" @click="() => item.method?.()">
           <span :class="item.icon" />
           <RouterLink v-if="item?.route" :to="item.route" class="ml-2">
             {{ item.label }}
           </RouterLink>
-          <span v-else>{{ item.label }}</span>
+          <span v-else class="ml-2">{{ item.label }}</span>
           <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
         </a>
       </template>

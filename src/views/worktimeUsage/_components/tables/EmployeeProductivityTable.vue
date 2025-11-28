@@ -59,9 +59,13 @@
           v-else-if="slotProps.data.Tags && slotProps.data.Tags.length > 0"
           class="flex gap-1 flex-wrap"
         >
-          <Tag v-for="(tag, idx) in slotProps.data.Tags" :key="idx" :value="tag" severity="info" />
+          <Tag
+            v-for="(tag, idx) in slotProps.data.Tags.filter((t: string | null) => t != null && t !== 'null')"
+            :key="idx"
+            :value="tag"
+            severity="info"
+          />
         </div>
-        <span v-else>-</span>
       </template>
     </Column>
 

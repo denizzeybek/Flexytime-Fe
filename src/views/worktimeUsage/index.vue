@@ -61,9 +61,9 @@
                   @click="showGraphBelow = !showGraphBelow"
                 />
 
-                <!-- Team/Employees Toggle (only for team view) -->
+                <!-- Team/Employees Toggle (only for team view and when IsTeam is true) -->
                 <div
-                  v-if="currentQuery.view === 'team'"
+                  v-if="showTeamToggle"
                   class="flex gap-1 p-1 bg-gray-100 rounded-xl"
                 >
                   <Button
@@ -227,6 +227,10 @@ const currentWebClocks = computed(() => {
 
 const teams = computed(() => store.getTeams);
 const individuals = computed(() => store.getIndividuals);
+
+const showTeamToggle = computed(() => {
+  return currentQuery.value.view === 'team' && store.sectionData?.Teamset?.IsTeam === true;
+});
 
 // Available tabs based on view mode
 const availableTabs = computed<Array<{ key: TabType; label: string }>>(() => {
