@@ -10,13 +10,16 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
-import { useFToast } from '@/composables/useFToast';
-import { useClassificationApplicationsStore } from '@/stores/classification/applications';
 import { onMounted, ref, watch } from 'vue';
-import ApplicationsTable from './ApplicationsTable.vue';
+import { useI18n } from 'vue-i18n';
+
 import InputText from 'primevue/inputtext';
+
+import { useFToast } from '@/composables/useFToast';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useClassificationApplicationsStore } from '@/stores/classification/applications';
+
+import ApplicationsTable from './ApplicationsTable.vue';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 

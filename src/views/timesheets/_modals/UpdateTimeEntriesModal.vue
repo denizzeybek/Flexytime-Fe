@@ -9,7 +9,7 @@
     :draggable="false"
     :closable="false"
   >
-    <form @submit="submitHandler" class="pr-2">
+    <form class="pr-2" @submit="submitHandler">
       <div class="w-full flex items-center gap-4 flex-col lg:flex-row">
         <div class="flex items-center gap-2 w-full">
           <FAvatar>{{ selectedItemCount }}</FAvatar>
@@ -17,11 +17,11 @@
         </div>
         <div class="flex items-center gap-4 w-full justify-between lg:justify-end">
           <Button
-            @click="isBillable = !isBillable"
             type="button"
             icon="pi pi-dollar"
             severity="success"
             :outlined="isBillable"
+            @click="isBillable = !isBillable"
           />
 
           <Button severity="info" :label="t('common.buttons.add')" class="w-[150px]" icon="pi pi-plus" type="submit" />
@@ -66,15 +66,15 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
+import { computed,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useFToast } from '@/composables/useFToast';
-import { useForm } from 'vee-validate';
-import { ref, computed } from 'vue';
-import { array, object, string } from 'yup';
-import { ELayout } from '@/views/timesheets/_etc/layout.enum';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { useForm } from 'vee-validate';
+import { array, object, string } from 'yup';
+
+import { useFToast } from '@/composables/useFToast';
+import { type MessageSchema } from '@/plugins/i18n';
+import { ELayout } from '@/views/timesheets/_etc/layout.enum';
 
 interface IProps {
   data?: any;
@@ -82,42 +82,9 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
+const { t } = useI18n<{ message: MessageSchema }>();
+
 const { showSuccessMessage, showErrorMessage } = useFToast();
-
-const open = defineModel<boolean>('open');
-
-// const timeEntryOptions = ['Lansman projesi', 'Reconcilliation', 'Settlement'];
-const projectOptions = [
-  {
-    name: 'Clearing',
-    value: 'Clearing',
-  },
-  {
-    name: 'Productivity',
-    value: 'Productivity',
-  },
-  {
-    name: 'SAP',
-    value: 'SAP',
-  },
-];
-const tagOptions = [
-  {
-    name: 'Lansman',
-    value: 'Lansman',
-  },
-  {
-    name: 'Reporting',
-    value: 'Reporting',
-  },
-  {
-    name: 'Seller',
-    value: 'Seller',
-  },
-];
-
-const activeLayout = ref(ELayout.MANUAL);
-const isBillable = ref(false);
 
 const validationSchema = object({
   timeEntry: string().required().label('Time entry'),
@@ -158,6 +125,45 @@ const validationSchema = object({
     ),
 });
 
+const { handleSubmit, resetForm } = useForm({
+  validationSchema,
+});
+
+const open = defineModel<boolean>('open');
+
+// const timeEntryOptions = ['Lansman projesi', 'Reconcilliation', 'Settlement'];
+const projectOptions = [
+  {
+    name: 'Clearing',
+    value: 'Clearing',
+  },
+  {
+    name: 'Productivity',
+    value: 'Productivity',
+  },
+  {
+    name: 'SAP',
+    value: 'SAP',
+  },
+];
+const tagOptions = [
+  {
+    name: 'Lansman',
+    value: 'Lansman',
+  },
+  {
+    name: 'Reporting',
+    value: 'Reporting',
+  },
+  {
+    name: 'Seller',
+    value: 'Seller',
+  },
+];
+
+const activeLayout = ref(ELayout.MANUAL);
+const isBillable = ref(false);
+
 const selectedItemCount = computed(() => {
   const data = props.data;
   let count = 0;
@@ -182,10 +188,6 @@ const selectedItemCount = computed(() => {
   }
 
   return count;
-});
-
-const { handleSubmit, resetForm } = useForm({
-  validationSchema,
 });
 
 const submitHandler = handleSubmit(async (values) => {

@@ -1,16 +1,23 @@
 <template>
-  <Card class="summary-badge h-full shadow-md hover:shadow-lg transition-shadow rounded-xl overflow-hidden border" :class="bgLightClass">
+  <Card
+    class="summary-badge h-full shadow-md hover:shadow-lg transition-shadow rounded-xl overflow-hidden border"
+    :class="bgLightClass"
+  >
     <template #content>
       <div class="flex items-center justify-center gap-3 h-full">
         <div
           class="flex items-center justify-center min-w-10 min-h-10 rounded-full shadow-sm"
           :class="bgClass"
         >
-          <i :class="icon" class="text-white text-base"></i>
+          <Skeleton v-if="isLoading" shape="circle" size="2.5rem" class="!bg-white/30" />
+          <i v-else :class="icon" class="text-white text-base"></i>
         </div>
-        <div class="flex flex-col items-start justify-center">
-          <span class="text-xs text-gray-500 font-medium">{{ title }}</span>
-          <span :class="textClass" class="font-bold text-base">{{ value }}</span>
+        <div class="flex flex-col items-start justify-center gap-1">
+          <Skeleton v-if="isLoading" height="0.75rem" width="4rem" />
+          <span v-else class="text-xs text-gray-500 font-medium">{{ title }}</span>
+
+          <Skeleton v-if="isLoading" height="1rem" width="3rem" />
+          <span v-else :class="textClass" class="font-bold text-base">{{ value }}</span>
         </div>
       </div>
     </template>
@@ -19,25 +26,36 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+
 import Card from 'primevue/card';
+import Skeleton from 'primevue/skeleton';
+
+import { ESeverity } from '@/enums/severity.enum';
 
 interface IProps {
-  severity: string;
+  severity: ESeverity;
   title: string;
   icon: string;
   value: any;
+  isLoading?: boolean;
 }
 
-const props = defineProps<IProps>();
+const props = withDefaults(defineProps<IProps>(), {
+  isLoading: false,
+});
 
-const severityMap: Record<string, string> = {
-  success: 'success',
-  danger: 'danger',
-  warn: 'warn',
-  warning: 'warn',
-  secondary: 'secondary',
-  info: 'info',
-  primary: 'primary',
+const severityMap: Record<ESeverity, string> = {
+  [ESeverity.SUCCESS]: 'success',
+  [ESeverity.DANGER]: 'danger',
+  [ESeverity.WARN]: 'warn',
+  [ESeverity.WARNING]: 'warn',
+  [ESeverity.SECONDARY]: 'secondary',
+  [ESeverity.INFO]: 'info',
+  [ESeverity.PRIMARY]: 'primary',
+  [ESeverity.ERROR]: 'danger',
+  [ESeverity.HELP]: 'info',
+  [ESeverity.CONTRAST]: 'secondary',
+  [ESeverity.LINK]: 'primary',
 };
 
 const mappedSeverity = computed(() => severityMap[props.severity] || 'default');
@@ -49,7 +67,7 @@ const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);
 </script>
 
 <style scoped>
-@reference "@/custom-tailwind.css";
+@reference "@/tailwind.css";
 
 .summary-badge :deep(.p-card-body) {
   @apply !px-3 !py-3;

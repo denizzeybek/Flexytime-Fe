@@ -1,63 +1,60 @@
 <template>
-  <Card class="lg:w-[700px]">
+  <Card class="w-full">
     <template #content>
-      <form class="flex flex-col gap-12">
+      <form class="flex flex-col gap-8">
         <Skeleton v-if="isLoading" height="100rem" width="w-full" />
         <template v-else>
-          <template v-for="(field, idx) in fields" :key="field.key">
-            <div class="flex justify-between items-center">
-              <div>
-                <FText class="w-[250px] lg:max-w-[350px]">{{ field.value.TypeName }}</FText>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <template v-for="(field, idx) in fields" :key="field.key">
+              <div class="flex flex-col gap-3">
+                <FText class="font-medium">{{ field.value.TypeName }}</FText>
+                <div class="flex items-center">
+                  <FSwitch
+                    v-if="field.value.DataType === 2"
+                    :name="`advanceds[${idx}].Value`"
+                    @change="handleSwitchChange(field, field.value.SettingType, $event.target.value)"
+                  />
+                  <FDateTimePicker
+                    v-else
+                    class="w-full"
+                    :name="`advanceds[${idx}].Value`"
+                    :placeholder="t('pages.settings.advanced.time.placeholder')"
+                    :prime-props="{
+                      timeOnly: true,
+                      hourFormat: '24',
+                      fluid: true,
+                    }"
+                    @change="handleDateChange(field, field.value.SettingType, $event)"
+                  />
+                </div>
               </div>
-              <div class="flex items-center gap-12">
-                <FSwitch
-                  v-if="field.value.DataType === 2"
-                  :name="`advanceds[${idx}].Value`"
-                  class="w-[120x]"
-                  @change="handleSwitchChange(field, field.value.SettingType, $event.target.value)"
-                />
-                <FDateTimePicker
-                  v-else
-                  class="grow w-[60px]"
-                  :name="`advanceds[${idx}].Value`"
-                  :placeholder="t('pages.settings.advanced.time.placeholder')"
-                  :prime-props="{
-                    timeOnly: true,
-                    hourFormat: '24',
-                    fluid: true,
-                  }"
-                  @change="handleDateChange(field, field.value.SettingType, $event)"
-                />
-              </div>
-            </div>
-          </template>
+            </template>
+          </div>
         </template>
-        <!-- <div class="flex w-50 justify-center">
-          <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('common.buttons.save')" />
-        </div> -->
       </form>
     </template>
   </Card>
 </template>
 
 <script setup lang="ts">
-import { string, object, array, mixed } from 'yup';
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
-import { useFToast } from '@/composables/useFToast';
 import { computed, onMounted, ref } from 'vue';
-import { useFieldArray, useForm } from 'vee-validate';
-import { useSettingsAdvancedsStore } from '@/stores/settings/advanced';
-import type { IAdvanced } from '@/interfaces/settings/advanced';
-import { convertTimeToDate, convertDateToTime } from '@/helpers/utils';
+import { useI18n } from 'vue-i18n';
+
 import Skeleton from 'primevue/skeleton';
+import { useFieldArray, useForm } from 'vee-validate';
+import { array, mixed,object, string } from 'yup';
+
+import { useFToast } from '@/composables/useFToast';
+import { convertDateToTime,convertTimeToDate } from '@/helpers/utils';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useSettingsAdvancedsStore } from '@/stores/settings/advanced';
+
+import type { IAdvanced } from '@/interfaces/settings/advanced';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const advancedsStore = useSettingsAdvancedsStore();
-
-const isLoading = ref(false);
 
 const validationSchema = object({
   advanceds: array()
@@ -77,15 +74,24 @@ const { resetForm } = useForm({
 
 const { fields } = useFieldArray<IAdvanced>('advanceds');
 
+const isLoading = ref(false);
+
+const getInitialFormData = computed(() => {
+  return advancedsStore.list?.map((advanced) => ({
+    TypeName: advanced.TypeName,
+    Value: advanced.DataType === 2 ? advanced.Value === 'true' : convertTimeToDate(advanced.Value),
+    // Value: advanced.Value,
+    DataType: advanced.DataType,
+    SettingType: advanced.SettingType,
+  }));
+});
+
 const submit = async (settingType: number, value: any) => {
   try {
     let payload = [
       {
         SettingType: settingType,
-        Value: value === 'true',
-      } as {
-        SettingType: number;
-        Value: string | boolean;
+        Value: String(value === 'true'),
       },
     ];
     console.log('settingType ', settingType);
@@ -104,16 +110,6 @@ const submit = async (settingType: number, value: any) => {
     showErrorMessage(error as any);
   }
 };
-
-const getInitialFormData = computed(() => {
-  return advancedsStore.list?.map((advanced) => ({
-    TypeName: advanced.TypeName,
-    Value: advanced.DataType === 2 ? advanced.Value === 'true' : convertTimeToDate(advanced.Value),
-    // Value: advanced.Value,
-    DataType: advanced.DataType,
-    SettingType: advanced.SettingType,
-  }));
-});
 
 const handleDateChange = (field: any, settingType: number, newValue: any) => {
   field.Value = newValue;

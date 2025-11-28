@@ -2,11 +2,11 @@
   <div>
     <Button
       type="button"
-      @click="toggle"
       outlined
       aria-haspopup="true"
       severity="secondary"
       aria-controls="overlay_menu"
+      @click="toggle"
     >
       <span class="pi pi-ellipsis-v"></span>
     </Button>
@@ -30,9 +30,11 @@
 </template>
 
 <script setup lang="ts">
-import type { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import { ref } from 'vue';
+
 import Menu from 'primevue/menu';
+
+import type { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 
 interface IOption {
   label: string;
@@ -47,11 +49,11 @@ interface IProps {
   options: IOption[];
 }
 
-defineProps<IProps>();
-
 interface IEmits {
   (event: 'optionClick', option: EOptionsDropdown): void;
 }
+
+defineProps<IProps>();
 
 const emit = defineEmits<IEmits>();
 

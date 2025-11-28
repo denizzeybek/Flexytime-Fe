@@ -1,6 +1,7 @@
-import { EStoreNames } from '@/stores/storeNames.enum'
-import { createPinia, getActivePinia, type Pinia, type Store } from 'pinia'
 import { type App } from 'vue'
+import { createPinia, getActivePinia, type Pinia, type Store } from 'pinia'
+
+import { EStoreNames } from '@/stores/storeNames.enum'
 
 interface ExtendedPinia extends Pinia {
   _s: Map<string, Store>
@@ -8,6 +9,7 @@ interface ExtendedPinia extends Pinia {
 
 const resetList = [
   EStoreNames.AUTH,
+  EStoreNames.WORKTIME_USAGE,
   EStoreNames.CLASSIFICATION_WEB_ADDRESSES,
   EStoreNames.CLASSIFICATION_APPLICATIONS,
   EStoreNames.COMPANY_ORGANIZATION_CHARTS,

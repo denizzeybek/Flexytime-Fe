@@ -39,8 +39,9 @@
 
 <script setup lang="ts">
 import Avatar from 'primevue/avatar';
-import Skeleton from 'primevue/skeleton';
 import Card from 'primevue/card';
+import Skeleton from 'primevue/skeleton';
+
 import type { ICard } from '../../_types';
 
 interface IProps {

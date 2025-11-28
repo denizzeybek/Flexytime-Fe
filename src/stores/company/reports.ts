@@ -1,19 +1,22 @@
+import { defineStore } from 'pinia';
+
+import axios from 'axios';
+
+import { useMockData } from '@/config';
+import { EStoreNames } from '@/stores/storeNames.enum';
+
 import type {
+  IDefaultReport,
   IReportFilter,
   IReportGraph,
   IReportGrouping,
-  IReportQuery,
-  IReportSummary,
-  IDefaultReport,
   IReportItem,
-  IReportSection,
+  IReportQuery,
   IReportRecipientType,
+  IReportSection,
+  IReportSummary,
   IReportType,
 } from '@/interfaces/company/report';
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
-import { defineStore } from 'pinia';
-import { useMockData } from '@/config';
 
 interface State {
   filters: IReportFilter;

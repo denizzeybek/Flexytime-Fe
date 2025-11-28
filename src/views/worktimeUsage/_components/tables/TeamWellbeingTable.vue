@@ -90,54 +90,65 @@
 
     <Column field="Wellbeing.Danger" :header="t('pages.worktimeUsage.tables.teamWellbeing.columns.problems')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="3rem" />
-        <Tag
-          v-else-if="slotProps.data.Wellbeing?.Danger?.length > 0"
-          severity="danger"
-          :value="slotProps.data.Wellbeing.Danger.length"
-        />
-        <span v-else>-</span>
+        <Skeleton v-if="isLoading" height="1.5rem" width="6rem" />
+        <div v-else-if="slotProps.data.Wellbeing?.Danger?.length > 0" class="flex gap-1.5 flex-wrap">
+          <i
+            v-for="item in slotProps.data.Wellbeing.Danger"
+            :key="item.id"
+            v-tooltip.top="item.text || item.Name"
+            :class="[getWellbeingIcon(item.Type), 'text-red-600 cursor-help text-lg']"
+          ></i>
+        </div>
+        <span v-else class="text-gray-400">-</span>
       </template>
     </Column>
 
     <Column field="Wellbeing.Warning" :header="t('pages.worktimeUsage.tables.teamWellbeing.columns.warnings')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="3rem" />
-        <Tag
-          v-else-if="slotProps.data.Wellbeing?.Warning?.length > 0"
-          severity="warn"
-          :value="slotProps.data.Wellbeing.Warning.length"
-        />
-        <span v-else>-</span>
+        <Skeleton v-if="isLoading" height="1.5rem" width="6rem" />
+        <div v-else-if="slotProps.data.Wellbeing?.Warning?.length > 0" class="flex gap-1.5 flex-wrap">
+          <i
+            v-for="item in slotProps.data.Wellbeing.Warning"
+            :key="item.id"
+            v-tooltip.top="item.text || item.Name"
+            :class="[getWellbeingIcon(item.Type), 'text-orange-500 cursor-help text-lg']"
+          ></i>
+        </div>
+        <span v-else class="text-gray-400">-</span>
       </template>
     </Column>
 
     <Column field="Wellbeing.Success" :header="t('pages.worktimeUsage.tables.teamWellbeing.columns.achievements')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="3rem" />
-        <Tag
-          v-else-if="slotProps.data.Wellbeing?.Success?.length > 0"
-          severity="success"
-          :value="slotProps.data.Wellbeing.Success.length"
-        />
-        <span v-else>-</span>
+        <Skeleton v-if="isLoading" height="1.5rem" width="6rem" />
+        <div v-else-if="slotProps.data.Wellbeing?.Success?.length > 0" class="flex gap-1.5 flex-wrap">
+          <i
+            v-for="item in slotProps.data.Wellbeing.Success"
+            :key="item.id"
+            v-tooltip.top="item.text || item.Name"
+            :class="[getWellbeingIcon(item.Type), 'text-green-600 cursor-help text-lg']"
+          ></i>
+        </div>
+        <span v-else class="text-gray-400">-</span>
       </template>
     </Column>
   </DataTable>
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import Avatar from 'primevue/avatar';
-import Tag from 'primevue/tag';
-import Skeleton from 'primevue/skeleton';
-import { useWorktimeNavigation } from '../../_composables';
-import type { ITeam } from '../../_types';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import Avatar from 'primevue/avatar';
+import Column from 'primevue/column';
+import DataTable from 'primevue/datatable';
+import Skeleton from 'primevue/skeleton';
+import Tooltip from 'primevue/tooltip';
+
+import { type MessageSchema } from '@/plugins/i18n';
+
+import { useWorktimeNavigation } from '../../_composables';
+
+import type { ITeam } from '../../_types';
 
 interface IProps {
   teams?: ITeam[];
@@ -149,7 +160,30 @@ withDefaults(defineProps<IProps>(), {
   isLoading: false,
 });
 
+const { t } = useI18n<{ message: MessageSchema }>();
+
 const { handleTeamClick, handleEmployeeClick } = useWorktimeNavigation();
+
+// Register tooltip directive
+const vTooltip = Tooltip;
+
+// Map backend wellbeing types to PrimeVue icons
+const getWellbeingIcon = (type: string): string => {
+  const iconMap: Record<string, string> = {
+    overloaded: 'pi pi-exclamation-triangle',
+    overmeeting: 'pi pi-users',
+    overtime: 'pi pi-clock',
+    distract: 'pi pi-eye-slash',
+    automation: 'pi pi-cog',
+    fragmented: 'pi pi-th-large',
+    nocturnal: 'pi pi-moon',
+    uninterrupted: 'pi pi-check-circle',
+    massemail: 'pi pi-envelope',
+    balanced: 'pi pi-heart',
+  };
+
+  return iconMap[type] || 'pi pi-circle';
+};
 
 // Skeleton dummy data - 5 rows for loading state
 const skeletonData = Array.from({ length: 5 }, (_, i) => ({

@@ -7,8 +7,9 @@
 </template>
 
 <script setup lang="ts">
-import CompaniesList from '@/views/settings/_components/companies/CompaniesList.vue';
 import Card from 'primevue/card';
+
+import CompaniesList from '@/views/settings/_components/companies/CompaniesList.vue';
 </script>
 
 <style scoped></style>

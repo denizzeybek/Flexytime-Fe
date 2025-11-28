@@ -1,11 +1,11 @@
 <template>
   <DataTable
+    v-model:filters="filters"
     tableStyle="min-width: 50rem"
     paginator
     :value="isLoading ? skeletonData : companies"
     :rows="5"
     :rowsPerPageOptions="[5, 10, 20, 50]"
-    v-model:filters="filters"
     @page="handlePage"
   >
     <template #header>
@@ -25,7 +25,7 @@
     </template>
     <Column sortable field="Name" :header="t('pages.settings.companies.table.columns.name')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <div v-else class="flex items-center gap-3">
           <FAvatar :label="slotProps.data.Name" />
           <FText>{{ slotProps.data.Name }}</FText>
@@ -34,43 +34,43 @@
     </Column>
     <Column sortable field="Fullname" :header="t('pages.settings.companies.table.columns.fullName')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.Fullname }}</FText>
       </template>
     </Column>
     <Column sortable field="Email" :header="t('pages.settings.companies.table.columns.email')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.Email }}</FText>
       </template>
     </Column>
     <Column sortable field="CreateDate" :header="t('pages.settings.companies.table.columns.createDate')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.CreateDate }}</FText>
       </template>
     </Column>
     <Column field="LastActivityDate" :header="t('pages.settings.companies.table.columns.lastActivityDate')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.LastActivityDate || '-' }}</FText>
       </template>
     </Column>
     <Column field="DashboardActivityDate" :header="t('pages.settings.companies.table.columns.dashboardActivityDate')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.DashboardActivityDate || '-' }}</FText>
       </template>
     </Column>
     <Column field="License" :header="t('pages.settings.companies.table.columns.license')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.License }}</FText>
       </template>
     </Column>
     <Column :header="t('pages.settings.companies.table.columns.actions')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <OptionsDropdown
           v-else
           :options="options"
@@ -81,7 +81,7 @@
 
     <template #footer>
       <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-        <Button icon="pi pi-plus" :label="t('pages.settings.companies.table.addButton')" @click="emit('new')" class="shadow-sm" />
+        <Button icon="pi pi-plus" :label="t('pages.settings.companies.table.addButton')" class="shadow-sm" @click="emit('new')" />
         <FText>{{ t('pages.settings.companies.table.totalCount', { count: companies ? companies.length : 0 }) }}</FText>
       </div>
     </template>
@@ -89,30 +89,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import Skeleton from 'primevue/skeleton';
-import { type MessageSchema } from '@/plugins/i18n';
+import { computed,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useSettingsCompaniesStore } from '@/stores/settings/companies';
+
+import { FilterMatchMode } from '@primevue/core/api';
+import Skeleton from 'primevue/skeleton';
+
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
-import type { ICompany } from '@/interfaces/settings/company';
-import { FilterMatchMode } from '@primevue/core/api';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useSettingsCompaniesStore } from '@/stores/settings/companies';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import type { ICompany } from '@/interfaces/settings/company';
 
 interface IProps {
   isLoading: boolean;
 }
-
-defineProps<IProps>();
 
 interface IEmits {
   (event: 'new'): void;
   (event: 'edit', value: ICompany): void;
 }
 
+defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const companiesStore = useSettingsCompaniesStore();
 

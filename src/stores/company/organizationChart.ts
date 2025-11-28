@@ -1,13 +1,12 @@
-import type {
-  IOrganizationChart,
-  IOrganizationChartNodes,
-} from '@/interfaces/company/organizationChart';
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
 import { defineStore } from 'pinia';
 
+import { CompanyApiService } from '@/client';
+import { EStoreNames } from '@/stores/storeNames.enum';
+
+import type { OrganizationNodeViewModel, OrganizationViewModel } from '@/client';
+
 interface State {
-  list: IOrganizationChartNodes[];
+  list: OrganizationNodeViewModel[];
 }
 
 export const useCompanyOrganizationChartsStore = defineStore(
@@ -18,19 +17,14 @@ export const useCompanyOrganizationChartsStore = defineStore(
     }),
     actions: {
       async filter() {
-        const url = '/webapi/company/organization';
-
-        const response = await axios.get<IOrganizationChart>(url);
-        const organizations = (response.data as IOrganizationChart).Nodes;
+        const data = await CompanyApiService.companyApiOrganization();
+        const organizations = data.Nodes ?? [];
         this.list = organizations;
 
-        return response.data;
+        return data;
       },
-      async save(payload: any) {
-        const url = '/webapi/company/organization/save';
-
-        const response = await axios.post<any>(url, payload);
-        return response.data;
+      async save(payload: OrganizationViewModel) {
+        return await CompanyApiService.companyApiSaveOrganization(payload);
       },
     },
   },

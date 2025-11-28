@@ -1,6 +1,7 @@
   // import { initializeIntercom } from '@/helpers/intercom'
-  import { EStoreNames } from '@/stores/storeNames.enum'
   import { defineStore } from 'pinia'
+
+  import { EStoreNames } from '@/stores/storeNames.enum'
   
   interface State {
     user?: any

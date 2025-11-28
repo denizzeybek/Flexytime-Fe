@@ -6,6 +6,7 @@
  */
 
 import { useWorktimeQuery } from './useWorktimeQuery';
+
 import type { INavigationTarget } from '../_types';
 
 export function useWorktimeNavigation() {

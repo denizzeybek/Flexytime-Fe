@@ -564,6 +564,87 @@
           "saved": "Kaydedildi!"
         }
       },
+      "organizationChartV2": {
+        "search": {
+          "placeholder": "İsim, üye veya ünvana göre ara..."
+        },
+        "buttons": {
+          "expandAll": "Tümünü Genişlet",
+          "collapseAll": "Tümünü Daralt",
+          "addRootTeam": "Ekip Ekle",
+          "addFirstTeam": "İlk Ekibi Oluştur",
+          "save": "Değişiklikleri Kaydet",
+          "cancel": "İptal",
+          "undo": "Geri Al",
+          "redo": "Yinele"
+        },
+        "emptyState": {
+          "noData": "Henüz organizasyon yapısı tanımlanmamış",
+          "noResults": "Aramanız için sonuç bulunamadı"
+        },
+        "node": {
+          "untitled": "İsimsiz",
+          "tooltips": {
+            "addChild": "Alt Ekip Ekle",
+            "edit": "Düzenle",
+            "delete": "Sil"
+          }
+        },
+        "editDialog": {
+          "titleAdd": "Yeni Düğüm Ekle",
+          "titleEdit": "Düğümü Düzenle",
+          "fields": {
+            "title": {
+              "label": "Başlık",
+              "placeholder": "Ekip veya pozisyon başlığı girin"
+            },
+            "name": {
+              "label": "Ekip Adı",
+              "placeholder": "Ekip adı girin (opsiyonel)",
+              "hint": "Resmi ekip adı veya departman"
+            },
+            "memberName": {
+              "label": "Üye Adı",
+              "placeholder": "Üye adı girin (opsiyonel)",
+              "hint": "Bu pozisyondan sorumlu kişi"
+            },
+            "titleName": {
+              "label": "İş Ünvanı",
+              "placeholder": "İş ünvanı girin (opsiyonel)",
+              "hint": "Pozisyon veya rol ünvanı"
+            },
+            "abbreviation": {
+              "label": "Kısaltma",
+              "placeholder": "Kısaltma girin (opsiyonel)",
+              "hint": "Kısa kod veya kısaltma (maks 10 karakter)"
+            }
+          },
+          "info": {
+            "nodeId": "Düğüm ID",
+            "teamId": "Ekip ID",
+            "memberId": "Üye ID",
+            "titleId": "Ünvan ID"
+          },
+          "validation": {
+            "titleRequired": "Başlık zorunludur",
+            "titleMinLength": "Başlık en az 2 karakter olmalıdır"
+          },
+          "buttons": {
+            "save": "Kaydet",
+            "cancel": "İptal"
+          }
+        },
+        "deleteDialog": {
+          "title": "Silmeyi Onayla",
+          "message": "Bu düğümü silmek istediğinizden emin misiniz?",
+          "warningChildren": "Uyarı: Bu işlem tüm alt düğümleri de silecektir.",
+          "confirm": "Sil",
+          "cancel": "İptal"
+        },
+        "messages": {
+          "saved": "Organizasyon şeması başarıyla kaydedildi!"
+        }
+      },
       "workingHours": {
         "form": {
           "enterTime": "Zaman girin",
@@ -1119,6 +1200,17 @@
         "markAsMeeting": "Toplantı Olarak İşaretle",
         "markAsLeisure": "Boş Zaman Olarak İşaretle",
         "markAsUnclassified": "Belirsiz Olarak İşaretle"
+      }
+    },
+    "errors": {
+      "unauthorized": {
+        "title": "Yetkisiz Erişim",
+        "description": "Bu sayfaya erişim yetkiniz bulunmamaktadır. Bunun bir hata olduğunu düşünüyorsanız lütfen yöneticinizle iletişime geçin.",
+        "actions": {
+          "goBack": "Geri Dön",
+          "goHome": "Ana Sayfaya Git"
+        },
+        "helpText": "Bu kaynağa erişim için sistem yöneticinizle iletişime geçin."
       }
     }
   }

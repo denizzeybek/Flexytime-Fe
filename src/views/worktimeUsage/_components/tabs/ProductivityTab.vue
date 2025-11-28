@@ -32,25 +32,26 @@
 
       <!-- Empty state (only show when NOT loading and no data) -->
       <div v-else-if="!isLoading" class="text-center text-gray-500 p-8">
-        <p>{{ $t('components.productivity.noDataAvailable') }}</p>
+        <p>{{ t('components.productivity.noDataAvailable') }}</p>
       </div>
     </template>
 
     <!-- Fallback empty state -->
     <div v-else-if="!isLoading" class="text-center text-gray-500 p-8">
-      <p>{{ $t('components.productivity.noDataAvailable') }}</p>
+      <p>{{ t('components.productivity.noDataAvailable') }}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { type MessageSchema } from '@/plugins/i18n';
-import TeamProductivityTable from '../tables/TeamProductivityTable.vue';
-import EmployeeProductivityTable from '../tables/EmployeeProductivityTable.vue';
-import type { ViewMode, DisplayMode, ITeam, IIndividual } from '../../_types';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { type MessageSchema } from '@/plugins/i18n';
+
+import EmployeeProductivityTable from '../tables/EmployeeProductivityTable.vue';
+import TeamProductivityTable from '../tables/TeamProductivityTable.vue';
+
+import type { DisplayMode, IIndividual,ITeam, ViewMode } from '../../_types';
 
 interface IProps {
   viewMode: ViewMode;
@@ -66,4 +67,7 @@ withDefaults(defineProps<IProps>(), {
   individuals: () => [],
   isLoading: false,
 });
+
+const { t } = useI18n<{ message: MessageSchema }>();
+
 </script>

@@ -1,6 +1,7 @@
 <template>
   <div class="flex gap-2.5 items-center w-full lg:w-fit">
     <Button
+      v-if="canAccessWorktimeUsage"
       :v-tooltip.top="$t('pages.worktimeUsage.downloadReportTooltip')"
       icon="pi pi-arrow-circle-down"
       severity="secondary"
@@ -8,13 +9,15 @@
       @click="handleDownload"
     />
     <DatePicker
+      ref="datePicker"
       v-model="dateRange"
       class="flex-1 min-w-56"
       selection-mode="range"
       :manual-input="false"
-      date-format="yy-mm-dd"
+      :date-format="dateFormat"
+      :max-date="maxDate"
       show-button-bar
-      @update:model-value="handleDateChange as any"
+      @update:model-value="handleDateChange"
     />
     <Select
       v-model="selectedPerspective"
@@ -41,11 +44,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import Button from 'primevue/button';
 import DatePicker from 'primevue/datepicker';
 import Select from 'primevue/select';
+
+import { useAuthorization } from '@/composables/useAuthorization';
+import { useDateFormat } from '@/composables/useDateFormat';
+
 import { useWorktimeQuery } from '../../_composables';
 
 interface IEmits {
@@ -56,6 +64,11 @@ const emit = defineEmits<IEmits>();
 const { t } = useI18n();
 
 const { currentQuery, updateInterval, updatePerspective } = useWorktimeQuery();
+const { canAccessWorktimeUsage } = useAuthorization();
+const { dateFormat } = useDateFormat();
+
+const datePicker = ref();
+const maxDate = ref(new Date());
 
 enum EPerspective {
   TIME = 0,
@@ -72,36 +85,38 @@ const perspectiveOptions = [
 ];
 
 const dateRange = ref<Date[]>([]);
-const selectedPerspective = ref(perspectiveOptions[0]);
 
-// Initialize from query
-onMounted(() => {
-  // Parse interval from query (format: YYYY-MM-DD_YYYY-MM-DD)
-  if (currentQuery.value.interval) {
-    const [start, end] = currentQuery.value.interval.split('_');
-    dateRange.value = [new Date(start), new Date(end)];
-  }
-
-  // Set perspective from query
+// Initialize perspective from query or use first option as default
+const getInitialPerspective = () => {
   const perspectiveFromQuery = perspectiveOptions.find(
     (opt) => opt.value === currentQuery.value.perspective
   );
-  if (perspectiveFromQuery) {
-    selectedPerspective.value = perspectiveFromQuery;
-  }
-});
+  return perspectiveFromQuery || perspectiveOptions[0];
+};
 
-const handleDateChange = (value: Date[] | null) => {
-  if (value && value.length === 2 && value[0] && value[1]) {
-    const formatDate = (date: Date) => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    };
+const selectedPerspective = ref(getInitialPerspective());
 
-    const interval = `${formatDate(value[0])}_${formatDate(value[1])}`;
+const handleDateChange = (value: Date | Date[] | (Date | null)[] | null | undefined): void => {
+  if (value && Array.isArray(value) && value.length === 2 && value[0] && value[1]) {
+    const startDate = value[0] as Date;
+    const endDate = value[1] as Date;
+
+    // Calculate difference in days
+    const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include end date
+
+    // Format: DD.MM.YYYY-{days} using startDate
+    const day = String(startDate.getDate()).padStart(2, '0');
+    const month = String(startDate.getMonth() + 1).padStart(2, '0');
+    const year = startDate.getFullYear();
+
+    const interval = `${day}.${month}.${year}-${diffDays}`;
     updateInterval(interval);
+
+    // Hide datepicker after both dates are selected
+    if (datePicker.value) {
+      datePicker.value.overlayVisible = false;
+    }
   }
 };
 
@@ -112,4 +127,23 @@ const handlePerspectiveChange = () => {
 const handleDownload = () => {
   emit('download');
 };
+
+// Initialize date range from query
+onMounted(() => {
+  // Parse interval from query (format: DD.MM.YYYY-{days} where date is startDate)
+  if (currentQuery.value.interval) {
+    const [dateStr, daysStr] = currentQuery.value.interval.split('-');
+    const days = parseInt(daysStr, 10);
+
+    // Parse DD.MM.YYYY as startDate
+    const [day, month, year] = dateStr.split('.').map(Number);
+    const startDate = new Date(year, month - 1, day);
+
+    // Calculate end date
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + (days - 1)); // -1 because days includes start date
+
+    dateRange.value = [startDate, endDate];
+  }
+});
 </script>

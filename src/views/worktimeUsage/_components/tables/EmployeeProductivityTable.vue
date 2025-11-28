@@ -6,6 +6,8 @@
     :rows="10"
     :rows-per-page-options="[5, 10, 20, 50]"
     table-style="min-width: 50rem"
+    sort-field="Work.time"
+    :sort-order="-1"
   >
     <Column field="EmployeeName" :header="t('pages.worktimeUsage.tables.employeeProductivity.columns.employeeName')" sortable>
       <template #body="slotProps">
@@ -57,9 +59,13 @@
           v-else-if="slotProps.data.Tags && slotProps.data.Tags.length > 0"
           class="flex gap-1 flex-wrap"
         >
-          <Tag v-for="(tag, idx) in slotProps.data.Tags" :key="idx" :value="tag" severity="info" />
+          <Tag
+            v-for="(tag, idx) in slotProps.data.Tags.filter((t: string | null) => t != null && t !== 'null')"
+            :key="idx"
+            :value="tag"
+            severity="info"
+          />
         </div>
-        <span v-else>-</span>
       </template>
     </Column>
 
@@ -128,17 +134,19 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import Avatar from 'primevue/avatar';
-import Tag from 'primevue/tag';
-import Skeleton from 'primevue/skeleton';
-import { useWorktimeNavigation } from '../../_composables';
-import type { IIndividual } from '../../_types';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import Avatar from 'primevue/avatar';
+import Column from 'primevue/column';
+import DataTable from 'primevue/datatable';
+import Skeleton from 'primevue/skeleton';
+import Tag from 'primevue/tag';
+
+import { type MessageSchema } from '@/plugins/i18n';
+
+import { useWorktimeNavigation } from '../../_composables';
+
+import type { IIndividual } from '../../_types';
 
 interface IProps {
   individuals?: IIndividual[];
@@ -149,6 +157,8 @@ withDefaults(defineProps<IProps>(), {
   individuals: () => [],
   isLoading: false,
 });
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { handleTeamClick, handleEmployeeClick } = useWorktimeNavigation();
 

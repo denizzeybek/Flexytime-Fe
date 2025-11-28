@@ -1,4 +1,5 @@
 import { computed } from 'vue';
+
 import { useCompanyReportsStore } from '@/stores/company/reports';
 import { EGroupOptions } from '@/views/company/_etc/groupOptions.enum';
 

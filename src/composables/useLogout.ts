@@ -1,6 +1,7 @@
+import { useRouter } from 'vue-router';
+
 import { resetStores } from '@/plugins/pinia';
 import { ERouteNames } from '@/router/routeNames.enum';
-import { useRouter } from 'vue-router';
 
 export const useLogout = () => {
   const router = useRouter();

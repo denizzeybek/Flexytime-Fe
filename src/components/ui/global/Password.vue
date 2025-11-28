@@ -19,12 +19,15 @@
 </template>
 
 <script setup lang="ts">
-import type { PasswordProps } from 'primevue/password';
 import { computed } from 'vue';
-import { useField } from 'vee-validate';
-import Password from 'primevue/password';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
+
+import Password from 'primevue/password';
+import { useField } from 'vee-validate';
+
+import { type MessageSchema } from '@/plugins/i18n';
+
+import type { PasswordProps } from 'primevue/password';
 
 interface IProps {
   id: string;
@@ -42,8 +45,6 @@ interface IProps {
   feedback?: boolean;
 }
 
-const { t } = useI18n<{ message: MessageSchema }>();
-
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
   validatingAsync: false,
@@ -51,6 +52,8 @@ const props = withDefaults(defineProps<IProps>(), {
   feedback: false,
   placeholder: '',
 });
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const finalPlaceholder = computed(() => props.placeholder || t('components.password.placeholder'));
 

@@ -4,10 +4,10 @@
       <Download :is-wizard="true">
         <template #skipBtn>
           <Button
-            @click="router.push({ name: ERouteNames.WorktimeUsage })"
             severity="contrast"
             class="!px-12"
             :label="$t('pages.auth.wizardDownload.skipButton')"
+            @click="router.push({ name: ERouteNames.WorktimeUsage })"
           />
         </template>
       </Download>
@@ -16,10 +16,12 @@
 </template>
 
 <script setup lang="ts">
-import { ERouteNames } from '@/router/routeNames.enum';
-import AuthLayout from '@/layouts/auth/AuthLayout.vue';
-import Download from '../download/_views/Download.vue';
 import { useRouter } from 'vue-router';
+
+import AuthLayout from '@/layouts/auth/AuthLayout.vue';
+import { ERouteNames } from '@/router/routeNames.enum';
+
+import Download from '../download/_views/Download.vue';
 
 const router = useRouter();
 </script>

@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col gap-2 relative" v-click-outside="handleOutsideClick">
+  <div v-click-outside="handleOutsideClick" class="flex flex-col gap-2 relative">
     <label :for="id">{{ label }}</label>
     <InputText
-      v-model="model"
       :id="id"
+      v-model="model"
       :data-error="!!errorMessage"
       :data-valid="isValid"
       :placeholder="placeholder"
@@ -12,11 +12,11 @@
       class="w-full"
       :invalid="!!errorMessage"
       :list="list"
+      :class="[customClass]"
+      v-bind="primeProps"
       @focus="list ? (showOptions = true) : (showOptions = false)"
       @input="filterOptions"
-      :class="[customClass]"
       v-on="listeners"
-      v-bind="primeProps"
     />
     <slot name="dataList" />
     <ul
@@ -26,14 +26,20 @@
       <li
         v-for="option in filteredOptions"
         :key="option"
-        @click="selectOption(option)"
         class="hover:bg-slate-100 cursor-pointer rounded-s px-3 py-2"
+        @click="selectOption(option)"
       >
         {{ option }}
       </li>
       <div v-if="!filteredOptions.length" class="px-3 py-2 gap-4 w-full flex flex-col">
         <FText :innerText="t('components.input.noOptionFound')" />
-        <Button @click="addNewOption" :label="t('components.input.addButton')" icon="pi pi-plus" class="flex-1" outlined />
+        <Button
+          :label="t('components.input.addButton')"
+          icon="pi pi-plus"
+          class="flex-1"
+          outlined
+          @click="addNewOption"
+        />
       </div>
     </ul>
     <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
@@ -41,13 +47,14 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
+import { computed, type InputHTMLAttributes, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { InputTextProps } from 'primevue/inputtext';
-import { ref, computed, type InputHTMLAttributes } from 'vue';
+
 import { useField } from 'vee-validate';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { type MessageSchema } from '@/plugins/i18n';
+
+import type { InputTextProps } from 'primevue/inputtext';
 
 interface IProps {
   id: string;
@@ -67,6 +74,10 @@ interface IProps {
   datalistOptions?: string[];
 }
 
+interface IEmits {
+  (event: 'updateList', value: string): void;
+}
+
 const props = withDefaults(defineProps<IProps>(), {
   type: 'text',
   disabled: false,
@@ -74,14 +85,9 @@ const props = withDefaults(defineProps<IProps>(), {
   unstyled: false,
 });
 
-interface IEmits {
-  (event: 'updateList', value: string): void;
-}
 const emit = defineEmits<IEmits>();
 
-const isFocused = ref(false);
-const showOptions = ref(false);
-const filteredOptions = ref(props.datalistOptions || []);
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const {
   errorMessage: vError,
@@ -92,11 +98,16 @@ const {
   validateOnValueUpdate: false,
   syncVModel: true,
 });
+
+const isFocused = ref(false);
+const showOptions = ref(false);
+const filteredOptions = ref(props.datalistOptions || []);
+
 const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
 
 const model = computed<string>({
   get: () => value.value as unknown as string,
-  set: v => (value.value = v)
+  set: (v) => (value.value = v),
 });
 
 const filterOptions = () => {
@@ -148,7 +159,7 @@ const listeners = {
 </script>
 
 <style scoped>
-@reference "@/custom-tailwind.css";
+@reference "@/tailwind.css";
 .unstyled:focus {
   outline: none;
 }

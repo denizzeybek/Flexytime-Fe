@@ -1,7 +1,7 @@
-import { type IOption } from '@/common/interfaces/option.interface'
+import { type AnyObject,number, object, string } from 'yup'
 
+import { type IOption } from '@/common/interfaces/option.interface'
 import { PASSWORD_RULES } from '@/constants/regex'
-import { number, object, string, type AnyObject } from 'yup'
 
 export const validateBirthDate = (value: string) => {
   const date = new Date(value)

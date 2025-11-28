@@ -9,11 +9,13 @@
 </template>
 
 <script setup lang="ts">
-import EmployeesTable from './EmployeesTable.vue';
 import { onMounted, ref } from 'vue';
-import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
+
 import { useFToast } from '@/composables/useFToast';
+import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
+
 import EmployeeModal from './_modals/EmployeeModal.vue';
+import EmployeesTable from './EmployeesTable.vue';
 
 const employeesStore = useHRSettingsEmployeesStore();
 const { showErrorMessage } = useFToast();

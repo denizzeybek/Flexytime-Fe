@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* === Design System: Single Source of Truth === */
+  /* Override Tailwind built-in colors for consistency */
+
+  /* Purple (Primary Brand) - Violet tones */
+  --color-purple-50: oklch(96.76% 0.053 293.31); /* #f5f3ff */
+  --color-purple-100: oklch(93.43% 0.083 293.31); /* #ede9fe */
+  --color-purple-200: oklch(87.82% 0.128 293.31); /* #ddd6fe */
+  --color-purple-300: oklch(79.23% 0.168 293.31); /* #c4b5fd */
+  --color-purple-400: oklch(71.25% 0.214 293.31); /* #a78bfa */
+  --color-purple-500: oklch(64.5% 0.292 293.31); /* #8b5cf6 */
+  --color-purple-600: oklch(59.04% 0.283 292.69); /* #7c3aed */
+  --color-purple-700: oklch(53.06% 0.244 293.72); /* #6d28d9 */
+  --color-purple-800: oklch(45.42% 0.211 293.33); /* #5b21b6 */
+  --color-purple-900: oklch(39.75% 0.168 292.3); /* #4c1d95 */
+  --color-purple-950: oklch(28.64% 0.127 291.88); /* #2e1065 */
+
+  /* Green (Success) - Emerald tones */
+  --color-green-50: oklch(95.85% 0.053 166.35); /* #ecfdf5 */
+  --color-green-100: oklch(90.78% 0.118 166.11); /* #d1fae5 */
+  --color-green-200: oklch(83.49% 0.167 162.48); /* #a7f3d0 */
+  --color-green-300: oklch(74.84% 0.182 162.75); /* #6ee7b7 */
+  --color-green-400: oklch(70.85% 0.172 165.92); /* #34d399 */
+  --color-green-500: oklch(65.69% 0.196 166.35); /* #10b981 */
+  --color-green-600: oklch(56.04% 0.165 168.87); /* #059669 */
+  --color-green-700: oklch(47.91% 0.135 169.52); /* #047857 */
+  --color-green-800: oklch(40.62% 0.106 171.13); /* #065f46 */
+  --color-green-900: oklch(34.61% 0.082 172.55); /* #064e3b */
+  --color-green-950: oklch(23.41% 0.063 173.35); /* #022c22 */
+
+  /* Red (Danger) */
+  --color-red-50: oklch(95.3% 0.042 27.33); /* #fef2f2 */
+  --color-red-100: oklch(92.49% 0.077 27.33); /* #fee2e2 */
+  --color-red-200: oklch(87.03% 0.122 27.33); /* #fecaca */
+  --color-red-300: oklch(79.29% 0.159 27.33); /* #fca5a5 */
+  --color-red-400: oklch(70.08% 0.204 27.33); /* #f87171 */
+  --color-red-500: oklch(62.8% 0.257 27.33); /* #ef4444 */
+  --color-red-600: oklch(55.05% 0.241 27.33); /* #dc2626 */
+  --color-red-700: oklch(46.45% 0.204 27.33); /* #b91c1c */
+  --color-red-800: oklch(40.4% 0.172 27.33); /* #991b1b */
+  --color-red-900: oklch(35.28% 0.134 27.33); /* #7f1d1d */
+  --color-red-950: oklch(23.6% 0.096 27.33); /* #450a0a */
+
+  /* Orange (Warning) - Amber tones */
+  --color-orange-50: oklch(97.38% 0.036 88.18); /* #fffbeb */
+  --color-orange-100: oklch(94.61% 0.086 88.18); /* #fef3c7 */
+  --color-orange-200: oklch(90.07% 0.138 88.18); /* #fde68a */
+  --color-orange-300: oklch(84.86% 0.166 85.45); /* #fcd34d */
+  --color-orange-400: oklch(80.79% 0.162 76.69); /* #fbbf24 */
+  --color-orange-500: oklch(75.8% 0.179 70.08); /* #f59e0b */
+  --color-orange-600: oklch(65.35% 0.171 61.52); /* #d97706 */
+  --color-orange-700: oklch(54.65% 0.148 54.85); /* #b45309 */
+  --color-orange-800: oklch(46.16% 0.118 52.85); /* #92400e */
+  --color-orange-900: oklch(39.73% 0.095 51.91); /* #78350f */
+  --color-orange-950: oklch(26.78% 0.071 49.15); /* #451a03 */
+
+  /* Sky (Info) */
+  --color-sky-50: oklch(96.72% 0.032 232.66); /* #f0f9ff */
+  --color-sky-100: oklch(93.88% 0.061 232.66); /* #e0f2fe */
+  --color-sky-200: oklch(88.39% 0.103 232.66); /* #bae6fd */
+  --color-sky-300: oklch(80.67% 0.136 232.66); /* #7dd3fc */
+  --color-sky-400: oklch(74.08% 0.154 232.66); /* #38bdf8 */
+  --color-sky-500: oklch(69.75% 0.191 232.66); /* #0ea5e9 */
+  --color-sky-600: oklch(59.87% 0.163 232.66); /* #0284c7 */
+  --color-sky-700: oklch(51.38% 0.135 232.66); /* #0369a1 */
+  --color-sky-800: oklch(44.64% 0.114 232.66); /* #075985 */
+  --color-sky-900: oklch(38.8% 0.089 232.66); /* #0c4a6e */
+  --color-sky-950: oklch(28.86% 0.065 232.66); /* #082f49 */
+
+  /* Aliases for semantic usage */
+  --color-f-primary: var(--color-purple-600);
+  --color-f-primary-hovered: var(--color-purple-700);
+  --color-f-light-purple: var(--color-purple-50);
+  --color-f-secondary-purple: var(--color-purple-100);
+  --color-f-tertiary-purple: var(--color-purple-200);
+  --color-f-fifth-purple: var(--color-purple-300);
+
+  --color-f-success: var(--color-green-500);
+  --color-f-green: var(--color-green-500);
+  --color-f-light-green: var(--color-green-50);
+
+  --color-f-danger: var(--color-red-500);
+  --color-f-red: var(--color-red-500);
+  --color-f-light-red: var(--color-red-50);
+
+  --color-f-warn: var(--color-orange-500);
+  --color-f-yellow: var(--color-orange-500);
+  --color-f-light-yellow: var(--color-orange-50);
+
+  --color-f-info: var(--color-sky-500);
+  --color-f-blue: var(--color-sky-500);
+
+  /* Neutral: Slate */
+  --color-f-secondary: oklch(47.2% 0.024 240.34); /* slate-600 */
+  --color-f-stroke: oklch(90.53% 0.015 247.86); /* slate-200 */
+  --color-f-off-white: oklch(98.85% 0.002 247.84); /* slate-50 */
+  --color-f-gray: oklch(78.35% 0.02 264.54); /* slate-300 */
+  --color-f-light-gray: oklch(96.72% 0.004 247.86); /* slate-100 */
+  --color-f-dark-gray: oklch(62.1% 0.033 255.51); /* slate-500 */
+  --color-f-text-gray: oklch(69.75% 0.019 256.85); /* slate-400 */
+  --color-f-black: oklch(23.99% 0.034 264.05); /* slate-900 */
+  --color-f-light-black: oklch(62.1% 0.033 255.51); /* slate-500 */
+  --color-f-white: oklch(100% 0 0);
+  --color-f-body-bg: oklch(96.72% 0.004 247.86); /* slate-100 */
+
+  /* Font Family */
+  --font-sans: Poppins, sans-serif;
+
+  /* Breakpoints */
+  --breakpoint-3xl: 1800px;
+
+  /* Scale */
+  --scale-104: 1.04;
+  --scale-115: 1.15;
+
+  /* Animations */
+  --animate-shake-x: shake-x 0.2s ease-in-out 0s 2;
+  --animate-slide-in-up: slideInUp 0.5s ease-out;
+
+  /* Custom Heights */
+  --height-full-offcanvas: 91%;
+}
+
+@layer base {
+  @keyframes shake-x {
+    0%, 100% { margin-left: 0; }
+    25% { margin-left: 0.25rem; }
+    75% { margin-left: -0.25rem; }
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 14px;
+  }
+}
+
+@layer utilities {
+  .grid-cols-36 {
+    grid-template-columns: repeat(36, minmax(0, 1fr));
+  }
+
+  .col-span-14 {
+    grid-column: span 14 / span 14;
+  }
+
+  .empty {
+    @apply w-[5px] h-[5px];
+  }
+}
+
+

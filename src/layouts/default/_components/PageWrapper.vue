@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col flex-1 lg:ml-[238px] p-4">
+  <div class="flex flex-col flex-1 lg:ml-[260px] p-4">
     <div id="alert" class="alert"></div>
     <section class="flex flex-col flex-1 h-full">
-      <PageHeader @drawerChange="emit('drawerChange', $event)" class="mb-5 lg:mb-6" />
+      <PageHeader class="mb-5 lg:mb-6" @drawerChange="emit('drawerChange', $event)" />
       <div class="flex-1">
         <slot></slot>
       </div>

@@ -10,7 +10,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `yarn preview` - Preview production build
 
 ### Code Quality
-- `yarn lint` - Run ESLint with auto-fix
+- `yarn lint` - Run ESLint with auto-fix AND check Vue Composition API order
+- `yarn lint:eslint` - Run only ESLint with auto-fix
+- `yarn lint:order` - Check Vue Composition API order (reports violations)
 - `yarn format` - Format code with Prettier
 - `yarn type-check` - Run TypeScript type checking without compilation
 
@@ -19,6 +21,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Utilities
 - `yarn generate-icon-names` - Generate icon name constants from scripts
+
+### ESLint Configuration
+
+The project includes automated checking for:
+- **Import sorting**: Automatic grouping and sorting of imports
+- **Vue block order**: template → script → style
+- **Component attributes order**: Standardized attribute ordering
+- **Composition API order**: Enforces the order defined in Component Structure section below
+
+## MCP Tools
+
+### Context7
+Always use context7 when I need code generation, setup or configuration steps, or library/API documentation. This means you should automatically use the Context7 MCP tools to resolve library id and get library docs without me having to explicitly ask.
 
 ## Project Architecture
 
@@ -64,14 +79,15 @@ Each feature domain has its own Pinia store in `src/stores/`:
 #### Component Structure (from README.md)
 Follow this order in Vue SFCs:
 1. Imports
-2. Props interface (`IProps`) and `defineProps`
-3. Emits interface (`IEmits`) and `defineEmits`
-4. Composables and stores
-5. Reactive references (`ref`)
-6. Computed properties
-7. Functions (use ES6 arrow functions: `const myFunction = () => {}`)
-8. Watchers
-9. Lifecycle hooks (`onMounted`, etc.)
+2. Interfaces and Types (`interface IProps`, `interface IEmits`, `type` definitions)
+3. `defineProps` (uses interfaces defined above)
+4. `defineEmits` (uses interfaces defined above)
+5. Composables and stores
+6. Reactive references (`ref`)
+7. Computed properties
+8. Functions (use ES6 arrow functions: `const myFunction = () => {}`)
+9. Watchers
+10. Lifecycle hooks (`onMounted`, etc.)
 
 #### Code Style Guidelines
 - **Functions**: Always use ES6 arrow functions (`const functionName = () => {}`) instead of `function` declarations
@@ -97,3 +113,4 @@ Follow this order in Vue SFCs:
 - **TypeScript**: Project references for app, node, and test configurations
 - **Tailwind**: Custom configuration for design system
 - **ESLint**: Vue 3 + TypeScript rules with Prettier integration
+

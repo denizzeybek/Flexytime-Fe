@@ -14,7 +14,7 @@
       @change="onSelect($event)"
     >
     </SelectButton>
-    <small class="p-error text-red-500" v-if="errorMessage" type="error">
+    <small v-if="errorMessage" class="p-error text-red-500" type="error">
       {{ errorMessage }}
     </small>
   </div>
@@ -23,6 +23,7 @@
 <script lang="ts" setup>
 import SelectButton, { type SelectButtonProps } from 'primevue/selectbutton';
 import { useField } from 'vee-validate';
+
 import type { IOption } from '@/common/interfaces/option.interface';
 
 export interface IProps {
@@ -40,6 +41,11 @@ export interface IProps {
   optionLabel?: 'label';
 }
 
+interface IEmits {
+  (event: 'selected', value: any): void;
+  (event: 'update:modelValue', value: string | number): void;
+}
+
 const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
   customWidth: 'w-full',
@@ -47,6 +53,8 @@ const props = withDefaults(defineProps<IProps>(), {
   multiple: false,
   optionLabel: 'label',
 });
+
+const emit = defineEmits<IEmits>();
 
 const { errorMessage, value, handleBlur, handleChange } = useField<IOption>(
   () => props.name,
@@ -56,12 +64,6 @@ const { errorMessage, value, handleBlur, handleChange } = useField<IOption>(
     syncVModel: true,
   },
 );
-
-interface IEmits {
-  (event: 'selected', value: any): void;
-  (event: 'update:modelValue', value: string | number): void;
-}
-const emit = defineEmits<IEmits>();
 
 const validationListeners = {
   blur: (e: InputEvent) => handleBlur(e, true),
@@ -75,7 +77,7 @@ const onSelect = (e: any) => {
 </script>
 
 <style>
-@reference "@/custom-tailwind.css";
+@reference "@/tailwind.css";
 .p-togglebutton-checked::before {
   @apply !bg-f-primary;
 }

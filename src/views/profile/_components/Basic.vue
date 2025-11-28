@@ -28,20 +28,20 @@
         </template>
         <FileUpload
           mode="basic"
-          @select="onFileSelect"
           customUpload
           auto
           severity="secondary"
           class="p-button-outlined"
+          @select="onFileSelect"
         />
       </div>
       <div class="flex lg:flex-col flex-1 gap-4">
-        <FInput class="grow" id="fullName" :label="t('pages.profile.basic.fullName.label')" name="fullName" />
-        <FInput class="grow" type="email" id="email" :label="t('pages.profile.basic.email.label')" name="email" />
+        <FInput id="fullName" class="grow" :label="t('pages.profile.basic.fullName.label')" name="fullName" />
+        <FInput id="email" class="grow" type="email" :label="t('pages.profile.basic.email.label')" name="email" />
       </div>
     </div>
     <div class="flex gap-4 flex-1">
-      <FInput class="grow" id="role" :label="t('pages.profile.basic.role.label')" name="role" />
+      <FInput id="role" class="grow" :label="t('pages.profile.basic.role.label')" name="role" />
       <div class="flex flex-col gap-2 grow">
         <label class="text-sm font-medium">{{ t('pages.profile.basic.language.label') }}</label>
         <Select
@@ -49,8 +49,8 @@
           :options="languageOptions"
           optionLabel="name"
           :placeholder="t('pages.profile.basic.language.placeholder')"
-          @update:model-value="handleLanguageChange"
           class="w-full"
+          @update:model-value="handleLanguageChange"
         />
       </div>
     </div>
@@ -70,8 +70,8 @@
         type="submit"
         :label="t('pages.profile.basic.save.label')"
         :disabled="isSubmitting"
-        @click.stop="submitHandler"
         :loading="isSubmitting"
+        @click.stop="submitHandler"
       ></Button>
     </div>
   </form>
@@ -79,20 +79,36 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
-import { useForm } from 'vee-validate';
-import { string, object } from 'yup';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import { useProfileStore } from '@/stores/profile/profile';
+
+import Select from 'primevue/select';
+import { useForm } from 'vee-validate';
+import { object,string } from 'yup';
+
 import { useFToast } from '@/composables/useFToast';
 import { useLanguage } from '@/composables/useLanguage';
-import Select from 'primevue/select';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useProfileStore } from '@/stores/profile/profile';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const profileStore = useProfileStore();
 const { currentLanguage, changeLanguage, getLanguageOptions } = useLanguage();
+
+const validationSchema = object({
+  fullName: string().required().label('Full Name'),
+  email: string().required().email().label('Email'),
+  role: string().required().label('Role'),
+  timeZone: object().shape({
+    name: string().label('Name'),
+    value: string().label('Time zone').required(),
+  }),
+});
+
+const { handleSubmit,  isSubmitting, resetForm } = useForm({
+  validationSchema,
+});
 
 const src = ref();
 
@@ -108,18 +124,17 @@ const timeZoneList = computed(() =>
 
 const hasProfileImage = computed(() => !!profileStore?.GeneralProfile.ImagePath);
 
-const validationSchema = object({
-  fullName: string().required().label('Full Name'),
-  email: string().required().email().label('Email'),
-  role: string().required().label('Role'),
-  timeZone: object().shape({
-    name: string().label('Name'),
-    value: string().label('Time zone').required(),
-  }),
-});
+const getInitialFormData = computed(() => {
+  const user = profileStore?.User;
+  const timeZone = profileStore?.TimeZone;
+  const timeZoneName = timeZoneList.value.find((item) => item.value === timeZone)?.name;
 
-const { handleSubmit, isSubmitting, resetForm } = useForm({
-  validationSchema,
+  return {
+    fullName: user.fullname,
+    email: user.Email,
+    role: user.title,
+    timeZone: { name: timeZoneName, value: timeZone },
+  };
 });
 
 const submitHandler = handleSubmit(async (values) => {
@@ -152,19 +167,6 @@ const handleLanguageChange = async (option: { name: string; value: 'en' | 'tr' }
 // Watch currentLanguage changes and update model
 watch(currentLanguage, (newLang) => {
   selectedLanguageModel.value = languageOptions.find((lang) => lang.value === newLang);
-});
-
-const getInitialFormData = computed(() => {
-  const user = profileStore?.User;
-  const timeZone = profileStore?.TimeZone;
-  const timeZoneName = timeZoneList.value.find((item) => item.value === timeZone)?.name;
-
-  return {
-    fullName: user.fullname,
-    email: user.Email,
-    role: user.title,
-    timeZone: { name: timeZoneName, value: timeZone },
-  };
 });
 
 onMounted(async () => {

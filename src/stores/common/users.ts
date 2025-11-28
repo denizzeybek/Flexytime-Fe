@@ -1,6 +1,8 @@
-import { EStoreNames } from '@/stores/storeNames.enum';
 import { defineStore } from 'pinia';
+
 import { EStorageKeys } from '@/constants/storageKeys';
+import { EStoreNames } from '@/stores/storeNames.enum';
+
 import type { IProfileUser } from '@/interfaces/profile/profile';
 
 interface State {

@@ -1,28 +1,33 @@
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
 import { defineStore } from 'pinia';
+
+import { ClockApiService } from '@/client';
+import { EStoreNames } from '@/stores/storeNames.enum';
+
 import type {
-  ISection,
-  ICard,
-  ISummary,
-  IBreadcrumb,
-  IDistributions,
-  IGraphs,
-  ITeamset,
-  IIndividuals,
-  IIndividualEmployeeModel,
-} from '@/interfaces/worktimeUsage/section';
+  CardViewModel,
+  ClockBreadCrumb,
+  ClockDistribution,
+  ClockEmployeeRequest,
+  ClockGraphGroup,
+  ClockInvitation,
+  ClockSectionIndividual,
+  ClockSectionRequest,
+  ClockSectionTeamset,
+  ClockWellBeingDetail,
+  SectionClockSummary,
+} from '@/client';
+import type { IIndividualEmployeeModel } from '@/interfaces/worktimeUsage/section';
 
 interface State {
-  Card: ICard;
-  Individuals?: IIndividuals[];
-  Summary?: ISummary[];
-  WellBeings?: any[];
-  Breadcrumb?: IBreadcrumb[];
-  Distributions?: IDistributions[];
-  Graphs?: IGraphs[];
-  Teamset?: ITeamset;
-  Invitations?: any[];
+  Card: CardViewModel;
+  Individuals?: ClockSectionIndividual[];
+  Summary?: SectionClockSummary[];
+  WellBeings?: ClockWellBeingDetail[];
+  Breadcrumb?: ClockBreadCrumb[];
+  Distributions?: ClockDistribution[];
+  Graphs?: ClockGraphGroup;
+  Teamset?: ClockSectionTeamset;
+  Invitations?: ClockInvitation[];
   DownloadKey?: string;
   IndividualEmployeeModel?: IIndividualEmployeeModel;
   isLoading: boolean;
@@ -30,65 +35,68 @@ interface State {
 
 export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, {
   state: (): State => ({
-    Card: {} as ICard,
+    Card: {} as CardViewModel,
     Individuals: [],
     Summary: [],
     WellBeings: [],
     Breadcrumb: [],
     Distributions: [],
-    Teamset: {} as ITeamset,
+    Graphs: undefined,
+    Teamset: {} as ClockSectionTeamset,
     Invitations: [],
     DownloadKey: '',
     IndividualEmployeeModel: {} as IIndividualEmployeeModel,
     isLoading: false,
   }),
   actions: {
-    async filter(payload) {
-      const url = '/webapi/clock/section';
+    async filter(payload: ClockSectionRequest) {
       this.isLoading = true;
-      const response = await axios.post<ISection>(url, payload);
-      this.Card = (response.data as ISection).Card;
-      this.Summary = (response.data as ISection).Summary;
-      this.Individuals = (response.data as ISection).Individuals;
-      this.WellBeings = (response.data as ISection).WellBeings;
-      this.Breadcrumb = (response.data as ISection).Breadcrumb;
-      this.Distributions = (response.data as ISection).Distributions;
-      this.Teamset = (response.data as ISection).Teamset;
-      this.Invitations = (response.data as ISection).Invitations;
-      this.DownloadKey = (response.data as ISection).DownloadKey;
-      this.isLoading = false;
-      return response.data;
+      try {
+        const response = await ClockApiService.clockApiGetSection(payload);
+        this.Card = response.Card!;
+        this.Summary = response.Summary;
+        this.Individuals = response.Individuals;
+        this.WellBeings = response.WellBeings;
+        this.Breadcrumb = response.Breadcrumb;
+        this.Distributions = response.Distributions;
+        this.Teamset = response.Teamset;
+        this.Invitations = response.Invitations;
+        this.DownloadKey = response.DownloadKey;
+        return response;
+      } finally {
+        this.isLoading = false;
+      }
     },
-    async filterSection(payload) {
-      const url = '/webapi/clock/section';
+    async filterSection(payload: ClockSectionRequest) {
       this.isLoading = true;
-
-      const response = await axios.post<ISection>(url, payload);
-      this.Card = (response.data as ISection).Card;
-      this.Summary = (response.data as ISection).Summary;
-      this.Individuals = (response.data as ISection).Individuals;
-      this.WellBeings = (response.data as ISection).WellBeings;
-      this.Breadcrumb = (response.data as ISection).Breadcrumb;
-      this.Distributions = (response.data as ISection).Distributions;
-      this.Teamset = (response.data as ISection).Teamset;
-      this.Invitations = (response.data as ISection).Invitations;
-      this.DownloadKey = (response.data as ISection).DownloadKey;
-      this.isLoading = false;
-      return response.data;
+      try {
+        const response = await ClockApiService.clockApiGetSection(payload);
+        this.Card = response.Card!;
+        this.Summary = response.Summary;
+        this.Individuals = response.Individuals;
+        this.WellBeings = response.WellBeings;
+        this.Breadcrumb = response.Breadcrumb;
+        this.Distributions = response.Distributions;
+        this.Teamset = response.Teamset;
+        this.Invitations = response.Invitations;
+        this.DownloadKey = response.DownloadKey;
+        return response;
+      } finally {
+        this.isLoading = false;
+      }
     },
-    async filterEmployee(payload) {
-      const url = '/webapi/clock/employeev2';
+    async filterEmployee(payload: ClockEmployeeRequest) {
       this.isLoading = true;
-
-      const response = await axios.post<ISection>(url, payload);
-      this.Card = (response.data as ISection).Card;
-      this.Breadcrumb = (response.data as ISection).Breadcrumb;
-      this.Summary = (response.data as ISection).Summary;
-      this.WellBeings = (response.data as ISection).WellBeings;
-      this.Distributions = (response.data as ISection).Distributions;
-      this.Graphs = (response.data as ISection).Graphs;
-      this.isLoading = false;
-      return response.data;
+      try {
+        const response = await ClockApiService.clockApiGetEmployee(payload);
+        this.Card = response.Card!;
+        this.Breadcrumb = response.Breadcrumbs as ClockBreadCrumb[];
+        // EmployeeClockViewModel has different structure - store the whole model
+        this.IndividualEmployeeModel = response.Model as any;
+        return response;
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 });

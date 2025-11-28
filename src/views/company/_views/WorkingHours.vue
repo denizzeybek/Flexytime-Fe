@@ -1,7 +1,7 @@
 <template>
   <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
     <template #content>
-      <form @submit="submitHandler" class="flex flex-col gap-12">
+      <form class="flex flex-col gap-12" @submit="submitHandler">
         <Skeleton v-if="isLoading" height="30rem" width="w-full" />
         <template v-else>
           <div class="flex flex-col lg:flex-row items-start w-full gap-12">
@@ -90,33 +90,26 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
-import { useFieldArray, useForm } from 'vee-validate';
 import { computed, onMounted, ref } from 'vue';
-import { boolean, string, object, array, mixed } from 'yup';
+import { useI18n } from 'vue-i18n';
+
+import Skeleton from 'primevue/skeleton';
+import { useFieldArray, useForm } from 'vee-validate';
+import { array, boolean, mixed,object, string } from 'yup';
+
 import { useFToast } from '@/composables/useFToast';
-import type { IWorkingHourDay } from '@/interfaces/company/workingHour';
+import { convertDateToTime,convertTimeToDate } from '@/helpers/utils';
+import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyWorkingHoursStore } from '@/stores/company/workingHours';
 import { useProfileStore } from '@/stores/profile/profile';
-import { convertTimeToDate, convertDateToTime } from '@/helpers/utils';
-import Skeleton from 'primevue/skeleton';
+
+import type { IWorkingHourDay } from '@/interfaces/company/workingHour';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const workingHoursStore = useCompanyWorkingHoursStore();
 const profileStore = useProfileStore();
-
-const isLoading = ref(false);
-
-const timeZoneList = computed(() =>
-  profileStore?.TimeZoneList?.map((item) => ({ name: item.Name, value: item.ID })),
-);
-
-const timeZoneName = computed(
-  () => profileStore?.TimeZoneList?.find((item) => item.ID === workingHoursStore.timeZone)?.Name,
-);
 
 const validationSchema = object({
   days: array()
@@ -147,6 +140,16 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 
 const { fields } = useFieldArray<IWorkingHourDay>('days');
 
+const isLoading = ref(false);
+
+const timeZoneList = computed(() =>
+  profileStore?.TimeZoneList?.map((item) => ({ name: item.Name, value: item.ID })),
+);
+
+const timeZoneName = computed(
+  () => profileStore?.TimeZoneList?.find((item) => item.ID === workingHoursStore.timeZone)?.Name,
+);
+
 const submitHandler = handleSubmit(async (values) => {
   try {
     const formattedDays = values.days.map((day) => ({
@@ -155,14 +158,11 @@ const submitHandler = handleSubmit(async (values) => {
       EndTime: convertDateToTime(day.EndTime),
     }));
     const payload = {
-      ...values,
-      days: formattedDays,
-      maxIdleTime: convertDateToTime(values.maxIdleTime),
-      shiftRangeTime: convertDateToTime(values.shiftRangeTime),
-      unclassified: false,
-      isShowContent: true,
-      title: t('pages.company.workingHours.title'),
-      timeZone: values.timeZone.value,
+      Days: formattedDays,
+      MaxIdleTime: convertDateToTime(values.maxIdleTime),
+      ShiftRangeTime: convertDateToTime(values.shiftRangeTime),
+      Unclassified: false,
+      TimeZone: values.timeZone.value,
     };
     await workingHoursStore.save(payload);
     console.log('values ', payload);

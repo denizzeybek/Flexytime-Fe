@@ -15,6 +15,8 @@ export interface IAnnual {
   IsActive: boolean;
   StartDateText: string;
   EndDateText: string;
+  Name?: string;
+  Repeat: boolean;
 }
 
 export interface IAnnualMember {

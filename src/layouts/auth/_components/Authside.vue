@@ -18,15 +18,16 @@
         </li>
       </ul>
     </section>
-    <img :src="src" :alt="ad.image.alt" v-if="ad?.image?.alt" />
+    <img v-if="ad?.image?.alt" :src="src" :alt="ad.image.alt" />
   </aside>
 </template>
 
 <script lang="ts" setup>
 // import { EIconNames } from '@/common/enums/icons.enum';
 // import { colors } from '@/constants/colors';
-import { ERouteNames } from '@/router/routeNames.enum';
 import { computed } from 'vue';
+
+import { ERouteNames } from '@/router/routeNames.enum';
 
 export interface IAd {
   title: string;
@@ -46,7 +47,7 @@ const src = computed(() => `/images/onboarding/${props.ad?.image?.name}`);
 </script>
 
 <style scoped>
-@reference "@/custom-tailwind.css";
+@reference "@/tailwind.css";
 /* // aside {
 //   background-image: url('/images/onboarding/bg.png');
 // } */

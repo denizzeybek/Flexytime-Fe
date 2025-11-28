@@ -29,20 +29,20 @@
           <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" />
         </DataTable>
 
-        <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-[30rem]" />
+        <Chart :type="EChartType.PIE" :data="chartData" :options="chartOptions" class="w-full md:w-[30rem]" />
       </div>
     </template>
   </Card>
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
-import { useI18n } from 'vue-i18n';
-import { useReport } from '@/views/company/_composables/useReport';
 import { computed } from 'vue';
-import { useCompanyReportsStore } from '@/stores/company/reports';
+import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { EChartType } from '@/enums/chartType.enum';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useCompanyReportsStore } from '@/stores/company/reports';
+import { useReport } from '@/views/company/_composables/useReport';
 
 interface IProps {
   group1Title: string;
@@ -50,6 +50,8 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const { groupOptions } = useReport();
 const reportsStore = useCompanyReportsStore();

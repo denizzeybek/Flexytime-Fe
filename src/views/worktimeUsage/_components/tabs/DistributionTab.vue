@@ -37,11 +37,11 @@
                 <div class="flex items-center gap-2">
                   <div
                     class="flex items-center justify-center w-10 h-10 rounded-full"
-                    :class="getBadgeClass(distribution.statisticType)"
+                    :class="getBadgeClass(distribution.statisticType ?? '')"
                   >
-                    <i :class="getBadgeIcon(distribution.statisticType)" class="text-white"></i>
+                    <i :class="getBadgeIcon(distribution.statisticType ?? '')" class="text-white"></i>
                   </div>
-                  <span class="font-semibold text-lg">{{ getBadgeTitle(distribution.statisticType) }}</span>
+                  <span class="font-semibold text-lg">{{ getBadgeTitle(distribution.statisticType ?? '') }}</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <span class="font-medium">{{ $t('components.distribution.totalTime') }}:</span>
@@ -53,7 +53,7 @@
               <template v-if="distribution.applications?.length">
                 <div class="grid grid-cols-4 gap-4">
                   <Chart
-                    type="doughnut"
+                    :type="EChartType.DOUGHNUT"
                     :data="distribution.chart"
                     :options="chartOptions"
                     class="w-full col-span-2"
@@ -89,13 +89,15 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { type MessageSchema } from '@/plugins/i18n';
+
 import Card from 'primevue/card';
 import Chart from 'primevue/chart';
 import Skeleton from 'primevue/skeleton';
-import type { IDistribution } from '../../_types';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { EChartType } from '@/enums/chartType.enum';
+import { type MessageSchema } from '@/plugins/i18n';
+
+import type { IDistribution } from '../../_types';
 
 interface IProps {
   distributions?: IDistribution[];
@@ -107,15 +109,34 @@ const props = withDefaults(defineProps<IProps>(), {
   isLoading: false,
 });
 
+const { t } = useI18n<{ message: MessageSchema }>();
+
 // Transform chart data for each distribution
 const chartData = computed(() => {
   return props.distributions?.map((distribution) => {
     return {
       ...distribution,
       applications: distribution.Applications,
-      chart: transformDataToChartFormat(distribution.Chart),
+      chart: transformDataToChartFormat(distribution.Chart ?? []),
     };
   });
+});
+
+// Chart options with usePointStyle
+const chartOptions = computed(() => {
+  const documentStyle = getComputedStyle(document.documentElement);
+  const textColor = documentStyle.getPropertyValue('--p-text-color');
+
+  return {
+    plugins: {
+      legend: {
+        labels: {
+          usePointStyle: true,
+          color: textColor,
+        },
+      },
+    },
+  };
 });
 
 // Transform raw data to chart format with colors
@@ -158,23 +179,6 @@ const transformDataToChartFormat = (rawData: any[]) => {
     ],
   };
 };
-
-// Chart options with usePointStyle
-const chartOptions = computed(() => {
-  const documentStyle = getComputedStyle(document.documentElement);
-  const textColor = documentStyle.getPropertyValue('--p-text-color');
-
-  return {
-    plugins: {
-      legend: {
-        labels: {
-          usePointStyle: true,
-          color: textColor,
-        },
-      },
-    },
-  };
-});
 
 // Badge helper functions
 const getBadgeClass = (statisticType: string): string => {

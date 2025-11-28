@@ -66,22 +66,22 @@
 </template>
 
 <script setup lang="ts">
-import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 // import { useFToast } from '@/composables/useFToast';
 import { ref, watch } from 'vue';
-import { useFieldArray, useForm } from 'vee-validate';
-import { array, boolean, object } from 'yup';
+
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { useFieldArray, useForm } from 'vee-validate';
+import { array, boolean, object } from 'yup';
+
+import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
+
 import UpdateTimeEntriesModal from '../_modals/UpdateTimeEntriesModal.vue';
 
 dayjs.extend(customParseFormat);
 
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
 // const { showSuccessMessage, showErrorMessage } = useFToast();
-
-const modalOpen = ref(false);
-const selectedItems = ref([]);
 
 const validationSchema = object({
   selectAll: boolean().nullable().label('Select All'),
@@ -109,6 +109,9 @@ const { resetForm } = useForm({
 });
 
 const { fields } = useFieldArray<any>('unclassifiedtimeEntries');
+
+const modalOpen = ref(false);
+const selectedItems = ref([]);
 
 // const submitHandler = handleSubmit(async (values) => {
 //   try {

@@ -1,6 +1,7 @@
 import { ref } from 'vue';
+
 import { EStorageKeys } from '@/constants/storageKeys';
-import { setI18nLanguage, type Language } from '@/plugins/i18n';
+import { type Language,setI18nLanguage } from '@/plugins/i18n';
 
 // Initialize currentLanguage from localStorage immediately
 const savedLanguage = localStorage.getItem(EStorageKeys.LANGUAGE) as Language | null;

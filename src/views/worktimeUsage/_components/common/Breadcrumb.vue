@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-f-white px-5 py-2 rounded-xl flex justify-center w-full lg:w-fit">
-    <Skeleton v-if="isLoading" height="1rem" width="20rem" />
+  <div class="bg-f-white py-2 rounded-xl flex justify-center w-full lg:w-fit">
+    <Skeleton v-if="isLoading" height="1.5rem" width="20rem" />
 
     <PBreadcrumb v-else-if="items.length > 0" :home="home" :model="breadcrumbItems">
       <template #item="{ item, props }">
@@ -23,9 +23,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+
 import PBreadcrumb from 'primevue/breadcrumb';
 import Skeleton from 'primevue/skeleton';
+
 import { useWorktimeNavigation } from '../../_composables';
+
 import type { IBreadcrumb } from '../../_types';
 
 interface IProps {
@@ -42,6 +45,8 @@ const { handleTeamClick } = useWorktimeNavigation();
 
 const home = {
   icon: 'pi pi-home',
+  label: '',
+  route: '/',
 };
 
 const breadcrumbItems = computed(() => {

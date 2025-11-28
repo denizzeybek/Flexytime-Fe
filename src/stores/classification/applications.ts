@@ -1,10 +1,33 @@
-import type {
-  IApplication,
-  IApplicationDTOData,
-} from '@/interfaces/classification/application';
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
 import { defineStore } from 'pinia';
+
+import { CategoryApiService } from '@/client';
+import { EStoreNames } from '@/stores/storeNames.enum';
+
+import type { DataTableQueryModel, PerformAllocationModifyModel } from '@/client';
+
+interface IApplicationDTOData {
+  HostName: string;
+  Name: string;
+  IsWork: boolean;
+  IsMeeting: boolean;
+  IsLeisure: boolean;
+  TopicName: string;
+  Actions?: null;
+  Customise?: null;
+  Timeout: any;
+  AlwaysOn: boolean;
+  ID: string;
+  Domain: string;
+}
+
+// Backend returns a DataTable response with DTO structure (not in OpenAPI spec)
+interface DataTableResponse {
+  DTO?: {
+    data: IApplicationDTOData[];
+    recordsTotal: number;
+  };
+}
+
 interface State {
   list: IApplicationDTOData[];
   totalItems: number;
@@ -18,28 +41,27 @@ export const useClassificationApplicationsStore = defineStore(
       totalItems: 0,
     }),
     actions: {
-      async filter(payload) {
-        const url = '/webapi/category/allocations/query';
-
-        const response = await axios.post<IApplication>(url, payload);
-        const applications = (response.data as IApplication).DTO?.data;
-        const total = (response.data as IApplication).DTO?.recordsTotal ?? 0;
+      async filter(payload: DataTableQueryModel) {
+        const response = (await CategoryApiService.categoryApiQueryAllocations(
+          payload,
+        )) as unknown as DataTableResponse;
+        const applications = response.DTO?.data ?? [];
+        const total = response.DTO?.recordsTotal ?? 0;
 
         this.list = applications;
         this.totalItems = total;
         return applications;
       },
-      async save(payload) {
-        const url = '/webapi/category/allocation/save';
+      async save(payload: PerformAllocationModifyModel) {
         this.list = this.list.map((allocation) => {
           if (allocation.ID === payload.ID) {
-            allocation.Domain = payload.Domain;
-            allocation.AlwaysOn = payload.AlwaysOn;
+            allocation.Domain = String(payload.Domain ?? '');
+            allocation.AlwaysOn = payload.AlwaysOn ?? false;
           }
           return allocation;
         });
 
-        return await axios.post<IApplication>(url, payload);
+        return await CategoryApiService.categoryApiSavePerformAllocation(payload);
       },
     },
   },

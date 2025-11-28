@@ -9,11 +9,14 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
+
 import { useFToast } from '@/composables/useFToast';
 import { useCompanyReportsStore } from '@/stores/company/reports';
-import { onMounted, ref } from 'vue';
-import DefaultReportsTable from './DefaultReportsTable.vue';
+
 import DefaultReportModal from '../_modals/DefaultReportModal.vue';
+
+import DefaultReportsTable from './DefaultReportsTable.vue';
 
 const reportsStore = useCompanyReportsStore();
 const { showErrorMessage } = useFToast();

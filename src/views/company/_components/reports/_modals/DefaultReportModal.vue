@@ -55,28 +55,31 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { useForm } from 'vee-validate';
-import { string, object, array } from 'yup';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
+
+import { useForm } from 'vee-validate';
+import { array,object, string } from 'yup';
+
 import { useFToast } from '@/composables/useFToast';
-import type { IReportItem } from '@/interfaces/company/report';
+import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyReportsStore } from '@/stores/company/reports';
 import { ReportFrequency } from '@/views/company/_etc/reportFrequency.enum';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import type { IReportItem } from '@/interfaces/company/report';
 
 interface IProps {
   data?: IReportItem;
 }
 
-const props = defineProps<IProps>();
-
 interface IEmits {
   (event: 'fetchDefaultReports'): void;
 }
+
+const props = defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
 
+const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const reportsStore = useCompanyReportsStore();
 
@@ -87,15 +90,6 @@ const frequencyOptions = [
   { name: 'Every week', value: ReportFrequency.EveryWeek },
   { name: 'Every month', value: ReportFrequency.EveryMonth },
 ];
-
-const isEditing = computed(() => !!props.data);
-
-const reportTypeOptions = computed(() =>
-  reportsStore?.ReportTypes.map((item) => ({ name: item.Name, value: item.ID })),
-);
-const teamOptions = computed(() =>
-  reportsStore?.SectionList.map((item) => ({ name: item.Name, value: item.ID })),
-);
 
 const validationSchema = object({
   reportType: object()
@@ -139,6 +133,30 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema,
 });
 
+const isEditing = computed(() => !!props.data);
+
+const reportTypeOptions = computed(() =>
+  reportsStore?.ReportTypes.map((item) => ({ name: item.Name, value: item.ID })),
+);
+
+const teamOptions = computed(() =>
+  reportsStore?.SectionList.map((item) => ({ name: item.Name, value: item.ID })),
+);
+
+const getInitialFormData = computed(() => {
+  const report = props.data;
+  return {
+    ...(report && {
+      reportType: { name: report.TypeDisplay, value: report.ID },
+      frequency: { name: report.ScheduleDisplay, value: report.ID },
+      teams: [{ name: report.SectionNameDisplay, value: '629176fc57a0318a082d516b' }],
+      to: report.To,
+      cc: report.Cc,
+      bcc: report.Bcc,
+    }),
+  };
+});
+
 const handleClose = () => {
   resetForm();
   open.value = false;
@@ -159,21 +177,6 @@ const submitHandler = handleSubmit(async (values) => {
     showErrorMessage(error as any);
   }
 });
-
-const getInitialFormData = computed(() => {
-  const report = props.data;
-  return {
-    ...(report && {
-      reportType: { name: report.TypeDisplay, value: report.ID },
-      frequency: { name: report.ScheduleDisplay, value: report.ID },
-      teams: [{ name: report.SectionNameDisplay, value: '629176fc57a0318a082d516b' }],
-      to: report.To,
-      cc: report.Cc,
-      bcc: report.Bcc,
-    }),
-  };
-});
-// TODO: reportType, frequency, teams dataları gelirken id'leri de dönmeli. Team, to, cc, bcc ise array olarak dönmeli.
 
 onMounted(() => {
   resetForm({

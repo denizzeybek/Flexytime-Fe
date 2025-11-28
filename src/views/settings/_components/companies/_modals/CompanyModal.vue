@@ -24,7 +24,7 @@
           name="email"
           :placeholder="t('pages.settings.companies.modal.authorizedEmail.placeholder')"
         />
-        <FPassword class="flex-1" id="password" :label="t('pages.settings.companies.modal.password.label')" name="password" />
+        <FPassword id="password" class="flex-1" :label="t('pages.settings.companies.modal.password.label')" name="password" />
       </div>
 
       <div class="flex gap-4 flex-1">
@@ -46,31 +46,31 @@
 
 <script setup lang="ts">
 import { computed, watch } from 'vue';
-import { useForm } from 'vee-validate';
-import { string, object, number } from 'yup';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
-import { useFToast } from '@/composables/useFToast';
-import type { ICompany } from '@/interfaces/settings/company';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import { useForm } from 'vee-validate';
+import { number,object, string } from 'yup';
+
+import { useFToast } from '@/composables/useFToast';
+import { type MessageSchema } from '@/plugins/i18n';
+
+import type { ICompany } from '@/interfaces/settings/company';
 
 interface IProps {
   data?: ICompany;
 }
 
-const props = defineProps<IProps>();
-
 interface IEmits {
   (event: 'fetchCompanies'): void;
 }
+
+const props = defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
 
+const { t } = useI18n<{ message: MessageSchema }>();
+
 const { showSuccessMessage, showErrorMessage } = useFToast();
-
-const open = defineModel<boolean>('open');
-
-const isEditing = computed(() => !!props.data);
 
 const validationSchema = object({
   name: string().required().label('Company name'),
@@ -84,6 +84,10 @@ const validationSchema = object({
 const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema,
 });
+
+const open = defineModel<boolean>('open');
+
+const isEditing = computed(() => !!props.data);
 
 const handleClose = () => {
   resetForm();

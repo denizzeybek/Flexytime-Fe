@@ -9,7 +9,7 @@
           <ActionsBar @download="handleDownload" />
         </div>
         <div>
-          <BadgeGroup :summary="summaryItems" />
+          <BadgeGroup :summary="summaryItems" :is-loading="isLoading" />
         </div>
       </div>
     </template>
@@ -18,9 +18,11 @@
 
 <script setup lang="ts">
 import Card from 'primevue/card';
-import Breadcrumb from './Breadcrumb.vue';
+
 import ActionsBar from './ActionsBar.vue';
 import BadgeGroup from './BadgeGroup.vue';
+import Breadcrumb from './Breadcrumb.vue';
+
 import type { IBreadcrumb, ISummary } from '../../_types';
 
 interface IProps {
@@ -47,7 +49,7 @@ const handleDownload = () => {
 </script>
 
 <style scoped>
-@reference "@/custom-tailwind.css";
+@reference "@/tailwind.css";
 :deep(.p-card-content) {
   @apply !h-full;
 }

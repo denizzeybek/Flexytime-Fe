@@ -3,7 +3,7 @@
     <template v-for="(field, idx) in fields" :key="field.key">
       <Card class="shadow-md border border-gray-100 rounded-xl hover:shadow-lg transition-shadow">
         <template #content>
-          <form @submit="submitHandler" class="space-y-5">
+          <form class="space-y-5" @submit="submitHandler">
             <div class="w-full flex items-center gap-4 flex-col lg:flex-row">
               <div class="flex w-full">
                 <FInput
@@ -20,11 +20,11 @@
               <div class="flex items-center gap-4 w-full justify-between lg:justify-end">
                 <!-- todo:: buton on change'i değiştir -->
                 <Button
-                  @click="isBillable = !isBillable"
                   type="button"
                   icon="pi pi-dollar"
                   severity="success"
                   :outlined="!field.value.isBillable"
+                  @click="isBillable = !isBillable"
                 />
                 <div v-show="isManualLayout(field.value.type)" class="flex gap-4">
                   <div class="flex items-center gap-1">
@@ -115,14 +115,16 @@
 </template>
 
 <script setup lang="ts">
-import { type MessageSchema } from '@/plugins/i18n';
+import { computed,ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+import dayjs from 'dayjs';
+import { useFieldArray, useForm } from 'vee-validate';
+import { array, object, string } from 'yup';
+
 import { useFToast } from '@/composables/useFToast';
 import { transformTimeValue } from '@/helpers/utils';
-import { useFieldArray, useForm } from 'vee-validate';
-import { ref, watch, computed } from 'vue';
-import { array, object, string } from 'yup';
-import dayjs from 'dayjs';
+import { type MessageSchema } from '@/plugins/i18n';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 
 const { t } = useI18n<{ message: MessageSchema }>();
@@ -165,15 +167,6 @@ const tagOptions = [
   },
 ];
 
-const isBillable = ref(false);
-
-const isManualLayout = (activeLayout: ELayout) => {
-  return activeLayout === ELayout.MANUAL;
-};
-const isTimerLayout = (activeLayout: ELayout) => {
-  return activeLayout === ELayout.TIMER;
-};
-
 const validationSchema = object({
   timeEntries: array().of(
     object().shape({
@@ -205,14 +198,7 @@ const { handleSubmit, resetForm } = useForm({
 
 const { fields } = useFieldArray<any>('timeEntries');
 
-const submitHandler = handleSubmit(async (values) => {
-  try {
-    console.log('values ', values);
-    showSuccessMessage(t('pages.timesheets.enteredTimes.messages.success'));
-  } catch (error: any) {
-    showErrorMessage(error as any);
-  }
-});
+const isBillable = ref(false);
 
 const getInitialFormData = computed(() => {
   return timeEntriesStore.manualTimeEntries.map((entry) => ({
@@ -227,6 +213,22 @@ const getInitialFormData = computed(() => {
     type: entry.type,
     timeDifference: entry.timeDifference,
   }));
+});
+
+const isManualLayout = (activeLayout: ELayout) => {
+  return activeLayout === ELayout.MANUAL;
+};
+const isTimerLayout = (activeLayout: ELayout) => {
+  return activeLayout === ELayout.TIMER;
+};
+
+const submitHandler = handleSubmit(async (values) => {
+  try {
+    console.log('values ', values);
+    showSuccessMessage(t('pages.timesheets.enteredTimes.messages.success'));
+  } catch (error: any) {
+    showErrorMessage(error as any);
+  }
 });
 
 watch(

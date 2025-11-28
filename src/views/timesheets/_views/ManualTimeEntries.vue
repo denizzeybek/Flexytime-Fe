@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-import EnterTime from '@/views/timesheets/_components/timeEntries/EnterTime.vue';
 import EnteredTimes from '@/views/timesheets/_components/timeEntries/EnteredTimes.vue';
+import EnterTime from '@/views/timesheets/_components/timeEntries/EnterTime.vue';
 </script>
 
 <style scoped></style>

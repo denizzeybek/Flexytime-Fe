@@ -1,137 +1,286 @@
 <template>
-  <div class="card flex justify-content-center h-full">
-    <div class="flex flex-col justify-between h-full w-full lg:p-0 px-4">
-      <div>
-        <div class="flex items-center justify-between px-6 py-5 shrink-0">
-          <span class="inline-flex items-center gap-2">
-            <img class="transform scale-90" src="@/components/images/login-logo.png" />
-          </span>
-        </div>
-        <ul class="flex flex-col gap-2 font-medium max-w-[328px]">
-          <NavItem :nav-items="navItems" />
-        </ul>
+  <div class="flex flex-col justify-between h-full w-full lg:p-0 px-4">
+    <div>
+      <!-- Logo -->
+      <div class="flex items-center justify-between px-6 py-5 shrink-0">
+        <span class="inline-flex items-center gap-2">
+          <img class="transform scale-90" src="@/components/images/login-logo.png" />
+        </span>
       </div>
-      <div class="flex flex-col gap-4 pb-4 lg:pb-8">
-        <RouterLink class="w-full" block :to="{ name: ERouteNames.SettingsDownload }">
-          <Button type="button" icon="pi pi-download" :label="$t('pages.layouts.navbar.download')" class="w-full" />
-        </RouterLink>
-        <RouterLink class="w-full" block :to="{ name: ERouteNames.Promotion }">
-          <Button
-            type="button"
-            icon="pi pi-gift"
-            :label="$t('pages.layouts.navbar.referBonus')"
-            severity="warn"
-            class="w-full"
-          />
-        </RouterLink>
-        <a
-          v-ripple
-          class="flex lg:hidden border border-gray-300 rounded-md items-center cursor-pointer p-4 gap-2 duration-150 transition-colors p-ripple"
-        >
-          <ProfileBadge title="Deniz Zeybek" sub-title="Tech Lead" />
-        </a>
+
+      <!-- Navigation Menu -->
+      <PanelMenu v-model:expandedKeys="expandedKeys" :model="menuItems">
+        <template #item="{ item }">
+          <!-- Leaf items with routes -->
+          <RouterLink
+            v-if="item.route"
+            v-slot="{ href, navigate, isActive }"
+            :to="{ name: item.route }"
+            custom
+          >
+            <a
+              v-ripple
+              :href="href"
+              :class="[
+                'flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all w-full',
+                {
+                  'bg-purple-600 shadow-sm': isActive && !item.isChild,
+                  'bg-gray-50 border-l-4 border-l-purple-600': isActive && item.isChild,
+                  'border-l-4 border-l-transparent': !isActive && item.isChild,
+                  'hover:bg-gray-50': !isActive
+                }
+              ]"
+              @click="navigate"
+            >
+              <i
+                v-if="item.icon"
+                :class="[
+                  item.icon,
+                  'text-base',
+                  {
+                    'text-white': isActive && !item.isChild,
+                    'text-f-primary': isActive && item.isChild,
+                    'text-gray-600': !isActive
+                  }
+                ]"
+              ></i>
+              <span
+                :class="[
+                  'text-[14px] font-medium whitespace-nowrap',
+                  {
+                    'text-white font-semibold': isActive && !item.isChild,
+                    'text-f-primary font-semibold': isActive && item.isChild,
+                    'text-gray-600': !isActive
+                  }
+                ]"
+              >
+                {{ item.label }}
+              </span>
+            </a>
+          </RouterLink>
+
+          <!-- Parent items with children (no route) -->
+          <div
+            v-else
+            class="flex items-center justify-between px-3 py-2 gap-2 text-gray-600 w-full"
+          >
+            <div class="flex items-center gap-2">
+              <i v-if="item.icon" :class="[item.icon, 'text-base']"></i>
+              <span class="text-[14px] font-medium whitespace-nowrap">{{ item.label }}</span>
+            </div>
+            <i
+              v-if="item.items"
+              :class="[
+                'pi text-sm text-gray-400 transition-transform',
+                item.key && expandedKeys[item.key] ? 'pi-chevron-down' : 'pi-chevron-right'
+              ]"
+            ></i>
+          </div>
+        </template>
+      </PanelMenu>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="flex flex-col gap-4 pb-4 lg:pb-8">
+      <RouterLink class="w-full" block :to="{ name: ERouteNames.SettingsDownload }">
+        <Button
+          type="button"
+          icon="pi pi-download"
+          :label="$t('pages.layouts.navbar.download')"
+          class="w-full"
+        />
+      </RouterLink>
+      <RouterLink class="w-full" block :to="{ name: ERouteNames.Promotion }">
+        <Button
+          type="button"
+          icon="pi pi-gift"
+          :label="$t('pages.layouts.navbar.referBonus')"
+          severity="warn"
+          class="w-full"
+        />
+      </RouterLink>
+      <div class="lg:hidden flex">
+        <ProfileMenu />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
-import NavItem from './NavItem.vue';
-import { ERouteNames } from '@/router/routeNames.enum';
-import type { IModel } from './NavChildItem.vue';
+import { useRoute } from 'vue-router';
 
+import PanelMenu from 'primevue/panelmenu';
+
+import ProfileMenu from '@/components/ui/local/ProfileMenu.vue';
+import { ERouteNames } from '@/router/routeNames.enum';
+import { useProfileStore } from '@/stores/profile/profile';
 
 const { t } = useI18n();
+const route = useRoute();
+const profileStore = useProfileStore();
 
-const navItems = computed<IModel[]>(() => [
-  {
-    label: t('pages.layouts.navbar.companies'),
-    icon: 'pi pi-building',
-    routeName: ERouteNames.SettingsCompanies,
-  },
-  {
+const expandedKeys = ref<Record<string, boolean>>({});
+
+// Route'a göre hangi menünün açık olacağını belirle
+const updateExpandedKeys = () => {
+  const currentRoute = route.name as ERouteNames;
+  const newExpandedKeys: Record<string, boolean> = {};
+
+  // HR Settings altındaki route'lar
+  const hrSettingsRoutes = [
+    ERouteNames.HRSettingsEmployees,
+    ERouteNames.HRSettingsActiveAnnuals,
+    ERouteNames.HRSettingsHolidays,
+  ];
+
+  // Company altındaki route'lar
+  const companyRoutes = [
+    ERouteNames.CompanyOrganizationChart,
+    ERouteNames.CompanyWorkingHours,
+  ];
+
+  // Settings altındaki route'lar
+  const settingsRoutes = [
+    ERouteNames.ClassificationWebAddresses,
+    ERouteNames.SettingsPermissions,
+    ERouteNames.SettingsAdvanced,
+  ];
+
+  if (hrSettingsRoutes.includes(currentRoute)) {
+    newExpandedKeys[ERouteNames.HRSettingsEmployees] = true;
+  } else if (companyRoutes.includes(currentRoute)) {
+    newExpandedKeys[ERouteNames.CompanyOrganizationChart] = true;
+  } else if (settingsRoutes.includes(currentRoute)) {
+    newExpandedKeys[ERouteNames.ClassificationWebAddresses] = true;
+  }
+
+  expandedKeys.value = newExpandedKeys;
+};
+
+// İlk yüklemede ve route değiştiğinde güncelle
+updateExpandedKeys();
+watch(() => route.name, updateExpandedKeys);
+
+const menuItems = computed(() => {
+  const items: any[] = [];
+
+  // If Admin role - show only Companies
+  if (profileStore.isAdmin) {
+    items.push({
+      label: t('pages.layouts.navbar.companies'),
+      icon: 'pi pi-building',
+      route: ERouteNames.SettingsCompanies,
+    });
+    return items;
+  }
+
+  // For non-admin users - show all other menu items
+
+  // Worktime Usage
+  items.push({
     label: t('pages.layouts.navbar.worktimeUsage'),
     icon: 'pi pi-chart-line',
-    routeName: ERouteNames.WorktimeUsage,
-  },
-  {
+    route: ERouteNames.WorktimeUsage,
+  });
+
+  // Time Entries
+  items.push({
     label: t('pages.layouts.navbar.timeEntries'),
-    routeName: ERouteNames.TimeEntriesManual,
-  },
-  {
+    icon: 'pi pi-clock',
+    route: ERouteNames.TimeEntriesManual,
+  });
+
+  // Time Management
+  items.push({
     label: t('pages.layouts.navbar.timeManagement'),
-    routeName: ERouteNames.TimeManagementPerson,
-  },
-  {
+    icon: 'pi pi-calendar',
+    route: ERouteNames.TimeManagementPerson,
+  });
+
+  // Reports
+  items.push({
     label: t('pages.layouts.navbar.reports'),
-    routeName: ERouteNames.CompanyReportsElastic,
-  },
-  {
+    icon: 'pi pi-chart-bar',
+    route: ERouteNames.CompanyReportsElastic,
+  });
+
+  // HR Settings
+  items.push({
+    key: ERouteNames.HRSettingsEmployees,
     label: t('pages.layouts.navbar.hrSettings'),
     icon: 'pi pi-users',
-    routeName: ERouteNames.HRSettings,
-    children: [
+    items: [
       {
         label: t('pages.layouts.navbar.employees'),
-        routeName: ERouteNames.HRSettingsEmployees,
+        icon: 'pi pi-user',
+        route: ERouteNames.HRSettingsEmployees,
+        isChild: true,
       },
       {
         label: t('pages.layouts.navbar.annualLeaves'),
-        routeName: ERouteNames.HRSettingsActiveAnnuals,
+        icon: 'pi pi-calendar-minus',
+        route: ERouteNames.HRSettingsActiveAnnuals,
+        isChild: true,
       },
       {
         label: t('pages.layouts.navbar.holidays'),
-        routeName: ERouteNames.HRSettingsHolidays,
+        icon: 'pi pi-sun',
+        route: ERouteNames.HRSettingsHolidays,
+        isChild: true,
       },
     ],
-  },
-  {
+  });
+
+  // Company
+  items.push({
+    key: ERouteNames.CompanyOrganizationChart,
     label: t('pages.layouts.navbar.company'),
     icon: 'pi pi-building',
-    routeName: ERouteNames.Company,
-    children: [
+    items: [
       {
         label: t('pages.layouts.navbar.organizationChart'),
-        routeName: ERouteNames.CompanyOrganizationChart,
+        icon: 'pi pi-sitemap',
+        route: ERouteNames.CompanyOrganizationChart,
+        isChild: true,
       },
       {
         label: t('pages.layouts.navbar.workingHours'),
-        routeName: ERouteNames.CompanyWorkingHours,
+        icon: 'pi pi-clock',
+        route: ERouteNames.CompanyWorkingHours,
+        isChild: true,
       },
     ],
-  },
-  {
+  });
+
+  // Settings
+  items.push({
+    key: ERouteNames.ClassificationWebAddresses,
     label: t('pages.layouts.navbar.settings'),
     icon: 'pi pi-cog',
-    routeName: ERouteNames.Settings,
-    children: [
+    items: [
       {
         label: t('pages.layouts.navbar.classification'),
-        routeName: ERouteNames.ClassificationWebAddresses,
+        icon: 'pi pi-tags',
+        route: ERouteNames.ClassificationWebAddresses,
+        isChild: true,
       },
       {
         label: t('pages.layouts.navbar.permissions'),
-        routeName: ERouteNames.SettingsPermissions,
+        icon: 'pi pi-shield',
+        route: ERouteNames.SettingsPermissions,
+        isChild: true,
       },
       {
         label: t('pages.layouts.navbar.advanced'),
-        routeName: ERouteNames.SettingsAdvanced,
+        icon: 'pi pi-sliders-h',
+        route: ERouteNames.SettingsAdvanced,
+        isChild: true,
       },
     ],
-  },
-]);
+  });
+
+  return items;
+});
 </script>
-
-<style>
-@reference "@/custom-tailwind.css";
-.itemClass {
-  @apply flex items-center cursor-pointer  px-2 hover:border hover:border-purple-600 hover:rounded-md py-2;
-}
-
-.activeItemClass {
-  @apply bg-f-primary text-f-white rounded-md;
-}
-</style>

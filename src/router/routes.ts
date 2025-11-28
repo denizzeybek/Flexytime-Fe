@@ -1,58 +1,52 @@
-import type { RouteRecordRaw } from 'vue-router';
-import { ERouteNames } from '@/router/routeNames.enum';
+import { EHeader } from '@/common/enums/token.enum';
+import { ERole } from '@/enums/role.enum';
 import DefaultLayout from '@/layouts/default/DefaultLayout.vue';
-import WorktimeUsage from '@/views/worktimeUsage/index.vue';
-
-
+import { ERouteNames } from '@/router/routeNames.enum';
+import ForgotPassword from '@/views/auth/ForgotPassword.vue';
+import Login from '@/views/auth/Login.vue';
+import Register from '@/views/auth/Register.vue';
+import WizardDownload from '@/views/auth/WizardDownload.vue';
+import ClassificationApplications from '@/views/classification/_views/Applications.vue';
 // Classification
 import Classification from '@/views/classification/_views/Classification.vue';
 import ClassificationWebAddresses from '@/views/classification/_views/WebAddresses.vue';
-import ClassificationApplications from '@/views/classification/_views/Applications.vue';
-
-// Timesheets
-import Timesheets from '@/views/timesheets/_views/TimeSheets.vue';
-import TimeEntries from '@/views/timesheets/_views/TimeEntries.vue';
-import ManualTimeEntries from '@/views/timesheets/_views/ManualTimeEntries.vue';
-import UnclassifiedTimeEntries from '@/views/timesheets/_views/UnclassifiedTimeEntries.vue';
-import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
-import TimeManagementProject from '@/views/timesheets/_components/timeManagement/Project.vue';
-import TimeManagementPerson from '@/views/timesheets/_components/timeManagement/Person.vue';
-
 // Company
 import Company from '@/views/company/_views/Company.vue';
-import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
-import WorkingHours from '@/views/company/_views/WorkingHours.vue';
+import OrganizationChart from '@/views/company/_views/OrganizationChartV2.vue';
+import DefaultReports from '@/views/company/_views/reports/DefaultReports.vue';
+import ElasticReports from '@/views/company/_views/reports/ElasticReports.vue';
 import Reports from '@/views/company/_views/reports/Reports.vue';
-
+import WorkingHours from '@/views/company/_views/WorkingHours.vue';
+import Download from '@/views/download/_views/Download.vue';
+import Unauthorized from '@/views/errors/Unauthorized.vue';
+import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
+import Annuals from '@/views/hrSettings/_views/Annuals.vue';
+import Employees from '@/views/hrSettings/_views/Employees.vue';
+import Holidays from '@/views/hrSettings/_views/Holidays.vue';
 // HR Settings
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
-import Employees from '@/views/hrSettings/_views/Employees.vue';
-import Annuals from '@/views/hrSettings/_views/Annuals.vue';
-import Holidays from '@/views/hrSettings/_views/Holidays.vue';
-import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
-import ElasticReports from '@/views/company/_views/reports/ElasticReports.vue';
-import DefaultReports from '@/views/company/_views/reports/DefaultReports.vue';
-
+import Basic from '@/views/profile/_components/Basic.vue';
+import Communications from '@/views/profile/_components/Communications.vue';
+import License from '@/views/profile/_components/License.vue';
+import Password from '@/views/profile/_components/Password.vue';
+import Profile from '@/views/profile/_views/Profile.vue';
+import Promotion from '@/views/promotion/_views/Promotion.vue';
+import Advanced from '@/views/settings/_views/Advanced.vue';
+import Companies from '@/views/settings/_views/Companies.vue';
+import Permissions from '@/views/settings/_views/Permissions.vue';
 // Settings
 import Settings from '@/views/settings/_views/Settings.vue';
-import Permissions from '@/views/settings/_views/Permissions.vue';
-import Advanced from '@/views/settings/_views/Advanced.vue';
-import Download from '@/views/download/_views/Download.vue';
-import Companies from '@/views/settings/_views/Companies.vue';
+import TimeManagementPerson from '@/views/timesheets/_components/timeManagement/Person.vue';
+import TimeManagementProject from '@/views/timesheets/_components/timeManagement/Project.vue';
+import ManualTimeEntries from '@/views/timesheets/_views/ManualTimeEntries.vue';
+import TimeEntries from '@/views/timesheets/_views/TimeEntries.vue';
+import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
+// Timesheets
+import Timesheets from '@/views/timesheets/_views/TimeSheets.vue';
+import UnclassifiedTimeEntries from '@/views/timesheets/_views/UnclassifiedTimeEntries.vue';
+import WorktimeUsage from '@/views/worktimeUsage/index.vue';
 
-import Profile from '@/views/profile/_views/Profile.vue';
-import Basic from '@/views/profile/_components/Basic.vue';
-import License from '@/views/profile/_components/License.vue';
-import Communications from '@/views/profile/_components/Communications.vue';
-import Password from '@/views/profile/_components/Password.vue';
-
-import Promotion from '@/views/promotion/_views/Promotion.vue';
-
-import Login from '@/views/auth/Login.vue';
-import Register from '@/views/auth/Register.vue';
-import ForgotPassword from '@/views/auth/ForgotPassword.vue';
-import WizardDownload from '@/views/auth/WizardDownload.vue';
-import { EHeader } from '@/common/enums/token.enum';
+import type { RouteRecordRaw } from 'vue-router';
 // Not Found Page
 // import NotFound from '@/views/NotFound.vue'
 
@@ -73,6 +67,8 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.WorktimeUsage,
           name: ERouteNames.WorktimeUsage,
+          // No role requirement - all authenticated users can access
+          // Component-level auth controls what features they see inside
         },
       },
       {
@@ -373,6 +369,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.SettingsCompanies,
           name: ERouteNames.SettingsCompanies,
+          requiresRole: [ERole.ADMIN],
         },
       },
       {
@@ -426,6 +423,17 @@ const routes: RouteRecordRaw[] = [
       requiresUnAuth: true,
       title: ERouteNames.ForgotPassword,
       name: ERouteNames.ForgotPassword,
+    },
+  },
+
+  // ERROR ROUTES
+  {
+    path: '/unauthorized',
+    name: ERouteNames.Unauthorized,
+    component: Unauthorized,
+    meta: {
+      title: ERouteNames.Unauthorized,
+      name: ERouteNames.Unauthorized,
     },
   },
 

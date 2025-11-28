@@ -1,7 +1,9 @@
+import { createI18n } from 'vue-i18n'
+
+import axios from 'axios'
+
 import { changeDayjsLocale } from '@/helpers/date'
 import en from '@/locales/en.json'
-import axios from 'axios'
-import { createI18n } from 'vue-i18n'
 
 export type MessageSchema = typeof en
 export type Language = 'en' | 'tr'

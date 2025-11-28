@@ -26,16 +26,16 @@
         </Card>
       </template>
       <!-- When loaded, show actual data -->
-      <template v-else v-for="group in props.webClocks" :key="group.ID">
+      <template v-for="group in props.webClocks" v-else :key="group.ID">
         <Card v-if="group.WebClocks && group.WebClocks.length > 0">
           <template #header>
             <div class="flex items-center justify-between p-4">
               <div class="flex items-center gap-2">
                 <div
                   class="flex items-center justify-center w-10 h-10 rounded-full"
-                  :class="getBadgeClass(group.Type)"
+                  :class="getBadgeClass(group.Type ?? 0)"
                 >
-                  <i :class="group.Icon" class="text-white"></i>
+                  <i :class="getIconClass(group.Type ?? 0)" class="text-white"></i>
                 </div>
                 <span class="font-semibold text-lg">{{ group.Name }}</span>
               </div>
@@ -63,14 +63,13 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { type MessageSchema } from '@/plugins/i18n';
 import Card from 'primevue/card';
 import Skeleton from 'primevue/skeleton';
-import WebHistoryTable from '../tables/WebHistoryTable.vue';
-import type { IWebClocks, IWebClock } from '../../_types';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import WebHistoryTable from '../tables/WebHistoryTable.vue';
+
+import type { IWebClock,IWebClocks } from '../../_types';
+
 
 interface IProps {
   webClocks?: IWebClocks[];
@@ -92,14 +91,25 @@ const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
   emit('toggle-domain', webClock, newDomain);
 };
 
-// Badge helper function based on allocation Type
+// Badge class helper function based on allocation Type
 const getBadgeClass = (type: number): string => {
   const mapping: Record<number, string> = {
     4: 'bg-green-500',   // Work
-    3: 'bg-yellow-500',  // Meeting
+    3: 'bg-orange-500',  // Meeting
     2: 'bg-red-500',     // Leisure
-    1: 'bg-gray-500',    // Unclassified
+    1: 'bg-slate-500',   // Unclassified
   };
   return mapping[type] || 'bg-blue-500';
+};
+
+// Icon helper function based on allocation Type (matching WebHistoryTable icons)
+const getIconClass = (type: number): string => {
+  const mapping: Record<number, string> = {
+    4: 'pi pi-wrench',         // Work
+    3: 'pi pi-crown',          // Meeting
+    2: 'pi pi-calendar-clock', // Leisure
+    1: 'pi pi-question',       // Unclassified
+  };
+  return mapping[type] || 'pi pi-question';
 };
 </script>

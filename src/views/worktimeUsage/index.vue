@@ -5,8 +5,8 @@
       v-if="errorMessage"
       :message="errorMessage"
       severity="error"
-      @close="errorMessage = null"
       class="mb-6"
+      @close="errorMessage = null"
     />
 
     <!-- Main Layout Grid -->
@@ -61,9 +61,9 @@
                   @click="showGraphBelow = !showGraphBelow"
                 />
 
-                <!-- Team/Employees Toggle (only for team view) -->
+                <!-- Team/Employees Toggle (only for team view and when IsTeam is true) -->
                 <div
-                  v-if="currentQuery.view === 'team'"
+                  v-if="showTeamToggle"
                   class="flex gap-1 p-1 bg-gray-100 rounded-xl"
                 >
                   <Button
@@ -140,37 +140,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
-import Card from 'primevue/card';
-import Tabs from 'primevue/tabs';
-import TabList from 'primevue/tablist';
-import Tab from 'primevue/tab';
-import TabPanels from 'primevue/tabpanels';
-import TabPanel from 'primevue/tabpanel';
+import { computed, onMounted,ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import Button from 'primevue/button';
+import Card from 'primevue/card';
+import Tab from 'primevue/tab';
+import TabList from 'primevue/tablist';
+import TabPanel from 'primevue/tabpanel';
+import TabPanels from 'primevue/tabpanels';
+import Tabs from 'primevue/tabs';
+
+// Store and Composables
+import { useProfileStore } from '@/stores/profile/profile';
+import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
 
 // Components
 import Message from './_components/common/Message.vue';
-import UserBadge from './_components/common/UserBadge.vue';
 import Summary from './_components/common/Summary.vue';
-import ProductivityTab from './_components/tabs/ProductivityTab.vue';
-import WellbeingTab from './_components/tabs/WellbeingTab.vue';
+import UserBadge from './_components/common/UserBadge.vue';
 import DistributionTab from './_components/tabs/DistributionTab.vue';
 import GraphTab from './_components/tabs/GraphTab.vue';
+import ProductivityTab from './_components/tabs/ProductivityTab.vue';
 import WebHistoryTab from './_components/tabs/WebHistoryTab.vue';
-// Store and Composables
-import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
+import WellbeingTab from './_components/tabs/WellbeingTab.vue';
 import { useWorktimeQuery } from './_composables';
-import { useI18n } from 'vue-i18n';
+
+import type { DisplayMode, IWebClock,TabType } from './_types';
 import type { MessageSchema } from '@/plugins/i18n';
-import type { TabType, DisplayMode, IWebClock } from './_types';
 
 // Store
 const store = useWorktimeStore();
+const profileStore = useProfileStore();
 const { t } = useI18n<{ message: MessageSchema }>();
 
 // Composables
-const { currentQuery, changeTab } = useWorktimeQuery();
+const { currentQuery, changeTab, navigateToIndividual } = useWorktimeQuery();
 
 // Local State
 const displayMode = ref<DisplayMode>('team');
@@ -223,6 +228,10 @@ const currentWebClocks = computed(() => {
 const teams = computed(() => store.getTeams);
 const individuals = computed(() => store.getIndividuals);
 
+const showTeamToggle = computed(() => {
+  return currentQuery.value.view === 'team' && store.sectionData?.Teamset?.IsTeam === true;
+});
+
 // Available tabs based on view mode
 const availableTabs = computed<Array<{ key: TabType; label: string }>>(() => {
   const tabs: Array<{ key: TabType; label: string }> = [];
@@ -254,12 +263,13 @@ const fetchData = async () => {
   try {
     errorMessage.value = null;
 
-    if (currentQuery.value.view === 'individual' && currentQuery.value.memberId) {
+    if (currentQuery.value.view === 'individual') {
       // Fetch individual data
+      // MemberId can be null/undefined - backend will return current user's data from auth token
       await store.fetchEmployeeData({
         Perspective: currentQuery.value.perspective,
         Interval: currentQuery.value.interval,
-        MemberId: currentQuery.value.memberId,
+        MemberId: currentQuery.value.memberId ?? undefined,
       });
 
       if (store.getEmployeeError) {
@@ -270,7 +280,7 @@ const fetchData = async () => {
       await store.fetchSectionData({
         Perspective: currentQuery.value.perspective,
         Interval: currentQuery.value.interval,
-        TeamId: currentQuery.value.teamId || null,
+        TeamId: currentQuery.value.teamId ?? undefined,
       });
 
       if (store.getSectionError) {
@@ -312,7 +322,22 @@ watch(activeTabIndex, (newTab) => {
 });
 
 // Lifecycle
-onMounted(() => {
+onMounted(async () => {
+  // Auto-redirect employees to individual view (based on ROLE, not permission)
+  const isEmployee = profileStore.isEmployee;
+  const currentView = currentQuery.value.view;
+
+  // If user role is EMPLOYEE (not supervisor/admin) and in team view, redirect to individual
+  // Backend accepts MemberId: null and returns current user's data from token
+  if (isEmployee && currentView === 'team') {
+    console.log(
+      '🔀 User role is EMPLOYEE. Redirecting to individual view...',
+    );
+    // Use null as memberId - backend will get user from auth token
+    await navigateToIndividual(null);
+    return; // fetchData will be called by the route change watcher
+  }
+
   fetchData();
 });
 </script>

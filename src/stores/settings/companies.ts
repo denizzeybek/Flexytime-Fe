@@ -1,10 +1,12 @@
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
 import { defineStore } from 'pinia';
-import type { ICompany } from '@/interfaces/settings/company';
+
+import { SettingApiService } from '@/client';
+import { EStoreNames } from '@/stores/storeNames.enum';
+
+import type { CompanyViewModel } from '@/client';
 
 interface State {
-  list: ICompany[];
+  list: CompanyViewModel[];
   totalItems: number;
   loading: boolean;
   error: string | null;
@@ -22,7 +24,7 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
     /**
      * Get companies list
      */
-    getList: (state): ICompany[] => state.list,
+    getList: (state): CompanyViewModel[] => state.list,
 
     /**
      * Get total items count
@@ -48,17 +50,17 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
      * @param payload - Request payload (optional filters)
      * @param force - Force refresh even if same request exists
      */
-    async filter(): Promise<ICompany[] | null> {
+    async filter(): Promise<CompanyViewModel[] | null> {
       try {
         this.loading = true;
         this.error = null;
 
-        const response = await axios.get<ICompany[]>('/webapi/setting/companies');
+        const data = await SettingApiService.settingApiCompanies();
 
-        this.list = response.data;
-        this.totalItems = response.data?.length || 0;
+        this.list = data;
+        this.totalItems = data.length;
 
-        return response.data;
+        return data;
       } catch (err: any) {
         this.error = err?.response?.data?.message || 'Failed to fetch companies';
         console.error('Error fetching companies:', err);

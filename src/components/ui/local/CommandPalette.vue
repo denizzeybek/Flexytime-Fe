@@ -71,7 +71,7 @@
                 <i class="pi pi-arrow-right text-sm" />
                 <div class="flex-1">
                   <div class="font-medium">{{ route.label }}</div>
-                  <div v-if="route.path" class="text-xs text-gray-500 mt-0.5">{{ route.path }}</div>
+                  <!-- <div v-if="route.path" class="text-xs text-gray-500 mt-0.5">{{ route.path }}</div> -->
                 </div>
               </template>
             </Button>
@@ -83,27 +83,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, nextTick,onMounted, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { MessageSchema } from '@/plugins/i18n';
-import i18n from '@/plugins/i18n';
+import { useRouter } from 'vue-router';
+
 import { useLanguage } from '@/composables/useLanguage';
+import i18n from '@/plugins/i18n';
 
-const { t } = useI18n<{ message: MessageSchema }>();
-const router = useRouter();
-const { currentLanguage } = useLanguage();
+import type { MessageSchema } from '@/plugins/i18n';
 
-// Refs
-const isVisible = ref(false);
-const searchQuery = ref('');
-const selectedIndex = ref(0);
-const searchInputRef = ref<any>(null);
-
-// Detect platform
-const isMac = computed(() => navigator.platform.toUpperCase().indexOf('MAC') >= 0);
-
-// Define route interface
 interface RouteItem {
   name: string;
   label: string;
@@ -112,7 +100,38 @@ interface RouteItem {
   path: string;
 }
 
-// Get all navigable routes
+const { t } = useI18n<{ message: MessageSchema }>();
+const router = useRouter();
+const { currentLanguage } = useLanguage();
+
+const isVisible = ref(false);
+const searchQuery = ref('');
+const selectedIndex = ref(0);
+const searchInputRef = ref<any>(null);
+const allRoutes = ref<RouteItem[]>([]);
+
+const isMac = computed(() => navigator.platform.toUpperCase().indexOf('MAC') >= 0);
+
+const filteredRoutes = computed(() => {
+  if (!searchQuery.value.trim()) {
+    // Show top 3 routes when no search query
+    return allRoutes.value.slice(0, 3);
+  }
+
+  const query = searchQuery.value.toLowerCase();
+  const filtered = allRoutes.value.filter((route) => {
+    return (
+      route.label.toLowerCase().includes(query) ||
+      route.labelEn.toLowerCase().includes(query) ||
+      route.labelTr.toLowerCase().includes(query) ||
+      route.name.toLowerCase().includes(query) ||
+      route.path.toLowerCase().includes(query)
+    );
+  });
+
+  return filtered;
+});
+
 const getAllRoutes = (): RouteItem[] => {
   const routes = router.getRoutes();
   const navigableRoutes: RouteItem[] = [];
@@ -145,31 +164,6 @@ const getAllRoutes = (): RouteItem[] => {
   return navigableRoutes;
 };
 
-// All routes
-const allRoutes = ref<RouteItem[]>([]);
-
-// Filtered routes based on search
-const filteredRoutes = computed(() => {
-  if (!searchQuery.value.trim()) {
-    // Show top 3 routes when no search query
-    return allRoutes.value.slice(0, 3);
-  }
-
-  const query = searchQuery.value.toLowerCase();
-  const filtered = allRoutes.value.filter((route) => {
-    return (
-      route.label.toLowerCase().includes(query) ||
-      route.labelEn.toLowerCase().includes(query) ||
-      route.labelTr.toLowerCase().includes(query) ||
-      route.name.toLowerCase().includes(query) ||
-      route.path.toLowerCase().includes(query)
-    );
-  });
-
-  return filtered;
-});
-
-// Keyboard navigation
 const navigateDown = () => {
   if (selectedIndex.value < filteredRoutes.value.length - 1) {
     selectedIndex.value++;

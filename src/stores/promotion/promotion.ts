@@ -1,8 +1,11 @@
-import { EStoreNames } from '@/stores/storeNames.enum';
-import axios from 'axios';
 import { defineStore } from 'pinia';
+
+import axios from 'axios';
+
 import { useMockData } from '@/config';
-import type { IPromotion, IPromote, IPromotionResponse } from '@/interfaces/promotion/promotion';
+import { EStoreNames } from '@/stores/storeNames.enum';
+
+import type { IPromote, IPromotion, IPromotionResponse } from '@/interfaces/promotion/promotion';
 
 interface State {
   EarnedPromotionList: IPromotion[];

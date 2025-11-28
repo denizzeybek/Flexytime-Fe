@@ -19,10 +19,12 @@
 </template>
 
 <script setup lang="ts">
-import { ERouteNames } from '@/router/routeNames.enum';
-import { useRoute, useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
 import Card from 'primevue/card';
+
+import { ERouteNames } from '@/router/routeNames.enum';
 
 const route = useRoute();
 const router = useRouter();

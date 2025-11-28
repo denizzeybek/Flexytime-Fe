@@ -1,11 +1,15 @@
-import { defineStore } from 'pinia';
-import { EStorageKeys } from '@/constants/storageKeys';
 import { computed } from 'vue';
+import { defineStore } from 'pinia';
+
+import { AccountApiService, OpenAPI, ProfileApiService, WizardApiService } from '@/client';
+import { EStorageKeys } from '@/constants/storageKeys';
+import { LoginService } from '@/customClient';
 import { EStoreNames } from '@/stores/storeNames.enum';
+
 import { useUsersStore } from './users';
-import axios from 'axios';
-import qs from 'qs';
-import type { LoginModel, LoginResponse } from '@/client';
+
+import type { AccountRegisterViewModel } from '@/client';
+import type { LoginRequest } from '@/customClient';
 
 export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
   const usersStore = useUsersStore();
@@ -24,34 +28,93 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
       }
     },
     $reset() {
-      //   OpenAPI.TOKEN = undefined
+      OpenAPI.TOKEN = undefined;
       localStorage.removeItem(EStorageKeys.AUTHENTICATION);
+      localStorage.removeItem(EStorageKeys.TOKEN);
     },
-    async login(payload: LoginModel) {
+    async login(payload: LoginRequest) {
       console.log('payload 1 ', payload);
-      const response = await axios.post<LoginResponse>('/oauth/token', qs.stringify(payload));
-      const { access_token, refresh_token } = response.data;
-      localStorage.setItem(EStorageKeys.TOKEN, access_token!);
-      localStorage.setItem(EStorageKeys.REFRESH_TOKEN, refresh_token!);
+      const response = await LoginService.login(payload);
+      const { access_token: token } = response;
+
+      // Store token
+      if (token) {
+        localStorage.setItem(EStorageKeys.TOKEN, token);
+        OpenAPI.TOKEN = token; // Set for all API requests
+      }
+
       return response;
     },
 
-    async getProfile(result) {
+    async refreshToken() {
+      try {
+        // Verify and refresh token using profileApiVerifyToken
+        const response = await ProfileApiService.profileApiVerifyToken();
+        const { Token: token, IsValid } = response;
+
+        if (!IsValid || !token) {
+          throw new Error('Token is invalid');
+        }
+
+        // Update token (replace with new one)
+        localStorage.setItem(EStorageKeys.TOKEN, token);
+        OpenAPI.TOKEN = token;
+
+        return response;
+      } catch (error) {
+        // Clear token on error
+        localStorage.removeItem(EStorageKeys.TOKEN);
+        OpenAPI.TOKEN = undefined;
+        throw error;
+      }
+    },
+
+    async getProfile(result: any) {
       const languageCode = localStorage.getItem('languageCode');
       if (!languageCode) localStorage.setItem('languageCode', 'en');
-      const request = { languageCode: languageCode };
-      return new Promise((resolve, reject) => {
-        axios
-          .post('/webapi/wizard/profile`', request)
-          .then((response) => {
-            this.setAuth({ authentication: null, user: response });
-            result.user = response.data;
-            return resolve(result);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+
+      try {
+        const response = await WizardApiService.wizardApiGetProfile();
+        this.setAuth({ authentication: null, user: response });
+        result.user = response;
+        return result;
+      } catch (error) {
+        throw error;
+      }
+    },
+
+    async register(payload: AccountRegisterViewModel) {
+      try {
+        const response = await AccountApiService.accountApiRegister(payload) as any;
+
+        // V1 logic: After registration, automatically login with AccessKey
+        // Backend returns { Status, DTO: { AccessKey, ... } }
+        // But OpenAPI spec doesn't include DTO - use runtime check
+        if (response.DTO?.AccessKey) {
+          await this.loginWithGoogle(response.DTO.AccessKey);
+        }
+
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
+
+    async loginWithGoogle(code: string) {
+      try {
+        const response = await LoginService.loginWithGoogle(code);
+        const { access_token: token } = response;
+
+        // Store token
+        if (token) {
+          localStorage.setItem(EStorageKeys.TOKEN, token);
+          OpenAPI.TOKEN = token; // Set for all API requests
+        }
+
+        return response;
+      } catch (error) {
+        throw error;
+      }
     },
   };
 });

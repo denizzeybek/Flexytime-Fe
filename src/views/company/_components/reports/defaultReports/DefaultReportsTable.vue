@@ -8,13 +8,13 @@
         :rows="5"
         :rowsPerPageOptions="[5, 10, 20, 50]"
       >
-        <Column field="TypeDisplay" :header="$t('components.defaultReports.columns.report')">
+        <Column field="TypeDisplay" :header="t('components.defaultReports.columns.report')">
           <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         </Column>
-        <Column field="ScheduleDisplay" :header="$t('components.defaultReports.columns.scheduling')">
+        <Column field="ScheduleDisplay" :header="t('components.defaultReports.columns.scheduling')">
           <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         </Column>
-        <Column field="To" :header="$t('components.defaultReports.columns.to')">
+        <Column field="To" :header="t('components.defaultReports.columns.to')">
           <template #body="slotProps">
             <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
             <div v-else class="flex flex-col gap-1">
@@ -24,7 +24,7 @@
             </div>
           </template>
         </Column>
-        <Column field="Cc" :header="$t('components.defaultReports.columns.cc')">
+        <Column field="Cc" :header="t('components.defaultReports.columns.cc')">
           <template #body="slotProps">
             <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
             <div v-else class="flex flex-col gap-1">
@@ -34,7 +34,7 @@
             </div>
           </template>
         </Column>
-        <Column field="Bcc" :header="$t('components.defaultReports.columns.bcc')">
+        <Column field="Bcc" :header="t('components.defaultReports.columns.bcc')">
           <template #body="slotProps">
             <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
             <div v-else class="flex flex-col gap-1">
@@ -44,10 +44,10 @@
             </div>
           </template>
         </Column>
-        <Column field="SectionNameDisplay" :header="$t('components.defaultReports.columns.team')">
+        <Column field="SectionNameDisplay" :header="t('components.defaultReports.columns.team')">
           <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         </Column>
-        <Column :header="$t('components.defaultReports.columns.actions')">
+        <Column :header="t('components.defaultReports.columns.actions')">
           <template #body="slotProps">
             <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
             <OptionsDropdown
@@ -60,9 +60,9 @@
 
         <template #footer>
           <div class="flex flex-col gap-3 lg:flex-row lg:justify-between items-center">
-            <Button icon="pi pi-plus" :label="$t('components.defaultReports.addReport')" @click="emit('new')" class="shadow-sm" />
+            <Button icon="pi pi-plus" :label="t('components.defaultReports.addReport')" class="shadow-sm" @click="emit('new')" />
             <FText>
-              {{ $t('components.defaultReports.totalReports', { count: defaultReports ? defaultReports.length : 0 }) }}
+              {{ t('components.defaultReports.totalReports', { count: defaultReports ? defaultReports.length : 0 }) }}
             </FText>
           </div>
         </template>
@@ -74,28 +74,31 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { type MessageSchema } from '@/plugins/i18n';
+
+import Card from 'primevue/card';
 import Skeleton from 'primevue/skeleton';
-import { useCompanyReportsStore } from '@/stores/company/reports';
+
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
-import type { IReportItem } from '@/interfaces/company/report';
-import Card from 'primevue/card';
+import { type MessageSchema } from '@/plugins/i18n';
+import { useCompanyReportsStore } from '@/stores/company/reports';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import type { IReportItem } from '@/interfaces/company/report';
 
 interface IProps {
   isLoading: boolean;
 }
-
-defineProps<IProps>();
 
 interface IEmits {
   (event: 'new'): void;
   (event: 'edit', value: IReportItem): void;
 }
 
+defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
+
+const { t } = useI18n<{ message: MessageSchema }>();
 
 const reportsStore = useCompanyReportsStore();
 

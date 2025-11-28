@@ -6,6 +6,9 @@ export enum ERouteNames {
   ForgotPassword_Emailed = 'Forgot Password Emailed',
   ForgotPassword_Reset = 'Forgot Password Reset',
 
+  // ERRORS
+  Unauthorized = 'Unauthorized',
+
   // REGISTER
   Register = 'Register',
   Register_ChooseAccountType = 'Choose Account Type',
