@@ -115,9 +115,11 @@ import PanelMenu from 'primevue/panelmenu';
 
 import ProfileMenu from '@/components/ui/local/ProfileMenu.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
+import { useProfileStore } from '@/stores/profile/profile';
 
 const { t } = useI18n();
 const route = useRoute();
+const profileStore = useProfileStore();
 
 const expandedKeys = ref<Record<string, boolean>>({});
 
@@ -161,34 +163,52 @@ const updateExpandedKeys = () => {
 updateExpandedKeys();
 watch(() => route.name, updateExpandedKeys);
 
-const menuItems = computed(() => [
-  {
-    label: t('pages.layouts.navbar.companies'),
-    icon: 'pi pi-building',
-    route: ERouteNames.SettingsCompanies,
-  },
-  {
+const menuItems = computed(() => {
+  const items: any[] = [];
+
+  // If Admin role - show only Companies
+  if (profileStore.isAdmin) {
+    items.push({
+      label: t('pages.layouts.navbar.companies'),
+      icon: 'pi pi-building',
+      route: ERouteNames.SettingsCompanies,
+    });
+    return items;
+  }
+
+  // For non-admin users - show all other menu items
+
+  // Worktime Usage
+  items.push({
     label: t('pages.layouts.navbar.worktimeUsage'),
     icon: 'pi pi-chart-line',
     route: ERouteNames.WorktimeUsage,
-  },
-  {
+  });
+
+  // Time Entries
+  items.push({
     label: t('pages.layouts.navbar.timeEntries'),
     icon: 'pi pi-clock',
     route: ERouteNames.TimeEntriesManual,
-  },
-  {
+  });
+
+  // Time Management
+  items.push({
     label: t('pages.layouts.navbar.timeManagement'),
     icon: 'pi pi-calendar',
     route: ERouteNames.TimeManagementPerson,
-  },
-  {
+  });
+
+  // Reports
+  items.push({
     label: t('pages.layouts.navbar.reports'),
     icon: 'pi pi-chart-bar',
     route: ERouteNames.CompanyReportsElastic,
-  },
-  {
-    key: ERouteNames.HRSettingsEmployees, // Parent key = ilk child route
+  });
+
+  // HR Settings
+  items.push({
+    key: ERouteNames.HRSettingsEmployees,
     label: t('pages.layouts.navbar.hrSettings'),
     icon: 'pi pi-users',
     items: [
@@ -211,9 +231,11 @@ const menuItems = computed(() => [
         isChild: true,
       },
     ],
-  },
-  {
-    key: ERouteNames.CompanyOrganizationChart, // Parent key = ilk child route
+  });
+
+  // Company
+  items.push({
+    key: ERouteNames.CompanyOrganizationChart,
     label: t('pages.layouts.navbar.company'),
     icon: 'pi pi-building',
     items: [
@@ -230,9 +252,11 @@ const menuItems = computed(() => [
         isChild: true,
       },
     ],
-  },
-  {
-    key: ERouteNames.ClassificationWebAddresses, // Parent key = ilk child route
+  });
+
+  // Settings
+  items.push({
+    key: ERouteNames.ClassificationWebAddresses,
     label: t('pages.layouts.navbar.settings'),
     icon: 'pi pi-cog',
     items: [
@@ -255,6 +279,8 @@ const menuItems = computed(() => [
         isChild: true,
       },
     ],
-  },
-]);
+  });
+
+  return items;
+});
 </script>

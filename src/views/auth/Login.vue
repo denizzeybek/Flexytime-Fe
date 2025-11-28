@@ -121,12 +121,12 @@ import { EGrantType } from '@/enums/grantType.enum';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useAuthStore } from '@/stores/auth';
-// import { useProfileStore } from '@/stores/profile/profile';
+import { useProfileStore } from '@/stores/profile/profile';
 // import { useCommonUsersStore } from '@/stores/common/users';
 
 const router = useRouter();
 const authStore = useAuthStore();
-// const profileStore = useProfileStore();
+const profileStore = useProfileStore();
 // const commonUsersStore = useCommonUsersStore();
 const { showErrorMessage } = useFToast();
 
@@ -147,11 +147,20 @@ const submitHandler = handleSubmit(async (values) => {
       grant_type: EGrantType.PASSWORD,
     };
     await authStore.login(payload);
-    // const user = await profileStore.filter();
-    // commonUsersStore.setUser(user as any);
-    router.push({
-      name: ERouteNames.WorktimeUsage,
-    });
+
+    // Load user profile to check role
+    await profileStore.filter();
+
+    // Redirect based on role
+    if (profileStore.isAdmin) {
+      router.push({
+        name: ERouteNames.SettingsCompanies,
+      });
+    } else {
+      router.push({
+        name: ERouteNames.WorktimeUsage,
+      });
+    }
   } catch (error: any) {
     showErrorMessage(error as any);
   }

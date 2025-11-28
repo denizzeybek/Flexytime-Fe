@@ -1,4 +1,5 @@
 import { EHeader } from '@/common/enums/token.enum';
+import { ERole } from '@/enums/role.enum';
 import DefaultLayout from '@/layouts/default/DefaultLayout.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import ForgotPassword from '@/views/auth/ForgotPassword.vue';
@@ -368,6 +369,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.SettingsCompanies,
           name: ERouteNames.SettingsCompanies,
+          requiresRole: [ERole.ADMIN],
         },
       },
       {

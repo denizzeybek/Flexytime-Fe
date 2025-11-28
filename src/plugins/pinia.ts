@@ -9,6 +9,7 @@ interface ExtendedPinia extends Pinia {
 
 const resetList = [
   EStoreNames.AUTH,
+  EStoreNames.WORKTIME_USAGE,
   EStoreNames.CLASSIFICATION_WEB_ADDRESSES,
   EStoreNames.CLASSIFICATION_APPLICATIONS,
   EStoreNames.COMPANY_ORGANIZATION_CHARTS,
