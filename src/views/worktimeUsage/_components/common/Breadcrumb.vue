@@ -1,6 +1,6 @@
 <template>
   <div class="bg-f-white py-2 rounded-xl flex justify-center w-full lg:w-fit">
-    <Skeleton v-if="isLoading" height="1rem" width="20rem" />
+    <Skeleton v-if="isLoading" height="1.5rem" width="20rem" />
 
     <PBreadcrumb v-else-if="items.length > 0" :home="home" :model="breadcrumbItems">
       <template #item="{ item, props }">

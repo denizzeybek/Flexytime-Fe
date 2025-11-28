@@ -9,11 +9,13 @@
       @click="handleDownload"
     />
     <DatePicker
+      ref="datePicker"
       v-model="dateRange"
       class="flex-1 min-w-56"
       selection-mode="range"
       :manual-input="false"
       :date-format="dateFormat"
+      :max-date="maxDate"
       show-button-bar
       @update:model-value="handleDateChange"
     />
@@ -65,6 +67,9 @@ const { currentQuery, updateInterval, updatePerspective } = useWorktimeQuery();
 const { canAccessWorktimeUsage } = useAuthorization();
 const { dateFormat } = useDateFormat();
 
+const datePicker = ref();
+const maxDate = ref(new Date());
+
 enum EPerspective {
   TIME = 0,
   COST = 1,
@@ -98,6 +103,11 @@ const handleDateChange = (value: Date | Date[] | (Date | null)[] | null | undefi
 
     const interval = `${day}.${month}.${year}-${diffDays}`;
     updateInterval(interval);
+
+    // Hide datepicker after both dates are selected
+    if (datePicker.value) {
+      datePicker.value.overlayVisible = false;
+    }
   }
 };
 
