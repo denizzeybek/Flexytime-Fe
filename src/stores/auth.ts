@@ -85,7 +85,15 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
 
     async register(payload: AccountRegisterViewModel) {
       try {
-        const response = await AccountApiService.accountApiRegister(payload);
+        const response = await AccountApiService.accountApiRegister(payload) as any;
+
+        // V1 logic: After registration, automatically login with AccessKey
+        // Backend returns { Status, DTO: { AccessKey, ... } }
+        // But OpenAPI spec doesn't include DTO - use runtime check
+        if (response.DTO?.AccessKey) {
+          await this.loginWithGoogle(response.DTO.AccessKey);
+        }
+
         return response;
       } catch (error) {
         throw error;

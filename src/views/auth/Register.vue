@@ -29,7 +29,10 @@
             unstyled
             icon="pi pi-google"
             :label="$t('pages.auth.register.googleLogin')"
-            class="w-full flex items-center justify-center gap-3 bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 rounded-lg py-2.5 px-4 text-slate-700 font-medium transition-all duration-200"
+            :disabled="googleLogin.isProcessing.value"
+            :loading="googleLogin.isProcessing.value"
+            class="w-full flex items-center justify-center gap-3 bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 rounded-lg py-2.5 px-4 text-slate-700 font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            @click="googleLogin.initiateGoogleLogin"
           />
 
           <!-- Divider -->
@@ -123,23 +126,29 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
+import { useGoogleLogin } from '@/composables/useGoogleLogin';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { type MessageSchema } from '@/plugins/i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useAuthStore } from '@/stores/auth';
+import { useProfileStore } from '@/stores/profile/profile';
 
 import type { AccountRegisterViewModel } from '@/client';
 
+const route = useRoute();
 const router = useRouter();
 const { t } = useI18n<{ message: MessageSchema }>();
 const authStore = useAuthStore();
+const profileStore = useProfileStore();
+const googleLogin = useGoogleLogin();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
@@ -156,20 +165,56 @@ const { handleSubmit, isSubmitting } = useForm({
 
 const submitHandler = handleSubmit(async (values) => {
   try {
+    // Get timezone and language like Google login does
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const languageCode = localStorage.getItem('languageCode') || 'en';
+
     const registerPayload: AccountRegisterViewModel = {
       FullName: values.fullName,
       CompanyName: values.companyName,
       Email: values.email,
       Password: values.password,
+      LanguageCode: languageCode,
+      TimezoneName: timezone,
+      // Note: NO Recaptcha - not required in V2
     };
 
+    // Register (will auto-login with AccessKey)
     await authStore.register(registerPayload);
+
+    // Load profile to get user roles
+    await profileStore.filter();
+
     showSuccessMessage(t('pages.auth.register.messages.success'));
 
-    // Navigate to login page after successful registration
-    router.push({ name: ERouteNames.WorktimeUsage });
+    // Redirect based on role (same as login)
+    if (profileStore.isAdmin) {
+      router.push({ name: ERouteNames.SettingsCompanies });
+    } else {
+      router.push({ name: ERouteNames.WorktimeUsage });
+    }
   } catch (error: any) {
     showErrorMessage(error as any);
+  }
+});
+
+// Handle Google OAuth callback (same as Login.vue)
+onMounted(async () => {
+  const { status, key } = route.query;
+
+  // Check if this is a Google OAuth callback
+  if (status && key) {
+    const success = await googleLogin.handleGoogleCallback(
+      status as string,
+      key as string,
+    );
+
+    if (!success && googleLogin.errorMessage.value) {
+      showErrorMessage(googleLogin.errorMessage.value);
+    }
+
+    // Clear query parameters from URL
+    router.replace({ name: ERouteNames.Register });
   }
 });
 </script>
