@@ -91,5 +91,22 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
         throw error;
       }
     },
+
+    async loginWithGoogle(code: string) {
+      try {
+        const response = await LoginService.loginWithGoogle(code);
+        const { access_token: token } = response;
+
+        // Store token
+        if (token) {
+          localStorage.setItem(EStorageKeys.TOKEN, token);
+          OpenAPI.TOKEN = token; // Set for all API requests
+        }
+
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
   };
 });

@@ -7,4 +7,5 @@ export type LoginRequest = {
   username: string;
   password: string;
   grant_type: EGrantType;
+  code?: string; // Optional code for Google OAuth login
 };

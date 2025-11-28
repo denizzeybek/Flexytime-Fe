@@ -22,6 +22,7 @@ export class LoginService {
       username: request.username,
       password: request.password,
       grant_type: request.grant_type,
+      ...(request.code && { code: request.code }), // Add code if present
     }).toString();
 
     // Basic auth credentials - hardcoded from .env
@@ -36,6 +37,21 @@ export class LoginService {
         'Authorization': `Basic ${BASIC_AUTH}`,
       },
       body: formData,
+    });
+  }
+
+  /**
+   * Login with Google OAuth code to get access token
+   * @param code Google OAuth code from backend callback
+   * @returns TokenResponse OK
+   * @throws ApiError
+   */
+  public static loginWithGoogle(code: string): CancelablePromise<TokenResponse> {
+    return this.login({
+      username: '',
+      password: '',
+      grant_type: 'password' as any,
+      code,
     });
   }
 }

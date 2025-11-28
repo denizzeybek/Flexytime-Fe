@@ -84,7 +84,10 @@
             unstyled
             icon="pi pi-google"
             :label="$t('pages.auth.login.googleLogin')"
-            class="w-full flex items-center justify-center gap-3 bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 rounded-lg py-2.5 px-4 text-slate-700 font-medium transition-all duration-200"
+            :disabled="googleLogin.isProcessing.value"
+            :loading="googleLogin.isProcessing.value"
+            class="w-full flex items-center justify-center gap-3 bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 rounded-lg py-2.5 px-4 text-slate-700 font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            @click="googleLogin.initiateGoogleLogin"
           />
 
           <!-- Sign Up Link -->
@@ -111,12 +114,14 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 import { useForm } from 'vee-validate';
 import { object,string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
+import { useGoogleLogin } from '@/composables/useGoogleLogin';
 import { EGrantType } from '@/enums/grantType.enum';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
@@ -124,11 +129,13 @@ import { useAuthStore } from '@/stores/auth';
 import { useProfileStore } from '@/stores/profile/profile';
 // import { useCommonUsersStore } from '@/stores/common/users';
 
+const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const profileStore = useProfileStore();
 // const commonUsersStore = useCommonUsersStore();
 const { showErrorMessage } = useFToast();
+const googleLogin = useGoogleLogin();
 
 const validationSchema = object({
   email: string().email().required().label('Email'),
@@ -163,6 +170,26 @@ const submitHandler = handleSubmit(async (values) => {
     }
   } catch (error: any) {
     showErrorMessage(error as any);
+  }
+});
+
+// Handle Google OAuth callback
+onMounted(async () => {
+  const { status, key } = route.query;
+
+  // Check if this is a Google OAuth callback
+  if (status && key) {
+    const success = await googleLogin.handleGoogleCallback(
+      status as string,
+      key as string,
+    );
+
+    if (!success && googleLogin.errorMessage.value) {
+      showErrorMessage(googleLogin.errorMessage.value);
+    }
+
+    // Clear query parameters from URL
+    router.replace({ name: ERouteNames.Login });
   }
 });
 </script>
