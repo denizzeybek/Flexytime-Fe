@@ -6,6 +6,7 @@
         :title="item.title"
         :value="item.value"
         :icon="item.icon"
+        :is-loading="isLoading"
       />
     </template>
   </div>
@@ -25,6 +26,7 @@ import type { ISummary } from '../../_types';
 
 interface IProps {
   summary?: ISummary[];
+  isLoading?: boolean;
 }
 
 interface IBadgeData {
@@ -36,11 +38,26 @@ interface IBadgeData {
 
 const props = withDefaults(defineProps<IProps>(), {
   summary: () => [],
+  isLoading: false,
 });
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
+// Skeleton dummy data - show 6 skeleton badges with different colors
+const skeletonBadges: IBadgeData[] = [
+  { severity: ESeverity.SUCCESS, title: '', icon: 'pi pi-circle', value: '' },
+  { severity: ESeverity.WARN, title: '', icon: 'pi pi-circle', value: '' },
+  { severity: ESeverity.DANGER, title: '', icon: 'pi pi-circle', value: '' },
+  { severity: ESeverity.SECONDARY, title: '', icon: 'pi pi-circle', value: '' },
+  { severity: ESeverity.INFO, title: '', icon: 'pi pi-circle', value: '' },
+  { severity: ESeverity.PRIMARY, title: '', icon: 'pi pi-circle', value: '' },
+];
+
 const badgeList = computed<IBadgeData[]>(() => {
+  if (props.isLoading) {
+    return skeletonBadges;
+  }
+
   return props.summary
     .map((item) => mapStatisticTypeToBadge(item.statisticType ?? '', item.time ?? ''))
     .filter((item): item is IBadgeData => item !== null);

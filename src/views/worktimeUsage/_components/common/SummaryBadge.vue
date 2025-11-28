@@ -9,11 +9,15 @@
           class="flex items-center justify-center min-w-10 min-h-10 rounded-full shadow-sm"
           :class="bgClass"
         >
-          <i :class="icon" class="text-white text-base"></i>
+          <Skeleton v-if="isLoading" shape="circle" size="2.5rem" class="!bg-white/30" />
+          <i v-else :class="icon" class="text-white text-base"></i>
         </div>
-        <div class="flex flex-col items-start justify-center">
-          <span class="text-xs text-gray-500 font-medium">{{ title }}</span>
-          <span :class="textClass" class="font-bold text-base">{{ value }}</span>
+        <div class="flex flex-col items-start justify-center gap-1">
+          <Skeleton v-if="isLoading" height="0.75rem" width="4rem" />
+          <span v-else class="text-xs text-gray-500 font-medium">{{ title }}</span>
+
+          <Skeleton v-if="isLoading" height="1rem" width="3rem" />
+          <span v-else :class="textClass" class="font-bold text-base">{{ value }}</span>
         </div>
       </div>
     </template>
@@ -24,6 +28,7 @@
 import { computed } from 'vue';
 
 import Card from 'primevue/card';
+import Skeleton from 'primevue/skeleton';
 
 import { ESeverity } from '@/enums/severity.enum';
 
@@ -32,9 +37,12 @@ interface IProps {
   title: string;
   icon: string;
   value: any;
+  isLoading?: boolean;
 }
 
-const props = defineProps<IProps>();
+const props = withDefaults(defineProps<IProps>(), {
+  isLoading: false,
+});
 
 const severityMap: Record<ESeverity, string> = {
   [ESeverity.SUCCESS]: 'success',

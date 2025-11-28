@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-f-white px-5 py-2 rounded-xl flex justify-center w-full lg:w-fit">
+  <div class="bg-f-white py-2 rounded-xl flex justify-center w-full lg:w-fit">
     <Skeleton v-if="isLoading" height="1rem" width="20rem" />
 
     <PBreadcrumb v-else-if="items.length > 0" :home="home" :model="breadcrumbItems">
@@ -45,6 +45,8 @@ const { handleTeamClick } = useWorktimeNavigation();
 
 const home = {
   icon: 'pi pi-home',
+  label: '',
+  route: '/',
 };
 
 const breadcrumbItems = computed(() => {

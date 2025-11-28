@@ -9,7 +9,7 @@
           <ActionsBar @download="handleDownload" />
         </div>
         <div>
-          <BadgeGroup :summary="summaryItems" />
+          <BadgeGroup :summary="summaryItems" :is-loading="isLoading" />
         </div>
       </div>
     </template>
