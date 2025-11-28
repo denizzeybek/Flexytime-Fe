@@ -8,6 +8,7 @@
 import { defineStore } from 'pinia';
 
 import { ClockApiService } from '@/client';
+import { useProfileStore } from '@/stores/profile/profile';
 
 import type {
   ClockEmployeeRequest,
@@ -160,6 +161,50 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     },
 
     /**
+     * Build Card data from profile when API returns null
+     * Used for employee view when backend doesn't provide Card data
+     */
+    buildCardFromProfile(): any {
+      const profileStore = useProfileStore();
+      const employee = profileStore.GeneralProfile?.Employee;
+
+      if (!employee) {
+        return null;
+      }
+
+      return {
+        Abbreviation: employee.abbreviation || '',
+        FullName: employee.fullname || '',
+        ImageUrl: employee.imageurl || '',
+        Title: employee.title || '',
+        TeamName: employee.teamname || '',
+      };
+    },
+
+    /**
+     * Build Breadcrumb data from profile when API returns null
+     * Used for employee view when backend doesn't provide Breadcrumb data
+     */
+    buildBreadcrumbFromProfile(): any[] {
+      const profileStore = useProfileStore();
+      const employee = profileStore.GeneralProfile?.Employee;
+
+      if (!employee) {
+        return [];
+      }
+
+      // Create a simple breadcrumb with just the employee name
+      return [
+        {
+          id: 'employee',
+          title: employee.fullname || '',
+          path: '/clock',
+          isLastElement: true,
+        },
+      ];
+    },
+
+    /**
      * Fetch section data (Team/Department view + Individuals)
      * Endpoint: /clock/section
      *
@@ -238,14 +283,26 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         cleanPayload.Interval = '';
         const response = await ClockApiService.clockApiGetEmployee(cleanPayload);
 
+        console.log('📊 Employee API Response:', response);
+
+        // Check if API returned null/empty data (happens for employee role)
+        // If so, build Card and Breadcrumb from profile data
+        const useProfileData = !response.Card || !response.Breadcrumbs;
+
+        if (useProfileData) {
+          console.log('⚠️ API returned null data. Building from profile...');
+        }
+
         // Transform API response to match our IEmployeeResponse interface
         const transformedData: IEmployeeResponse = {
-          Card: response.Card!,
-          Breadcrumb: this.transformBreadcrumbs(response.Breadcrumbs || []),
+          Card: useProfileData ? this.buildCardFromProfile() : response.Card,
+          Breadcrumb: useProfileData
+            ? this.buildBreadcrumbFromProfile()
+            : this.transformBreadcrumbs(response.Breadcrumbs || []),
           Summary: this.transformSummary(response.Model?.Summary?.Allocations || []),
           WellBeings: response.Model?.WellBeings || [],
           Distributions: this.transformDistributions(response.Model?.Allocations || []),
-          Graphs: response.Model?.Graph ?? {} as any,
+          Graphs: response.Model?.Graph ?? ({} as any),
           WebClocks: response.Model?.WebClocks || [],
         };
 

@@ -24,11 +24,16 @@ export class LoginService {
       grant_type: request.grant_type,
     }).toString();
 
+    // Basic auth credentials - hardcoded from .env
+    // OpenAPI.USERNAME/PASSWORD would work but headers is more explicit
+    const BASIC_AUTH = 'QzFBMDNCMTAtN0Q1OS00MDdBLUE5M0UtQjcxQUIxN0FEOEMyOjE3N0UzMjk1LTA2NTYtNDMxNy1CQzkxLUREMjcxQTE5QUNGRg==';
+
     return __request(OpenAPI, {
       method: 'POST',
       url: '/oauth/token',
+      mediaType: 'application/x-www-form-urlencoded',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${BASIC_AUTH}`,
       },
       body: formData,
     });

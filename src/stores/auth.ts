@@ -2,8 +2,8 @@ import { computed } from 'vue';
 import { defineStore } from 'pinia';
 
 import { AccountApiService, OpenAPI, ProfileApiService, WizardApiService } from '@/client';
-import { LoginService } from '@/customClient';
 import { EStorageKeys } from '@/constants/storageKeys';
+import { LoginService } from '@/customClient';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import { useUsersStore } from './users';

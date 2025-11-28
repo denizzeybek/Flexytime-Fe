@@ -1201,6 +1201,17 @@
         "markAsLeisure": "Boş Zaman Olarak İşaretle",
         "markAsUnclassified": "Belirsiz Olarak İşaretle"
       }
+    },
+    "errors": {
+      "unauthorized": {
+        "title": "Yetkisiz Erişim",
+        "description": "Bu sayfaya erişim yetkiniz bulunmamaktadır. Bunun bir hata olduğunu düşünüyorsanız lütfen yöneticinizle iletişime geçin.",
+        "actions": {
+          "goBack": "Geri Dön",
+          "goHome": "Ana Sayfaya Git"
+        },
+        "helpText": "Bu kaynağa erişim için sistem yöneticinizle iletişime geçin."
+      }
     }
   }
 }

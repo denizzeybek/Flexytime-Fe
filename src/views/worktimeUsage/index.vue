@@ -152,6 +152,7 @@ import TabPanels from 'primevue/tabpanels';
 import Tabs from 'primevue/tabs';
 
 // Store and Composables
+import { useProfileStore } from '@/stores/profile/profile';
 import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
 
 // Components
@@ -170,10 +171,11 @@ import type { MessageSchema } from '@/plugins/i18n';
 
 // Store
 const store = useWorktimeStore();
+const profileStore = useProfileStore();
 const { t } = useI18n<{ message: MessageSchema }>();
 
 // Composables
-const { currentQuery, changeTab } = useWorktimeQuery();
+const { currentQuery, changeTab, navigateToIndividual } = useWorktimeQuery();
 
 // Local State
 const displayMode = ref<DisplayMode>('team');
@@ -257,12 +259,13 @@ const fetchData = async () => {
   try {
     errorMessage.value = null;
 
-    if (currentQuery.value.view === 'individual' && currentQuery.value.memberId) {
+    if (currentQuery.value.view === 'individual') {
       // Fetch individual data
+      // MemberId can be null/undefined - backend will return current user's data from auth token
       await store.fetchEmployeeData({
         Perspective: String(currentQuery.value.perspective),
         Interval: currentQuery.value.interval,
-        MemberId: currentQuery.value.memberId ?? '',
+        MemberId: currentQuery.value.memberId ?? undefined,
       });
 
       if (store.getEmployeeError) {
@@ -315,7 +318,22 @@ watch(activeTabIndex, (newTab) => {
 });
 
 // Lifecycle
-onMounted(() => {
+onMounted(async () => {
+  // Auto-redirect employees to individual view (based on ROLE, not permission)
+  const isEmployee = profileStore.isEmployee;
+  const currentView = currentQuery.value.view;
+
+  // If user role is EMPLOYEE (not supervisor/admin) and in team view, redirect to individual
+  // Backend accepts MemberId: null and returns current user's data from token
+  if (isEmployee && currentView === 'team') {
+    console.log(
+      '🔀 User role is EMPLOYEE. Redirecting to individual view...',
+    );
+    // Use null as memberId - backend will get user from auth token
+    await navigateToIndividual(null);
+    return; // fetchData will be called by the route change watcher
+  }
+
   fetchData();
 });
 </script>

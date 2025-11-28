@@ -1,20 +1,19 @@
 <template>
   <Button
+    class="w-full lg:w-fit"
     type="button"
-    outlined
+    variant="outlined"
     aria-haspopup="true"
-    severity="contrast"
+    severity="secondary"
     aria-controls="overlay_menu"
-    unstyled
-    size="large"
-    pt:root="bg-f-white rounded-md px-2 py-1 border border-gray-300 "
+    icon="pi pi-user"
+    :label="userName"
     @click="toggle"
-  >
-    <ProfileBadge :title="userTitle" onlyTitle />
-  </Button>
+  />
+
 
   <div class="card flex justify-center">
-    <Menu ref="menu" :model="items" class="w-full md:w-60" :popup="true">
+    <Menu ref="menu" :model="items" class="w-40 lg:w-60" :popup="true">
       <template #item="{ item, props }">
         <a v-ripple class="flex items-center" v-bind="props.action" @click="item?.method()">
           <span :class="item.icon" />
@@ -30,23 +29,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed,ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
 import { useLogout } from '@/composables/useLogout';
+import { useProfile } from '@/composables/useProfile';
 import { type MessageSchema } from '@/plugins/i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { logout } = useLogout();
+const { userName, userTitle } = useProfile();
 
 const menu = ref();
-const userTitle = ref(t('components.profileMenu.defaultTitle'));
+
 
 const items = computed(() => [
   {
-    label: t('common.profile.profile'),
+    label: userTitle.value,
     items: [
       {
         label: t('common.profile.profile'),
@@ -69,4 +69,12 @@ const toggle = (event) => {
 };
 </script>
 
-<style scoped></style>
+<style>
+@reference "@/tailwind.css";
+
+/* Scoped button styles */
+.p-button-outlined.p-button-contrast {
+  @apply !border-f-gray !bg-f-white;
+}
+</style>
+

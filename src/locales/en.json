@@ -1201,6 +1201,17 @@
         "markAsLeisure": "Mark as Leisure",
         "markAsUnclassified": "Mark as Unclassified"
       }
+    },
+    "errors": {
+      "unauthorized": {
+        "title": "Unauthorized Access",
+        "description": "You don't have permission to access this page. Please contact your administrator if you believe this is an error.",
+        "actions": {
+          "goBack": "Go Back",
+          "goHome": "Go to Home"
+        },
+        "helpText": "If you need access to this resource, please contact your system administrator."
+      }
     }
   }
 }

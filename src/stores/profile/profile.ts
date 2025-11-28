@@ -1,7 +1,10 @@
 import { defineStore } from 'pinia';
 
 import { ProfileApiService, SettingApiService } from '@/client';
+import { ERole } from '@/enums/role.enum';
 import { EStoreNames } from '@/stores/storeNames.enum';
+
+import { getDevPermissionOverride, getDevRoleOverride } from './devOverrides';
 
 import type {
   EmployeeViewModel,
@@ -30,6 +33,78 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     TimeZone: '',
     LanguageCode: '',
   }),
+  getters: {
+    /**
+     * Get user roles from profile
+     * Returns empty array if profile not loaded
+     *
+     * DEV MODE: Can be overridden via window.__DEV_ROLE_OVERRIDE__
+     */
+    roles: (state): string[] => {
+      const devOverride = getDevRoleOverride();
+      if (devOverride) {
+        return devOverride;
+      }
+      return state.GeneralProfile?.Wizard?.Roles ?? [];
+    },
+
+    /**
+     * Get user permissions from profile
+     * Returns empty array if profile not loaded
+     *
+     * DEV MODE: Can be overridden via window.__DEV_PERMISSION_OVERRIDE__
+     */
+    permissions: (state): string[] => {
+      const devOverride = getDevPermissionOverride();
+      if (devOverride) {
+        return devOverride;
+      }
+      return state.GeneralProfile?.Wizard?.Permissions ?? [];
+    },
+
+    /**
+     * Check if user has Admin role
+     */
+    isAdmin: (state): boolean => {
+      return state.GeneralProfile?.Wizard?.Roles?.includes(ERole.ADMIN) ?? false;
+    },
+
+    /**
+     * Check if user has Supervisor role
+     */
+    isSupervisor: (state): boolean => {
+      return state.GeneralProfile?.Wizard?.Roles?.includes(ERole.SUPERVISOR) ?? false;
+    },
+
+    /**
+     * Check if user has HR role
+     */
+    isHR: (state): boolean => {
+      return state.GeneralProfile?.Wizard?.Roles?.includes(ERole.HR) ?? false;
+    },
+
+    /**
+     * Check if user has Employee role
+     */
+    isEmployee: (state): boolean => {
+      return state.GeneralProfile?.Wizard?.Roles?.includes(ERole.EMPLOYEE) ?? false;
+    },
+
+    /**
+     * Check if user has supervisor permission
+     * This determines if they can see team/supervisor views
+     */
+    hasSupervisorPermission: (state): boolean => {
+      return state.GeneralProfile?.Wizard?.Permissions?.includes('supervisor') ?? false;
+    },
+
+    /**
+     * Get member ID for individual view navigation
+     */
+    memberId: (state): string | null => {
+      return state.GeneralProfile?.Wizard?.MemberId ?? null;
+    },
+  },
   actions: {
     async filter() {
       const data = await ProfileApiService.profileApiGetProfile();

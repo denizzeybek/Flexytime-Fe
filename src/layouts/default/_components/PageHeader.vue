@@ -9,15 +9,16 @@
       <h1 class="text-2xl font-semibold text-gray-800 tracking-tight">{{ localizedRouteName }}</h1>
     </div>
     <div class="hidden lg:flex items-center gap-3">
+      <Button
+      icon="pi pi-shopping-cart"
+      :label="t('pages.layouts.pageHeader.upgrade.label')"
+      severity="warn"
+      class="shadow-md hover:shadow-lg transition-all"
+      />
       <!-- Command Palette Trigger -->
       <Button
-        text
+        variant="outlined"
         severity="secondary"
-        class="hidden md:flex !px-3 !py-2.5 !text-sm !text-gray-500 !bg-gray-50 hover:!bg-gray-100 !border !border-gray-200 !rounded-lg"
-        :pt="{
-          root: { class: 'hidden md:flex items-center gap-2' },
-          label: { class: 'flex items-center gap-2 text-sm font-normal' }
-        }"
         @click="openCommandPalette"
       >
         <template #default>
@@ -30,14 +31,6 @@
           </kbd>
         </template>
       </Button>
-      <Button
-        icon="pi pi-shopping-cart"
-        :label="t('pages.layouts.pageHeader.upgrade.label')"
-        severity="warn"
-        class="shadow-md hover:shadow-lg transition-all"
-      />
-      <!-- <Button size="large" icon="pi pi-youtube" severity="danger" /> -->
-      <!-- <Button size="large" icon="pi pi-question" outlined severity="contrast" /> -->
       <ProfileMenu />
     </div>
 

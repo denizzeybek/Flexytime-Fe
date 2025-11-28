@@ -17,6 +17,7 @@ import ElasticReports from '@/views/company/_views/reports/ElasticReports.vue';
 import Reports from '@/views/company/_views/reports/Reports.vue';
 import WorkingHours from '@/views/company/_views/WorkingHours.vue';
 import Download from '@/views/download/_views/Download.vue';
+import Unauthorized from '@/views/errors/Unauthorized.vue';
 import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue';
 import Annuals from '@/views/hrSettings/_views/Annuals.vue';
 import Employees from '@/views/hrSettings/_views/Employees.vue';
@@ -65,6 +66,8 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.WorktimeUsage,
           name: ERouteNames.WorktimeUsage,
+          // No role requirement - all authenticated users can access
+          // Component-level auth controls what features they see inside
         },
       },
       {
@@ -418,6 +421,17 @@ const routes: RouteRecordRaw[] = [
       requiresUnAuth: true,
       title: ERouteNames.ForgotPassword,
       name: ERouteNames.ForgotPassword,
+    },
+  },
+
+  // ERROR ROUTES
+  {
+    path: '/unauthorized',
+    name: ERouteNames.Unauthorized,
+    component: Unauthorized,
+    meta: {
+      title: ERouteNames.Unauthorized,
+      name: ERouteNames.Unauthorized,
     },
   },
 

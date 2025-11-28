@@ -43,7 +43,7 @@
       </template>
     </Column>
 
-    <Column :header="t('components.webHistoryTable.columns.actions')">
+    <Column v-if="canAccessWorktimeUsage" :header="t('components.webHistoryTable.columns.actions')">
       <template #body="slotProps">
         <div v-if="isLoading" class="flex gap-2">
           <Skeleton width="2rem" height="2rem" />
@@ -99,6 +99,7 @@ import DataTable from 'primevue/datatable';
 import Skeleton from 'primevue/skeleton';
 import Tag from 'primevue/tag';
 
+import { useAuthorization } from '@/composables/useAuthorization';
 import { type MessageSchema } from '@/plugins/i18n';
 
 import type { IWebClock } from '../../_types';
@@ -120,6 +121,7 @@ withDefaults(defineProps<IProps>(), {
 const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const { canAccessWorktimeUsage } = useAuthorization();
 
 const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
   emit('toggle-domain', webClock, newDomain);

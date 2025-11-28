@@ -99,12 +99,9 @@
           class="w-full"
         />
       </RouterLink>
-      <a
-        v-ripple
-        class="flex lg:hidden border border-gray-300 rounded-md items-center cursor-pointer p-4 gap-2 duration-150 transition-colors p-ripple"
-      >
-        <ProfileBadge title="Deniz Zeybek" sub-title="Tech Lead" />
-      </a>
+      <div class="lg:hidden flex">
+        <ProfileMenu />
+      </div>
     </div>
   </div>
 </template>
@@ -116,7 +113,7 @@ import { useRoute } from 'vue-router';
 
 import PanelMenu from 'primevue/panelmenu';
 
-import ProfileBadge from '@/components/ui/local/ProfileBadge.vue';
+import ProfileMenu from '@/components/ui/local/ProfileMenu.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 
 const { t } = useI18n();

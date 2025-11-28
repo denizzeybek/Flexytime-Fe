@@ -1,6 +1,7 @@
 <template>
   <div class="flex gap-2.5 items-center w-full lg:w-fit">
     <Button
+      v-if="canAccessWorktimeUsage"
       :v-tooltip.top="$t('pages.worktimeUsage.downloadReportTooltip')"
       icon="pi pi-arrow-circle-down"
       severity="secondary"
@@ -41,12 +42,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted,ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Button from 'primevue/button';
 import DatePicker from 'primevue/datepicker';
 import Select from 'primevue/select';
+
+import { useAuthorization } from '@/composables/useAuthorization';
 
 import { useWorktimeQuery } from '../../_composables';
 
@@ -58,6 +61,7 @@ const emit = defineEmits<IEmits>();
 const { t } = useI18n();
 
 const { currentQuery, updateInterval, updatePerspective } = useWorktimeQuery();
+const { canAccessWorktimeUsage } = useAuthorization();
 
 enum EPerspective {
   TIME = 0,

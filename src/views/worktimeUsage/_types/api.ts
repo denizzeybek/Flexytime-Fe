@@ -121,7 +121,7 @@ export type ISectionResponse = ClockSection2Response;
  * Contains individual employee detailed data
  */
 export interface IEmployeeResponse {
-  Card: ICard;
+  Card: ICard | null;
   Breadcrumb: IBreadcrumb[];
   Summary: ISummary[];
   WellBeings: any[];

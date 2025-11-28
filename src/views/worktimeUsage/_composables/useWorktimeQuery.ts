@@ -101,8 +101,9 @@ export function useWorktimeQuery() {
 
   /**
    * Navigate to individual view
+   * @param memberId - Member ID or null (backend will use auth token to get current user)
    */
-  const navigateToIndividual = async (memberId: string) => {
+  const navigateToIndividual = async (memberId: string | null) => {
     await updateQuery({
       view: 'individual',
       tab: 'distribution',

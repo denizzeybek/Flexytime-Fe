@@ -24,7 +24,9 @@
       "Bash(do path=\"/Users/denizzeybek/Documents/Flexytime-Fe/src/views/worktimeUsage/_components/tables/$file\" sed -n '18,30p' \"$path\")",
       "WebSearch",
       "mcp__context7__resolve-library-id",
-      "WebFetch(domain:primevue.org)"
+      "WebFetch(domain:primevue.org)",
+      "Bash(yarn lint:eslint:*)",
+      "mcp__ide__getDiagnostics"
     ],
     "deny": [],
     "ask": []
