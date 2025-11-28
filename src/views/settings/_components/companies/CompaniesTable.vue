@@ -25,7 +25,7 @@
     </template>
     <Column sortable field="Name" :header="t('pages.settings.companies.table.columns.name')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <div v-else class="flex items-center gap-3">
           <FAvatar :label="slotProps.data.Name" />
           <FText>{{ slotProps.data.Name }}</FText>
@@ -34,43 +34,43 @@
     </Column>
     <Column sortable field="Fullname" :header="t('pages.settings.companies.table.columns.fullName')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.Fullname }}</FText>
       </template>
     </Column>
     <Column sortable field="Email" :header="t('pages.settings.companies.table.columns.email')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.Email }}</FText>
       </template>
     </Column>
     <Column sortable field="CreateDate" :header="t('pages.settings.companies.table.columns.createDate')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.CreateDate }}</FText>
       </template>
     </Column>
     <Column field="LastActivityDate" :header="t('pages.settings.companies.table.columns.lastActivityDate')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.LastActivityDate || '-' }}</FText>
       </template>
     </Column>
     <Column field="DashboardActivityDate" :header="t('pages.settings.companies.table.columns.dashboardActivityDate')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.DashboardActivityDate || '-' }}</FText>
       </template>
     </Column>
     <Column field="License" :header="t('pages.settings.companies.table.columns.license')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.License }}</FText>
       </template>
     </Column>
     <Column :header="t('pages.settings.companies.table.columns.actions')">
       <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <OptionsDropdown
           v-else
           :options="options"

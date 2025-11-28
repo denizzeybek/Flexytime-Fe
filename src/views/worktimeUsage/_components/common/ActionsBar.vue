@@ -85,7 +85,16 @@ const perspectiveOptions = [
 ];
 
 const dateRange = ref<Date[]>([]);
-const selectedPerspective = ref(perspectiveOptions[0]);
+
+// Initialize perspective from query or use first option as default
+const getInitialPerspective = () => {
+  const perspectiveFromQuery = perspectiveOptions.find(
+    (opt) => opt.value === currentQuery.value.perspective
+  );
+  return perspectiveFromQuery || perspectiveOptions[0];
+};
+
+const selectedPerspective = ref(getInitialPerspective());
 
 const handleDateChange = (value: Date | Date[] | (Date | null)[] | null | undefined): void => {
   if (value && Array.isArray(value) && value.length === 2 && value[0] && value[1]) {
@@ -119,7 +128,7 @@ const handleDownload = () => {
   emit('download');
 };
 
-// Initialize from query
+// Initialize date range from query
 onMounted(() => {
   // Parse interval from query (format: DD.MM.YYYY-{days} where date is startDate)
   if (currentQuery.value.interval) {
@@ -135,14 +144,6 @@ onMounted(() => {
     endDate.setDate(endDate.getDate() + (days - 1)); // -1 because days includes start date
 
     dateRange.value = [startDate, endDate];
-  }
-
-  // Set perspective from query
-  const perspectiveFromQuery = perspectiveOptions.find(
-    (opt) => opt.value === currentQuery.value.perspective
-  );
-  if (perspectiveFromQuery) {
-    selectedPerspective.value = perspectiveFromQuery;
   }
 });
 </script>

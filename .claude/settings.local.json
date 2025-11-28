@@ -26,7 +26,9 @@
       "mcp__context7__resolve-library-id",
       "WebFetch(domain:primevue.org)",
       "Bash(yarn lint:eslint:*)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(while read file)",
+      "Bash(do sed -i '' 's/<Skeleton /<Skeleton shape=\"\"\"\"circle\"\"\"\" /g' \"$file\" sed -i '' 's/shape=\"\"\"\"circle\"\"\"\" shape=/shape=/g' \"$file\" done)"
     ],
     "deny": [],
     "ask": []
