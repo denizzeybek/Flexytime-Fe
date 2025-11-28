@@ -6,6 +6,8 @@
     :rows="10"
     :rows-per-page-options="[5, 10, 20, 50]"
     table-style="min-width: 50rem"
+    sort-field="Work.time"
+    :sort-order="-1"
   >
     <Column field="TeamName" :header="t('pages.worktimeUsage.tables.teamProductivity.columns.departmentName')" sortable>
       <template #body="slotProps">

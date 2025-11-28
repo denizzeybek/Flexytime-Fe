@@ -89,10 +89,10 @@ const handleDateChange = (value: Date | Date[] | (Date | null)[] | null | undefi
     const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include end date
 
-    // Format: DD.MM.YYYY-{days}
-    const day = String(endDate.getDate()).padStart(2, '0');
-    const month = String(endDate.getMonth() + 1).padStart(2, '0');
-    const year = endDate.getFullYear();
+    // Format: DD.MM.YYYY-{days} using startDate
+    const day = String(startDate.getDate()).padStart(2, '0');
+    const month = String(startDate.getMonth() + 1).padStart(2, '0');
+    const year = startDate.getFullYear();
 
     const interval = `${day}.${month}.${year}-${diffDays}`;
     updateInterval(interval);
@@ -109,18 +109,18 @@ const handleDownload = () => {
 
 // Initialize from query
 onMounted(() => {
-  // Parse interval from query (format: DD.MM.YYYY-{days})
+  // Parse interval from query (format: DD.MM.YYYY-{days} where date is startDate)
   if (currentQuery.value.interval) {
     const [dateStr, daysStr] = currentQuery.value.interval.split('-');
     const days = parseInt(daysStr, 10);
 
-    // Parse DD.MM.YYYY
+    // Parse DD.MM.YYYY as startDate
     const [day, month, year] = dateStr.split('.').map(Number);
-    const endDate = new Date(year, month - 1, day);
+    const startDate = new Date(year, month - 1, day);
 
-    // Calculate start date
-    const startDate = new Date(endDate);
-    startDate.setDate(startDate.getDate() - (days - 1)); // -1 because days includes end date
+    // Calculate end date
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + (days - 1)); // -1 because days includes start date
 
     dateRange.value = [startDate, endDate];
   }

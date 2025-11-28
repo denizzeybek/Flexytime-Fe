@@ -263,7 +263,7 @@ const fetchData = async () => {
       // Fetch individual data
       // MemberId can be null/undefined - backend will return current user's data from auth token
       await store.fetchEmployeeData({
-        Perspective: String(currentQuery.value.perspective),
+        Perspective: currentQuery.value.perspective,
         Interval: currentQuery.value.interval,
         MemberId: currentQuery.value.memberId ?? undefined,
       });
@@ -274,7 +274,7 @@ const fetchData = async () => {
     } else {
       // Fetch section data (team or employees view)
       await store.fetchSectionData({
-        Perspective: String(currentQuery.value.perspective),
+        Perspective: currentQuery.value.perspective,
         Interval: currentQuery.value.interval,
         TeamId: currentQuery.value.teamId ?? undefined,
       });
