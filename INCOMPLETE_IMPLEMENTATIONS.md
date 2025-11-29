@@ -2,14 +2,14 @@
 
 Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında listelemektedir.
 
-**Rapor Tarihi**: 2025-11-29
-**Toplam Eksik Implementasyon**: 10 aktif
+**Rapor Tarihi**: 2025-11-30
+**Toplam Eksik Implementasyon**: 8 aktif
 
 ---
 
-## Phase 2: Timesheet Module Eksikleri (Orta Öncelik)
+## Phase 1: Timesheet Module Eksikleri (Orta Öncelik)
 
-### 2.1 Time Management
+### 1.1 Time Management
 
 #### `src/views/timesheets/_views/TimeManagement.vue`
 
@@ -20,7 +20,7 @@ Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında liste
 
 ---
 
-### 2.2 Time Entries
+### 1.2 Time Entries
 
 #### `src/views/timesheets/_views/TimeEntries.vue`
 
@@ -30,7 +30,7 @@ Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında liste
 
 ---
 
-### 2.3 Unclassified Time Entries
+### 1.3 Unclassified Time Entries
 
 #### `src/views/timesheets/_views/UnclassifiedTimeEntries.vue`
 
@@ -41,7 +41,7 @@ Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında liste
 
 ---
 
-### 2.4 Timesheet Components - @addList Placeholder'ları
+### 1.4 Timesheet Components - @addList Placeholder'ları
 
 Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 
@@ -57,7 +57,7 @@ Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 
 ---
 
-### 2.5 Time Management Composable
+### 1.5 Time Management Composable
 
 #### `src/views/timesheets/_composables/useTimeManagement.ts`
 
@@ -67,52 +67,20 @@ Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 
 ---
 
-## Phase 3: Debug Console.log Temizliği (Production Öncesi)
+## Phase 2: Debug Console.log Temizliği (Production Öncesi)
 
 Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmaktadır:
 
 ### Stores
 | Dosya | Satır | İçerik |
 |-------|-------|--------|
-| `src/stores/hrSettings/Employees.ts` | 45 | `console.log('tags ', tags)` |
-| `src/stores/worktimeUsage/worktimeStore.ts` | 289 | API null data warning |
-
-### Views - Settings
-| Dosya | Satırlar |
-|-------|----------|
-| `src/views/settings/_components/companies/_modals/CompanyModal.vue` | 99 |
+| `src/stores/worktimeUsage/worktimeStore.ts` | 290 | API null data warning |
 
 ### Views - Timesheets
 | Dosya | Satırlar |
 |-------|----------|
-| `src/views/timesheets/_views/UnclassifiedTimeEntries.vue` | 220 |
 | `src/views/timesheets/_components/timeEntries/EnteredTimes.vue` | 227 |
 | `src/views/timesheets/_modals/UpdateTimeEntriesModal.vue` | 195 |
-
-### Views - Classification
-| Dosya | Satırlar |
-|-------|----------|
-| `src/views/classification/_components/applications/ApplicationsTable.vue` | 132, 149 |
-
-### Views - Profile
-| Dosya | Satırlar |
-|-------|----------|
-| `src/views/profile/_components/License.vue` | 87 |
-| `src/views/profile/_components/Password.vue` | 54 |
-| `src/views/profile/_components/Basic.vue` | 142 |
-
-### Views - Company
-| Dosya | Satırlar |
-|-------|----------|
-| `src/views/company/_views/reports/ElasticReports.vue` | 91 |
-| `src/views/company/_components/reports/defaultReports/DefaultReportsTable.vue` | 125 |
-| `src/views/company/_components/reports/_modals/DefaultReportModal.vue` | 167 |
-
-### Views - Auth & Download
-| Dosya | Satırlar |
-|-------|----------|
-| `src/views/auth/ForgotPassword.vue` | 96 |
-| `src/views/download/_views/Download.vue` | 97 |
 
 ---
 
@@ -120,29 +88,24 @@ Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmakt
 
 | Phase | Modül | Kritiklik | Eksik Sayısı |
 |-------|-------|-----------|--------------|
-| Phase 1 | Kritik İş Mantığı | Yüksek | 2 |
-| Phase 2 | Timesheet | Orta | 8 |
-| Phase 3 | Debug Cleanup | Düşük | ~20 console.log |
-| **Toplam Aktif** | | | **10 + cleanup** |
+| Phase 1 | Timesheet | Orta | 8 |
+| Phase 2 | Debug Cleanup | Düşük | ~3 console.log |
+| **Toplam Aktif** | | | **7 + cleanup** |
 
 ---
 
 ## Öneri: Uygulama Sırası
 
-1. **Hemen Yapılmalı (Sprint 1)**
-   - Worktime Usage domain toggle
-   - HR Settings employee status update
-
-2. **Yakın Vadede (Sprint 2)**
+1. **Yakın Vadede (Sprint 1)**
    - Timesheet date picker entegrasyonu (3 yerde kullanılıyor)
    - Unclassified time entries backend entegrasyonu
 
-3. **Orta Vadede (Sprint 3)**
+2. **Orta Vadede (Sprint 2)**
    - Add project/tag inline formları
 
-4. **Backlog**
+3. **Backlog**
    - Debug log temizliği (production build öncesi)
 
 ---
 
-*Bu rapor 2025-11-29 tarihinde güncellenmiştir.*
+*Bu rapor 2025-11-30 tarihinde güncellenmiştir.*

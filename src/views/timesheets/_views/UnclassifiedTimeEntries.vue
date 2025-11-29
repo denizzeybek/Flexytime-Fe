@@ -215,9 +215,8 @@ const setModalState = () => {
 
 watch(
   () => fields.value,
-  (newValue, oldValue) => {
-    const oldData = oldValue.map((element) => element.value);
-    console.log(oldData);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (newValue, _oldValue) => {
     const newData = newValue.map((element) => element.value);
 
     // TODO:: burda eski ve yeni datayı kıyaslayıp hangi elemanın değiştiğini bulup ona göre işlem yapılacak
