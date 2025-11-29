@@ -1,4 +1,4 @@
 export enum EComputerNames {
-    MAC= 'MAC',
-    WINDOWS= 'WIN',
+    MAC = 'mac',
+    WINDOWS = 'win',
 }

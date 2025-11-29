@@ -3,7 +3,7 @@
 Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında listelemektedir.
 
 **Rapor Tarihi**: 2025-11-29
-**Toplam Eksik Implementasyon**: 21 adet (2 tamamlandı)
+**Toplam Eksik Implementasyon**: 22 adet (2 tamamlandı)
 
 ---
 
@@ -71,6 +71,51 @@ const handleAlwaysOnChange = (event: any) => {
 - [x] ~~Silme öncesi onay modalı eklendi~~
 - [x] ~~`companyStore.deleteCompany()` metodu implemente edildi~~
 - [x] ~~i18n çevirileri eklendi~~
+
+---
+
+### 1.4 Settings Module - Download
+
+#### `src/stores/settings/download.ts`
+
+| Satır | Fonksiyon | Durum | Açıklama |
+|-------|-----------|-------|----------|
+| 23-47 | `filter()` | TODO | Store hala manuel axios kullanıyor, OpenAPI client'a migrate edilmeli |
+
+**Mevcut Kod:**
+```typescript
+filter() {
+  const api = '/webapi/setting/download';
+  return new Promise((resolve, reject) => {
+    const url = useMockData ? '/mockData.json' : api;
+    axios.post(url).then((response: any) => {
+      // ... manual response handling
+    });
+  });
+}
+```
+
+**Hedef Kod:**
+```typescript
+async filter(): Promise<DownloadViewModel | null> {
+  try {
+    const data = await SettingApiService.settingApiDownload();
+    this.InvitationLink = data.InvitationLink;
+    this.InvitationId = data.InvitationId;
+    this.ServiceKey = data.ServiceKey;
+    return data;
+  } catch (err) {
+    console.error('Error fetching download info:', err);
+    return null;
+  }
+}
+```
+
+**Gerekli Aksiyonlar:**
+- [ ] `SettingApiService.settingApiDownload()` kullanılmalı (OpenAPI client'ta mevcut)
+- [ ] Manuel axios çağrısı kaldırılmalı
+- [ ] `useMockData` kontrolü kaldırılmalı (artık kullanılmıyor)
+- [ ] Type-safe response handling eklenmeli
 
 ---
 
@@ -227,11 +272,11 @@ Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmakt
 
 | Phase | Modül | Kritiklik | Eksik Sayısı |
 |-------|-------|-----------|--------------|
-| Phase 1 | Kritik İş Mantığı | Yüksek | 5 |
+| Phase 1 | Kritik İş Mantığı | Yüksek | 6 |
 | Phase 2 | Timesheet | Orta | 11 |
 | Phase 3 | Promotion | Düşük | 1 |
 | Phase 4 | Debug Cleanup | Düşük | 4 |
-| **Toplam** | | | **21** |
+| **Toplam** | | | **22** |
 
 ---
 
@@ -241,6 +286,7 @@ Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmakt
    - Worktime Usage download ve domain toggle
    - HR Settings employee status update
    - Companies silme işlemi
+   - Download store OpenAPI migration
 
 2. **Yakın Vadede (Sprint 2)**
    - Timesheet date picker entegrasyonu (3 yerde kullanılıyor)

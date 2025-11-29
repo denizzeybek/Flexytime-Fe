@@ -68,13 +68,13 @@ import { copyToClipboard } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useSettingsDownloadsStore } from '@/stores/settings/download';
 
+interface IProps {
+  isWizard?: boolean;
+}
+
 defineProps<IProps>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
-
-interface IProps {
-  isWizard?: boolean
-}
 
 const downloadsStore = useSettingsDownloadsStore();
 const { findActiveComputer, onDownloadButtonClicked } = useDownloadApp();

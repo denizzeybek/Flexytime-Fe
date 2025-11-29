@@ -61,18 +61,21 @@ src/
 ## Key Features
 
 ### 1. Authentication & Authorization
+
 - JWT-based authentication with token refresh
 - Role-based access control
 - Protected routes with navigation guards
 - OAuth integration support
 
 **Related Files:**
+
 - `src/views/auth/Login.vue`
 - `src/views/auth/Register.vue`
 - `src/views/auth/ForgotPassword.vue`
 - `src/stores/auth.ts`
 
 ### 2. Worktime Usage Analytics
+
 - Real-time time tracking
 - Activity classification (Work, Leisure, Meeting, Unclassified)
 - Statistical summaries with visual badges
@@ -81,12 +84,14 @@ src/
 - Export functionality
 
 **Related Files:**
+
 - `src/views/worktimeUsage/`
 - `src/stores/worktimeUsage/`
 - `src/views/worktimeUsage/_components/common/SummaryBadge.vue`
 - `src/views/worktimeUsage/_components/common/BadgeGroup.vue`
 
 ### 3. Company Management & Reporting
+
 - Employee management
 - Team organization
 - Project tracking
@@ -95,27 +100,32 @@ src/
 - Visual analytics (pie charts, bar charts)
 
 **Related Files:**
+
 - `src/views/company/`
 - `src/stores/company/`
 - `src/views/company/_components/reports/`
 
 ### 4. HR Settings
+
 - Employee profiles and management
 - Department configuration
 - Leave management
 - Shift scheduling
 
 **Related Files:**
+
 - `src/views/hrSettings/`
 - `src/stores/hrSettings/employees.ts`
 
 ### 5. Settings & Configuration
+
 - User preferences
 - Permissions management (with visibility controls)
 - Advanced settings (time configurations)
 - Application customization
 
 **Related Files:**
+
 - `src/views/settings/_views/Permissions.vue`
 - `src/views/settings/_views/Advanced.vue`
 - `src/stores/settings/`
@@ -123,6 +133,7 @@ src/
 ## Development Patterns
 
 ### Component Structure
+
 Follow this order in Vue Single File Components:
 
 1. **Imports** - External libraries, components, composables
@@ -138,7 +149,9 @@ Follow this order in Vue Single File Components:
 ### Code Style Guidelines
 
 #### Functions
+
 Always use ES6 arrow functions:
+
 ```typescript
 // ✅ Good
 const fetchData = async (): Promise<void> => {
@@ -152,7 +165,9 @@ async function fetchData(): Promise<void> {
 ```
 
 #### Type Annotations
+
 Include return type annotations:
+
 ```typescript
 const calculateTotal = (items: Item[]): number => {
   return items.reduce((sum, item) => sum + item.value, 0);
@@ -160,7 +175,9 @@ const calculateTotal = (items: Item[]): number => {
 ```
 
 #### Composables
+
 Export functions use `export function` wrapper, but internal functions use arrow syntax:
+
 ```typescript
 export function useMyComposable() {
   const internalHelper = (): void => {
@@ -176,7 +193,9 @@ export function useMyComposable() {
 ## Enums Reference
 
 ### ESeverity
+
 UI component severity levels (used in buttons, badges, alerts):
+
 ```typescript
 enum ESeverity {
   PRIMARY = 'primary',
@@ -194,7 +213,9 @@ enum ESeverity {
 ```
 
 ### EStatisticType
+
 Worktime tracking categories:
+
 ```typescript
 enum EStatisticType {
   WORK = 'work',
@@ -207,7 +228,9 @@ enum EStatisticType {
 ```
 
 ### EChartType
+
 Chart visualization types:
+
 ```typescript
 enum EChartType {
   BAR = 'bar',
@@ -218,7 +241,9 @@ enum EChartType {
 ```
 
 ### EDomain
+
 Activity domain classification:
+
 ```typescript
 enum EDomain {
   UNCLASSIFIED = 1,
@@ -229,7 +254,9 @@ enum EDomain {
 ```
 
 ### EGrantType
+
 OAuth grant types for authentication:
+
 ```typescript
 enum EGrantType {
   PASSWORD = 'password',
@@ -240,6 +267,7 @@ enum EGrantType {
 ## State Management
 
 ### Store Organization
+
 Stores are organized by feature domain:
 
 - **auth** - Authentication and session management
@@ -251,6 +279,7 @@ Stores are organized by feature domain:
 - **worktimeUsage** - Time usage analytics and statistics
 
 ### Store Pattern
+
 ```typescript
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
@@ -286,19 +315,24 @@ export const useMyStore = defineStore('my-store', () => {
 ## API Integration
 
 ### Service Layer
+
 API services are manually written in `src/services/`:
+
 - One service file per feature domain
 - Type-safe request/response handling
 - Error handling with interceptors
 
 ### Axios Configuration
+
 Base configuration in `src/plugins/axios`:
+
 - Automatic JWT token injection
 - Request/response interceptors
 - Error handling and toast notifications
 - Base URL from environment variable `VITE_API_URL`
 
 ### Example Service
+
 ```typescript
 import axios from '@/plugins/axios';
 import type { MyResponse } from '@/types/myTypes';
@@ -314,13 +348,16 @@ export const myService = {
 ## Routing
 
 ### Route Configuration
+
 Routes defined in `src/router/` with:
+
 - Named routes using `ERouteNames` enum
 - Authentication guards
 - Meta fields for permissions and layout
 - Lazy-loaded components
 
 ### Route Guards
+
 ```typescript
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
@@ -336,11 +373,14 @@ router.beforeEach((to, from, next) => {
 ## Internationalization
 
 ### Translation Files
+
 Located in `src/locales/`:
+
 - `en.json` - English translations
 - `tr.json` - Turkish translations
 
 ### Usage in Components
+
 ```vue
 <template>
   <div>{{ $t('pages.auth.login.title') }}</div>
@@ -358,6 +398,7 @@ const { t } = useI18n<{ message: MessageSchema }>();
 ## Form Validation
 
 ### Validation Schema Pattern
+
 ```typescript
 import { object, string, boolean } from 'yup';
 import { useForm } from 'vee-validate';
@@ -379,13 +420,15 @@ const submitHandler = handleSubmit(async (values) => {
 ## Development Commands
 
 ### Core Development
+
 ```bash
-yarn dev          # Start development server on port 3001
+yarn dev          # Start development server on port 8081
 yarn build        # Build for production
 yarn preview      # Preview production build
 ```
 
 ### Code Quality
+
 ```bash
 yarn lint         # Run ESLint with auto-fix
 yarn format       # Format code with Prettier
@@ -393,11 +436,13 @@ yarn type-check   # Run TypeScript type checking
 ```
 
 ### Testing
+
 ```bash
 yarn test:unit    # Run unit tests with Vitest
 ```
 
 ### Utilities
+
 ```bash
 yarn generate-icon-names  # Generate icon name constants
 ```
@@ -413,6 +458,7 @@ VITE_API_URL=https://api.example.com
 ## Build & Deployment
 
 ### Production Build
+
 ```bash
 yarn build
 ```
@@ -420,6 +466,7 @@ yarn build
 Output directory: `dist/`
 
 ### Preview Build
+
 ```bash
 yarn preview
 ```
@@ -427,31 +474,37 @@ yarn preview
 ## Best Practices
 
 ### 1. Type Safety
+
 - Always define interfaces for props, emits, and API responses
 - Use enums for categorical values
 - Avoid `any` type; use `unknown` with type guards if needed
 
 ### 2. Component Organization
+
 - Keep components focused on single responsibility
 - Extract reusable logic into composables
 - Use proper props/emits for parent-child communication
 
 ### 3. State Management
+
 - Use Pinia stores for shared state
 - Keep component-local state in `ref()` when appropriate
 - Prefer computed properties over methods for derived state
 
 ### 4. Performance
+
 - Use `v-memo` for expensive list items
 - Lazy load routes and heavy components
 - Optimize computed properties to avoid unnecessary recalculations
 
 ### 5. Accessibility
+
 - Use semantic HTML elements
 - Provide proper ARIA labels
 - Ensure keyboard navigation works
 
 ### 6. Security
+
 - Never store sensitive data in localStorage without encryption
 - Validate all user inputs
 - Use HTTP-only cookies for sensitive tokens when possible
@@ -460,6 +513,7 @@ yarn preview
 ## Common Patterns
 
 ### Loading States
+
 ```typescript
 const isLoading = ref(false);
 
@@ -476,6 +530,7 @@ const fetchData = async (): Promise<void> => {
 ```
 
 ### Toast Notifications
+
 ```typescript
 import { useFToast } from '@/composables/useFToast';
 
@@ -489,6 +544,7 @@ showErrorMessage(error as any);
 ```
 
 ### Modal Handling
+
 ```typescript
 const isModalVisible = ref(false);
 
@@ -506,21 +562,27 @@ const closeModal = (): void => {
 ### Common Issues
 
 #### 1. Type Check Errors
+
 Run type checking to identify issues:
+
 ```bash
 yarn type-check
 ```
 
 #### 2. Import Path Issues
+
 Ensure you're using the `@/` alias for imports:
+
 ```typescript
 import { MyComponent } from '@/components/MyComponent.vue';
 ```
 
 #### 3. PrimeVue Component Not Found
+
 Check that auto-imports are configured in `vite.config.ts`
 
 #### 4. i18n Key Missing
+
 Add missing translation keys to both `en.json` and `tr.json`
 
 ## Contributing

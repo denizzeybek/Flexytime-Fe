@@ -5,11 +5,12 @@ export const useDownloadApp = () => {
   const downloadsStore = useSettingsDownloadsStore();
 
   const onDownloadButtonClicked = (isMacos: boolean) => {
+    // V1 ile birebir aynı mantık
     window.location.href = `${downloadsStore.InvitationLink}&os=${isMacos ? EComputerNames.MAC : EComputerNames.WINDOWS}`;
   };
 
   const findActiveComputer = () => {
-    return navigator.platform.toUpperCase().indexOf(EComputerNames.MAC) >= 0;
+    return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
   };
 
   return {
