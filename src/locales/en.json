@@ -182,6 +182,9 @@
       "employeesLabel": "Employees",
       "downloadReportTooltip": "Download Report",
       "selectPerspective": "Select perspective",
+      "messages": {
+        "domainUpdated": "Domain updated successfully!"
+      },
       "perspectives": {
         "time": "Time",
         "cost": "Cost",

@@ -7,38 +7,6 @@ Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında liste
 
 ---
 
-## Phase 1: Kritik İş Mantığı Eksikleri (Yüksek Öncelik)
-
-Bu phase'deki eksikler, kullanıcı deneyimini doğrudan etkileyen ve temel fonksiyonelliği engelleyen eksiklerdir.
-
-### 1.1 Worktime Usage Module
-
-#### `src/views/worktimeUsage/index.vue`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| 308 | `handleToggleDomain(webClock, newDomain)` | TODO | Domain toggle API çağrısı yapılmıyor, sadece log atıyor |
-
-**Gerekli Aksiyonlar:**
-- [ ] Domain toggle için API endpoint'i belirlenmeli
-- [ ] Store'a toggle metodu eklenmeli
-
----
-
-### 1.2 HR Settings Module
-
-#### `src/views/hrSettings/_components/employees/EmployeesTable.vue`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| 178 | `handleAlwaysOnChange(event)` | TODO | Çalışan enabled durumu güncelleme API'si çağrılmıyor |
-
-**Gerekli Aksiyonlar:**
-- [ ] `employeeStore.updateEmployeeStatus()` metodu implemente edilmeli
-- [ ] API endpoint'i belirlenmeli
-
----
-
 ## Phase 2: Timesheet Module Eksikleri (Orta Öncelik)
 
 ### 2.1 Time Management

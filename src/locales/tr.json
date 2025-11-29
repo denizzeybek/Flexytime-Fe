@@ -182,6 +182,9 @@
       "employeesLabel": "Çalışanlar",
       "downloadReportTooltip": "Rapor İndir",
       "selectPerspective": "Perspektif seçin",
+      "messages": {
+        "domainUpdated": "Domain başarıyla güncellendi!"
+      },
       "perspectives": {
         "time": "Zaman",
         "cost": "Maliyet",

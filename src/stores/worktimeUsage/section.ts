@@ -15,6 +15,7 @@ import type {
   ClockSectionTeamset,
   ClockWellBeingDetail,
   SectionClockSummary,
+  WebClockModifyModel,
 } from '@/client';
 import type { IIndividualEmployeeModel } from '@/interfaces/worktimeUsage/section';
 
@@ -99,6 +100,9 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
       } finally {
         this.isLoading = false;
       }
+    },
+    async saveWebClock(payload: WebClockModifyModel) {
+      return await ClockApiService.clockApiSaveWebClock(payload);
     },
   },
 });

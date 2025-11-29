@@ -14,6 +14,7 @@ import type {
   ClockEmployeeRequest,
   ClockSection2Response,
   ClockSectionRequest,
+  WebClockModifyModel,
 } from '@/client';
 import type {
   IEmployeeResponse,
@@ -349,6 +350,16 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         section: null,
         employee: null,
       };
+    },
+
+    /**
+     * Save web clock domain
+     * Endpoint: /clock/web/save
+     *
+     * @param payload - Request payload with HostName and Domain
+     */
+    async saveWebClock(payload: WebClockModifyModel) {
+      return await ClockApiService.clockApiSaveWebClock(payload);
     },
   },
 });

@@ -153,6 +153,7 @@ import TabPanels from 'primevue/tabpanels';
 import Tabs from 'primevue/tabs';
 
 // Store and Composables
+import { useFToast } from '@/composables/useFToast';
 import { DownloadService } from '@/customClient/services/DownloadService';
 import { useProfileStore } from '@/stores/profile/profile';
 import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
@@ -175,6 +176,7 @@ import type { MessageSchema } from '@/plugins/i18n';
 const store = useWorktimeStore();
 const profileStore = useProfileStore();
 const { t } = useI18n<{ message: MessageSchema }>();
+const { showSuccessMessage, showErrorMessage } = useFToast();
 
 // Composables
 const { currentQuery, changeTab, navigateToIndividual } = useWorktimeQuery();
@@ -309,9 +311,18 @@ const handleDownload = () => {
   DownloadService.downloadSection(downloadKey);
 };
 
-const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
-  // TODO: Implement domain toggle API call
-  console.log('Toggle domain:', webClock, newDomain);
+const handleToggleDomain = async (webClock: IWebClock, newDomain: number) => {
+  try {
+    await store.saveWebClock({
+      HostName: webClock.Url ?? '',
+      Domain: newDomain,
+    });
+    showSuccessMessage(t('pages.worktimeUsage.messages.domainUpdated'));
+    // Refresh the data to show updated domain
+    await fetchData();
+  } catch (error) {
+    showErrorMessage(error as Error);
+  }
 };
 
 // Watchers
