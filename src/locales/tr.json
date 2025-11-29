@@ -735,6 +735,37 @@
           }
         },
         "elasticReports": {
+          "filters": {
+            "teams": "Ekip(ler) seçin",
+            "employees": "Çalışan(lar) seçin",
+            "projects": "Proje(ler) seçin",
+            "billable": "Faturalanabilir",
+            "dateRange": "Tarih aralığı seçin",
+            "clear": "Temizle"
+          },
+          "summary": {
+            "total": "Toplam",
+            "billable": "Faturalanabilir",
+            "unbillable": "Faturalanmayan"
+          },
+          "download": "İndir",
+          "noData": "Veri bulunamadı",
+          "groups": {
+            "group1": "Grup 1",
+            "group2": "Grup 2",
+            "projects": "Projeler",
+            "employees": "Çalışanlar",
+            "teams": "Ekipler",
+            "billable": "Faturalanabilir"
+          },
+          "columns": {
+            "total": "Toplam"
+          },
+          "billable": {
+            "all": "Tümü",
+            "billable": "Faturalanabilir",
+            "nonBillable": "Faturalanmayan"
+          },
           "messages": {
             "created": "Rapor oluşturuldu!"
           }

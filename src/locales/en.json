@@ -735,6 +735,37 @@
           }
         },
         "elasticReports": {
+          "filters": {
+            "teams": "Select team(s)",
+            "employees": "Select employee(s)",
+            "projects": "Select project(s)",
+            "billable": "Billable",
+            "dateRange": "Select date range",
+            "clear": "Clear"
+          },
+          "summary": {
+            "total": "Total",
+            "billable": "Billable",
+            "unbillable": "Unbillable"
+          },
+          "download": "Download",
+          "noData": "No data available",
+          "groups": {
+            "group1": "Group 1",
+            "group2": "Group 2",
+            "projects": "Projects",
+            "employees": "Employees",
+            "teams": "Teams",
+            "billable": "Billable"
+          },
+          "columns": {
+            "total": "Total"
+          },
+          "billable": {
+            "all": "All",
+            "billable": "Billable",
+            "nonBillable": "Non-Billable"
+          },
           "messages": {
             "created": "Report created!"
           }

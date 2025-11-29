@@ -14,4 +14,15 @@ export class DownloadService {
     const url = `${OpenAPI.BASE}/Download/DownloadSection/?downloadKey=${downloadKey}`;
     window.location.href = url;
   }
+
+  /**
+   * Download report by downloadKey
+   * Redirects browser to download URL
+   * @param downloadKey The download key from report API response
+   * @returns void
+   */
+  public static downloadReport(downloadKey: string): void {
+    const url = `${OpenAPI.BASE}/Download/DownloadReport/?downloadKey=${downloadKey}`;
+    window.location.href = url;
+  }
 }

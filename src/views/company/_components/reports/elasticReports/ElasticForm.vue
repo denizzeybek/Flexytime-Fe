@@ -32,9 +32,9 @@
       />
       <FSelect
         class="flex-1"
-        name="billible"
+        name="billable"
         :placeholder="t('pages.company.elasticForm.billable.placeholder')"
-        :options="billibleOptions"
+        :options="billableOptions"
       />
       <FDateTimePicker
         class="flex-1"
@@ -74,7 +74,7 @@ defineProps<IProps>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
-const { teamOptions, employeeOptions, projectOptions, billibleOptions } = useReport();
+const { teamOptions, employeeOptions, projectOptions, billableOptions } = useReport();
 
 </script>
 

@@ -62,7 +62,6 @@ import { array,object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
-import { useCompanyReportsStore } from '@/stores/company/reports';
 import { ReportFrequency } from '@/views/company/_etc/reportFrequency.enum';
 
 import type { IReportItem } from '@/interfaces/company/report';
@@ -81,7 +80,6 @@ const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
-const reportsStore = useCompanyReportsStore();
 
 const open = defineModel<boolean>('open');
 
@@ -135,13 +133,10 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 
 const isEditing = computed(() => !!props.data);
 
-const reportTypeOptions = computed(() =>
-  reportsStore?.ReportTypes.map((item) => ({ name: item.Name, value: item.ID })),
-);
+// TODO: Default reports API not yet available - using empty arrays
+const reportTypeOptions = computed(() => [] as { name: string; value: string }[]);
 
-const teamOptions = computed(() =>
-  reportsStore?.SectionList.map((item) => ({ name: item.Name, value: item.ID })),
-);
+const teamOptions = computed(() => [] as { name: string; value: string }[]);
 
 const getInitialFormData = computed(() => {
   const report = props.data;

@@ -28,21 +28,20 @@ import { EChartType } from '@/enums/chartType.enum';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyReportsStore } from '@/stores/company/reports';
 
-import type { IReportDataset } from '@/interfaces/company/report';
-
 const { t } = useI18n<{ message: MessageSchema }>();
 const reportsStore = useCompanyReportsStore();
 
 const chartData = computed(() => {
   const graphData = reportsStore?.graphs;
   return {
-    labels: graphData?.Main?.labels,
-    datasets: graphData?.Main?.datasets.map((dataset: IReportDataset) => ({
-      label: dataset.label,
-      data: dataset.data,
-      backgroundColor: dataset.backgroundColor,
-      borderColor: dataset.borderColor,
-    })),
+    labels: graphData?.Main?.labels ?? [],
+    datasets:
+      graphData?.Main?.datasets?.map((dataset) => ({
+        label: dataset.label ?? '',
+        data: dataset.data ?? [],
+        backgroundColor: dataset.backgroundColor ?? '',
+        borderColor: dataset.borderColor ?? '',
+      })) ?? [],
   };
 });
 
@@ -103,7 +102,7 @@ const summary = computed(() => {
 });
 
 const fetchInitialData = async () => {
-  await reportsStore.fetchElasticReportQuery();
+  await reportsStore.queryReport({});
 };
 
 onMounted(() => {

@@ -35,10 +35,11 @@ const handleEdit = (annual) => {
   isModalOpen.value = true;
 };
 
+// TODO: Default reports API not yet available
 const fetchDefaultReports = async () => {
   try {
     isLoading.value = true;
-    await reportsStore.fetchDefaultReports();
+    // API not yet available - reportsStore.fetchDefaultReports()
     isLoading.value = false;
   } catch (error) {
     showErrorMessage(error as any);

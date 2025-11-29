@@ -115,7 +115,8 @@ const options = ref([
   },
 ]);
 
-const defaultReports = computed(() => reportsStore.Items);
+// TODO: Default reports API not yet available
+const defaultReports = computed(() => [] as IReportItem[]);
 
 const handleEdit = (annual: IReportItem) => {
   emit('edit', annual);

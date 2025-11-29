@@ -21,3 +21,14 @@ export const changeDayjsLocale = async (locale: Language) => {
   await map[locale]()
   dayjs.locale(locale)
 }
+
+/**
+ * Format a date to interval string format: DD.MM.YYYY
+ * Used for API requests that require date intervals
+ */
+export const formatDateToInterval = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const year = date.getFullYear()
+  return `${day}.${month}.${year}`
+}
