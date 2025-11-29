@@ -1021,11 +1021,18 @@
         "daysLeft": {
           "label": "Kalan Gün"
         },
+        "licenseKey": {
+          "label": "Lisans Anahtarı",
+          "placeholder": "Lisans anahtarını girin"
+        },
         "buyLicense": {
           "label": "Lisans Satın Al"
         },
+        "confirm": {
+          "message": "Lisansı güncellemek istediğinizden emin misiniz?"
+        },
         "messages": {
-          "updated": "Çalışma saatleri güncellendi!"
+          "updated": "Lisans başarıyla güncellendi!"
         }
       }
     }
@@ -1055,7 +1062,9 @@
       "cancel": "İptal",
       "save": "Kaydet",
       "delete": "Sil",
-      "edit": "Düzenle"
+      "edit": "Düzenle",
+      "yes": "Evet",
+      "no": "Hayır"
     },
     "actions": {
       "edit": "Düzenle",

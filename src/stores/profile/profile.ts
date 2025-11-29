@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 
 import { ProfileApiService, SettingApiService } from '@/client';
+import type { LicenseModifyViewModel } from '@/client';
 import { ERole } from '@/enums/role.enum';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
@@ -109,6 +110,14 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
       this.License = data;
 
       return data;
+    },
+
+    async saveLicense(licenseKey: string) {
+      const payload: LicenseModifyViewModel = { LicenseKey: licenseKey };
+      const response = await SettingApiService.settingApiSaveLicense(payload);
+      // Refresh license data after save
+      await this.filterLicense();
+      return response;
     },
 
     async updateProfile(model: ProfileModifyViewModel) {

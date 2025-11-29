@@ -42,7 +42,6 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
       this.managerTitles = data.ManagerTitles ?? [];
       this.teams = data.Teams ?? [];
       const tags = data.Tags ?? {};
-      console.log('tags ', tags);
       this.tags = Object.entries(tags).map(([key, value]) => ({
         name: key,
         value,

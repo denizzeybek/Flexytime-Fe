@@ -8,6 +8,8 @@ import Checkbox from 'primevue/checkbox';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';
 import PrimeVue from 'primevue/config';
+import ConfirmationService from 'primevue/confirmationservice';
+import ConfirmPopup from 'primevue/confirmpopup';
 import DataTable from 'primevue/datatable';
 import DatePicker from 'primevue/datepicker';
 import Dialog from 'primevue/dialog';
@@ -59,6 +61,7 @@ export default {
       },
     });
     app.use(ToastService);
+    app.use(ConfirmationService);
 
     app.component('Chart', Chart);
     app.component('StepPanel', StepPanel);
@@ -97,6 +100,7 @@ export default {
     app.component('Card', Card);
     app.component('Checkbox', Checkbox);
     app.component('Password', Password);
+    app.component('ConfirmPopup', ConfirmPopup);
 
     app.directive('styleclass', StyleClass);
     app.directive('ripple', Ripple);

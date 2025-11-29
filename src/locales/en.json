@@ -1021,11 +1021,18 @@
         "daysLeft": {
           "label": "Days Left"
         },
+        "licenseKey": {
+          "label": "License Key",
+          "placeholder": "Enter license key"
+        },
         "buyLicense": {
           "label": "Buy License"
         },
+        "confirm": {
+          "message": "Are you sure you want to update the license?"
+        },
         "messages": {
-          "updated": "working hours updated!"
+          "updated": "License updated successfully!"
         }
       }
     }
@@ -1055,7 +1062,9 @@
       "cancel": "Cancel",
       "save": "Save",
       "delete": "Delete",
-      "edit": "Edit"
+      "edit": "Edit",
+      "yes": "Yes",
+      "no": "No"
     },
     "actions": {
       "edit": "Edit",
