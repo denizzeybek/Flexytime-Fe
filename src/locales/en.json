@@ -899,6 +899,11 @@
         "password": "Password"
       },
       "basic": {
+        "sections": {
+          "personalInfo": "Personal Information",
+          "preferences": "Preferences",
+          "autoSave": "Changes are saved automatically"
+        },
         "profileImage": {
           "alt": "Profile image"
         },
@@ -922,8 +927,12 @@
         "save": {
           "label": "Save"
         },
+        "resendConfirmation": "Resend confirmation email",
         "messages": {
-          "updated": "working hours updated!"
+          "updated": "Profile updated successfully!",
+          "languageUpdated": "Language updated successfully!",
+          "timezoneUpdated": "Timezone updated successfully!",
+          "confirmationSent": "Confirmation email sent successfully!"
         }
       },
       "password": {

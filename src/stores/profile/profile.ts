@@ -7,6 +7,7 @@ import { EStoreNames } from '@/stores/storeNames.enum';
 import type {
   EmployeeViewModel,
   LicenseViewModel,
+  ProfileModifyViewModel,
   ProfileViewModel,
   TimeZoneViewModel,
 } from '@/client';
@@ -108,6 +109,29 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
       this.License = data;
 
       return data;
+    },
+
+    async updateProfile(model: ProfileModifyViewModel) {
+      const response = await ProfileApiService.profileApiUpdateProfile(model);
+      // Refresh profile data after update
+      await this.filter();
+      return response;
+    },
+
+    async updateTimezone(timeZone: string) {
+      const response = await ProfileApiService.profileApiUpdateTimezone({ TimeZone: timeZone });
+      this.TimeZone = timeZone;
+      return response;
+    },
+
+    async updateLanguageCode(languageCode: string) {
+      const response = await ProfileApiService.profileApiUpdateLanguageCode({ LanguageCode: languageCode });
+      this.LanguageCode = languageCode;
+      return response;
+    },
+
+    async resendConfirmation() {
+      return await ProfileApiService.profileApiResendConfirm();
     },
   },
 });

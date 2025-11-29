@@ -899,6 +899,11 @@
         "password": "Şifre"
       },
       "basic": {
+        "sections": {
+          "personalInfo": "Kişisel Bilgiler",
+          "preferences": "Tercihler",
+          "autoSave": "Değişiklikler otomatik kaydedilir"
+        },
         "profileImage": {
           "alt": "Profil resmi"
         },
@@ -922,8 +927,12 @@
         "save": {
           "label": "Kaydet"
         },
+        "resendConfirmation": "Onay e-postasını tekrar gönder",
         "messages": {
-          "updated": "Çalışma saatleri güncellendi!"
+          "updated": "Profil başarıyla güncellendi!",
+          "languageUpdated": "Dil başarıyla güncellendi!",
+          "timezoneUpdated": "Saat dilimi başarıyla güncellendi!",
+          "confirmationSent": "Onay e-postası başarıyla gönderildi!"
         }
       },
       "password": {
@@ -937,7 +946,7 @@
           "label": "Kaydet"
         },
         "messages": {
-          "updated": "Tatil güncellendi!"
+          "updated": "Şifre güncellendi!"
         }
       },
       "license": {

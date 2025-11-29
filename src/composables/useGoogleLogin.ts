@@ -6,6 +6,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+import { EStorageKeys } from '@/constants/storageKeys';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useAuthStore } from '@/stores/auth';
 import { useProfileStore } from '@/stores/profile/profile';
@@ -29,7 +30,7 @@ export const useGoogleLogin = () => {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     // Get language code from localStorage (fallback to 'en')
-    const languageCode = localStorage.getItem('languageCode') || 'en';
+    const languageCode = localStorage.getItem(EStorageKeys.LANGUAGE) || 'en';
 
     // Build OAuth URL
     const params = new URLSearchParams({

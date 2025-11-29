@@ -69,8 +69,8 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
     },
 
     async getProfile(result: any) {
-      const languageCode = localStorage.getItem('languageCode');
-      if (!languageCode) localStorage.setItem('languageCode', 'en');
+      const languageCode = localStorage.getItem(EStorageKeys.LANGUAGE);
+      if (!languageCode) localStorage.setItem(EStorageKeys.LANGUAGE, 'en');
 
       try {
         const response = await WizardApiService.wizardApiGetProfile();
