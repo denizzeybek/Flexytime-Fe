@@ -79,8 +79,7 @@ const isLoading = ref(false);
 const getInitialFormData = computed(() => {
   return advancedsStore.list?.map((advanced) => ({
     TypeName: advanced.TypeName,
-    Value: advanced.DataType === 2 ? advanced.Value === 'true' : convertTimeToDate(advanced.Value),
-    // Value: advanced.Value,
+    Value: advanced.DataType === 2 ? advanced.Value?.toLowerCase() === 'true' : convertTimeToDate(advanced.Value),
     DataType: advanced.DataType,
     SettingType: advanced.SettingType,
   }));
