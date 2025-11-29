@@ -33,7 +33,6 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
       localStorage.removeItem(EStorageKeys.TOKEN);
     },
     async login(payload: LoginRequest) {
-      console.log('payload 1 ', payload);
       const response = await LoginService.login(payload);
       const { access_token: token } = response;
 

@@ -3,7 +3,7 @@
 Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında listelemektedir.
 
 **Rapor Tarihi**: 2025-11-29
-**Toplam Eksik Implementasyon**: 22 adet (2 tamamlandı)
+**Toplam Eksik Implementasyon**: 22 adet (5 tamamlandı)
 
 ---
 
@@ -74,48 +74,19 @@ const handleAlwaysOnChange = (event: any) => {
 
 ---
 
-### 1.4 Settings Module - Download
+### ~~1.4 Settings Module - Download~~ TAMAMLANDI
 
 #### `src/stores/settings/download.ts`
 
 | Satır | Fonksiyon | Durum | Açıklama |
 |-------|-----------|-------|----------|
-| 23-47 | `filter()` | TODO | Store hala manuel axios kullanıyor, OpenAPI client'a migrate edilmeli |
+| ~~23-47~~ | ~~`filter()`~~ | ~~TAMAMLANDI~~ | ~~OpenAPI client'a migrate edildi~~ |
 
-**Mevcut Kod:**
-```typescript
-filter() {
-  const api = '/webapi/setting/download';
-  return new Promise((resolve, reject) => {
-    const url = useMockData ? '/mockData.json' : api;
-    axios.post(url).then((response: any) => {
-      // ... manual response handling
-    });
-  });
-}
-```
-
-**Hedef Kod:**
-```typescript
-async filter(): Promise<DownloadViewModel | null> {
-  try {
-    const data = await SettingApiService.settingApiDownload();
-    this.InvitationLink = data.InvitationLink;
-    this.InvitationId = data.InvitationId;
-    this.ServiceKey = data.ServiceKey;
-    return data;
-  } catch (err) {
-    console.error('Error fetching download info:', err);
-    return null;
-  }
-}
-```
-
-**Gerekli Aksiyonlar:**
-- [ ] `SettingApiService.settingApiDownload()` kullanılmalı (OpenAPI client'ta mevcut)
-- [ ] Manuel axios çağrısı kaldırılmalı
-- [ ] `useMockData` kontrolü kaldırılmalı (artık kullanılmıyor)
-- [ ] Type-safe response handling eklenmeli
+**Tamamlanan Aksiyonlar:**
+- [x] ~~`SettingApiService.settingApiDownload()` kullanılıyor~~
+- [x] ~~Manuel axios çağrısı kaldırıldı~~
+- [x] ~~`useMockData` kontrolü kaldırıldı~~
+- [x] ~~Type-safe response handling eklendi~~
 
 ---
 
@@ -242,21 +213,21 @@ const getSelectedTrueObjects = (data: any) => {
 
 Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmaktadır:
 
-### 4.1 Router
+### ~~4.1 Router~~ TAMAMLANDI
 
 #### `src/router/index.ts`
 
 | Satır | Açıklama |
 |-------|----------|
-| 99, 101, 119, 133 | Auth guard'da debug console.log'ları |
+| ~~99, 101, 119, 133~~ | ~~Auth guard'da debug console.log'ları~~ - KALDIRILDI |
 
-### 4.2 Auth Store
+### ~~4.2 Auth Store~~ TAMAMLANDI
 
 #### `src/stores/auth.ts`
 
 | Satır | Açıklama |
 |-------|----------|
-| 36 | Login payload debug log'u |
+| ~~36~~ | ~~Login payload debug log'u~~ - KALDIRILDI |
 
 ### 4.3 Worktime Usage
 
@@ -275,7 +246,7 @@ Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmakt
 | Phase 1 | Kritik İş Mantığı | Yüksek | 6 |
 | Phase 2 | Timesheet | Orta | 11 |
 | Phase 3 | Promotion | Düşük | 1 |
-| Phase 4 | Debug Cleanup | Düşük | 4 |
+| Phase 4 | Debug Cleanup | Düşük | 2 (2 tamamlandı) |
 | **Toplam** | | | **22** |
 
 ---
@@ -283,10 +254,8 @@ Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmakt
 ## Öneri: Uygulama Sırası
 
 1. **Hemen Yapılmalı (Sprint 1)**
-   - Worktime Usage download ve domain toggle
+   - Worktime Usage domain toggle
    - HR Settings employee status update
-   - Companies silme işlemi
-   - Download store OpenAPI migration
 
 2. **Yakın Vadede (Sprint 2)**
    - Timesheet date picker entegrasyonu (3 yerde kullanılıyor)

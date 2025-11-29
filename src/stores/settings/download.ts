@@ -28,12 +28,10 @@ export const useSettingsDownloadsStore = defineStore(EStoreNames.SETTINGS_DOWNLO
         this.error = null;
 
         const data = await SettingApiService.settingApiDownload();
-        console.log('Download API response:', data);
 
         this.InvitationLink = data.InvitationLink ?? '';
         this.InvitationId = data.InvitationId ?? '';
         this.ServiceKey = data.ServiceKey ?? '';
-        console.log('Store InvitationLink:', this.InvitationLink);
 
         return data;
       } catch (err: any) {

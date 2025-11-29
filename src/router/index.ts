@@ -108,12 +108,8 @@ router.beforeEach(async (to, from, next) => {
     if (requiresRole && requiresRole.length > 0) {
       const { hasAnyRole } = useAuthorization();
       if (!hasAnyRole(requiresRole)) {
-        console.warn(
-          `Access denied: User does not have required roles. Required: ${requiresRole.join(', ')}, User has: ${profileStore.roles.join(', ')}`,
-        );
-        // Smart redirect: send user to first accessible route instead of Unauthorized
+          // Smart redirect: send user to first accessible route instead of Unauthorized
         const firstAccessibleRoute = findFirstAccessibleRoute();
-        console.log(`Redirecting to first accessible route: ${firstAccessibleRoute}`);
         return next({ name: firstAccessibleRoute });
       }
     }
@@ -122,12 +118,8 @@ router.beforeEach(async (to, from, next) => {
     if (requiresPermission && requiresPermission.length > 0) {
       const { hasAllPermissions } = useAuthorization();
       if (!hasAllPermissions(requiresPermission)) {
-        console.warn(
-          `Access denied: User does not have required permissions. Required: ${requiresPermission.join(', ')}`,
-        );
-        // Smart redirect: send user to first accessible route instead of Unauthorized
+          // Smart redirect: send user to first accessible route instead of Unauthorized
         const firstAccessibleRoute = findFirstAccessibleRoute();
-        console.log(`Redirecting to first accessible route: ${firstAccessibleRoute}`);
         return next({ name: firstAccessibleRoute });
       }
     }
