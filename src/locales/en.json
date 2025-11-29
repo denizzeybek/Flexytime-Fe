@@ -701,6 +701,11 @@
           "elastic": "Elastic",
           "default": "Default"
         },
+        "defaultReports": {
+          "messages": {
+            "deleted": "Report deleted successfully!"
+          }
+        },
         "modal": {
           "add": {
             "header": "Add report"
@@ -714,7 +719,10 @@
           },
           "frequency": {
             "label": "Frequency",
-            "placeholder": "Select frequency"
+            "placeholder": "Select frequency",
+            "everyday": "Everyday",
+            "everyWeek": "Every week",
+            "everyMonth": "Every month"
           },
           "team": {
             "label": "Team",

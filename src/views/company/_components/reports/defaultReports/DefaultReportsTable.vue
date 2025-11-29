@@ -17,30 +17,24 @@
         <Column field="To" :header="t('components.defaultReports.columns.to')">
           <template #body="slotProps">
             <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
-            <div v-else class="flex flex-col gap-1">
-              <div v-for="(tag, idx) in slotProps.data.To" :key="idx">
-                <Tag :value="tag" />
-              </div>
+            <div v-else class="flex flex-wrap gap-1">
+              <Tag v-for="(email, idx) in parseEmails(slotProps.data.To)" :key="idx" :value="email" class="whitespace-nowrap" />
             </div>
           </template>
         </Column>
         <Column field="Cc" :header="t('components.defaultReports.columns.cc')">
           <template #body="slotProps">
             <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
-            <div v-else class="flex flex-col gap-1">
-              <div v-for="(tag, idx) in slotProps.data.Cc" :key="idx">
-                <Tag :value="tag" />
-              </div>
+            <div v-else class="flex flex-wrap gap-1">
+              <Tag v-for="(email, idx) in parseEmails(slotProps.data.Cc)" :key="idx" :value="email" class="whitespace-nowrap" />
             </div>
           </template>
         </Column>
         <Column field="Bcc" :header="t('components.defaultReports.columns.bcc')">
           <template #body="slotProps">
             <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
-            <div v-else class="flex flex-col gap-1">
-              <div v-for="(tag, idx) in slotProps.data.Bcc" :key="idx">
-                <Tag :value="tag" />
-              </div>
+            <div v-else class="flex flex-wrap gap-1">
+              <Tag v-for="(email, idx) in parseEmails(slotProps.data.Bcc)" :key="idx" :value="email" class="whitespace-nowrap" />
             </div>
           </template>
         </Column>
@@ -83,7 +77,7 @@ import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyReportsStore } from '@/stores/company/reports';
 
-import type { IReportItem } from '@/interfaces/company/report';
+import type { ReportViewModel } from '@/client';
 
 interface IProps {
   isLoading: boolean;
@@ -91,7 +85,8 @@ interface IProps {
 
 interface IEmits {
   (event: 'new'): void;
-  (event: 'edit', value: IReportItem): void;
+  (event: 'edit', value: ReportViewModel): void;
+  (event: 'delete', id: string): void;
 }
 
 defineProps<IProps>();
@@ -115,23 +110,28 @@ const options = ref([
   },
 ]);
 
-// TODO: Default reports API not yet available
-const defaultReports = computed(() => [] as IReportItem[]);
+const defaultReports = computed(() => reportsStore.defaultReportItems);
 
-const handleEdit = (annual: IReportItem) => {
-  emit('edit', annual);
+const parseEmails = (emailString: string | undefined): string[] => {
+  if (!emailString) return [];
+  return emailString.split(',').map((e) => e.trim()).filter(Boolean);
 };
 
-const handleDelete = (employeeID: string) => {
-  console.log('employeeID ', employeeID);
-  // annualsStore.deleteEmployee(employeeID);
+const handleEdit = (report: ReportViewModel) => {
+  emit('edit', report);
 };
 
-const handleOptionClick = (option: EOptionsDropdown, annual: IReportItem) => {
+const handleDelete = (id: string) => {
+  emit('delete', id);
+};
+
+const handleOptionClick = (option: EOptionsDropdown, report: ReportViewModel) => {
   if (option === EOptionsDropdown.Edit) {
-    handleEdit(annual);
+    handleEdit(report);
   } else if (option === EOptionsDropdown.Delete) {
-    handleDelete(annual.ID);
+    if (report.ID) {
+      handleDelete(report.ID);
+    }
   }
 };
 

@@ -701,6 +701,11 @@
           "elastic": "Esnek",
           "default": "Varsayılan"
         },
+        "defaultReports": {
+          "messages": {
+            "deleted": "Rapor başarıyla silindi!"
+          }
+        },
         "modal": {
           "add": {
             "header": "Rapor ekle"
@@ -714,7 +719,10 @@
           },
           "frequency": {
             "label": "Sıklık",
-            "placeholder": "Sıklık seçin"
+            "placeholder": "Sıklık seçin",
+            "everyday": "Her gün",
+            "everyWeek": "Her hafta",
+            "everyMonth": "Her ay"
           },
           "team": {
             "label": "Ekip",

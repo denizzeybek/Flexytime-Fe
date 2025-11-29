@@ -46,8 +46,8 @@
       <div class="flex flex-col gap-4 flex-1">
         <FEmailList name="bcc" :label="t('pages.company.reports.modal.emailBcc.label')" />
       </div>
-      <div class="flex w-50 justify-center">
-        <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('common.buttons.save')" />
+      <div class="flex flex-col gap-4 flex-1">
+        <Button class="w-1/2 mx-auto" :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('common.buttons.save')" />
       </div>
     </form>
   </Dialog>
@@ -58,16 +58,17 @@ import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
-import { array,object, string } from 'yup';
+import { array, number, object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
+import { useCompanyReportsStore } from '@/stores/company/reports';
 import { ReportFrequency } from '@/views/company/_etc/reportFrequency.enum';
 
-import type { IReportItem } from '@/interfaces/company/report';
+import type { ReportViewModel } from '@/client';
 
 interface IProps {
-  data?: IReportItem;
+  data?: ReportViewModel;
 }
 
 interface IEmits {
@@ -80,13 +81,14 @@ const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
+const reportsStore = useCompanyReportsStore();
 
 const open = defineModel<boolean>('open');
 
 const frequencyOptions = [
-  { name: 'Everyday', value: ReportFrequency.EveryDay },
-  { name: 'Every week', value: ReportFrequency.EveryWeek },
-  { name: 'Every month', value: ReportFrequency.EveryMonth },
+  { name: t('pages.company.reports.modal.frequency.everyday'), value: ReportFrequency.EVERY_DAY },
+  { name: t('pages.company.reports.modal.frequency.everyWeek'), value: ReportFrequency.EVERY_WEEK },
+  { name: t('pages.company.reports.modal.frequency.everyMonth'), value: ReportFrequency.EVERY_MONTH },
 ];
 
 const validationSchema = object({
@@ -100,7 +102,7 @@ const validationSchema = object({
   frequency: object()
     .shape({
       name: string().label('Frequency'),
-      value: string().label('Frequency').required(),
+      value: number().label('Frequency').required(),
     })
     .required()
     .label('Frequency'),
@@ -121,7 +123,6 @@ const validationSchema = object({
   cc: array()
     .label('Email')
     .of(string().email('Please enter a valid email address.').required('Email is required.')),
-
   bcc: array()
     .label('Email')
     .of(string().email('Please enter a valid email address.').required('Email is required.')),
@@ -133,22 +134,41 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 
 const isEditing = computed(() => !!props.data);
 
-// TODO: Default reports API not yet available - using empty arrays
-const reportTypeOptions = computed(() => [] as { name: string; value: string }[]);
+const reportTypeOptions = computed(() =>
+  reportsStore.reportTypes.map((item) => ({ name: item.Name ?? '', value: item.ID ?? '' })),
+);
 
-const teamOptions = computed(() => [] as { name: string; value: string }[]);
+const teamOptions = computed(() =>
+  reportsStore.sectionList.map((item) => ({ name: item.Name ?? '', value: item.ID ?? '' })),
+);
 
 const getInitialFormData = computed(() => {
   const report = props.data;
+  const defaultFrequency = frequencyOptions[0];
+
+  if (!report) {
+    return {
+      reportType: undefined,
+      frequency: defaultFrequency,
+      teams: [],
+      to: [],
+      cc: [],
+      bcc: [],
+    };
+  }
+
+  const frequencyOption = frequencyOptions.find((f) => f.value === report.Schedule?.Period);
+
   return {
-    ...(report && {
-      reportType: { name: report.TypeDisplay, value: report.ID },
-      frequency: { name: report.ScheduleDisplay, value: report.ID },
-      teams: [{ name: report.SectionNameDisplay, value: '629176fc57a0318a082d516b' }],
-      to: report.To,
-      cc: report.Cc,
-      bcc: report.Bcc,
-    }),
+    reportType: { name: report.TypeDisplay ?? '', value: String(report.Type ?? '') },
+    frequency: frequencyOption ?? defaultFrequency,
+    teams: report.SectionId?.map((id) => {
+      const section = reportsStore.sectionList.find((s) => s.ID === id);
+      return { name: section?.Name ?? '', value: id };
+    }) ?? [],
+    to: report.To?.split(',').filter(Boolean) ?? [],
+    cc: report.Cc?.split(',').filter(Boolean) ?? [],
+    bcc: report.Bcc?.split(',').filter(Boolean) ?? [],
   };
 });
 
@@ -159,7 +179,18 @@ const handleClose = () => {
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
+    await reportsStore.saveReport({
+      ID: props.data?.ID,
+      Type: Number(values.reportType.value),
+      SectionId: values.teams?.map((t: { value: string }) => t.value),
+      To: values.to?.join(','),
+      Cc: values.cc?.join(','),
+      Bcc: values.bcc?.join(','),
+      Schedule: {
+        Period: values.frequency.value,
+      },
+    });
+
     if (isEditing.value) {
       showSuccessMessage(t('pages.company.reports.modal.messages.updated'));
     } else {

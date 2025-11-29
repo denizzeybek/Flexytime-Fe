@@ -1,18 +1,23 @@
 import { defineStore } from 'pinia';
 
-import { ReportApiService } from '@/client';
+import { CompanyApiService, ReportApiService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type {
+  PerformNameValueModel,
+  PerformReportViewModel,
   ReportFilterViewModel,
   ReportGraphGroupViewModel,
   ReportGroupViewModel,
+  ReportModifyModel,
   ReportQueryViewModel,
   ReportResultViewModel,
   ReportSummaryViewModel,
+  ReportViewModel,
 } from '@/client';
 
 interface State {
+  // Elastic Reports
   filters: ReportFilterViewModel | null;
   result: ReportResultViewModel | null;
   summary: ReportSummaryViewModel | null;
@@ -21,10 +26,17 @@ interface State {
   downloadKey: string | null;
   isLoading: boolean;
   isFiltersLoading: boolean;
+  // Default Reports
+  defaultReports: PerformReportViewModel | null;
+  defaultReportItems: ReportViewModel[];
+  reportTypes: PerformNameValueModel[];
+  sectionList: PerformNameValueModel[];
+  isDefaultReportsLoading: boolean;
 }
 
 export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
   state: (): State => ({
+    // Elastic Reports
     filters: null,
     result: null,
     summary: null,
@@ -33,6 +45,12 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
     downloadKey: null,
     isLoading: false,
     isFiltersLoading: false,
+    // Default Reports
+    defaultReports: null,
+    defaultReportItems: [],
+    reportTypes: [],
+    sectionList: [],
+    isDefaultReportsLoading: false,
   }),
   getters: {
     getFilters: (state) => state.filters,
@@ -41,8 +59,12 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
     getGraphs: (state) => state.graphs,
     getGrouping: (state) => state.grouping,
     getDownloadKey: (state) => state.downloadKey,
+    getDefaultReportItems: (state) => state.defaultReportItems,
+    getReportTypes: (state) => state.reportTypes,
+    getSectionList: (state) => state.sectionList,
   },
   actions: {
+    // Elastic Reports Actions
     async fetchFilters() {
       this.isFiltersLoading = true;
       try {
@@ -75,6 +97,33 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
       this.graphs = null;
       this.grouping = [];
       this.downloadKey = null;
+    },
+
+    // Default Reports Actions
+    async fetchDefaultReports() {
+      this.isDefaultReportsLoading = true;
+      try {
+        const response = await CompanyApiService.companyApiReports();
+        this.defaultReports = response;
+        this.defaultReportItems = response.Items ?? [];
+        this.reportTypes = response.ReportTypes ?? [];
+        this.sectionList = response.SectionList ?? [];
+        return response;
+      } finally {
+        this.isDefaultReportsLoading = false;
+      }
+    },
+
+    async saveReport(request: ReportModifyModel) {
+      const response = await CompanyApiService.companyApiSaveReport(request);
+      await this.fetchDefaultReports();
+      return response;
+    },
+
+    async deleteReport(id: string) {
+      const response = await CompanyApiService.companyApiDeleteReport({ ID: id });
+      await this.fetchDefaultReports();
+      return response;
     },
   },
 });
