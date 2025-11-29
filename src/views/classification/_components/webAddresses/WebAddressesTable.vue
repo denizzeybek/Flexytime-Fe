@@ -86,6 +86,7 @@ import { useI18n } from 'vue-i18n';
 import Checkbox from 'primevue/checkbox';
 import Skeleton from 'primevue/skeleton';
 
+import { useFToast } from '@/composables/useFToast';
 import { EDomain } from '@/enums/domain.enum';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses';
@@ -105,6 +106,7 @@ defineProps<IProps>();
 const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const { showErrorMessage } = useFToast();
 const webAddressesStore = useClassificationWebAddressesStore();
 
 const first = ref(0);
@@ -135,8 +137,8 @@ const onAlwaysOnChange = async (event) => {
     };
 
     await webAddressesStore.save(payload);
-  } catch (error) {
-    console.log(error);
+  } catch {
+    showErrorMessage(t('common.errors.generic'));
   }
 };
 
@@ -151,8 +153,8 @@ const updateDomain = async (event) => {
     };
 
     await webAddressesStore.save(payload);
-  } catch (error) {
-    console.log(error);
+  } catch {
+    showErrorMessage(t('common.errors.generic'));
   }
 };
 

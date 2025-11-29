@@ -114,7 +114,7 @@ import Tag from 'primevue/tag';
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import { type MessageSchema } from '@/plugins/i18n';
-import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
+import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
 
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
 

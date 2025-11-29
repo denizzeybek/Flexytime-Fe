@@ -12,7 +12,7 @@
 import { onMounted, ref } from 'vue';
 
 import { useFToast } from '@/composables/useFToast';
-import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
+import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
 
 import EmployeeModal from './_modals/EmployeeModal.vue';
 import EmployeesTable from './EmployeesTable.vue';

@@ -946,6 +946,9 @@
     }
   },
   "common": {
+    "errors": {
+      "generic": "Bir hata oluştu. Lütfen tekrar deneyin."
+    },
     "validation": {
       "mixed": {
         "default": "varsayılan",

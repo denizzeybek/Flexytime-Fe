@@ -64,6 +64,7 @@ import { useI18n } from 'vue-i18n';
 
 import { EComputerNames } from '@/common/enums/computer.enum';
 import { useDownloadApp } from '@/composables/useDownloadapp';
+import { useFToast } from '@/composables/useFToast';
 import { copyToClipboard } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useSettingsDownloadsStore } from '@/stores/settings/download';
@@ -75,6 +76,7 @@ interface IProps {
 defineProps<IProps>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const { showErrorMessage } = useFToast();
 
 const downloadsStore = useSettingsDownloadsStore();
 const { findActiveComputer, onDownloadButtonClicked } = useDownloadApp();
@@ -93,8 +95,8 @@ const copyDownloadKeyText = () => {
     setTimeout(() => {
       isCopied.value = false;
     }, 2000);
-  } catch (error) {
-    console.log(error);
+  } catch {
+    showErrorMessage(t('common.errors.generic'));
     isCopied.value = false;
   }
 };

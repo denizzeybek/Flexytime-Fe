@@ -130,8 +130,8 @@ onMounted(async () => {
       },
     });
     isLoading.value = false;
-  } catch (error) {
-    console.log(error);
+  } catch {
+    showErrorMessage(t('common.errors.generic'));
   }
 });
 </script>

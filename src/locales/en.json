@@ -946,6 +946,9 @@
     }
   },
   "common": {
+    "errors": {
+      "generic": "An error occurred. Please try again."
+    },
     "validation": {
       "mixed": {
         "default": "default",

@@ -237,7 +237,7 @@ import { array, boolean, number,object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
-import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
+import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
 
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
 
