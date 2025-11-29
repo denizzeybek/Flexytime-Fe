@@ -484,7 +484,8 @@
       "bonusEarned": "Bonus Earned",
       "previousInvitations": "Previous Invitations",
       "messages": {
-        "success": "Users invited!"
+        "success": "Users invited!",
+        "error": "Failed to send invitations. Please try again."
       },
       "modals": {
         "bonusModal": {

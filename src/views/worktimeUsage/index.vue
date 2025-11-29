@@ -336,9 +336,6 @@ onMounted(async () => {
   // If user role is EMPLOYEE (not supervisor/admin) and in team view, redirect to individual
   // Backend accepts MemberId: null and returns current user's data from token
   if (isEmployee && currentView === 'team') {
-    console.log(
-      '🔀 User role is EMPLOYEE. Redirecting to individual view...',
-    );
     // Use null as memberId - backend will get user from auth token
     await navigateToIndividual(null);
     return; // fetchData will be called by the route change watcher

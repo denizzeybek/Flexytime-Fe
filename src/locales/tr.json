@@ -484,7 +484,8 @@
       "bonusEarned": "Kazanılan Bonus",
       "previousInvitations": "Önceki Davetler",
       "messages": {
-        "success": "Kullanıcılar davet edildi!"
+        "success": "Kullanıcılar davet edildi!",
+        "error": "Davetler gönderilemedi. Lütfen tekrar deneyin."
       },
       "modals": {
         "bonusModal": {

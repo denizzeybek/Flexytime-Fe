@@ -19,7 +19,7 @@
       <template #content>
         <form @submit="submitHandler">
           <div class="flex flex-col gap-5">
-            <FEmailList name="emails" :is-clear="isClear"/>
+            <FEmailList name="emails" />
             <Button
               type="submit"
               :label="t('pages.promotion.addFriendButton')"
@@ -62,12 +62,11 @@
 </template>
 
 <script setup lang="ts">
-// TODO:: stepler için gerekli olan datayı topla ona göre stepleri aktif yap
-import { computed, onMounted,ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
-import { array,object, string } from 'yup';
+import { array, object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { copyToClipboard } from '@/helpers/utils';
@@ -87,29 +86,36 @@ const validationSchema = object({
     .label('Email')
     .of(string().email('Please enter a valid email address.').required('Email is required.'))
     .required('Please add at least one email.')
-    .min(1, 'Please add at least one email.'), // Ensures the array isn't empty
+    .min(1, 'Please add at least one email.'),
 });
 
-const { handleSubmit, isSubmitting } = useForm({
+const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema,
 });
 
 const isCopied = ref(false);
 const isBonusModalOpen = ref(false);
 const isPrevInvitationsModalOpen = ref(false);
-const isClear = ref(false);
 
 const link = computed(() => {
-  return `https://flexytime.com/invite?email=${promotionsStore.PromotionLink}`;
+  return promotionsStore.PromotionLink;
 });
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
-    showSuccessMessage(t('pages.promotion.messages.success'));
-    isClear.value = true;
+    const success = await promotionsStore.savePromotion({
+      Emails: values.emails,
+      Force: false,
+    });
+
+    if (success) {
+      showSuccessMessage(t('pages.promotion.messages.success'));
+      resetForm();
+    } else {
+      showErrorMessage(t('pages.promotion.messages.error'));
+    }
   } catch (error: any) {
-    showErrorMessage(error as any);
+    showErrorMessage(error?.message || t('pages.promotion.messages.error'));
   }
 });
 
@@ -120,8 +126,7 @@ const copyText = () => {
     setTimeout(() => {
       isCopied.value = false;
     }, 2000);
-  } catch (error) {
-    console.log(error);
+  } catch {
     isCopied.value = false;
   }
 };

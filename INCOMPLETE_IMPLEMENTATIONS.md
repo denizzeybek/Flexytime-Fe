@@ -3,7 +3,7 @@
 Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında listelemektedir.
 
 **Rapor Tarihi**: 2025-11-29
-**Toplam Eksik Implementasyon**: 22 adet (5 tamamlandı)
+**Toplam Eksik Implementasyon**: 16 aktif
 
 ---
 
@@ -17,22 +17,11 @@ Bu phase'deki eksikler, kullanıcı deneyimini doğrudan etkileyen ve temel fonk
 
 | Satır | Fonksiyon | Durum | Açıklama |
 |-------|-----------|-------|----------|
-| ~~297~~ | ~~`handleDownload()`~~ | ~~TAMAMLANDI~~ | ~~Rapor indirme fonksiyonu implemente edildi~~ |
 | 308 | `handleToggleDomain(webClock, newDomain)` | TODO | Domain toggle API çağrısı yapılmıyor, sadece log atıyor |
 
-**Mevcut Kod:**
-```typescript
-// Line 308
-const handleToggleDomain = (webClock: any, newDomain: string) => {
-  console.log('Toggle domain', webClock, newDomain)
-  // TODO: Implement domain toggle API call
-}
-```
-
 **Gerekli Aksiyonlar:**
-- [x] ~~Download için API endpoint belirlenmeli~~ - TAMAMLANDI
-- [x] ~~Export formatı (PDF, Excel, CSV) belirlenmeli~~ - TAMAMLANDI (DownloadSection endpoint kullanıldı)
-- [ ] Domain toggle için PATCH/PUT endpoint'i oluşturulmalı
+- [ ] Domain toggle için API endpoint'i belirlenmeli
+- [ ] Store'a toggle metodu eklenmeli
 
 ---
 
@@ -44,55 +33,13 @@ const handleToggleDomain = (webClock: any, newDomain: string) => {
 |-------|-----------|-------|----------|
 | 178 | `handleAlwaysOnChange(event)` | TODO | Çalışan enabled durumu güncelleme API'si çağrılmıyor |
 
-**Mevcut Kod:**
-```typescript
-const handleAlwaysOnChange = (event: any) => {
-  // TODO: Implement update employee enabled status
-  // employeeStore.updateEmployeeStatus(event)
-}
-```
-
 **Gerekli Aksiyonlar:**
 - [ ] `employeeStore.updateEmployeeStatus()` metodu implemente edilmeli
-- [ ] API endpoint'i belirlenmeli (PUT /employees/:id/status)
-- [ ] Optimistic update veya loading state eklenmeli
-
----
-
-### ~~1.3 Settings Module - Companies~~ TAMAMLANDI
-
-#### `src/views/settings/_components/companies/CompaniesTable.vue`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| ~~160~~ | ~~`handleDelete(companyID)`~~ | ~~TAMAMLANDI~~ | ~~Şirket silme implemente edildi~~ |
-
-**Tamamlanan Aksiyonlar:**
-- [x] ~~Silme öncesi onay modalı eklendi~~
-- [x] ~~`companyStore.deleteCompany()` metodu implemente edildi~~
-- [x] ~~i18n çevirileri eklendi~~
-
----
-
-### ~~1.4 Settings Module - Download~~ TAMAMLANDI
-
-#### `src/stores/settings/download.ts`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| ~~23-47~~ | ~~`filter()`~~ | ~~TAMAMLANDI~~ | ~~OpenAPI client'a migrate edildi~~ |
-
-**Tamamlanan Aksiyonlar:**
-- [x] ~~`SettingApiService.settingApiDownload()` kullanılıyor~~
-- [x] ~~Manuel axios çağrısı kaldırıldı~~
-- [x] ~~`useMockData` kontrolü kaldırıldı~~
-- [x] ~~Type-safe response handling eklendi~~
+- [ ] API endpoint'i belirlenmeli
 
 ---
 
 ## Phase 2: Timesheet Module Eksikleri (Orta Öncelik)
-
-Bu phase, timesheet modülündeki eksik implementasyonları içerir.
 
 ### 2.1 Time Management
 
@@ -101,12 +48,7 @@ Bu phase, timesheet modülündeki eksik implementasyonları içerir.
 | Satır | Fonksiyon | Durum | Açıklama |
 |-------|-----------|-------|----------|
 | 104 | Watch (route meta) | TODO | DatePicker'dan startDate ve endDate payload'a dahil edilmiyor |
-| 118 | Initial form value | TODO | Hardcoded tarih aralığı kullanılıyor, datePicker'dan değer alınmalı |
-
-**Gerekli Aksiyonlar:**
-- [ ] DatePicker component'inden tarih değerleri alınmalı
-- [ ] API çağrılarına tarih aralığı parametreleri eklenmeli
-- [ ] Tarih formatı backend ile uyumlu hale getirilmeli
+| 118 | Initial form value | TODO | Hardcoded tarih aralığı kullanılıyor |
 
 ---
 
@@ -126,52 +68,24 @@ Bu phase, timesheet modülündeki eksik implementasyonları içerir.
 
 | Satır | Fonksiyon | Durum | Açıklama |
 |-------|-----------|-------|----------|
-| 118 | submitHandler | Dead Code | Tüm submitHandler kodu yorum satırında |
 | 176 | `getSelectedTrueObjects(data)` | TODO | Backend bağımlılığı - payload yapısı belirsiz |
 | 223 | Watch (fields) | TODO | Değişiklik algılama mantığı implemente edilmemiş |
 
-**Mevcut Kod (Line 176):**
-```typescript
-const getSelectedTrueObjects = (data: any) => {
-  // TODO: Backend dependency
-  // Unclear if should send IDs only, plain objects, or detailed data
-}
-```
-
-**Gerekli Aksiyonlar:**
-- [ ] Backend ile payload yapısı netleştirilmeli
-- [ ] submitHandler aktif edilmeli
-- [ ] Field değişiklik karşılaştırması implemente edilmeli
-
 ---
 
-### 2.4 Timesheet Modals & Components
+### 2.4 Timesheet Components - @addList Placeholder'ları
 
-#### `src/views/timesheets/_modals/UpdateTimeEntriesModal.vue`
+Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 
-| Satır | Event | Durum | Açıklama |
-|-------|-------|-------|----------|
-| 49 | `@addList` | Placeholder | Yeni proje ekleme event'i sadece log atıyor |
-| 60 | `@addList` | Placeholder | Yeni tag ekleme event'i sadece log atıyor |
-
-#### `src/views/timesheets/_components/timeEntries/EnterTime.vue`
-
-| Satır | Event | Durum | Açıklama |
-|-------|-------|-------|----------|
-| 103 | `@addList` | Placeholder | Yeni proje ekleme event'i sadece log atıyor |
-| 114 | `@addList` | Placeholder | Yeni tag ekleme event'i sadece log atıyor |
-
-#### `src/views/timesheets/_components/timeEntries/EnteredTimes.vue`
-
-| Satır | Event | Durum | Açıklama |
-|-------|-------|-------|----------|
-| 96 | `@addList` | Placeholder | Yeni proje ekleme event'i sadece log atıyor |
-| 107 | `@addList` | Placeholder | Yeni tag ekleme event'i sadece log atıyor |
+| Dosya | Satırlar |
+|-------|----------|
+| `src/views/timesheets/_modals/UpdateTimeEntriesModal.vue` | 49, 60 |
+| `src/views/timesheets/_components/timeEntries/EnterTime.vue` | 103, 114 |
+| `src/views/timesheets/_components/timeEntries/EnteredTimes.vue` | 96, 107 |
 
 **Gerekli Aksiyonlar:**
 - [ ] Inline proje ekleme modal/form oluşturulmalı
 - [ ] Inline tag ekleme modal/form oluşturulmalı
-- [ ] Store'lara create metodları eklenmeli
 
 ---
 
@@ -181,61 +95,99 @@ const getSelectedTrueObjects = (data: any) => {
 
 | Satır | Fonksiyon | Durum | Açıklama |
 |-------|-----------|-------|----------|
-| 18 | `generateTableColumns()` | Unused Log | startDate/endDate log atılıyor ama kullanılmıyor |
-| 31 | `generateTableData()` | Unused Log | startDate/endDate log atılıyor ama kullanılmıyor |
+| 18, 31 | `generateTableColumns/Data()` | Unused | startDate/endDate log atılıyor ama kullanılmıyor |
 
 ---
 
-## Phase 3: Promotion Module (Düşük Öncelik)
+## ~~Phase 3: Promotion Module~~ TAMAMLANDI
 
-### 3.1 Promotion Steps
+### ~~3.1 Promotion Steps~~ TAMAMLANDI
 
 #### `src/views/promotion/_views/Promotion.vue`
 
 | Satır | Fonksiyon | Durum | Açıklama |
 |-------|-----------|-------|----------|
-| 65 | Steps initialization | TODO | Adımların aktivasyon mantığı implemente edilmemiş |
+| ~~65~~ | ~~Steps initialization~~ | ~~TAMAMLANDI~~ | ~~Store OpenAPI client'a migrate edildi, savePromotion implemente edildi~~ |
 
-**Mevcut Kod:**
-```typescript
-// TODO: Collect required data for steps and activate them based on data
-// Steps activation logic not implemented
-```
-
-**Gerekli Aksiyonlar:**
-- [ ] Her adım için gerekli veri belirlenecek
-- [ ] Veri durumuna göre adım aktivasyonu yapılacak
-- [ ] Wizard pattern uygulanacak
+**Tamamlanan Aksiyonlar:**
+- [x] Store OpenAPI client'a migrate edildi (`PromotionApiService`)
+- [x] `savePromotion()` metodu eklendi
+- [x] `submitHandler` düzeltildi - artık API'yi çağırıyor
+- [x] TODO comment kaldırıldı
+- [x] i18n error mesajları eklendi (en/tr)
 
 ---
 
-## Phase 4: Debug Logging Temizliği (Düşük Öncelik)
+## Phase 4: Debug Console.log Temizliği (Production Öncesi)
 
 Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmaktadır:
 
-### ~~4.1 Router~~ TAMAMLANDI
+### Stores
+| Dosya | Satır | İçerik |
+|-------|-------|--------|
+| `src/stores/hrSettings/Employees.ts` | 45 | `console.log('tags ', tags)` |
+| `src/stores/worktimeUsage/worktimeStore.ts` | 289 | API null data warning |
 
-#### `src/router/index.ts`
-
-| Satır | Açıklama |
+### Views - Settings
+| Dosya | Satırlar |
 |-------|----------|
-| ~~99, 101, 119, 133~~ | ~~Auth guard'da debug console.log'ları~~ - KALDIRILDI |
+| `src/views/settings/_views/Permissions.vue` | 111, 130 |
+| `src/views/settings/_views/Advanced.vue` | 96, 119, 135 |
+| `src/views/settings/_components/companies/_modals/CompanyModal.vue` | 99 |
 
-### ~~4.2 Auth Store~~ TAMAMLANDI
-
-#### `src/stores/auth.ts`
-
-| Satır | Açıklama |
+### Views - HR Settings
+| Dosya | Satırlar |
 |-------|----------|
-| ~~36~~ | ~~Login payload debug log'u~~ - KALDIRILDI |
+| `src/views/hrSettings/_components/holidays/_modals/HolidayModal.vue` | 130, 156 |
+| `src/views/hrSettings/_components/holidays/HolidaysTable.vue` | 133 |
+| `src/views/hrSettings/_components/annuals/_modals/AnnualModal.vue` | 178 |
+| `src/views/hrSettings/_components/annuals/AnnualsTable.vue` | 154 |
+| `src/views/hrSettings/_components/employees/_modals/EmployeeModal.vue` | 437, 511 |
+| `src/views/hrSettings/_components/employees/EmployeesTable.vue` | 167, 177, 190 |
 
-### 4.3 Worktime Usage
-
-#### `src/views/worktimeUsage/index.vue`
-
-| Satır | Açıklama |
+### Views - Timesheets
+| Dosya | Satırlar |
 |-------|----------|
-| 333 | Employee API response emoji'li log |
+| `src/views/timesheets/_views/UnclassifiedTimeEntries.vue` | 220 |
+| `src/views/timesheets/_components/timeEntries/EnteredTimes.vue` | 227 |
+| `src/views/timesheets/_modals/UpdateTimeEntriesModal.vue` | 195 |
+
+### Views - Classification
+| Dosya | Satırlar |
+|-------|----------|
+| `src/views/classification/_components/webAddresses/WebAddressesTable.vue` | 130, 140, 146, 157 |
+| `src/views/classification/_components/applications/ApplicationsTable.vue` | 132, 149 |
+
+### Views - Promotion
+| Dosya | Satırlar |
+|-------|----------|
+| `src/views/promotion/_views/Promotion.vue` | 108, 124 |
+
+### Views - Profile
+| Dosya | Satırlar |
+|-------|----------|
+| `src/views/profile/_components/License.vue` | 87 |
+| `src/views/profile/_components/Password.vue` | 54 |
+| `src/views/profile/_components/Basic.vue` | 142 |
+
+### Views - Company
+| Dosya | Satırlar |
+|-------|----------|
+| `src/views/company/_views/WorkingHours.vue` | 168, 197 |
+| `src/views/company/_views/reports/ElasticReports.vue` | 91 |
+| `src/views/company/_components/reports/defaultReports/DefaultReportsTable.vue` | 125 |
+| `src/views/company/_components/reports/_modals/DefaultReportModal.vue` | 167 |
+
+### Views - Auth & Download
+| Dosya | Satırlar |
+|-------|----------|
+| `src/views/auth/ForgotPassword.vue` | 96 |
+| `src/views/download/_views/Download.vue` | 97 |
+
+### Helpers
+| Dosya | Satır |
+|-------|-------|
+| `src/helpers/utils.ts` | 63 |
 
 ---
 
@@ -243,11 +195,11 @@ Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmakt
 
 | Phase | Modül | Kritiklik | Eksik Sayısı |
 |-------|-------|-----------|--------------|
-| Phase 1 | Kritik İş Mantığı | Yüksek | 6 |
-| Phase 2 | Timesheet | Orta | 11 |
-| Phase 3 | Promotion | Düşük | 1 |
-| Phase 4 | Debug Cleanup | Düşük | 2 (2 tamamlandı) |
-| **Toplam** | | | **22** |
+| Phase 1 | Kritik İş Mantığı | Yüksek | 2 |
+| Phase 2 | Timesheet | Orta | 8 |
+| ~~Phase 3~~ | ~~Promotion~~ | ~~Düşük~~ | ~~TAMAMLANDI~~ |
+| Phase 4 | Debug Cleanup | Düşük | ~50 console.log |
+| **Toplam Aktif** | | | **10 + cleanup** |
 
 ---
 
@@ -265,9 +217,8 @@ Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmakt
    - Add project/tag inline formları
 
 4. **Backlog**
-   - Promotion steps aktivasyon mantığı
    - Debug log temizliği (production build öncesi)
 
 ---
 
-*Bu rapor otomatik olarak oluşturulmuştur. Her bir eksik için ilgili dosya ve satır numarası belirtilmiştir.*
+*Bu rapor 2025-11-29 tarihinde güncellenmiştir.*
