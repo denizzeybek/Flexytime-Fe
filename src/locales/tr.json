@@ -1220,7 +1220,9 @@
     },
     "wellbeing": {
       "individualViewComingSoon": "Bireysel görünüm için iyi olma verileri yakında uygulanacak.",
-      "noDataAvailable": "Veri mevcut değil."
+      "noDataAvailable": "Veri mevcut değil.",
+      "noWellbeingData": "İyi olma verisi bulunamadı.",
+      "suggestion": "Öneri"
     },
     "graph": {
       "noDataAvailable": "Grafik verisi mevcut değil."

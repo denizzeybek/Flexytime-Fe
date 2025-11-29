@@ -109,6 +109,7 @@
                   :display-mode="displayMode"
                   :teams="teams"
                   :individuals="individuals"
+                  :individual-wellbeings="currentIndividualWellbeings"
                   :is-loading="isLoading"
                 />
               </TabPanel>
@@ -224,6 +225,10 @@ const currentGraphs = computed(() => {
 
 const currentWebClocks = computed(() => {
   return store.employeeData?.WebClocks || [];
+});
+
+const currentIndividualWellbeings = computed(() => {
+  return store.employeeData?.WellBeings || [];
 });
 
 const teams = computed(() => store.getTeams);

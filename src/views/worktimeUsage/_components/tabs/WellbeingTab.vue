@@ -1,9 +1,11 @@
 <template>
   <div class="wellbeing-tab">
-    <!-- Individual View: Placeholder -->
-    <div v-if="viewMode === 'individual'" class="p-4 text-center text-gray-500">
-      <p>{{ t('components.wellbeing.individualViewComingSoon') }}</p>
-    </div>
+    <!-- Individual View: Show individual wellbeing cards -->
+    <IndividualWellbeingCard
+      v-if="viewMode === 'individual'"
+      :wellbeings="individualWellbeings"
+      :is-loading="isLoading"
+    />
 
     <!-- Employees View: Always show all employees -->
     <EmployeeWellbeingTable
@@ -46,16 +48,18 @@ import { useI18n } from 'vue-i18n';
 
 import { type MessageSchema } from '@/plugins/i18n';
 
+import IndividualWellbeingCard from '../cards/IndividualWellbeingCard.vue';
 import EmployeeWellbeingTable from '../tables/EmployeeWellbeingTable.vue';
 import TeamWellbeingTable from '../tables/TeamWellbeingTable.vue';
 
-import type { DisplayMode, IIndividual,ITeam, ViewMode } from '../../_types';
+import type { DisplayMode, IIndividual, IIndividualWellbeing, ITeam, ViewMode } from '../../_types';
 
 interface IProps {
   viewMode: ViewMode;
   displayMode?: DisplayMode;
   teams?: ITeam[];
   individuals?: IIndividual[];
+  individualWellbeings?: IIndividualWellbeing[];
   isLoading?: boolean;
 }
 
@@ -63,9 +67,9 @@ withDefaults(defineProps<IProps>(), {
   displayMode: 'team',
   teams: () => [],
   individuals: () => [],
+  individualWellbeings: () => [],
   isLoading: false,
 });
 
 const { t } = useI18n<{ message: MessageSchema }>();
-
 </script>

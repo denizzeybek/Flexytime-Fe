@@ -1220,7 +1220,9 @@
     },
     "wellbeing": {
       "individualViewComingSoon": "Wellbeing data for individual view will be implemented soon.",
-      "noDataAvailable": "No data available."
+      "noDataAvailable": "No data available.",
+      "noWellbeingData": "No wellbeing data available.",
+      "suggestion": "Suggestion"
     },
     "graph": {
       "noDataAvailable": "No graph data available."
