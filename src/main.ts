@@ -9,6 +9,7 @@ import plugins from './plugins';
 import '@/tailwind.css';
 
 import '@/plugins/axios';
+import '@/plugins/nprogress';
 
 OpenAPI.BASE = import.meta.env.VITE_API_URL;
 
