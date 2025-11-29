@@ -371,6 +371,14 @@
             "added": "Company added!",
             "updated": "Company updated!"
           }
+        },
+        "deleteConfirm": {
+          "header": "Delete Company",
+          "message": "Are you sure you want to delete {name}?"
+        },
+        "messages": {
+          "deleted": "Company deleted!",
+          "deleteFailed": "Failed to delete company."
         }
       }
     },

@@ -3,7 +3,7 @@
 Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında listelemektedir.
 
 **Rapor Tarihi**: 2025-11-29
-**Toplam Eksik Implementasyon**: 22 adet (1 tamamlandı)
+**Toplam Eksik Implementasyon**: 21 adet (2 tamamlandı)
 
 ---
 
@@ -59,35 +59,18 @@ const handleAlwaysOnChange = (event: any) => {
 
 ---
 
-### 1.3 Settings Module - Companies
+### ~~1.3 Settings Module - Companies~~ TAMAMLANDI
 
 #### `src/views/settings/_components/companies/CompaniesTable.vue`
 
 | Satır | Fonksiyon | Durum | Açıklama |
 |-------|-----------|-------|----------|
-| 160 | `handleDelete(companyID)` | TODO | Şirket silme işlemi sadece log atıyor, gerçek silme yok |
-| 151 | `handlePage(e)` | Stub | Pagination handler sadece log atıyor |
+| ~~160~~ | ~~`handleDelete(companyID)`~~ | ~~TAMAMLANDI~~ | ~~Şirket silme implemente edildi~~ |
 
-**Mevcut Kod:**
-```typescript
-// Line 160
-const handleDelete = (companyID: number) => {
-  console.log('companyID', companyID)
-  // TODO: Implement delete functionality
-  // companyStore.deleteCompany(companyID)
-}
-
-// Line 151
-const handlePage = (e: any) => {
-  console.log('e', e)
-  // Handle pagination if needed
-}
-```
-
-**Gerekli Aksiyonlar:**
-- [ ] Silme öncesi onay modalı eklenmeli
-- [ ] `companyStore.deleteCompany()` metodu implemente edilmeli
-- [ ] Pagination backend ile entegre edilmeli
+**Tamamlanan Aksiyonlar:**
+- [x] ~~Silme öncesi onay modalı eklendi~~
+- [x] ~~`companyStore.deleteCompany()` metodu implemente edildi~~
+- [x] ~~i18n çevirileri eklendi~~
 
 ---
 

@@ -71,6 +71,33 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
     },
 
     /**
+     * Delete a company
+     * Endpoint: /webapi/setting/company/delete
+     *
+     * @param companyID - Company ID to delete
+     */
+    async deleteCompany(companyID: string): Promise<boolean> {
+      try {
+        this.loading = true;
+        this.error = null;
+
+        await SettingApiService.settingApiDeleteCompany({ ID: companyID });
+
+        // Remove from local list
+        this.list = this.list.filter((company) => company.ID !== companyID);
+        this.totalItems = this.list.length;
+
+        return true;
+      } catch (err: any) {
+        this.error = err?.response?.data?.message || 'Failed to delete company';
+        console.error('Error deleting company:', err);
+        return false;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    /**
      * Clear companies data and cache
      */
     clearData() {

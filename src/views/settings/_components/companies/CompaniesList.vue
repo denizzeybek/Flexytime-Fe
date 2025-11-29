@@ -3,6 +3,7 @@
       :is-loading="isLoading"
       @new="handleNew"
       @edit="handleEdit"
+      @delete="handleDelete"
     />
     <CompanyModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentCompany" />
   </template>
@@ -15,6 +16,8 @@
 
   import CompanyModal from './_modals/CompanyModal.vue';
   import CompaniesTable from './CompaniesTable.vue';
+
+  import type { ICompany } from '@/interfaces/settings/company';
   
   const companiesStore = useSettingsCompaniesStore();
   const { showErrorMessage } = useFToast();
@@ -28,9 +31,18 @@
     isModalOpen.value = true;
   };
 
-  const handleEdit = (company) => {
+  const handleEdit = (company: ICompany) => {
     currentCompany.value = company;
     isModalOpen.value = true;
+  };
+
+  const handleDelete = async (ID: string) => {
+    try {
+      await companiesStore.deleteCompany(ID);
+      await fetchCompanies();
+    } catch (error) {
+      console.error(error);
+    }
   };
   
   const fetchCompanies = async () => {

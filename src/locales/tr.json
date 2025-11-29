@@ -371,6 +371,14 @@
             "added": "Şirket eklendi!",
             "updated": "Şirket güncellendi!"
           }
+        },
+        "deleteConfirm": {
+          "header": "Şirket Sil",
+          "message": "{name} şirketini silmek istediğinize emin misiniz?"
+        },
+        "messages": {
+          "deleted": "Şirket silindi!",
+          "deleteFailed": "Şirket silinemedi."
         }
       }
     },
