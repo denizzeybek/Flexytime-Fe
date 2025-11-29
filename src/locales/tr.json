@@ -859,6 +859,10 @@
           "empty": "Çalışan bulunamadı.",
           "addUser": "Kullanıcı Ekle",
           "totalText": "Toplam {count} çalışan var."
+        },
+        "messages": {
+          "statusUpdated": "Çalışan durumu güncellendi!",
+          "deleted": "Çalışan silindi!"
         }
       },
       "holidays": {

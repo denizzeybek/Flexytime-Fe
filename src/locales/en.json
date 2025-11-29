@@ -859,6 +859,10 @@
           "empty": "No employees found.",
           "addUser": "Add User",
           "totalText": "In total there are {count} employees."
+        },
+        "messages": {
+          "statusUpdated": "Employee status updated!",
+          "deleted": "Employee deleted!"
         }
       },
       "holidays": {
