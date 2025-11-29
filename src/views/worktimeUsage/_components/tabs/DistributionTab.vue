@@ -184,11 +184,11 @@ const transformDataToChartFormat = (rawData: any[]) => {
 const getBadgeClass = (statisticType: string): string => {
   const mapping: Record<string, string> = {
     work: 'bg-green-500',
-    meeting: 'bg-yellow-500',
+    meeting: 'bg-orange-500',
     leisure: 'bg-red-500',
-    unclassified: 'bg-gray-500',
+    unclassified: 'bg-slate-500',
   };
-  return mapping[statisticType.toLowerCase()] || 'bg-blue-500';
+  return mapping[statisticType.toLowerCase()] || 'bg-slate-500';
 };
 
 const getBadgeIcon = (statisticType: string): string => {
