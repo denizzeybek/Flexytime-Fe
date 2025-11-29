@@ -3,7 +3,7 @@
     v-model:visible="open"
     modal
     :header="isEditing ? t('pages.company.reports.modal.update.header') : t('pages.company.reports.modal.add.header')"
-    class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
+    class="lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
     <form class="flex flex-col gap-6" @submit="submitHandler">

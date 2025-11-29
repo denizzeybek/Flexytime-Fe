@@ -3,7 +3,7 @@
     v-model:visible="open"
     modal
     :header="t('pages.hrSettings.employees.modal.header')"
-    class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
+    class="lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
     <template v-if="isOnMounted">

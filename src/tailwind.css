@@ -165,4 +165,14 @@
   box-shadow: 0 0 10px var(--color-f-primary), 0 0 5px var(--color-f-primary) !important;
 }
 
+/* PrimeVue Dialog - White background & Blur overlay */
+.p-dialog {
+  background: white !important;
+}
+
+.p-dialog-mask {
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
 

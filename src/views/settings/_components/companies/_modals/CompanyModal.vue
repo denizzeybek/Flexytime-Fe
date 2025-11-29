@@ -3,7 +3,7 @@
     v-model:visible="open"
     modal
     :header="isEditing ? t('pages.settings.companies.modal.updateTitle') : t('pages.settings.companies.modal.addTitle')"
-    class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
+    class="lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
     <form class="flex flex-col gap-6" @submit="submitHandler">
