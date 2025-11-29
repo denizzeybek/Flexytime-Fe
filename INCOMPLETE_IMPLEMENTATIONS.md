@@ -3,7 +3,7 @@
 Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında listelemektedir.
 
 **Rapor Tarihi**: 2025-11-29
-**Toplam Eksik Implementasyon**: 23 adet
+**Toplam Eksik Implementasyon**: 22 adet (1 tamamlandı)
 
 ---
 
@@ -17,18 +17,12 @@ Bu phase'deki eksikler, kullanıcı deneyimini doğrudan etkileyen ve temel fonk
 
 | Satır | Fonksiyon | Durum | Açıklama |
 |-------|-----------|-------|----------|
-| 297 | `handleDownload()` | TODO | Rapor indirme fonksiyonu sadece console.log içeriyor, gerçek download işlemi yok |
-| 302 | `handleToggleDomain(webClock, newDomain)` | TODO | Domain toggle API çağrısı yapılmıyor, sadece log atıyor |
+| ~~297~~ | ~~`handleDownload()`~~ | ~~TAMAMLANDI~~ | ~~Rapor indirme fonksiyonu implemente edildi~~ |
+| 308 | `handleToggleDomain(webClock, newDomain)` | TODO | Domain toggle API çağrısı yapılmıyor, sadece log atıyor |
 
 **Mevcut Kod:**
 ```typescript
-// Line 297
-const handleDownload = () => {
-  console.log('Download report clicked')
-  // TODO: Implement download functionality
-}
-
-// Line 302
+// Line 308
 const handleToggleDomain = (webClock: any, newDomain: string) => {
   console.log('Toggle domain', webClock, newDomain)
   // TODO: Implement domain toggle API call
@@ -36,8 +30,8 @@ const handleToggleDomain = (webClock: any, newDomain: string) => {
 ```
 
 **Gerekli Aksiyonlar:**
-- [ ] Download için API endpoint belirlenmeli
-- [ ] Export formatı (PDF, Excel, CSV) belirlenmeli
+- [x] ~~Download için API endpoint belirlenmeli~~ - TAMAMLANDI
+- [x] ~~Export formatı (PDF, Excel, CSV) belirlenmeli~~ - TAMAMLANDI (DownloadSection endpoint kullanıldı)
 - [ ] Domain toggle için PATCH/PUT endpoint'i oluşturulmalı
 
 ---

@@ -152,6 +152,7 @@ import TabPanels from 'primevue/tabpanels';
 import Tabs from 'primevue/tabs';
 
 // Store and Composables
+import { DownloadService } from '@/customClient/services/DownloadService';
 import { useProfileStore } from '@/stores/profile/profile';
 import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
 
@@ -294,8 +295,13 @@ const fetchData = async () => {
 };
 
 const handleDownload = () => {
-  // TODO: Implement download functionality
-  console.log('Download report clicked');
+  const downloadKey = store.sectionData?.DownloadKey;
+  if (!downloadKey) {
+    console.warn('No download key available');
+    return;
+  }
+
+  DownloadService.downloadSection(downloadKey);
 };
 
 const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
