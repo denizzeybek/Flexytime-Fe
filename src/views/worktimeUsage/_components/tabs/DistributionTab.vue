@@ -58,7 +58,7 @@
                     :options="chartOptions"
                     class="w-full col-span-2"
                   />
-                  <div class="flex flex-col gap-2 bg-gray-100 p-6 rounded-lg h-full col-span-2">
+                  <div class="flex flex-col gap-2 bg-gray-100 p-6 rounded-lg col-span-2 max-h-64 overflow-y-auto">
                     <template v-for="(application, appIdx) in distribution.applications" :key="appIdx">
                       <div class="flex gap-2 justify-between">
                         <span class="font-medium">{{ application.title }}</span>
