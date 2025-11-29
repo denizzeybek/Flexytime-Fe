@@ -51,36 +51,36 @@
           <Skeleton width="2rem" height="2rem" />
         </div>
         <div v-else class="flex gap-2">
-          <!-- Show all action buttons except current domain type -->
+          <!-- Show all action buttons - active one is filled, others are outlined -->
           <Button
-            v-if="slotProps.data.Domain !== 4"
             icon="pi pi-wrench"
             size="small"
             severity="success"
+            :outlined="slotProps.data.Domain !== 4"
             :v-tooltip.top="t('components.webHistoryTable.tooltips.markAsWork')"
             @click="handleToggleDomain(slotProps.data, 4)"
           />
           <Button
-            v-if="slotProps.data.Domain !== 3"
             icon="pi pi-crown"
             size="small"
             severity="warn"
+            :outlined="slotProps.data.Domain !== 3"
             :v-tooltip.top="t('components.webHistoryTable.tooltips.markAsMeeting')"
             @click="handleToggleDomain(slotProps.data, 3)"
           />
           <Button
-            v-if="slotProps.data.Domain !== 2"
             icon="pi pi-calendar-clock"
             size="small"
             severity="danger"
+            :outlined="slotProps.data.Domain !== 2"
             :v-tooltip.top="t('components.webHistoryTable.tooltips.markAsLeisure')"
             @click="handleToggleDomain(slotProps.data, 2)"
           />
           <Button
-            v-if="slotProps.data.Domain !== 1"
             icon="pi pi-question"
             size="small"
             severity="secondary"
+            :outlined="slotProps.data.Domain !== 1"
             :v-tooltip.top="t('components.webHistoryTable.tooltips.markAsUnclassified')"
             @click="handleToggleDomain(slotProps.data, 1)"
           />
