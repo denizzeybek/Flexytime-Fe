@@ -71,6 +71,30 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
     },
 
     /**
+     * Save (create/update) a company
+     * Endpoint: /webapi/setting/company/save
+     *
+     * @param payload - Company data to save
+     */
+    async save(payload: CompanyViewModel): Promise<boolean> {
+      try {
+        this.loading = true;
+        this.error = null;
+
+        await SettingApiService.settingApiSaveCompany(payload);
+        await this.filter();
+
+        return true;
+      } catch (err: any) {
+        this.error = err?.response?.data?.message || 'Failed to save company';
+        console.error('Error saving company:', err);
+        throw err;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    /**
      * Delete a company
      * Endpoint: /webapi/setting/company/delete
      *

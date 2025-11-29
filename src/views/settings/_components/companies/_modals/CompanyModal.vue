@@ -49,11 +49,13 @@ import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
-import { number,object, string } from 'yup';
+import { number, object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
+import { useSettingsCompaniesStore } from '@/stores/settings/companies';
 
+import type { CompanyViewModel } from '@/client';
 import type { ICompany } from '@/interfaces/settings/company';
 
 interface IProps {
@@ -69,13 +71,13 @@ const props = defineProps<IProps>();
 const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
-
 const { showSuccessMessage, showErrorMessage } = useFToast();
+const companiesStore = useSettingsCompaniesStore();
 
 const validationSchema = object({
   name: string().required().label('Company name'),
   fullname: string().required().label('Authorized Name'),
-  email: string().required().label('Authorized Email'),
+  email: string().email().required().label('Authorized Email'),
   password: string().required().min(6).label('Password'),
   userCount: number().required().label('User Count'),
   userPeriod: number().required().label('User Period'),
@@ -96,13 +98,25 @@ const handleClose = () => {
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
+    const payload: CompanyViewModel = {
+      Name: values.name,
+      Fullname: values.fullname,
+      Email: values.email,
+      Password: values.password,
+      UserCount: values.userCount,
+      Month: values.userPeriod,
+    };
 
+    if (isEditing.value && props.data?.ID) {
+      payload.ID = props.data.ID;
+    }
+
+    await companiesStore.save(payload);
     emit('fetchCompanies');
     showSuccessMessage(isEditing.value ? t('pages.settings.companies.modal.messages.updated') : t('pages.settings.companies.modal.messages.added'));
     handleClose();
-  } catch (error: any) {
-    showErrorMessage(error as any);
+  } catch (error) {
+    showErrorMessage(error as Error);
   }
 });
 

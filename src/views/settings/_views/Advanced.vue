@@ -115,7 +115,6 @@ const handleDateChange = (field: any, settingType: number, newValue: any) => {
 };
 
 const handleSwitchChange = (field: any, settingType: number, newValue: any) => {
-  console.log('field ', field);
   field.Value = newValue ? 'true' : 'false';
   submit(settingType, field.Value);
 };
