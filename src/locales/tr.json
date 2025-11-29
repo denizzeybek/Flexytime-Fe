@@ -936,17 +936,21 @@
         }
       },
       "password": {
+        "title": "Şifre Değiştir",
         "password": {
-          "label": "Şifre"
+          "label": "Yeni Şifre"
         },
         "repeatPassword": {
-          "label": "Şifreyi Tekrarla"
+          "label": "Şifreyi Onayla"
         },
         "save": {
-          "label": "Kaydet"
+          "label": "Şifreyi Değiştir"
+        },
+        "validation": {
+          "passwordsMustMatch": "Şifreler eşleşmelidir"
         },
         "messages": {
-          "updated": "Şifre güncellendi!"
+          "updated": "Şifre başarıyla değiştirildi!"
         }
       },
       "license": {

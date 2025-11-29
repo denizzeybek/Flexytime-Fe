@@ -133,5 +133,9 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     async resendConfirmation() {
       return await ProfileApiService.profileApiResendConfirm();
     },
+
+    async changePassword(password: string) {
+      return await ProfileApiService.profileApiChangePassword({ Password: password });
+    },
   },
 });
