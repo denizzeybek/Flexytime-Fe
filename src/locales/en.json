@@ -21,17 +21,43 @@
         "createAccount": "Create a new account"
       },
       "forgotPassword": {
-        "title": "Reset Password",
+        "title": "Forgot Password",
+        "description": "Enter your email address and we'll send you a link to reset your password.",
         "form": {
+          "email": {
+            "label": "Email",
+            "placeholder": "Enter your email address"
+          },
+          "button": "Send Reset Link"
+        },
+        "messages": {
+          "success": "Password reset link has been sent to your email."
+        },
+        "backToLogin": "Back to Login",
+        "footer": "By continuing, you agree to our Terms of Service and Privacy Policy"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "description": "Enter your new password below.",
+        "form": {
+          "email": {
+            "label": "Email"
+          },
           "password": {
-            "label": "Password",
-            "placeholder": "Enter your password"
+            "label": "New Password",
+            "placeholder": "Enter your new password"
+          },
+          "confirmPassword": {
+            "label": "Confirm Password",
+            "placeholder": "Confirm your new password"
           },
           "button": "Reset Password"
         },
         "messages": {
-          "success": "Logged in!"
-        }
+          "success": "Password reset successfully! You can now login with your new password.",
+          "invalidLink": "Invalid or expired reset link. Please request a new password reset."
+        },
+        "backToLogin": "Back to Login"
       },
       "register": {
         "title": "Create a Free Account",

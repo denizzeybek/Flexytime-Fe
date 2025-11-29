@@ -23,7 +23,7 @@ import { ref, watch } from 'vue';
 
 import { useLanguage } from '@/composables/useLanguage';
 
-type TAdName = 'login' | 'register' | 'download' | 'forgot-password';
+type TAdName = 'login' | 'register' | 'download' | 'forgot-password' | 'reset-password';
 
 interface IProps {
   adName: TAdName;

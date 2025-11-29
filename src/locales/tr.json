@@ -21,17 +21,43 @@
         "createAccount": "Yeni hesap oluşturun"
       },
       "forgotPassword": {
-        "title": "Şifre Sıfırla",
+        "title": "Şifremi Unuttum",
+        "description": "E-posta adresinizi girin, size şifre sıfırlama linki gönderelim.",
         "form": {
+          "email": {
+            "label": "E-posta",
+            "placeholder": "E-posta adresinizi girin"
+          },
+          "button": "Sıfırlama Linki Gönder"
+        },
+        "messages": {
+          "success": "Şifre sıfırlama linki e-posta adresinize gönderildi."
+        },
+        "backToLogin": "Giriş Sayfasına Dön",
+        "footer": "Devam ederek Kullanım Şartları ve Gizlilik Politikasını kabul etmiş olursunuz"
+      },
+      "resetPassword": {
+        "title": "Şifre Sıfırla",
+        "description": "Aşağıya yeni şifrenizi girin.",
+        "form": {
+          "email": {
+            "label": "E-posta"
+          },
           "password": {
-            "label": "Şifre",
-            "placeholder": "Şifrenizi girin"
+            "label": "Yeni Şifre",
+            "placeholder": "Yeni şifrenizi girin"
+          },
+          "confirmPassword": {
+            "label": "Şifre Onayı",
+            "placeholder": "Yeni şifrenizi onaylayın"
           },
           "button": "Şifreyi Sıfırla"
         },
         "messages": {
-          "success": "Giriş yapıldı!"
-        }
+          "success": "Şifre başarıyla sıfırlandı! Artık yeni şifrenizle giriş yapabilirsiniz.",
+          "invalidLink": "Geçersiz veya süresi dolmuş bağlantı. Lütfen yeni bir şifre sıfırlama isteği gönderin."
+        },
+        "backToLogin": "Giriş Sayfasına Dön"
       },
       "register": {
         "title": "Ücretsiz Hesap Oluşturun",
