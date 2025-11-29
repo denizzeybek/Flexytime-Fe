@@ -3,7 +3,7 @@
 Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında listelemektedir.
 
 **Rapor Tarihi**: 2025-11-29
-**Toplam Eksik Implementasyon**: 16 aktif
+**Toplam Eksik Implementasyon**: 10 aktif
 
 ---
 
@@ -99,26 +99,7 @@ Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 
 ---
 
-## ~~Phase 3: Promotion Module~~ TAMAMLANDI
-
-### ~~3.1 Promotion Steps~~ TAMAMLANDI
-
-#### `src/views/promotion/_views/Promotion.vue`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| ~~65~~ | ~~Steps initialization~~ | ~~TAMAMLANDI~~ | ~~Store OpenAPI client'a migrate edildi, savePromotion implemente edildi~~ |
-
-**Tamamlanan Aksiyonlar:**
-- [x] Store OpenAPI client'a migrate edildi (`PromotionApiService`)
-- [x] `savePromotion()` metodu eklendi
-- [x] `submitHandler` düzeltildi - artık API'yi çağırıyor
-- [x] TODO comment kaldırıldı
-- [x] i18n error mesajları eklendi (en/tr)
-
----
-
-## Phase 4: Debug Console.log Temizliği (Production Öncesi)
+## Phase 3: Debug Console.log Temizliği (Production Öncesi)
 
 Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmaktadır:
 
@@ -131,19 +112,7 @@ Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmakt
 ### Views - Settings
 | Dosya | Satırlar |
 |-------|----------|
-| `src/views/settings/_views/Permissions.vue` | 111, 130 |
-| `src/views/settings/_views/Advanced.vue` | 96, 119, 135 |
 | `src/views/settings/_components/companies/_modals/CompanyModal.vue` | 99 |
-
-### Views - HR Settings
-| Dosya | Satırlar |
-|-------|----------|
-| `src/views/hrSettings/_components/holidays/_modals/HolidayModal.vue` | 130, 156 |
-| `src/views/hrSettings/_components/holidays/HolidaysTable.vue` | 133 |
-| `src/views/hrSettings/_components/annuals/_modals/AnnualModal.vue` | 178 |
-| `src/views/hrSettings/_components/annuals/AnnualsTable.vue` | 154 |
-| `src/views/hrSettings/_components/employees/_modals/EmployeeModal.vue` | 437, 511 |
-| `src/views/hrSettings/_components/employees/EmployeesTable.vue` | 167, 177, 190 |
 
 ### Views - Timesheets
 | Dosya | Satırlar |
@@ -155,13 +124,7 @@ Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmakt
 ### Views - Classification
 | Dosya | Satırlar |
 |-------|----------|
-| `src/views/classification/_components/webAddresses/WebAddressesTable.vue` | 130, 140, 146, 157 |
 | `src/views/classification/_components/applications/ApplicationsTable.vue` | 132, 149 |
-
-### Views - Promotion
-| Dosya | Satırlar |
-|-------|----------|
-| `src/views/promotion/_views/Promotion.vue` | 108, 124 |
 
 ### Views - Profile
 | Dosya | Satırlar |
@@ -173,7 +136,6 @@ Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmakt
 ### Views - Company
 | Dosya | Satırlar |
 |-------|----------|
-| `src/views/company/_views/WorkingHours.vue` | 168, 197 |
 | `src/views/company/_views/reports/ElasticReports.vue` | 91 |
 | `src/views/company/_components/reports/defaultReports/DefaultReportsTable.vue` | 125 |
 | `src/views/company/_components/reports/_modals/DefaultReportModal.vue` | 167 |
@@ -184,11 +146,6 @@ Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmakt
 | `src/views/auth/ForgotPassword.vue` | 96 |
 | `src/views/download/_views/Download.vue` | 97 |
 
-### Helpers
-| Dosya | Satır |
-|-------|-------|
-| `src/helpers/utils.ts` | 63 |
-
 ---
 
 ## Özet Tablosu
@@ -197,8 +154,7 @@ Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmakt
 |-------|-------|-----------|--------------|
 | Phase 1 | Kritik İş Mantığı | Yüksek | 2 |
 | Phase 2 | Timesheet | Orta | 8 |
-| ~~Phase 3~~ | ~~Promotion~~ | ~~Düşük~~ | ~~TAMAMLANDI~~ |
-| Phase 4 | Debug Cleanup | Düşük | ~50 console.log |
+| Phase 3 | Debug Cleanup | Düşük | ~20 console.log |
 | **Toplam Aktif** | | | **10 + cleanup** |
 
 ---

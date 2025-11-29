@@ -127,7 +127,6 @@ const onSortOrder = (event: any) => {
 
 const onAlwaysOnChange = async (event) => {
   try {
-    console.log('event ', event);
     const { ID, AlwaysOn, Domain } = event;
     const payload = {
       ID,
@@ -143,7 +142,6 @@ const onAlwaysOnChange = async (event) => {
 
 const updateDomain = async (event) => {
   try {
-    console.log('domain ', event);
     const { data, Domain } = event;
     const { ID, AlwaysOn } = data;
     const payload = {

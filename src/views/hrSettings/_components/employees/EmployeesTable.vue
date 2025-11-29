@@ -6,7 +6,6 @@
     :value="isLoading ? skeletonData : employees"
     :rows="10"
     :rowsPerPageOptions="[5, 10, 20, 50]"
-    @page="handlePage"
   >
     <template #header>
       <div class="flex justify-end">
@@ -162,10 +161,6 @@ const options = ref([
 const employees = computed(() => {
   return employeesStore.list;
 });
-
-const handlePage = (e) => {
-  console.log('e ', e);
-};
 
 const handleAlwaysOnChange = async (event) => {
   try {

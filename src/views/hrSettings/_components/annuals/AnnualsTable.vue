@@ -6,7 +6,6 @@
     :value="isLoading ? skeletonData : annuals"
     :rows="5"
     :rowsPerPageOptions="[5, 10, 20, 50]"
-    @page="handlePage"
   >
     <template #header>
       <div class="flex justify-end">
@@ -149,10 +148,6 @@ const annuals = computed(() => {
     return annualsStore.passiveList;
   }
 });
-
-const handlePage = (e) => {
-  console.log('e ', e);
-};
 
 const handleEdit = (annual: IAnnual) => {
   emit('edit', annual);

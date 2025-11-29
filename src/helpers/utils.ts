@@ -59,8 +59,7 @@ export const isValidRegex = (pattern: string) => {
   try {
     new RegExp(pattern);
     return true;
-  } catch (e) {
-    console.log(e);
+  } catch {
     return false;
   }
 };

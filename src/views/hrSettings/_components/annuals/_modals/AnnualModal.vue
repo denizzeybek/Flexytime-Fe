@@ -175,7 +175,6 @@ const submitHandler = handleSubmit(async (values) => {
         ID: values.ID,
       } as AnnualViewModel;
     }
-    console.log('payload ', payload);
     await annualsStore.save(payload);
 
     emit('fetchAnnuals');

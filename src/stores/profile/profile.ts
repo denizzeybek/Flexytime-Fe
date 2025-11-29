@@ -4,8 +4,6 @@ import { ProfileApiService, SettingApiService } from '@/client';
 import { ERole } from '@/enums/role.enum';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import { getDevPermissionOverride, getDevRoleOverride } from './devOverrides';
-
 import type {
   EmployeeViewModel,
   LicenseViewModel,
@@ -37,28 +35,16 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     /**
      * Get user roles from profile
      * Returns empty array if profile not loaded
-     *
-     * DEV MODE: Can be overridden via window.__DEV_ROLE_OVERRIDE__
      */
     roles: (state): string[] => {
-      const devOverride = getDevRoleOverride();
-      if (devOverride) {
-        return devOverride;
-      }
       return state.GeneralProfile?.Wizard?.Roles ?? [];
     },
 
     /**
      * Get user permissions from profile
      * Returns empty array if profile not loaded
-     *
-     * DEV MODE: Can be overridden via window.__DEV_PERMISSION_OVERRIDE__
      */
     permissions: (state): string[] => {
-      const devOverride = getDevPermissionOverride();
-      if (devOverride) {
-        return devOverride;
-      }
       return state.GeneralProfile?.Wizard?.Permissions ?? [];
     },
 

@@ -434,7 +434,6 @@ const handleClose = () => {
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
     let text = t('pages.hrSettings.employees.modal.messages.added');
     let payload: any = {};
     if (isEditing.value) {
@@ -508,7 +507,6 @@ onMounted(() => {
 
     if (employee && Object.keys(employee)?.length) {
       activeTab.value = employee?.Role;
-      console.log('employee?.Role ', employee?.Role);
     }
     resetForm({
       values: getInitialFormData.value,

@@ -93,7 +93,6 @@ const submit = async (settingType: number, value: any) => {
         Value: String(value === 'true'),
       },
     ];
-    console.log('settingType ', settingType);
     if (settingType === 0 || settingType === 1) {
       // date formatını saat'e çevir
       payload = [
@@ -103,7 +102,7 @@ const submit = async (settingType: number, value: any) => {
         },
       ];
     }
-    advancedsStore.save(payload);
+    await advancedsStore.save(payload);
     showSuccessMessage(t('pages.settings.advanced.messages.updated'));
   } catch (error: any) {
     showErrorMessage(error as any);

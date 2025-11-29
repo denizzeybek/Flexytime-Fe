@@ -127,7 +127,6 @@ const getInitialFormData = computed(() => {
 
 const handleClose = () => {
   resetForm();
-  console.log('handle close');
   open.value = false;
 };
 
@@ -153,7 +152,6 @@ const submitHandler = handleSubmit(async (values) => {
         ID: values.ID,
       } as any;
     }
-    console.log('payload ', payload);
     await holidaysStore.save(payload);
     emit('fetchHolidays');
     showSuccessMessage(t('pages.hrSettings.holidays.modal.messages.updated'));

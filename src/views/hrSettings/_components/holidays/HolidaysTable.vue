@@ -6,7 +6,6 @@
     :value="isLoading ? skeletonData : holidays"
     :rows="5"
     :rowsPerPageOptions="[5, 10, 20, 50]"
-    @page="handlePage"
   >
     <template #header>
       <div class="flex justify-end">
@@ -128,10 +127,6 @@ const options = ref([
 const holidays = computed(() => {
   return holidaysStore.list;
 });
-
-const handlePage = (e) => {
-  console.log('e ', e);
-};
 
 const handleEdit = (holiday: IHoliday) => {
   emit('edit', holiday);
