@@ -47,7 +47,7 @@ Aşağıdaki dosyalar 400 satırı aşıyor ve subcomponent'lere bölünmeli:
 | ~~`src/views/company/_views/OrganizationChartV2.vue`~~ | ~~601~~ → 190 | ✅ Tamamlandı | Toolbar, EmptyState, DeleteDialog, useOrganizationChart composable |
 | ~~`src/views/hrSettings/_components/employees/_modals/EmployeeModal.vue`~~ | ~~517~~ → 266 | ✅ Tamamlandı | BasicInfo, Role, TagsSalary, Password sections + validation composable |
 | ~~`src/views/timesheets/_views/UnclassifiedTimeEntries.vue`~~ | ~~500~~ → 293 | ✅ Tamamlandı | LoadingState, EmptyState, SelectionBar, ClockCard + domain helpers composable |
-| `src/views/timesheets/_components/timeEntries/EnterTime.vue` | 470 | ⏳ Bekliyor | Timer controls, manual inputs, project/tag selectors ayrı component'lere |
+| ~~`src/views/timesheets/_components/timeEntries/EnterTime.vue`~~ | ~~470~~ → 270 | ✅ Tamamlandı | TaskNameInput, TimerControls, ManualTimeInputs, ProjectTagSelectors + timer composable |
 
 ### OrganizationChartV2 Refactor Detayları (Tamamlandı)
 
@@ -74,6 +74,15 @@ Oluşturulan dosyalar:
 - `_components/unclassified/UnclassifiedSelectionBar.vue` - Seçili item'lar özet bar'ı
 - `_components/unclassified/UnclassifiedClockCard.vue` - Clock card item'ı (details ile)
 - `_composables/useUnclassifiedDomainHelpers.ts` - Domain renk/ikon helper fonksiyonları
+
+### EnterTime Refactor Detayları (Tamamlandı)
+
+Oluşturulan dosyalar:
+- `_components/TaskNameInput.vue` - Task ismi input'u ve datalist
+- `_components/TimerControls.vue` - Billable toggle, time display, start/stop butonları, layout switch
+- `_components/ManualTimeInputs.vue` - Start/end time inputs ve date picker
+- `_components/ProjectTagSelectors.vue` - Project select ve tags multiselect
+- `_composables/useEnterTimeTimer.ts` - Timer state ve logic (start/stop/reset/format)
 
 **Refactor Kuralları:**
 - Her component max 300 satır hedeflenmeli
