@@ -11,6 +11,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
+import { useAsyncLoading } from '@/composables/useAsyncLoading';
 import { useFToast } from '@/composables/useFToast';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
 
@@ -19,8 +20,8 @@ import EmployeesTable from './EmployeesTable.vue';
 
 const employeesStore = useHRSettingsEmployeesStore();
 const { showErrorMessage } = useFToast();
+const { isLoading, executeAsync } = useAsyncLoading();
 
-const isLoading = ref(false);
 const currentEmployee = ref();
 const isModalOpen = ref(false);
 
@@ -36,11 +37,9 @@ const handleEdit = (employee) => {
 
 const fetchEmployees = async () => {
   try {
-    isLoading.value = true;
-    await employeesStore.filter();
-    isLoading.value = false;
+    await executeAsync(() => employeesStore.filter());
   } catch (error) {
-    showErrorMessage(error as any);
+    showErrorMessage(error as Error);
   }
 };
 

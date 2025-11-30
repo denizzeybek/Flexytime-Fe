@@ -11,6 +11,7 @@
   <script setup lang="ts">
   import { onMounted, ref } from 'vue';
 
+  import { useAsyncLoading } from '@/composables/useAsyncLoading';
   import { useFToast } from '@/composables/useFToast';
   import { useSettingsCompaniesStore } from '@/stores/settings/companies';
 
@@ -18,14 +19,14 @@
   import CompaniesTable from './CompaniesTable.vue';
 
   import type { ICompany } from '@/interfaces/settings/company';
-  
+
   const companiesStore = useSettingsCompaniesStore();
   const { showErrorMessage } = useFToast();
-  
-  const isLoading = ref(false);
+  const { isLoading, executeAsync } = useAsyncLoading();
+
   const currentCompany = ref();
   const isModalOpen = ref(false);
-  
+
   const handleNew = () => {
     currentCompany.value = undefined;
     isModalOpen.value = true;
@@ -41,17 +42,15 @@
       await companiesStore.deleteCompany(ID);
       await fetchCompanies();
     } catch (error) {
-      console.error(error);
+      showErrorMessage(error as Error);
     }
   };
-  
+
   const fetchCompanies = async () => {
     try {
-      isLoading.value = true;
-      await companiesStore.filter();
-      isLoading.value = false;
+      await executeAsync(() => companiesStore.filter());
     } catch (error) {
-      showErrorMessage(error as any);
+      showErrorMessage(error as Error);
     }
   };
   

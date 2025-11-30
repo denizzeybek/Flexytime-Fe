@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
+import { useAsyncLoading } from '@/composables/useAsyncLoading';
 import { useFToast } from '@/composables/useFToast';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 
@@ -24,8 +25,8 @@ import AnnualsTable from './AnnualsTable.vue';
 
 const annualsStore = useHRSettingsAnnualsStore();
 const { showErrorMessage } = useFToast();
+const { isLoading, executeAsync } = useAsyncLoading();
 
-const isLoading = ref(false);
 const isModalOpen = ref(false);
 const currentAnnual = ref();
 
@@ -40,17 +41,19 @@ const handleEdit = (annual) => {
 };
 
 const handleDelete = async (ID) => {
-  await annualsStore.delete({ ID: ID });
-  await fetchAnnuals();
+  try {
+    await annualsStore.delete({ ID: ID });
+    await fetchAnnuals();
+  } catch (error) {
+    showErrorMessage(error as Error);
+  }
 };
 
 const fetchAnnuals = async () => {
   try {
-    isLoading.value = true;
-    await annualsStore.filter();
-    isLoading.value = false;
+    await executeAsync(() => annualsStore.filter());
   } catch (error) {
-    showErrorMessage(error as any);
+    showErrorMessage(error as Error);
   }
 };
 

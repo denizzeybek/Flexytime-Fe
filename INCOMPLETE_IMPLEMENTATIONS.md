@@ -3,7 +3,6 @@
 Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında listelemektedir.
 
 **Rapor Tarihi**: 2025-11-30
-**Toplam Eksik Implementasyon**: 3 aktif
 
 ---
 
@@ -38,57 +37,183 @@ Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 
 ---
 
-## Phase 3: Refactor - Büyük Component'ler (400+ satır)
+## Phase 3: DRY İhlalleri ve Standardizasyon Planı
 
-Aşağıdaki dosyalar 400 satırı aşıyor ve subcomponent'lere bölünmeli:
+### 3.1 Yüksek Öncelikli - Composable'lar (Hızlı Kazanımlar)
 
-| Dosya | Satır | Durum | Öneri |
-|-------|-------|-------|-------|
-| ~~`src/views/company/_views/OrganizationChartV2.vue`~~ | ~~601~~ → 190 | ✅ Tamamlandı | Toolbar, EmptyState, DeleteDialog, useOrganizationChart composable |
-| ~~`src/views/hrSettings/_components/employees/_modals/EmployeeModal.vue`~~ | ~~517~~ → 266 | ✅ Tamamlandı | BasicInfo, Role, TagsSalary, Password sections + validation composable |
-| ~~`src/views/timesheets/_views/UnclassifiedTimeEntries.vue`~~ | ~~500~~ → 293 | ✅ Tamamlandı | LoadingState, EmptyState, SelectionBar, ClockCard + domain helpers composable |
-| ~~`src/views/timesheets/_components/timeEntries/EnterTime.vue`~~ | ~~470~~ → 270 | ✅ Tamamlandı | TaskNameInput, TimerControls, ManualTimeInputs, ProjectTagSelectors + timer composable |
+#### 3.1.1 `useAsyncLoading` Composable ✅ TAMAMLANDI
 
-### OrganizationChartV2 Refactor Detayları (Tamamlandı)
+**Durum:** Composable oluşturuldu ve 6 dosyaya entegre edildi.
 
-Oluşturulan dosyalar:
-- `OrganizationChartToolbar.vue` - Search, undo/redo, expand/collapse butonları
-- `OrganizationChartEmptyState.vue` - Boş durum gösterimi
-- `OrganizationChartDeleteDialog.vue` - Silme onay dialog'u
-- `useOrganizationChart.ts` - Tüm chart logic'i (CRUD, drag-drop, undo-redo)
+**Oluşturulan Dosya:** `src/composables/useAsyncLoading.ts`
 
-### EmployeeModal Refactor Detayları (Tamamlandı)
+**Güncellenen Dosyalar:**
+- ✅ `src/views/classification/_components/applications/ApplicationsList.vue`
+- ✅ `src/views/classification/_components/webAddresses/WebAddressesList.vue`
+- ✅ `src/views/hrSettings/_components/employees/EmployeesList.vue`
+- ✅ `src/views/hrSettings/_components/holidays/HolidaysList.vue`
+- ✅ `src/views/hrSettings/_components/annuals/AnnualsList.vue`
+- ✅ `src/views/settings/_components/companies/CompaniesList.vue`
 
-Oluşturulan dosyalar:
-- `_components/EmployeeBasicInfoSection.vue` - MemberName, Email, Enabled alanları
-- `_components/EmployeeRoleSection.vue` - Title, Team, OperatingUser alanları
-- `_components/EmployeeTagsSalarySection.vue` - Tags, Salary alanları
-- `_components/EmployeePasswordSection.vue` - Password alanı
-- `_composables/useEmployeeModalValidation.ts` - Tab bazlı validation şemaları
+**Kazanımlar:**
+- try-finally pattern ile loading state her zaman reset ediliyor
+- Tekrarlayan kod kaldırıldı (~30 satır)
+- Tutarlı error handling pattern'i
 
-### UnclassifiedTimeEntries Refactor Detayları (Tamamlandı)
+---
 
-Oluşturulan dosyalar:
-- `_components/unclassified/UnclassifiedLoadingState.vue` - Skeleton loading gösterimi
-- `_components/unclassified/UnclassifiedEmptyState.vue` - Boş durum gösterimi
-- `_components/unclassified/UnclassifiedSelectionBar.vue` - Seçili item'lar özet bar'ı
-- `_components/unclassified/UnclassifiedClockCard.vue` - Clock card item'ı (details ile)
-- `_composables/useUnclassifiedDomainHelpers.ts` - Domain renk/ikon helper fonksiyonları
+#### 3.1.2 `useOperationFeedback` Composable ✅ Oluşturulacak
 
-### EnterTime Refactor Detayları (Tamamlandı)
+**Sorun:** Success/error mesajları tutarsız, bazı işlemler sessiz kalıyor
 
-Oluşturulan dosyalar:
-- `_components/TaskNameInput.vue` - Task ismi input'u ve datalist
-- `_components/TimerControls.vue` - Billable toggle, time display, start/stop butonları, layout switch
-- `_components/ManualTimeInputs.vue` - Start/end time inputs ve date picker
-- `_components/ProjectTagSelectors.vue` - Project select ve tags multiselect
-- `_composables/useEnterTimeTimer.ts` - Timer state ve logic (start/stop/reset/format)
+| Dosya | Success Msg | Error Handling |
+|-------|-------------|----------------|
+| EmployeesTable.vue | ✅ | ✅ |
+| ApplicationsTable.vue | ❌ | ✅ |
+| HolidaysList.vue | ❌ | ❌ (console.error) |
+| CompaniesList.vue | ❌ | ❌ (console.error) |
 
-**Refactor Kuralları:**
-- Her component max 300 satır hedeflenmeli
-- Tekrar kullanılabilir parçalar `_components` klasörüne
-- Props/emits ile iletişim
-- Composable'lar ile shared logic
+**Çözüm:**
+```typescript
+// src/composables/useOperationFeedback.ts
+export const useOperationFeedback = () => {
+  const { showSuccessMessage, showErrorMessage } = useFToast();
+
+  const executeWithFeedback = async (
+    operation: () => Promise<void>,
+    successMsg: string
+  ) => {
+    try {
+      await operation();
+      showSuccessMessage(successMsg);
+    } catch (error) {
+      showErrorMessage(error as Error);
+      throw error;
+    }
+  };
+  return { executeWithFeedback };
+};
+```
+
+---
+
+#### 3.1.3 `createSkeletonData` Utility ✅ Oluşturulacak
+
+**Sorun:** 12 table component'te aynı skeleton data pattern'i tekrarlanıyor (~80 satır)
+
+**Etkilenen Dosyalar:**
+- ApplicationsTable.vue (156-162)
+- WebAddressesTable.vue (162+)
+- AnnualsTable.vue (169+)
+- HolidaysTable.vue (148+)
+- EmployeesTable.vue (199-208)
+- CompaniesTable.vue (167+)
+- DefaultReportsTable.vue (139+)
+- +5 daha
+
+**Çözüm:**
+```typescript
+// src/helpers/skeleton.ts
+export const createSkeletonData = <T extends Record<string, unknown>>(
+  count: number,
+  template: Omit<T, 'ID'>
+): T[] => {
+  return Array.from({ length: count }, (_, i) => ({
+    ID: `skeleton-${i}`,
+    ...template,
+  })) as T[];
+};
+```
+
+---
+
+### 3.2 Orta Öncelikli - Modal ve Store Standardizasyonu
+
+#### 3.2.1 Modal Form Initialization Pattern
+
+**Sorun:** 3+ modal'da aynı `getInitialFormData` + `resetForm` pattern'i
+
+**Etkilenen Dosyalar:**
+- `HolidayModal.vue` (104-126)
+- `AnnualModal.vue` (128-147)
+- `CompanyModal.vue` (123-154)
+
+**Çözüm:** `useModalFormInit` composable
+
+---
+
+#### 3.2.2 Store Loading State Standardizasyonu
+
+**Sorun:** Store'larda loading state tutarsızlığı
+
+| Store | Loading State | Naming |
+|-------|---------------|--------|
+| companies.ts | ✅ Var | `loading` |
+| reports.ts | ✅ Var | `isLoading`, `isFiltersLoading` |
+| applications.ts | ❌ Yok | - |
+| holidays.ts | ❌ Yok | - |
+| annuals.ts | ❌ Yok | - |
+
+**Çözüm:** Tüm store'lara standart loading state ekle, `isLoading` naming convention'ı kullan
+
+---
+
+#### 3.2.3 Data Refresh Strategy Standardizasyonu
+
+**Sorun:** Veri yenileme 3 farklı pattern ile yapılıyor
+
+| Pattern | Örnek | Sorun |
+|---------|-------|-------|
+| Store auto-refresh | EmployeesStore.updateEnabled() | ✅ İyi |
+| Emit-based refresh | HolidayModal → emit('fetchHolidays') | ⚠️ Kırılgan |
+| Parent-triggered | HolidaysList → @fetchHolidays | ⚠️ Tight coupling |
+
+**Çözüm:** Store'da auto-refresh pattern'i standart yap, emit-based pattern'i kaldır
+
+---
+
+### 3.3 Düşük Öncelikli - UI/UX Standardizasyonu
+
+#### 3.3.1 Search UI Pattern'leri
+
+**Sorun:** 2 farklı search UI pattern'i var
+
+| Pattern | Dosyalar |
+|---------|----------|
+| Teleport to #table-search | ApplicationsList, WebAddressesList |
+| DataTable header search | EmployeesTable, HolidaysTable, CompaniesTable |
+
+**Önerilen:** DataTable header search pattern'i standart yap
+
+---
+
+#### 3.3.2 Pagination Pattern'leri
+
+**Sorun:** Server-side vs client-side pagination tutarsızlığı
+
+| Pattern | Dosyalar |
+|---------|----------|
+| Server-side (payload ile) | ApplicationsList, WebAddressesList |
+| Client-side (no params) | EmployeesList, HolidaysList, CompaniesList |
+
+**Önerilen:** Dataset boyutuna göre seçim yap, `useListPagination` composable oluştur
+
+---
+
+### 3.4 Öncelik Sıralaması
+
+| # | Task | Etki | Efor | Dosya Sayısı | Durum |
+|---|------|------|------|--------------|-------|
+| 1 | `useAsyncLoading` composable | Yüksek | Düşük | 6 | ✅ TAMAMLANDI |
+| 2 | `createSkeletonData` utility | Orta | Düşük | 12 | ⏳ Bekliyor |
+| 3 | `useOperationFeedback` composable | Yüksek | Düşük | 8+ | ⏳ Bekliyor |
+| 4 | Store loading state standardizasyonu | Orta | Orta | 8 | ⏳ Bekliyor |
+| 5 | Modal form init composable | Orta | Orta | 3+ | ⏳ Bekliyor |
+| 6 | Data refresh standardizasyonu | Yüksek | Orta | 12+ | ⏳ Bekliyor |
+| 7 | Search UI standardizasyonu | Düşük | Orta | 5+ | ⏳ Bekliyor |
+| 8 | Pagination standardizasyonu | Orta | Yüksek | 6+ | ⏳ Bekliyor |
+
+**Tahmini Kod Azaltımı:** ~600-800 satır tekrarlayan/tutarsız kod
 
 ---
 

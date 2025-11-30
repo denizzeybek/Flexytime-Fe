@@ -15,6 +15,7 @@ import { useI18n } from 'vue-i18n';
 
 import InputText from 'primevue/inputtext';
 
+import { useAsyncLoading } from '@/composables/useAsyncLoading';
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useClassificationWebAddressesStore } from '@/stores/classification/webAddresses';
@@ -25,8 +26,8 @@ const { t } = useI18n<{ message: MessageSchema }>();
 
 const webAddressesStore = useClassificationWebAddressesStore();
 const { showErrorMessage } = useFToast();
+const { isLoading, executeAsync } = useAsyncLoading();
 
-const isLoading = ref(false);
 const searchText = ref('');
 const isOnMounted = ref(false);
 const payload = ref({
@@ -39,11 +40,9 @@ const payload = ref({
 
 const fetchWebAddresses = async () => {
   try {
-    isLoading.value = true;
-    await webAddressesStore.filter(payload.value);
-    isLoading.value = false;
+    await executeAsync(() => webAddressesStore.filter(payload.value));
   } catch (error) {
-    showErrorMessage(error as any);
+    showErrorMessage(error as Error);
   }
 };
 

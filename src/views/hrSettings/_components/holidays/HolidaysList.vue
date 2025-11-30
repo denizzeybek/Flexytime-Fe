@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
+import { useAsyncLoading } from '@/composables/useAsyncLoading';
 import { useFToast } from '@/composables/useFToast';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 
@@ -24,8 +25,8 @@ import HolidaysTable from './HolidaysTable.vue';
 
 const holidaysStore = useHRSettingsHolidaysStore();
 const { showErrorMessage } = useFToast();
+const { isLoading, executeAsync } = useAsyncLoading();
 
-const isLoading = ref(false);
 const isModalOpen = ref(false);
 const currentHoliday = ref();
 
@@ -44,17 +45,15 @@ const handleDelete = async (ID) => {
     await holidaysStore.delete({ ID: ID });
     await fetchHolidays();
   } catch (error) {
-    console.error(error);
+    showErrorMessage(error as Error);
   }
 };
 
 const fetchHolidays = async () => {
   try {
-    isLoading.value = true;
-    await holidaysStore.filter();
-    isLoading.value = false;
+    await executeAsync(() => holidaysStore.filter());
   } catch (error) {
-    showErrorMessage(error as any);
+    showErrorMessage(error as Error);
   }
 };
 
