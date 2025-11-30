@@ -58,7 +58,7 @@ import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
 import { boolean, object,string } from 'yup';
 
-import { useFToast } from '@/composables/useFToast';
+import { useOperationFeedback } from '@/composables/useOperationFeedback';
 import { convertDateToString, convertStringToDate } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
@@ -80,7 +80,7 @@ const props = defineProps<IProps>();
 const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
-const { showSuccessMessage, showErrorMessage } = useFToast();
+const { executeWithFeedback } = useOperationFeedback({ showLoading: false });
 const holidaysStore = useHRSettingsHolidaysStore();
 
 const open = defineModel<boolean>('open');
@@ -131,34 +131,32 @@ const handleClose = () => {
 };
 
 const submitHandler = handleSubmit(async (values) => {
-  try {
-    let payload = {
-      StartDate: convertDateToString(values.startDate),
-      StartTime: values.startFullDay
-        ? '00:00'
-        : (convertDateToString(values.startDate, true) as unknown as any).time,
-      EndDate: convertDateToString(values.endDate),
-      EndTime: values.endFullDay
-        ? '00:00'
-        : (convertDateToString(values.endDate, true) as unknown as any).time,
-      Name: values.name,
-      StartFullDay: values.startFullDay,
-      EndFullDay: values.endFullDay,
-      Repeat: values.repeat,
-    } as HolidayViewModel;
-    if (isEditing.value) {
-      payload = {
-        ...payload,
-        ID: values.ID,
-      } as any;
-    }
-    await holidaysStore.save(payload);
-    emit('fetchHolidays');
-    showSuccessMessage(t('pages.hrSettings.holidays.modal.messages.updated'));
-    handleClose();
-  } catch (error: any) {
-    showErrorMessage(error as any);
+  let payload = {
+    StartDate: convertDateToString(values.startDate),
+    StartTime: values.startFullDay
+      ? '00:00'
+      : (convertDateToString(values.startDate, true) as unknown as any).time,
+    EndDate: convertDateToString(values.endDate),
+    EndTime: values.endFullDay
+      ? '00:00'
+      : (convertDateToString(values.endDate, true) as unknown as any).time,
+    Name: values.name,
+    StartFullDay: values.startFullDay,
+    EndFullDay: values.endFullDay,
+    Repeat: values.repeat,
+  } as HolidayViewModel;
+
+  if (isEditing.value) {
+    payload = { ...payload, ID: values.ID } as HolidayViewModel;
   }
+
+  await executeWithFeedback(
+    () => holidaysStore.save(payload),
+    t('pages.hrSettings.holidays.modal.messages.updated'),
+  );
+
+  emit('fetchHolidays');
+  handleClose();
 });
 
 onMounted(() => {

@@ -51,7 +51,7 @@ import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
 import { number, object, string } from 'yup';
 
-import { useFToast } from '@/composables/useFToast';
+import { useOperationFeedback } from '@/composables/useOperationFeedback';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useSettingsCompaniesStore } from '@/stores/settings/companies';
 
@@ -71,7 +71,7 @@ const props = defineProps<IProps>();
 const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
-const { showSuccessMessage, showErrorMessage } = useFToast();
+const { executeWithFeedback } = useOperationFeedback({ showLoading: false });
 const companiesStore = useSettingsCompaniesStore();
 
 const validationSchema = object({
@@ -97,27 +97,27 @@ const handleClose = () => {
 };
 
 const submitHandler = handleSubmit(async (values) => {
-  try {
-    const payload: CompanyViewModel = {
-      Name: values.name,
-      Fullname: values.fullname,
-      Email: values.email,
-      Password: values.password,
-      UserCount: values.userCount,
-      Month: values.userPeriod,
-    };
+  const payload: CompanyViewModel = {
+    Name: values.name,
+    Fullname: values.fullname,
+    Email: values.email,
+    Password: values.password,
+    UserCount: values.userCount,
+    Month: values.userPeriod,
+  };
 
-    if (isEditing.value && props.data?.ID) {
-      payload.ID = props.data.ID;
-    }
-
-    await companiesStore.save(payload);
-    emit('fetchCompanies');
-    showSuccessMessage(isEditing.value ? t('pages.settings.companies.modal.messages.updated') : t('pages.settings.companies.modal.messages.added'));
-    handleClose();
-  } catch (error) {
-    showErrorMessage(error as Error);
+  if (isEditing.value && props.data?.ID) {
+    payload.ID = props.data.ID;
   }
+
+  const successMessage = isEditing.value
+    ? t('pages.settings.companies.modal.messages.updated')
+    : t('pages.settings.companies.modal.messages.added');
+
+  await executeWithFeedback(() => companiesStore.save(payload), successMessage);
+
+  emit('fetchCompanies');
+  handleClose();
 });
 
 const getInitialFormData = () => {
