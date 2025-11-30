@@ -7,13 +7,34 @@
     :style="{ width: '50rem' }"
     :closeOnEscape="false"
     :draggable="false"
-    :closable="false"
+    :closable="true"
   >
     <form class="pr-2" @submit="submitHandler">
       <div class="w-full flex items-center gap-4 flex-col lg:flex-row">
-        <div class="flex items-center gap-2 w-full">
-          <FAvatar>{{ selectedItemCount }}</FAvatar>
-          <FText as="h5">{{ t('pages.timesheets.updateTimeEntriesModal.itemsSelected') }}</FText>
+        <div class="flex items-center gap-2 w-full min-w-0">
+          <div
+            class="flex items-center gap-2"
+          >
+            <FAvatar class="flex-shrink-0">{{ selectedItemCount }}</FAvatar>
+            <FText as="h5" class="flex-shrink-0">{{ t('pages.timesheets.updateTimeEntriesModal.itemsSelected') }}</FText>
+          </div>
+          <!-- Visible item chips -->
+          <div class="flex items-center gap-1.5 min-w-0 overflow-hidden">
+            <Tag
+              v-for="name in visibleSelectedNames"
+              :key="name"
+              :value="name"
+              severity="secondary"
+              class="!text-xs !px-2 !py-0.5 truncate max-w-[120px]"
+            />
+            <Tag
+              v-if="remainingCount > 0"
+              v-tooltip.bottom="remainingNames.join('\n')"
+              :value="`+${remainingCount}`"
+              severity="info"
+              class="!text-xs !px-2 !py-0.5 cursor-help flex-shrink-0"
+            />
+          </div>
         </div>
         <div class="flex items-center gap-4 w-full justify-between lg:justify-end">
           <Button
@@ -69,6 +90,7 @@
 import { computed,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import Tag from 'primevue/tag';
 import { useForm } from 'vee-validate';
 import { array, object, string } from 'yup';
 
@@ -164,31 +186,44 @@ const tagOptions = [
 const activeLayout = ref(ELayout.MANUAL);
 const isBillable = ref(false);
 
-const selectedItemCount = computed(() => {
+const MAX_VISIBLE_ITEMS = 2;
+
+const allSelectedNames = computed(() => {
   const data = props.data;
-  let count = 0;
+  const names: string[] = [];
 
   for (const item of data) {
-    // Ana nesne için Selected kontrolü
-    if (item.Selected) count++;
+    if (item.Selected && item.Name) {
+      names.push(item.Name);
+    }
 
-    // Clocks dizisindeki her bir öğe için Selected kontrolü
     if (item.Clocks) {
       for (const clock of item.Clocks) {
-        if (clock.Selected) count++;
+        if (clock.Selected && clock.Name) {
+          names.push(clock.Name);
+        }
 
-        // Details dizisindeki her bir öğe için Selected kontrolü
         if (clock.Details) {
           for (const detail of clock.Details) {
-            if (detail.Selected) count++;
+            if (detail.Selected && detail.Name) {
+              names.push(detail.Name);
+            }
           }
         }
       }
     }
   }
 
-  return count;
+  return names;
 });
+
+const selectedItemCount = computed(() => allSelectedNames.value.length);
+
+const visibleSelectedNames = computed(() => allSelectedNames.value.slice(0, MAX_VISIBLE_ITEMS));
+
+const remainingNames = computed(() => allSelectedNames.value.slice(MAX_VISIBLE_ITEMS));
+
+const remainingCount = computed(() => Math.max(0, allSelectedNames.value.length - MAX_VISIBLE_ITEMS));
 
 const submitHandler = handleSubmit(async (values) => {
   try {
