@@ -11,16 +11,31 @@ import { ClockApiService } from '@/client';
 import { useProfileStore } from '@/stores/profile/profile';
 
 import type {
+  AllocationViewModel,
+  BreadCrumbViewModel,
   ClockEmployeeRequest,
   ClockSection2Response,
   ClockSectionRequest,
   WebClockModifyModel,
 } from '@/client';
 import type {
+  IBreadcrumb,
+  ICard,
+  IDistribution,
   IEmployeeResponse,
   IErrorState,
+  IGraph,
   ILoadingState,
+  ISummary,
 } from '@/views/worktimeUsage/_types';
+
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
 
 interface State {
   // Section data (Team/Department view + Individuals list)
@@ -108,23 +123,23 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     /**
      * Transform Summary.Allocations to ISummary array
      */
-    transformSummary(allocations: any[]): any[] {
-      return allocations.map((alloc: any) => ({
+    transformSummary(allocations: AllocationViewModel[]): ISummary[] {
+      return allocations.map((alloc) => ({
         id: alloc.id,
         statisticType: alloc.name?.toLowerCase() || '',
         time: alloc.spend || '00:00',
-      }));
+      })) as ISummary[];
     },
 
     /**
      * Transform Model.Allocations to IDistribution array
      */
-    transformDistributions(allocations: any[]): any[] {
-      return allocations.map((alloc: any) => ({
+    transformDistributions(allocations: AllocationViewModel[]): IDistribution[] {
+      return allocations.map((alloc) => ({
         id: alloc.id,
         statisticType: alloc.name?.toLowerCase() || '',
         time: alloc.spend || '00:00',
-        Applications: (alloc.Allocations || []).map((app: any) => ({
+        Applications: (alloc.Allocations || []).map((app) => ({
           imgPath: app.imageurl || '',
           title: app.name || '',
           time: app.spend || '00:00',
@@ -133,7 +148,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
           label,
           value: alloc.Chart2?.data?.[index] || 0,
         })),
-      }));
+      })) as IDistribution[];
     },
 
     /**
@@ -141,10 +156,10 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * Employee: { Url, Name, IsEnabled }
      * Section: { id, title, path, isLastElement }
      */
-    transformBreadcrumbs(breadcrumbs: any[]): any[] {
+    transformBreadcrumbs(breadcrumbs: BreadCrumbViewModel[]): IBreadcrumb[] {
       if (!breadcrumbs || breadcrumbs.length === 0) return [];
 
-      return breadcrumbs.map((crumb: any, index: number) => {
+      return breadcrumbs.map((crumb, index) => {
         // Extract ID from URL (e.g., "~/Clock/Section/629176fe57a0318a082d51a2" -> "629176fe57a0318a082d51a2")
         const urlParts = crumb.Url?.split('/') || [];
         const id = urlParts[urlParts.length - 1] || '';
@@ -165,7 +180,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * Build Card data from profile when API returns null
      * Used for employee view when backend doesn't provide Card data
      */
-    buildCardFromProfile(): any {
+    buildCardFromProfile(): ICard | null {
       const profileStore = useProfileStore();
       const employee = profileStore.GeneralProfile?.Employee;
 
@@ -175,10 +190,9 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
 
       return {
         Abbreviation: employee.abbreviation || '',
-        FullName: employee.fullname || '',
+        Name: employee.fullname || '',
         ImageUrl: employee.imageurl || '',
         Title: employee.title || '',
-        TeamName: employee.teamname || '',
       };
     },
 
@@ -186,7 +200,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * Build Breadcrumb data from profile when API returns null
      * Used for employee view when backend doesn't provide Breadcrumb data
      */
-    buildBreadcrumbFromProfile(): any[] {
+    buildBreadcrumbFromProfile(): IBreadcrumb[] {
       const profileStore = useProfileStore();
       const employee = profileStore.GeneralProfile?.Employee;
 
@@ -236,8 +250,9 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         this.lastSectionRequest = { ...payload };
 
         return response;
-      } catch (err: any) {
-        this.error.section = err?.response?.data?.message || 'Failed to fetch section data';
+      } catch (err: unknown) {
+        const apiErr = err as ApiError;
+        this.error.section = apiErr?.response?.data?.message || 'Failed to fetch section data';
         console.error('Error fetching section data:', err);
         return null;
       } finally {
@@ -292,14 +307,14 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
 
         // Transform API response to match our IEmployeeResponse interface
         const transformedData: IEmployeeResponse = {
-          Card: useProfileData ? this.buildCardFromProfile() : response.Card,
+          Card: useProfileData ? this.buildCardFromProfile() : (response.Card ?? null),
           Breadcrumb: useProfileData
             ? this.buildBreadcrumbFromProfile()
             : this.transformBreadcrumbs(response.Breadcrumbs || []),
           Summary: this.transformSummary(response.Model?.Summary?.Allocations || []),
           WellBeings: response.Model?.WellBeings || [],
           Distributions: this.transformDistributions(response.Model?.Allocations || []),
-          Graphs: response.Model?.Graph ?? ({} as any),
+          Graphs: response.Model?.Graph ?? ({} as IGraph),
           WebClocks: response.Model?.WebClocks || [],
         };
 
@@ -307,8 +322,9 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         this.lastEmployeeRequest = { ...cleanPayload };
 
         return transformedData;
-      } catch (err: any) {
-        this.error.employee = err?.response?.data?.message || 'Failed to fetch employee data';
+      } catch (err: unknown) {
+        const apiErr = err as ApiError;
+        this.error.employee = apiErr?.response?.data?.message || 'Failed to fetch employee data';
         console.error('Error fetching employee data:', err);
         return null;
       } finally {

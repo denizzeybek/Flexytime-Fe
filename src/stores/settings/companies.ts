@@ -5,6 +5,14 @@ import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { CompanyViewModel } from '@/client';
 
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 interface State {
   list: CompanyViewModel[];
   totalItems: number;
@@ -61,8 +69,9 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
         this.totalItems = data.length;
 
         return data;
-      } catch (err: any) {
-        this.error = err?.response?.data?.message || 'Failed to fetch companies';
+      } catch (err: unknown) {
+        const apiErr = err as ApiError;
+        this.error = apiErr?.response?.data?.message || 'Failed to fetch companies';
         console.error('Error fetching companies:', err);
         return null;
       } finally {
@@ -85,8 +94,9 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
         await this.filter();
 
         return true;
-      } catch (err: any) {
-        this.error = err?.response?.data?.message || 'Failed to save company';
+      } catch (err: unknown) {
+        const apiErr = err as ApiError;
+        this.error = apiErr?.response?.data?.message || 'Failed to save company';
         console.error('Error saving company:', err);
         throw err;
       } finally {
@@ -109,8 +119,9 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
         await this.filter();
 
         return true;
-      } catch (err: any) {
-        this.error = err?.response?.data?.message || 'Failed to delete company';
+      } catch (err: unknown) {
+        const apiErr = err as ApiError;
+        this.error = apiErr?.response?.data?.message || 'Failed to delete company';
         console.error('Error deleting company:', err);
         return false;
       } finally {

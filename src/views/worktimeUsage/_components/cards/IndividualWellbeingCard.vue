@@ -131,20 +131,24 @@ const colorConfig = {
   },
 };
 
-const getHeaderBgClass = (color: string): string => {
+const getHeaderBgClass = (color?: string): string => {
+  if (!color) return 'bg-gray-50';
   return colorConfig[color as keyof typeof colorConfig]?.headerBg || 'bg-gray-50';
 };
 
-const getIconBgClass = (color: string): string => {
+const getIconBgClass = (color?: string): string => {
+  if (!color) return 'bg-gray-500';
   return colorConfig[color as keyof typeof colorConfig]?.iconBg || 'bg-gray-500';
 };
 
-const getTextClass = (color: string): string => {
+const getTextClass = (color?: string): string => {
+  if (!color) return 'text-gray-700';
   return colorConfig[color as keyof typeof colorConfig]?.text || 'text-gray-700';
 };
 
 // Convert FontAwesome icons to PrimeIcons
-const getIconClass = (icon: string): string => {
+const getIconClass = (icon?: string): string => {
+  if (!icon) return 'pi pi-heart';
   const iconMap: Record<string, string> = {
     'fas fa-fire-extinguisher': 'pi pi-bolt',
     'fas fa-volume-slash': 'pi pi-volume-off',
@@ -162,8 +166,8 @@ const transformChartData = (item: IIndividualWellbeing) => {
   const config = colorConfig[item.Color as keyof typeof colorConfig] || colorConfig.yellow;
 
   return {
-    labels: item.Graph.labels,
-    datasets: item.Graph.datasets.map((ds) => ({
+    labels: item.Graph?.labels || [],
+    datasets: (item.Graph?.datasets || []).map((ds) => ({
       ...ds,
       backgroundColor: config.chartBg,
       borderColor: config.chartBorder,
@@ -188,7 +192,7 @@ const getChartOptions = (item: IIndividualWellbeing) => {
         callbacks: {
           label: (context: any) => {
             const value = context.raw;
-            const unit = item.Graph.Unit || '';
+            const unit = item.Graph?.Unit || '';
             return `${value} ${unit}`;
           },
         },

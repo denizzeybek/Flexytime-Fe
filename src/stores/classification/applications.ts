@@ -14,7 +14,7 @@ interface IApplicationDTOData {
   TopicName: string;
   Actions?: null;
   Customise?: null;
-  Timeout: any;
+  Timeout: number | string | null;
   AlwaysOn: boolean;
   ID: string;
   Domain: string;

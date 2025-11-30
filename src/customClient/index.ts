@@ -6,3 +6,4 @@
 export { LoginService } from './services/LoginService';
 export type { LoginRequest } from './models/LoginRequest';
 export type { TokenResponse } from './models/TokenResponse';
+export type { AuthPayload, GetProfileResult, RegisterResponse } from './models/AuthTypes';

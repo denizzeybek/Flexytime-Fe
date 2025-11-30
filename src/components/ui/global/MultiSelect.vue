@@ -58,7 +58,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import MultiSelect, { type MultiSelectProps } from 'primevue/multiselect';
+import MultiSelect, { type MultiSelectChangeEvent, type MultiSelectProps } from 'primevue/multiselect';
 import Tag from 'primevue/tag';
 import { useField } from 'vee-validate';
 
@@ -67,7 +67,7 @@ import { type MessageSchema } from '@/plugins/i18n';
 import type { IOption } from '@/common/interfaces/option.interface';
 
 interface ChipSlotProps {
-  value: any;
+  value: IOption;
   removeCallback?: () => void;
 }
 
@@ -122,7 +122,7 @@ const validationListeners = {
   select: (e: InputEvent) => handleChange(e, !!errorMessage.value),
 };
 
-const onSelect = (e: any) => {
+const onSelect = (e: MultiSelectChangeEvent) => {
   emit('selected', e);
 };
 </script>

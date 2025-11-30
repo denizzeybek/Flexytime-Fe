@@ -10,6 +10,11 @@ import type {
   TheMemberViewModel,
 } from '@/client';
 
+interface ITagOption {
+  name: string;
+  value: string;
+}
+
 interface State {
   list: TheMemberViewModel[];
   totalItems: number;
@@ -17,7 +22,7 @@ interface State {
   employeeTitles: DefinitionMemberViewModel[];
   managerTitles: DefinitionMemberViewModel[];
   teams: DefinitionMemberViewModel[];
-  tags: any[];
+  tags: ITagOption[];
   invitations: ClockInvitation[];
   loading: boolean;
 }
