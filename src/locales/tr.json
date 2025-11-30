@@ -473,7 +473,12 @@
           "description": "Bu tarih için henüz zaman kaydı oluşturmadınız. Yukarıdan çalışmanızı takip etmeye başlayın."
         },
         "untitled": "İsimsiz Görev",
-        "sessions": "oturum"
+        "sessions": "oturum",
+        "deleteConfirm": {
+          "header": "Zaman Kaydını Sil",
+          "message": "\"{task}\" kaydını silmek istediğinizden emin misiniz?",
+          "success": "Zaman kaydı başarıyla silindi"
+        }
       },
       "timeEntries": {
         "datePicker": {

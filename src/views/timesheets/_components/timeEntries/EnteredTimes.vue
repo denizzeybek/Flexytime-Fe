@@ -145,11 +145,13 @@
               />
               <Button
                 v-tooltip.left="t('common.buttons.delete')"
-                icon="pi pi-trash"
+                :icon="deletingId === entry.ID ? 'pi pi-spin pi-spinner' : 'pi pi-trash'"
                 severity="danger"
                 text
                 rounded
                 size="small"
+                :disabled="deletingId === entry.ID"
+                @click="handleDelete(entry.ID!, entry.Task?.Name)"
               />
             </div>
           </div>
@@ -167,14 +169,19 @@ import dayjs from 'dayjs';
 import Button from 'primevue/button';
 import Skeleton from 'primevue/skeleton';
 import Tag from 'primevue/tag';
+import { useConfirm } from 'primevue/useconfirm';
 
+import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const { showSuccessMessage, showErrorMessage } = useFToast();
+const confirm = useConfirm();
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
 
 const expandedRanges = ref<string[]>([]);
+const deletingId = ref<string | null>(null);
 
 const toggleRanges = (entryId: string) => {
   const index = expandedRanges.value.indexOf(entryId);
@@ -199,6 +206,26 @@ const formatDateLabel = (dateStr?: string): string => {
   }
 
   return date.format('DD MMMM YYYY');
+};
+
+const handleDelete = (entryId: string, taskName?: string) => {
+  confirm.require({
+    message: t('pages.timesheets.enteredTimes.deleteConfirm.message', { task: taskName || t('pages.timesheets.enteredTimes.untitled') }),
+    header: t('pages.timesheets.enteredTimes.deleteConfirm.header'),
+    icon: 'pi pi-exclamation-triangle',
+    acceptClass: 'p-button-danger',
+    accept: async () => {
+      try {
+        deletingId.value = entryId;
+        await timeEntriesStore.deleteTimeEntry(entryId);
+        showSuccessMessage(t('pages.timesheets.enteredTimes.deleteConfirm.success'));
+      } catch (error) {
+        showErrorMessage(error as Error);
+      } finally {
+        deletingId.value = null;
+      }
+    },
+  });
 };
 </script>
 

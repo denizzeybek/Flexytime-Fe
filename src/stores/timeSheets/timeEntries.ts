@@ -310,6 +310,18 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       return this.tasks.find((t) => t.Name?.toLowerCase() === taskName.toLowerCase());
     },
 
+    async deleteTimeEntry(entryId: string): Promise<boolean> {
+      try {
+        await TimesheetApiService.timesheetApiDeleteTimeEntry({ ID: entryId });
+        // Refresh the list after deletion
+        await this.fetchTimeEntries();
+        return true;
+      } catch (err: unknown) {
+        console.error('Failed to delete time entry:', err);
+        throw err;
+      }
+    },
+
     resetStore() {
       this.timeEntries = [];
       this.timeClocks = [];

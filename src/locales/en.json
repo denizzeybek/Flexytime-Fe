@@ -473,7 +473,12 @@
           "description": "You haven't recorded any time entries for this date yet. Start tracking your work above."
         },
         "untitled": "Untitled Task",
-        "sessions": "sessions"
+        "sessions": "sessions",
+        "deleteConfirm": {
+          "header": "Delete Time Entry",
+          "message": "Are you sure you want to delete \"{task}\"?",
+          "success": "Time entry deleted successfully"
+        }
       },
       "timeEntries": {
         "datePicker": {
