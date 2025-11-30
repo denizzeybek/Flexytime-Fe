@@ -46,7 +46,7 @@ Aşağıdaki dosyalar 400 satırı aşıyor ve subcomponent'lere bölünmeli:
 |-------|-------|-------|-------|
 | ~~`src/views/company/_views/OrganizationChartV2.vue`~~ | ~~601~~ → 190 | ✅ Tamamlandı | Toolbar, EmptyState, DeleteDialog, useOrganizationChart composable |
 | ~~`src/views/hrSettings/_components/employees/_modals/EmployeeModal.vue`~~ | ~~517~~ → 266 | ✅ Tamamlandı | BasicInfo, Role, TagsSalary, Password sections + validation composable |
-| `src/views/timesheets/_views/UnclassifiedTimeEntries.vue` | 500 | ⏳ Bekliyor | Timeline item, selection bar, clock card ayrı component'lere |
+| ~~`src/views/timesheets/_views/UnclassifiedTimeEntries.vue`~~ | ~~500~~ → 293 | ✅ Tamamlandı | LoadingState, EmptyState, SelectionBar, ClockCard + domain helpers composable |
 | `src/views/timesheets/_components/timeEntries/EnterTime.vue` | 470 | ⏳ Bekliyor | Timer controls, manual inputs, project/tag selectors ayrı component'lere |
 
 ### OrganizationChartV2 Refactor Detayları (Tamamlandı)
@@ -65,6 +65,15 @@ Oluşturulan dosyalar:
 - `_components/EmployeeTagsSalarySection.vue` - Tags, Salary alanları
 - `_components/EmployeePasswordSection.vue` - Password alanı
 - `_composables/useEmployeeModalValidation.ts` - Tab bazlı validation şemaları
+
+### UnclassifiedTimeEntries Refactor Detayları (Tamamlandı)
+
+Oluşturulan dosyalar:
+- `_components/unclassified/UnclassifiedLoadingState.vue` - Skeleton loading gösterimi
+- `_components/unclassified/UnclassifiedEmptyState.vue` - Boş durum gösterimi
+- `_components/unclassified/UnclassifiedSelectionBar.vue` - Seçili item'lar özet bar'ı
+- `_components/unclassified/UnclassifiedClockCard.vue` - Clock card item'ı (details ile)
+- `_composables/useUnclassifiedDomainHelpers.ts` - Domain renk/ikon helper fonksiyonları
 
 **Refactor Kuralları:**
 - Her component max 300 satır hedeflenmeli
