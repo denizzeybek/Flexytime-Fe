@@ -196,11 +196,6 @@ import { ELayout } from '@/views/timesheets/_etc/layout.enum';
 
 import type { TimeEntryModifyViewModel } from '@/client';
 
-interface IProjectOption {
-  name: string;
-  value: string;
-}
-
 interface ITagOption {
   name: string;
   value: string;
@@ -324,9 +319,9 @@ const handleStart = () => {
 
 const handleStop = async () => {
   stopTimer();
-  // Auto-submit when stopping the timer
+  // Auto-submit when stopping the timer - use the same submitHandler as manual
   if (elapsedTime.value > 0 && values.taskName) {
-    await submitTimerEntry();
+    await submitHandler();
   }
 };
 
@@ -335,40 +330,6 @@ const formatElapsedTimeForPayload = (totalSeconds: number): string => {
   const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
   const seconds = (totalSeconds % 60).toString().padStart(2, '0');
   return `${hours}:${minutes}:${seconds}`;
-};
-
-const submitTimerEntry = async () => {
-  try {
-    const now = dayjs();
-    const start = timerStartTime ? dayjs(timerStartTime) : now.subtract(elapsedTime.value, 'second');
-    const dateFormat = 'DD.MM.YYYY HH:mm';
-
-    // Get or create task
-    const task = values.taskName ? await getOrCreateTask(values.taskName) : undefined;
-
-    const payload = {
-      Task: task,
-      Project: values.project ? { ID: (values.project as IProjectOption).value, Name: (values.project as IProjectOption).name } : undefined,
-      Tags: (values.tags as ITagOption[] | undefined)?.map((tag: ITagOption) => ({ ID: tag.value, Name: tag.name })) ?? [],
-      Billable: isBillable.value,
-      RecordDate: now.format(dateFormat),
-      RecordDateCustom: '',
-      StartDate: start.format(dateFormat),
-      EndDate: now.format(dateFormat),
-      time: formatElapsedTimeForPayload(elapsedTime.value),
-      Member: { ID: null, Name: '' },
-      Clocks: [],
-    };
-
-    await TimesheetApiService.timesheetApiSaveTimeEntry(payload as unknown as TimeEntryModifyViewModel);
-    await timeEntriesStore.fetchTimeEntries();
-
-    showSuccessMessage(t('pages.timesheets.enterTime.messages.success'));
-    resetTimer();
-    resetForm();
-  } catch (error: unknown) {
-    showErrorMessage(error as Error);
-  }
 };
 
 const getOrCreateTask = async (taskName: string): Promise<{ ID?: string; Name: string }> => {
@@ -405,21 +366,21 @@ const submitHandler = handleSubmit(async (formValues) => {
       endDateTime = endDayjs;
       recordDate = startDayjs;
     } else {
-      // Timer mode
+      // Timer mode - use same format as manual (no seconds in date, backend calculates from time field)
       const now = dayjs();
       const start = timerStartTime ? dayjs(timerStartTime) : now.subtract(elapsedTime.value, 'second');
       startDateTime = start.format(dateFormat);
       endDateTime = now.format(dateFormat);
-      recordDate = now.format(dateFormat);
+      recordDate = start.format(dateFormat);
     }
 
     // Get or create task
     const task = formValues.taskName ? await getOrCreateTask(formValues.taskName) : undefined;
 
-    // Calculate time for payload
+    // Calculate time for payload - backend expects format like "HH:mm:ss:00"
     const timeValue = isManualLayout.value
-      ? (timeDifference.value ? timeDifference.value + ':00' : '00:00:00')
-      : formatElapsedTimeForPayload(elapsedTime.value);
+      ? (timeDifference.value ? timeDifference.value + ':00' : '00:00:00:00')
+      : formatElapsedTimeForPayload(elapsedTime.value) + ':00';
 
     const payload = {
       Task: task,
