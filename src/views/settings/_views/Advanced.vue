@@ -12,7 +12,7 @@
                   <FSwitch
                     v-if="field.value.DataType === 2"
                     :name="`advanceds[${idx}].Value`"
-                    @change="handleSwitchChange(field, field.value.SettingType, $event.target.value)"
+                    @change="handleSwitchChange(field, field.value.SettingType!, $event.target.value)"
                   />
                   <FDateTimePicker
                     v-else
@@ -24,7 +24,7 @@
                       hourFormat: '24',
                       fluid: true,
                     }"
-                    @change="handleDateChange(field, field.value.SettingType, $event)"
+                    @change="handleDateChange(field, field.value.SettingType!, $event)"
                   />
                 </div>
               </div>
@@ -49,7 +49,7 @@ import { convertDateToTime,convertTimeToDate } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useSettingsAdvancedsStore } from '@/stores/settings/advanced';
 
-import type { IAdvanced } from '@/interfaces/settings/advanced';
+import type { AdvancedPermissonViewModel } from '@/client';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
@@ -72,7 +72,7 @@ const { resetForm } = useForm({
   validationSchema,
 });
 
-const { fields } = useFieldArray<IAdvanced>('advanceds');
+const { fields } = useFieldArray<AdvancedPermissonViewModel>('advanceds');
 
 const isLoading = ref(false);
 

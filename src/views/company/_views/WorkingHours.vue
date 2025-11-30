@@ -103,7 +103,7 @@ import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyWorkingHoursStore } from '@/stores/company/workingHours';
 import { useProfileStore } from '@/stores/profile/profile';
 
-import type { IWorkingHourDay } from '@/interfaces/company/workingHour';
+import type { WorkDayViewModel } from '@/client';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
@@ -138,7 +138,7 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema,
 });
 
-const { fields } = useFieldArray<IWorkingHourDay>('days');
+const { fields } = useFieldArray<WorkDayViewModel>('days');
 
 const isLoading = ref(false);
 

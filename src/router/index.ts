@@ -6,8 +6,8 @@ import { useAuthorization } from '@/composables/useAuthorization';
 import { useLogout } from '@/composables/useLogout';
 import { EStorageKeys } from '@/constants/storageKeys';
 import { useAuthStore } from '@/stores/auth';
-import { useCommonUsersStore } from '@/stores/common/users';
 import { useProfileStore } from '@/stores/profile/profile';
+import { useUsersStore } from '@/stores/users';
 
 import { ERouteNames } from './routeNames.enum';
 import routes from './routes';
@@ -49,7 +49,7 @@ const router = createRouter({
 let isRefreshing = false;
 let isLoadingProfile = false;
 router.beforeEach(async (to, from, next) => {
-  const usersStore = useCommonUsersStore();
+  const usersStore = useUsersStore();
   const authStore = useAuthStore();
   const profileStore = useProfileStore();
 
