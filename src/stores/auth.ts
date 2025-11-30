@@ -58,12 +58,14 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
         // Update token (replace with new one)
         localStorage.setItem(EStorageKeys.TOKEN, token);
         OpenAPI.TOKEN = token;
+        usersStore.isAuthenticated = true;
 
         return response;
       } catch (error) {
         // Clear token on error
         localStorage.removeItem(EStorageKeys.TOKEN);
         OpenAPI.TOKEN = undefined;
+        usersStore.isAuthenticated = false;
         throw error;
       }
     },

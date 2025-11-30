@@ -56,7 +56,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import Select, { type SelectProps } from 'primevue/select';
+import Select, { type SelectChangeEvent, type SelectProps } from 'primevue/select';
 import { useField } from 'vee-validate';
 
 import { type MessageSchema } from '@/plugins/i18n';
@@ -110,8 +110,8 @@ const validationListeners = {
   select: (e: InputEvent) => handleChange(e, !!errorMessage.value),
 };
 
-const onSelect = (e: any) => {
-  const selectedValue = e?.value || e; // Extract the value if `e` is an object with a `value` property
+const onSelect = (e: SelectChangeEvent) => {
+  const selectedValue = e?.value; // Extract the value from the event
   emit('selected', selectedValue);
 };
 </script>

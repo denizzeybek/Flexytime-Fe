@@ -3,108 +3,294 @@
 Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında listelemektedir.
 
 **Rapor Tarihi**: 2025-11-30
-**Toplam Eksik Implementasyon**: 8 aktif
 
 ---
 
-## Phase 1: Timesheet Module Eksikleri (Orta Öncelik)
-
-### 1.1 Time Management
-
-#### `src/views/timesheets/_views/TimeManagement.vue`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| 104 | Watch (route meta) | TODO | DatePicker'dan startDate ve endDate payload'a dahil edilmiyor |
-| 118 | Initial form value | TODO | Hardcoded tarih aralığı kullanılıyor |
-
----
-
-### 1.2 Time Entries
-
-#### `src/views/timesheets/_views/TimeEntries.vue`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| 58 | Watch (route meta) | TODO | DatePicker'dan startDate ve endDate payload'a dahil edilmiyor |
-
----
-
-### 1.3 Unclassified Time Entries
-
-#### `src/views/timesheets/_views/UnclassifiedTimeEntries.vue`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| 176 | `getSelectedTrueObjects(data)` | TODO | Backend bağımlılığı - payload yapısı belirsiz |
-| 223 | Watch (fields) | TODO | Değişiklik algılama mantığı implemente edilmemiş |
-
----
-
-### 1.4 Timesheet Components - @addList Placeholder'ları
+## Phase 1: Timesheet Components - @addList Placeholder'ları
 
 Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 
 | Dosya | Satırlar |
 |-------|----------|
-| `src/views/timesheets/_modals/UpdateTimeEntriesModal.vue` | 49, 60 |
-| `src/views/timesheets/_components/timeEntries/EnterTime.vue` | 103, 114 |
-| `src/views/timesheets/_components/timeEntries/EnteredTimes.vue` | 96, 107 |
+| `src/views/timesheets/_modals/UpdateTimeEntriesModal.vue` | 70, 81 |
 
 **Gerekli Aksiyonlar:**
 - [ ] Inline proje ekleme modal/form oluşturulmalı
 - [ ] Inline tag ekleme modal/form oluşturulmalı
 
----
-
-### 1.5 Time Management Composable
-
-#### `src/views/timesheets/_composables/useTimeManagement.ts`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| 18, 31 | `generateTableColumns/Data()` | Unused | startDate/endDate log atılıyor ama kullanılmıyor |
+> **Not:** `EnterTime.vue` ve `EnteredTimes.vue` dosyalarında `headerAddBtn` prop'u kullanılıyor ancak `@addList` event handler'ı yok - bu kasıtlı olabilir.
 
 ---
 
-## Phase 2: Debug Console.log Temizliği (Production Öncesi)
+## Phase 2: Backend Bağımlı Eksikler
 
-Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmaktadır:
+### 2.1 Time Entry Saniye Hassasiyeti
 
-### Stores
-| Dosya | Satır | İçerik |
-|-------|-------|--------|
-| `src/stores/worktimeUsage/worktimeStore.ts` | 290 | API null data warning |
+**Durum:** Backend sadece dakika hassasiyetinde çalışıyor
 
-### Views - Timesheets
-| Dosya | Satırlar |
-|-------|----------|
-| `src/views/timesheets/_components/timeEntries/EnteredTimes.vue` | 227 |
-| `src/views/timesheets/_modals/UpdateTimeEntriesModal.vue` | 195 |
+| Alan | Sorun |
+|------|-------|
+| `TimeSpanText` | Backend `HH:mm` formatında dönüyor, `HH:mm:ss` olmalı |
+| Timer mode | 1 dakikadan kısa çalışmalar `00:00` olarak görünüyor |
+
+**Jira Task:** Backend'e saniye desteği için task açıldı (SaveTimeEntry / GetTimeEntries endpoint'leri)
 
 ---
 
-## Özet Tablosu
+## Phase 3: DRY İhlalleri ve Standardizasyon Planı
 
-| Phase | Modül | Kritiklik | Eksik Sayısı |
-|-------|-------|-----------|--------------|
-| Phase 1 | Timesheet | Orta | 8 |
-| Phase 2 | Debug Cleanup | Düşük | ~3 console.log |
-| **Toplam Aktif** | | | **7 + cleanup** |
+### 3.1 Yüksek Öncelikli - Composable'lar (Hızlı Kazanımlar)
+
+#### 3.1.1 Store-Based Loading Pattern ✅ TAMAMLANDI
+
+**Durum:** Loading state store'larda tutulmaya başlandı. Component-based `useAsyncLoading` composable'ı kaldırıldı.
+
+**Seçilen Yaklaşım:** Store-based loading (loading state store'da, component'te değil)
+
+**Silinen Dosya:** `src/composables/useAsyncLoading.ts` (store-based pattern tercih edildi)
+
+**Güncellenen Store'lar** (`loading` state + `isLoading` getter eklendi):
+- ✅ `src/stores/classification/applications.ts`
+- ✅ `src/stores/classification/webAddresses.ts`
+- ✅ `src/stores/hrSettings/Employees.ts`
+- ✅ `src/stores/hrSettings/holidays.ts`
+- ✅ `src/stores/hrSettings/annuals.ts`
+- ✅ `src/stores/settings/companies.ts` (zaten vardı)
+
+**Güncellenen List Component'ler** (store.isLoading kullanıyor):
+- ✅ `src/views/classification/_components/applications/ApplicationsList.vue`
+- ✅ `src/views/classification/_components/webAddresses/WebAddressesList.vue`
+- ✅ `src/views/hrSettings/_components/employees/EmployeesList.vue`
+- ✅ `src/views/hrSettings/_components/holidays/HolidaysList.vue`
+- ✅ `src/views/hrSettings/_components/annuals/AnnualsList.vue`
+- ✅ `src/views/settings/_components/companies/CompaniesList.vue`
+
+**OpenAPI Type Migration** (Employee components):
+- ✅ `EmployeesList.vue` - `TheMemberViewModel` kullanıyor
+- ✅ `EmployeesTable.vue` - `TheMemberViewModel` kullanıyor
+- ✅ `EmployeeModal.vue` - `TheMemberViewModel` kullanıyor
+
+**Pattern:**
+```typescript
+// Store'da:
+state: { loading: false },
+getters: { isLoading: (state) => state.loading },
+actions: {
+  async filter() {
+    try {
+      this.loading = true;
+      // ... fetch logic
+    } finally {
+      this.loading = false;
+    }
+  }
+}
+
+// Component'te:
+const isLoading = computed(() => store.isLoading);
+```
+
+**Kazanımlar:**
+- Tek kaynak (single source of truth) - loading state store'da
+- Component'ler daha basit
+- try-finally pattern ile loading state her zaman reset ediliyor
+- Tutarlı naming convention (`loading` state, `isLoading` getter)
 
 ---
 
-## Öneri: Uygulama Sırası
+#### 3.1.2 `useOperationFeedback` Composable ✅ TAMAMLANDI
 
-1. **Yakın Vadede (Sprint 1)**
-   - Timesheet date picker entegrasyonu (3 yerde kullanılıyor)
-   - Unclassified time entries backend entegrasyonu
+**Durum:** Composable oluşturuldu ve 4 dosyaya entegre edildi.
 
-2. **Orta Vadede (Sprint 2)**
-   - Add project/tag inline formları
+**Oluşturulan Dosya:** `src/composables/useOperationFeedback.ts`
 
-3. **Backlog**
-   - Debug log temizliği (production build öncesi)
+**Güncellenen Dosyalar:**
+- ✅ `HolidayModal.vue`
+- ✅ `AnnualModal.vue`
+- ✅ `EmployeesTable.vue`
+- ✅ `CompanyModal.vue`
+
+**Özellikler:**
+- `executeWithFeedback()`: Otomatik success/error toast mesajları
+- `executeAsync()`: Sadece loading state yönetimi (manuel feedback)
+- `showLoading` option ile loading state kontrolü
+- Generic tip desteği
+
+**Kazanımlar:**
+- Tutarlı success/error handling pattern'i
+- try-catch boilerplate kodu kaldırıldı
+- ~50 satır tekrarlayan kod azaltıldı
+
+---
+
+#### 3.1.3 `createSkeletonData` Utility ✅ TAMAMLANDI
+
+**Durum:** Utility oluşturuldu ve 6 table component'e entegre edildi.
+
+**Oluşturulan Dosya:** `src/helpers/skeleton.ts`
+
+**Güncellenen Dosyalar:**
+- ✅ `ApplicationsTable.vue`
+- ✅ `WebAddressesTable.vue`
+- ✅ `EmployeesTable.vue`
+- ✅ `HolidaysTable.vue`
+- ✅ `AnnualsTable.vue`
+- ✅ `CompaniesTable.vue`
+
+**Kazanımlar:**
+- Tekrarlayan `Array.from({ length: N }, ...)` pattern'i kaldırıldı
+- Generic tip desteği ile tip güvenliği sağlandı
+- ~40 satır tekrarlayan kod kaldırıldı
+
+---
+
+### 3.2 Orta Öncelikli - Modal ve Store Standardizasyonu
+
+#### 3.2.1 Modal Form Utilities ✅ TAMAMLANDI
+
+**Durum:** Minimal `useModalForm` composable oluşturuldu.
+
+**Oluşturulan Dosya:** `src/composables/useModalFormInit.ts`
+
+**Güncellenen Modal'lar:**
+- ✅ `HolidayModal.vue` - `useModalForm` + OpenAPI tipi (`HolidayViewModel`)
+- ✅ `AnnualModal.vue` - `useModalForm` + OpenAPI tipi (`AnnualViewModel`)
+- ✅ `CompanyModal.vue` - `useModalForm` + OpenAPI tipi (`CompanyViewModel`)
+
+**OpenAPI Type Migration:**
+- ✅ `HolidaysList.vue`, `HolidaysTable.vue` - `HolidayViewModel`
+- ✅ `AnnualsList.vue`, `AnnualsTable.vue` - `AnnualViewModel`
+- ✅ `CompaniesList.vue`, `CompaniesTable.vue` - `CompanyViewModel`
+
+**Pattern:**
+```typescript
+// Minimal composable - sadece isEditing ve handleClose
+const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
+
+// Form init logic modal'da kalıyor (daha okunabilir)
+const getInitialFormData = computed(() => { ... });
+
+onMounted(() => {
+  resetForm({ values: getInitialFormData.value });
+});
+```
+
+**Kazanımlar:**
+- Basit ve okunabilir API
+- `isEditing` ve `handleClose` tekrarı kaldırıldı
+- Form init logic görünür ve anlaşılır kaldı
+- OpenAPI tipleri ile tip güvenliği
+
+---
+
+#### 3.2.2 Store Loading State Standardizasyonu ✅ TAMAMLANDI
+
+**Durum:** Tüm store'lara standart loading state eklendi.
+
+| Store | Loading State | Naming |
+|-------|---------------|--------|
+| companies.ts | ✅ Var | `loading` state, `isLoading` getter |
+| reports.ts | ✅ Var | `isLoading`, `isFiltersLoading` |
+| applications.ts | ✅ Eklendi | `loading` state, `isLoading` getter |
+| webAddresses.ts | ✅ Eklendi | `loading` state, `isLoading` getter |
+| holidays.ts | ✅ Eklendi | `loading` state, `isLoading` getter |
+| annuals.ts | ✅ Eklendi | `loading` state, `isLoading` getter |
+| Employees.ts | ✅ Eklendi | `loading` state, `isLoading` getter |
+
+**Standart Pattern:** `loading` state + `isLoading` getter + try-finally in actions
+
+---
+
+#### 3.2.3 Data Refresh Strategy Standardizasyonu ✅ TAMAMLANDI
+
+**Durum:** Tüm store'larda auto-refresh pattern uygulandı, emit-based refresh kaldırıldı.
+
+**Güncellenen Store'lar** (save/delete sonrası `this.filter()` çağırıyor):
+- ✅ `holidays.ts` - `save()` ve `delete()` auto-refresh
+- ✅ `annuals.ts` - `save()` ve `delete()` auto-refresh
+- ✅ `companies.ts` - `save()` auto-refresh, `deleteCompany()` optimistic update
+- ✅ `Employees.ts` - `save()` auto-refresh (updateEnabled ve deleteEmployee zaten yapıyordu)
+- ✅ `organizationChart.ts` - `save()` auto-refresh
+
+**Güncellenen Modal'lar** (emit kaldırıldı):
+- ✅ `HolidayModal.vue` - `emit('fetchHolidays')` kaldırıldı
+- ✅ `AnnualModal.vue` - `emit('fetchAnnuals')` kaldırıldı
+- ✅ `CompanyModal.vue` - `emit('fetchCompanies')` kaldırıldı
+- ✅ `EmployeeModal.vue` - `emit('fetchEmployees')` kaldırıldı
+
+**Güncellenen List'ler** (event listener kaldırıldı):
+- ✅ `HolidaysList.vue` - `@fetchHolidays` kaldırıldı
+- ✅ `AnnualsList.vue` - `@fetchAnnuals` kaldırıldı
+- ✅ `EmployeesList.vue` - `@fetchEmployees` kaldırıldı
+
+**Güncellenen View'lar** (manuel fetch kaldırıldı):
+- ✅ `OrganizationChart.vue` - `await fetchOrganizationChart()` kaldırıldı (save sonrası)
+- ✅ `OrganizationChartV2.vue` - `await fetchOrganizationChart()` kaldırıldı (save sonrası)
+
+**Pattern:**
+```typescript
+// Store'da - auto-refresh
+async save(payload) {
+  await ApiService.save(payload);
+  await this.filter();  // Otomatik yenileme
+}
+
+// Modal'da - sadece handleClose
+await store.save(payload);
+handleClose();  // emit yok!
+```
+
+**Kazanımlar:**
+- Modal'lar parent'a bağımlı değil
+- Store kendi data'sını yönetiyor (single responsibility)
+- Tight coupling kaldırıldı
+- Daha az kod, daha az hata potansiyeli
+
+---
+
+### 3.3 Düşük Öncelikli - UI/UX Standardizasyonu
+
+#### 3.3.1 Search UI Pattern'leri
+
+**Sorun:** 2 farklı search UI pattern'i var
+
+| Pattern | Dosyalar |
+|---------|----------|
+| Teleport to #table-search | ApplicationsList, WebAddressesList |
+| DataTable header search | EmployeesTable, HolidaysTable, CompaniesTable |
+
+**Önerilen:** DataTable header search pattern'i standart yap
+
+---
+
+#### 3.3.2 Pagination Pattern'leri
+
+**Sorun:** Server-side vs client-side pagination tutarsızlığı
+
+| Pattern | Dosyalar |
+|---------|----------|
+| Server-side (payload ile) | ApplicationsList, WebAddressesList |
+| Client-side (no params) | EmployeesList, HolidaysList, CompaniesList |
+
+**Önerilen:** Dataset boyutuna göre seçim yap, `useListPagination` composable oluştur
+
+---
+
+### 3.4 Öncelik Sıralaması
+
+| # | Task | Etki | Efor | Dosya Sayısı | Durum |
+|---|------|------|------|--------------|-------|
+| 1 | Store-based loading pattern | Yüksek | Düşük | 11 | ✅ TAMAMLANDI |
+| 2 | `createSkeletonData` utility | Orta | Düşük | 6 | ✅ TAMAMLANDI |
+| 3 | `useOperationFeedback` composable | Yüksek | Düşük | 4 | ✅ TAMAMLANDI |
+| 4 | Store loading state standardizasyonu | Orta | Orta | 7 | ✅ TAMAMLANDI |
+| 5 | Modal form utilities (`useModalForm`) | Orta | Düşük | 9 | ✅ TAMAMLANDI |
+| 6 | Data refresh standardizasyonu | Yüksek | Orta | 11 | ✅ TAMAMLANDI |
+| 7 | Search UI standardizasyonu | Düşük | Orta | 5+ | ⏳ Bekliyor |
+| 8 | Pagination standardizasyonu | Orta | Yüksek | 6+ | ⏳ Bekliyor |
+
+**Tamamlanan:** 6/8 task
+**Tahmini Kod Azaltımı:** ~600-800 satır tekrarlayan/tutarsız kod
 
 ---
 

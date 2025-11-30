@@ -35,6 +35,7 @@ import type {
   ClockSectionTeamset,
   ClockStatistic,
   ClockWellBeingItem,
+  GraphViewModel2,
   SectionClockSummary,
   WebClockAllocationViewModel,
   WebClockViewModel,
@@ -92,9 +93,10 @@ export type IDistribution = ClockDistribution;
 
 // ============================================
 // Graph Data - Use OpenAPI types
+// Employee API returns GraphViewModel2, Section API returns ClockGraphGroup
 // ============================================
 
-export type IGraph = ClockGraphGroup;
+export type IGraph = ClockGraphGroup | GraphViewModel2;
 
 // ============================================
 // Web History Data - Use OpenAPI types
@@ -108,29 +110,21 @@ export type IWebClocks = WebClockAllocationViewModel;
 // Individual Wellbeing Data
 // ============================================
 
+import type { WellBeingViewModel } from '@/client';
+
 export interface IIndividualWellbeingGraph {
-  labels: string[];
-  datasets: {
-    label: string;
-    data: number[];
-    backgroundColor: string;
-    borderColor: string;
+  labels?: string[];
+  datasets?: {
+    label?: string;
+    data?: number[];
+    backgroundColor?: string;
+    borderColor?: string;
   }[];
-  Unit: string;
+  Unit?: string;
 }
 
-export interface IIndividualWellbeing {
-  Color: 'red' | 'yellow' | 'green';
-  Icon: string;
-  Type: number;
-  Name: string;
-  Suggestion: string;
-  Description: string;
-  Level: number;
-  Unit: number;
-  Notification: number;
-  Graph: IIndividualWellbeingGraph;
-}
+// Use OpenAPI type for individual wellbeing
+export type IIndividualWellbeing = WellBeingViewModel;
 
 // ============================================
 // API Response Types
@@ -152,7 +146,7 @@ export interface IEmployeeResponse {
   Card: ICard | null;
   Breadcrumb: IBreadcrumb[];
   Summary: ISummary[];
-  WellBeings: any[];
+  WellBeings: IIndividualWellbeing[];
   Distributions: IDistribution[];
   Graphs: IGraph;
   WebClocks?: IWebClocks[];

@@ -13,7 +13,7 @@ import type { HTMLAttributes } from 'vue';
 interface IProps {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'info' | 'ps';
   className?: HTMLAttributes['class'];
-  innerText?: any;
+  innerText?: string;
 }
 const props = withDefaults(defineProps<IProps>(), {
   as: 'p',

@@ -45,33 +45,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
 import { number, object, string } from 'yup';
 
-import { useFToast } from '@/composables/useFToast';
+import { useModalForm } from '@/composables/useModalFormInit';
+import { useOperationFeedback } from '@/composables/useOperationFeedback';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useSettingsCompaniesStore } from '@/stores/settings/companies';
 
 import type { CompanyViewModel } from '@/client';
-import type { ICompany } from '@/interfaces/settings/company';
 
 interface IProps {
-  data?: ICompany;
-}
-
-interface IEmits {
-  (event: 'fetchCompanies'): void;
+  data?: CompanyViewModel;
 }
 
 const props = defineProps<IProps>();
 
-const emit = defineEmits<IEmits>();
-
 const { t } = useI18n<{ message: MessageSchema }>();
-const { showSuccessMessage, showErrorMessage } = useFToast();
+const { executeWithFeedback } = useOperationFeedback({ showLoading: false });
 const companiesStore = useSettingsCompaniesStore();
 
 const validationSchema = object({
@@ -89,35 +83,29 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 
 const open = defineModel<boolean>('open');
 
-const isEditing = computed(() => !!props.data);
-
-const handleClose = () => {
-  resetForm();
-  open.value = false;
-};
+const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
 
 const submitHandler = handleSubmit(async (values) => {
-  try {
-    const payload: CompanyViewModel = {
-      Name: values.name,
-      Fullname: values.fullname,
-      Email: values.email,
-      Password: values.password,
-      UserCount: values.userCount,
-      Month: values.userPeriod,
-    };
+  const payload: CompanyViewModel = {
+    Name: values.name,
+    Fullname: values.fullname,
+    Email: values.email,
+    Password: values.password,
+    UserCount: values.userCount,
+    Month: values.userPeriod,
+  };
 
-    if (isEditing.value && props.data?.ID) {
-      payload.ID = props.data.ID;
-    }
-
-    await companiesStore.save(payload);
-    emit('fetchCompanies');
-    showSuccessMessage(isEditing.value ? t('pages.settings.companies.modal.messages.updated') : t('pages.settings.companies.modal.messages.added'));
-    handleClose();
-  } catch (error) {
-    showErrorMessage(error as Error);
+  if (isEditing.value && props.data?.ID) {
+    payload.ID = props.data.ID;
   }
+
+  const successMessage = isEditing.value
+    ? t('pages.settings.companies.modal.messages.updated')
+    : t('pages.settings.companies.modal.messages.added');
+
+  await executeWithFeedback(() => companiesStore.save(payload), successMessage);
+
+  handleClose();
 });
 
 const getInitialFormData = () => {

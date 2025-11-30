@@ -66,14 +66,14 @@ const {
   value,
   // handleBlur,
   // handleChange,
-} = useField(() => props.name, undefined, {
+} = useField<string>(() => props.name, undefined, {
   validateOnValueUpdate: false,
   syncVModel: true,
 });
 const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
 
 const model = computed<string>({
-  get: () => value.value as unknown as string,
+  get: () => value.value ?? '',
   set: (v) => (value.value = v),
 });
 // const listeners = {

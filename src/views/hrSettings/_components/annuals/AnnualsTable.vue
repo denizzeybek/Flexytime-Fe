@@ -91,11 +91,12 @@ import Skeleton from 'primevue/skeleton';
 
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
+import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 
-import type { IAnnual } from '@/interfaces/hrSettings/annual';
+import type { AnnualViewModel } from '@/client';
 
 interface IProps {
   isLoading: boolean;
@@ -103,7 +104,7 @@ interface IProps {
 
 interface IEmits {
   (event: 'new'): void;
-  (event: 'edit', value: IAnnual): void;
+  (event: 'edit', value: AnnualViewModel): void;
   (event: 'delete', ID: string): void;
 }
 
@@ -149,7 +150,7 @@ const annuals = computed(() => {
   }
 });
 
-const handleEdit = (annual: IAnnual) => {
+const handleEdit = (annual: AnnualViewModel) => {
   emit('edit', annual);
 };
 
@@ -157,17 +158,15 @@ const handleDelete = (ID: string) => {
   emit('delete', ID);
 };
 
-const handleOptionClick = (option: EOptionsDropdown, annual: IAnnual) => {
+const handleOptionClick = (option: EOptionsDropdown, annual: AnnualViewModel) => {
   if (option === EOptionsDropdown.Edit) {
     handleEdit(annual);
   } else if (option === EOptionsDropdown.Delete) {
-    handleDelete(annual.ID);
+    handleDelete(annual.ID!);
   }
 };
 
-// Skeleton dummy data - 5 rows for loading state
-const skeletonData = Array.from({ length: 5 }, (_, i) => ({
-  ID: `skeleton-${i}`,
+const skeletonData = createSkeletonData(5, {
   MemberName: '',
   LeaveType: '',
   Days: '',
@@ -175,5 +174,5 @@ const skeletonData = Array.from({ length: 5 }, (_, i) => ({
   StartTime: '',
   EndDate: '',
   EndTime: '',
-}));
+});
 </script>

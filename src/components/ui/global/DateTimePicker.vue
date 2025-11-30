@@ -64,8 +64,10 @@ interface IProps {
   showPrevNextButtons?:boolean;
 }
 
+type DatePickerValue = Date | Date[] | (Date | null)[] | null | undefined;
+
 interface IEmits {
-  (event: 'change', value: any): void;
+  (event: 'change', value: DatePickerValue): void;
 }
 
 const props = withDefaults(defineProps<IProps>(), {

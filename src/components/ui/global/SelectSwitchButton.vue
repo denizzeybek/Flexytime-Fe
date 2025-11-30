@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import SelectButton, { type SelectButtonProps } from 'primevue/selectbutton';
+import SelectButton, { type SelectButtonChangeEvent, type SelectButtonProps } from 'primevue/selectbutton';
 import { useField } from 'vee-validate';
 
 import type { IOption } from '@/common/interfaces/option.interface';
@@ -70,8 +70,8 @@ const validationListeners = {
   select: (e: InputEvent) => handleChange(e, !!errorMessage.value),
 };
 
-const onSelect = (e: any) => {
-  const selectedValue = e?.value || e; // Extract the value if `e` is an object with a `value` property
+const onSelect = (e: SelectButtonChangeEvent) => {
+  const selectedValue = e?.value; // Extract the value from the event
   emit('selected', selectedValue);
 };
 </script>

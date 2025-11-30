@@ -112,12 +112,13 @@ import Skeleton from 'primevue/skeleton';
 import Tag from 'primevue/tag';
 
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
-import { useFToast } from '@/composables/useFToast';
+import { useOperationFeedback } from '@/composables/useOperationFeedback';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
+import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
 
-import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
+import type { TheMemberViewModel } from '@/client';
 
 interface IProps {
   isLoading: boolean;
@@ -125,7 +126,7 @@ interface IProps {
 
 interface IEmits {
   (event: 'new'): void;
-  (event: 'edit', value: IEmployeeMember): void;
+  (event: 'edit', value: TheMemberViewModel): void;
 }
 
 defineProps<IProps>();
@@ -133,8 +134,7 @@ defineProps<IProps>();
 const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
-const { showSuccessMessage, showErrorMessage } = useFToast();
-
+const { executeWithFeedback } = useOperationFeedback({ showLoading: false });
 const employeesStore = useHRSettingsEmployeesStore();
 
 const filters = ref({
@@ -165,47 +165,41 @@ const employees = computed(() => {
 });
 
 const handleAlwaysOnChange = async (event: { props: string; alwaysOn: boolean }) => {
-  try {
-    const { props: employeeID, alwaysOn } = event;
-    await employeesStore.updateEnabled(employeeID, alwaysOn);
-    showSuccessMessage(t('pages.hrSettings.employees.messages.statusUpdated'));
-  } catch (error) {
-    showErrorMessage(error as Error);
-  }
+  const { props: employeeID, alwaysOn } = event;
+  await executeWithFeedback(
+    () => employeesStore.updateEnabled(employeeID, alwaysOn),
+    t('pages.hrSettings.employees.messages.statusUpdated'),
+  );
 };
 
-const handleEdit = (employee: IEmployeeMember) => {
+const handleEdit = (employee: TheMemberViewModel) => {
   emit('edit', employee);
 };
 
 const handleDelete = async (employeeID: string) => {
-  try {
-    await employeesStore.deleteEmployee(employeeID);
-    showSuccessMessage(t('pages.hrSettings.employees.messages.deleted'));
-  } catch (error) {
-    showErrorMessage(error as Error);
-  }
+  await executeWithFeedback(
+    () => employeesStore.deleteEmployee(employeeID),
+    t('pages.hrSettings.employees.messages.deleted'),
+  );
 };
 
-const handleOptionClick = (option: EOptionsDropdown, employee: IEmployeeMember) => {
+const handleOptionClick = (option: EOptionsDropdown, employee: TheMemberViewModel) => {
   if (option === EOptionsDropdown.Edit) {
     handleEdit(employee);
   } else if (option === EOptionsDropdown.Delete) {
-    handleDelete(employee.ID);
+    handleDelete(employee.ID!);
   }
 };
 
-// Skeleton dummy data - 5 rows for loading state
-const skeletonData = Array.from({ length: 5 }, (_, i) => ({
-  ID: `skeleton-${i}`,
+const skeletonData = createSkeletonData(5, {
   MemberName: '',
   RoleName: '',
-  Tags: [],
+  Tags: [] as string[],
   TitleName: '',
   TeamName: '',
   Salary: '',
   Enabled: false,
-}));
+});
 </script>
 
 <style scoped></style>

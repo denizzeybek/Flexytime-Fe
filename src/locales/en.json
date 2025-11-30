@@ -425,7 +425,14 @@
     },
     "timesheets": {
       "timeManagement": {
-        "datePlaceholder": "Enter date"
+        "datePlaceholder": "Enter date",
+        "expandAll": "Expand All",
+        "collapseAll": "Collapse All",
+        "noData": "No data available",
+        "tabs": {
+          "person": "Person",
+          "project": "Project"
+        }
       },
       "enterTime": {
         "timeEntry": {
@@ -488,6 +495,13 @@
       "timeEntries": {
         "datePicker": {
           "placeholder": "Select date"
+        },
+        "hoursFilter": {
+          "placeholder": "Time range",
+          "hourly": "Hourly",
+          "fourHours": "4 Hours",
+          "eightHours": "8 Hours",
+          "allDay": "All Day"
         },
         "manual": {
           "label": "Manual"

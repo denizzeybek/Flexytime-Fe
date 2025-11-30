@@ -5,6 +5,14 @@ import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { CompanyViewModel } from '@/client';
 
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 interface State {
   list: CompanyViewModel[];
   totalItems: number;
@@ -61,9 +69,9 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
         this.totalItems = data.length;
 
         return data;
-      } catch (err: any) {
-        this.error = err?.response?.data?.message || 'Failed to fetch companies';
-        console.error('Error fetching companies:', err);
+      } catch (err: unknown) {
+        const apiErr = err as ApiError;
+        this.error = apiErr?.response?.data?.message || 'Failed to fetch companies';
         return null;
       } finally {
         this.loading = false;
@@ -85,9 +93,9 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
         await this.filter();
 
         return true;
-      } catch (err: any) {
-        this.error = err?.response?.data?.message || 'Failed to save company';
-        console.error('Error saving company:', err);
+      } catch (err: unknown) {
+        const apiErr = err as ApiError;
+        this.error = apiErr?.response?.data?.message || 'Failed to save company';
         throw err;
       } finally {
         this.loading = false;
@@ -106,15 +114,12 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
         this.error = null;
 
         await SettingApiService.settingApiDeleteCompany({ ID: companyID });
-
-        // Remove from local list
-        this.list = this.list.filter((company) => company.ID !== companyID);
-        this.totalItems = this.list.length;
+        await this.filter();
 
         return true;
-      } catch (err: any) {
-        this.error = err?.response?.data?.message || 'Failed to delete company';
-        console.error('Error deleting company:', err);
+      } catch (err: unknown) {
+        const apiErr = err as ApiError;
+        this.error = apiErr?.response?.data?.message || 'Failed to delete company';
         return false;
       } finally {
         this.loading = false;

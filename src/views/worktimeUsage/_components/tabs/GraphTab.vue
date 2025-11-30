@@ -21,7 +21,7 @@ import ProgressSpinner from 'primevue/progressspinner';
 import { EChartType } from '@/enums/chartType.enum';
 
 import type { IGraph } from '../../_types';
-
+import type { ClockGraph, ClockGraphGroup } from '@/client';
 
 interface IProps {
   graphs?: IGraph | null;
@@ -33,9 +33,17 @@ const props = withDefaults(defineProps<IProps>(), {
   isLoading: false,
 });
 
+// Type guard to check if graphs is ClockGraphGroup (has Summary property)
+const isClockGraphGroup = (graph: IGraph): graph is ClockGraphGroup => {
+  return 'Summary' in graph;
+};
+
 // Transform chart data
 const chartData = computed(() => {
   if (!props.graphs) return null;
+
+  // Check if it's ClockGraphGroup type (has Summary property)
+  if (!isClockGraphGroup(props.graphs)) return null;
 
   // Summary ve datasets kontrolü
   if (!props.graphs.Summary?.datasets?.length || !props.graphs.Summary?.labels?.length) {
@@ -138,7 +146,7 @@ const getColorForLabel = (label: string): { bg: string; border: string } => {
 };
 
 // Set chart data with proper formatting - always use vibrant colors
-const setChartData = (source: IGraph['Summary']) => {
+const setChartData = (source: ClockGraph | undefined) => {
   return {
     labels: source?.labels,
     datasets: source?.datasets?.map((ds) => {

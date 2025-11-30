@@ -15,7 +15,7 @@ interface IWebAddressDTOData {
   TopicName: string;
   Actions?: null;
   Customise?: null;
-  Timeout: any;
+  Timeout: number | string | null;
   AlwaysOn: boolean;
   ID: string;
   Domain: string;
@@ -32,6 +32,7 @@ interface DataTableResponse {
 interface State {
   list: IWebAddressDTOData[];
   totalItems: number;
+  loading: boolean;
 }
 
 export const useClassificationWebAddressesStore = defineStore(
@@ -40,18 +41,30 @@ export const useClassificationWebAddressesStore = defineStore(
     state: (): State => ({
       list: [],
       totalItems: 0,
+      loading: false,
     }),
+    getters: {
+      isLoading: (state): boolean => state.loading,
+    },
     actions: {
       async filter(payload: DataTableQueryModel) {
-        const response = (await CategoryApiService.categoryApiQueryWebAddresses(
-          payload,
-        )) as unknown as DataTableResponse;
-        const webAddresses = response.DTO?.data ?? [];
-        const total = response.DTO?.recordsTotal ?? 0;
+        try {
+          this.loading = true;
+          // Note: Backend returns DataTable format not in OpenAPI spec
+          // TODO: Update OpenAPI spec to include DTO wrapper
+          const rawResponse = await CategoryApiService.categoryApiQueryWebAddresses(payload);
+          const response = rawResponse as unknown as DataTableResponse;
 
-        this.list = webAddresses;
-        this.totalItems = total;
-        return webAddresses;
+          // Runtime validation
+          const webAddresses = Array.isArray(response.DTO?.data) ? response.DTO.data : [];
+          const total = typeof response.DTO?.recordsTotal === 'number' ? response.DTO.recordsTotal : 0;
+
+          this.list = webAddresses;
+          this.totalItems = total;
+          return webAddresses;
+        } finally {
+          this.loading = false;
+        }
       },
       async save(payload: WebAddressModifyModel) {
         this.list = this.list.map((webAddress) => {

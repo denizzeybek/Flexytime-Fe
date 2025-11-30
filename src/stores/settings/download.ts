@@ -5,6 +5,14 @@ import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { DownloadViewModel } from '@/client';
 
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 interface State {
   InvitationLink: string;
   InvitationId: string;
@@ -21,6 +29,9 @@ export const useSettingsDownloadsStore = defineStore(EStoreNames.SETTINGS_DOWNLO
     loading: false,
     error: null,
   }),
+  getters: {
+    isLoading: (state): boolean => state.loading,
+  },
   actions: {
     async filter(): Promise<DownloadViewModel | null> {
       try {
@@ -34,8 +45,9 @@ export const useSettingsDownloadsStore = defineStore(EStoreNames.SETTINGS_DOWNLO
         this.ServiceKey = data.ServiceKey ?? '';
 
         return data;
-      } catch (err: any) {
-        this.error = err?.response?.data?.message || 'Failed to fetch download info';
+      } catch (err: unknown) {
+        const apiErr = err as ApiError;
+        this.error = apiErr?.response?.data?.message || 'Failed to fetch download info';
         console.error('Error fetching download info:', err);
         return null;
       } finally {

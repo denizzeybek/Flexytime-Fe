@@ -9,12 +9,11 @@
     v-if="isModalOpen"
     v-model:open="isModalOpen"
     :data="currentHoliday"
-    @fetchHolidays="fetchHolidays"
   />
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 import { useFToast } from '@/composables/useFToast';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
@@ -22,39 +21,39 @@ import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 import HolidayModal from './_modals/HolidayModal.vue';
 import HolidaysTable from './HolidaysTable.vue';
 
+import type { HolidayViewModel } from '@/client';
+
 const holidaysStore = useHRSettingsHolidaysStore();
 const { showErrorMessage } = useFToast();
 
-const isLoading = ref(false);
+const isLoading = computed(() => holidaysStore.isLoading);
+
 const isModalOpen = ref(false);
-const currentHoliday = ref();
+const currentHoliday = ref<HolidayViewModel>();
 
 const handleNew = () => {
   isModalOpen.value = true;
   currentHoliday.value = undefined;
 };
 
-const handleEdit = (annual) => {
-  currentHoliday.value = annual;
+const handleEdit = (holiday: HolidayViewModel) => {
+  currentHoliday.value = holiday;
   isModalOpen.value = true;
 };
 
-const handleDelete = async (ID) => {
+const handleDelete = async (ID: string) => {
   try {
-    await holidaysStore.delete({ ID: ID });
-    await fetchHolidays();
+    await holidaysStore.delete({ ID });
   } catch (error) {
-    console.error(error);
+    showErrorMessage(error as Error);
   }
 };
 
 const fetchHolidays = async () => {
   try {
-    isLoading.value = true;
     await holidaysStore.filter();
-    isLoading.value = false;
   } catch (error) {
-    showErrorMessage(error as any);
+    showErrorMessage(error as Error);
   }
 };
 

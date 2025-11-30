@@ -96,10 +96,11 @@ import Skeleton from 'primevue/skeleton';
 
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
+import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useSettingsCompaniesStore } from '@/stores/settings/companies';
 
-import type { ICompany } from '@/interfaces/settings/company';
+import type { CompanyViewModel } from '@/client';
 
 interface IProps {
   isLoading: boolean;
@@ -107,7 +108,7 @@ interface IProps {
 
 interface IEmits {
   (event: 'new'): void;
-  (event: 'edit', value: ICompany): void;
+  (event: 'edit', value: CompanyViewModel): void;
   (event: 'delete', value: string): void;
 }
 
@@ -147,15 +148,15 @@ const companies = computed(() => {
   return companiesStore.list;
 });
 
-const handleEdit = (company: ICompany) => {
+const handleEdit = (company: CompanyViewModel) => {
   emit('edit', company);
 };
 
-const handleDelete = (company: ICompany) => {
-  emit('delete', company.ID);
+const handleDelete = (company: CompanyViewModel) => {
+  emit('delete', company.ID!);
 };
 
-const handleOptionClick = (option: EOptionsDropdown, company: ICompany) => {
+const handleOptionClick = (option: EOptionsDropdown, company: CompanyViewModel) => {
   if (option === EOptionsDropdown.Edit) {
     handleEdit(company);
   } else if (option === EOptionsDropdown.Delete) {
@@ -163,20 +164,18 @@ const handleOptionClick = (option: EOptionsDropdown, company: ICompany) => {
   }
 };
 
-// Skeleton dummy data - 5 rows for loading state
-const skeletonData = Array.from({ length: 5 }, (_, i) => ({
-  ID: `skeleton-${i}`,
+const skeletonData = createSkeletonData(5, {
   Name: '',
   Fullname: '',
   Email: '',
-  Password: null,
+  Password: null as string | null,
   UserCount: 0,
   Month: 0,
   License: '',
   CreateDate: '',
-  LastActivityDate: null,
-  DashboardActivityDate: null,
-}));
+  LastActivityDate: null as string | null,
+  DashboardActivityDate: null as string | null,
+});
 </script>
 
 <style scoped></style>

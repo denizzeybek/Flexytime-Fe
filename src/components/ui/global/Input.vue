@@ -95,7 +95,7 @@ const {
   value,
   handleBlur,
   handleChange,
-} = useField(() => props.name, undefined, {
+} = useField<string>(() => props.name, undefined, {
   validateOnValueUpdate: false,
   syncVModel: true,
 });
@@ -114,12 +114,12 @@ const filteredOptions = computed(() => {
 const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
 
 const model = computed<string>({
-  get: () => value.value as unknown as string,
+  get: () => value.value ?? '',
   set: (v) => (value.value = v),
 });
 
 const filterOptions = () => {
-  searchFilter.value = (value.value as string) || '';
+  searchFilter.value = value.value || '';
 };
 
 const selectOption = (option: string) => {
@@ -129,7 +129,7 @@ const selectOption = (option: string) => {
 };
 
 const addNewOption = async () => {
-  const option = value.value as string;
+  const option = value.value ?? '';
   if (props.onAddOption) {
     await props.onAddOption(option);
   }

@@ -56,31 +56,24 @@ import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
-import { boolean, object,string } from 'yup';
+import { boolean, object, string } from 'yup';
 
-import { useFToast } from '@/composables/useFToast';
+import { useModalForm } from '@/composables/useModalFormInit';
+import { useOperationFeedback } from '@/composables/useOperationFeedback';
 import { convertDateToString, convertStringToDate } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 
 import type { HolidayViewModel } from '@/client';
-import type { IHoliday } from '@/interfaces/hrSettings/holiday';
 
 interface IProps {
-  data?: IHoliday;
-}
-
-interface IEmits {
-  (event: 'fetchHolidays'): void;
-  (event: 'hide', val: any): void;
+  data?: HolidayViewModel;
 }
 
 const props = defineProps<IProps>();
 
-const emit = defineEmits<IEmits>();
-
 const { t } = useI18n<{ message: MessageSchema }>();
-const { showSuccessMessage, showErrorMessage } = useFToast();
+const { executeWithFeedback } = useOperationFeedback({ showLoading: false });
 const holidaysStore = useHRSettingsHolidaysStore();
 
 const open = defineModel<boolean>('open');
@@ -101,11 +94,10 @@ const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
 const [startFullDay] = defineField('startFullDay');
 const [endFullDay] = defineField('endFullDay');
 
-const isEditing = computed(() => !!props.data);
+const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
 
 const getInitialFormData = computed(() => {
   const holiday = props.data;
-
   if (holiday) {
     return {
       ID: holiday.ID,
@@ -116,54 +108,42 @@ const getInitialFormData = computed(() => {
       endDate: convertStringToDate(holiday.EndDate, holiday.EndTime),
       repeat: holiday.Repeat,
     };
-  } else {
-    return {
-      startFullDay: false,
-      endFullDay: false,
-      repeat: false,
-    };
   }
+  return {
+    startFullDay: false,
+    endFullDay: false,
+    repeat: false,
+  };
 });
 
-const handleClose = () => {
-  resetForm();
-  open.value = false;
-};
-
 const submitHandler = handleSubmit(async (values) => {
-  try {
-    let payload = {
-      StartDate: convertDateToString(values.startDate),
-      StartTime: values.startFullDay
-        ? '00:00'
-        : (convertDateToString(values.startDate, true) as unknown as any).time,
-      EndDate: convertDateToString(values.endDate),
-      EndTime: values.endFullDay
-        ? '00:00'
-        : (convertDateToString(values.endDate, true) as unknown as any).time,
-      Name: values.name,
-      StartFullDay: values.startFullDay,
-      EndFullDay: values.endFullDay,
-      Repeat: values.repeat,
-    } as HolidayViewModel;
-    if (isEditing.value) {
-      payload = {
-        ...payload,
-        ID: values.ID,
-      } as any;
-    }
-    await holidaysStore.save(payload);
-    emit('fetchHolidays');
-    showSuccessMessage(t('pages.hrSettings.holidays.modal.messages.updated'));
-    handleClose();
-  } catch (error: any) {
-    showErrorMessage(error as any);
+  const startDateTime = convertDateToString(values.startDate, true) as { date: string; time: string };
+  const endDateTime = convertDateToString(values.endDate, true) as { date: string; time: string };
+
+  let payload = {
+    StartDate: convertDateToString(values.startDate),
+    StartTime: values.startFullDay ? '00:00' : startDateTime.time,
+    EndDate: convertDateToString(values.endDate),
+    EndTime: values.endFullDay ? '00:00' : endDateTime.time,
+    Name: values.name,
+    StartFullDay: values.startFullDay,
+    EndFullDay: values.endFullDay,
+    Repeat: values.repeat,
+  } as HolidayViewModel;
+
+  if (isEditing.value) {
+    payload = { ...payload, ID: values.ID } as HolidayViewModel;
   }
+
+  await executeWithFeedback(
+    () => holidaysStore.save(payload),
+    t('pages.hrSettings.holidays.modal.messages.updated'),
+  );
+
+  handleClose();
 });
 
 onMounted(() => {
-  resetForm({
-    values: getInitialFormData.value,
-  });
+  resetForm({ values: getInitialFormData.value });
 });
 </script>

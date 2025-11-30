@@ -62,30 +62,24 @@ import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
-import { boolean, object,string } from 'yup';
+import { boolean, object, string } from 'yup';
 
-import { useFToast } from '@/composables/useFToast';
+import { useModalForm } from '@/composables/useModalFormInit';
+import { useOperationFeedback } from '@/composables/useOperationFeedback';
 import { convertDateToString, convertStringToDate } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 
 import type { AnnualViewModel } from '@/client';
-import type { IAnnual } from '@/interfaces/hrSettings/annual';
 
 interface IProps {
-  data?: IAnnual;
-}
-
-interface IEmits {
-  (event: 'fetchAnnuals'): void;
+  data?: AnnualViewModel;
 }
 
 const props = defineProps<IProps>();
 
-const emit = defineEmits<IEmits>();
-
 const { t } = useI18n<{ message: MessageSchema }>();
-const { showSuccessMessage, showErrorMessage } = useFToast();
+const { executeWithFeedback } = useOperationFeedback({ showLoading: false });
 const annualsStore = useHRSettingsAnnualsStore();
 
 const open = defineModel<boolean>('open');
@@ -103,8 +97,6 @@ const validationSchema = object({
   startDate: string().required().label('Start date'),
   endFullDay: boolean().label('End time all day'),
   endDate: string().required().label('End date'),
-
-  //   check: boolean().required().isTrue('You must agree to terms and conditions').label('Check'),
 });
 
 const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
@@ -123,16 +115,15 @@ const employees = computed(() => {
   });
 });
 
-const isEditing = computed(() => !!props.data);
+const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
 
 const getInitialFormData = computed(() => {
   const annual = props.data;
-  return {
-    ...(annual && {
+  if (annual) {
+    return {
       ID: annual.ID,
       employeeName: { name: annual.MemberName, value: annual.MemberId },
       leaveType: annual.LeaveType,
-      name: annual.Name,
       startFullDay: annual.StartFullDay,
       startDate: annual.StartFullDay
         ? convertStringToDate(annual.StartDate)
@@ -141,53 +132,41 @@ const getInitialFormData = computed(() => {
       endDate: annual.EndFullDay
         ? convertStringToDate(annual.EndDate)
         : convertStringToDate(`${annual.EndDate} ${annual.EndTime}`),
-      repeat: annual.Repeat,
-    }),
-  };
+    };
+  }
+  return {};
 });
 
-const handleClose = () => {
-  resetForm();
-  open.value = false;
-};
-
 const submitHandler = handleSubmit(async (values) => {
-  try {
-    let payload = {
-      StartDate: convertDateToString(values.startDate),
-      StartTime: values.startFullDay
-        ? '00:00'
-        : (convertDateToString(values.startDate, true) as unknown as any).time,
-      EndDate: convertDateToString(values.endDate),
-      EndTime: values.endFullDay
-        ? '00:00'
-        : (convertDateToString(values.endDate, true) as unknown as any).time,
-      Name: values.name,
-      StartFullDay: values.startFullDay,
-      EndFullDay: values.endFullDay,
-      Repeat: values.repeat,
-      MemberId: values.employeeName.value,
-      LeaveType: values.leaveType
-    } as AnnualViewModel;
-    if (isEditing.value) {
-      payload = {
-        ...payload,
-        ID: values.ID,
-      } as AnnualViewModel;
-    }
-    await annualsStore.save(payload);
+  const startDateTime = convertDateToString(values.startDate, true) as { date: string; time: string };
+  const endDateTime = convertDateToString(values.endDate, true) as { date: string; time: string };
 
-    emit('fetchAnnuals');
-    showSuccessMessage(t('pages.hrSettings.annuals.modal.messages.updated'));
-    handleClose();
-  } catch (error: any) {
-    showErrorMessage(error as any);
+  let payload = {
+    StartDate: convertDateToString(values.startDate),
+    StartTime: values.startFullDay ? '00:00' : startDateTime.time,
+    EndDate: convertDateToString(values.endDate),
+    EndTime: values.endFullDay ? '00:00' : endDateTime.time,
+    Name: values.name,
+    StartFullDay: values.startFullDay,
+    EndFullDay: values.endFullDay,
+    Repeat: values.repeat,
+    MemberId: values.employeeName.value,
+    LeaveType: values.leaveType,
+  } as AnnualViewModel;
+
+  if (isEditing.value) {
+    payload = { ...payload, ID: values.ID } as AnnualViewModel;
   }
+
+  await executeWithFeedback(
+    () => annualsStore.save(payload),
+    t('pages.hrSettings.annuals.modal.messages.updated'),
+  );
+
+  handleClose();
 });
 
 onMounted(() => {
-  resetForm({
-    values: getInitialFormData.value,
-  });
+  resetForm({ values: getInitialFormData.value });
 });
 </script>

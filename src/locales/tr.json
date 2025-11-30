@@ -425,7 +425,14 @@
     },
     "timesheets": {
       "timeManagement": {
-        "datePlaceholder": "Tarih girin"
+        "datePlaceholder": "Tarih girin",
+        "expandAll": "Tümünü Genişlet",
+        "collapseAll": "Tümünü Daralt",
+        "noData": "Veri bulunamadı",
+        "tabs": {
+          "person": "Kişi",
+          "project": "Proje"
+        }
       },
       "enterTime": {
         "timeEntry": {
@@ -488,6 +495,13 @@
       "timeEntries": {
         "datePicker": {
           "placeholder": "Tarih seçin"
+        },
+        "hoursFilter": {
+          "placeholder": "Zaman aralığı",
+          "hourly": "Saatlik",
+          "fourHours": "4 Saat",
+          "eightHours": "8 Saat",
+          "allDay": "Tüm Gün"
         },
         "manual": {
           "label": "Manuel"

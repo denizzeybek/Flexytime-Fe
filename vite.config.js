@@ -21,4 +21,7 @@ export default defineConfig({
             vue: 'vue/dist/vue.esm-bundler.js',
         },
     },
+    server: {
+        port: 8081,
+    },
 });

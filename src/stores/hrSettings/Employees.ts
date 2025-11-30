@@ -10,6 +10,11 @@ import type {
   TheMemberViewModel,
 } from '@/client';
 
+interface ITagOption {
+  name: string;
+  value: string;
+}
+
 interface State {
   list: TheMemberViewModel[];
   totalItems: number;
@@ -17,8 +22,9 @@ interface State {
   employeeTitles: DefinitionMemberViewModel[];
   managerTitles: DefinitionMemberViewModel[];
   teams: DefinitionMemberViewModel[];
-  tags: any[];
+  tags: ITagOption[];
   invitations: ClockInvitation[];
+  loading: boolean;
 }
 
 export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_EMPLOYEES, {
@@ -31,29 +37,39 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
     teams: [],
     tags: [],
     invitations: [],
+    loading: false,
   }),
+  getters: {
+    isLoading: (state): boolean => state.loading,
+  },
   actions: {
     async filter() {
-      const data = await DefinitionApiService.definitionApiEmployees();
-      const members = data.Members ?? [];
+      try {
+        this.loading = true;
+        const data = await DefinitionApiService.definitionApiEmployees();
+        const members = data.Members ?? [];
 
-      this.roles = data.Roles ?? [];
-      this.employeeTitles = data.EmployeeTitles ?? [];
-      this.managerTitles = data.ManagerTitles ?? [];
-      this.teams = data.Teams ?? [];
-      const tags = data.Tags ?? {};
-      this.tags = Object.entries(tags).map(([key, value]) => ({
-        name: key,
-        value,
-      }));
-      this.invitations = data.Invitations ?? [];
+        this.roles = data.Roles ?? [];
+        this.employeeTitles = data.EmployeeTitles ?? [];
+        this.managerTitles = data.ManagerTitles ?? [];
+        this.teams = data.Teams ?? [];
+        const tags = data.Tags ?? {};
+        this.tags = Object.entries(tags).map(([key, value]) => ({
+          name: key,
+          value,
+        }));
+        this.invitations = data.Invitations ?? [];
 
-      this.list = members;
-      this.totalItems = members.length;
-      return members;
+        this.list = members;
+        this.totalItems = members.length;
+        return members;
+      } finally {
+        this.loading = false;
+      }
     },
     async save(payload: TheMemberModifyViewModel) {
-      return await DefinitionApiService.definitionApiSaveEmployee(payload);
+      await DefinitionApiService.definitionApiSaveEmployee(payload);
+      await this.filter();
     },
     async updateEnabled(id: string, enabled: boolean) {
       const employee = this.list.find((e) => e.ID === id);

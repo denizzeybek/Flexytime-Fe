@@ -1,3 +1,4 @@
+import type { WritableComputedRef } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 import axios from 'axios'
@@ -11,19 +12,20 @@ const locale = import.meta.env.VITE_I18N_LOCALE || 'en'
 
 const options = {
   locale,
-  legacy: false,
+  legacy: false as const,
   warnHtmlMessage: false,
   silentFallbackWarn: true,
   fallbackLocale: import.meta.env.VITE_I18N_FALLBACK_LOCALE || 'en'
 }
 
-const i18n = createI18n<[MessageSchema], Language>(options)
+const i18n = createI18n<[MessageSchema], Language, false>(options)
 i18n.global.setLocaleMessage(locale, en)
 
 export const setI18nLanguage = async (locale: Language) => {
   changeDayjsLocale(locale)
   await loadLocaleMessages(locale)
-  ;(i18n.global.locale as unknown as any).value = locale
+  // In non-legacy mode, locale is a WritableComputedRef<string>
+  ;(i18n.global.locale as WritableComputedRef<Language>).value = locale
   axios.defaults.headers.common['Accept-Language'] = locale
   document.querySelector('html')!.setAttribute('lang', locale)
 }

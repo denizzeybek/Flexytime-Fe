@@ -39,7 +39,7 @@ import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useSettingsPermissionsStore } from '@/stores/settings/permissions';
 
-import type { IPermission } from '@/interfaces/settings/permission';
+import type { PermissonViewModel } from '@/client';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
@@ -66,7 +66,7 @@ const { handleSubmit,  isSubmitting, resetForm } = useForm({
   validationSchema,
 });
 
-const { fields } = useFieldArray<IPermission>('permissions');
+const { fields } = useFieldArray<PermissonViewModel>('permissions');
 
 const isLoading = ref(false);
 

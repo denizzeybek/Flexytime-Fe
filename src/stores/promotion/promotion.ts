@@ -5,6 +5,14 @@ import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { PromotionListViewModel, PromotionModifyViewModel, PromotionViewModel } from '@/client';
 
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 interface State {
   EarnedPromotionList: PromotionViewModel[];
   PromotedPromotionList: PromotionViewModel[];
@@ -21,6 +29,9 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
     loading: false,
     error: null,
   }),
+  getters: {
+    isLoading: (state): boolean => state.loading,
+  },
   actions: {
     /**
      * Fetch promotions list (Earned & Promoted)
@@ -37,8 +48,9 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
         this.PromotedPromotionList = data.Promoted ?? [];
 
         return data;
-      } catch (err: any) {
-        this.error = err?.response?.data?.message || 'Failed to fetch promotions';
+      } catch (err: unknown) {
+        const apiErr = err as ApiError;
+        this.error = apiErr?.response?.data?.message || 'Failed to fetch promotions';
         console.error('Error fetching promotions:', err);
         return null;
       } finally {
@@ -60,8 +72,9 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
         this.PromotionLink = data.PromotionLink ?? '';
 
         return this.PromotionLink;
-      } catch (err: any) {
-        this.error = err?.response?.data?.message || 'Failed to fetch promotion link';
+      } catch (err: unknown) {
+        const apiErr = err as ApiError;
+        this.error = apiErr?.response?.data?.message || 'Failed to fetch promotion link';
         console.error('Error fetching promotion link:', err);
         return null;
       } finally {
@@ -84,8 +97,9 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
         await this.filter();
 
         return true;
-      } catch (err: any) {
-        this.error = err?.response?.data?.message || 'Failed to save promotion';
+      } catch (err: unknown) {
+        const apiErr = err as ApiError;
+        this.error = apiErr?.response?.data?.message || 'Failed to save promotion';
         console.error('Error saving promotion:', err);
         return false;
       } finally {

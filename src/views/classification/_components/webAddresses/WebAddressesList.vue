@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import InputText from 'primevue/inputtext';
@@ -26,7 +26,8 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const webAddressesStore = useClassificationWebAddressesStore();
 const { showErrorMessage } = useFToast();
 
-const isLoading = ref(false);
+const isLoading = computed(() => webAddressesStore.isLoading);
+
 const searchText = ref('');
 const isOnMounted = ref(false);
 const payload = ref({
@@ -39,11 +40,9 @@ const payload = ref({
 
 const fetchWebAddresses = async () => {
   try {
-    isLoading.value = true;
     await webAddressesStore.filter(payload.value);
-    isLoading.value = false;
   } catch (error) {
-    showErrorMessage(error as any);
+    showErrorMessage(error as Error);
   }
 };
 

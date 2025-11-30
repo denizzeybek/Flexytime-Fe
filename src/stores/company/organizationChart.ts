@@ -24,7 +24,8 @@ export const useCompanyOrganizationChartsStore = defineStore(
         return data;
       },
       async save(payload: OrganizationViewModel) {
-        return await CompanyApiService.companyApiSaveOrganization(payload);
+        await CompanyApiService.companyApiSaveOrganization(payload);
+        await this.filter();
       },
     },
   },

@@ -9,12 +9,11 @@
     v-if="isModalOpen"
     v-model:open="isModalOpen"
     :data="currentAnnual"
-    @fetchAnnuals="fetchAnnuals"
   />
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 import { useFToast } from '@/composables/useFToast';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
@@ -22,35 +21,39 @@ import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 import AnnualModal from './_modals/AnnualModal.vue';
 import AnnualsTable from './AnnualsTable.vue';
 
+import type { AnnualViewModel } from '@/client';
+
 const annualsStore = useHRSettingsAnnualsStore();
 const { showErrorMessage } = useFToast();
 
-const isLoading = ref(false);
+const isLoading = computed(() => annualsStore.isLoading);
+
 const isModalOpen = ref(false);
-const currentAnnual = ref();
+const currentAnnual = ref<AnnualViewModel>();
 
 const handleNew = () => {
   isModalOpen.value = true;
   currentAnnual.value = undefined;
 };
 
-const handleEdit = (annual) => {
+const handleEdit = (annual: AnnualViewModel) => {
   currentAnnual.value = annual;
   isModalOpen.value = true;
 };
 
-const handleDelete = async (ID) => {
-  await annualsStore.delete({ ID: ID });
-  await fetchAnnuals();
+const handleDelete = async (ID: string) => {
+  try {
+    await annualsStore.delete({ ID });
+  } catch (error) {
+    showErrorMessage(error as Error);
+  }
 };
 
 const fetchAnnuals = async () => {
   try {
-    isLoading.value = true;
     await annualsStore.filter();
-    isLoading.value = false;
   } catch (error) {
-    showErrorMessage(error as any);
+    showErrorMessage(error as Error);
   }
 };
 

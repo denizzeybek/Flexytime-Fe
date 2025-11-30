@@ -14,10 +14,10 @@ import type {
   ClockSectionRequest,
   ClockSectionTeamset,
   ClockWellBeingDetail,
+  EmployeeClockViewModel,
   SectionClockSummary,
   WebClockModifyModel,
 } from '@/client';
-import type { IIndividualEmployeeModel } from '@/interfaces/worktimeUsage/section';
 
 interface State {
   Card: CardViewModel;
@@ -30,7 +30,7 @@ interface State {
   Teamset?: ClockSectionTeamset;
   Invitations?: ClockInvitation[];
   DownloadKey?: string;
-  IndividualEmployeeModel?: IIndividualEmployeeModel;
+  IndividualEmployeeModel?: EmployeeClockViewModel;
   isLoading: boolean;
 }
 
@@ -46,7 +46,7 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
     Teamset: {} as ClockSectionTeamset,
     Invitations: [],
     DownloadKey: '',
-    IndividualEmployeeModel: {} as IIndividualEmployeeModel,
+    IndividualEmployeeModel: {} as EmployeeClockViewModel,
     isLoading: false,
   }),
   actions: {
@@ -94,8 +94,7 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
         const response = await ClockApiService.clockApiGetEmployee(payload);
         this.Card = response.Card!;
         this.Breadcrumb = response.Breadcrumbs as ClockBreadCrumb[];
-        // EmployeeClockViewModel has different structure - store the whole model
-        this.IndividualEmployeeModel = response.Model as any;
+        this.IndividualEmployeeModel = response.Model;
         return response;
       } finally {
         this.isLoading = false;
