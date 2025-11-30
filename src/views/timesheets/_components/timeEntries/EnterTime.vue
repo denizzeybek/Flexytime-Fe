@@ -57,11 +57,21 @@ import TimerControls from '@/views/timesheets/_components/timeEntries/_component
 import { useEnterTimeTimer } from '@/views/timesheets/_composables/useEnterTimeTimer';
 import { ELayout } from '@/views/timesheets/_etc/layout.enum';
 
-import type { TimeEntryModifyViewModel } from '@/client';
+import type { TimeClockViewModel, TimeEntryModifyViewModel } from '@/client';
 
 interface ITagOption {
   name: string;
   value: string;
+}
+
+// Extended type for time entry payload - backend expects additional fields not in OpenAPI spec
+// TODO: Update OpenAPI spec to include these fields
+interface TimeEntryPayload extends TimeEntryModifyViewModel {
+  RecordDate?: string;
+  RecordDateCustom?: string;
+  time?: string;
+  Member?: { ID: string | null; Name: string };
+  Clocks?: TimeClockViewModel[];
 }
 
 const { t } = useI18n<{ message: MessageSchema }>();
@@ -217,7 +227,7 @@ const submitHandler = handleSubmit(async (formValues) => {
       ? (timeDifference.value ? timeDifference.value + ':00' : '00:00:00:00')
       : formatElapsedTimeForPayload(elapsedTime.value) + ':00';
 
-    const payload = {
+    const payload: TimeEntryPayload = {
       Task: task,
       Project: formValues.project ? { ID: formValues.project.value, Name: formValues.project.name } : undefined,
       Tags: formValues.tags?.map((tag: ITagOption) => ({ ID: tag.value, Name: tag.name })) ?? [],
@@ -231,7 +241,7 @@ const submitHandler = handleSubmit(async (formValues) => {
       Clocks: [],
     };
 
-    await TimesheetApiService.timesheetApiSaveTimeEntry(payload as unknown as TimeEntryModifyViewModel);
+    await TimesheetApiService.timesheetApiSaveTimeEntry(payload);
     await timeEntriesStore.fetchTimeEntries();
 
     showSuccessMessage(t('pages.timesheets.enterTime.messages.success'));

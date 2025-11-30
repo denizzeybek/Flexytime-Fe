@@ -117,15 +117,14 @@ const getInitialFormData = computed(() => {
 });
 
 const submitHandler = handleSubmit(async (values) => {
+  const startDateTime = convertDateToString(values.startDate, true) as { date: string; time: string };
+  const endDateTime = convertDateToString(values.endDate, true) as { date: string; time: string };
+
   let payload = {
     StartDate: convertDateToString(values.startDate),
-    StartTime: values.startFullDay
-      ? '00:00'
-      : (convertDateToString(values.startDate, true) as unknown as any).time,
+    StartTime: values.startFullDay ? '00:00' : startDateTime.time,
     EndDate: convertDateToString(values.endDate),
-    EndTime: values.endFullDay
-      ? '00:00'
-      : (convertDateToString(values.endDate, true) as unknown as any).time,
+    EndTime: values.endFullDay ? '00:00' : endDateTime.time,
     Name: values.name,
     StartFullDay: values.startFullDay,
     EndFullDay: values.endFullDay,

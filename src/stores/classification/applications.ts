@@ -49,11 +49,14 @@ export const useClassificationApplicationsStore = defineStore(
       async filter(payload: DataTableQueryModel) {
         try {
           this.loading = true;
-          const response = (await CategoryApiService.categoryApiQueryAllocations(
-            payload,
-          )) as unknown as DataTableResponse;
-          const applications = response.DTO?.data ?? [];
-          const total = response.DTO?.recordsTotal ?? 0;
+          // Note: Backend returns DataTable format not in OpenAPI spec
+          // TODO: Update OpenAPI spec to include DTO wrapper
+          const rawResponse = await CategoryApiService.categoryApiQueryAllocations(payload);
+          const response = rawResponse as unknown as DataTableResponse;
+
+          // Runtime validation
+          const applications = Array.isArray(response.DTO?.data) ? response.DTO.data : [];
+          const total = typeof response.DTO?.recordsTotal === 'number' ? response.DTO.recordsTotal : 0;
 
           this.list = applications;
           this.totalItems = total;

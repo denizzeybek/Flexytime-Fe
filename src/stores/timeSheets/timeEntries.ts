@@ -196,15 +196,12 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
           return MOCK_TIME_ENTRIES;
         }
 
-        const requestQuery = {
-          ...this.query,
-          ...query,
-          EntryId: query?.EntryId ?? this.query.EntryId ?? '',
-          MemberId: '',
+        const requestQuery: TimeEntryQueryViewModel = {
+          RecordDate: query?.RecordDate ?? this.query.RecordDate ?? dayjs().format('DD.MM.YYYY'),
+          EntryId: query?.EntryId ?? this.query.EntryId,
+          Hours: query?.Hours ?? this.query.Hours,
         };
-        const data = await TimesheetApiService.timesheetApiGetTimeEntries(
-          requestQuery as unknown as TimeEntryQueryViewModel,
-        );
+        const data = await TimesheetApiService.timesheetApiGetTimeEntries(requestQuery);
 
         this.timeEntries = data;
         return data;
@@ -228,15 +225,12 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
           return MOCK_TIME_CLOCKS;
         }
 
-        const requestQuery = {
-          ...this.query,
-          ...query,
-          EntryId: query?.EntryId ?? this.query.EntryId ?? '',
-          MemberId: '',
+        const requestQuery: TimeEntryQueryViewModel = {
+          RecordDate: query?.RecordDate ?? this.query.RecordDate ?? dayjs().format('DD.MM.YYYY'),
+          EntryId: query?.EntryId ?? this.query.EntryId,
+          Hours: query?.Hours ?? this.query.Hours,
         };
-        const data = await TimesheetApiService.timesheetApiGetTimeClocks(
-          requestQuery as unknown as TimeEntryQueryViewModel,
-        );
+        const data = await TimesheetApiService.timesheetApiGetTimeClocks(requestQuery);
 
         this.timeClocks = data;
         return data;

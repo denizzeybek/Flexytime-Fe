@@ -50,11 +50,14 @@ export const useClassificationWebAddressesStore = defineStore(
       async filter(payload: DataTableQueryModel) {
         try {
           this.loading = true;
-          const response = (await CategoryApiService.categoryApiQueryWebAddresses(
-            payload,
-          )) as unknown as DataTableResponse;
-          const webAddresses = response.DTO?.data ?? [];
-          const total = response.DTO?.recordsTotal ?? 0;
+          // Note: Backend returns DataTable format not in OpenAPI spec
+          // TODO: Update OpenAPI spec to include DTO wrapper
+          const rawResponse = await CategoryApiService.categoryApiQueryWebAddresses(payload);
+          const response = rawResponse as unknown as DataTableResponse;
+
+          // Runtime validation
+          const webAddresses = Array.isArray(response.DTO?.data) ? response.DTO.data : [];
+          const total = typeof response.DTO?.recordsTotal === 'number' ? response.DTO.recordsTotal : 0;
 
           this.list = webAddresses;
           this.totalItems = total;

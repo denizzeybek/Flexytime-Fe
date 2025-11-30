@@ -72,7 +72,6 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
       } catch (err: unknown) {
         const apiErr = err as ApiError;
         this.error = apiErr?.response?.data?.message || 'Failed to fetch companies';
-        console.error('Error fetching companies:', err);
         return null;
       } finally {
         this.loading = false;
@@ -97,7 +96,6 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
       } catch (err: unknown) {
         const apiErr = err as ApiError;
         this.error = apiErr?.response?.data?.message || 'Failed to save company';
-        console.error('Error saving company:', err);
         throw err;
       } finally {
         this.loading = false;
@@ -122,7 +120,6 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
       } catch (err: unknown) {
         const apiErr = err as ApiError;
         this.error = apiErr?.response?.data?.message || 'Failed to delete company';
-        console.error('Error deleting company:', err);
         return false;
       } finally {
         this.loading = false;
