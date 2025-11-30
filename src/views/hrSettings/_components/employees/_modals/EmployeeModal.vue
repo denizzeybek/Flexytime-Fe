@@ -100,12 +100,7 @@ interface IProps {
   data?: TheMemberViewModel;
 }
 
-interface IEmits {
-  (event: 'fetchEmployees'): void;
-}
-
 const props = defineProps<IProps>();
-const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
@@ -237,10 +232,8 @@ const submitHandler = handleSubmit(async (formValues) => {
       ? t('pages.hrSettings.employees.modal.messages.updated')
       : t('pages.hrSettings.employees.modal.messages.added');
 
-     
     const payload = buildPayload(formValues) as any;
     await employeesStore.save(payload);
-    emit('fetchEmployees');
     showSuccessMessage(text);
     isClear.value = true;
     handleClose();

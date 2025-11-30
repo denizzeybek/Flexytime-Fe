@@ -153,7 +153,6 @@ const handleSave = async () => {
     };
     await organizationsStore.save(payload);
     showSuccessMessage(t('pages.company.organizationChartV2.messages.saved'));
-    await fetchOrganizationChart();
     originalOrganizationList.value = JSON.parse(JSON.stringify(organizationList.value));
   } catch (error) {
     showErrorMessage(error as Error);

@@ -106,10 +106,7 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
         this.error = null;
 
         await SettingApiService.settingApiDeleteCompany({ ID: companyID });
-
-        // Remove from local list
-        this.list = this.list.filter((company) => company.ID !== companyID);
-        this.totalItems = this.list.length;
+        await this.filter();
 
         return true;
       } catch (err: any) {

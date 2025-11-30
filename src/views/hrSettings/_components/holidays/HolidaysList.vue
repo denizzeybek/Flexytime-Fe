@@ -9,7 +9,6 @@
     v-if="isModalOpen"
     v-model:open="isModalOpen"
     :data="currentHoliday"
-    @fetchHolidays="fetchHolidays"
   />
 </template>
 
@@ -45,7 +44,6 @@ const handleEdit = (holiday: HolidayViewModel) => {
 const handleDelete = async (ID: string) => {
   try {
     await holidaysStore.delete({ ID });
-    await fetchHolidays();
   } catch (error) {
     showErrorMessage(error as Error);
   }

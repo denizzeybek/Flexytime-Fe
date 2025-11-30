@@ -63,7 +63,8 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
       }
     },
     async save(payload: TheMemberModifyViewModel) {
-      return await DefinitionApiService.definitionApiSaveEmployee(payload);
+      await DefinitionApiService.definitionApiSaveEmployee(payload);
+      await this.filter();
     },
     async updateEnabled(id: string, enabled: boolean) {
       const employee = this.list.find((e) => e.ID === id);

@@ -62,13 +62,7 @@ interface IProps {
   data?: CompanyViewModel;
 }
 
-interface IEmits {
-  (event: 'fetchCompanies'): void;
-}
-
 const props = defineProps<IProps>();
-
-const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { executeWithFeedback } = useOperationFeedback({ showLoading: false });
@@ -111,7 +105,6 @@ const submitHandler = handleSubmit(async (values) => {
 
   await executeWithFeedback(() => companiesStore.save(payload), successMessage);
 
-  emit('fetchCompanies');
   handleClose();
 });
 

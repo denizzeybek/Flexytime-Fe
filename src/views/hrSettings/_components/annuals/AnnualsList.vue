@@ -9,7 +9,6 @@
     v-if="isModalOpen"
     v-model:open="isModalOpen"
     :data="currentAnnual"
-    @fetchAnnuals="fetchAnnuals"
   />
 </template>
 
@@ -45,7 +44,6 @@ const handleEdit = (annual: AnnualViewModel) => {
 const handleDelete = async (ID: string) => {
   try {
     await annualsStore.delete({ ID });
-    await fetchAnnuals();
   } catch (error) {
     showErrorMessage(error as Error);
   }

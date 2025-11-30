@@ -33,10 +33,12 @@ export const useHRSettingsHolidaysStore = defineStore(EStoreNames.HR_SETTINGS_HO
       }
     },
     async save(payload: HolidayViewModel) {
-      return await CompanyApiService.companyApiSaveHoliday(payload);
+      await CompanyApiService.companyApiSaveHoliday(payload);
+      await this.filter();
     },
     async delete(ID: PerformReferenceModel) {
-      return await CompanyApiService.companyApiDeleteHoliday(ID);
+      await CompanyApiService.companyApiDeleteHoliday(ID);
+      await this.filter();
     },
   },
 });

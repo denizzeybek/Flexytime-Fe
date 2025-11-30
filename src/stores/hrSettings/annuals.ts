@@ -46,10 +46,12 @@ export const useHRSettingsAnnualsStore = defineStore(EStoreNames.HR_SETTINGS_ANN
       }
     },
     async save(payload: AnnualViewModel) {
-      return await DefinitionApiService.definitionApiSaveAnnual(payload);
+      await DefinitionApiService.definitionApiSaveAnnual(payload);
+      await this.filter();
     },
     async delete(ID: { ID: string }) {
-      return await DefinitionApiService.definitionApiDeleteAnnual(ID);
+      await DefinitionApiService.definitionApiDeleteAnnual(ID);
+      await this.filter();
     },
   },
 });

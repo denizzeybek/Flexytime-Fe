@@ -107,15 +107,14 @@ const recursiveRemoveItemById = (data, targetId) => {
 const handleSave = async () => {
   try {
     const payload = {
-      Nodes: organizationList.value
-    }
+      Nodes: organizationList.value,
+    };
     await organizationsStore.save(payload);
-    showSuccessMessage(t('pages.company.organizationChart.messages.saved'))
-    await fetchOrganizationChart();
+    showSuccessMessage(t('pages.company.organizationChart.messages.saved'));
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-}
+};
 
 const fetchOrganizationChart = async () => {
   try {

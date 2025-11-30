@@ -70,14 +70,7 @@ interface IProps {
   data?: HolidayViewModel;
 }
 
-interface IEmits {
-  (event: 'fetchHolidays'): void;
-  (event: 'hide', val: any): void;
-}
-
 const props = defineProps<IProps>();
-
-const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { executeWithFeedback } = useOperationFeedback({ showLoading: false });
@@ -148,7 +141,6 @@ const submitHandler = handleSubmit(async (values) => {
     t('pages.hrSettings.holidays.modal.messages.updated'),
   );
 
-  emit('fetchHolidays');
   handleClose();
 });
 

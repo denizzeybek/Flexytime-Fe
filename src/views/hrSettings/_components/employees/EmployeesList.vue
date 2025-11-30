@@ -4,7 +4,6 @@
     v-if="isModalOpen"
     v-model:open="isModalOpen"
     :data="currentEmployee"
-    @fetchEmployees="fetchEmployees"
   />
 </template>
 

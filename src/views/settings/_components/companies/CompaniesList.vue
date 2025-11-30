@@ -40,7 +40,6 @@ const handleEdit = (company: CompanyViewModel) => {
 const handleDelete = async (ID: string) => {
   try {
     await companiesStore.deleteCompany(ID);
-    await fetchCompanies();
   } catch (error) {
     showErrorMessage(error as Error);
   }

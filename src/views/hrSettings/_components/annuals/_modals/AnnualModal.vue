@@ -76,13 +76,7 @@ interface IProps {
   data?: AnnualViewModel;
 }
 
-interface IEmits {
-  (event: 'fetchAnnuals'): void;
-}
-
 const props = defineProps<IProps>();
-
-const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { executeWithFeedback } = useOperationFeedback({ showLoading: false });
@@ -170,7 +164,6 @@ const submitHandler = handleSubmit(async (values) => {
     t('pages.hrSettings.annuals.modal.messages.updated'),
   );
 
-  emit('fetchAnnuals');
   handleClose();
 });
 
