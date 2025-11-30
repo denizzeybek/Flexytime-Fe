@@ -62,18 +62,18 @@ import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
-import { boolean, object,string } from 'yup';
+import { boolean, object, string } from 'yup';
 
+import { useModalForm } from '@/composables/useModalFormInit';
 import { useOperationFeedback } from '@/composables/useOperationFeedback';
 import { convertDateToString, convertStringToDate } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 
 import type { AnnualViewModel } from '@/client';
-import type { IAnnual } from '@/interfaces/hrSettings/annual';
 
 interface IProps {
-  data?: IAnnual;
+  data?: AnnualViewModel;
 }
 
 interface IEmits {
@@ -103,8 +103,6 @@ const validationSchema = object({
   startDate: string().required().label('Start date'),
   endFullDay: boolean().label('End time all day'),
   endDate: string().required().label('End date'),
-
-  //   check: boolean().required().isTrue('You must agree to terms and conditions').label('Check'),
 });
 
 const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
@@ -123,16 +121,15 @@ const employees = computed(() => {
   });
 });
 
-const isEditing = computed(() => !!props.data);
+const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
 
 const getInitialFormData = computed(() => {
   const annual = props.data;
-  return {
-    ...(annual && {
+  if (annual) {
+    return {
       ID: annual.ID,
       employeeName: { name: annual.MemberName, value: annual.MemberId },
       leaveType: annual.LeaveType,
-      name: annual.Name,
       startFullDay: annual.StartFullDay,
       startDate: annual.StartFullDay
         ? convertStringToDate(annual.StartDate)
@@ -141,15 +138,10 @@ const getInitialFormData = computed(() => {
       endDate: annual.EndFullDay
         ? convertStringToDate(annual.EndDate)
         : convertStringToDate(`${annual.EndDate} ${annual.EndTime}`),
-      repeat: annual.Repeat,
-    }),
-  };
+    };
+  }
+  return {};
 });
-
-const handleClose = () => {
-  resetForm();
-  open.value = false;
-};
 
 const submitHandler = handleSubmit(async (values) => {
   let payload = {
@@ -183,8 +175,6 @@ const submitHandler = handleSubmit(async (values) => {
 });
 
 onMounted(() => {
-  resetForm({
-    values: getInitialFormData.value,
-  });
+  resetForm({ values: getInitialFormData.value });
 });
 </script>

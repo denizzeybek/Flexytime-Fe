@@ -171,7 +171,7 @@ const handleClose = () => {
   resetForm();
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 const buildPayload = (formValues: any) => {
   if (isEditing.value) {
     const employee = props.data;
@@ -237,7 +237,7 @@ const submitHandler = handleSubmit(async (formValues) => {
       ? t('pages.hrSettings.employees.modal.messages.updated')
       : t('pages.hrSettings.employees.modal.messages.added');
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     const payload = buildPayload(formValues) as any;
     await employeesStore.save(payload);
     emit('fetchEmployees');
@@ -257,7 +257,7 @@ onMounted(() => {
       activeTab.value = employee?.Role ?? 0;
     }
     resetForm({
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
       values: getInitialFormData.value as any,
     });
   }

@@ -146,16 +146,40 @@ const isLoading = computed(() => store.isLoading);
 
 ### 3.2 Orta Öncelikli - Modal ve Store Standardizasyonu
 
-#### 3.2.1 Modal Form Initialization Pattern
+#### 3.2.1 Modal Form Utilities ✅ TAMAMLANDI
 
-**Sorun:** 3+ modal'da aynı `getInitialFormData` + `resetForm` pattern'i
+**Durum:** Minimal `useModalForm` composable oluşturuldu.
 
-**Etkilenen Dosyalar:**
-- `HolidayModal.vue` (104-126)
-- `AnnualModal.vue` (128-147)
-- `CompanyModal.vue` (123-154)
+**Oluşturulan Dosya:** `src/composables/useModalFormInit.ts`
 
-**Çözüm:** `useModalFormInit` composable
+**Güncellenen Modal'lar:**
+- ✅ `HolidayModal.vue` - `useModalForm` + OpenAPI tipi (`HolidayViewModel`)
+- ✅ `AnnualModal.vue` - `useModalForm` + OpenAPI tipi (`AnnualViewModel`)
+- ✅ `CompanyModal.vue` - `useModalForm` + OpenAPI tipi (`CompanyViewModel`)
+
+**OpenAPI Type Migration:**
+- ✅ `HolidaysList.vue`, `HolidaysTable.vue` - `HolidayViewModel`
+- ✅ `AnnualsList.vue`, `AnnualsTable.vue` - `AnnualViewModel`
+- ✅ `CompaniesList.vue`, `CompaniesTable.vue` - `CompanyViewModel`
+
+**Pattern:**
+```typescript
+// Minimal composable - sadece isEditing ve handleClose
+const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
+
+// Form init logic modal'da kalıyor (daha okunabilir)
+const getInitialFormData = computed(() => { ... });
+
+onMounted(() => {
+  resetForm({ values: getInitialFormData.value });
+});
+```
+
+**Kazanımlar:**
+- Basit ve okunabilir API
+- `isEditing` ve `handleClose` tekrarı kaldırıldı
+- Form init logic görünür ve anlaşılır kaldı
+- OpenAPI tipleri ile tip güvenliği
 
 ---
 
@@ -227,12 +251,12 @@ const isLoading = computed(() => store.isLoading);
 | 2 | `createSkeletonData` utility | Orta | Düşük | 6 | ✅ TAMAMLANDI |
 | 3 | `useOperationFeedback` composable | Yüksek | Düşük | 4 | ✅ TAMAMLANDI |
 | 4 | Store loading state standardizasyonu | Orta | Orta | 7 | ✅ TAMAMLANDI |
-| 5 | Modal form init composable | Orta | Orta | 3+ | ⏳ Bekliyor |
+| 5 | Modal form utilities (`useModalForm`) | Orta | Düşük | 9 | ✅ TAMAMLANDI |
 | 6 | Data refresh standardizasyonu | Yüksek | Orta | 12+ | ⏳ Bekliyor |
 | 7 | Search UI standardizasyonu | Düşük | Orta | 5+ | ⏳ Bekliyor |
 | 8 | Pagination standardizasyonu | Orta | Yüksek | 6+ | ⏳ Bekliyor |
 
-**Tamamlanan:** 4/8 task
+**Tamamlanan:** 5/8 task
 **Tahmini Kod Azaltımı:** ~600-800 satır tekrarlayan/tutarsız kod
 
 ---

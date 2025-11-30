@@ -100,7 +100,7 @@ import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useSettingsCompaniesStore } from '@/stores/settings/companies';
 
-import type { ICompany } from '@/interfaces/settings/company';
+import type { CompanyViewModel } from '@/client';
 
 interface IProps {
   isLoading: boolean;
@@ -108,7 +108,7 @@ interface IProps {
 
 interface IEmits {
   (event: 'new'): void;
-  (event: 'edit', value: ICompany): void;
+  (event: 'edit', value: CompanyViewModel): void;
   (event: 'delete', value: string): void;
 }
 
@@ -148,15 +148,15 @@ const companies = computed(() => {
   return companiesStore.list;
 });
 
-const handleEdit = (company: ICompany) => {
+const handleEdit = (company: CompanyViewModel) => {
   emit('edit', company);
 };
 
-const handleDelete = (company: ICompany) => {
-  emit('delete', company.ID);
+const handleDelete = (company: CompanyViewModel) => {
+  emit('delete', company.ID!);
 };
 
-const handleOptionClick = (option: EOptionsDropdown, company: ICompany) => {
+const handleOptionClick = (option: EOptionsDropdown, company: CompanyViewModel) => {
   if (option === EOptionsDropdown.Edit) {
     handleEdit(company);
   } else if (option === EOptionsDropdown.Delete) {

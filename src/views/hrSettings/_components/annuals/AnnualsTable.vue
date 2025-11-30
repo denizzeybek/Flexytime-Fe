@@ -96,7 +96,7 @@ import { type MessageSchema } from '@/plugins/i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 
-import type { IAnnual } from '@/interfaces/hrSettings/annual';
+import type { AnnualViewModel } from '@/client';
 
 interface IProps {
   isLoading: boolean;
@@ -104,7 +104,7 @@ interface IProps {
 
 interface IEmits {
   (event: 'new'): void;
-  (event: 'edit', value: IAnnual): void;
+  (event: 'edit', value: AnnualViewModel): void;
   (event: 'delete', ID: string): void;
 }
 
@@ -150,7 +150,7 @@ const annuals = computed(() => {
   }
 });
 
-const handleEdit = (annual: IAnnual) => {
+const handleEdit = (annual: AnnualViewModel) => {
   emit('edit', annual);
 };
 
@@ -158,11 +158,11 @@ const handleDelete = (ID: string) => {
   emit('delete', ID);
 };
 
-const handleOptionClick = (option: EOptionsDropdown, annual: IAnnual) => {
+const handleOptionClick = (option: EOptionsDropdown, annual: AnnualViewModel) => {
   if (option === EOptionsDropdown.Edit) {
     handleEdit(annual);
   } else if (option === EOptionsDropdown.Delete) {
-    handleDelete(annual.ID);
+    handleDelete(annual.ID!);
   }
 };
 

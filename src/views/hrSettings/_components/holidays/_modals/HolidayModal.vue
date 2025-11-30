@@ -56,18 +56,18 @@ import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
-import { boolean, object,string } from 'yup';
+import { boolean, object, string } from 'yup';
 
+import { useModalForm } from '@/composables/useModalFormInit';
 import { useOperationFeedback } from '@/composables/useOperationFeedback';
 import { convertDateToString, convertStringToDate } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 
 import type { HolidayViewModel } from '@/client';
-import type { IHoliday } from '@/interfaces/hrSettings/holiday';
 
 interface IProps {
-  data?: IHoliday;
+  data?: HolidayViewModel;
 }
 
 interface IEmits {
@@ -101,11 +101,10 @@ const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
 const [startFullDay] = defineField('startFullDay');
 const [endFullDay] = defineField('endFullDay');
 
-const isEditing = computed(() => !!props.data);
+const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
 
 const getInitialFormData = computed(() => {
   const holiday = props.data;
-
   if (holiday) {
     return {
       ID: holiday.ID,
@@ -116,19 +115,13 @@ const getInitialFormData = computed(() => {
       endDate: convertStringToDate(holiday.EndDate, holiday.EndTime),
       repeat: holiday.Repeat,
     };
-  } else {
-    return {
-      startFullDay: false,
-      endFullDay: false,
-      repeat: false,
-    };
   }
+  return {
+    startFullDay: false,
+    endFullDay: false,
+    repeat: false,
+  };
 });
-
-const handleClose = () => {
-  resetForm();
-  open.value = false;
-};
 
 const submitHandler = handleSubmit(async (values) => {
   let payload = {
@@ -160,8 +153,6 @@ const submitHandler = handleSubmit(async (values) => {
 });
 
 onMounted(() => {
-  resetForm({
-    values: getInitialFormData.value,
-  });
+  resetForm({ values: getInitialFormData.value });
 });
 </script>

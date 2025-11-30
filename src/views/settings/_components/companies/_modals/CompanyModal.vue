@@ -45,21 +45,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
 import { number, object, string } from 'yup';
 
+import { useModalForm } from '@/composables/useModalFormInit';
 import { useOperationFeedback } from '@/composables/useOperationFeedback';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useSettingsCompaniesStore } from '@/stores/settings/companies';
 
 import type { CompanyViewModel } from '@/client';
-import type { ICompany } from '@/interfaces/settings/company';
 
 interface IProps {
-  data?: ICompany;
+  data?: CompanyViewModel;
 }
 
 interface IEmits {
@@ -89,12 +89,7 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 
 const open = defineModel<boolean>('open');
 
-const isEditing = computed(() => !!props.data);
-
-const handleClose = () => {
-  resetForm();
-  open.value = false;
-};
+const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
 
 const submitHandler = handleSubmit(async (values) => {
   const payload: CompanyViewModel = {

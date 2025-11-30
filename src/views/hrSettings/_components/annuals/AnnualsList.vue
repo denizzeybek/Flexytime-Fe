@@ -22,7 +22,7 @@ import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 import AnnualModal from './_modals/AnnualModal.vue';
 import AnnualsTable from './AnnualsTable.vue';
 
-import type { IAnnual } from '@/interfaces/hrSettings/annual';
+import type { AnnualViewModel } from '@/client';
 
 const annualsStore = useHRSettingsAnnualsStore();
 const { showErrorMessage } = useFToast();
@@ -30,14 +30,14 @@ const { showErrorMessage } = useFToast();
 const isLoading = computed(() => annualsStore.isLoading);
 
 const isModalOpen = ref(false);
-const currentAnnual = ref<IAnnual>();
+const currentAnnual = ref<AnnualViewModel>();
 
 const handleNew = () => {
   isModalOpen.value = true;
   currentAnnual.value = undefined;
 };
 
-const handleEdit = (annual: IAnnual) => {
+const handleEdit = (annual: AnnualViewModel) => {
   currentAnnual.value = annual;
   isModalOpen.value = true;
 };

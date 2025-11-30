@@ -17,14 +17,14 @@ import { useSettingsCompaniesStore } from '@/stores/settings/companies';
 import CompanyModal from './_modals/CompanyModal.vue';
 import CompaniesTable from './CompaniesTable.vue';
 
-import type { ICompany } from '@/interfaces/settings/company';
+import type { CompanyViewModel } from '@/client';
 
 const companiesStore = useSettingsCompaniesStore();
 const { showErrorMessage } = useFToast();
 
 const isLoading = computed(() => companiesStore.isLoading);
 
-const currentCompany = ref<ICompany>();
+const currentCompany = ref<CompanyViewModel>();
 const isModalOpen = ref(false);
 
 const handleNew = () => {
@@ -32,7 +32,7 @@ const handleNew = () => {
   isModalOpen.value = true;
 };
 
-const handleEdit = (company: ICompany) => {
+const handleEdit = (company: CompanyViewModel) => {
   currentCompany.value = company;
   isModalOpen.value = true;
 };
