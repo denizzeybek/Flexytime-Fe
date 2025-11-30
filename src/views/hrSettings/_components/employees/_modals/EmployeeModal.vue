@@ -16,213 +16,65 @@
           </TabList>
         </div>
         <TabPanels>
+          <!-- Employee Tab -->
           <TabPanel :value="0">
             <form v-if="!isEditing" class="flex flex-col gap-5" @submit.prevent>
               values.emails {{ values.emails }}
               <FEmailList name="emails" type="text" :is-clear="isClear" />
             </form>
             <form v-else class="flex flex-col gap-4">
-              <div class="flex items-center flex-col lg:flex-row gap-12">
-                <!-- <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
-                <img
-                  v-if="src"
-                  :src="src"
-                  alt="Image"
-                  class="shadow-md rounded-xl w-full sm:w-64"
-                  style="filter: grayscale(100%)"
-                />
-                <div
-                  v-else
-                  class="w-[100px] h-[100px] flex items-center justify-center border-2 rounded-full border-f-black"
-                >
-                  <span class="pi pi-user !text-6xl"></span>
-                </div>
-                <FileUpload
-                  mode="basic"
-                  @select="onFileSelect"
-                  customUpload
-                  auto
-                  severity="secondary"
-                  class="p-button-outlined"
-                />
-              </div> -->
-                <div class="flex lg:flex-col flex-1 gap-4">
-                  <FInput id="memberName" class="grow" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
-                  <FInput id="email" class="grow" type="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
-                  <FCheckbox v-if="isEditing" name="enabled" labelLeft :label="t('pages.hrSettings.employees.modal.enabled.label')" />
-                </div>
-              </div>
-              <div class="flex gap-4 flex-1">
-                <FSelect
-                  id="title"
-                  class="grow"
-                  name="title"
-                  :label="t('pages.hrSettings.employees.modal.title.label')"
-                  :placeholder="t('pages.hrSettings.employees.modal.title.placeholder')"
-                  :options="titleOptions"
-                />
-                <FSelect
-                  id="team"
-                  class="grow"
-                  name="team"
-                  :label="t('pages.hrSettings.employees.modal.team.label')"
-                  :placeholder="t('pages.hrSettings.employees.modal.team.placeholder')"
-                  :options="teamOptions"
-                />
-                <FInput
-                  id="operatingUser"
-                  class="grow"
-                  :label="t('pages.hrSettings.employees.modal.operatingUser.label')"
-                  name="operatingUser"
-                />
-              </div>
-              <div class="flex items-center gap-4 flex-1">
-                <FMultiSelect
-                  name="tags"
-                  class="grow"
-                  :placeholder="t('pages.hrSettings.employees.modal.tags.placeholder')"
-                  :label="t('pages.hrSettings.employees.modal.tags.label')"
-                  :options="tagOptions"
-                  :headerAddBtn="false"
-                  :prime-props="{
-                    maxSelectedLabels: 3,
-                  }"
-                />
-                <FInput id="salary" class="grow" :label="t('pages.hrSettings.employees.modal.salary.label')" name="salary" />
-              </div>
+              <EmployeeBasicInfoSection :show-enabled="isEditing" />
+              <EmployeeRoleSection
+                :title-options="titleOptions"
+                :team-options="teamOptions"
+                :show-operating-user="true"
+              />
+              <EmployeeTagsSalarySection :tag-options="tagOptions" :show-tags="true" />
               <Divider />
-              <div class="flex gap-4 flex-1">
-                <FPassword id="password" class="grow" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
-                <!-- <FPassword
-                class="grow"
-                id="repeatPassword"
-                label="Repeat Password"
-                name="repeatPassword"
-              /> -->
-              </div>
+              <EmployeePasswordSection />
             </form>
           </TabPanel>
+
+          <!-- Team Manager Tab -->
           <TabPanel :value="1">
             <form class="flex flex-col gap-6">
-              <div class="flex items-center flex-col lg:flex-row gap-12">
-                <!-- <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
-                <img
-                  v-if="src"
-                  :src="src"
-                  alt="Image"
-                  class="shadow-md rounded-xl w-full sm:w-64"
-                  style="filter: grayscale(100%)"
-                />
-                <div
-                  v-else
-                  class="w-[100px] h-[100px] flex items-center justify-center border-2 rounded-full border-f-black"
-                >
-                  <span class="pi pi-user !text-6xl"></span>
-                </div>
-                <FileUpload
-                  mode="basic"
-                  @select="onFileSelect"
-                  customUpload
-                  auto
-                  severity="secondary"
-                  class="p-button-outlined"
-                />
-              </div> -->
-                <div class="flex lg:flex-col flex-1 gap-4">
-                  <FInput id="memberName" class="grow" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
-                  <FInput id="email" class="grow" type="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
-                  <FCheckbox v-if="isEditing" name="enabled" labelLeft :label="t('pages.hrSettings.employees.modal.enabled.label')" />
-                </div>
-              </div>
-              <div class="flex gap-4 flex-1">
-                <FSelect
-                  id="title"
-                  class="grow"
-                  name="title"
-                  :label="t('pages.hrSettings.employees.modal.title.label')"
-                  :placeholder="t('pages.hrSettings.employees.modal.title.placeholder')"
-                  :options="titleOptions"
-                />
-                <FSelect
-                  id="team"
-                  class="grow"
-                  name="team"
-                  :label="t('pages.hrSettings.employees.modal.team.label')"
-                  :placeholder="t('pages.hrSettings.employees.modal.team.placeholder')"
-                  :options="teamOptions"
-                />
-              </div>
-              <div class="flex items-center gap-4 flex-1">
-                <FInput id="salary" class="grow" :label="t('pages.hrSettings.employees.modal.salary.label')" name="salary" />
-              </div>
+              <EmployeeBasicInfoSection :show-enabled="isEditing" />
+              <EmployeeRoleSection
+                :title-options="titleOptions"
+                :team-options="teamOptions"
+                :show-operating-user="false"
+              />
+              <EmployeeTagsSalarySection :tag-options="tagOptions" :show-tags="false" />
               <Divider />
-              <div class="flex gap-4 flex-1">
-                <FPassword id="password" class="grow" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
-                <!-- <FPassword
-                class="grow"
-                id="repeatPassword"
-                label="Repeat Password"
-                name="repeatPassword"
-              /> -->
-              </div>
+              <EmployeePasswordSection />
             </form>
           </TabPanel>
+
+          <!-- System Admin Tab -->
           <TabPanel :value="2">
             <form class="flex flex-col gap-6">
-              <div class="flex items-center flex-col lg:flex-row gap-12">
-                <!-- <div class="flex items-center justify-center flex-col gap-4 w-[282px]">
-                <img
-                  v-if="src"
-                  :src="src"
-                  alt="Image"
-                  class="shadow-md rounded-xl w-full sm:w-64"
-                  style="filter: grayscale(100%)"
-                />
-                <div
-                  v-else
-                  class="w-[100px] h-[100px] flex items-center justify-center border-2 rounded-full border-f-black"
-                >
-                  <span class="pi pi-user !text-6xl"></span>
-                </div>
-                <FileUpload
-                  mode="basic"
-                  @select="onFileSelect"
-                  customUpload
-                  auto
-                  severity="secondary"
-                  class="p-button-outlined"
-                />
-              </div> -->
-                <div class="flex lg:flex-col flex-1 gap-4">
-                  <FInput id="memberName" class="grow" :label="t('pages.hrSettings.employees.modal.memberName.label')" name="memberName" />
-                  <FInput id="email" class="grow" type="email" :label="t('pages.hrSettings.employees.modal.email.label')" name="email" />
-                  <FCheckbox v-if="isEditing" name="enabled" labelLeft :label="t('pages.hrSettings.employees.modal.enabled.label')" />
-                </div>
-              </div>
+              <EmployeeBasicInfoSection :show-enabled="isEditing" />
               <Divider />
-              <div class="flex gap-4 flex-1">
-                <FPassword id="password" class="grow" :label="t('pages.hrSettings.employees.modal.password.label')" name="password" />
-                <!-- <FPassword
-                class="grow"
-                id="repeatPassword"
-                label="Repeat Password"
-                name="repeatPassword"
-              /> -->
-              </div>
+              <EmployeePasswordSection />
             </form>
           </TabPanel>
         </TabPanels>
       </Tabs>
     </template>
     <div class="flex justify-end gap-2">
-      <Button type="button" :label="t('common.buttons.cancel')" severity="secondary" @click.stop="open = false"></Button>
+      <Button
+        type="button"
+        :label="t('common.buttons.cancel')"
+        severity="secondary"
+        @click.stop="open = false"
+      />
       <Button
         type="submit"
         :label="t('common.buttons.save')"
         :disabled="isSubmitting"
         :loading="isSubmitting"
         @click.stop="submitHandler"
-      ></Button>
+      />
     </div>
   </Dialog>
 </template>
@@ -231,13 +83,16 @@
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { toTypedSchema } from '@vee-validate/yup';
 import { useForm } from 'vee-validate';
-import { array, boolean, number,object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
+import EmployeeBasicInfoSection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeeBasicInfoSection.vue';
+import EmployeePasswordSection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeePasswordSection.vue';
+import EmployeeRoleSection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeeRoleSection.vue';
+import EmployeeTagsSalarySection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeeTagsSalarySection.vue';
+import { useEmployeeModalValidation } from '@/views/hrSettings/_composables/useEmployeeModalValidation';
 
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
 
@@ -250,7 +105,6 @@ interface IEmits {
 }
 
 const props = defineProps<IProps>();
-
 const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
@@ -259,148 +113,33 @@ const employeesStore = useHRSettingsEmployeesStore();
 
 const open = defineModel<boolean>('open');
 const activeTab = ref(0);
-// const src = ref();
 const isClear = ref(false);
 const isOnMounted = ref(false);
 
 const isEditing = computed(() => !!props.data);
-const validationSchema: any = computed(() => {
-  if (activeTab.value === 0) {
-    if (!isEditing.value) {
-      return toTypedSchema(
-        object({
-          emails: array()
-            .label('Email')
-            .of(
-              string().email('Please enter a valid email address.').required('Email is required.'),
-            )
-            .required('Please add at least one email.')
-            .min(1, 'Please add at least one email.'), // Ensures the array isn't empty
-        }),
-      );
-    } else {
-      return toTypedSchema(
-        object({
-          memberName: string().required().label('Full Name'),
-          email: string().required().email().label('Email'),
-          enabled: boolean().label('Enabled').required(),
-          title: object()
-            .shape({
-              name: string().label('Title'),
-              value: string().label('Title').required(),
-            })
-            .required()
-            .label('Title'),
-          team: object()
-            .shape({
-              name: string().label('Team'),
-              value: string().label('Team').required(),
-            })
-            .required()
-            .label('Team'),
-          operatingUser: string().required().label('Operating User'),
-          salary: number().required().label('Salary'),
-          password: string().required().min(6).label('Password'),
-          tags: array()
-            .nullable()
-            .label('Tags')
-            .of(
-              object().shape({
-                name: string().nullable().label('Name'),
-                value: string().nullable().label('Value'),
-              }),
-            ),
-          // repeatPassword: string()
-          //   .oneOf([yupRef('password')], 'Passwords must match')
-          //   .required()
-          //   .min(6)
-          //   .label('Repeat Password'),
-        }),
-      );
-    }
-  } else if (activeTab.value === 1) {
-    return toTypedSchema(
-      object({
-        memberName: string().required().label('Full Name'),
-        email: string().required().email().label('Email'),
-        title: object()
-          .shape({
-            name: string().label('Title'),
-            value: string().label('Title').required(),
-          })
-          .required()
-          .label('Title'),
-        team: object()
-          .shape({
-            name: string().label('Team'),
-            value: string().label('Team').required(),
-          })
-          .required()
-          .label('Team'),
-        enabled: boolean()
-          .label('Enabled')
-          .when([], {
-            is: () => isEditing.value,
-            then: (schema) => schema.required(),
-            otherwise: (schema) => schema.nullable(),
-          }),
-        salary: number().required().label('Salary'),
-        password: string().required().min(6).label('Password'),
-        // repeatPassword: string()
-        //   .oneOf([yupRef('password')], 'Passwords must match')
-        //   .required()
-        //   .min(6)
-        //   .label('Repeat Password'),
-      }),
-    );
-  }
-  // else if (activeTab.value === '2') {
-  return toTypedSchema(
-    object({
-      memberName: string().required().label('Full Name'),
-      email: string().required().email().label('Email'),
-      enabled: boolean()
-        .label('Enabled')
-        .when([], {
-          is: () => isEditing.value,
-          then: (schema) => schema.required(),
-          otherwise: (schema) => schema.nullable(),
-        }),
-      password: string().required().min(6).label('Password'),
-      // repeatPassword: string()
-      //   .oneOf([yupRef('password')], 'Passwords must match')
-      //   .required()
-      //   .min(6)
-      //   .label('Repeat Password'),
-    }),
-  );
-  // }
-});
 
-const { handleSubmit,  isSubmitting, values, resetForm } = useForm({
+// Use validation composable
+const { validationSchema } = useEmployeeModalValidation(activeTab, isEditing);
+
+const { handleSubmit, isSubmitting, values, resetForm } = useForm({
   validationSchema,
 });
 
+// Options computed
 const titleOptions = computed(() => {
-  return employeesStore.employeeTitles.map((employee) => {
-    return {
-      name: employee.Name,
-      value: employee.ID,
-    };
-  });
+  return employeesStore.employeeTitles.map((employee) => ({
+    name: employee.Name,
+    value: employee.ID,
+  }));
 });
 
-const tagOptions = computed(() => {
-  return employeesStore.tags;
-});
+const tagOptions = computed(() => employeesStore.tags);
 
 const teamOptions = computed(() => {
-  return employeesStore.teams.map((employee) => {
-    return {
-      name: employee.Name,
-      value: employee.ID,
-    };
-  });
+  return employeesStore.teams.map((employee) => ({
+    name: employee.Name,
+    value: employee.ID,
+  }));
 });
 
 const getInitialFormData = computed(() => {
@@ -432,72 +171,81 @@ const handleClose = () => {
   resetForm();
 };
 
-const submitHandler = handleSubmit(async (values) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const buildPayload = (formValues: any) => {
+  if (isEditing.value) {
+    const employee = props.data;
+    return {
+      id: employee?.ID,
+      memberName: formValues.memberName,
+      email: formValues.email,
+      password: formValues.password,
+      role: activeTab.value,
+      salary: formValues.salary ?? employee?.Salary,
+      teamId: formValues.team?.value ?? employee?.TeamId,
+      teamName: formValues.team?.name ?? employee?.TeamName,
+      titleId: formValues.title?.value ?? employee?.TeamId,
+      titleName: formValues.title?.name ?? employee?.TitleName,
+      windowsIdentity: formValues.WindowsIdentity ?? employee?.WindowsIdentity,
+      enabled: isEditing.value ? formValues.enabled : employee?.Enabled,
+      tags: formValues?.tags?.map((tag: { name: string }) => tag.name) ?? employee?.Tags ?? [],
+    };
+  }
+
+  // New employee payloads by tab
+  if (activeTab.value === 0) {
+    return { emails: formValues.emails };
+  }
+
+  if (activeTab.value === 1) {
+    return {
+      memberName: formValues.memberName,
+      email: formValues.email,
+      password: formValues.password,
+      role: activeTab.value,
+      salary: formValues.salary,
+      teamId: formValues.team?.value,
+      teamName: formValues.team?.name,
+      titleId: formValues.title?.value,
+      titleName: formValues.title?.name,
+      windowsIdentity: '',
+      enabled: true,
+      tags: [],
+    };
+  }
+
+  // System Admin (tab 2)
+  return {
+    memberName: formValues.memberName,
+    email: formValues.email,
+    password: formValues.password,
+    role: activeTab.value,
+    salary: 0,
+    teamId: '',
+    teamName: '',
+    titleId: '',
+    titleName: '',
+    windowsIdentity: '',
+    enabled: true,
+    tags: [],
+  };
+};
+
+const submitHandler = handleSubmit(async (formValues) => {
   try {
-    let text = t('pages.hrSettings.employees.modal.messages.added');
-    let payload: any = {};
-    if (isEditing.value) {
-      const employee = props.data;
-      text = t('pages.hrSettings.employees.modal.messages.updated');
-      payload = {
-        id: employee?.ID,
-        memberName: values.memberName,
-        email: values.email,
-        password: values.password,
-        role: activeTab.value,
-        salary: values.salary ?? employee?.Salary,
-        teamId: values.team.value ?? employee?.TeamId,
-        teamName: values.team.name ?? employee?.TeamName,
-        titleId: values.title.value ?? employee?.TeamId,
-        titleName: values.title.name ?? employee?.TitleName,
-        windowsIdentity: values.WindowsIdentity ?? employee?.WindowsIdentity,
-        enabled: isEditing.value ? values.enabled : employee?.Enabled,
-        tags: values?.tags?.map((tag) => tag.name) ?? employee?.Tags ?? [],
-      };
-    } else {
-      if (activeTab.value === 0) {
-        payload = {
-          emails: values.emails,
-        };
-      } else if (activeTab.value === 1) {
-        payload = {
-          memberName: values.memberName,
-          email: values.email,
-          password: values.password,
-          role: activeTab.value,
-          salary: values.salary,
-          teamId: values.team.value,
-          teamName: values.team.name,
-          titleId: values.title.value,
-          titleName: values.title.name,
-          windowsIdentity: '',
-          enabled: true,
-          tags: [],
-        };
-      } else {
-        payload = {
-          memberName: values.memberName,
-          email: values.email,
-          password: values.password,
-          role: activeTab.value,
-          salary: 0,
-          teamId: '',
-          teamName: '',
-          titleId: '',
-          titleName: '',
-          windowsIdentity: '',
-          enabled: true,
-          tags: [],
-        };
-      }
-    }
+    const text = isEditing.value
+      ? t('pages.hrSettings.employees.modal.messages.updated')
+      : t('pages.hrSettings.employees.modal.messages.added');
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const payload = buildPayload(formValues) as any;
     await employeesStore.save(payload);
     emit('fetchEmployees');
     showSuccessMessage(text);
     isClear.value = true;
     handleClose();
-  } catch (error: any) {
-    showErrorMessage(error as any);
+  } catch (error) {
+    showErrorMessage(error as Error);
   }
 });
 
@@ -509,7 +257,8 @@ onMounted(() => {
       activeTab.value = employee?.Role;
     }
     resetForm({
-      values: getInitialFormData.value,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      values: getInitialFormData.value as any,
     });
   }
   isOnMounted.value = true;

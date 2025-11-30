@@ -45,7 +45,7 @@ Aşağıdaki dosyalar 400 satırı aşıyor ve subcomponent'lere bölünmeli:
 | Dosya | Satır | Durum | Öneri |
 |-------|-------|-------|-------|
 | ~~`src/views/company/_views/OrganizationChartV2.vue`~~ | ~~601~~ → 190 | ✅ Tamamlandı | Toolbar, EmptyState, DeleteDialog, useOrganizationChart composable |
-| `src/views/hrSettings/_components/employees/_modals/EmployeeModal.vue` | 517 | ⏳ Bekliyor | Form section'ları (personal info, contact, employment) ayrı component'lere |
+| ~~`src/views/hrSettings/_components/employees/_modals/EmployeeModal.vue`~~ | ~~517~~ → 266 | ✅ Tamamlandı | BasicInfo, Role, TagsSalary, Password sections + validation composable |
 | `src/views/timesheets/_views/UnclassifiedTimeEntries.vue` | 500 | ⏳ Bekliyor | Timeline item, selection bar, clock card ayrı component'lere |
 | `src/views/timesheets/_components/timeEntries/EnterTime.vue` | 470 | ⏳ Bekliyor | Timer controls, manual inputs, project/tag selectors ayrı component'lere |
 
@@ -56,6 +56,15 @@ Oluşturulan dosyalar:
 - `OrganizationChartEmptyState.vue` - Boş durum gösterimi
 - `OrganizationChartDeleteDialog.vue` - Silme onay dialog'u
 - `useOrganizationChart.ts` - Tüm chart logic'i (CRUD, drag-drop, undo-redo)
+
+### EmployeeModal Refactor Detayları (Tamamlandı)
+
+Oluşturulan dosyalar:
+- `_components/EmployeeBasicInfoSection.vue` - MemberName, Email, Enabled alanları
+- `_components/EmployeeRoleSection.vue` - Title, Team, OperatingUser alanları
+- `_components/EmployeeTagsSalarySection.vue` - Tags, Salary alanları
+- `_components/EmployeePasswordSection.vue` - Password alanı
+- `_composables/useEmployeeModalValidation.ts` - Tab bazlı validation şemaları
 
 **Refactor Kuralları:**
 - Her component max 300 satır hedeflenmeli
