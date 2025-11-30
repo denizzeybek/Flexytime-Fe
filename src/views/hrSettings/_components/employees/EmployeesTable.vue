@@ -118,7 +118,7 @@ import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
 
-import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
+import type { TheMemberViewModel } from '@/client';
 
 interface IProps {
   isLoading: boolean;
@@ -126,7 +126,7 @@ interface IProps {
 
 interface IEmits {
   (event: 'new'): void;
-  (event: 'edit', value: IEmployeeMember): void;
+  (event: 'edit', value: TheMemberViewModel): void;
 }
 
 defineProps<IProps>();
@@ -172,7 +172,7 @@ const handleAlwaysOnChange = async (event: { props: string; alwaysOn: boolean })
   );
 };
 
-const handleEdit = (employee: IEmployeeMember) => {
+const handleEdit = (employee: TheMemberViewModel) => {
   emit('edit', employee);
 };
 
@@ -183,11 +183,11 @@ const handleDelete = async (employeeID: string) => {
   );
 };
 
-const handleOptionClick = (option: EOptionsDropdown, employee: IEmployeeMember) => {
+const handleOptionClick = (option: EOptionsDropdown, employee: TheMemberViewModel) => {
   if (option === EOptionsDropdown.Edit) {
     handleEdit(employee);
   } else if (option === EOptionsDropdown.Delete) {
-    handleDelete(employee.ID);
+    handleDelete(employee.ID!);
   }
 };
 

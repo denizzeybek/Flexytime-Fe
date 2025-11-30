@@ -21,6 +21,9 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
     loading: false,
     error: null,
   }),
+  getters: {
+    isLoading: (state): boolean => state.loading,
+  },
   actions: {
     /**
      * Fetch promotions list (Earned & Promoted)

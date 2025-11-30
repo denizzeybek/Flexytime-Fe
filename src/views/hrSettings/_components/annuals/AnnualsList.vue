@@ -14,35 +14,37 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
-import { useAsyncLoading } from '@/composables/useAsyncLoading';
 import { useFToast } from '@/composables/useFToast';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 
 import AnnualModal from './_modals/AnnualModal.vue';
 import AnnualsTable from './AnnualsTable.vue';
 
+import type { IAnnual } from '@/interfaces/hrSettings/annual';
+
 const annualsStore = useHRSettingsAnnualsStore();
 const { showErrorMessage } = useFToast();
-const { isLoading, executeAsync } = useAsyncLoading();
+
+const isLoading = computed(() => annualsStore.isLoading);
 
 const isModalOpen = ref(false);
-const currentAnnual = ref();
+const currentAnnual = ref<IAnnual>();
 
 const handleNew = () => {
   isModalOpen.value = true;
   currentAnnual.value = undefined;
 };
 
-const handleEdit = (annual) => {
+const handleEdit = (annual: IAnnual) => {
   currentAnnual.value = annual;
   isModalOpen.value = true;
 };
 
-const handleDelete = async (ID) => {
+const handleDelete = async (ID: string) => {
   try {
-    await annualsStore.delete({ ID: ID });
+    await annualsStore.delete({ ID });
     await fetchAnnuals();
   } catch (error) {
     showErrorMessage(error as Error);
@@ -51,7 +53,7 @@ const handleDelete = async (ID) => {
 
 const fetchAnnuals = async () => {
   try {
-    await executeAsync(() => annualsStore.filter());
+    await annualsStore.filter();
   } catch (error) {
     showErrorMessage(error as Error);
   }

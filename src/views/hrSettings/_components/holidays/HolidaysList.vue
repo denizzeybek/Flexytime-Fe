@@ -14,35 +14,37 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
-import { useAsyncLoading } from '@/composables/useAsyncLoading';
 import { useFToast } from '@/composables/useFToast';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 
 import HolidayModal from './_modals/HolidayModal.vue';
 import HolidaysTable from './HolidaysTable.vue';
 
+import type { IHoliday } from '@/interfaces/hrSettings/holiday';
+
 const holidaysStore = useHRSettingsHolidaysStore();
 const { showErrorMessage } = useFToast();
-const { isLoading, executeAsync } = useAsyncLoading();
+
+const isLoading = computed(() => holidaysStore.isLoading);
 
 const isModalOpen = ref(false);
-const currentHoliday = ref();
+const currentHoliday = ref<IHoliday>();
 
 const handleNew = () => {
   isModalOpen.value = true;
   currentHoliday.value = undefined;
 };
 
-const handleEdit = (annual) => {
-  currentHoliday.value = annual;
+const handleEdit = (holiday: IHoliday) => {
+  currentHoliday.value = holiday;
   isModalOpen.value = true;
 };
 
-const handleDelete = async (ID) => {
+const handleDelete = async (ID: string) => {
   try {
-    await holidaysStore.delete({ ID: ID });
+    await holidaysStore.delete({ ID });
     await fetchHolidays();
   } catch (error) {
     showErrorMessage(error as Error);
@@ -51,7 +53,7 @@ const handleDelete = async (ID) => {
 
 const fetchHolidays = async () => {
   try {
-    await executeAsync(() => holidaysStore.filter());
+    await holidaysStore.filter();
   } catch (error) {
     showErrorMessage(error as Error);
   }

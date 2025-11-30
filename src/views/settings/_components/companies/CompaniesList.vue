@@ -8,51 +8,51 @@
     <CompanyModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentCompany" />
   </template>
   
-  <script setup lang="ts">
-  import { onMounted, ref } from 'vue';
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue';
 
-  import { useAsyncLoading } from '@/composables/useAsyncLoading';
-  import { useFToast } from '@/composables/useFToast';
-  import { useSettingsCompaniesStore } from '@/stores/settings/companies';
+import { useFToast } from '@/composables/useFToast';
+import { useSettingsCompaniesStore } from '@/stores/settings/companies';
 
-  import CompanyModal from './_modals/CompanyModal.vue';
-  import CompaniesTable from './CompaniesTable.vue';
+import CompanyModal from './_modals/CompanyModal.vue';
+import CompaniesTable from './CompaniesTable.vue';
 
-  import type { ICompany } from '@/interfaces/settings/company';
+import type { ICompany } from '@/interfaces/settings/company';
 
-  const companiesStore = useSettingsCompaniesStore();
-  const { showErrorMessage } = useFToast();
-  const { isLoading, executeAsync } = useAsyncLoading();
+const companiesStore = useSettingsCompaniesStore();
+const { showErrorMessage } = useFToast();
 
-  const currentCompany = ref();
-  const isModalOpen = ref(false);
+const isLoading = computed(() => companiesStore.isLoading);
 
-  const handleNew = () => {
-    currentCompany.value = undefined;
-    isModalOpen.value = true;
-  };
+const currentCompany = ref<ICompany>();
+const isModalOpen = ref(false);
 
-  const handleEdit = (company: ICompany) => {
-    currentCompany.value = company;
-    isModalOpen.value = true;
-  };
+const handleNew = () => {
+  currentCompany.value = undefined;
+  isModalOpen.value = true;
+};
 
-  const handleDelete = async (ID: string) => {
-    try {
-      await companiesStore.deleteCompany(ID);
-      await fetchCompanies();
-    } catch (error) {
-      showErrorMessage(error as Error);
-    }
-  };
+const handleEdit = (company: ICompany) => {
+  currentCompany.value = company;
+  isModalOpen.value = true;
+};
 
-  const fetchCompanies = async () => {
-    try {
-      await executeAsync(() => companiesStore.filter());
-    } catch (error) {
-      showErrorMessage(error as Error);
-    }
-  };
+const handleDelete = async (ID: string) => {
+  try {
+    await companiesStore.deleteCompany(ID);
+    await fetchCompanies();
+  } catch (error) {
+    showErrorMessage(error as Error);
+  }
+};
+
+const fetchCompanies = async () => {
+  try {
+    await companiesStore.filter();
+  } catch (error) {
+    showErrorMessage(error as Error);
+  }
+};
   
   onMounted(() => {
     fetchCompanies();

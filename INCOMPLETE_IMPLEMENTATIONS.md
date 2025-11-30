@@ -41,13 +41,23 @@ Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 
 ### 3.1 Yüksek Öncelikli - Composable'lar (Hızlı Kazanımlar)
 
-#### 3.1.1 `useAsyncLoading` Composable ✅ TAMAMLANDI
+#### 3.1.1 Store-Based Loading Pattern ✅ TAMAMLANDI
 
-**Durum:** Composable oluşturuldu ve 6 dosyaya entegre edildi.
+**Durum:** Loading state store'larda tutulmaya başlandı. Component-based `useAsyncLoading` composable'ı kaldırıldı.
 
-**Oluşturulan Dosya:** `src/composables/useAsyncLoading.ts`
+**Seçilen Yaklaşım:** Store-based loading (loading state store'da, component'te değil)
 
-**Güncellenen Dosyalar:**
+**Silinen Dosya:** `src/composables/useAsyncLoading.ts` (store-based pattern tercih edildi)
+
+**Güncellenen Store'lar** (`loading` state + `isLoading` getter eklendi):
+- ✅ `src/stores/classification/applications.ts`
+- ✅ `src/stores/classification/webAddresses.ts`
+- ✅ `src/stores/hrSettings/Employees.ts`
+- ✅ `src/stores/hrSettings/holidays.ts`
+- ✅ `src/stores/hrSettings/annuals.ts`
+- ✅ `src/stores/settings/companies.ts` (zaten vardı)
+
+**Güncellenen List Component'ler** (store.isLoading kullanıyor):
 - ✅ `src/views/classification/_components/applications/ApplicationsList.vue`
 - ✅ `src/views/classification/_components/webAddresses/WebAddressesList.vue`
 - ✅ `src/views/hrSettings/_components/employees/EmployeesList.vue`
@@ -55,10 +65,36 @@ Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 - ✅ `src/views/hrSettings/_components/annuals/AnnualsList.vue`
 - ✅ `src/views/settings/_components/companies/CompaniesList.vue`
 
+**OpenAPI Type Migration** (Employee components):
+- ✅ `EmployeesList.vue` - `TheMemberViewModel` kullanıyor
+- ✅ `EmployeesTable.vue` - `TheMemberViewModel` kullanıyor
+- ✅ `EmployeeModal.vue` - `TheMemberViewModel` kullanıyor
+
+**Pattern:**
+```typescript
+// Store'da:
+state: { loading: false },
+getters: { isLoading: (state) => state.loading },
+actions: {
+  async filter() {
+    try {
+      this.loading = true;
+      // ... fetch logic
+    } finally {
+      this.loading = false;
+    }
+  }
+}
+
+// Component'te:
+const isLoading = computed(() => store.isLoading);
+```
+
 **Kazanımlar:**
+- Tek kaynak (single source of truth) - loading state store'da
+- Component'ler daha basit
 - try-finally pattern ile loading state her zaman reset ediliyor
-- Tekrarlayan kod kaldırıldı (~30 satır)
-- Tutarlı error handling pattern'i
+- Tutarlı naming convention (`loading` state, `isLoading` getter)
 
 ---
 
@@ -123,19 +159,21 @@ Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 
 ---
 
-#### 3.2.2 Store Loading State Standardizasyonu
+#### 3.2.2 Store Loading State Standardizasyonu ✅ TAMAMLANDI
 
-**Sorun:** Store'larda loading state tutarsızlığı
+**Durum:** Tüm store'lara standart loading state eklendi.
 
 | Store | Loading State | Naming |
 |-------|---------------|--------|
-| companies.ts | ✅ Var | `loading` |
+| companies.ts | ✅ Var | `loading` state, `isLoading` getter |
 | reports.ts | ✅ Var | `isLoading`, `isFiltersLoading` |
-| applications.ts | ❌ Yok | - |
-| holidays.ts | ❌ Yok | - |
-| annuals.ts | ❌ Yok | - |
+| applications.ts | ✅ Eklendi | `loading` state, `isLoading` getter |
+| webAddresses.ts | ✅ Eklendi | `loading` state, `isLoading` getter |
+| holidays.ts | ✅ Eklendi | `loading` state, `isLoading` getter |
+| annuals.ts | ✅ Eklendi | `loading` state, `isLoading` getter |
+| Employees.ts | ✅ Eklendi | `loading` state, `isLoading` getter |
 
-**Çözüm:** Tüm store'lara standart loading state ekle, `isLoading` naming convention'ı kullan
+**Standart Pattern:** `loading` state + `isLoading` getter + try-finally in actions
 
 ---
 
@@ -185,15 +223,16 @@ Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 
 | # | Task | Etki | Efor | Dosya Sayısı | Durum |
 |---|------|------|------|--------------|-------|
-| 1 | `useAsyncLoading` composable | Yüksek | Düşük | 6 | ✅ TAMAMLANDI |
+| 1 | Store-based loading pattern | Yüksek | Düşük | 11 | ✅ TAMAMLANDI |
 | 2 | `createSkeletonData` utility | Orta | Düşük | 6 | ✅ TAMAMLANDI |
 | 3 | `useOperationFeedback` composable | Yüksek | Düşük | 4 | ✅ TAMAMLANDI |
-| 4 | Store loading state standardizasyonu | Orta | Orta | 8 | ⏳ Bekliyor |
+| 4 | Store loading state standardizasyonu | Orta | Orta | 7 | ✅ TAMAMLANDI |
 | 5 | Modal form init composable | Orta | Orta | 3+ | ⏳ Bekliyor |
 | 6 | Data refresh standardizasyonu | Yüksek | Orta | 12+ | ⏳ Bekliyor |
 | 7 | Search UI standardizasyonu | Düşük | Orta | 5+ | ⏳ Bekliyor |
 | 8 | Pagination standardizasyonu | Orta | Yüksek | 6+ | ⏳ Bekliyor |
 
+**Tamamlanan:** 4/8 task
 **Tahmini Kod Azaltımı:** ~600-800 satır tekrarlayan/tutarsız kod
 
 ---

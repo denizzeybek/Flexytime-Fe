@@ -32,6 +32,7 @@ interface DataTableResponse {
 interface State {
   list: IWebAddressDTOData[];
   totalItems: number;
+  loading: boolean;
 }
 
 export const useClassificationWebAddressesStore = defineStore(
@@ -40,18 +41,27 @@ export const useClassificationWebAddressesStore = defineStore(
     state: (): State => ({
       list: [],
       totalItems: 0,
+      loading: false,
     }),
+    getters: {
+      isLoading: (state): boolean => state.loading,
+    },
     actions: {
       async filter(payload: DataTableQueryModel) {
-        const response = (await CategoryApiService.categoryApiQueryWebAddresses(
-          payload,
-        )) as unknown as DataTableResponse;
-        const webAddresses = response.DTO?.data ?? [];
-        const total = response.DTO?.recordsTotal ?? 0;
+        try {
+          this.loading = true;
+          const response = (await CategoryApiService.categoryApiQueryWebAddresses(
+            payload,
+          )) as unknown as DataTableResponse;
+          const webAddresses = response.DTO?.data ?? [];
+          const total = response.DTO?.recordsTotal ?? 0;
 
-        this.list = webAddresses;
-        this.totalItems = total;
-        return webAddresses;
+          this.list = webAddresses;
+          this.totalItems = total;
+          return webAddresses;
+        } finally {
+          this.loading = false;
+        }
       },
       async save(payload: WebAddressModifyModel) {
         this.list = this.list.map((webAddress) => {

@@ -21,6 +21,9 @@ export const useSettingsDownloadsStore = defineStore(EStoreNames.SETTINGS_DOWNLO
     loading: false,
     error: null,
   }),
+  getters: {
+    isLoading: (state): boolean => state.loading,
+  },
   actions: {
     async filter(): Promise<DownloadViewModel | null> {
       try {

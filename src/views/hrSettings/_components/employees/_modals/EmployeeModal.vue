@@ -94,10 +94,10 @@ import EmployeeRoleSection from '@/views/hrSettings/_components/employees/_modal
 import EmployeeTagsSalarySection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeeTagsSalarySection.vue';
 import { useEmployeeModalValidation } from '@/views/hrSettings/_composables/useEmployeeModalValidation';
 
-import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
+import type { TheMemberViewModel } from '@/client';
 
 interface IProps {
-  data?: IEmployeeMember;
+  data?: TheMemberViewModel;
 }
 
 interface IEmits {
@@ -254,7 +254,7 @@ onMounted(() => {
     const employee = props.data;
 
     if (employee && Object.keys(employee)?.length) {
-      activeTab.value = employee?.Role;
+      activeTab.value = employee?.Role ?? 0;
     }
     resetForm({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

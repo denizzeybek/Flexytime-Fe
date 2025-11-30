@@ -31,6 +31,7 @@ interface DataTableResponse {
 interface State {
   list: IApplicationDTOData[];
   totalItems: number;
+  loading: boolean;
 }
 
 export const useClassificationApplicationsStore = defineStore(
@@ -39,18 +40,27 @@ export const useClassificationApplicationsStore = defineStore(
     state: (): State => ({
       list: [],
       totalItems: 0,
+      loading: false,
     }),
+    getters: {
+      isLoading: (state): boolean => state.loading,
+    },
     actions: {
       async filter(payload: DataTableQueryModel) {
-        const response = (await CategoryApiService.categoryApiQueryAllocations(
-          payload,
-        )) as unknown as DataTableResponse;
-        const applications = response.DTO?.data ?? [];
-        const total = response.DTO?.recordsTotal ?? 0;
+        try {
+          this.loading = true;
+          const response = (await CategoryApiService.categoryApiQueryAllocations(
+            payload,
+          )) as unknown as DataTableResponse;
+          const applications = response.DTO?.data ?? [];
+          const total = response.DTO?.recordsTotal ?? 0;
 
-        this.list = applications;
-        this.totalItems = total;
-        return applications;
+          this.list = applications;
+          this.totalItems = total;
+          return applications;
+        } finally {
+          this.loading = false;
+        }
       },
       async save(payload: PerformAllocationModifyModel) {
         this.list = this.list.map((allocation) => {
