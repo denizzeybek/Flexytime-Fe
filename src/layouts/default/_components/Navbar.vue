@@ -196,7 +196,7 @@ const menuItems = computed(() => {
   items.push({
     label: t('pages.layouts.navbar.timeManagement'),
     icon: 'pi pi-calendar',
-    route: ERouteNames.TimeManagementPerson,
+    route: ERouteNames.TimeManagement,
   });
 
   // Reports

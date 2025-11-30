@@ -3,109 +3,40 @@
 Bu rapor, projede eksik kalan implementasyonları sayfa ve modül bazında listelemektedir.
 
 **Rapor Tarihi**: 2025-11-30
-**Toplam Eksik Implementasyon**: 8 aktif
+**Toplam Eksik Implementasyon**: 3 aktif
 
 ---
 
-## Phase 1: Timesheet Module Eksikleri (Orta Öncelik)
-
-### 1.1 Time Management
-
-#### `src/views/timesheets/_views/TimeManagement.vue`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| 104 | Watch (route meta) | TODO | DatePicker'dan startDate ve endDate payload'a dahil edilmiyor |
-| 118 | Initial form value | TODO | Hardcoded tarih aralığı kullanılıyor |
-
----
-
-### 1.2 Time Entries
-
-#### `src/views/timesheets/_views/TimeEntries.vue`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| 58 | Watch (route meta) | TODO | DatePicker'dan startDate ve endDate payload'a dahil edilmiyor |
-
----
-
-### 1.3 Unclassified Time Entries
-
-#### `src/views/timesheets/_views/UnclassifiedTimeEntries.vue`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| 176 | `getSelectedTrueObjects(data)` | TODO | Backend bağımlılığı - payload yapısı belirsiz |
-| 223 | Watch (fields) | TODO | Değişiklik algılama mantığı implemente edilmemiş |
-
----
-
-### 1.4 Timesheet Components - @addList Placeholder'ları
+## Phase 1: Timesheet Components - @addList Placeholder'ları
 
 Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 
 | Dosya | Satırlar |
 |-------|----------|
-| `src/views/timesheets/_modals/UpdateTimeEntriesModal.vue` | 49, 60 |
-| `src/views/timesheets/_components/timeEntries/EnterTime.vue` | 103, 114 |
-| `src/views/timesheets/_components/timeEntries/EnteredTimes.vue` | 96, 107 |
+| `src/views/timesheets/_modals/UpdateTimeEntriesModal.vue` | 70, 81 |
 
 **Gerekli Aksiyonlar:**
 - [ ] Inline proje ekleme modal/form oluşturulmalı
 - [ ] Inline tag ekleme modal/form oluşturulmalı
 
----
-
-### 1.5 Time Management Composable
-
-#### `src/views/timesheets/_composables/useTimeManagement.ts`
-
-| Satır | Fonksiyon | Durum | Açıklama |
-|-------|-----------|-------|----------|
-| 18, 31 | `generateTableColumns/Data()` | Unused | startDate/endDate log atılıyor ama kullanılmıyor |
+> **Not:** `EnterTime.vue` ve `EnteredTimes.vue` dosyalarında `headerAddBtn` prop'u kullanılıyor ancak `@addList` event handler'ı yok - bu kasıtlı olabilir.
 
 ---
 
-## Phase 2: Debug Console.log Temizliği (Production Öncesi)
+## Phase 2: Backend Bağımlı Eksikler
 
-Aşağıdaki dosyalarda production'a gitmemesi gereken debug log'ları bulunmaktadır:
+### 2.1 Time Entry Saniye Hassasiyeti
 
-### Stores
-| Dosya | Satır | İçerik |
-|-------|-------|--------|
-| `src/stores/worktimeUsage/worktimeStore.ts` | 290 | API null data warning |
+**Durum:** Backend sadece dakika hassasiyetinde çalışıyor
 
-### Views - Timesheets
-| Dosya | Satırlar |
-|-------|----------|
-| `src/views/timesheets/_components/timeEntries/EnteredTimes.vue` | 227 |
-| `src/views/timesheets/_modals/UpdateTimeEntriesModal.vue` | 195 |
+| Alan | Sorun |
+|------|-------|
+| `TimeSpanText` | Backend `HH:mm` formatında dönüyor, `HH:mm:ss` olmalı |
+| Timer mode | 1 dakikadan kısa çalışmalar `00:00` olarak görünüyor |
+
+**Jira Task:** Backend'e saniye desteği için task açıldı (SaveTimeEntry / GetTimeEntries endpoint'leri)
 
 ---
 
-## Özet Tablosu
-
-| Phase | Modül | Kritiklik | Eksik Sayısı |
-|-------|-------|-----------|--------------|
-| Phase 1 | Timesheet | Orta | 8 |
-| Phase 2 | Debug Cleanup | Düşük | ~3 console.log |
-| **Toplam Aktif** | | | **7 + cleanup** |
-
----
-
-## Öneri: Uygulama Sırası
-
-1. **Yakın Vadede (Sprint 1)**
-   - Timesheet date picker entegrasyonu (3 yerde kullanılıyor)
-   - Unclassified time entries backend entegrasyonu
-
-2. **Orta Vadede (Sprint 2)**
-   - Add project/tag inline formları
-
-3. **Backlog**
-   - Debug log temizliği (production build öncesi)
-
----
 
 *Bu rapor 2025-11-30 tarihinde güncellenmiştir.*

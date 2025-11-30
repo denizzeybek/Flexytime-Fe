@@ -37,8 +37,6 @@ import Companies from '@/views/settings/_views/Companies.vue';
 import Permissions from '@/views/settings/_views/Permissions.vue';
 // Settings
 import Settings from '@/views/settings/_views/Settings.vue';
-import TimeManagementPerson from '@/views/timesheets/_components/timeManagement/Person.vue';
-import TimeManagementProject from '@/views/timesheets/_components/timeManagement/Project.vue';
 import ManualTimeEntries from '@/views/timesheets/_views/ManualTimeEntries.vue';
 import TimeEntries from '@/views/timesheets/_views/TimeEntries.vue';
 import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
@@ -147,26 +145,6 @@ const routes: RouteRecordRaw[] = [
           title: ERouteNames.TimeManagement,
           name: ERouteNames.TimeManagement,
         },
-        children: [
-          {
-            path: 'person',
-            name: ERouteNames.TimeManagementPerson,
-            component: TimeManagementPerson,
-            meta: {
-              title: ERouteNames.TimeManagementPerson,
-              name: ERouteNames.TimeManagementPerson,
-            },
-          },
-          {
-            path: 'project',
-            name: ERouteNames.TimeManagementProject,
-            component: TimeManagementProject,
-            meta: {
-              title: ERouteNames.TimeManagementProject,
-              name: ERouteNames.TimeManagementProject,
-            },
-          },
-        ],
       },
       {
         path: '/company',

@@ -1,11 +1,13 @@
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import duration from 'dayjs/plugin/duration';
+import isoWeek from 'dayjs/plugin/isoWeek';
 
 import { Regex } from '@/constants/regex';
 
 dayjs.extend(duration);
 dayjs.extend(customParseFormat);
+dayjs.extend(isoWeek);
 
 /**
  * Returns a function that will only be executed after a certain amount of time has passed since the last time it was called.
