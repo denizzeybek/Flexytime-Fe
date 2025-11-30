@@ -38,5 +38,31 @@ Aşağıdaki dosyalarda `@addList` event'leri sadece `console.log` atıyor:
 
 ---
 
+## Phase 3: Refactor - Büyük Component'ler (400+ satır)
+
+Aşağıdaki dosyalar 400 satırı aşıyor ve subcomponent'lere bölünmeli:
+
+| Dosya | Satır | Durum | Öneri |
+|-------|-------|-------|-------|
+| ~~`src/views/company/_views/OrganizationChartV2.vue`~~ | ~~601~~ → 190 | ✅ Tamamlandı | Toolbar, EmptyState, DeleteDialog, useOrganizationChart composable |
+| `src/views/hrSettings/_components/employees/_modals/EmployeeModal.vue` | 517 | ⏳ Bekliyor | Form section'ları (personal info, contact, employment) ayrı component'lere |
+| `src/views/timesheets/_views/UnclassifiedTimeEntries.vue` | 500 | ⏳ Bekliyor | Timeline item, selection bar, clock card ayrı component'lere |
+| `src/views/timesheets/_components/timeEntries/EnterTime.vue` | 470 | ⏳ Bekliyor | Timer controls, manual inputs, project/tag selectors ayrı component'lere |
+
+### OrganizationChartV2 Refactor Detayları (Tamamlandı)
+
+Oluşturulan dosyalar:
+- `OrganizationChartToolbar.vue` - Search, undo/redo, expand/collapse butonları
+- `OrganizationChartEmptyState.vue` - Boş durum gösterimi
+- `OrganizationChartDeleteDialog.vue` - Silme onay dialog'u
+- `useOrganizationChart.ts` - Tüm chart logic'i (CRUD, drag-drop, undo-redo)
+
+**Refactor Kuralları:**
+- Her component max 300 satır hedeflenmeli
+- Tekrar kullanılabilir parçalar `_components` klasörüne
+- Props/emits ile iletişim
+- Composable'lar ile shared logic
+
+---
 
 *Bu rapor 2025-11-30 tarihinde güncellenmiştir.*
