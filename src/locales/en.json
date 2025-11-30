@@ -467,15 +467,32 @@
         },
         "messages": {
           "success": "Time entry entered!"
-        }
+        },
+        "emptyState": {
+          "title": "No Time Entries",
+          "description": "You haven't recorded any time entries for this date yet. Start tracking your work above."
+        },
+        "untitled": "Untitled Task",
+        "sessions": "sessions"
       },
       "timeEntries": {
+        "datePicker": {
+          "placeholder": "Select date"
+        },
         "manual": {
           "label": "Manual"
         },
         "unclassified": {
           "label": "Unclassified"
         }
+      },
+      "unclassified": {
+        "emptyState": {
+          "title": "All Caught Up!",
+          "description": "Great job! You have no unclassified time entries. All your work has been properly categorized."
+        },
+        "itemsSelected": "items selected",
+        "categorizeButton": "Categorize"
       },
       "updateTimeEntriesModal": {
         "header": "Categorize Time Entries",
@@ -1038,6 +1055,10 @@
     }
   },
   "common": {
+    "dates": {
+      "today": "Today",
+      "yesterday": "Yesterday"
+    },
     "errors": {
       "generic": "An error occurred. Please try again."
     },

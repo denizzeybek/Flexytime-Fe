@@ -1,118 +1,176 @@
 <template>
   <div>
-    <Card class="shadow-md border border-gray-100 rounded-xl">
+    <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-visible">
       <template #content>
-        <form class="space-y-5" @submit="submitHandler">
-          <div class="w-full flex items-center gap-4 flex-col lg:flex-row">
-            <div class="flex w-full">
-              <FInput
-                name="timeEntry"
-                class="flex-1"
-                customClass="unstyled"
-                :placeholder="t('pages.timesheets.enterTime.timeEntry.placeholder')"
-                list="timeEntryOptions"
-                unstyled
-                :datalistOptions="timeEntryOptions"
-                @updateList="timeEntryOptions.push($event)"
-              />
-            </div>
-            <div class="flex items-center gap-4 w-full justify-between lg:justify-end">
-              <Button
-                type="button"
-                icon="pi pi-dollar"
-                severity="success"
-                :outlined="isBillable"
-                @click="isBillable = !isBillable"
-              />
-              <div v-show="isManualLayout" class="flex gap-4">
-                <div class="flex items-center gap-1">
+        <form @submit="submitHandler">
+          <!-- Main Input Row -->
+          <div class="flex flex-col gap-5">
+            <!-- Task Input with Timer Display -->
+            <div class="flex flex-col lg:flex-row gap-4">
+              <!-- Task Name Input -->
+              <div class="flex-1 relative">
+                <div
+                  class="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3 border-2 border-transparent focus-within:border-f-primary focus-within:bg-white transition-all duration-200"
+                >
+                  <i class="pi pi-pencil text-gray-400" />
                   <FInput
-                    name="startTime"
-                    customClass="unstyled time-input"
-                    :placeholder="t('pages.timesheets.enterTime.timeInput.placeholder')"
-                    :transformValue="transformTimeValue"
+                    name="taskName"
+                    class="flex-1"
+                    customClass="unstyled"
+                    :placeholder="t('pages.timesheets.enterTime.timeEntry.placeholder')"
+                    list="taskOptions"
                     unstyled
-                  />
-                  <span>-</span>
-                  <FInput
-                    name="endTime"
-                    customClass="unstyled time-input"
-                    :placeholder="t('pages.timesheets.enterTime.timeInput.placeholder')"
-                    :transformValue="transformTimeValue"
-                    unstyled
+                    :datalistOptions="taskOptions"
+                    :onAddOption="handleAddTask"
                   />
                 </div>
+              </div>
 
-                <FDateTimePicker
-                  name="date"
-                  :numberOfMonths="1"
+              <!-- Timer/Manual Controls -->
+              <div class="flex items-center gap-3">
+                <!-- Billable Toggle -->
+                <button
+                  v-tooltip.top="isBillable ? 'Billable' : 'Not Billable'"
+                  type="button"
+                  class="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200"
+                  :class="
+                    isBillable
+                      ? 'bg-emerald-500 text-white shadow-md shadow-emerald-200'
+                      : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                  "
+                  @click="isBillable = !isBillable"
+                >
+                  <i class="pi pi-dollar text-lg" />
+                </button>
+
+                <!-- Manual Time Inputs -->
+                <Transition name="slide-fade">
+                  <div v-if="isManualLayout" class="flex items-center gap-3">
+                    <!-- Time Range -->
+                    <div
+                      class="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2 border-2 border-transparent focus-within:border-f-primary focus-within:bg-white transition-all"
+                    >
+                      <i class="pi pi-clock text-gray-400 text-sm" />
+                      <FInput
+                        name="startTime"
+                        customClass="unstyled time-input"
+                        :placeholder="t('pages.timesheets.enterTime.timeInput.placeholder')"
+                        :transformValue="transformTimeValue"
+                        unstyled
+                      />
+                      <span class="text-gray-300">-</span>
+                      <FInput
+                        name="endTime"
+                        customClass="unstyled time-input"
+                        :placeholder="t('pages.timesheets.enterTime.timeInput.placeholder')"
+                        :transformValue="transformTimeValue"
+                        unstyled
+                      />
+                    </div>
+
+                    <!-- Date Picker -->
+                    <div class="bg-gray-50 rounded-xl border-2 border-transparent focus-within:border-f-primary">
+                      <FDateTimePicker
+                        name="date"
+                        :numberOfMonths="1"
+                        :prime-props="{
+                          hourFormat: '24',
+                          fluid: true,
+                        }"
+                      />
+                    </div>
+                  </div>
+                </Transition>
+
+                <!-- Time Display -->
+                <div
+                  class="min-w-[100px] h-11 px-4 rounded-xl flex items-center justify-center font-mono text-lg font-bold transition-all duration-200"
+                  :class="
+                    isRunning
+                      ? 'bg-f-primary/10 text-f-primary animate-pulse'
+                      : isManualLayout
+                        ? 'bg-blue-50 text-blue-600'
+                        : 'bg-gray-100 text-gray-600'
+                  "
+                >
+                  {{ isManualLayout ? timeDifference || '00:00' : formattedElapsedTime }}
+                </div>
+
+                <!-- Action Button -->
+                <Button
+                  v-if="isTimerLayout"
+                  :severity="!isRunning ? 'info' : 'danger'"
+                  type="button"
+                  class="h-11 px-6 rounded-xl font-semibold transition-all duration-200"
+                  :class="isRunning ? 'animate-pulse' : ''"
+                  @click="isRunning ? handleStop() : handleStart()"
+                >
+                  <i :class="!isRunning ? 'pi pi-play' : 'pi pi-stop'" class="mr-2" />
+                  {{ !isRunning ? t('common.buttons.start') : t('common.buttons.stop') }}
+                </Button>
+                <Button
+                  v-if="isManualLayout"
+                  severity="info"
+                  type="submit"
+                  class="h-11 px-6 rounded-xl font-semibold"
+                >
+                  <i class="pi pi-plus mr-2" />
+                  {{ t('common.buttons.add') }}
+                </Button>
+
+                <!-- Layout Toggle -->
+                <div class="flex bg-gray-100 rounded-xl p-1 gap-1">
+                  <button
+                    v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.timer')"
+                    type="button"
+                    class="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200"
+                    :class="
+                      isTimerLayout ? 'bg-white text-f-primary shadow-sm' : 'text-gray-400 hover:text-gray-600'
+                    "
+                    @click="activeLayout = ELayout.TIMER"
+                  >
+                    <i class="pi pi-clock" />
+                  </button>
+                  <button
+                    v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.manual')"
+                    type="button"
+                    class="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200"
+                    :class="
+                      isManualLayout ? 'bg-white text-f-primary shadow-sm' : 'text-gray-400 hover:text-gray-600'
+                    "
+                    @click="activeLayout = ELayout.MANUAL"
+                  >
+                    <i class="pi pi-list" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project & Tags Row -->
+            <div class="flex flex-col sm:flex-row gap-3">
+              <div class="flex-1">
+                <FSelect
+                  name="project"
+                  :placeholder="t('pages.timesheets.enterTime.project.placeholder')"
+                  :options="projectOptions"
+                  :headerAddBtn="true"
                   :prime-props="{
-                    hourFormat: '24',
-                    fluid: true,
+                    filter: true,
                   }"
                 />
               </div>
-              <FText
-                v-if="isManualLayout"
-                id="timeDifference"
-                as="h5"
-                :innerText="timeDifference"
-              />
-              <FText v-else id="ongoingTime" as="h5" :innerText="formattedElapsedTime" />
-              <Button
-                v-if="isTimerLayout"
-                :severity="!isRunning ? 'info' : 'danger'"
-                :label="!isRunning ? t('common.buttons.start') : t('common.buttons.stop')"
-                :type="isRunning ? 'button' : 'submit'"
-                @click.stop="isRunning ? stopTimer() : startTimer()"
-              />
-              <Button v-if="isManualLayout" severity="info" :label="t('common.buttons.add')" type="submit" />
-              <div class="flex flex-col gap-2 justify-center items-center">
-                <Button
-                  icon="pi pi-clock"
-                  :class="isTimerLayout ? 'text-f-success' : 'text-f-black'"
-                  outlined
-                  unstyled
-                  type="button"
-                  class="w-fit"
-                  :v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.timer')"
-                  @click="activeLayout = ELayout.TIMER"
-                />
-                <Button
-                  icon="pi pi-list"
-                  :class="isManualLayout ? 'text-f-success' : 'text-f-black'"
-                  outlined
-                  unstyled
-                  type="button"
-                  class="w-fit"
-                  :v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.manual')"
-                  @click="activeLayout = ELayout.MANUAL"
+              <div class="flex-1">
+                <FMultiSelect
+                  name="tags"
+                  :placeholder="t('pages.timesheets.enterTime.tags.placeholder')"
+                  :options="tagOptions"
+                  :headerAddBtn="true"
+                  :prime-props="{
+                    maxSelectedLabels: 3,
+                  }"
                 />
               </div>
             </div>
-          </div>
-          <div class="flex items-center gap-4 w-full">
-            <FSelect
-              name="project"
-              :placeholder="t('pages.timesheets.enterTime.project.placeholder')"
-              :options="projectOptions"
-              :headerAddBtn="true"
-              :prime-props="{
-                filter: true,
-              }"
-              @addList="console.log('addList')"
-            />
-            <FMultiSelect
-              name="tags"
-              class="w-full lg:w-fit"
-              :placeholder="t('pages.timesheets.enterTime.tags.placeholder')"
-              :options="tagOptions"
-              :headerAddBtn="true"
-              :prime-props="{
-                maxSelectedLabels: 3,
-              }"
-              @addList="console.log('addList')"
-            />
           </div>
         </form>
       </template>
@@ -121,60 +179,67 @@
 </template>
 
 <script setup lang="ts">
-import { computed,onMounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import dayjs from 'dayjs';
+import Card from 'primevue/card';
 import { useForm } from 'vee-validate';
 import { array, object, string } from 'yup';
 
+import { TimesheetApiService } from '@/client';
 import { useFToast } from '@/composables/useFToast';
 import { calculateTimeDifference, transformTimeValue } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 import { ELayout } from '@/views/timesheets/_etc/layout.enum';
 
-import { useTimer } from '../../_composables/useTimer';
+import type { TimeEntryModifyViewModel } from '@/client';
+
+interface IProjectOption {
+  name: string;
+  value: string;
+}
+
+interface ITagOption {
+  name: string;
+  value: string;
+}
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
-
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
-const { isRunning, formattedElapsedTime, startTimer, stopTimer, resetTimer } = useTimer();
 
-const timeEntryOptions = ['Lansman projesi', 'Reconcilliation', 'Settlement'];
-const projectOptions = [
-  {
-    name: 'Clearing',
-    value: 'Clearing',
-  },
-  {
-    name: 'Productivity',
-    value: 'Productivity',
-  },
-  {
-    name: 'SAP',
-    value: 'SAP',
-  },
-];
-const tagOptions = [
-  {
-    name: 'Lansman',
-    value: 'Lansman',
-  },
-  {
-    name: 'Reporting',
-    value: 'Reporting',
-  },
-  {
-    name: 'Seller',
-    value: 'Seller',
-  },
-];
+// Use store getters for options (computed from store state)
+const taskOptions = computed(() => timeEntriesStore.taskNames);
+const projectOptions = computed(() => timeEntriesStore.projectOptions);
+const tagOptions = computed(() => timeEntriesStore.tagOptions);
+
+// Handle adding new task from input dropdown
+const handleAddTask = async (taskName: string) => {
+  await timeEntriesStore.saveTask(taskName);
+};
+
+// Timer state
+const elapsedTime = ref(0);
+const isRunning = ref(false);
+let timerInterval: ReturnType<typeof setInterval> | null = null;
+let timerStartTime: Date | null = null;
+
+const formattedElapsedTime = computed(() => {
+  const hours = Math.floor(elapsedTime.value / 3600)
+    .toString()
+    .padStart(2, '0');
+  const minutes = Math.floor((elapsedTime.value % 3600) / 60)
+    .toString()
+    .padStart(2, '0');
+  const seconds = (elapsedTime.value % 60).toString().padStart(2, '0');
+  return `${hours}:${minutes}:${seconds}`;
+});
 
 const validationSchema = object({
-  timeEntry: string().required().label('Time entry'),
+  taskName: string().required().label('Task'),
   date: string()
     .when([], {
       is: () => activeLayout.value === ELayout.MANUAL,
@@ -201,6 +266,7 @@ const validationSchema = object({
       name: string().label('Name'),
       value: string().label('Value'),
     })
+    .nullable()
     .label('Project'),
   tags: array()
     .label('Tags')
@@ -212,7 +278,7 @@ const validationSchema = object({
     ),
 });
 
-const { handleSubmit, resetForm, defineField } = useForm({
+const { handleSubmit, resetForm, defineField, values } = useForm({
   validationSchema,
 });
 
@@ -226,25 +292,160 @@ const timeDifference = ref('');
 const isManualLayout = computed(() => activeLayout.value === ELayout.MANUAL);
 const isTimerLayout = computed(() => activeLayout.value === ELayout.TIMER);
 
-const submitHandler = handleSubmit(async (values) => {
+const startTimer = () => {
+  if (!isRunning.value) {
+    isRunning.value = true;
+    timerStartTime = new Date();
+    timerInterval = setInterval(() => {
+      elapsedTime.value += 1;
+    }, 1000);
+  }
+};
+
+const stopTimer = () => {
+  if (isRunning.value) {
+    isRunning.value = false;
+    if (timerInterval !== null) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+  }
+};
+
+const resetTimer = () => {
+  stopTimer();
+  elapsedTime.value = 0;
+  timerStartTime = null;
+};
+
+const handleStart = () => {
+  startTimer();
+};
+
+const handleStop = async () => {
+  stopTimer();
+  // Auto-submit when stopping the timer
+  if (elapsedTime.value > 0 && values.taskName) {
+    await submitTimerEntry();
+  }
+};
+
+const formatElapsedTimeForPayload = (totalSeconds: number): string => {
+  const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+  const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+  const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+  return `${hours}:${minutes}:${seconds}`;
+};
+
+const submitTimerEntry = async () => {
   try {
+    const now = dayjs();
+    const start = timerStartTime ? dayjs(timerStartTime) : now.subtract(elapsedTime.value, 'second');
+    const dateFormat = 'DD.MM.YYYY HH:mm';
+
+    // Get or create task
+    const task = values.taskName ? await getOrCreateTask(values.taskName) : undefined;
+
     const payload = {
-      ...values,
-      isBillable: isBillable.value,
-      elapsedTime: formattedElapsedTime.value,
-      timeDifference: timeDifference.value,
-      type: activeLayout.value,
-      date: isTimerLayout.value ? dayjs().toDate() : values.date,
+      Task: task,
+      Project: values.project ? { ID: (values.project as IProjectOption).value, Name: (values.project as IProjectOption).name } : undefined,
+      Tags: (values.tags as ITagOption[] | undefined)?.map((tag: ITagOption) => ({ ID: tag.value, Name: tag.name })) ?? [],
+      Billable: isBillable.value,
+      RecordDate: now.format(dateFormat),
+      RecordDateCustom: '',
+      StartDate: start.format(dateFormat),
+      EndDate: now.format(dateFormat),
+      time: formatElapsedTimeForPayload(elapsedTime.value),
+      Member: { ID: null, Name: '' },
+      Clocks: [],
     };
-    timeEntriesStore.addManualTimeEntries(payload);
+
+    await TimesheetApiService.timesheetApiSaveTimeEntry(payload as unknown as TimeEntryModifyViewModel);
+    await timeEntriesStore.fetchTimeEntries();
+
+    showSuccessMessage(t('pages.timesheets.enterTime.messages.success'));
+    resetTimer();
+    resetForm();
+  } catch (error: unknown) {
+    showErrorMessage(error as Error);
+  }
+};
+
+const getOrCreateTask = async (taskName: string): Promise<{ ID?: string; Name: string }> => {
+  // Check if task already exists in store
+  const existingTask = timeEntriesStore.getTaskByName(taskName);
+  if (existingTask) {
+    return { ID: existingTask.ID, Name: existingTask.Name ?? taskName };
+  }
+
+  // Save new task via store
+  const newTask = await timeEntriesStore.saveTask(taskName);
+  if (newTask) {
+    return { ID: newTask.ID, Name: newTask.Name ?? taskName };
+  }
+
+  // Fallback: return without ID if save failed
+  return { Name: taskName };
+};
+
+const submitHandler = handleSubmit(async (formValues) => {
+  try {
+    const dateFormat = 'DD.MM.YYYY HH:mm';
+    const selectedDate = formValues.date ? dayjs(formValues.date) : dayjs();
+
+    let startDateTime: string;
+    let endDateTime: string;
+    let recordDate: string;
+
+    if (isManualLayout.value) {
+      // Manual mode: combine selected date with time inputs
+      const startDayjs = selectedDate.format('DD.MM.YYYY') + ' ' + formValues.startTime;
+      const endDayjs = selectedDate.format('DD.MM.YYYY') + ' ' + formValues.endTime;
+      startDateTime = startDayjs;
+      endDateTime = endDayjs;
+      recordDate = startDayjs;
+    } else {
+      // Timer mode
+      const now = dayjs();
+      const start = timerStartTime ? dayjs(timerStartTime) : now.subtract(elapsedTime.value, 'second');
+      startDateTime = start.format(dateFormat);
+      endDateTime = now.format(dateFormat);
+      recordDate = now.format(dateFormat);
+    }
+
+    // Get or create task
+    const task = formValues.taskName ? await getOrCreateTask(formValues.taskName) : undefined;
+
+    // Calculate time for payload
+    const timeValue = isManualLayout.value
+      ? (timeDifference.value ? timeDifference.value + ':00' : '00:00:00')
+      : formatElapsedTimeForPayload(elapsedTime.value);
+
+    const payload = {
+      Task: task,
+      Project: formValues.project ? { ID: formValues.project.value, Name: formValues.project.name } : undefined,
+      Tags: formValues.tags?.map((tag: ITagOption) => ({ ID: tag.value, Name: tag.name })) ?? [],
+      Billable: isBillable.value,
+      RecordDate: recordDate,
+      RecordDateCustom: '',
+      StartDate: startDateTime,
+      EndDate: endDateTime,
+      time: timeValue,
+      Member: { ID: null, Name: '' },
+      Clocks: [],
+    };
+
+    await TimesheetApiService.timesheetApiSaveTimeEntry(payload as unknown as TimeEntryModifyViewModel);
+    await timeEntriesStore.fetchTimeEntries();
+
     showSuccessMessage(t('pages.timesheets.enterTime.messages.success'));
 
     if (activeLayout.value === ELayout.TIMER) {
       resetTimer();
     }
     resetForm();
-  } catch (error: any) {
-    showErrorMessage(error as any);
+  } catch (error: unknown) {
+    showErrorMessage(error as Error);
   }
 });
 
@@ -261,6 +462,8 @@ watch(
 );
 
 onMounted(() => {
+  // Fetch options from store
+  timeEntriesStore.fetchOptions();
   resetForm({
     values: {
       startTime: dayjs().subtract(10, 'minute').format('HH:mm'),
@@ -269,6 +472,38 @@ onMounted(() => {
     },
   });
 });
+
+onUnmounted(() => {
+  // Clean up timer on component unmount
+  if (timerInterval) {
+    clearInterval(timerInterval);
+  }
+});
 </script>
 
-<style scoped></style>
+<style scoped>
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+</style>

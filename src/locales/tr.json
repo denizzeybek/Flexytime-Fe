@@ -467,15 +467,32 @@
         },
         "messages": {
           "success": "Zaman kaydı girildi!"
-        }
+        },
+        "emptyState": {
+          "title": "Zaman Kaydı Yok",
+          "description": "Bu tarih için henüz zaman kaydı oluşturmadınız. Yukarıdan çalışmanızı takip etmeye başlayın."
+        },
+        "untitled": "İsimsiz Görev",
+        "sessions": "oturum"
       },
       "timeEntries": {
+        "datePicker": {
+          "placeholder": "Tarih seçin"
+        },
         "manual": {
           "label": "Manuel"
         },
         "unclassified": {
           "label": "Belirsiz"
         }
+      },
+      "unclassified": {
+        "emptyState": {
+          "title": "Her Şey Tamamlandı!",
+          "description": "Harika! Sınıflandırılmamış zaman kaydınız yok. Tüm çalışmalarınız düzgün bir şekilde kategorize edilmiş."
+        },
+        "itemsSelected": "öğe seçildi",
+        "categorizeButton": "Kategorize Et"
       },
       "updateTimeEntriesModal": {
         "header": "Zaman Kayıtlarını Kategorize Et",
@@ -1038,6 +1055,10 @@
     }
   },
   "common": {
+    "dates": {
+      "today": "Bugün",
+      "yesterday": "Dün"
+    },
     "errors": {
       "generic": "Bir hata oluştu. Lütfen tekrar deneyin."
     },

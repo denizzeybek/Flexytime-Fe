@@ -16,11 +16,11 @@ import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyReportsStore } from '@/stores/company/reports';
 
-import type { ReportViewModel } from '@/client';
-
 import DefaultReportModal from '../_modals/DefaultReportModal.vue';
 
 import DefaultReportsTable from './DefaultReportsTable.vue';
+
+import type { ReportViewModel } from '@/client';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const reportsStore = useCompanyReportsStore();

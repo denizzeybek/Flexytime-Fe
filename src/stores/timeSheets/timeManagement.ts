@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 
 import axios from 'axios';
 
-import { useMockData } from '@/config';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { ITimeManagement } from '@/interfaces/timeSheet/timeManagement';
@@ -30,12 +29,10 @@ export const useTimesheetsTimeManagementsStore = defineStore(
         const api = '/webapi/timesheet/week/person';
         this.dateRange = dateRange;
         return new Promise((resolve, reject) => {
-          const url = useMockData ? '/mockData.json' : api;
-
           axios
-            .post(url)
+            .post(api)
             .then((response: any) => {
-              const timeManagement = useMockData ? response[api] : (response as ITimeManagement);
+              const timeManagement = response as ITimeManagement[];
 
               this.personList = timeManagement;
               this.personTotalItems = timeManagement?.length || 0;
@@ -51,12 +48,10 @@ export const useTimesheetsTimeManagementsStore = defineStore(
         const api = '/webapi/timesheet/week/project';
         this.dateRange = dateRange;
         return new Promise((resolve, reject) => {
-          const url = useMockData ? '/mockData.json' : api;
-
           axios
-            .post(url)
+            .post(api)
             .then((response: any) => {
-              const timeManagement = useMockData ? response[api] : (response as ITimeManagement);
+              const timeManagement = response as ITimeManagement[];
 
               this.projectList = timeManagement;
               this.projectTotalItems = timeManagement?.length || 0;

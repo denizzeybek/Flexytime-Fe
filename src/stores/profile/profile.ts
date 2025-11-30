@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
 
 import { ProfileApiService, SettingApiService } from '@/client';
-import type { LicenseModifyViewModel } from '@/client';
 import { ERole } from '@/enums/role.enum';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
+import type { LicenseModifyViewModel } from '@/client';
 import type {
   EmployeeViewModel,
   LicenseViewModel,
