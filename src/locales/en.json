@@ -478,6 +478,11 @@
           "header": "Delete Time Entry",
           "message": "Are you sure you want to delete \"{task}\"?",
           "success": "Time entry deleted successfully"
+        },
+        "deleteRangeConfirm": {
+          "header": "Delete Session",
+          "message": "Are you sure you want to delete this session from \"{task}\"?",
+          "success": "Session deleted successfully"
         }
       },
       "timeEntries": {

@@ -322,6 +322,18 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       }
     },
 
+    async deleteTimeEntryRange(rangeId: string): Promise<boolean> {
+      try {
+        await TimesheetApiService.timesheetApiDeleteTimeEntryRange({ ID: rangeId });
+        // Refresh the list after deletion
+        await this.fetchTimeEntries();
+        return true;
+      } catch (err: unknown) {
+        console.error('Failed to delete time entry range:', err);
+        throw err;
+      }
+    },
+
     resetStore() {
       this.timeEntries = [];
       this.timeClocks = [];

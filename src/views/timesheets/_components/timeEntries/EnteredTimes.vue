@@ -93,15 +93,28 @@
                   </div>
                 </div>
 
-                <!-- Right: Time Info -->
-                <div class="flex flex-col items-end gap-1 flex-shrink-0">
-                  <div class="text-2xl font-bold text-f-primary">
-                    {{ entry.TimeSpanText }}
+                <!-- Right: Time Info + Delete -->
+                <div class="flex items-start gap-3 flex-shrink-0">
+                  <div class="flex flex-col items-end gap-1">
+                    <div class="text-2xl font-bold text-f-primary">
+                      {{ entry.TimeSpanText }}
+                    </div>
+                    <div class="flex items-center gap-1.5 text-sm text-gray-500">
+                      <i class="pi pi-clock text-xs" />
+                      {{ entry.DateRangeText }}
+                    </div>
                   </div>
-                  <div class="flex items-center gap-1.5 text-sm text-gray-500">
-                    <i class="pi pi-clock text-xs" />
-                    {{ entry.DateRangeText }}
-                  </div>
+                  <Button
+                    v-tooltip.left="t('common.buttons.delete')"
+                    :icon="deletingId === entry.ID ? 'pi pi-spin pi-spinner' : 'pi pi-trash'"
+                    severity="danger"
+                    text
+                    rounded
+                    size="small"
+                    class="opacity-0 group-hover:opacity-100 transition-opacity"
+                    :disabled="deletingId === entry.ID"
+                    @click="handleDeleteEntry(entry.ID!, entry.Task?.Name)"
+                  />
                 </div>
               </div>
 
@@ -123,36 +136,27 @@
                     <div
                       v-for="range in entry.Ranges"
                       :key="range.ID"
-                      class="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg text-sm"
+                      class="group/range flex items-center justify-between py-2 px-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm transition-colors"
                     >
                       <span class="text-gray-600">{{ range.DateRangeText }}</span>
-                      <span class="font-medium text-gray-800">{{ range.TimeSpanText }}</span>
+                      <div class="flex items-center gap-2">
+                        <span class="font-medium text-gray-800">{{ range.TimeSpanText }}</span>
+                        <Button
+                          v-tooltip.left="t('common.buttons.delete')"
+                          :icon="deletingRangeId === range.ID ? 'pi pi-spin pi-spinner' : 'pi pi-trash'"
+                          severity="danger"
+                          text
+                          rounded
+                          size="small"
+                          class="!w-7 !h-7 opacity-0 group-hover/range:opacity-100 transition-opacity"
+                          :disabled="deletingRangeId === range.ID"
+                          @click.stop="handleDeleteRange(range.ID!, entry.Task?.Name)"
+                        />
+                      </div>
                     </div>
                   </div>
                 </Transition>
               </div>
-            </div>
-
-            <!-- Actions -->
-            <div class="flex flex-col justify-center gap-2 px-3 opacity-0 group-hover:opacity-100 transition-opacity">
-              <Button
-                v-tooltip.left="t('common.buttons.edit')"
-                icon="pi pi-pencil"
-                severity="secondary"
-                text
-                rounded
-                size="small"
-              />
-              <Button
-                v-tooltip.left="t('common.buttons.delete')"
-                :icon="deletingId === entry.ID ? 'pi pi-spin pi-spinner' : 'pi pi-trash'"
-                severity="danger"
-                text
-                rounded
-                size="small"
-                :disabled="deletingId === entry.ID"
-                @click="handleDelete(entry.ID!, entry.Task?.Name)"
-              />
             </div>
           </div>
         </div>
@@ -182,6 +186,7 @@ const timeEntriesStore = useTimesheetsTimeEntriesStore();
 
 const expandedRanges = ref<string[]>([]);
 const deletingId = ref<string | null>(null);
+const deletingRangeId = ref<string | null>(null);
 
 const toggleRanges = (entryId: string) => {
   const index = expandedRanges.value.indexOf(entryId);
@@ -208,7 +213,7 @@ const formatDateLabel = (dateStr?: string): string => {
   return date.format('DD MMMM YYYY');
 };
 
-const handleDelete = (entryId: string, taskName?: string) => {
+const handleDeleteEntry = (entryId: string, taskName?: string) => {
   confirm.require({
     message: t('pages.timesheets.enteredTimes.deleteConfirm.message', { task: taskName || t('pages.timesheets.enteredTimes.untitled') }),
     header: t('pages.timesheets.enteredTimes.deleteConfirm.header'),
@@ -223,6 +228,26 @@ const handleDelete = (entryId: string, taskName?: string) => {
         showErrorMessage(error as Error);
       } finally {
         deletingId.value = null;
+      }
+    },
+  });
+};
+
+const handleDeleteRange = (rangeId: string, taskName?: string) => {
+  confirm.require({
+    message: t('pages.timesheets.enteredTimes.deleteRangeConfirm.message', { task: taskName || t('pages.timesheets.enteredTimes.untitled') }),
+    header: t('pages.timesheets.enteredTimes.deleteRangeConfirm.header'),
+    icon: 'pi pi-exclamation-triangle',
+    acceptClass: 'p-button-danger',
+    accept: async () => {
+      try {
+        deletingRangeId.value = rangeId;
+        await timeEntriesStore.deleteTimeEntryRange(rangeId);
+        showSuccessMessage(t('pages.timesheets.enteredTimes.deleteRangeConfirm.success'));
+      } catch (error) {
+        showErrorMessage(error as Error);
+      } finally {
+        deletingRangeId.value = null;
       }
     },
   });

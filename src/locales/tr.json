@@ -478,6 +478,11 @@
           "header": "Zaman Kaydını Sil",
           "message": "\"{task}\" kaydını silmek istediğinizden emin misiniz?",
           "success": "Zaman kaydı başarıyla silindi"
+        },
+        "deleteRangeConfirm": {
+          "header": "Oturumu Sil",
+          "message": "\"{task}\" görevinden bu oturumu silmek istediğinizden emin misiniz?",
+          "success": "Oturum başarıyla silindi"
         }
       },
       "timeEntries": {
