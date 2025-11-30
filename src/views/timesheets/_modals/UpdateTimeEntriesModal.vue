@@ -67,7 +67,6 @@
           :prime-props="{
             filter: true,
           }"
-          @addList="console.log('addList')"
         />
         <FMultiSelect
           name="tags"
@@ -78,7 +77,6 @@
           :prime-props="{
             maxSelectedLabels: 3,
           }"
-          @addList="console.log('addList')"
         />
       </div>
     </form>

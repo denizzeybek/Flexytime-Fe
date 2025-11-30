@@ -295,8 +295,7 @@ const fetchData = async () => {
         errorMessage.value = store.getSectionError;
       }
     }
-  } catch (error) {
-    console.error('Error fetching data:', error);
+  } catch {
     errorMessage.value = 'An unexpected error occurred while fetching data.';
   }
 };
