@@ -1,16 +1,16 @@
 import { defineStore } from 'pinia';
 
-import axios from 'axios';
-
-import { useMockData } from '@/config';
+import { SettingApiService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { IDownload } from '@/interfaces/settings/download';
+import type { DownloadViewModel } from '@/client';
 
 interface State {
-  InvitationLink: IDownload['InvitationLink'];
-  InvitationId: IDownload['InvitationId'];
-  ServiceKey: IDownload['ServiceKey'];
+  InvitationLink: string;
+  InvitationId: string;
+  ServiceKey: string;
+  loading: boolean;
+  error: string | null;
 }
 
 export const useSettingsDownloadsStore = defineStore(EStoreNames.SETTINGS_DOWNLOAD, {
@@ -18,32 +18,29 @@ export const useSettingsDownloadsStore = defineStore(EStoreNames.SETTINGS_DOWNLO
     InvitationLink: '',
     InvitationId: '',
     ServiceKey: '',
+    loading: false,
+    error: null,
   }),
   actions: {
-    filter() {
-      const api = '/webapi/setting/download';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
+    async filter(): Promise<DownloadViewModel | null> {
+      try {
+        this.loading = true;
+        this.error = null;
 
-        axios
-          .post(url)
-          .then((response: any) => {
-            this.InvitationLink = useMockData
-              ? response[api].InvitationLink
-              : (response as IDownload).InvitationLink;
-            this.InvitationId = useMockData
-              ? response[api].InvitationId
-              : (response as IDownload).InvitationId;
-            this.ServiceKey = useMockData
-              ? response[api].ServiceKey
-              : (response as IDownload).ServiceKey;
+        const data = await SettingApiService.settingApiDownload();
 
-            resolve(response);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+        this.InvitationLink = data.InvitationLink ?? '';
+        this.InvitationId = data.InvitationId ?? '';
+        this.ServiceKey = data.ServiceKey ?? '';
+
+        return data;
+      } catch (err: any) {
+        this.error = err?.response?.data?.message || 'Failed to fetch download info';
+        console.error('Error fetching download info:', err);
+        return null;
+      } finally {
+        this.loading = false;
+      }
     },
   },
 });

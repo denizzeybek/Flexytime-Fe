@@ -3,7 +3,7 @@
     v-model:visible="open"
     modal
     :header="isEditing ? t('pages.hrSettings.annuals.modal.update.header') : t('pages.hrSettings.annuals.modal.add.header')"
-    class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
+    class="lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
     <form class="flex flex-col gap-6" @submit="submitHandler">
@@ -175,7 +175,6 @@ const submitHandler = handleSubmit(async (values) => {
         ID: values.ID,
       } as AnnualViewModel;
     }
-    console.log('payload ', payload);
     await annualsStore.save(payload);
 
     emit('fetchAnnuals');

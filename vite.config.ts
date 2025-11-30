@@ -1,4 +1,4 @@
-import tailwindcss from '@tailwindcss/vite'
+import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { fileURLToPath, URL } from 'node:url';
@@ -23,6 +23,6 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3001,
+    port: 8081,
   },
 });

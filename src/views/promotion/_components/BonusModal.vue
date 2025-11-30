@@ -3,7 +3,7 @@
     v-model:visible="open"
     modal
     :header="t('pages.promotion.modals.bonusModal.title')"
-    class="!bg-f-secondary-purple lg:!w-[800px] !w-full"
+    class="lg:!w-[800px] !w-full"
     :style="{ width: '50rem' }"
   >
     <Card>

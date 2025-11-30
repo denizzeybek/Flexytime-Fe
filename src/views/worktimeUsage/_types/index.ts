@@ -12,6 +12,8 @@ export type {
   IEmployeeResponse,
   IGraph,
   IIndividual,
+  IIndividualWellbeing,
+  IIndividualWellbeingGraph,
   ISectionRequest,
   ISectionResponse,
   ISummary,

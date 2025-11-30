@@ -1,16 +1,16 @@
 import { defineStore } from 'pinia';
 
-import axios from 'axios';
-
-import { useMockData } from '@/config';
+import { PromotionApiService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { IPromote, IPromotion, IPromotionResponse } from '@/interfaces/promotion/promotion';
+import type { PromotionListViewModel, PromotionModifyViewModel, PromotionViewModel } from '@/client';
 
 interface State {
-  EarnedPromotionList: IPromotion[];
-  PromotedPromotionList: IPromotion[];
-  PromotionLink: IPromote['PromotionLink'];
+  EarnedPromotionList: PromotionViewModel[];
+  PromotedPromotionList: PromotionViewModel[];
+  PromotionLink: string;
+  loading: boolean;
+  error: string | null;
 }
 
 export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
@@ -18,49 +18,79 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
     EarnedPromotionList: [],
     PromotedPromotionList: [],
     PromotionLink: '',
+    loading: false,
+    error: null,
   }),
   actions: {
-    filter() {
-      const api = '/webapi/promotions';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
+    /**
+     * Fetch promotions list (Earned & Promoted)
+     * Endpoint: GET /webapi/promotions
+     */
+    async filter(): Promise<PromotionListViewModel | null> {
+      try {
+        this.loading = true;
+        this.error = null;
 
-        axios
-          .post(url)
-          .then((response: any) => {
-            this.EarnedPromotionList = useMockData
-              ? response[api].Earned
-              : (response as IPromotionResponse).Earned;
+        const data = await PromotionApiService.promotionApiPromotions();
 
-            this.PromotedPromotionList = useMockData
-              ? response[api].Promoted
-              : (response as IPromotionResponse).Promoted;
+        this.EarnedPromotionList = data.Earned ?? [];
+        this.PromotedPromotionList = data.Promoted ?? [];
 
-            resolve(response);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+        return data;
+      } catch (err: any) {
+        this.error = err?.response?.data?.message || 'Failed to fetch promotions';
+        console.error('Error fetching promotions:', err);
+        return null;
+      } finally {
+        this.loading = false;
+      }
     },
-    fetchPromotionLink() {
-      const api = '/webapi/promotion/promote';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
 
-        axios
-          .post(url)
-          .then((response: any) => {
-            this.PromotionLink = useMockData
-              ? response[api].PromotionLink
-              : (response as IPromote).PromotionLink;
+    /**
+     * Fetch promotion link
+     * Endpoint: GET /webapi/promotion/promote
+     */
+    async fetchPromotionLink(): Promise<string | null> {
+      try {
+        this.loading = true;
+        this.error = null;
 
-            resolve(response);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+        const data = await PromotionApiService.promotionApiPromote();
+
+        this.PromotionLink = data.PromotionLink ?? '';
+
+        return this.PromotionLink;
+      } catch (err: any) {
+        this.error = err?.response?.data?.message || 'Failed to fetch promotion link';
+        console.error('Error fetching promotion link:', err);
+        return null;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    /**
+     * Save promotion (send invitation emails)
+     * Endpoint: POST /webapi/promotion/save
+     */
+    async savePromotion(payload: PromotionModifyViewModel): Promise<boolean> {
+      try {
+        this.loading = true;
+        this.error = null;
+
+        await PromotionApiService.promotionApiSavePromotion(payload);
+
+        // Refresh the promotions list after saving
+        await this.filter();
+
+        return true;
+      } catch (err: any) {
+        this.error = err?.response?.data?.message || 'Failed to save promotion';
+        console.error('Error saving promotion:', err);
+        return false;
+      } finally {
+        this.loading = false;
+      }
     },
   },
 });

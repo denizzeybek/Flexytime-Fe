@@ -114,9 +114,19 @@ const getColorForLabel = (label: string): { bg: string; border: string } => {
     meeting: { bg: 'rgba(249, 115, 22, 0.8)', border: 'rgb(249, 115, 22)' }, // 🟠 Orange-500 (warn)
     leisure: { bg: 'rgba(239, 68, 68, 0.8)', border: 'rgb(239, 68, 68)' }, // 🔴 Red-500 (danger)
     unclassified: { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' }, // ⚪ Slate-500 (secondary)
+    // Turkish labels
+    çalışma: { bg: 'rgba(34, 197, 94, 0.8)', border: 'rgb(34, 197, 94)' }, // 🟢 Green-500
+    toplantı: { bg: 'rgba(249, 115, 22, 0.8)', border: 'rgb(249, 115, 22)' }, // 🟠 Orange-500
+    'boş zaman': { bg: 'rgba(239, 68, 68, 0.8)', border: 'rgb(239, 68, 68)' }, // 🔴 Red-500
+    'tasnif dışı': { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' }, // ⚪ Slate-500
   };
 
-  // Match the label to a color (case-insensitive)
+  // Direct match first
+  if (colorMap[normalizedLabel]) {
+    return colorMap[normalizedLabel];
+  }
+
+  // Partial match for flexibility
   for (const [key, value] of Object.entries(colorMap)) {
     if (normalizedLabel.includes(key)) {
       return value;
@@ -127,7 +137,7 @@ const getColorForLabel = (label: string): { bg: string; border: string } => {
   return { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' }; // Slate-500
 };
 
-// Set chart data with proper formatting and custom colors
+// Set chart data with proper formatting - always use vibrant colors
 const setChartData = (source: IGraph['Summary']) => {
   return {
     labels: source?.labels,
@@ -136,12 +146,8 @@ const setChartData = (source: IGraph['Summary']) => {
 
       return {
         ...ds,
-        backgroundColor: Array.isArray(ds.backgroundColor)
-          ? ds.data?.map(() => colors.bg)
-          : ds.data?.map(() => colors.bg),
-        borderColor: Array.isArray(ds.borderColor)
-          ? ds.data?.map(() => colors.border)
-          : ds.data?.map(() => colors.border),
+        backgroundColor: colors.bg,
+        borderColor: colors.border,
         borderWidth: ds.borderWidth || 2,
       };
     }),

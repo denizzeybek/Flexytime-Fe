@@ -96,12 +96,9 @@ router.beforeEach(async (to, from, next) => {
     if (!hasProfile && !isLoadingProfile) {
       isLoadingProfile = true;
       try {
-        console.log('Loading user profile...');
         await profileStore.filter();
-        console.log('Profile loaded. Roles:', profileStore.roles);
         isLoadingProfile = false;
-      } catch (err) {
-        console.error('Failed to load profile:', err);
+      } catch {
         isLoadingProfile = false;
         return logout();
       }
@@ -111,12 +108,8 @@ router.beforeEach(async (to, from, next) => {
     if (requiresRole && requiresRole.length > 0) {
       const { hasAnyRole } = useAuthorization();
       if (!hasAnyRole(requiresRole)) {
-        console.warn(
-          `Access denied: User does not have required roles. Required: ${requiresRole.join(', ')}, User has: ${profileStore.roles.join(', ')}`
-        );
-        // Smart redirect: send user to first accessible route instead of Unauthorized
+          // Smart redirect: send user to first accessible route instead of Unauthorized
         const firstAccessibleRoute = findFirstAccessibleRoute();
-        console.log(`Redirecting to first accessible route: ${firstAccessibleRoute}`);
         return next({ name: firstAccessibleRoute });
       }
     }
@@ -125,12 +118,8 @@ router.beforeEach(async (to, from, next) => {
     if (requiresPermission && requiresPermission.length > 0) {
       const { hasAllPermissions } = useAuthorization();
       if (!hasAllPermissions(requiresPermission)) {
-        console.warn(
-          `Access denied: User does not have required permissions. Required: ${requiresPermission.join(', ')}`
-        );
-        // Smart redirect: send user to first accessible route instead of Unauthorized
+          // Smart redirect: send user to first accessible route instead of Unauthorized
         const firstAccessibleRoute = findFirstAccessibleRoute();
-        console.log(`Redirecting to first accessible route: ${firstAccessibleRoute}`);
         return next({ name: firstAccessibleRoute });
       }
     }
@@ -144,27 +133,6 @@ router.beforeEach(async (to, from, next) => {
 
   return next(); // public or non-auth routes
 });
-
-// if (to.name === ERouteNames.ForgotPassword_Reset) {
-//   token = ''
-// }
-
-// if (token && !usersStore.user) {
-//   try {
-//     await usersStore.fetchUser(token)
-//   } catch (error: any) {
-//     console.log(error)
-//   }
-// }
-
-// if (requiresAuth && !authStore.isAuth) {
-//   return next({ name: ERouteNames.Login, query: { redirect: to.fullPath } })
-// } else if (requiresUnAuth && authStore.isAuth) {
-//   return next({ name: ERouteNames.WorktimeUsage })
-// }
-
-//   next()
-// })
 
 // SET PAGE TITLE
 const DEFAULT_TITLE = 'FlexyTime';

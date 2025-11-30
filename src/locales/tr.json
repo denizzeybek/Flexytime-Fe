@@ -21,17 +21,43 @@
         "createAccount": "Yeni hesap oluşturun"
       },
       "forgotPassword": {
-        "title": "Şifre Sıfırla",
+        "title": "Şifremi Unuttum",
+        "description": "E-posta adresinizi girin, size şifre sıfırlama linki gönderelim.",
         "form": {
+          "email": {
+            "label": "E-posta",
+            "placeholder": "E-posta adresinizi girin"
+          },
+          "button": "Sıfırlama Linki Gönder"
+        },
+        "messages": {
+          "success": "Şifre sıfırlama linki e-posta adresinize gönderildi."
+        },
+        "backToLogin": "Giriş Sayfasına Dön",
+        "footer": "Devam ederek Kullanım Şartları ve Gizlilik Politikasını kabul etmiş olursunuz"
+      },
+      "resetPassword": {
+        "title": "Şifre Sıfırla",
+        "description": "Aşağıya yeni şifrenizi girin.",
+        "form": {
+          "email": {
+            "label": "E-posta"
+          },
           "password": {
-            "label": "Şifre",
-            "placeholder": "Şifrenizi girin"
+            "label": "Yeni Şifre",
+            "placeholder": "Yeni şifrenizi girin"
+          },
+          "confirmPassword": {
+            "label": "Şifre Onayı",
+            "placeholder": "Yeni şifrenizi onaylayın"
           },
           "button": "Şifreyi Sıfırla"
         },
         "messages": {
-          "success": "Giriş yapıldı!"
-        }
+          "success": "Şifre başarıyla sıfırlandı! Artık yeni şifrenizle giriş yapabilirsiniz.",
+          "invalidLink": "Geçersiz veya süresi dolmuş bağlantı. Lütfen yeni bir şifre sıfırlama isteği gönderin."
+        },
+        "backToLogin": "Giriş Sayfasına Dön"
       },
       "register": {
         "title": "Ücretsiz Hesap Oluşturun",
@@ -156,6 +182,9 @@
       "employeesLabel": "Çalışanlar",
       "downloadReportTooltip": "Rapor İndir",
       "selectPerspective": "Perspektif seçin",
+      "messages": {
+        "domainUpdated": "Domain başarıyla güncellendi!"
+      },
       "perspectives": {
         "time": "Zaman",
         "cost": "Maliyet",
@@ -371,6 +400,14 @@
             "added": "Şirket eklendi!",
             "updated": "Şirket güncellendi!"
           }
+        },
+        "deleteConfirm": {
+          "header": "Şirket Sil",
+          "message": "{name} şirketini silmek istediğinize emin misiniz?"
+        },
+        "messages": {
+          "deleted": "Şirket silindi!",
+          "deleteFailed": "Şirket silinemedi."
         }
       }
     },
@@ -430,15 +467,42 @@
         },
         "messages": {
           "success": "Zaman kaydı girildi!"
+        },
+        "emptyState": {
+          "title": "Zaman Kaydı Yok",
+          "description": "Bu tarih için henüz zaman kaydı oluşturmadınız. Yukarıdan çalışmanızı takip etmeye başlayın."
+        },
+        "untitled": "İsimsiz Görev",
+        "sessions": "oturum",
+        "deleteConfirm": {
+          "header": "Zaman Kaydını Sil",
+          "message": "\"{task}\" kaydını silmek istediğinizden emin misiniz?",
+          "success": "Zaman kaydı başarıyla silindi"
+        },
+        "deleteRangeConfirm": {
+          "header": "Oturumu Sil",
+          "message": "\"{task}\" görevinden bu oturumu silmek istediğinizden emin misiniz?",
+          "success": "Oturum başarıyla silindi"
         }
       },
       "timeEntries": {
+        "datePicker": {
+          "placeholder": "Tarih seçin"
+        },
         "manual": {
           "label": "Manuel"
         },
         "unclassified": {
           "label": "Belirsiz"
         }
+      },
+      "unclassified": {
+        "emptyState": {
+          "title": "Her Şey Tamamlandı!",
+          "description": "Harika! Sınıflandırılmamış zaman kaydınız yok. Tüm çalışmalarınız düzgün bir şekilde kategorize edilmiş."
+        },
+        "itemsSelected": "öğe seçildi",
+        "categorizeButton": "Kategorize Et"
       },
       "updateTimeEntriesModal": {
         "header": "Zaman Kayıtlarını Kategorize Et",
@@ -476,7 +540,8 @@
       "bonusEarned": "Kazanılan Bonus",
       "previousInvitations": "Önceki Davetler",
       "messages": {
-        "success": "Kullanıcılar davet edildi!"
+        "success": "Kullanıcılar davet edildi!",
+        "error": "Davetler gönderilemedi. Lütfen tekrar deneyin."
       },
       "modals": {
         "bonusModal": {
@@ -666,6 +731,11 @@
           "elastic": "Esnek",
           "default": "Varsayılan"
         },
+        "defaultReports": {
+          "messages": {
+            "deleted": "Rapor başarıyla silindi!"
+          }
+        },
         "modal": {
           "add": {
             "header": "Rapor ekle"
@@ -679,7 +749,10 @@
           },
           "frequency": {
             "label": "Sıklık",
-            "placeholder": "Sıklık seçin"
+            "placeholder": "Sıklık seçin",
+            "everyday": "Her gün",
+            "everyWeek": "Her hafta",
+            "everyMonth": "Her ay"
           },
           "team": {
             "label": "Ekip",
@@ -700,6 +773,37 @@
           }
         },
         "elasticReports": {
+          "filters": {
+            "teams": "Ekip(ler) seçin",
+            "employees": "Çalışan(lar) seçin",
+            "projects": "Proje(ler) seçin",
+            "billable": "Faturalanabilir",
+            "dateRange": "Tarih aralığı seçin",
+            "clear": "Temizle"
+          },
+          "summary": {
+            "total": "Toplam",
+            "billable": "Faturalanabilir",
+            "unbillable": "Faturalanmayan"
+          },
+          "download": "İndir",
+          "noData": "Veri bulunamadı",
+          "groups": {
+            "group1": "Grup 1",
+            "group2": "Grup 2",
+            "projects": "Projeler",
+            "employees": "Çalışanlar",
+            "teams": "Ekipler",
+            "billable": "Faturalanabilir"
+          },
+          "columns": {
+            "total": "Toplam"
+          },
+          "billable": {
+            "all": "Tümü",
+            "billable": "Faturalanabilir",
+            "nonBillable": "Faturalanmayan"
+          },
           "messages": {
             "created": "Rapor oluşturuldu!"
           }
@@ -785,6 +889,10 @@
           "empty": "Çalışan bulunamadı.",
           "addUser": "Kullanıcı Ekle",
           "totalText": "Toplam {count} çalışan var."
+        },
+        "messages": {
+          "statusUpdated": "Çalışan durumu güncellendi!",
+          "deleted": "Çalışan silindi!"
         }
       },
       "holidays": {
@@ -864,6 +972,11 @@
         "password": "Şifre"
       },
       "basic": {
+        "sections": {
+          "personalInfo": "Kişisel Bilgiler",
+          "preferences": "Tercihler",
+          "autoSave": "Değişiklikler otomatik kaydedilir"
+        },
         "profileImage": {
           "alt": "Profil resmi"
         },
@@ -887,22 +1000,30 @@
         "save": {
           "label": "Kaydet"
         },
+        "resendConfirmation": "Onay e-postasını tekrar gönder",
         "messages": {
-          "updated": "Çalışma saatleri güncellendi!"
+          "updated": "Profil başarıyla güncellendi!",
+          "languageUpdated": "Dil başarıyla güncellendi!",
+          "timezoneUpdated": "Saat dilimi başarıyla güncellendi!",
+          "confirmationSent": "Onay e-postası başarıyla gönderildi!"
         }
       },
       "password": {
+        "title": "Şifre Değiştir",
         "password": {
-          "label": "Şifre"
+          "label": "Yeni Şifre"
         },
         "repeatPassword": {
-          "label": "Şifreyi Tekrarla"
+          "label": "Şifreyi Onayla"
         },
         "save": {
-          "label": "Kaydet"
+          "label": "Şifreyi Değiştir"
+        },
+        "validation": {
+          "passwordsMustMatch": "Şifreler eşleşmelidir"
         },
         "messages": {
-          "updated": "Tatil güncellendi!"
+          "updated": "Şifre başarıyla değiştirildi!"
         }
       },
       "license": {
@@ -927,16 +1048,30 @@
         "daysLeft": {
           "label": "Kalan Gün"
         },
+        "licenseKey": {
+          "label": "Lisans Anahtarı",
+          "placeholder": "Lisans anahtarını girin"
+        },
         "buyLicense": {
           "label": "Lisans Satın Al"
         },
+        "confirm": {
+          "message": "Lisansı güncellemek istediğinizden emin misiniz?"
+        },
         "messages": {
-          "updated": "Çalışma saatleri güncellendi!"
+          "updated": "Lisans başarıyla güncellendi!"
         }
       }
     }
   },
   "common": {
+    "dates": {
+      "today": "Bugün",
+      "yesterday": "Dün"
+    },
+    "errors": {
+      "generic": "Bir hata oluştu. Lütfen tekrar deneyin."
+    },
     "validation": {
       "mixed": {
         "default": "varsayılan",
@@ -958,7 +1093,9 @@
       "cancel": "İptal",
       "save": "Kaydet",
       "delete": "Sil",
-      "edit": "Düzenle"
+      "edit": "Düzenle",
+      "yes": "Evet",
+      "no": "Hayır"
     },
     "actions": {
       "edit": "Düzenle",
@@ -1182,7 +1319,9 @@
     },
     "wellbeing": {
       "individualViewComingSoon": "Bireysel görünüm için iyi olma verileri yakında uygulanacak.",
-      "noDataAvailable": "Veri mevcut değil."
+      "noDataAvailable": "Veri mevcut değil.",
+      "noWellbeingData": "İyi olma verisi bulunamadı.",
+      "suggestion": "Öneri"
     },
     "graph": {
       "noDataAvailable": "Grafik verisi mevcut değil."
@@ -1200,7 +1339,8 @@
         "markAsMeeting": "Toplantı Olarak İşaretle",
         "markAsLeisure": "Boş Zaman Olarak İşaretle",
         "markAsUnclassified": "Belirsiz Olarak İşaretle"
-      }
+      },
+      "noData": "Web geçmişi bulunamadı."
     },
     "errors": {
       "unauthorized": {

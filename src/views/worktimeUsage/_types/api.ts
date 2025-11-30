@@ -105,6 +105,34 @@ export type IWebClock = WebClockViewModel;
 export type IWebClocks = WebClockAllocationViewModel;
 
 // ============================================
+// Individual Wellbeing Data
+// ============================================
+
+export interface IIndividualWellbeingGraph {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string;
+    borderColor: string;
+  }[];
+  Unit: string;
+}
+
+export interface IIndividualWellbeing {
+  Color: 'red' | 'yellow' | 'green';
+  Icon: string;
+  Type: number;
+  Name: string;
+  Suggestion: string;
+  Description: string;
+  Level: number;
+  Unit: number;
+  Notification: number;
+  Graph: IIndividualWellbeingGraph;
+}
+
+// ============================================
 // API Response Types
 // ============================================
 

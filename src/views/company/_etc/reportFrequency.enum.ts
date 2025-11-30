@@ -1,5 +1,5 @@
 export enum ReportFrequency {
-    EveryDay = '0',
-    EveryWeek = '1',
-    EveryMonth = '2',
+  EVERY_DAY = 0,
+  EVERY_WEEK = 1,
+  EVERY_MONTH = 2,
 }

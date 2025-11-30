@@ -5,11 +5,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ### Core Development
-- `yarn dev` - Start development server on port 3001
+
+- `yarn dev` - Start development server on port 8081
 - `yarn build` - Build for production (includes TypeScript compilation)
 - `yarn preview` - Preview production build
 
 ### Code Quality
+
 - `yarn lint` - Run ESLint with auto-fix AND check Vue Composition API order
 - `yarn lint:eslint` - Run only ESLint with auto-fix
 - `yarn lint:order` - Check Vue Composition API order (reports violations)
@@ -17,14 +19,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `yarn type-check` - Run TypeScript type checking without compilation
 
 ### Testing
+
 - `yarn test:unit` - Run unit tests with Vitest
 
 ### Utilities
+
 - `yarn generate-icon-names` - Generate icon name constants from scripts
 
 ### ESLint Configuration
 
 The project includes automated checking for:
+
 - **Import sorting**: Automatic grouping and sorting of imports
 - **Vue block order**: template → script → style
 - **Component attributes order**: Standardized attribute ordering
@@ -33,11 +38,13 @@ The project includes automated checking for:
 ## MCP Tools
 
 ### Context7
+
 Always use context7 when I need code generation, setup or configuration steps, or library/API documentation. This means you should automatically use the Context7 MCP tools to resolve library id and get library docs without me having to explicitly ask.
 
 ## Project Architecture
 
 ### Technology Stack
+
 - **Framework**: Vue 3 with Composition API and `<script setup>` syntax
 - **Build Tool**: Vite with TypeScript support
 - **UI Library**: PrimeVue 4.x with auto-imports and custom theming
@@ -52,6 +59,7 @@ Always use context7 when I need code generation, setup or configuration steps, o
 ### Directory Structure
 
 #### Key Directories
+
 - `src/views/` - Main application pages organized by feature (auth, worktimeUsage, etc.)
 - `src/stores/` - Pinia stores grouped by domain (auth, profile, company, timeSheets, etc.)
 - `src/services/` - Manually written API service modules for backend communication
@@ -66,7 +74,9 @@ Always use context7 when I need code generation, setup or configuration steps, o
 - `src/layouts/` - Application layout components
 
 #### State Management Architecture
+
 Each feature domain has its own Pinia store in `src/stores/`:
+
 - Authentication and user session management
 - Profile and user settings
 - Company and organizational data
@@ -77,7 +87,9 @@ Each feature domain has its own Pinia store in `src/stores/`:
 ### Development Patterns
 
 #### Component Structure (from README.md)
+
 Follow this order in Vue SFCs:
+
 1. Imports
 2. Interfaces and Types (`interface IProps`, `interface IEmits`, `type` definitions)
 3. `defineProps` (uses interfaces defined above)
@@ -90,18 +102,21 @@ Follow this order in Vue SFCs:
 10. Lifecycle hooks (`onMounted`, etc.)
 
 #### Code Style Guidelines
+
 - **Functions**: Always use ES6 arrow functions (`const functionName = () => {}`) instead of `function` declarations
 - **Async Functions**: Use arrow syntax (`const functionName = async () => {}`)
 - **Type Annotations**: Include return type annotations for arrow functions when applicable
 - **Composables**: Export functions use `export function` wrapper, but internal functions use arrow syntax
 
 #### Authentication
+
 - Uses JWT tokens stored in localStorage
 - Router guards check authentication before protected routes
 - Automatic token refresh with fallback to logout
 - Supports both authenticated and unauthenticated route requirements
 
 #### API Integration
+
 - API services manually written in `src/services/`
 - Type definitions manually maintained in `src/types/`
 - Base URL configured via `VITE_API_URL` environment variable
@@ -109,8 +124,8 @@ Follow this order in Vue SFCs:
 - **Note**: Backend is not yet ready for OpenAPI code generation, so all API types and services are written manually
 
 ### Configuration Files
+
 - **Vite**: Auto-imports PrimeVue components, `@` alias points to `src/`
 - **TypeScript**: Project references for app, node, and test configurations
 - **Tailwind**: Custom configuration for design system
 - **ESLint**: Vue 3 + TypeScript rules with Prettier integration
-

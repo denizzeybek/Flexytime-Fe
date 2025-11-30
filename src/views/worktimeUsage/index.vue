@@ -109,6 +109,7 @@
                   :display-mode="displayMode"
                   :teams="teams"
                   :individuals="individuals"
+                  :individual-wellbeings="currentIndividualWellbeings"
                   :is-loading="isLoading"
                 />
               </TabPanel>
@@ -152,6 +153,8 @@ import TabPanels from 'primevue/tabpanels';
 import Tabs from 'primevue/tabs';
 
 // Store and Composables
+import { useFToast } from '@/composables/useFToast';
+import { DownloadService } from '@/customClient/services/DownloadService';
 import { useProfileStore } from '@/stores/profile/profile';
 import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
 
@@ -173,6 +176,7 @@ import type { MessageSchema } from '@/plugins/i18n';
 const store = useWorktimeStore();
 const profileStore = useProfileStore();
 const { t } = useI18n<{ message: MessageSchema }>();
+const { showSuccessMessage, showErrorMessage } = useFToast();
 
 // Composables
 const { currentQuery, changeTab, navigateToIndividual } = useWorktimeQuery();
@@ -223,6 +227,10 @@ const currentGraphs = computed(() => {
 
 const currentWebClocks = computed(() => {
   return store.employeeData?.WebClocks || [];
+});
+
+const currentIndividualWellbeings = computed(() => {
+  return store.employeeData?.WellBeings || [];
 });
 
 const teams = computed(() => store.getTeams);
@@ -294,13 +302,27 @@ const fetchData = async () => {
 };
 
 const handleDownload = () => {
-  // TODO: Implement download functionality
-  console.log('Download report clicked');
+  const downloadKey = store.sectionData?.DownloadKey;
+  if (!downloadKey) {
+    console.warn('No download key available');
+    return;
+  }
+
+  DownloadService.downloadSection(downloadKey);
 };
 
-const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
-  // TODO: Implement domain toggle API call
-  console.log('Toggle domain:', webClock, newDomain);
+const handleToggleDomain = async (webClock: IWebClock, newDomain: number) => {
+  try {
+    await store.saveWebClock({
+      HostName: webClock.Url ?? '',
+      Domain: newDomain,
+    });
+    showSuccessMessage(t('pages.worktimeUsage.messages.domainUpdated'));
+    // Refresh the data to show updated domain
+    await fetchData();
+  } catch (error) {
+    showErrorMessage(error as Error);
+  }
 };
 
 // Watchers
@@ -330,9 +352,6 @@ onMounted(async () => {
   // If user role is EMPLOYEE (not supervisor/admin) and in team view, redirect to individual
   // Backend accepts MemberId: null and returns current user's data from token
   if (isEmployee && currentView === 'team') {
-    console.log(
-      '🔀 User role is EMPLOYEE. Redirecting to individual view...',
-    );
     // Use null as memberId - backend will get user from auth token
     await navigateToIndividual(null);
     return; // fetchData will be called by the route change watcher

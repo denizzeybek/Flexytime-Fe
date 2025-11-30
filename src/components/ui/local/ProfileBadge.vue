@@ -8,8 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import Avatar from 'primevue/avatar';
-
 import { ERouteNames } from '@/router/routeNames.enum';
 
 interface IProps {

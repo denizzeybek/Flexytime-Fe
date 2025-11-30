@@ -2,7 +2,7 @@
   <Dialog
     v-model:visible="open"
     modal
-    class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
+    class="lg:!w-[700px] !w-full"
     :header="isEditing ? t('pages.hrSettings.holidays.modal.updateTitle') : t('pages.hrSettings.holidays.modal.addTitle')"
     :style="{ width: '50rem' }"
   >
@@ -127,7 +127,6 @@ const getInitialFormData = computed(() => {
 
 const handleClose = () => {
   resetForm();
-  console.log('handle close');
   open.value = false;
 };
 
@@ -153,7 +152,6 @@ const submitHandler = handleSubmit(async (values) => {
         ID: values.ID,
       } as any;
     }
-    console.log('payload ', payload);
     await holidaysStore.save(payload);
     emit('fetchHolidays');
     showSuccessMessage(t('pages.hrSettings.holidays.modal.messages.updated'));

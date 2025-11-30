@@ -155,4 +155,24 @@
   }
 }
 
+/* NProgress - Custom Primary Color */
+#nprogress .bar {
+  background: var(--color-f-primary) !important;
+  height: 3px !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px var(--color-f-primary), 0 0 5px var(--color-f-primary) !important;
+}
+
+/* PrimeVue Dialog - White background & Blur overlay */
+.p-dialog {
+  background: white !important;
+}
+
+.p-dialog-mask {
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
 

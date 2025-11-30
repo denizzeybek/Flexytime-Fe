@@ -79,8 +79,7 @@ const isLoading = ref(false);
 const getInitialFormData = computed(() => {
   return advancedsStore.list?.map((advanced) => ({
     TypeName: advanced.TypeName,
-    Value: advanced.DataType === 2 ? advanced.Value === 'true' : convertTimeToDate(advanced.Value),
-    // Value: advanced.Value,
+    Value: advanced.DataType === 2 ? advanced.Value?.toLowerCase() === 'true' : convertTimeToDate(advanced.Value),
     DataType: advanced.DataType,
     SettingType: advanced.SettingType,
   }));
@@ -94,7 +93,6 @@ const submit = async (settingType: number, value: any) => {
         Value: String(value === 'true'),
       },
     ];
-    console.log('settingType ', settingType);
     if (settingType === 0 || settingType === 1) {
       // date formatını saat'e çevir
       payload = [
@@ -104,7 +102,7 @@ const submit = async (settingType: number, value: any) => {
         },
       ];
     }
-    advancedsStore.save(payload);
+    await advancedsStore.save(payload);
     showSuccessMessage(t('pages.settings.advanced.messages.updated'));
   } catch (error: any) {
     showErrorMessage(error as any);
@@ -117,7 +115,6 @@ const handleDateChange = (field: any, settingType: number, newValue: any) => {
 };
 
 const handleSwitchChange = (field: any, settingType: number, newValue: any) => {
-  console.log('field ', field);
   field.Value = newValue ? 'true' : 'false';
   submit(settingType, field.Value);
 };
@@ -132,8 +129,8 @@ onMounted(async () => {
       },
     });
     isLoading.value = false;
-  } catch (error) {
-    console.log(error);
+  } catch {
+    showErrorMessage(t('common.errors.generic'));
   }
 });
 </script>

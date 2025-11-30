@@ -5,6 +5,7 @@ import { ERouteNames } from '@/router/routeNames.enum';
 import ForgotPassword from '@/views/auth/ForgotPassword.vue';
 import Login from '@/views/auth/Login.vue';
 import Register from '@/views/auth/Register.vue';
+import ResetPassword from '@/views/auth/ResetPassword.vue';
 import WizardDownload from '@/views/auth/WizardDownload.vue';
 import ClassificationApplications from '@/views/classification/_views/Applications.vue';
 // Classification
@@ -423,6 +424,16 @@ const routes: RouteRecordRaw[] = [
       requiresUnAuth: true,
       title: ERouteNames.ForgotPassword,
       name: ERouteNames.ForgotPassword,
+    },
+  },
+  {
+    path: '/reset-password',
+    name: ERouteNames.ResetPassword,
+    component: ResetPassword,
+    meta: {
+      requiresUnAuth: true,
+      title: ERouteNames.ResetPassword,
+      name: ERouteNames.ResetPassword,
     },
   },
 

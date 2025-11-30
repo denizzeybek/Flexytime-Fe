@@ -39,8 +39,7 @@ const expandedKeys = ref({});
 const isOpen = ref(false);
 
 const projectData = computed(() => {
-  const dateRage = timeManagementsStore.dateRange;
-  return generateTableData(timeManagementsStore.projectList, dateRage[0], dateRage[1]);
+  return generateTableData(timeManagementsStore.projectList);
 });
 const tableHeaders = computed(() => {
   const dateRage = timeManagementsStore.dateRange;
@@ -48,18 +47,17 @@ const tableHeaders = computed(() => {
 });
 
 const columns = computed(() => {
-  const dateRage = timeManagementsStore.dateRange;
-  return generateTableColumns(tableHeaders.value, dateRage[0], dateRage[1]);
+  return generateTableColumns(tableHeaders.value);
 });
 
 const toggleApplications = () => {
   const _expandedKeys = { ...expandedKeys.value };
   if (!isOpen.value) {
-    projectData.value.forEach((element, idx) => {
+    projectData.value.forEach((_, idx) => {
       _expandedKeys[idx] = true;
     });
   } else {
-    projectData.value.forEach((element, idx) => {
+    projectData.value.forEach((_, idx) => {
       delete _expandedKeys[idx];
     });
   }

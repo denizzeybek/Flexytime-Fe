@@ -4,11 +4,11 @@ import { ProfileApiService, SettingApiService } from '@/client';
 import { ERole } from '@/enums/role.enum';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import { getDevPermissionOverride, getDevRoleOverride } from './devOverrides';
-
+import type { LicenseModifyViewModel } from '@/client';
 import type {
   EmployeeViewModel,
   LicenseViewModel,
+  ProfileModifyViewModel,
   ProfileViewModel,
   TimeZoneViewModel,
 } from '@/client';
@@ -37,28 +37,16 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     /**
      * Get user roles from profile
      * Returns empty array if profile not loaded
-     *
-     * DEV MODE: Can be overridden via window.__DEV_ROLE_OVERRIDE__
      */
     roles: (state): string[] => {
-      const devOverride = getDevRoleOverride();
-      if (devOverride) {
-        return devOverride;
-      }
       return state.GeneralProfile?.Wizard?.Roles ?? [];
     },
 
     /**
      * Get user permissions from profile
      * Returns empty array if profile not loaded
-     *
-     * DEV MODE: Can be overridden via window.__DEV_PERMISSION_OVERRIDE__
      */
     permissions: (state): string[] => {
-      const devOverride = getDevPermissionOverride();
-      if (devOverride) {
-        return devOverride;
-      }
       return state.GeneralProfile?.Wizard?.Permissions ?? [];
     },
 
@@ -122,6 +110,41 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
       this.License = data;
 
       return data;
+    },
+
+    async saveLicense(licenseKey: string) {
+      const payload: LicenseModifyViewModel = { LicenseKey: licenseKey };
+      const response = await SettingApiService.settingApiSaveLicense(payload);
+      // Refresh license data after save
+      await this.filterLicense();
+      return response;
+    },
+
+    async updateProfile(model: ProfileModifyViewModel) {
+      const response = await ProfileApiService.profileApiUpdateProfile(model);
+      // Refresh profile data after update
+      await this.filter();
+      return response;
+    },
+
+    async updateTimezone(timeZone: string) {
+      const response = await ProfileApiService.profileApiUpdateTimezone({ TimeZone: timeZone });
+      this.TimeZone = timeZone;
+      return response;
+    },
+
+    async updateLanguageCode(languageCode: string) {
+      const response = await ProfileApiService.profileApiUpdateLanguageCode({ LanguageCode: languageCode });
+      this.LanguageCode = languageCode;
+      return response;
+    },
+
+    async resendConfirmation() {
+      return await ProfileApiService.profileApiResendConfirm();
+    },
+
+    async changePassword(password: string) {
+      return await ProfileApiService.profileApiChangePassword({ Password: password });
     },
   },
 });

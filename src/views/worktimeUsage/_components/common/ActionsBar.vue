@@ -1,7 +1,7 @@
 <template>
   <div class="flex gap-2.5 items-center w-full lg:w-fit">
     <Button
-      v-if="canAccessWorktimeUsage"
+      v-if="canAccessWorktimeUsage && currentQuery.view !== 'individual'"
       :v-tooltip.top="$t('pages.worktimeUsage.downloadReportTooltip')"
       icon="pi pi-arrow-circle-down"
       severity="secondary"
@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Button from 'primevue/button';
@@ -128,22 +128,38 @@ const handleDownload = () => {
   emit('download');
 };
 
+// Parse interval string to date range
+const parseIntervalToDateRange = (interval: string | undefined): Date[] => {
+  if (!interval) {
+    // Default: today only
+    const today = new Date();
+    return [today, today];
+  }
+
+  const [dateStr, daysStr] = interval.split('-');
+  const days = parseInt(daysStr, 10);
+
+  // Parse DD.MM.YYYY as startDate
+  const [day, month, year] = dateStr.split('.').map(Number);
+  const startDate = new Date(year, month - 1, day);
+
+  // Calculate end date
+  const endDate = new Date(startDate);
+  endDate.setDate(endDate.getDate() + (days - 1)); // -1 because days includes start date
+
+  return [startDate, endDate];
+};
+
+// Watch for query changes and update datepicker
+watch(
+  () => currentQuery.value.interval,
+  (newInterval) => {
+    dateRange.value = parseIntervalToDateRange(newInterval);
+  },
+);
+
 // Initialize date range from query
 onMounted(() => {
-  // Parse interval from query (format: DD.MM.YYYY-{days} where date is startDate)
-  if (currentQuery.value.interval) {
-    const [dateStr, daysStr] = currentQuery.value.interval.split('-');
-    const days = parseInt(daysStr, 10);
-
-    // Parse DD.MM.YYYY as startDate
-    const [day, month, year] = dateStr.split('.').map(Number);
-    const startDate = new Date(year, month - 1, day);
-
-    // Calculate end date
-    const endDate = new Date(startDate);
-    endDate.setDate(endDate.getDate() + (days - 1)); // -1 because days includes start date
-
-    dateRange.value = [startDate, endDate];
-  }
+  dateRange.value = parseIntervalToDateRange(currentQuery.value.interval);
 });
 </script>

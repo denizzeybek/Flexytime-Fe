@@ -78,6 +78,7 @@ import { useI18n } from 'vue-i18n';
 import Checkbox from 'primevue/checkbox';
 import Skeleton from 'primevue/skeleton';
 
+import { useFToast } from '@/composables/useFToast';
 import { EDomain } from '@/enums/domain.enum';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useClassificationApplicationsStore } from '@/stores/classification/applications';
@@ -97,6 +98,7 @@ defineProps<IProps>();
 const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const { showErrorMessage } = useFToast();
 const applicationsStore = useClassificationApplicationsStore();
 
 const first = ref(0);
@@ -128,8 +130,8 @@ const onAlwaysOnChange = async (event) => {
     };
 
     await applicationsStore.save(payload);
-  } catch (error) {
-    console.log(error);
+  } catch {
+    showErrorMessage(t('common.errors.generic'));
   }
 };
 
@@ -145,8 +147,8 @@ const updateDomain = async (event) => {
     };
 
     await applicationsStore.save(payload);
-  } catch (error) {
-    console.log(error);
+  } catch {
+    showErrorMessage(t('common.errors.generic'));
   }
 };
 

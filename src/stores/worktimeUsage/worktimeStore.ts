@@ -14,6 +14,7 @@ import type {
   ClockEmployeeRequest,
   ClockSection2Response,
   ClockSectionRequest,
+  WebClockModifyModel,
 } from '@/client';
 import type {
   IEmployeeResponse,
@@ -279,11 +280,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         this.loading.employee = true;
         this.error.employee = null;
 
-        // TODO: delete here when fix datepicker
-        cleanPayload.Interval = '';
         const response = await ClockApiService.clockApiGetEmployee(cleanPayload);
-
-        console.log('📊 Employee API Response:', response);
 
         // Check if API returned null/empty data (happens for employee role)
         // If so, build Card and Breadcrumb from profile data
@@ -353,6 +350,16 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         section: null,
         employee: null,
       };
+    },
+
+    /**
+     * Save web clock domain
+     * Endpoint: /clock/web/save
+     *
+     * @param payload - Request payload with HostName and Domain
+     */
+    async saveWebClock(payload: WebClockModifyModel) {
+      return await ClockApiService.clockApiSaveWebClock(payload);
     },
   },
 });

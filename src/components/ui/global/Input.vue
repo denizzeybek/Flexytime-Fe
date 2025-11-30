@@ -21,7 +21,7 @@
     <slot name="dataList" />
     <ul
       v-if="showOptions"
-      class="absolute z-10 py-2 px-1 gap-2 translate-y-10 w-full mt-1 border rounded-md bg-white"
+      class="absolute z-50 top-full left-0 py-2 px-1 gap-2 w-full mt-1 border border-gray-200 rounded-md bg-white shadow-lg max-h-60 overflow-auto"
     >
       <li
         v-for="option in filteredOptions"
@@ -72,6 +72,7 @@ interface IProps {
   disabled?: boolean;
   unstyled?: boolean;
   datalistOptions?: string[];
+  onAddOption?: (value: string) => void | Promise<void>;
 }
 
 interface IEmits {
@@ -101,7 +102,14 @@ const {
 
 const isFocused = ref(false);
 const showOptions = ref(false);
-const filteredOptions = ref(props.datalistOptions || []);
+const searchFilter = ref('');
+
+// Computed filtered options - automatically reactive when props.datalistOptions changes
+const filteredOptions = computed(() => {
+  const options = props.datalistOptions || [];
+  if (!searchFilter.value) return options;
+  return options.filter((option) => option.toLowerCase().includes(searchFilter.value.toLowerCase()));
+});
 
 const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
 
@@ -111,20 +119,20 @@ const model = computed<string>({
 });
 
 const filterOptions = () => {
-  const filter = (value.value as string)?.toLowerCase();
-  filteredOptions.value = (props.datalistOptions || []).filter((option) =>
-    option.toLowerCase().includes(filter),
-  );
+  searchFilter.value = (value.value as string) || '';
 };
 
 const selectOption = (option: string) => {
   value.value = option;
   showOptions.value = false;
+  searchFilter.value = '';
 };
 
-const addNewOption = () => {
+const addNewOption = async () => {
   const option = value.value as string;
-  filteredOptions.value.push(option);
+  if (props.onAddOption) {
+    await props.onAddOption(option);
+  }
   emit('updateList', option);
   selectOption(option);
 };

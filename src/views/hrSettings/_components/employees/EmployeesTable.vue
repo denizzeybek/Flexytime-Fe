@@ -6,7 +6,6 @@
     :value="isLoading ? skeletonData : employees"
     :rows="10"
     :rowsPerPageOptions="[5, 10, 20, 50]"
-    @page="handlePage"
   >
     <template #header>
       <div class="flex justify-end">
@@ -104,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed,ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { FilterMatchMode } from '@primevue/core/api';
@@ -113,9 +112,10 @@ import Skeleton from 'primevue/skeleton';
 import Tag from 'primevue/tag';
 
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
+import { useFToast } from '@/composables/useFToast';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import { type MessageSchema } from '@/plugins/i18n';
-import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
+import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
 
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
 
@@ -133,6 +133,7 @@ defineProps<IProps>();
 const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const employeesStore = useHRSettingsEmployeesStore();
 
@@ -163,22 +164,13 @@ const employees = computed(() => {
   return employeesStore.list;
 });
 
-const handlePage = (e) => {
-  console.log('e ', e);
-};
-
-const handleAlwaysOnChange = async (event) => {
+const handleAlwaysOnChange = async (event: { props: string; alwaysOn: boolean }) => {
   try {
     const { props: employeeID, alwaysOn } = event;
-    const payload = {
-      ID: employeeID,
-      Enabled: alwaysOn,
-    };
-    console.log(payload);
-    // TODO: Implement update employee enabled status
-    // await employeesStore.updateEnabled(payload);
+    await employeesStore.updateEnabled(employeeID, alwaysOn);
+    showSuccessMessage(t('pages.hrSettings.employees.messages.statusUpdated'));
   } catch (error) {
-    console.error('Error updating employee status:', error);
+    showErrorMessage(error as Error);
   }
 };
 
@@ -186,9 +178,13 @@ const handleEdit = (employee: IEmployeeMember) => {
   emit('edit', employee);
 };
 
-const handleDelete = (employeeID: string) => {
-  console.log('employeeID ', employeeID);
-  // employeesStore.deleteEmployee(employeeID);
+const handleDelete = async (employeeID: string) => {
+  try {
+    await employeesStore.deleteEmployee(employeeID);
+    showSuccessMessage(t('pages.hrSettings.employees.messages.deleted'));
+  } catch (error) {
+    showErrorMessage(error as Error);
+  }
 };
 
 const handleOptionClick = (option: EOptionsDropdown, employee: IEmployeeMember) => {

@@ -1,107 +1,129 @@
 import { defineStore } from 'pinia';
 
-import axios from 'axios';
-
-import { useMockData } from '@/config';
+import { CompanyApiService, ReportApiService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type {
-  IDefaultReport,
-  IReportFilter,
-  IReportGraph,
-  IReportGrouping,
-  IReportItem,
-  IReportQuery,
-  IReportRecipientType,
-  IReportSection,
-  IReportSummary,
-  IReportType,
-} from '@/interfaces/company/report';
+  PerformNameValueModel,
+  PerformReportViewModel,
+  ReportFilterViewModel,
+  ReportGraphGroupViewModel,
+  ReportGroupViewModel,
+  ReportModifyModel,
+  ReportQueryViewModel,
+  ReportResultViewModel,
+  ReportSummaryViewModel,
+  ReportViewModel,
+} from '@/client';
 
 interface State {
-  filters: IReportFilter;
-  query: IReportQuery;
-  summary: IReportSummary;
-  graphs: IReportGraph;
-  grouping: IReportGrouping;
-  ReportTypes: IReportType[];
-  ReportRecipientTypes: IReportRecipientType[];
-  SectionList: IReportSection[];
-  Items: IReportItem[];
+  // Elastic Reports
+  filters: ReportFilterViewModel | null;
+  result: ReportResultViewModel | null;
+  summary: ReportSummaryViewModel | null;
+  graphs: ReportGraphGroupViewModel | null;
+  grouping: ReportGroupViewModel[];
+  downloadKey: string | null;
+  isLoading: boolean;
+  isFiltersLoading: boolean;
+  // Default Reports
+  defaultReports: PerformReportViewModel | null;
+  defaultReportItems: ReportViewModel[];
+  reportTypes: PerformNameValueModel[];
+  sectionList: PerformNameValueModel[];
+  isDefaultReportsLoading: boolean;
 }
 
 export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
   state: (): State => ({
-    filters: {} as IReportFilter,
-    query: {} as IReportQuery,
-    summary: {} as IReportSummary,
-    graphs: {} as IReportGraph,
-    grouping: {} as IReportGrouping,
-    ReportTypes: [],
-    ReportRecipientTypes: [],
-    SectionList: [],
-    Items: [],
+    // Elastic Reports
+    filters: null,
+    result: null,
+    summary: null,
+    graphs: null,
+    grouping: [],
+    downloadKey: null,
+    isLoading: false,
+    isFiltersLoading: false,
+    // Default Reports
+    defaultReports: null,
+    defaultReportItems: [],
+    reportTypes: [],
+    sectionList: [],
+    isDefaultReportsLoading: false,
   }),
+  getters: {
+    getFilters: (state) => state.filters,
+    getResult: (state) => state.result,
+    getSummary: (state) => state.summary,
+    getGraphs: (state) => state.graphs,
+    getGrouping: (state) => state.grouping,
+    getDownloadKey: (state) => state.downloadKey,
+    getDefaultReportItems: (state) => state.defaultReportItems,
+    getReportTypes: (state) => state.reportTypes,
+    getSectionList: (state) => state.sectionList,
+  },
   actions: {
-    fetchFilters() {
-      const api = '/webapi/report/filters';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
-
-        axios
-          .post(url)
-          .then((response: any) => {
-            const filters = useMockData ? response[api] : (response as IReportFilter);
-            this.filters = filters;
-
-            resolve(filters);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+    // Elastic Reports Actions
+    async fetchFilters() {
+      this.isFiltersLoading = true;
+      try {
+        const response = await ReportApiService.reportApiGetFilters();
+        this.filters = response;
+        return response;
+      } finally {
+        this.isFiltersLoading = false;
+      }
     },
-    fetchElasticReportQuery() {
-      const api = '/webapi/report/query';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
 
-        axios
-          .post(url)
-          .then((response: any) => {
-            const query = useMockData ? response[api] : (response as IReportQuery);
-            this.query = query;
-            this.summary = query.Summary;
-            this.graphs = query.Graphs;
-            this.grouping = query.Grouping;
-
-            resolve(query);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+    async queryReport(request: ReportQueryViewModel) {
+      this.isLoading = true;
+      try {
+        const response = await ReportApiService.reportApiQueryReport(request);
+        this.result = response;
+        this.summary = response.Summary ?? null;
+        this.graphs = response.Graphs ?? null;
+        this.grouping = response.Grouping ?? [];
+        this.downloadKey = response.DownloadKey ?? null;
+        return response;
+      } finally {
+        this.isLoading = false;
+      }
     },
-    fetchDefaultReports() {
-      const api = '/webapi/company/reports';
-      return new Promise((resolve, reject) => {
-        const url = useMockData ? '/mockData.json' : api;
 
-        axios
-          .post(url)
-          .then((response: any) => {
-            const query = useMockData ? response[api] : (response as IDefaultReport);
-            this.ReportTypes = query.ReportTypes;
-            this.ReportRecipientTypes = query.ReportRecipientTypes;
-            this.SectionList = query.SectionList;
-            this.Items = query.Items;
+    clearResults() {
+      this.result = null;
+      this.summary = null;
+      this.graphs = null;
+      this.grouping = [];
+      this.downloadKey = null;
+    },
 
-            resolve(query);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+    // Default Reports Actions
+    async fetchDefaultReports() {
+      this.isDefaultReportsLoading = true;
+      try {
+        const response = await CompanyApiService.companyApiReports();
+        this.defaultReports = response;
+        this.defaultReportItems = response.Items ?? [];
+        this.reportTypes = response.ReportTypes ?? [];
+        this.sectionList = response.SectionList ?? [];
+        return response;
+      } finally {
+        this.isDefaultReportsLoading = false;
+      }
+    },
+
+    async saveReport(request: ReportModifyModel) {
+      const response = await CompanyApiService.companyApiSaveReport(request);
+      await this.fetchDefaultReports();
+      return response;
+    },
+
+    async deleteReport(id: string) {
+      const response = await CompanyApiService.companyApiDeleteReport({ ID: id });
+      await this.fetchDefaultReports();
+      return response;
     },
   },
 });

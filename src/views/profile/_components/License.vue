@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="flex flex-col gap-8">
+    <form class="flex flex-col gap-8" @submit.prevent>
       <div class="flex flex-col flex-1 gap-4">
         <FInput id="companyName" disabled class="grow" :label="t('pages.profile.license.companyName.label')" name="companyName" />
       </div>
@@ -16,44 +16,62 @@
       </div>
       <div class="flex gap-4 flex-1">
         <FInput
-          id="licansePurchased"
+          id="licensePurchased"
           disabled
           class="flex-1"
           :label="t('pages.profile.license.licensePurchased.label')"
-          name="licansePurchased"
+          name="licensePurchased"
         />
         <FInput
-          id="licanseRemained"
+          id="licenseRemained"
           disabled
           class="flex-1"
           :label="t('pages.profile.license.licenseRemained.label')"
-          name="licanseRemained"
+          name="licenseRemained"
         />
       </div>
       <div class="flex gap-4 flex-1">
         <FInput id="expireDate" disabled class="flex-1" :label="t('pages.profile.license.expireDate.label')" name="expireDate" />
         <FInput id="daysLeft" disabled class="flex-1" :label="t('pages.profile.license.daysLeft.label')" name="daysLeft" />
       </div>
+      <div class="flex flex-col flex-1 gap-4">
+        <FInput
+          id="licenseKey"
+          class="grow"
+          :label="t('pages.profile.license.licenseKey.label')"
+          :placeholder="t('pages.profile.license.licenseKey.placeholder')"
+          name="licenseKey"
+        />
+      </div>
+      <div class="flex justify-center gap-4 mt-4">
+        <Button
+          ref="saveButtonRef"
+          type="button"
+          :disabled="isSubmitting"
+          :loading="isSubmitting"
+          :label="t('common.buttons.save')"
+          @click="showConfirmPopup"
+        />
+        <ConfirmPopup />
+        <Button
+          type="button"
+          severity="warn"
+          :label="t('pages.profile.license.buyLicense.label')"
+          @click="router.push({ name: ERouteNames.Classification })"
+        />
+      </div>
     </form>
-    <div class="flex justify-center mt-4">
-      <Button
-        type="button"
-        severity="warn"
-        :label="t('pages.profile.license.buyLicense.label')"
-        @click="router.push({ name: ERouteNames.Classification })"
-        @click.stop="submitHandler"
-      ></Button>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
+import { useConfirm } from 'primevue/useconfirm';
 import { useForm } from 'vee-validate';
-import { object,string } from 'yup';
+import { object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
@@ -61,47 +79,55 @@ import { ERouteNames } from '@/router/routeNames.enum';
 import { useProfileStore } from '@/stores/profile/profile';
 
 const { t } = useI18n<{ message: MessageSchema }>();
-
 const { showSuccessMessage, showErrorMessage } = useFToast();
+const confirm = useConfirm();
+
 const profileStore = useProfileStore();
 const router = useRouter();
-
-// const hasProfileImage = computed(() => !!profileStore?.GeneralProfile.ImagePath);
+const saveButtonRef = ref();
 
 const validationSchema = object({
-  companyName: string().required().label('Company Name'),
-  totalUser: string().required().label('Total User'),
-  licensedUser: string().required().label('Licensed User'),
-  licansePurchased: string().required().label('Licanse Purchased'),
-  licanseRemained: string().required().label('Licanse Remained'),
-  expireDate: string().required().label('Expire Date'),
-  daysLeft: string().required().label('Days Left'),
+  licenseKey: string().required().label('License Key'),
 });
 
-const { handleSubmit,  resetForm } = useForm({
+const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema,
 });
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
+    await profileStore.saveLicense(values.licenseKey);
     showSuccessMessage(t('pages.profile.license.messages.updated'));
-  } catch (error: any) {
-    showErrorMessage(error as any);
+  } catch (error) {
+    showErrorMessage(error as Error);
   }
 });
+
+const showConfirmPopup = (event: Event) => {
+  confirm.require({
+    target: event.currentTarget as HTMLElement,
+    message: t('pages.profile.license.confirm.message'),
+    icon: 'pi pi-exclamation-triangle',
+    acceptLabel: t('common.buttons.yes'),
+    rejectLabel: t('common.buttons.no'),
+    accept: () => {
+      submitHandler();
+    },
+  });
+};
 
 const getInitialFormData = computed(() => {
   const license = profileStore?.License;
 
   return {
-    companyName: license.CustomerName,
-    totalUser: license.TotalUsers,
-    licensedUser: license.LicensedUsers,
-    licansePurchased: license.LicensedUsers,
-    licanseRemained: license.RemainingUsers,
-    expireDate: license.ExpireDate,
-    daysLeft: license.RemainingDays,
+    companyName: license?.CustomerName ?? '',
+    totalUser: String(license?.TotalUsers ?? ''),
+    licensedUser: String(license?.LicensedUsers ?? ''),
+    licensePurchased: String(license?.LicensedUsers ?? ''),
+    licenseRemained: String(license?.RemainingUsers ?? ''),
+    expireDate: license?.ExpireDate ?? '',
+    daysLeft: String(license?.RemainingDays ?? ''),
+    licenseKey: license?.LicenseKey ?? '',
   };
 });
 
@@ -113,5 +139,3 @@ onMounted(async () => {
   });
 });
 </script>
-
-<style scoped></style>

@@ -3,7 +3,7 @@
     v-model:visible="open"
     modal
     :header="t('pages.hrSettings.employees.modal.header')"
-    class="!bg-f-secondary-purple lg:!w-[700px] !w-full"
+    class="lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
     <template v-if="isOnMounted">
@@ -237,7 +237,7 @@ import { array, boolean, number,object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
-import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/employees';
+import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
 
 import type { IEmployeeMember } from '@/interfaces/hrSettings/employee';
 
@@ -434,7 +434,6 @@ const handleClose = () => {
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
     let text = t('pages.hrSettings.employees.modal.messages.added');
     let payload: any = {};
     if (isEditing.value) {
@@ -508,7 +507,6 @@ onMounted(() => {
 
     if (employee && Object.keys(employee)?.length) {
       activeTab.value = employee?.Role;
-      console.log('employee?.Role ', employee?.Role);
     }
     resetForm({
       values: getInitialFormData.value,

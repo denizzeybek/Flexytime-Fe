@@ -17,22 +17,23 @@
           <!-- Header -->
           <div class="text-center mb-6">
             <h1 class="text-2xl font-bold text-slate-900 mb-1">
-              {{ $t('pages.auth.forgotPassword.title') }}
+              {{ t('pages.auth.forgotPassword.title') }}
             </h1>
             <p class="text-sm text-slate-600">
-              Enter your new password to reset
+              {{ t('pages.auth.forgotPassword.description') }}
             </p>
           </div>
 
           <!-- Forgot Password Form -->
           <form class="space-y-4" @submit="submitHandler">
-            <!-- Password Input -->
+            <!-- Email Input -->
             <div>
-              <FPassword
-                id="password"
-                :label="$t('pages.auth.forgotPassword.form.password.label')"
-                name="password"
-                :placeholder="$t('pages.auth.forgotPassword.form.password.placeholder')"
+              <FInput
+                id="email"
+                :label="t('pages.auth.forgotPassword.form.email.label')"
+                name="email"
+                type="email"
+                :placeholder="t('pages.auth.forgotPassword.form.email.placeholder')"
               />
             </div>
 
@@ -41,8 +42,8 @@
               :disabled="isSubmitting"
               :loading="isSubmitting"
               type="submit"
-              :label="$t('pages.auth.forgotPassword.form.button')"
-              icon="pi pi-check"
+              :label="t('pages.auth.forgotPassword.form.button')"
+              icon="pi pi-send"
               iconPos="right"
               class="w-full !py-2.5 !font-semibold mt-2"
             />
@@ -54,14 +55,14 @@
               class="text-sm font-medium text-purple-600 hover:text-purple-700 transition-colors"
               :to="{ name: ERouteNames.Login }"
             >
-              ← Back to Login
+              ← {{ t('pages.auth.forgotPassword.backToLogin') }}
             </RouterLink>
           </div>
         </div>
 
         <!-- Footer Text -->
         <p class="mt-4 text-center text-xs text-slate-500">
-          By continuing, you agree to our Terms of Service and Privacy Policy
+          {{ t('pages.auth.forgotPassword.footer') }}
         </p>
       </div>
     </div>
@@ -72,8 +73,9 @@
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
-import { object,string } from 'yup';
+import { object, string } from 'yup';
 
+import { AccountApiService } from '@/client';
 import { useFToast } from '@/composables/useFToast';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { type MessageSchema } from '@/plugins/i18n';
@@ -84,19 +86,23 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const validationSchema = object({
-  password: string().required().label('Password'),
+  email: string().required().email().label('Email'),
 });
 
-const { handleSubmit, isSubmitting } = useForm({
+const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema,
 });
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
+    await AccountApiService.accountApiForgot({
+      Email: values.email,
+    });
+
     showSuccessMessage(t('pages.auth.forgotPassword.messages.success'));
-  } catch (error: any) {
-    showErrorMessage(error as any);
+    resetForm();
+  } catch {
+    showErrorMessage(t('common.errors.generic'));
   }
 });
 </script>

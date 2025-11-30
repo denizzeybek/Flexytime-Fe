@@ -42,7 +42,6 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
       this.managerTitles = data.ManagerTitles ?? [];
       this.teams = data.Teams ?? [];
       const tags = data.Tags ?? {};
-      console.log('tags ', tags);
       this.tags = Object.entries(tags).map(([key, value]) => ({
         name: key,
         value,
@@ -55,6 +54,29 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
     },
     async save(payload: TheMemberModifyViewModel) {
       return await DefinitionApiService.definitionApiSaveEmployee(payload);
+    },
+    async updateEnabled(id: string, enabled: boolean) {
+      const employee = this.list.find((e) => e.ID === id);
+      if (!employee) {
+        throw new Error('Employee not found');
+      }
+      await DefinitionApiService.definitionApiSaveEmployee({
+        ID: employee.ID,
+        MemberName: employee.MemberName ?? '',
+        TeamId: employee.TeamId,
+        TitleId: employee.TitleId,
+        TitleName: employee.TitleName,
+        Salary: employee.Salary,
+        Email: employee.Email,
+        Enabled: enabled,
+        Role: employee.Role,
+        Tags: employee.Tags,
+      });
+      await this.filter();
+    },
+    async deleteEmployee(id: string) {
+      await DefinitionApiService.definitionApiDeleteEmployee({ ID: id });
+      await this.filter();
     },
   },
 });

@@ -165,7 +165,6 @@ const submitHandler = handleSubmit(async (values) => {
       TimeZone: values.timeZone.value,
     };
     await workingHoursStore.save(payload);
-    console.log('values ', payload);
     showSuccessMessage(t('pages.company.workingHours.messages.updated'));
   } catch (error: any) {
     showErrorMessage(error as any);
@@ -193,8 +192,8 @@ onMounted(async () => {
       },
     });
     isLoading.value = false;
-  } catch (error) {
-    console.log(error);
+  } catch {
+    showErrorMessage(t('common.errors.generic'));
   }
 });
 </script>

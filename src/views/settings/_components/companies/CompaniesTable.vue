@@ -6,7 +6,6 @@
     :value="isLoading ? skeletonData : companies"
     :rows="5"
     :rowsPerPageOptions="[5, 10, 20, 50]"
-    @page="handlePage"
   >
     <template #header>
       <div class="flex justify-end">
@@ -89,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed,ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { FilterMatchMode } from '@primevue/core/api';
@@ -109,6 +108,7 @@ interface IProps {
 interface IEmits {
   (event: 'new'): void;
   (event: 'edit', value: ICompany): void;
+  (event: 'delete', value: string): void;
 }
 
 defineProps<IProps>();
@@ -147,26 +147,19 @@ const companies = computed(() => {
   return companiesStore.list;
 });
 
-const handlePage = (e) => {
-  console.log(e);
-  // Handle pagination if needed
-};
-
 const handleEdit = (company: ICompany) => {
   emit('edit', company);
 };
 
-const handleDelete = (companyID: string) => {
-  // TODO: Implement delete functionality
-  console.log(companyID);
-  // companiesStore.deleteCompany(companyID);
+const handleDelete = (company: ICompany) => {
+  emit('delete', company.ID);
 };
 
 const handleOptionClick = (option: EOptionsDropdown, company: ICompany) => {
   if (option === EOptionsDropdown.Edit) {
     handleEdit(company);
   } else if (option === EOptionsDropdown.Delete) {
-    handleDelete(company.ID);
+    handleDelete(company);
   }
 };
 

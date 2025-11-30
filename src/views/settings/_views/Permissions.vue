@@ -106,9 +106,7 @@ const transformPermissions = (permissions) => {
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    // console.log('values ', values);
     const payload = transformPermissions(values.permissions);
-    console.log('payload ', payload);
     await permissionsStore.save(payload);
     showSuccessMessage(t('pages.settings.permissions.messages.updated'));
   } catch (error: any) {
@@ -126,8 +124,8 @@ onMounted(async () => {
       },
     });
     isLoading.value = false;
-  } catch (error) {
-    console.log(error);
+  } catch {
+    showErrorMessage(t('common.errors.generic'));
   }
 });
 </script>

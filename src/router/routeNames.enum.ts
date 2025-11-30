@@ -3,8 +3,7 @@ export enum ERouteNames {
   Login = 'Login',
   Logout = 'Logout',
   ForgotPassword = 'Forgot Password',
-  ForgotPassword_Emailed = 'Forgot Password Emailed',
-  ForgotPassword_Reset = 'Forgot Password Reset',
+  ResetPassword = 'Reset Password',
 
   // ERRORS
   Unauthorized = 'Unauthorized',

@@ -21,17 +21,43 @@
         "createAccount": "Create a new account"
       },
       "forgotPassword": {
-        "title": "Reset Password",
+        "title": "Forgot Password",
+        "description": "Enter your email address and we'll send you a link to reset your password.",
         "form": {
+          "email": {
+            "label": "Email",
+            "placeholder": "Enter your email address"
+          },
+          "button": "Send Reset Link"
+        },
+        "messages": {
+          "success": "Password reset link has been sent to your email."
+        },
+        "backToLogin": "Back to Login",
+        "footer": "By continuing, you agree to our Terms of Service and Privacy Policy"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "description": "Enter your new password below.",
+        "form": {
+          "email": {
+            "label": "Email"
+          },
           "password": {
-            "label": "Password",
-            "placeholder": "Enter your password"
+            "label": "New Password",
+            "placeholder": "Enter your new password"
+          },
+          "confirmPassword": {
+            "label": "Confirm Password",
+            "placeholder": "Confirm your new password"
           },
           "button": "Reset Password"
         },
         "messages": {
-          "success": "Logged in!"
-        }
+          "success": "Password reset successfully! You can now login with your new password.",
+          "invalidLink": "Invalid or expired reset link. Please request a new password reset."
+        },
+        "backToLogin": "Back to Login"
       },
       "register": {
         "title": "Create a Free Account",
@@ -156,6 +182,9 @@
       "employeesLabel": "Employees",
       "downloadReportTooltip": "Download Report",
       "selectPerspective": "Select perspective",
+      "messages": {
+        "domainUpdated": "Domain updated successfully!"
+      },
       "perspectives": {
         "time": "Time",
         "cost": "Cost",
@@ -371,6 +400,14 @@
             "added": "Company added!",
             "updated": "Company updated!"
           }
+        },
+        "deleteConfirm": {
+          "header": "Delete Company",
+          "message": "Are you sure you want to delete {name}?"
+        },
+        "messages": {
+          "deleted": "Company deleted!",
+          "deleteFailed": "Failed to delete company."
         }
       }
     },
@@ -430,15 +467,42 @@
         },
         "messages": {
           "success": "Time entry entered!"
+        },
+        "emptyState": {
+          "title": "No Time Entries",
+          "description": "You haven't recorded any time entries for this date yet. Start tracking your work above."
+        },
+        "untitled": "Untitled Task",
+        "sessions": "sessions",
+        "deleteConfirm": {
+          "header": "Delete Time Entry",
+          "message": "Are you sure you want to delete \"{task}\"?",
+          "success": "Time entry deleted successfully"
+        },
+        "deleteRangeConfirm": {
+          "header": "Delete Session",
+          "message": "Are you sure you want to delete this session from \"{task}\"?",
+          "success": "Session deleted successfully"
         }
       },
       "timeEntries": {
+        "datePicker": {
+          "placeholder": "Select date"
+        },
         "manual": {
           "label": "Manual"
         },
         "unclassified": {
           "label": "Unclassified"
         }
+      },
+      "unclassified": {
+        "emptyState": {
+          "title": "All Caught Up!",
+          "description": "Great job! You have no unclassified time entries. All your work has been properly categorized."
+        },
+        "itemsSelected": "items selected",
+        "categorizeButton": "Categorize"
       },
       "updateTimeEntriesModal": {
         "header": "Categorize Time Entries",
@@ -476,7 +540,8 @@
       "bonusEarned": "Bonus Earned",
       "previousInvitations": "Previous Invitations",
       "messages": {
-        "success": "Users invited!"
+        "success": "Users invited!",
+        "error": "Failed to send invitations. Please try again."
       },
       "modals": {
         "bonusModal": {
@@ -666,6 +731,11 @@
           "elastic": "Elastic",
           "default": "Default"
         },
+        "defaultReports": {
+          "messages": {
+            "deleted": "Report deleted successfully!"
+          }
+        },
         "modal": {
           "add": {
             "header": "Add report"
@@ -679,7 +749,10 @@
           },
           "frequency": {
             "label": "Frequency",
-            "placeholder": "Select frequency"
+            "placeholder": "Select frequency",
+            "everyday": "Everyday",
+            "everyWeek": "Every week",
+            "everyMonth": "Every month"
           },
           "team": {
             "label": "Team",
@@ -700,6 +773,37 @@
           }
         },
         "elasticReports": {
+          "filters": {
+            "teams": "Select team(s)",
+            "employees": "Select employee(s)",
+            "projects": "Select project(s)",
+            "billable": "Billable",
+            "dateRange": "Select date range",
+            "clear": "Clear"
+          },
+          "summary": {
+            "total": "Total",
+            "billable": "Billable",
+            "unbillable": "Unbillable"
+          },
+          "download": "Download",
+          "noData": "No data available",
+          "groups": {
+            "group1": "Group 1",
+            "group2": "Group 2",
+            "projects": "Projects",
+            "employees": "Employees",
+            "teams": "Teams",
+            "billable": "Billable"
+          },
+          "columns": {
+            "total": "Total"
+          },
+          "billable": {
+            "all": "All",
+            "billable": "Billable",
+            "nonBillable": "Non-Billable"
+          },
           "messages": {
             "created": "Report created!"
           }
@@ -785,6 +889,10 @@
           "empty": "No employees found.",
           "addUser": "Add User",
           "totalText": "In total there are {count} employees."
+        },
+        "messages": {
+          "statusUpdated": "Employee status updated!",
+          "deleted": "Employee deleted!"
         }
       },
       "holidays": {
@@ -864,6 +972,11 @@
         "password": "Password"
       },
       "basic": {
+        "sections": {
+          "personalInfo": "Personal Information",
+          "preferences": "Preferences",
+          "autoSave": "Changes are saved automatically"
+        },
         "profileImage": {
           "alt": "Profile image"
         },
@@ -887,22 +1000,30 @@
         "save": {
           "label": "Save"
         },
+        "resendConfirmation": "Resend confirmation email",
         "messages": {
-          "updated": "working hours updated!"
+          "updated": "Profile updated successfully!",
+          "languageUpdated": "Language updated successfully!",
+          "timezoneUpdated": "Timezone updated successfully!",
+          "confirmationSent": "Confirmation email sent successfully!"
         }
       },
       "password": {
+        "title": "Change Password",
         "password": {
-          "label": "Password"
+          "label": "New Password"
         },
         "repeatPassword": {
-          "label": "Repeat Password"
+          "label": "Confirm Password"
         },
         "save": {
-          "label": "Save"
+          "label": "Change Password"
+        },
+        "validation": {
+          "passwordsMustMatch": "Passwords must match"
         },
         "messages": {
-          "updated": "Holiday updated!"
+          "updated": "Password changed successfully!"
         }
       },
       "license": {
@@ -927,16 +1048,30 @@
         "daysLeft": {
           "label": "Days Left"
         },
+        "licenseKey": {
+          "label": "License Key",
+          "placeholder": "Enter license key"
+        },
         "buyLicense": {
           "label": "Buy License"
         },
+        "confirm": {
+          "message": "Are you sure you want to update the license?"
+        },
         "messages": {
-          "updated": "working hours updated!"
+          "updated": "License updated successfully!"
         }
       }
     }
   },
   "common": {
+    "dates": {
+      "today": "Today",
+      "yesterday": "Yesterday"
+    },
+    "errors": {
+      "generic": "An error occurred. Please try again."
+    },
     "validation": {
       "mixed": {
         "default": "default",
@@ -958,7 +1093,9 @@
       "cancel": "Cancel",
       "save": "Save",
       "delete": "Delete",
-      "edit": "Edit"
+      "edit": "Edit",
+      "yes": "Yes",
+      "no": "No"
     },
     "actions": {
       "edit": "Edit",
@@ -1182,7 +1319,9 @@
     },
     "wellbeing": {
       "individualViewComingSoon": "Wellbeing data for individual view will be implemented soon.",
-      "noDataAvailable": "No data available."
+      "noDataAvailable": "No data available.",
+      "noWellbeingData": "No wellbeing data available.",
+      "suggestion": "Suggestion"
     },
     "graph": {
       "noDataAvailable": "No graph data available."
@@ -1200,7 +1339,8 @@
         "markAsMeeting": "Mark as Meeting",
         "markAsLeisure": "Mark as Leisure",
         "markAsUnclassified": "Mark as Unclassified"
-      }
+      },
+      "noData": "No web history found."
     },
     "errors": {
       "unauthorized": {
