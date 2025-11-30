@@ -35,8 +35,7 @@ const expandedKeys = ref({});
 const isOpen = ref(false);
 
 const personData = computed(() => {
-  const dateRage = timeManagementsStore.dateRange;
-  return generateTableData(timeManagementsStore.personList, dateRage[0], dateRage[1]);
+  return generateTableData(timeManagementsStore.personList);
 });
 const tableHeaders = computed(() => {
   const dateRage = timeManagementsStore.dateRange;
@@ -44,18 +43,17 @@ const tableHeaders = computed(() => {
 });
 
 const columns = computed(() => {
-  const dateRage = timeManagementsStore.dateRange;
-  return generateTableColumns(tableHeaders.value, dateRage[0], dateRage[1]);
+  return generateTableColumns(tableHeaders.value);
 });
 
 const toggleApplications = () => {
   const _expandedKeys = { ...expandedKeys.value };
   if (!isOpen.value) {
-    personData.value.forEach((element, idx) => {
+    personData.value.forEach((_, idx) => {
       _expandedKeys[idx] = true;
     });
   } else {
-    personData.value.forEach((element, idx) => {
+    personData.value.forEach((_, idx) => {
       delete _expandedKeys[idx];
     });
   }

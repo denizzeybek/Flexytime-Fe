@@ -14,7 +14,7 @@ export const useTimeManagement = () => {
     });
   };
 
-  const generateTableColumns = (headers: any, startDate: string, endDate: string) => {
+  const generateTableColumns = (headers: any) => {
     const keys = ['title', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh'];
     return keys.map((key, index) => ({
       field: key,
@@ -26,7 +26,7 @@ export const useTimeManagement = () => {
     }));
   };
 
-  const generateTableData = (list: any[], startDate: string, endDate: string) => {
+  const generateTableData = (list: any[]) => {
 
     if (!list.length) return [];
     return list.map((person, idx) => {
