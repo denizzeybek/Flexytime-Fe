@@ -114,6 +114,7 @@ import Tag from 'primevue/tag';
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { useFToast } from '@/composables/useFToast';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
+import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
 
@@ -195,17 +196,15 @@ const handleOptionClick = (option: EOptionsDropdown, employee: IEmployeeMember) 
   }
 };
 
-// Skeleton dummy data - 5 rows for loading state
-const skeletonData = Array.from({ length: 5 }, (_, i) => ({
-  ID: `skeleton-${i}`,
+const skeletonData = createSkeletonData(5, {
   MemberName: '',
   RoleName: '',
-  Tags: [],
+  Tags: [] as string[],
   TitleName: '',
   TeamName: '',
   Salary: '',
   Enabled: false,
-}));
+});
 </script>
 
 <style scoped></style>

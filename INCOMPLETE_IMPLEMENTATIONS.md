@@ -97,33 +97,24 @@ export const useOperationFeedback = () => {
 
 ---
 
-#### 3.1.3 `createSkeletonData` Utility ✅ Oluşturulacak
+#### 3.1.3 `createSkeletonData` Utility ✅ TAMAMLANDI
 
-**Sorun:** 12 table component'te aynı skeleton data pattern'i tekrarlanıyor (~80 satır)
+**Durum:** Utility oluşturuldu ve 6 table component'e entegre edildi.
 
-**Etkilenen Dosyalar:**
-- ApplicationsTable.vue (156-162)
-- WebAddressesTable.vue (162+)
-- AnnualsTable.vue (169+)
-- HolidaysTable.vue (148+)
-- EmployeesTable.vue (199-208)
-- CompaniesTable.vue (167+)
-- DefaultReportsTable.vue (139+)
-- +5 daha
+**Oluşturulan Dosya:** `src/helpers/skeleton.ts`
 
-**Çözüm:**
-```typescript
-// src/helpers/skeleton.ts
-export const createSkeletonData = <T extends Record<string, unknown>>(
-  count: number,
-  template: Omit<T, 'ID'>
-): T[] => {
-  return Array.from({ length: count }, (_, i) => ({
-    ID: `skeleton-${i}`,
-    ...template,
-  })) as T[];
-};
-```
+**Güncellenen Dosyalar:**
+- ✅ `ApplicationsTable.vue`
+- ✅ `WebAddressesTable.vue`
+- ✅ `EmployeesTable.vue`
+- ✅ `HolidaysTable.vue`
+- ✅ `AnnualsTable.vue`
+- ✅ `CompaniesTable.vue`
+
+**Kazanımlar:**
+- Tekrarlayan `Array.from({ length: N }, ...)` pattern'i kaldırıldı
+- Generic tip desteği ile tip güvenliği sağlandı
+- ~40 satır tekrarlayan kod kaldırıldı
 
 ---
 
@@ -205,7 +196,7 @@ export const createSkeletonData = <T extends Record<string, unknown>>(
 | # | Task | Etki | Efor | Dosya Sayısı | Durum |
 |---|------|------|------|--------------|-------|
 | 1 | `useAsyncLoading` composable | Yüksek | Düşük | 6 | ✅ TAMAMLANDI |
-| 2 | `createSkeletonData` utility | Orta | Düşük | 12 | ⏳ Bekliyor |
+| 2 | `createSkeletonData` utility | Orta | Düşük | 6 | ✅ TAMAMLANDI |
 | 3 | `useOperationFeedback` composable | Yüksek | Düşük | 8+ | ⏳ Bekliyor |
 | 4 | Store loading state standardizasyonu | Orta | Orta | 8 | ⏳ Bekliyor |
 | 5 | Modal form init composable | Orta | Orta | 3+ | ⏳ Bekliyor |

@@ -79,6 +79,7 @@ import Skeleton from 'primevue/skeleton';
 
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
+import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 
@@ -144,12 +145,10 @@ const handleOptionClick = (option: EOptionsDropdown, holiday: IHoliday) => {
   }
 };
 
-// Skeleton dummy data - 5 rows for loading state
-const skeletonData = Array.from({ length: 5 }, (_, i) => ({
-  ID: `skeleton-${i}`,
+const skeletonData = createSkeletonData(5, {
   Name: '',
   Days: '',
   StartDate: '',
   EndDate: '',
-}));
+});
 </script>

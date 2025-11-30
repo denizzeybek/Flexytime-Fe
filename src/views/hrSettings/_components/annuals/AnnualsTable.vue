@@ -91,6 +91,7 @@ import Skeleton from 'primevue/skeleton';
 
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
+import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
@@ -165,9 +166,7 @@ const handleOptionClick = (option: EOptionsDropdown, annual: IAnnual) => {
   }
 };
 
-// Skeleton dummy data - 5 rows for loading state
-const skeletonData = Array.from({ length: 5 }, (_, i) => ({
-  ID: `skeleton-${i}`,
+const skeletonData = createSkeletonData(5, {
   MemberName: '',
   LeaveType: '',
   Days: '',
@@ -175,5 +174,5 @@ const skeletonData = Array.from({ length: 5 }, (_, i) => ({
   StartTime: '',
   EndDate: '',
   EndTime: '',
-}));
+});
 </script>

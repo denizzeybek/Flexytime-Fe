@@ -80,6 +80,7 @@ import Skeleton from 'primevue/skeleton';
 
 import { useFToast } from '@/composables/useFToast';
 import { EDomain } from '@/enums/domain.enum';
+import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useClassificationApplicationsStore } from '@/stores/classification/applications';
 import { getDomainEnum } from '@/views/classification/_etc/helpers';
@@ -152,14 +153,12 @@ const updateDomain = async (event) => {
   }
 };
 
-// Skeleton dummy data - 5 rows for loading state
-const skeletonData = Array.from({ length: 5 }, (_, i) => ({
-  ID: `skeleton-${i}`,
+const skeletonData = createSkeletonData(5, {
   Name: '',
   Teams: '',
   AlwaysOn: false,
   Domain: 0,
-}));
+});
 </script>
 
 <style scoped></style>
