@@ -1,59 +1,63 @@
 <template>
-  <div class="flex flex-col justify-between items-center h-full gap-4">
-    <div class="flex flex-col justify-center items-center gap-4">
-      <FText as="h1"
-        >{{ t('pages.promotion.title') }} <span class="text-f-warn">{{ t('pages.promotion.bonusText') }}</span>
-      </FText>
-      <FText class="text-center">
-        {{ t('pages.promotion.description') }}
-      </FText>
-      <span class="text-xs text-gray-400">{{ t('pages.promotion.disclaimer') }}</span>
-    </div>
-
-    <Card class="w-2/3 my-12 shadow-lg border border-gray-100 rounded-2xl">
-      <template #header>
-        <div class="w-full flex items-center justify-center p-4">
-          <FText as="h4">{{ t('pages.promotion.inviteByEmail') }}</FText>
+  <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
+    <template #content>
+      <div class="flex flex-col justify-between items-center h-full gap-4">
+        <div class="flex flex-col justify-center items-center gap-4">
+          <FText as="h1"
+            >{{ t('pages.promotion.title') }} <span class="text-f-warn">{{ t('pages.promotion.bonusText') }}</span>
+          </FText>
+          <FText class="text-center">
+            {{ t('pages.promotion.description') }}
+          </FText>
+          <span class="text-xs text-gray-400">{{ t('pages.promotion.disclaimer') }}</span>
         </div>
-      </template>
-      <template #content>
-        <form @submit="submitHandler">
-          <div class="flex flex-col gap-5">
-            <FEmailList name="emails" />
-            <Button
-              type="submit"
-              :label="t('pages.promotion.addFriendButton')"
-              :disabled="isSubmitting"
-              :loading="isSubmitting"
-              class="shadow-sm"
-            />
-          </div>
-        </form>
-      </template>
-    </Card>
 
-    <div class="w-full items-center flex flex-col gap-4">
-      <FText>{{ t('pages.promotion.alternativeInvite') }}</FText>
-      <div class="w-2/3 flex justify-center gap-4">
-        <InputText class="flex-1" :placeholder="t('pages.promotion.emailPlaceholder')" :value="link" disabled />
-        <Button :icon="isCopied ? 'pi pi-check' : ''" :label="t('pages.promotion.copyLink')" class="shadow-sm" @click="copyText" />
+        <Card class="w-2/3 my-12 shadow-lg border border-gray-100 rounded-2xl">
+          <template #header>
+            <div class="w-full flex items-center justify-center p-4">
+              <FText as="h4">{{ t('pages.promotion.inviteByEmail') }}</FText>
+            </div>
+          </template>
+          <template #content>
+            <form @submit="submitHandler">
+              <div class="flex flex-col gap-5">
+                <FEmailList name="emails" />
+                <Button
+                  type="submit"
+                  :label="t('pages.promotion.addFriendButton')"
+                  :disabled="isSubmitting"
+                  :loading="isSubmitting"
+                  class="shadow-sm"
+                />
+              </div>
+            </form>
+          </template>
+        </Card>
+
+        <div class="w-full items-center flex flex-col gap-4">
+          <FText>{{ t('pages.promotion.alternativeInvite') }}</FText>
+          <div class="w-2/3 flex justify-center gap-4">
+            <InputText class="flex-1" :placeholder="t('pages.promotion.emailPlaceholder')" :value="link" disabled />
+            <Button :icon="isCopied ? 'pi pi-check' : ''" :label="t('pages.promotion.copyLink')" class="shadow-sm" @click="copyText" />
+          </div>
+          <div class="flex gap-4">
+            <Button
+              severity="link"
+              :label="t('pages.promotion.bonusEarned')"
+              class="!text-f-warn !underline"
+              @click="isBonusModalOpen = true"
+            ></Button>
+            <Button
+              severity="link"
+              :label="t('pages.promotion.previousInvitations')"
+              class="!underline"
+              @click="isPrevInvitationsModalOpen = true"
+            ></Button>
+          </div>
+        </div>
       </div>
-      <div class="flex gap-4">
-        <Button
-          severity="link"
-          :label="t('pages.promotion.bonusEarned')"
-          class="!text-f-warn !underline"
-          @click="isBonusModalOpen = true"
-        ></Button>
-        <Button
-          severity="link"
-          :label="t('pages.promotion.previousInvitations')"
-          class="!underline"
-          @click="isPrevInvitationsModalOpen = true"
-        ></Button>
-      </div>
-    </div>
-  </div>
+    </template>
+  </Card>
   <BonusModal v-if="isBonusModalOpen" v-model:open="isBonusModalOpen" />
   <PrevInvitationsModal
     v-if="isPrevInvitationsModalOpen"

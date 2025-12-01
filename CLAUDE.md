@@ -41,6 +41,16 @@ The project includes automated checking for:
 
 Always use context7 when I need code generation, setup or configuration steps, or library/API documentation. This means you should automatically use the Context7 MCP tools to resolve library id and get library docs without me having to explicitly ask.
 
+### PrimeVue Documentation for LLMs
+
+When working with PrimeVue components, use these official LLM-optimized documentation URLs:
+
+- **Index**: `https://primevue.org/llms/llms.txt` - Lists all available guides and components
+- **Full Documentation**: `https://primevue.org/llms/llms-full.txt` - Complete documentation in single file
+- **Component Docs**: `https://primevue.org/llms/components/{component}.md` - Individual component docs (e.g., `datepicker.md`, `button.md`, `datatable.md`)
+
+Use WebFetch to retrieve these when you need PrimeVue component documentation, props, events, or usage examples.
+
 ## Project Architecture
 
 ### Technology Stack
