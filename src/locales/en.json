@@ -17,6 +17,7 @@
         },
         "forgotPassword": "Forgot Password",
         "googleLogin": "Login with Google",
+        "signingIn": "Signing you in...",
         "newHereText": "New here?",
         "createAccount": "Create a new account"
       },

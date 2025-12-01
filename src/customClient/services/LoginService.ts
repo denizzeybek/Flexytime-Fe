@@ -1,7 +1,7 @@
 /* Custom service - not auto-generated */
 /* istanbul ignore file */
 /* tslint:disable */
-/* eslint-disable */
+ 
 import { CancelablePromise } from '@/client/core/CancelablePromise';
 import { OpenAPI } from '@/client/core/OpenAPI';
 import { request as __request } from '@/client/core/request';

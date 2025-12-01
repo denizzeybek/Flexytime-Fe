@@ -1,10 +1,11 @@
-import type { WritableComputedRef } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 import axios from 'axios'
 
 import { changeDayjsLocale } from '@/helpers/date'
 import en from '@/locales/en.json'
+
+import type { WritableComputedRef } from 'vue'
 
 export type MessageSchema = typeof en
 export type Language = 'en' | 'tr'

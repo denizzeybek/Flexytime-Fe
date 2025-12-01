@@ -1,6 +1,9 @@
 <template>
   <AuthLayout adName="login">
-    <div class="flex items-center justify-center flex-1 w-full px-4">
+    <!-- Google OAuth Callback Loading Overlay -->
+    <GoogleCallbackLoader v-if="isGoogleCallback" />
+
+    <div v-else class="flex items-center justify-center flex-1 w-full px-4">
       <!-- Login Card -->
       <div class="w-full max-w-md my-auto">
         <!-- Card Container -->
@@ -114,11 +117,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useForm } from 'vee-validate';
-import { object,string } from 'yup';
+import { object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { useGoogleLogin } from '@/composables/useGoogleLogin';
@@ -127,6 +130,7 @@ import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useAuthStore } from '@/stores/auth';
 import { useProfileStore } from '@/stores/profile/profile';
+import GoogleCallbackLoader from '@/views/auth/_components/GoogleCallbackLoader.vue';
 // import { useCommonUsersStore } from '@/stores/common/users';
 
 const route = useRoute();
@@ -136,6 +140,12 @@ const profileStore = useProfileStore();
 // const commonUsersStore = useCommonUsersStore();
 const { showErrorMessage } = useFToast();
 const googleLogin = useGoogleLogin();
+
+// Check if this is a Google OAuth callback (show loading screen instead of login form)
+const isGoogleCallback = computed(() => {
+  const { status, key } = route.query;
+  return !!(status && key);
+});
 
 const validationSchema = object({
   email: string().email().required().label('Email'),

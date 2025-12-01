@@ -17,6 +17,7 @@
         },
         "forgotPassword": "Şifremi Unuttum",
         "googleLogin": "Google ile Giriş Yap",
+        "signingIn": "Giriş yapılıyor...",
         "newHereText": "Yeni misiniz?",
         "createAccount": "Yeni hesap oluşturun"
       },
