@@ -186,10 +186,8 @@ onMounted(async () => {
 
     if (!success && googleLogin.errorMessage.value) {
       showErrorMessage(googleLogin.errorMessage.value);
+      router.replace({ name: ERouteNames.Login });
     }
-
-    // Clear query parameters from URL
-    router.replace({ name: ERouteNames.Login });
   }
 });
 </script>

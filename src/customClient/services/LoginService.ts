@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CancelablePromise } from '@/client/core/CancelablePromise';
+import { CancelablePromise } from '@/client/core/CancelablePromise';
 import { OpenAPI } from '@/client/core/OpenAPI';
 import { request as __request } from '@/client/core/request';
 
@@ -29,7 +29,13 @@ export class LoginService {
     // OpenAPI.USERNAME/PASSWORD would work but headers is more explicit
     const BASIC_AUTH = 'QzFBMDNCMTAtN0Q1OS00MDdBLUE5M0UtQjcxQUIxN0FEOEMyOjE3N0UzMjk1LTA2NTYtNDMxNy1CQzkxLUREMjcxQTE5QUNGRg==';
 
-    return __request(OpenAPI, {
+    // Temporarily clear TOKEN to prevent Bearer auth from overriding Basic auth
+    // The request.ts getHeaders() adds Bearer token if OpenAPI.TOKEN exists,
+    // which would override our Basic auth header
+    const savedToken = OpenAPI.TOKEN;
+    OpenAPI.TOKEN = undefined;
+
+    const result = __request<TokenResponse>(OpenAPI, {
       method: 'POST',
       url: '/oauth/token',
       mediaType: 'application/x-www-form-urlencoded',
@@ -37,6 +43,24 @@ export class LoginService {
         'Authorization': `Basic ${BASIC_AUTH}`,
       },
       body: formData,
+    });
+
+    // Restore token after request is created (it's a promise, actual request happens later)
+    // We need to restore it in the promise chain to ensure it's restored after the request completes
+    return new CancelablePromise<TokenResponse>((resolve, reject, onCancel) => {
+      result
+        .then((response: TokenResponse) => {
+          OpenAPI.TOKEN = savedToken;
+          resolve(response);
+        })
+        .catch((error: unknown) => {
+          OpenAPI.TOKEN = savedToken;
+          reject(error);
+        });
+
+      onCancel(() => {
+        OpenAPI.TOKEN = savedToken;
+      });
     });
   }
 
