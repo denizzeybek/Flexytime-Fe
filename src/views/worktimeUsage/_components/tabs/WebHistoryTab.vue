@@ -36,10 +36,7 @@
             @toggle-domain="handleToggleDomain"
           />
           <!-- No Data -->
-          <div v-else class="flex flex-col items-center gap-8 py-8">
-            <img src="@/assets/images/noData.svg" alt="No Data" />
-            <span class="text-gray-500">{{ $t('components.webHistory.noDataAvailable') }}</span>
-          </div>
+          <NoDataState v-else :message="$t('components.webHistory.noDataAvailable')" />
         </template>
       </Card>
     </template>
@@ -48,6 +45,8 @@
 
 <script setup lang="ts">
 import Card from 'primevue/card';
+
+import NoDataState from '@/components/common/NoDataState.vue';
 
 import WebHistoryTable from '../tables/WebHistoryTable.vue';
 

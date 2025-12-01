@@ -443,10 +443,14 @@
           "placeholder": "00:00"
         },
         "project": {
-          "placeholder": "Select project"
+          "placeholder": "Select project",
+          "addSuccess": "Project added successfully!",
+          "addError": "Failed to add project"
         },
         "tags": {
-          "placeholder": "Select tag(s)"
+          "placeholder": "Select tag(s)",
+          "addSuccess": "Tag added successfully!",
+          "addError": "Failed to add tag"
         },
         "layoutButtons": {
           "timer": "Timer",
@@ -1080,6 +1084,7 @@
     }
   },
   "common": {
+    "noDataAvailable": "No data available.",
     "dates": {
       "today": "Today",
       "yesterday": "Yesterday"
@@ -1259,10 +1264,14 @@
     },
     "select": {
       "addNew": "Add new",
+      "addNewWithName": "Add \"{name}\"",
+      "typeToAdd": "Type to add new",
       "placeholder": "Select an option"
     },
     "multiSelect": {
       "addNew": "Add new",
+      "addNewWithName": "Add \"{name}\"",
+      "typeToAdd": "Type to add new",
       "placeholder": "Select an option"
     },
     "commandPalette": {

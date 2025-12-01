@@ -105,10 +105,7 @@
         <div v-else-if="hasChartData" class="h-80">
           <Chart :type="EChartType.BAR" :data="barChartData" :options="barChartOptions" class="h-full" />
         </div>
-        <div v-else class="flex flex-col items-center gap-4 py-12">
-          <img src="@/assets/images/noData.svg" alt="No Data" class="w-32" />
-          <span class="text-gray-500">{{ t('pages.company.reports.elasticReports.noData') }}</span>
-        </div>
+        <NoDataState v-else :message="t('pages.company.reports.elasticReports.noData')" />
       </template>
     </Card>
 
@@ -183,6 +180,7 @@ import MultiSelect from 'primevue/multiselect';
 import ProgressSpinner from 'primevue/progressspinner';
 import Select from 'primevue/select';
 
+import NoDataState from '@/components/common/NoDataState.vue';
 import { DownloadService } from '@/customClient/services/DownloadService';
 import { EChartType } from '@/enums/chartType.enum';
 import { formatDateToInterval } from '@/helpers/date';

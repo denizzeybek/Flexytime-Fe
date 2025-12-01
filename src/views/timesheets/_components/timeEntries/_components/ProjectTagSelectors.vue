@@ -9,6 +9,7 @@
         :prime-props="{
           filter: true,
         }"
+        @add-list="(name: string) => emit('addProject', name)"
       />
     </div>
     <div class="flex-1">
@@ -20,6 +21,7 @@
         :prime-props="{
           maxSelectedLabels: 3,
         }"
+        @add-list="(name: string) => emit('addTag', name)"
       />
     </div>
   </div>
@@ -40,7 +42,13 @@ interface IProps {
   tagOptions: ISelectOption[];
 }
 
+interface IEmits {
+  (e: 'addProject', name: string): void;
+  (e: 'addTag', name: string): void;
+}
+
 defineProps<IProps>();
+const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 </script>

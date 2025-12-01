@@ -27,6 +27,7 @@ declare module 'vue' {
     InputText: typeof import('primevue/inputtext')['default']
     Menu: typeof import('primevue/menu')['default']
     MultiSelect: typeof import('./src/components/ui/global/MultiSelect.vue')['default']
+    NoDataState: typeof import('./src/components/common/NoDataState.vue')['default']
     OptionsDropdown: typeof import('./src/components/ui/local/OptionsDropdown.vue')['default']
     Password: typeof import('./src/components/ui/global/Password.vue')['default']
     ProfileBadge: typeof import('./src/components/ui/local/ProfileBadge.vue')['default']

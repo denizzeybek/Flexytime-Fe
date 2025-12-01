@@ -12,6 +12,7 @@
       filter
       :display="chip ? 'chip' : 'comma'"
       @change="onSelect($event)"
+      @filter="onFilter($event)"
       v-on="validationListeners"
     >
       <template #option="slotProps">
@@ -37,10 +38,11 @@
           <Button
             class="!w-full"
             outlined
-            :label="t('components.multiSelect.addNew')"
+            :label="addButtonLabel"
             icon="pi pi-plus"
             type="button"
-            @click.stop="emit('addList')"
+            :disabled="!filterValue.trim()"
+            @click.stop="handleAddClick"
           />
         </div>
       </template>
@@ -55,10 +57,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import MultiSelect, { type MultiSelectChangeEvent, type MultiSelectProps } from 'primevue/multiselect';
+import MultiSelect, { type MultiSelectChangeEvent, type MultiSelectFilterEvent, type MultiSelectProps } from 'primevue/multiselect';
 import Tag from 'primevue/tag';
 import { useField } from 'vee-validate';
 
@@ -91,7 +93,7 @@ export interface IProps {
 
 interface IEmits {
   (event: 'selected', value: any): void;
-  (event: 'addList'): void;
+  (event: 'addList', filterValue: string): void;
   (event: 'update:modelValue', value: IOption[]): void;
 }
 
@@ -106,6 +108,8 @@ const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
+const filterValue = ref('');
+
 const { errorMessage, value, handleBlur, handleChange } = useField<IOption[]>(
   () => props.name,
   undefined,
@@ -117,6 +121,13 @@ const { errorMessage, value, handleBlur, handleChange } = useField<IOption[]>(
 
 const finalPlaceholder = computed(() => props.placeholder || t('components.multiSelect.placeholder'));
 
+const addButtonLabel = computed(() => {
+  if (filterValue.value.trim()) {
+    return t('components.multiSelect.addNewWithName', { name: filterValue.value.trim() });
+  }
+  return t('components.multiSelect.typeToAdd');
+});
+
 const validationListeners = {
   blur: (e: InputEvent) => handleBlur(e, true),
   select: (e: InputEvent) => handleChange(e, !!errorMessage.value),
@@ -124,5 +135,16 @@ const validationListeners = {
 
 const onSelect = (e: MultiSelectChangeEvent) => {
   emit('selected', e);
+};
+
+const onFilter = (e: MultiSelectFilterEvent) => {
+  filterValue.value = e.value;
+};
+
+const handleAddClick = () => {
+  if (filterValue.value.trim()) {
+    emit('addList', filterValue.value.trim());
+    filterValue.value = '';
+  }
 };
 </script>

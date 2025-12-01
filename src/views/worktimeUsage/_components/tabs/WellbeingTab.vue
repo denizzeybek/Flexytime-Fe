@@ -31,21 +31,18 @@
       />
 
       <!-- Empty state (only show when NOT loading and no data) -->
-      <div v-else-if="!isLoading" class="text-center text-gray-500 p-8">
-        <p>{{ t('components.wellbeing.noDataAvailable') }}</p>
-      </div>
+      <NoDataState v-else-if="!isLoading" :message="t('components.wellbeing.noDataAvailable')" />
     </template>
 
     <!-- Fallback empty state -->
-    <div v-else-if="!isLoading" class="text-center text-gray-500 p-8">
-      <p>{{ t('components.wellbeing.noDataAvailable') }}</p>
-    </div>
+    <NoDataState v-else-if="!isLoading" :message="t('components.wellbeing.noDataAvailable')" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 
+import NoDataState from '@/components/common/NoDataState.vue';
 import { type MessageSchema } from '@/plugins/i18n';
 
 import IndividualWellbeingCard from '../cards/IndividualWellbeingCard.vue';

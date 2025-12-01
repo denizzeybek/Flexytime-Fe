@@ -11,10 +11,7 @@
     </div>
 
     <!-- Empty State -->
-    <div v-if="!tableData.length" class="flex flex-col items-center justify-center py-16 text-gray-500">
-      <i class="pi pi-inbox text-5xl mb-4" />
-      <p class="text-lg">{{ t('pages.timesheets.timeManagement.noData') }}</p>
-    </div>
+    <NoDataState v-if="!tableData.length" :message="t('pages.timesheets.timeManagement.noData')" />
 
     <!-- TreeTable -->
     <TreeTable
@@ -56,6 +53,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import NoDataState from '@/components/common/NoDataState.vue';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useTimesheetsTimeManagementsStore } from '@/stores/timeSheets/timeManagement';
 

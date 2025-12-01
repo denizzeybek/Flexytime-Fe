@@ -10,6 +10,7 @@
       :class="[customWidth]"
       v-bind="primeProps"
       @change="onSelect($event)"
+      @filter="onFilter($event)"
       v-on="validationListeners"
     >
       <template #value="slotProps">
@@ -35,10 +36,11 @@
           <Button
             class="!w-full"
             outlined
-            :label="t('components.select.addNew')"
+            :label="addButtonLabel"
             icon="pi pi-plus"
             type="button"
-            @click.stop="emit('addList')"
+            :disabled="!filterValue.trim()"
+            @click.stop="handleAddClick"
           />
         </div>
       </template>
@@ -53,10 +55,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import Select, { type SelectChangeEvent, type SelectProps } from 'primevue/select';
+import Select, { type SelectChangeEvent, type SelectFilterEvent, type SelectProps } from 'primevue/select';
 import { useField } from 'vee-validate';
 
 import { type MessageSchema } from '@/plugins/i18n';
@@ -80,7 +82,7 @@ export interface IProps {
 
 interface IEmits {
   (event: 'selected', value: any): void;
-  (event: 'addList'): void;
+  (event: 'addList', filterValue: string): void;
   (event: 'update:modelValue', value: string | number): void;
 }
 
@@ -94,6 +96,8 @@ const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
+const filterValue = ref('');
+
 const { errorMessage, value, handleBlur, handleChange } = useField<IOption>(
   () => props.name,
   undefined,
@@ -105,13 +109,31 @@ const { errorMessage, value, handleBlur, handleChange } = useField<IOption>(
 
 const finalPlaceholder = computed(() => props.placeholder || t('components.select.placeholder'));
 
+const addButtonLabel = computed(() => {
+  if (filterValue.value.trim()) {
+    return t('components.select.addNewWithName', { name: filterValue.value.trim() });
+  }
+  return t('components.select.typeToAdd');
+});
+
 const validationListeners = {
   blur: (e: InputEvent) => handleBlur(e, true),
   select: (e: InputEvent) => handleChange(e, !!errorMessage.value),
 };
 
 const onSelect = (e: SelectChangeEvent) => {
-  const selectedValue = e?.value; // Extract the value from the event
+  const selectedValue = e?.value;
   emit('selected', selectedValue);
+};
+
+const onFilter = (e: SelectFilterEvent) => {
+  filterValue.value = e.value;
+};
+
+const handleAddClick = () => {
+  if (filterValue.value.trim()) {
+    emit('addList', filterValue.value.trim());
+    filterValue.value = '';
+  }
 };
 </script>

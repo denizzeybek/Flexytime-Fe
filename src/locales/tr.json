@@ -443,10 +443,14 @@
           "placeholder": "00:00"
         },
         "project": {
-          "placeholder": "Proje seçin"
+          "placeholder": "Proje seçin",
+          "addSuccess": "Proje başarıyla eklendi!",
+          "addError": "Proje eklenemedi"
         },
         "tags": {
-          "placeholder": "Etiket(ler) seçin"
+          "placeholder": "Etiket(ler) seçin",
+          "addSuccess": "Etiket başarıyla eklendi!",
+          "addError": "Etiket eklenemedi"
         },
         "layoutButtons": {
           "timer": "Zamanlayıcı",
@@ -1080,6 +1084,7 @@
     }
   },
   "common": {
+    "noDataAvailable": "Gösterilecek veri yok.",
     "dates": {
       "today": "Bugün",
       "yesterday": "Dün"
@@ -1259,10 +1264,14 @@
     },
     "select": {
       "addNew": "Yeni ekle",
+      "addNewWithName": "\"{name}\" ekle",
+      "typeToAdd": "Eklemek için yazın",
       "placeholder": "Bir seçenek seçin"
     },
     "multiSelect": {
       "addNew": "Yeni ekle",
+      "addNewWithName": "\"{name}\" ekle",
+      "typeToAdd": "Eklemek için yazın",
       "placeholder": "Bir seçenek seçin"
     },
     "commandPalette": {

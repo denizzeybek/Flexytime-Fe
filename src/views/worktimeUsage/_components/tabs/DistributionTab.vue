@@ -68,10 +68,7 @@
                   </div>
                 </div>
               </template>
-              <div v-else class="flex flex-col items-center gap-8 py-8">
-                <img src="@/assets/images/noData.svg" alt="No Data" />
-                <span class="text-gray-500">{{ $t('components.distribution.noDataAvailable') }}</span>
-              </div>
+              <NoDataState v-else :message="$t('components.distribution.noDataAvailable')" />
             </template>
           </Card>
         </template>
@@ -79,10 +76,10 @@
     </div>
 
     <!-- Empty state (only when not loading and no data) -->
-    <div v-if="!isLoading && (!distributions || distributions.length === 0)" class="flex flex-col items-center gap-8 py-8">
-      <img src="@/assets/images/noData.svg" alt="No Data" />
-      <span class="text-gray-500">{{ $t('components.distribution.noDistributionData') }}</span>
-    </div>
+    <NoDataState
+      v-if="!isLoading && (!distributions || distributions.length === 0)"
+      :message="$t('components.distribution.noDistributionData')"
+    />
   </div>
 </template>
 
@@ -94,6 +91,7 @@ import Card from 'primevue/card';
 import Chart from 'primevue/chart';
 import Skeleton from 'primevue/skeleton';
 
+import NoDataState from '@/components/common/NoDataState.vue';
 import { EChartType } from '@/enums/chartType.enum';
 import { type MessageSchema } from '@/plugins/i18n';
 

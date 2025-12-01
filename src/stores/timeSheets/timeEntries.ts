@@ -304,6 +304,50 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       return this.tasks.find((t) => t.Name?.toLowerCase() === taskName.toLowerCase());
     },
 
+    async saveProject(projectName: string): Promise<TimeProjectViewModel | null> {
+      // Check if project already exists
+      const existingProject = this.projects.find(
+        (p) => p.Name?.toLowerCase() === projectName.toLowerCase(),
+      );
+      if (existingProject) {
+        return existingProject;
+      }
+
+      try {
+        await TimesheetApiService.timesheetApiSaveProject({ Name: projectName });
+        // Refresh projects list to get the new project with ID
+        const projects = await TimesheetApiService.timesheetApiGetProjects();
+        this.projects = projects;
+        // Return the newly added project
+        return this.projects.find((p) => p.Name?.toLowerCase() === projectName.toLowerCase()) ?? null;
+      } catch (err: unknown) {
+        console.error('Failed to save project:', err);
+        throw err;
+      }
+    },
+
+    async saveTag(tagName: string): Promise<TimeTagViewModel | null> {
+      // Check if tag already exists
+      const existingTag = this.tags.find(
+        (t) => t.Name?.toLowerCase() === tagName.toLowerCase(),
+      );
+      if (existingTag) {
+        return existingTag;
+      }
+
+      try {
+        await TimesheetApiService.timesheetApiSaveTag({ Name: tagName });
+        // Refresh tags list to get the new tag with ID
+        const tags = await TimesheetApiService.timesheetApiGetTags();
+        this.tags = tags;
+        // Return the newly added tag
+        return this.tags.find((t) => t.Name?.toLowerCase() === tagName.toLowerCase()) ?? null;
+      } catch (err: unknown) {
+        console.error('Failed to save tag:', err);
+        throw err;
+      }
+    },
+
     async deleteTimeEntry(entryId: string): Promise<boolean> {
       try {
         await TimesheetApiService.timesheetApiDeleteTimeEntry({ ID: entryId });

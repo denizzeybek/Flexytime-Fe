@@ -6,9 +6,7 @@
     <div v-else-if="chartData" class="card">
       <Chart :type="EChartType.BAR" :data="chartData" :options="chartOptions" class="h-[30rem]" />
     </div>
-    <div v-else class="text-center text-gray-500 p-8">
-      <p>{{ $t('components.graph.noDataAvailable') }}</p>
-    </div>
+    <NoDataState v-else :message="$t('components.graph.noDataAvailable')" />
   </div>
 </template>
 
@@ -18,6 +16,7 @@ import { computed } from 'vue';
 import Chart from 'primevue/chart';
 import ProgressSpinner from 'primevue/progressspinner';
 
+import NoDataState from '@/components/common/NoDataState.vue';
 import { EChartType } from '@/enums/chartType.enum';
 
 import type { IGraph } from '../../_types';

@@ -28,7 +28,12 @@
             </div>
 
             <!-- Project & Tags Row -->
-            <ProjectTagSelectors :project-options="projectOptions" :tag-options="tagOptions" />
+            <ProjectTagSelectors
+              :project-options="projectOptions"
+              :tag-options="tagOptions"
+              @add-project="handleAddProject"
+              @add-tag="handleAddTag"
+            />
           </div>
         </form>
       </template>
@@ -100,6 +105,35 @@ const handleAddTask = async (taskName: string) => {
   await timeEntriesStore.saveTask(taskName);
 };
 
+// Handle adding new project
+const handleAddProject = async (projectName: string) => {
+  try {
+    const newProject = await timeEntriesStore.saveProject(projectName);
+    showSuccessMessage(t('pages.timesheets.enterTime.project.addSuccess'));
+    // Select the newly added project
+    if (newProject?.ID && newProject?.Name) {
+      setFieldValue('project', { name: newProject.Name, value: newProject.ID });
+    }
+  } catch {
+    showErrorMessage(t('pages.timesheets.enterTime.project.addError'));
+  }
+};
+
+// Handle adding new tag
+const handleAddTag = async (tagName: string) => {
+  try {
+    const newTag = await timeEntriesStore.saveTag(tagName);
+    showSuccessMessage(t('pages.timesheets.enterTime.tags.addSuccess'));
+    // Add the newly created tag to existing tags selection
+    if (newTag?.ID && newTag?.Name) {
+      const currentTags = (values.tags as ITagOption[]) || [];
+      setFieldValue('tags', [...currentTags, { name: newTag.Name, value: newTag.ID }]);
+    }
+  } catch {
+    showErrorMessage(t('pages.timesheets.enterTime.tags.addError'));
+  }
+};
+
 // Form validation schema
 const validationSchema = object({
   taskName: string().required().label('Task'),
@@ -141,7 +175,7 @@ const validationSchema = object({
     ),
 });
 
-const { handleSubmit, resetForm, defineField, values } = useForm({
+const { handleSubmit, resetForm, defineField, values, setFieldValue } = useForm({
   validationSchema,
 });
 

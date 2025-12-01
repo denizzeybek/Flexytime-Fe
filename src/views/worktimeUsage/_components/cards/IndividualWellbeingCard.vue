@@ -75,10 +75,7 @@
     </template>
 
     <!-- Empty State -->
-    <div v-else class="flex flex-col items-center gap-8 py-8">
-      <img src="@/assets/images/noData.svg" alt="No Data" />
-      <span class="text-gray-500">{{ t('components.wellbeing.noWellbeingData') }}</span>
-    </div>
+    <NoDataState v-else :message="t('components.wellbeing.noWellbeingData')" />
   </div>
 </template>
 
@@ -89,6 +86,7 @@ import Card from 'primevue/card';
 import Chart from 'primevue/chart';
 import Skeleton from 'primevue/skeleton';
 
+import NoDataState from '@/components/common/NoDataState.vue';
 import { EChartType } from '@/enums/chartType.enum';
 import { type MessageSchema } from '@/plugins/i18n';
 

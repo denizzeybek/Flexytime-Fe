@@ -22,22 +22,6 @@
       </div>
     </template>
 
-    <!-- Empty State -->
-    <div
-      v-else-if="!timeEntriesStore.timeEntries.length"
-      class="flex flex-col items-center justify-center py-16 px-4"
-    >
-      <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-        <i class="pi pi-clock text-3xl text-gray-400" />
-      </div>
-      <h3 class="text-lg font-semibold text-gray-700 mb-2">
-        {{ t('pages.timesheets.enteredTimes.emptyState.title') }}
-      </h3>
-      <p class="text-gray-500 text-center max-w-sm">
-        {{ t('pages.timesheets.enteredTimes.emptyState.description') }}
-      </p>
-    </div>
-
     <!-- Content -->
     <template v-else>
       <div v-for="group in timeEntriesStore.timeEntries" :key="group.RecordDate" class="flex flex-col gap-4">
@@ -51,9 +35,16 @@
           <div class="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
         </div>
 
+        <!-- Empty State for this date -->
+        <NoDataState
+          v-if="!group.Entries?.length"
+          :message="t('pages.timesheets.enteredTimes.emptyState.title')"
+        />
+
         <!-- Entry Cards -->
         <div
           v-for="entry in group.Entries"
+          v-else
           :key="entry.ID"
           class="group bg-white rounded-2xl border border-gray-100 hover:border-f-primary/30 hover:shadow-lg transition-all duration-300 overflow-hidden"
         >
@@ -175,6 +166,7 @@ import Skeleton from 'primevue/skeleton';
 import Tag from 'primevue/tag';
 import { useConfirm } from 'primevue/useconfirm';
 
+import NoDataState from '@/components/common/NoDataState.vue';
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
