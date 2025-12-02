@@ -4,6 +4,13 @@
 /* eslint-disable */
 
 export { LoginService } from './services/LoginService';
+export { PaymentService } from './services/PaymentService';
 export type { LoginRequest } from './models/LoginRequest';
 export type { TokenResponse } from './models/TokenResponse';
 export type { AuthPayload, GetProfileResult, RegisterResponse } from './models/AuthTypes';
+export type {
+  PricingPlan,
+  CreatePaymentIntentRequest,
+  CreatePaymentIntentResponse,
+  PaymentResult,
+} from './models/PaymentTypes';

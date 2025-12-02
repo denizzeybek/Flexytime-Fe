@@ -860,6 +860,11 @@
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.10.4.tgz"
   integrity sha512-WJgX9nzTqknM393q1QJDJmoW28kUfEnybeTfVNcNAPnIx210RXm2DiXiHzfNPJNIUUb1tJnz/l4QGtJ30PgWmA==
 
+"@stripe/stripe-js@^8.5.3":
+  version "8.5.3"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-8.5.3.tgz#17b967d207dcbd25ea50cfebdab8a38b4abecf22"
+  integrity sha512-UM0GHAxlTN7v0lCK2P6t0VOlvBIdApIQxhnM3yZ2kupQ4PpSrLsK/n/NyYKtw2NJGMaNRRD1IicWS7fSL2sFtA==
+
 "@tailwindcss/node@4.1.14":
   version "4.1.14"
   resolved "https://registry.npmjs.org/@tailwindcss/node/-/node-4.1.14.tgz"
@@ -1293,6 +1298,13 @@
     "@volar/language-core" "2.4.6"
     path-browserify "^1.0.1"
     vscode-uri "^3.0.8"
+
+"@vue-stripe/vue-stripe@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@vue-stripe/vue-stripe/-/vue-stripe-5.0.0.tgz#d29b8aa26ddd0e2b052da603058c55d4e44c6dfc"
+  integrity sha512-4v7BNFrJR8r3TqumNUroisNi+XXlpYiBYsjSWyECpynLfNFsz5sgr12F2Bfqzx0fFH8wfK1gB/e44LkZ8o6u2Q==
+  dependencies:
+    vue-demi "^0.14.10"
 
 "@vue/babel-helper-vue-transform-on@1.2.5":
   version "1.2.5"

@@ -68,4 +68,7 @@ export enum ERouteNames {
   ProfilePassword = 'Password',
 
   Promotion = 'Promotion',
+
+  // PAYMENT
+  Payment = 'Payment',
 }

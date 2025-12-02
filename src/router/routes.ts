@@ -26,6 +26,7 @@ import Employees from '@/views/hrSettings/_views/Employees.vue';
 import Holidays from '@/views/hrSettings/_views/Holidays.vue';
 // HR Settings
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
+import Payment from '@/views/payment/_views/Payment.vue';
 import Basic from '@/views/profile/_components/Basic.vue';
 import Communications from '@/views/profile/_components/Communications.vue';
 import License from '@/views/profile/_components/License.vue';
@@ -358,6 +359,15 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.Promotion,
           name: ERouteNames.Promotion,
+        },
+      },
+      {
+        path: '/payment',
+        name: ERouteNames.Payment,
+        component: Payment,
+        meta: {
+          title: ERouteNames.Payment,
+          name: ERouteNames.Payment,
         },
       },
     ],

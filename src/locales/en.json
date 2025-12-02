@@ -579,6 +579,80 @@
         }
       }
     },
+    "payment": {
+      "title": "Choose Your Plan",
+      "subtitle": "Select the perfect plan for your team. All plans include a 14-day free trial.",
+      "headerBadge": "Upgrade Your Experience",
+      "recommended": "Most Popular",
+      "perMonth": "month",
+      "perYear": "year",
+      "perMonthText": "per month",
+      "billedMonthly": "Billed monthly",
+      "selectPlan": "Select Plan",
+      "selected": "Selected",
+      "selectPlanTitle": "Select Your Plan",
+      "selectPlanSubtitle": "Choose the plan that fits your needs",
+      "paymentTitle": "Payment Details",
+      "paymentSubtitle": "Complete your purchase securely",
+      "continueToPayment": "Continue to Payment",
+      "backToPlans": "Back to Plans",
+      "paymentDetails": "Payment Details",
+      "plan": "Plan",
+      "billingCycle": "Billing Cycle",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "total": "Total",
+      "mo": "mo",
+      "yr": "yr",
+      "selectedPlan": "Selected Plan",
+      "startDate": "Start Date",
+      "today": "Today",
+      "cardNumber": "Card Number",
+      "expiry": "Expiry",
+      "cvc": "CVC",
+      "demoMode": "Demo mode - Use any card details for testing",
+      "payNow": "Pay Now",
+      "processing": "Processing...",
+      "securePayment": "Secured by Stripe. Your payment info is safe.",
+      "loadingPaymentForm": "Loading payment form...",
+      "loadingPlans": "Loading available plans...",
+      "selectPlanFirst": "Select a plan to continue",
+      "selectPlanFirstHint": "Click on a plan card to select it",
+      "whyChooseUs": "Why Choose Flexytime?",
+      "whyChooseUsSubtitle": "Everything you need to manage your team's time effectively",
+      "trustBadges": {
+        "secure": "256-bit SSL Secure",
+        "cards": "All major cards accepted",
+        "cancel": "Cancel anytime"
+      },
+      "features": {
+        "timeTracking": {
+          "title": "Effortless Time Tracking",
+          "description": "Automatically track time spent on tasks and projects with our intelligent system."
+        },
+        "analytics": {
+          "title": "Powerful Analytics",
+          "description": "Get detailed insights into productivity trends and team performance."
+        },
+        "teamManagement": {
+          "title": "Team Management",
+          "description": "Easily manage teams, set permissions, and track everyone's progress."
+        }
+      },
+      "success": {
+        "title": "Payment Successful!",
+        "description": "Thank you for your purchase. Your subscription is now active.",
+        "message": "Payment completed successfully!",
+        "goToDashboard": "Go to Dashboard"
+      },
+      "errors": {
+        "failedToLoadPlans": "Failed to load pricing plans. Please try again.",
+        "failedToInitialize": "Failed to initialize payment. Please try again.",
+        "stripeNotLoaded": "Payment system not loaded. Please refresh the page.",
+        "paymentFailed": "Payment failed. Please try again.",
+        "unexpectedError": "An unexpected error occurred. Please try again."
+      }
+    },
     "classification": {
       "table": {
         "columns": {

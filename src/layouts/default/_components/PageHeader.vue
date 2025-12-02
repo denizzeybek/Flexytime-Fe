@@ -14,6 +14,7 @@
       :label="t('pages.layouts.pageHeader.upgrade.label')"
       severity="warn"
       class="shadow-md hover:shadow-lg transition-all"
+      @click="goToPayment"
       />
       <!-- Command Palette Trigger -->
       <Button
@@ -42,11 +43,12 @@
 <script setup lang="ts">
 import { computed,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 import CommandPalette from '@/components/ui/local/CommandPalette.vue';
 import ProfileMenu from '@/components/ui/local/ProfileMenu.vue';
 import { type MessageSchema } from '@/plugins/i18n';
+import { ERouteNames } from '@/router/routeNames.enum';
 
 interface IEmits {
   (event: 'drawerChange', val: boolean): void;
@@ -56,6 +58,7 @@ defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const route = useRoute();
+const router = useRouter();
 
 const commandPaletteRef = ref<InstanceType<typeof CommandPalette> | null>(null);
 
@@ -73,4 +76,7 @@ const openCommandPalette = () => {
   commandPaletteRef.value?.openDialog();
 };
 
+const goToPayment = () => {
+  router.push({ name: ERouteNames.Payment });
+};
 </script>

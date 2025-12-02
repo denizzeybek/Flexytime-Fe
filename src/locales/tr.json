@@ -579,6 +579,80 @@
         }
       }
     },
+    "payment": {
+      "title": "Planınızı Seçin",
+      "subtitle": "Ekibiniz için en uygun planı seçin. Tüm planlar 14 günlük ücretsiz deneme içerir.",
+      "headerBadge": "Deneyiminizi Yükseltin",
+      "recommended": "En Popüler",
+      "perMonth": "ay",
+      "perYear": "yıl",
+      "perMonthText": "aylık",
+      "billedMonthly": "Aylık faturalandırılır",
+      "selectPlan": "Plan Seç",
+      "selected": "Seçildi",
+      "selectPlanTitle": "Planınızı Seçin",
+      "selectPlanSubtitle": "İhtiyaçlarınıza uygun planı seçin",
+      "paymentTitle": "Ödeme Detayları",
+      "paymentSubtitle": "Satın alımınızı güvenle tamamlayın",
+      "continueToPayment": "Ödemeye Devam Et",
+      "backToPlans": "Planlara Dön",
+      "paymentDetails": "Ödeme Detayları",
+      "plan": "Plan",
+      "billingCycle": "Faturalandırma Dönemi",
+      "monthly": "Aylık",
+      "yearly": "Yıllık",
+      "total": "Toplam",
+      "mo": "ay",
+      "yr": "yıl",
+      "selectedPlan": "Seçili Plan",
+      "startDate": "Başlangıç Tarihi",
+      "today": "Bugün",
+      "cardNumber": "Kart Numarası",
+      "expiry": "Son Kullanma",
+      "cvc": "CVC",
+      "demoMode": "Demo modu - Test için herhangi bir kart bilgisi kullanın",
+      "payNow": "Şimdi Öde",
+      "processing": "İşleniyor...",
+      "securePayment": "Stripe tarafından korunmaktadır. Ödeme bilgileriniz güvende.",
+      "loadingPaymentForm": "Ödeme formu yükleniyor...",
+      "loadingPlans": "Mevcut planlar yükleniyor...",
+      "selectPlanFirst": "Devam etmek için plan seçin",
+      "selectPlanFirstHint": "Seçmek için plan kartına tıklayın",
+      "whyChooseUs": "Neden Flexytime?",
+      "whyChooseUsSubtitle": "Ekibinizin zamanını etkili yönetmek için ihtiyacınız olan her şey",
+      "trustBadges": {
+        "secure": "256-bit SSL Güvenli",
+        "cards": "Tüm kartlar kabul edilir",
+        "cancel": "İstediğiniz zaman iptal edin"
+      },
+      "features": {
+        "timeTracking": {
+          "title": "Zahmetsiz Zaman Takibi",
+          "description": "Akıllı sistemimiz ile görevlere ve projelere harcanan zamanı otomatik olarak takip edin."
+        },
+        "analytics": {
+          "title": "Güçlü Analizler",
+          "description": "Verimlilik trendleri ve ekip performansı hakkında detaylı içgörüler edinin."
+        },
+        "teamManagement": {
+          "title": "Ekip Yönetimi",
+          "description": "Ekipleri kolayca yönetin, izinleri ayarlayın ve herkesin ilerlemesini takip edin."
+        }
+      },
+      "success": {
+        "title": "Ödeme Başarılı!",
+        "description": "Satın aldığınız için teşekkürler. Aboneliğiniz artık aktif.",
+        "message": "Ödeme başarıyla tamamlandı!",
+        "goToDashboard": "Panele Git"
+      },
+      "errors": {
+        "failedToLoadPlans": "Fiyatlandırma planları yüklenemedi. Lütfen tekrar deneyin.",
+        "failedToInitialize": "Ödeme başlatılamadı. Lütfen tekrar deneyin.",
+        "stripeNotLoaded": "Ödeme sistemi yüklenemedi. Lütfen sayfayı yenileyin.",
+        "paymentFailed": "Ödeme başarısız oldu. Lütfen tekrar deneyin.",
+        "unexpectedError": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+      }
+    },
     "classification": {
       "table": {
         "columns": {
