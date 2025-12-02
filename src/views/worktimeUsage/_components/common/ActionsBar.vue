@@ -15,8 +15,9 @@
       selection-mode="range"
       :manual-input="false"
       :date-format="dateFormat"
-      :max-date="maxDate"
       show-button-bar
+      :number-of-months="2"
+      :show-other-months="false"
       @update:model-value="handleDateChange"
     />
     <Select
@@ -68,7 +69,6 @@ const { canAccessWorktimeUsage } = useAuthorization();
 const { dateFormat } = useDateFormat();
 
 const datePicker = ref();
-const maxDate = ref(new Date());
 
 enum EPerspective {
   TIME = 0,
