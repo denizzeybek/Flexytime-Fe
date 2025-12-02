@@ -11,9 +11,9 @@ import ConfirmDialog from 'primevue/confirmdialog';
 @reference "@/tailwind.css";
 
 /* #region tablist */
-.p-tablist-content {
-  @apply !px-5;
-}
+/* .p-tablist-content { */
+  /* @apply !px-5; */
+/* } */
 .p-tabs {
   @apply !p-0 !m-0;
 }

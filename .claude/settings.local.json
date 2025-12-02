@@ -32,7 +32,12 @@
       "Bash(yarn --cwd /Users/denizzeybek/Documents/Flexytime-Fe type-check:*)",
       "Bash(git checkout:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:gist.github.com)"
+      "WebFetch(domain:gist.github.com)",
+      "WebFetch(domain:docs.stripe.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:vuestripe.com)",
+      "Bash(cat:*)",
+      "Bash(node ./scripts/checkVueOrder.js:*)"
     ],
     "deny": [],
     "ask": []

@@ -1062,7 +1062,8 @@
         "basic": "Temel",
         "license": "Lisans",
         "communications": "İletişim",
-        "password": "Şifre"
+        "password": "Şifre",
+        "calendarIntegrations": "Entegrasyonlar"
       },
       "basic": {
         "sections": {
@@ -1153,6 +1154,45 @@
         },
         "messages": {
           "updated": "Lisans başarıyla güncellendi!"
+        }
+      },
+      "calendarIntegrations": {
+        "title": "Takvim Entegrasyonları",
+        "description": "Takvimlerinizi bağlayarak etkinliklerinizi ve toplantılarınızı FlexyTime ile otomatik olarak senkronize edin.",
+        "providers": {
+          "google": {
+            "title": "Google Takvim",
+            "description": "Google Takvim ile senkronize et"
+          },
+          "office": {
+            "title": "Office 365",
+            "description": "Microsoft 365 ile senkronize et"
+          },
+          "outlook": {
+            "title": "Outlook Masaüstü",
+            "description": "Masaüstü uygulaması ile senkronize et"
+          }
+        },
+        "status": {
+          "connected": "Bağlı",
+          "notConnected": "Bağlı Değil",
+          "comingSoon": "Çok Yakında"
+        },
+        "selectCalendars": "Senkronize edilecek takvimleri seçin",
+        "noCalendars": "Takvim bulunamadı",
+        "notConnected": "Etkinliklerinizi senkronize etmek için bağlanın",
+        "comingSoonMessage": "Bu entegrasyon çok yakında kullanıma sunulacak",
+        "connect": "Bağlan",
+        "disconnect": "Bağlantıyı Kes",
+        "desktopAppOnly": "FlexyTime masaüstü uygulaması ile otomatik senkronize edilir",
+        "infoMessage": "Takvim etkinlikleri toplantı sürenizi takip etmek için otomatik olarak senkronize edilecektir. Sadece seçili takvimler zaman takibi için kullanılacaktır.",
+        "messages": {
+          "calendarUpdated": "Takvim ayarları başarıyla güncellendi!"
+        },
+        "errors": {
+          "connectFailed": "Bağlantı başarısız. Lütfen tekrar deneyin.",
+          "disconnectFailed": "Bağlantı kesme başarısız. Lütfen tekrar deneyin.",
+          "updateFailed": "Takvim ayarları güncellenemedi."
         }
       }
     }

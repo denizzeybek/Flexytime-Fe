@@ -66,6 +66,7 @@ export enum ERouteNames {
   ProfileLicense = 'License',
   ProfileCommunication = 'Communication',
   ProfilePassword = 'Password',
+  ProfileCalendarIntegrations = 'Calendar Integrations',
 
   Promotion = 'Promotion',
 

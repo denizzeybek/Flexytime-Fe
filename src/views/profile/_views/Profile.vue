@@ -12,7 +12,11 @@
       </div>
 
       <div class="mt-1">
-        <router-view :key="route.path" />
+        <div :class="route.name !== ERouteNames.ProfileBasic ? 
+        'bg-white rounded-xl border border-gray-200 p-6' : 
+        ''">
+          <router-view :key="route.path" />
+        </div>
       </div>
     </template>
   </Card>
@@ -58,6 +62,13 @@ const items = ref([
     label: t('pages.profile.tabs.password'),
     method: () => {
       router.push({ name: ERouteNames.ProfilePassword });
+    },
+  },
+  {
+    route: ERouteNames.ProfileCalendarIntegrations,
+    label: t('pages.profile.tabs.calendarIntegrations'),
+    method: () => {
+      router.push({ name: ERouteNames.ProfileCalendarIntegrations });
     },
   },
 ]);

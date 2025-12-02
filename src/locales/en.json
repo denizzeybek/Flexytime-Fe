@@ -1062,7 +1062,8 @@
         "basic": "Basic",
         "license": "License",
         "communications": "Communications",
-        "password": "Password"
+        "password": "Password",
+        "calendarIntegrations": "Integrations"
       },
       "basic": {
         "sections": {
@@ -1153,6 +1154,45 @@
         },
         "messages": {
           "updated": "License updated successfully!"
+        }
+      },
+      "calendarIntegrations": {
+        "title": "Calendar Integrations",
+        "description": "Connect your calendars to automatically sync events and meetings with FlexyTime.",
+        "providers": {
+          "google": {
+            "title": "Google Calendar",
+            "description": "Sync with Google Calendar"
+          },
+          "office": {
+            "title": "Office 365",
+            "description": "Sync with Microsoft 365"
+          },
+          "outlook": {
+            "title": "Outlook Desktop",
+            "description": "Sync via desktop app"
+          }
+        },
+        "status": {
+          "connected": "Connected",
+          "notConnected": "Not Connected",
+          "comingSoon": "Coming Soon"
+        },
+        "selectCalendars": "Select calendars to sync",
+        "noCalendars": "No calendars found",
+        "notConnected": "Connect to start syncing your events",
+        "comingSoonMessage": "This integration will be available soon",
+        "connect": "Connect",
+        "disconnect": "Disconnect",
+        "desktopAppOnly": "Synced automatically via FlexyTime desktop app",
+        "infoMessage": "Calendar events will be automatically synced to track your meeting time. Only selected calendars will be used for time tracking.",
+        "messages": {
+          "calendarUpdated": "Calendar settings updated successfully!"
+        },
+        "errors": {
+          "connectFailed": "Failed to connect. Please try again.",
+          "disconnectFailed": "Failed to disconnect. Please try again.",
+          "updateFailed": "Failed to update calendar settings."
         }
       }
     }

@@ -1,67 +1,67 @@
 <template>
-  <div>
-    <form class="flex flex-col gap-8" @submit.prevent>
-      <div class="flex flex-col flex-1 gap-4">
-        <FInput id="companyName" disabled class="grow" :label="t('pages.profile.license.companyName.label')" name="companyName" />
-      </div>
-      <div class="flex gap-4 flex-1">
-        <FInput id="totalUser" disabled class="flex-1" :label="t('pages.profile.license.totalUser.label')" name="totalUser" />
-        <FInput
-          id="licensedUser"
-          disabled
-          class="flex-1"
-          :label="t('pages.profile.license.licensedUser.label')"
-          name="licensedUser"
-        />
-      </div>
-      <div class="flex gap-4 flex-1">
-        <FInput
-          id="licensePurchased"
-          disabled
-          class="flex-1"
-          :label="t('pages.profile.license.licensePurchased.label')"
-          name="licensePurchased"
-        />
-        <FInput
-          id="licenseRemained"
-          disabled
-          class="flex-1"
-          :label="t('pages.profile.license.licenseRemained.label')"
-          name="licenseRemained"
-        />
-      </div>
-      <div class="flex gap-4 flex-1">
-        <FInput id="expireDate" disabled class="flex-1" :label="t('pages.profile.license.expireDate.label')" name="expireDate" />
-        <FInput id="daysLeft" disabled class="flex-1" :label="t('pages.profile.license.daysLeft.label')" name="daysLeft" />
-      </div>
-      <div class="flex flex-col flex-1 gap-4">
-        <FInput
-          id="licenseKey"
-          class="grow"
-          :label="t('pages.profile.license.licenseKey.label')"
-          :placeholder="t('pages.profile.license.licenseKey.placeholder')"
-          name="licenseKey"
-        />
-      </div>
-      <div class="flex justify-center gap-4 mt-4">
-        <Button
-          ref="saveButtonRef"
-          type="button"
-          :disabled="isSubmitting"
-          :loading="isSubmitting"
-          :label="t('common.buttons.save')"
-          @click="showConfirmPopup"
-        />
-        <ConfirmPopup />
-        <Button
-          type="button"
-          severity="warn"
-          :label="t('pages.profile.license.buyLicense.label')"
-          @click="router.push({ name: ERouteNames.Classification })"
-        />
-      </div>
-    </form>
-  </div>
+    <div>
+      <form class="flex flex-col gap-8" @submit.prevent>
+        <div class="flex flex-col flex-1 gap-4">
+          <FInput id="companyName" disabled class="grow" :label="t('pages.profile.license.companyName.label')" name="companyName" />
+        </div>
+        <div class="flex gap-4 flex-1">
+          <FInput id="totalUser" disabled class="flex-1" :label="t('pages.profile.license.totalUser.label')" name="totalUser" />
+          <FInput
+            id="licensedUser"
+            disabled
+            class="flex-1"
+            :label="t('pages.profile.license.licensedUser.label')"
+            name="licensedUser"
+          />
+        </div>
+        <div class="flex gap-4 flex-1">
+          <FInput
+            id="licensePurchased"
+            disabled
+            class="flex-1"
+            :label="t('pages.profile.license.licensePurchased.label')"
+            name="licensePurchased"
+          />
+          <FInput
+            id="licenseRemained"
+            disabled
+            class="flex-1"
+            :label="t('pages.profile.license.licenseRemained.label')"
+            name="licenseRemained"
+          />
+        </div>
+        <div class="flex gap-4 flex-1">
+          <FInput id="expireDate" disabled class="flex-1" :label="t('pages.profile.license.expireDate.label')" name="expireDate" />
+          <FInput id="daysLeft" disabled class="flex-1" :label="t('pages.profile.license.daysLeft.label')" name="daysLeft" />
+        </div>
+        <div class="flex flex-col flex-1 gap-4">
+          <FInput
+            id="licenseKey"
+            class="grow"
+            :label="t('pages.profile.license.licenseKey.label')"
+            :placeholder="t('pages.profile.license.licenseKey.placeholder')"
+            name="licenseKey"
+          />
+        </div>
+        <div class="flex justify-center gap-4 mt-4">
+          <Button
+            ref="saveButtonRef"
+            type="button"
+            :disabled="isSubmitting"
+            :loading="isSubmitting"
+            :label="t('common.buttons.save')"
+            @click="showConfirmPopup"
+          />
+          <ConfirmPopup />
+          <Button
+            type="button"
+            severity="warn"
+            :label="t('pages.profile.license.buyLicense.label')"
+            @click="router.push({ name: ERouteNames.Classification })"
+          />
+        </div>
+      </form>
+    </div>
 </template>
 
 <script setup lang="ts">

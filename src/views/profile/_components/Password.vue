@@ -1,5 +1,4 @@
 <template>
-  <div class="bg-white rounded-xl border border-gray-200 p-6">
     <h3 class="text-lg font-semibold mb-6">{{ t('pages.profile.password.title') }}</h3>
     <form class="flex flex-col gap-6" @submit.prevent="submitHandler">
       <div class="flex flex-col lg:flex-row gap-4 lg:gap-6">
@@ -25,7 +24,6 @@
         />
       </div>
     </form>
-  </div>
 </template>
 
 <script setup lang="ts">

@@ -28,6 +28,7 @@ import Holidays from '@/views/hrSettings/_views/Holidays.vue';
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
 import Payment from '@/views/payment/_views/Payment.vue';
 import Basic from '@/views/profile/_components/Basic.vue';
+import CalendarIntegrations from '@/views/profile/_components/CalendarIntegrations.vue';
 import Communications from '@/views/profile/_components/Communications.vue';
 import License from '@/views/profile/_components/License.vue';
 import Password from '@/views/profile/_components/Password.vue';
@@ -329,6 +330,15 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: ERouteNames.ProfilePassword,
               name: ERouteNames.ProfilePassword,
+            },
+          },
+          {
+            path: 'integrations',
+            name: ERouteNames.ProfileCalendarIntegrations,
+            component: CalendarIntegrations,
+            meta: {
+              title: ERouteNames.ProfileCalendarIntegrations,
+              name: ERouteNames.ProfileCalendarIntegrations,
             },
           },
         ],
