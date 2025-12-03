@@ -31,6 +31,17 @@
           },
           "button": "Send Reset Link"
         },
+        "emailSent": {
+          "title": "Check Your Email",
+          "description": "We've sent a password reset link to your email address.",
+          "infoTitle": "What to do next:",
+          "checkInbox": "Check your inbox for the reset email",
+          "checkSpam": "If you don't see it, check your spam folder",
+          "linkExpiry": "The link will expire in 24 hours",
+          "resend": "Resend Email",
+          "resendIn": "Resend in {seconds}s",
+          "resendSuccess": "Email sent successfully!"
+        },
         "messages": {
           "success": "Password reset link has been sent to your email."
         },

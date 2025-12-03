@@ -31,6 +31,17 @@
           },
           "button": "Sıfırlama Linki Gönder"
         },
+        "emailSent": {
+          "title": "E-postanızı Kontrol Edin",
+          "description": "E-posta adresinize şifre sıfırlama linki gönderdik.",
+          "infoTitle": "Sonraki adımlar:",
+          "checkInbox": "Gelen kutunuzu kontrol edin",
+          "checkSpam": "Göremiyorsanız spam klasörüne bakın",
+          "linkExpiry": "Link 24 saat içinde geçersiz olacak",
+          "resend": "E-postayı Tekrar Gönder",
+          "resendIn": "{seconds} saniye sonra tekrar gönder",
+          "resendSuccess": "E-posta başarıyla gönderildi!"
+        },
         "messages": {
           "success": "Şifre sıfırlama linki e-posta adresinize gönderildi."
         },
