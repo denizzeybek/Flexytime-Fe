@@ -139,6 +139,14 @@ const RESEND_COOLDOWN_SECONDS = 60;
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showErrorMessage, showSuccessMessage } = useFToast();
 
+const validationSchema = object({
+  email: string().required().email().label('Email'),
+});
+
+const { handleSubmit, isSubmitting, values } = useForm({
+  validationSchema,
+});
+
 const emailSent = ref(false);
 const lastEmail = ref('');
 const resendCountdown = ref(0);
@@ -168,14 +176,6 @@ const startResendCooldown = () => {
     }
   }, 1000);
 };
-
-const validationSchema = object({
-  email: string().required().email().label('Email'),
-});
-
-const { handleSubmit, isSubmitting, values } = useForm({
-  validationSchema,
-});
 
 const submitHandler = handleSubmit(async (formValues) => {
   try {

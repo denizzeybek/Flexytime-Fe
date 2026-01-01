@@ -26,8 +26,6 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const webAddressesStore = useClassificationWebAddressesStore();
 const { showErrorMessage } = useFToast();
 
-const isLoading = computed(() => webAddressesStore.isLoading);
-
 const searchText = ref('');
 const isOnMounted = ref(false);
 const payload = ref({
@@ -37,6 +35,8 @@ const payload = ref({
   sort: '',
   descending: false,
 });
+
+const isLoading = computed(() => webAddressesStore.isLoading);
 
 const fetchWebAddresses = async () => {
   try {

@@ -105,22 +105,15 @@ const props = defineProps<IProps>();
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const employeesStore = useHRSettingsEmployeesStore();
-
-const open = defineModel<boolean>('open');
-const activeTab = ref(0);
-const isClear = ref(false);
-const isOnMounted = ref(false);
-
-const isEditing = computed(() => !!props.data);
-
-// Use validation composable
-const { validationSchema } = useEmployeeModalValidation(activeTab, isEditing);
-
+const { validationSchema, activeTab, isEditing } = useEmployeeModalValidation(props.data);
 const { handleSubmit, isSubmitting, values, resetForm } = useForm({
   validationSchema,
 });
 
-// Options computed
+const open = defineModel<boolean>('open');
+const isClear = ref(false);
+const isOnMounted = ref(false);
+
 const titleOptions = computed(() => {
   return employeesStore.employeeTitles.map((employee) => ({
     name: employee.Name,
@@ -166,7 +159,6 @@ const handleClose = () => {
   resetForm();
 };
 
- 
 const buildPayload = (formValues: any) => {
   if (isEditing.value) {
     const employee = props.data;
@@ -250,7 +242,6 @@ onMounted(() => {
       activeTab.value = employee?.Role ?? 0;
     }
     resetForm({
-       
       values: getInitialFormData.value as any,
     });
   }

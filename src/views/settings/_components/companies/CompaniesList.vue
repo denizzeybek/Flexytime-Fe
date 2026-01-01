@@ -22,10 +22,10 @@ import type { CompanyViewModel } from '@/client';
 const companiesStore = useSettingsCompaniesStore();
 const { showErrorMessage } = useFToast();
 
-const isLoading = computed(() => companiesStore.isLoading);
-
 const currentCompany = ref<CompanyViewModel>();
 const isModalOpen = ref(false);
+
+const isLoading = computed(() => companiesStore.isLoading);
 
 const handleNew = () => {
   currentCompany.value = undefined;

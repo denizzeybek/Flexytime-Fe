@@ -1,9 +1,13 @@
-import { computed, type Ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import { toTypedSchema } from '@vee-validate/yup';
 import { array, boolean, number, object, string } from 'yup';
 
-export const useEmployeeModalValidation = (activeTab: Ref<number>, isEditing: Ref<boolean>) => {
+import type { TheMemberViewModel } from '@/client';
+
+export const useEmployeeModalValidation = (propsData: TheMemberViewModel | undefined) => {
+  const activeTab = ref(0);
+  const isEditing = computed(() => !!propsData);
   const emailsSchema = toTypedSchema(
     object({
       emails: array()
@@ -107,5 +111,7 @@ export const useEmployeeModalValidation = (activeTab: Ref<number>, isEditing: Re
 
   return {
     validationSchema,
+    activeTab,
+    isEditing,
   };
 };

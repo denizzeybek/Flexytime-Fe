@@ -26,10 +26,10 @@ import type { AnnualViewModel } from '@/client';
 const annualsStore = useHRSettingsAnnualsStore();
 const { showErrorMessage } = useFToast();
 
-const isLoading = computed(() => annualsStore.isLoading);
-
 const isModalOpen = ref(false);
 const currentAnnual = ref<AnnualViewModel>();
+
+const isLoading = computed(() => annualsStore.isLoading);
 
 const handleNew = () => {
   isModalOpen.value = true;

@@ -81,10 +81,8 @@ import { useProfileStore } from '@/stores/profile/profile';
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const confirm = useConfirm();
-
 const profileStore = useProfileStore();
 const router = useRouter();
-const saveButtonRef = ref();
 
 const validationSchema = object({
   licenseKey: string().required().label('License Key'),
@@ -92,6 +90,23 @@ const validationSchema = object({
 
 const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema,
+});
+
+const saveButtonRef = ref();
+
+const getInitialFormData = computed(() => {
+  const license = profileStore?.License;
+
+  return {
+    companyName: license?.CustomerName ?? '',
+    totalUser: String(license?.TotalUsers ?? ''),
+    licensedUser: String(license?.LicensedUsers ?? ''),
+    licensePurchased: String(license?.LicensedUsers ?? ''),
+    licenseRemained: String(license?.RemainingUsers ?? ''),
+    expireDate: license?.ExpireDate ?? '',
+    daysLeft: String(license?.RemainingDays ?? ''),
+    licenseKey: license?.LicenseKey ?? '',
+  };
 });
 
 const submitHandler = handleSubmit(async (values) => {
@@ -115,21 +130,6 @@ const showConfirmPopup = (event: Event) => {
     },
   });
 };
-
-const getInitialFormData = computed(() => {
-  const license = profileStore?.License;
-
-  return {
-    companyName: license?.CustomerName ?? '',
-    totalUser: String(license?.TotalUsers ?? ''),
-    licensedUser: String(license?.LicensedUsers ?? ''),
-    licensePurchased: String(license?.LicensedUsers ?? ''),
-    licenseRemained: String(license?.RemainingUsers ?? ''),
-    expireDate: license?.ExpireDate ?? '',
-    daysLeft: String(license?.RemainingDays ?? ''),
-    licenseKey: license?.LicenseKey ?? '',
-  };
-});
 
 onMounted(async () => {
   await profileStore.filterLicense();

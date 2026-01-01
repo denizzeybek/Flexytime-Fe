@@ -26,10 +26,10 @@ import type { HolidayViewModel } from '@/client';
 const holidaysStore = useHRSettingsHolidaysStore();
 const { showErrorMessage } = useFToast();
 
-const isLoading = computed(() => holidaysStore.isLoading);
-
 const isModalOpen = ref(false);
 const currentHoliday = ref<HolidayViewModel>();
+
+const isLoading = computed(() => holidaysStore.isLoading);
 
 const handleNew = () => {
   isModalOpen.value = true;

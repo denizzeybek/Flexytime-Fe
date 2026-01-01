@@ -106,6 +106,8 @@ const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({
 const [startFullDay] = defineField('startFullDay');
 const [endFullDay] = defineField('endFullDay');
 
+const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
+
 const employees = computed(() => {
   return annualsStore.members.map((member) => {
     return {
@@ -114,8 +116,6 @@ const employees = computed(() => {
     };
   });
 });
-
-const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
 
 const getInitialFormData = computed(() => {
   const annual = props.data;

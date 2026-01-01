@@ -62,17 +62,6 @@ const { resetForm } = useForm();
 
 const selectedDate = ref<Date>(new Date());
 const selectedHours = ref<number>(24);
-
-const maxDate = computed(() => new Date());
-const isUnclassifiedRoute = computed(() => route.name === ERouteNames.TimeEntriesUnclassified);
-
-const hoursOptions = computed(() => [
-  { name: t('pages.timesheets.timeEntries.hoursFilter.hourly'), value: '1', label: t('pages.timesheets.timeEntries.hoursFilter.hourly') },
-  { name: t('pages.timesheets.timeEntries.hoursFilter.fourHours'), value: '4', label: t('pages.timesheets.timeEntries.hoursFilter.fourHours') },
-  { name: t('pages.timesheets.timeEntries.hoursFilter.eightHours'), value: '8', label: t('pages.timesheets.timeEntries.hoursFilter.eightHours') },
-  { name: t('pages.timesheets.timeEntries.hoursFilter.allDay'), value: '24', label: t('pages.timesheets.timeEntries.hoursFilter.allDay') },
-]);
-
 const items = ref([
   {
     route: ERouteNames.TimeEntriesManual,
@@ -88,6 +77,16 @@ const items = ref([
       router.push({ name: ERouteNames.TimeEntriesUnclassified });
     },
   },
+]);
+
+const maxDate = computed(() => new Date());
+const isUnclassifiedRoute = computed(() => route.name === ERouteNames.TimeEntriesUnclassified);
+
+const hoursOptions = computed(() => [
+  { name: t('pages.timesheets.timeEntries.hoursFilter.hourly'), value: '1', label: t('pages.timesheets.timeEntries.hoursFilter.hourly') },
+  { name: t('pages.timesheets.timeEntries.hoursFilter.fourHours'), value: '4', label: t('pages.timesheets.timeEntries.hoursFilter.fourHours') },
+  { name: t('pages.timesheets.timeEntries.hoursFilter.eightHours'), value: '8', label: t('pages.timesheets.timeEntries.hoursFilter.eightHours') },
+  { name: t('pages.timesheets.timeEntries.hoursFilter.allDay'), value: '24', label: t('pages.timesheets.timeEntries.hoursFilter.allDay') },
 ]);
 
 const onHoursChange = (option: { name: string; value: string }) => {

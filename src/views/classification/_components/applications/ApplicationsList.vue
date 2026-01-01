@@ -26,8 +26,6 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const applicationsStore = useClassificationApplicationsStore();
 const { showErrorMessage } = useFToast();
 
-const isLoading = computed(() => applicationsStore.isLoading);
-
 const searchText = ref('');
 const isOnMounted = ref(false);
 const payload = ref({
@@ -37,6 +35,8 @@ const payload = ref({
   sort: '',
   descending: false,
 });
+
+const isLoading = computed(() => applicationsStore.isLoading);
 
 const fetchApplications = async () => {
   try {

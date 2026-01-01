@@ -21,10 +21,10 @@ import type { TheMemberViewModel } from '@/client';
 const employeesStore = useHRSettingsEmployeesStore();
 const { showErrorMessage } = useFToast();
 
-const isLoading = computed(() => employeesStore.isLoading);
-
 const currentEmployee = ref<TheMemberViewModel>();
 const isModalOpen = ref(false);
+
+const isLoading = computed(() => employeesStore.isLoading);
 
 const handleNew = () => {
   isModalOpen.value = true;

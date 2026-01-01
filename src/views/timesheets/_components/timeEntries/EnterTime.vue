@@ -95,45 +95,6 @@ const {
   formatElapsedTimeForPayload,
 } = useEnterTimeTimer();
 
-// Store computed options
-const taskOptions = computed(() => timeEntriesStore.taskNames);
-const projectOptions = computed(() => timeEntriesStore.projectOptions);
-const tagOptions = computed(() => timeEntriesStore.tagOptions);
-
-// Handle adding new task from input dropdown
-const handleAddTask = async (taskName: string) => {
-  await timeEntriesStore.saveTask(taskName);
-};
-
-// Handle adding new project
-const handleAddProject = async (projectName: string) => {
-  try {
-    const newProject = await timeEntriesStore.saveProject(projectName);
-    showSuccessMessage(t('pages.timesheets.enterTime.project.addSuccess'));
-    // Select the newly added project
-    if (newProject?.ID && newProject?.Name) {
-      setFieldValue('project', { name: newProject.Name, value: newProject.ID });
-    }
-  } catch {
-    showErrorMessage(t('pages.timesheets.enterTime.project.addError'));
-  }
-};
-
-// Handle adding new tag
-const handleAddTag = async (tagName: string) => {
-  try {
-    const newTag = await timeEntriesStore.saveTag(tagName);
-    showSuccessMessage(t('pages.timesheets.enterTime.tags.addSuccess'));
-    // Add the newly created tag to existing tags selection
-    if (newTag?.ID && newTag?.Name) {
-      const currentTags = (values.tags as ITagOption[]) || [];
-      setFieldValue('tags', [...currentTags, { name: newTag.Name, value: newTag.ID }]);
-    }
-  } catch {
-    showErrorMessage(t('pages.timesheets.enterTime.tags.addError'));
-  }
-};
-
 // Form validation schema
 const validationSchema = object({
   taskName: string().required().label('Task'),
@@ -187,6 +148,11 @@ const activeLayout = ref(ELayout.TIMER);
 const isBillable = ref(false);
 const timeDifference = ref('');
 
+// Store computed options
+const taskOptions = computed(() => timeEntriesStore.taskNames);
+const projectOptions = computed(() => timeEntriesStore.projectOptions);
+const tagOptions = computed(() => timeEntriesStore.tagOptions);
+
 // Computed for v-model binding (string version for component)
 const activeLayoutString = computed({
   get: () => (activeLayout.value === ELayout.TIMER ? 'timer' : 'manual'),
@@ -201,6 +167,40 @@ const isTimerLayout = computed(() => activeLayout.value === ELayout.TIMER);
 const displayTime = computed(() => {
   return isManualLayout.value ? timeDifference.value || '00:00' : formattedElapsedTime.value;
 });
+
+// Handle adding new task from input dropdown
+const handleAddTask = async (taskName: string) => {
+  await timeEntriesStore.saveTask(taskName);
+};
+
+// Handle adding new project
+const handleAddProject = async (projectName: string) => {
+  try {
+    const newProject = await timeEntriesStore.saveProject(projectName);
+    showSuccessMessage(t('pages.timesheets.enterTime.project.addSuccess'));
+    // Select the newly added project
+    if (newProject?.ID && newProject?.Name) {
+      setFieldValue('project', { name: newProject.Name, value: newProject.ID });
+    }
+  } catch {
+    showErrorMessage(t('pages.timesheets.enterTime.project.addError'));
+  }
+};
+
+// Handle adding new tag
+const handleAddTag = async (tagName: string) => {
+  try {
+    const newTag = await timeEntriesStore.saveTag(tagName);
+    showSuccessMessage(t('pages.timesheets.enterTime.tags.addSuccess'));
+    // Add the newly created tag to existing tags selection
+    if (newTag?.ID && newTag?.Name) {
+      const currentTags = (values.tags as ITagOption[]) || [];
+      setFieldValue('tags', [...currentTags, { name: newTag.Name, value: newTag.ID }]);
+    }
+  } catch {
+    showErrorMessage(t('pages.timesheets.enterTime.tags.addError'));
+  }
+};
 
 // Timer handlers
 const handleStart = () => {

@@ -141,12 +141,6 @@ const profileStore = useProfileStore();
 const { showErrorMessage } = useFToast();
 const googleLogin = useGoogleLogin();
 
-// Check if this is a Google OAuth callback (show loading screen instead of login form)
-const isGoogleCallback = computed(() => {
-  const { status, key } = route.query;
-  return !!(status && key);
-});
-
 const validationSchema = object({
   email: string().email().required().label('Email'),
   password: string().required().label('Password'),
@@ -154,6 +148,12 @@ const validationSchema = object({
 
 const { handleSubmit, isSubmitting } = useForm({
   validationSchema,
+});
+
+// Check if this is a Google OAuth callback (show loading screen instead of login form)
+const isGoogleCallback = computed(() => {
+  const { status, key } = route.query;
+  return !!(status && key);
 });
 
 const submitHandler = handleSubmit(async (values) => {

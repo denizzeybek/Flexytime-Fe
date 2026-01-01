@@ -123,46 +123,6 @@ const profileStore = useProfileStore();
 
 const expandedKeys = ref<Record<string, boolean>>({});
 
-// Route'a göre hangi menünün açık olacağını belirle
-const updateExpandedKeys = () => {
-  const currentRoute = route.name as ERouteNames;
-  const newExpandedKeys: Record<string, boolean> = {};
-
-  // HR Settings altındaki route'lar
-  const hrSettingsRoutes = [
-    ERouteNames.HRSettingsEmployees,
-    ERouteNames.HRSettingsActiveAnnuals,
-    ERouteNames.HRSettingsHolidays,
-  ];
-
-  // Company altındaki route'lar
-  const companyRoutes = [
-    ERouteNames.CompanyOrganizationChart,
-    ERouteNames.CompanyWorkingHours,
-  ];
-
-  // Settings altındaki route'lar
-  const settingsRoutes = [
-    ERouteNames.ClassificationWebAddresses,
-    ERouteNames.SettingsPermissions,
-    ERouteNames.SettingsAdvanced,
-  ];
-
-  if (hrSettingsRoutes.includes(currentRoute)) {
-    newExpandedKeys[ERouteNames.HRSettingsEmployees] = true;
-  } else if (companyRoutes.includes(currentRoute)) {
-    newExpandedKeys[ERouteNames.CompanyOrganizationChart] = true;
-  } else if (settingsRoutes.includes(currentRoute)) {
-    newExpandedKeys[ERouteNames.ClassificationWebAddresses] = true;
-  }
-
-  expandedKeys.value = newExpandedKeys;
-};
-
-// İlk yüklemede ve route değiştiğinde güncelle
-updateExpandedKeys();
-watch(() => route.name, updateExpandedKeys);
-
 const menuItems = computed(() => {
   const items: any[] = [];
 
@@ -283,4 +243,44 @@ const menuItems = computed(() => {
 
   return items;
 });
+
+// Route'a göre hangi menünün açık olacağını belirle
+const updateExpandedKeys = () => {
+  const currentRoute = route.name as ERouteNames;
+  const newExpandedKeys: Record<string, boolean> = {};
+
+  // HR Settings altındaki route'lar
+  const hrSettingsRoutes = [
+    ERouteNames.HRSettingsEmployees,
+    ERouteNames.HRSettingsActiveAnnuals,
+    ERouteNames.HRSettingsHolidays,
+  ];
+
+  // Company altındaki route'lar
+  const companyRoutes = [
+    ERouteNames.CompanyOrganizationChart,
+    ERouteNames.CompanyWorkingHours,
+  ];
+
+  // Settings altındaki route'lar
+  const settingsRoutes = [
+    ERouteNames.ClassificationWebAddresses,
+    ERouteNames.SettingsPermissions,
+    ERouteNames.SettingsAdvanced,
+  ];
+
+  if (hrSettingsRoutes.includes(currentRoute)) {
+    newExpandedKeys[ERouteNames.HRSettingsEmployees] = true;
+  } else if (companyRoutes.includes(currentRoute)) {
+    newExpandedKeys[ERouteNames.CompanyOrganizationChart] = true;
+  } else if (settingsRoutes.includes(currentRoute)) {
+    newExpandedKeys[ERouteNames.ClassificationWebAddresses] = true;
+  }
+
+  expandedKeys.value = newExpandedKeys;
+};
+
+// İlk yüklemede ve route değiştiğinde güncelle
+updateExpandedKeys();
+watch(() => route.name, updateExpandedKeys);
 </script>

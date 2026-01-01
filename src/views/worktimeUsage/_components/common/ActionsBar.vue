@@ -68,8 +68,6 @@ const { currentQuery, updateInterval, updatePerspective } = useWorktimeQuery();
 const { canAccessWorktimeUsage } = useAuthorization();
 const { dateFormat } = useDateFormat();
 
-const datePicker = ref();
-
 enum EPerspective {
   TIME = 0,
   COST = 1,
@@ -84,17 +82,11 @@ const perspectiveOptions = [
   { name: t('pages.worktimeUsage.perspectives.inShift'), value: EPerspective.IN_SHIFT, icon: 'pi pi-wrench' },
 ];
 
+const datePicker = ref();
 const dateRange = ref<Date[]>([]);
-
-// Initialize perspective from query or use first option as default
-const getInitialPerspective = () => {
-  const perspectiveFromQuery = perspectiveOptions.find(
-    (opt) => opt.value === currentQuery.value.perspective
-  );
-  return perspectiveFromQuery || perspectiveOptions[0];
-};
-
-const selectedPerspective = ref(getInitialPerspective());
+const selectedPerspective = ref(
+  perspectiveOptions.find((opt) => opt.value === currentQuery.value.perspective) || perspectiveOptions[0]
+);
 
 const handleDateChange = (value: Date | Date[] | (Date | null)[] | null | undefined): void => {
   if (value && Array.isArray(value) && value.length === 2 && value[0] && value[1]) {

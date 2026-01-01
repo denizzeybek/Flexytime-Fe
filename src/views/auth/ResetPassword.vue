@@ -109,15 +109,7 @@ import { ERouteNames } from '@/router/routeNames.enum';
 const { t } = useI18n<{ message: MessageSchema }>();
 const route = useRoute();
 const router = useRouter();
-
 const { showSuccessMessage, showErrorMessage } = useFToast();
-
-const email = ref('');
-const code = ref('');
-
-const isValidLink = computed(() => {
-  return !!email.value && !!code.value;
-});
 
 const validationSchema = object({
   password: string().required().min(6).label('Password'),
@@ -129,6 +121,13 @@ const validationSchema = object({
 
 const { handleSubmit, isSubmitting } = useForm({
   validationSchema,
+});
+
+const email = ref('');
+const code = ref('');
+
+const isValidLink = computed(() => {
+  return !!email.value && !!code.value;
 });
 
 const submitHandler = handleSubmit(async (values) => {
