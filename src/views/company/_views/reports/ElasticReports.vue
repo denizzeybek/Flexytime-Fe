@@ -262,6 +262,15 @@ const barChartOptions = computed(() => {
       },
       y: {
         beginAtZero: true,
+        title: {
+          display: true,
+          text: reportsStore.graphs?.Main?.Unit || '',
+          color: textColorSecondary,
+          font: {
+            size: 12,
+            weight: 500,
+          },
+        },
         ticks: { color: textColorSecondary },
         grid: { color: surfaceBorder },
       },

@@ -26,7 +26,6 @@
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <div v-else class="flex items-center gap-3">
-          <FAvatar :label="slotProps.data.Name" />
           <FText>{{ slotProps.data.Name }}</FText>
         </div>
       </template>

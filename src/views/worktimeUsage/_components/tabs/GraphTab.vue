@@ -17,6 +17,7 @@ import Chart from 'primevue/chart';
 import ProgressSpinner from 'primevue/progressspinner';
 
 import NoDataState from '@/components/common/NoDataState.vue';
+import { getDayIndex } from '@/constants/dayOrder';
 import { EChartType } from '@/enums/chartType.enum';
 
 import type { IGraph } from '../../_types';
@@ -99,6 +100,15 @@ const chartOptions = computed(() => {
       },
       y: {
         stacked: true,
+        title: {
+          display: true,
+          text: props.graphs && isClockGraphGroup(props.graphs) ? props.graphs.Summary?.Unit || '' : '',
+          color: textColorSecondary,
+          font: {
+            size: 12,
+            weight: 500,
+          },
+        },
         ticks: {
           color: textColorSecondary,
         },
@@ -144,11 +154,50 @@ const getColorForLabel = (label: string): { bg: string; border: string } => {
   return { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' }; // Slate-500
 };
 
+// Sort chart data by day order (Monday first)
+const sortChartDataByDayOrder = (source: ClockGraph | undefined): ClockGraph | undefined => {
+  if (!source?.labels?.length || !source?.datasets?.length) return source;
+
+  // Create array of indices sorted by day order
+  const indexedLabels = source.labels.map((label, index) => ({
+    label,
+    index,
+    dayOrder: getDayIndex(label),
+  }));
+
+  // Sort by day order (Monday = 0 first)
+  indexedLabels.sort((a, b) => {
+    // If both have valid day orders, sort by day order
+    if (a.dayOrder !== -1 && b.dayOrder !== -1) {
+      return a.dayOrder - b.dayOrder;
+    }
+    // Keep original order for unknown labels
+    return a.index - b.index;
+  });
+
+  // Reorder labels
+  const sortedLabels = indexedLabels.map((item) => item.label);
+
+  // Reorder each dataset's data array
+  const sortedDatasets = source.datasets.map((ds) => ({
+    ...ds,
+    data: indexedLabels.map((item) => ds.data?.[item.index] ?? 0),
+  }));
+
+  return {
+    ...source,
+    labels: sortedLabels,
+    datasets: sortedDatasets,
+  };
+};
+
 // Set chart data with proper formatting - always use vibrant colors
 const setChartData = (source: ClockGraph | undefined) => {
+  const sortedSource = sortChartDataByDayOrder(source);
+
   return {
-    labels: source?.labels,
-    datasets: source?.datasets?.map((ds) => {
+    labels: sortedSource?.labels,
+    datasets: sortedSource?.datasets?.map((ds) => {
       const colors = getColorForLabel(ds.label || '');
 
       return {

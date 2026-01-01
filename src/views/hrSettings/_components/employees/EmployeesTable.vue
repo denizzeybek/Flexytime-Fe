@@ -66,22 +66,6 @@
         <FText v-else>{{ slotProps.data.Salary }}</FText>
       </template>
     </Column>
-    <Column :header="t('pages.hrSettings.employees.table.columns.enabled')">
-      <template #body="slotProps">
-        <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
-        <Checkbox
-          v-else
-          :modelValue="slotProps.data.Enabled"
-          :binary="true"
-          @change="
-            handleAlwaysOnChange({
-              props: slotProps.data.ID,
-              alwaysOn: !slotProps.data.Enabled,
-            })
-          "
-        />
-      </template>
-    </Column>
     <Column :header="t('pages.hrSettings.employees.table.columns.actions')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
@@ -107,7 +91,6 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { FilterMatchMode } from '@primevue/core/api';
-import Checkbox from 'primevue/checkbox';
 import Skeleton from 'primevue/skeleton';
 import Tag from 'primevue/tag';
 
@@ -163,14 +146,6 @@ const options = ref([
 const employees = computed(() => {
   return employeesStore.list;
 });
-
-const handleAlwaysOnChange = async (event: { props: string; alwaysOn: boolean }) => {
-  const { props: employeeID, alwaysOn } = event;
-  await executeWithFeedback(
-    () => employeesStore.updateEnabled(employeeID, alwaysOn),
-    t('pages.hrSettings.employees.messages.statusUpdated'),
-  );
-};
 
 const handleEdit = (employee: TheMemberViewModel) => {
   emit('edit', employee);

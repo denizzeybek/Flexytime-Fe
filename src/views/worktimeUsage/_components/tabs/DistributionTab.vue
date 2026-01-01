@@ -56,7 +56,9 @@
                     :type="EChartType.DOUGHNUT"
                     :data="distribution.chart"
                     :options="chartOptions"
-                    class="w-full col-span-2"
+                    :width="250"
+                    :height="250"
+                    class="col-span-2"
                   />
                   <div class="flex flex-col gap-2 bg-gray-100 p-6 rounded-lg col-span-2 max-h-64 overflow-y-auto">
                     <template v-for="(application, appIdx) in distribution.applications" :key="appIdx">

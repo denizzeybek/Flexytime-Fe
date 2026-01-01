@@ -40,16 +40,26 @@
           </template>
           <template #content>
             <div class="flex flex-col gap-4">
+              <!-- Chart - at top for consistent alignment -->
+              <div v-if="item.Graph">
+                <Chart
+                  :type="EChartType.BAR"
+                  :data="transformChartData(item)"
+                  :options="getChartOptions(item)"
+                  class="h-48"
+                />
+              </div>
+
               <!-- Description -->
-              <div class="flex items-start gap-2">
-                <i class="pi pi-info-circle text-gray-400 mt-0.5"></i>
+              <div class="flex items-start gap-2 min-h-12">
+                <i class="pi pi-info-circle text-gray-400 mt-0.5 shrink-0"></i>
                 <p class="text-gray-600 text-sm">{{ item.Description }}</p>
               </div>
 
               <!-- Suggestion -->
               <div class="bg-gray-50 p-3 rounded-lg">
                 <div class="flex items-start gap-2">
-                  <i class="pi pi-lightbulb text-amber-500 mt-0.5"></i>
+                  <i class="pi pi-lightbulb text-amber-500 mt-0.5 shrink-0"></i>
                   <div>
                     <span class="text-xs font-medium text-gray-500 uppercase">
                       {{ t('components.wellbeing.suggestion') }}
@@ -57,16 +67,6 @@
                     <p class="text-gray-700 text-sm mt-1">{{ item.Suggestion }}</p>
                   </div>
                 </div>
-              </div>
-
-              <!-- Chart -->
-              <div v-if="item.Graph" class="mt-2">
-                <Chart
-                  :type="EChartType.BAR"
-                  :data="transformChartData(item)"
-                  :options="getChartOptions(item)"
-                  class="h-48"
-                />
               </div>
             </div>
           </template>
@@ -207,6 +207,15 @@ const getChartOptions = (item: IIndividualWellbeing) => {
         },
       },
       y: {
+        title: {
+          display: true,
+          text: item.Graph?.Unit || '',
+          color: textColorSecondary,
+          font: {
+            size: 12,
+            weight: 500,
+          },
+        },
         ticks: {
           color: textColorSecondary,
         },
@@ -218,3 +227,4 @@ const getChartOptions = (item: IIndividualWellbeing) => {
   };
 };
 </script>
+
