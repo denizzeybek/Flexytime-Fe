@@ -939,6 +939,10 @@
       "employees": {
         "modal": {
           "header": "Edit Employee",
+          "role": {
+            "label": "Role",
+            "placeholder": "Select role"
+          },
           "tab": {
             "employee": "Employee",
             "teamManager": "Team Manager",

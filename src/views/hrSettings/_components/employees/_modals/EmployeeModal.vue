@@ -7,61 +7,41 @@
     :style="{ width: '50rem' }"
   >
     <template v-if="isOnMounted">
-      <Tabs v-model:value="activeTab">
-        <div class="!flex !justify-center">
-          <TabList>
-            <Tab :value="0">{{ t('pages.hrSettings.employees.modal.tab.employee') }}</Tab>
-            <Tab :value="1">{{ t('pages.hrSettings.employees.modal.tab.teamManager') }}</Tab>
-            <Tab :value="2">{{ t('pages.hrSettings.employees.modal.tab.systemAdmin') }}</Tab>
-          </TabList>
-        </div>
-        <TabPanels>
-          <!-- Employee Tab -->
-          <TabPanel :value="0">
-            <form v-if="!isEditing" class="flex flex-col gap-5" @submit.prevent>
-              values.emails {{ values.emails }}
-              <FEmailList name="emails" type="text" :is-clear="isClear" />
-            </form>
-            <form v-else class="flex flex-col gap-4">
-              <EmployeeBasicInfoSection :show-enabled="isEditing" />
-              <EmployeeRoleSection
-                :title-options="titleOptions"
-                :team-options="teamOptions"
-                :show-operating-user="true"
-              />
-              <EmployeeTagsSalarySection :tag-options="tagOptions" :show-tags="true" />
-              <Divider />
-              <EmployeePasswordSection />
-            </form>
-          </TabPanel>
+      <form class="flex flex-col gap-5" @submit.prevent>
+        <!-- Role Selection Dropdown -->
+        <EmployeeRoleSelect v-model="selectedRole" />
 
-          <!-- Team Manager Tab -->
-          <TabPanel :value="1">
-            <form class="flex flex-col gap-6">
-              <EmployeeBasicInfoSection :show-enabled="isEditing" />
-              <EmployeeRoleSection
-                :title-options="titleOptions"
-                :team-options="teamOptions"
-                :show-operating-user="false"
-              />
-              <EmployeeTagsSalarySection :tag-options="tagOptions" :show-tags="false" />
-              <Divider />
-              <EmployeePasswordSection />
-            </form>
-          </TabPanel>
+        <Divider />
 
-          <!-- System Admin Tab -->
-          <TabPanel :value="2">
-            <form class="flex flex-col gap-6">
-              <EmployeeBasicInfoSection :show-enabled="isEditing" />
-              <Divider />
-              <EmployeePasswordSection />
-            </form>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+        <!-- Employee Role: Email List (only for new employee) -->
+        <template v-if="isEmployeeRole && !isEditing">
+          <FEmailList name="emails" type="text" :is-clear="isClear" />
+        </template>
+
+        <!-- Full Form (for edit mode or non-employee roles) -->
+        <template v-else>
+          <EmployeeBasicInfoSection :show-enabled="isEditing" />
+
+          <!-- Role & Team Section (Employee & Team Manager only) -->
+          <template v-if="!isSystemAdminRole">
+            <EmployeeRoleSection
+              :title-options="titleOptions"
+              :team-options="teamOptions"
+              :show-operating-user="isEmployeeRole"
+            />
+            <EmployeeTagsSalarySection
+              :tag-options="tagOptions"
+              :show-tags="isEmployeeRole"
+            />
+          </template>
+
+          <Divider />
+          <EmployeePasswordSection />
+        </template>
+      </form>
     </template>
-    <div class="flex justify-end gap-2">
+
+    <div class="flex justify-end gap-2 mt-4">
       <Button
         type="button"
         :label="t('common.buttons.cancel')"
@@ -80,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
@@ -91,10 +71,17 @@ import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
 import EmployeeBasicInfoSection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeeBasicInfoSection.vue';
 import EmployeePasswordSection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeePasswordSection.vue';
 import EmployeeRoleSection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeeRoleSection.vue';
+import EmployeeRoleSelect from '@/views/hrSettings/_components/employees/_modals/_components/EmployeeRoleSelect.vue';
 import EmployeeTagsSalarySection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeeTagsSalarySection.vue';
 import { useEmployeeModalValidation } from '@/views/hrSettings/_composables/useEmployeeModalValidation';
 
 import type { TheMemberViewModel } from '@/client';
+
+interface IRoleOption {
+  name: string;
+  value: number;
+  icon: string;
+}
 
 interface IProps {
   data?: TheMemberViewModel;
@@ -106,13 +93,21 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const employeesStore = useHRSettingsEmployeesStore();
 const { validationSchema, activeTab, isEditing } = useEmployeeModalValidation(props.data);
-const { handleSubmit, isSubmitting, values, resetForm } = useForm({
+const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema,
 });
 
 const open = defineModel<boolean>('open');
 const isClear = ref(false);
 const isOnMounted = ref(false);
+const selectedRole = ref<IRoleOption>({
+  name: t('pages.hrSettings.employees.modal.tab.employee'),
+  value: 0,
+  icon: 'pi pi-user',
+});
+
+const isEmployeeRole = computed(() => selectedRole.value?.value === 0);
+const isSystemAdminRole = computed(() => selectedRole.value?.value === 2);
 
 const titleOptions = computed(() => {
   return employeesStore.employeeTitles.map((employee) => ({
@@ -160,6 +155,8 @@ const handleClose = () => {
 };
 
 const buildPayload = (formValues: any) => {
+  const roleValue = selectedRole.value?.value ?? 0;
+
   if (isEditing.value) {
     const employee = props.data;
     return {
@@ -167,7 +164,7 @@ const buildPayload = (formValues: any) => {
       memberName: formValues.memberName,
       email: formValues.email,
       password: formValues.password,
-      role: activeTab.value,
+      role: roleValue,
       salary: formValues.salary ?? employee?.Salary,
       teamId: formValues.team?.value ?? employee?.TeamId,
       teamName: formValues.team?.name ?? employee?.TeamName,
@@ -179,17 +176,17 @@ const buildPayload = (formValues: any) => {
     };
   }
 
-  // New employee payloads by tab
-  if (activeTab.value === 0) {
+  // New employee payloads by role
+  if (roleValue === 0) {
     return { emails: formValues.emails };
   }
 
-  if (activeTab.value === 1) {
+  if (roleValue === 1) {
     return {
       memberName: formValues.memberName,
       email: formValues.email,
       password: formValues.password,
-      role: activeTab.value,
+      role: roleValue,
       salary: formValues.salary,
       teamId: formValues.team?.value,
       teamName: formValues.team?.name,
@@ -201,12 +198,12 @@ const buildPayload = (formValues: any) => {
     };
   }
 
-  // System Admin (tab 2)
+  // System Admin (role 2)
   return {
     memberName: formValues.memberName,
     email: formValues.email,
     password: formValues.password,
-    role: activeTab.value,
+    role: roleValue,
     salary: 0,
     teamId: '',
     teamName: '',
@@ -234,12 +231,29 @@ const submitHandler = handleSubmit(async (formValues) => {
   }
 });
 
+// Sync selectedRole with activeTab for validation
+watch(
+  selectedRole,
+  (newRole) => {
+    if (newRole) {
+      activeTab.value = newRole.value;
+    }
+  },
+  { immediate: true },
+);
+
 onMounted(() => {
   if (isEditing.value) {
     const employee = props.data;
 
     if (employee && Object.keys(employee)?.length) {
-      activeTab.value = employee?.Role ?? 0;
+      const role = employee?.Role ?? 0;
+      const roleMap: Record<number, IRoleOption> = {
+        0: { name: t('pages.hrSettings.employees.modal.tab.employee'), value: 0, icon: 'pi pi-user' },
+        1: { name: t('pages.hrSettings.employees.modal.tab.teamManager'), value: 1, icon: 'pi pi-users' },
+        2: { name: t('pages.hrSettings.employees.modal.tab.systemAdmin'), value: 2, icon: 'pi pi-shield' },
+      };
+      selectedRole.value = roleMap[role] ?? roleMap[0];
     }
     resetForm({
       values: getInitialFormData.value as any,

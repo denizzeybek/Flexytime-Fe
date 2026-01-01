@@ -939,6 +939,10 @@
       "employees": {
         "modal": {
           "header": "Çalışanı Düzenle",
+          "role": {
+            "label": "Rol",
+            "placeholder": "Rol seçin"
+          },
           "tab": {
             "employee": "Çalışan",
             "teamManager": "Ekip Yöneticisi",
