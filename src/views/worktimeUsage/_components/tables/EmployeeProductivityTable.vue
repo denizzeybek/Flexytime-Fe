@@ -89,7 +89,7 @@
         <div v-else class="flex items-center gap-2">
           <i class="pi pi-wrench text-green-600"></i>
           <span class="font-semibold">
-            {{ slotProps.data.Work?.time || '-' }}
+            {{ formatDuration(slotProps.data.Work?.time) }}
           </span>
         </div>
       </template>
@@ -101,7 +101,7 @@
         <div v-else class="flex items-center gap-2">
           <i class="pi pi-calendar-clock text-red-600"></i>
           <span class="font-semibold">
-            {{ slotProps.data.Leisure?.time || '-' }}
+            {{ formatDuration(slotProps.data.Leisure?.time) }}
           </span>
         </div>
       </template>
@@ -113,7 +113,7 @@
         <div v-else class="flex items-center gap-2">
           <i class="pi pi-crown text-yellow-600"></i>
           <span class="font-semibold">
-            {{ slotProps.data.Meeting?.time || '-' }}
+            {{ formatDuration(slotProps.data.Meeting?.time) }}
           </span>
         </div>
       </template>
@@ -125,7 +125,7 @@
         <div v-else class="flex items-center gap-2">
           <i class="pi pi-question text-gray-600"></i>
           <span class="font-semibold">
-            {{ slotProps.data.Unclassified?.time || '-' }}
+            {{ formatDuration(slotProps.data.Unclassified?.time) }}
           </span>
         </div>
       </template>
@@ -144,7 +144,7 @@ import Tag from 'primevue/tag';
 
 import { type MessageSchema } from '@/plugins/i18n';
 
-import { useWorktimeNavigation } from '../../_composables';
+import { useTimeFormat, useWorktimeNavigation } from '../../_composables';
 
 import type { IIndividual } from '../../_types';
 
@@ -161,6 +161,7 @@ withDefaults(defineProps<IProps>(), {
 const { t } = useI18n<{ message: MessageSchema }>();
 
 const { handleTeamClick, handleEmployeeClick } = useWorktimeNavigation();
+const { formatDuration } = useTimeFormat();
 
 // Skeleton dummy data - 5 rows for loading state
 const skeletonData = Array.from({ length: 5 }, (_, i) => ({

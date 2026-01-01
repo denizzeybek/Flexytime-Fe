@@ -39,7 +39,7 @@
     <Column field="Spent" :header="t('components.webHistoryTable.columns.time')" sortable>
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
-        <span v-else class="font-semibold">{{ slotProps.data.Spent }}</span>
+        <span v-else class="font-semibold">{{ formatDuration(slotProps.data.Spent) }}</span>
       </template>
     </Column>
 
@@ -102,6 +102,8 @@ import Tag from 'primevue/tag';
 import { useAuthorization } from '@/composables/useAuthorization';
 import { type MessageSchema } from '@/plugins/i18n';
 
+import { useTimeFormat } from '../../_composables';
+
 import type { IWebClock } from '../../_types';
 
 interface IProps {
@@ -122,6 +124,7 @@ const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { canAccessWorktimeUsage } = useAuthorization();
+const { formatDuration } = useTimeFormat();
 
 const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
   emit('toggle-domain', webClock, newDomain);

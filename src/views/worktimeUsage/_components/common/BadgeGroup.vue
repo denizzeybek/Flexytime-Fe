@@ -20,6 +20,8 @@ import { ESeverity } from '@/enums/severity.enum';
 import { EStatisticType } from '@/enums/statisticType.enum';
 import { type MessageSchema } from '@/plugins/i18n';
 
+import { useTimeFormat } from '../../_composables';
+
 import SummaryBadge from './SummaryBadge.vue';
 
 import type { ISummary } from '../../_types';
@@ -42,6 +44,7 @@ const props = withDefaults(defineProps<IProps>(), {
 });
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const { formatDuration } = useTimeFormat();
 
 // Skeleton dummy data - show 6 skeleton badges with different colors
 const skeletonBadges: IBadgeData[] = [
@@ -59,7 +62,7 @@ const badgeList = computed<IBadgeData[]>(() => {
   }
 
   return props.summary
-    .map((item) => mapStatisticTypeToBadge(item.statisticType ?? '', item.time ?? ''))
+    .map((item) => mapStatisticTypeToBadge(item.statisticType ?? '', formatDuration(item.time)))
     .filter((item): item is IBadgeData => item !== null);
 });
 

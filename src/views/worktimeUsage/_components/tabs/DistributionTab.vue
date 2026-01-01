@@ -45,7 +45,7 @@
                 </div>
                 <div class="flex items-center gap-2">
                   <span class="font-medium">{{ $t('components.distribution.totalTime') }}:</span>
-                  <span class="font-semibold">{{ distribution.time }}</span>
+                  <span class="font-semibold">{{ distribution.formattedTime }}</span>
                 </div>
               </div>
             </template>
@@ -64,7 +64,7 @@
                     <template v-for="(application, appIdx) in distribution.applications" :key="appIdx">
                       <div class="flex gap-2 justify-between">
                         <span class="font-medium">{{ application.title }}</span>
-                        <span>{{ application.time }}</span>
+                        <span>{{ application.formattedTime }}</span>
                       </div>
                     </template>
                   </div>
@@ -95,6 +95,7 @@ import Skeleton from 'primevue/skeleton';
 
 import NoDataState from '@/components/common/NoDataState.vue';
 import { EChartType } from '@/enums/chartType.enum';
+import { formatPercentage, formatTimeString, type ITimeUnits } from '@/helpers/time';
 import { type MessageSchema } from '@/plugins/i18n';
 
 import type { IDistribution } from '../../_types';
@@ -111,12 +112,30 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
+// Time units for formatting
+const timeUnits = computed<ITimeUnits>(() => ({
+  days: t('common.time.days'),
+  hours: t('common.time.hours'),
+  minutes: t('common.time.minutes'),
+  seconds: t('common.time.seconds'),
+}));
+
+// Format time string helper
+const formatTime = (time: string | undefined): string => {
+  if (!time) return `0${timeUnits.value.minutes}`;
+  return formatTimeString(time, timeUnits.value);
+};
+
 // Transform chart data for each distribution
 const chartData = computed(() => {
   return props.distributions?.map((distribution) => {
     return {
       ...distribution,
-      applications: distribution.Applications,
+      formattedTime: formatTime(distribution.time),
+      applications: distribution.Applications?.map((app) => ({
+        ...app,
+        formattedTime: formatTime(app.time),
+      })),
       chart: transformDataToChartFormat(distribution.Chart ?? []),
     };
   });
@@ -165,7 +184,8 @@ const transformDataToChartFormat = (rawData: any[]) => {
     '#2dd4bf',
   ];
 
-  const labels = rawData.map((item) => item.label);
+  // Add percentage to labels for better readability
+  const labels = rawData.map((item) => `${item.label} (${formatPercentage(item.value)})`);
   const data = rawData.map((item) => item.value);
 
   return {

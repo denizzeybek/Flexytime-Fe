@@ -1334,6 +1334,16 @@
       "week": "hafta",
       "month": "ay"
     },
+    "time": {
+      "days": "g",
+      "hours": "s",
+      "minutes": "d",
+      "seconds": "sn",
+      "daysLong": "gün",
+      "hoursLong": "saat",
+      "minutesLong": "dakika",
+      "secondsLong": "saniye"
+    },
     "or": "veya",
     "kyc_warning": {
       "description": "Ödeme alabilmek için lütfen kimliğinizi doğrulayın.",

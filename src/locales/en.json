@@ -1334,6 +1334,16 @@
       "week": "week",
       "month": "month"
     },
+    "time": {
+      "days": "d",
+      "hours": "h",
+      "minutes": "m",
+      "seconds": "s",
+      "daysLong": "days",
+      "hoursLong": "hours",
+      "minutesLong": "minutes",
+      "secondsLong": "seconds"
+    },
     "or": "or",
     "kyc_warning": {
       "description": "Please verify your ID to be able to receive payments.",
