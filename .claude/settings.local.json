@@ -42,7 +42,11 @@
       "mcp__atlassian__getVisibleJiraProjects",
       "mcp__atlassian__lookupJiraAccountId",
       "mcp__atlassian__createJiraIssue",
-      "mcp__atlassian__searchJiraIssuesUsingJql"
+      "mcp__atlassian__searchJiraIssuesUsingJql",
+      "WebFetch(domain:www.syncfusion.com)",
+      "WebFetch(domain:vueflow.dev)",
+      "mcp__atlassian__search",
+      "mcp__atlassian__atlassianUserInfo"
     ],
     "deny": [],
     "ask": []
