@@ -42,7 +42,10 @@
         <i :class="filterIcon" />
       </template>
       <template #header>
-        <div v-if="headerAddBtn" class="px-3 pt-2 flex-1 flex flex-col">
+        <slot name="customHeader" />
+      </template>
+      <template #footer>
+        <div v-if="headerAddBtn" class="px-3 pb-2 flex-1 flex flex-col">
           <Button
             class="!w-full"
             outlined
@@ -53,8 +56,6 @@
             @click.stop="handleAddClick"
           />
         </div>
-      </template>
-      <template #footer>
         <slot name="customFooter" />
       </template>
     </MultiSelect>
