@@ -3,12 +3,12 @@ import { defineStore } from 'pinia';
 import { CompanyApiService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { OrganizationNodeViewModel, OrganizationViewModel, PerformNameValueModel } from '@/client';
+import type { OrganizationNodeViewModel, OrganizationViewModel, PerformNameValueModel, TitleViewModel } from '@/client';
 
 interface State {
   list: OrganizationNodeViewModel[];
   members: PerformNameValueModel[];
-  titles: PerformNameValueModel[];
+  titles: TitleViewModel[];
 }
 
 export const useCompanyOrganizationChartsStore = defineStore(
@@ -21,12 +21,15 @@ export const useCompanyOrganizationChartsStore = defineStore(
     }),
     actions: {
       async filter() {
-        const data = await CompanyApiService.companyApiOrganization();
-        this.list = data.Nodes ?? [];
-        this.members = data.Members ?? [];
-        this.titles = data.Titles ?? [];
+        const [orgData, titlesData] = await Promise.all([
+          CompanyApiService.companyApiOrganization(),
+          CompanyApiService.companyApiTitles(),
+        ]);
+        this.list = orgData.Nodes ?? [];
+        this.members = orgData.Members ?? [];
+        this.titles = titlesData ?? [];
 
-        return data;
+        return orgData;
       },
       async save(payload: OrganizationViewModel) {
         await CompanyApiService.companyApiSaveOrganization(payload);
