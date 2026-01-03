@@ -4,51 +4,21 @@
     <OrganizationChartToolbar
       :search-query="searchQuery"
       :can-undo="canUndo"
-      :can-redo="canRedo"
       :expand-all="expandAll"
       @update:search-query="searchQuery = $event"
       @undo="handleUndo"
-      @redo="handleRedo"
       @toggle-expand-all="toggleExpandAll"
       @add-root-node="handleAddRootNode"
     />
 
     <!-- Organization Tree -->
-    <Card v-if="!isLoading && filteredOrganizationList.length > 0" class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
+    <Card v-if="!isLoading && treeData.length > 0" class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
       <template #content>
         <div class="organization-tree">
-          <OrganizationNodeV2
-            v-for="node in filteredOrganizationList"
-            :key="node.ID"
-            :node="node"
-            :depth="0"
-            :expanded-nodes="expandedNodes"
-            :search-query="searchQuery"
-            :drag-over-node-id="dragOverNodeId"
-            @edit="handleEditNode"
-            @delete="handleDeleteNode"
-            @add-child="handleAddChild"
-            @toggle-expand="handleToggleExpand"
-            @drag-start="handleDragStart"
-            @drag-over="handleDragOver"
-            @drag-leave="handleDragLeave"
-            @drop="handleDrop"
-          />
-        </div>
-      </template>
-      <template #footer>
-        <div class="flex justify-end gap-3 pt-5 border-t border-gray-100">
-          <Button
-            :label="t('pages.company.organizationChartV2.buttons.cancel')"
-            severity="secondary"
-            outlined
-            @click="handleCancel"
-          />
-          <Button
-            :label="t('pages.company.organizationChartV2.buttons.save')"
-            icon="pi pi-save"
-            :loading="isSaving"
-            @click="handleSave"
+          <VueTreeDnd
+            v-model="treeData"
+            :component="OrganizationTreeItem"
+            @move="handleMove"
           />
         </div>
       </template>
@@ -56,7 +26,7 @@
 
     <!-- Empty State -->
     <OrganizationChartEmptyState
-      v-else-if="!isLoading && filteredOrganizationList.length === 0"
+      v-else-if="!isLoading && treeData.length === 0"
       :has-search-query="!!searchQuery"
       @add-root-node="handleAddRootNode"
     />
@@ -89,71 +59,141 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { computed, onMounted, provide, ref } from 'vue';
+import VueTreeDnd from 'vue-tree-dnd';
 
 import { useFToast } from '@/composables/useFToast';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyOrganizationChartsStore } from '@/stores/company/organizationChart';
 import NodeEditDialog from '@/views/company/_components/organizationChart/NodeEditDialog.vue';
 import OrganizationChartDeleteDialog from '@/views/company/_components/organizationChart/OrganizationChartDeleteDialog.vue';
 import OrganizationChartEmptyState from '@/views/company/_components/organizationChart/OrganizationChartEmptyState.vue';
 import OrganizationChartToolbar from '@/views/company/_components/organizationChart/OrganizationChartToolbar.vue';
-import OrganizationNodeV2 from '@/views/company/_components/organizationChart/OrganizationNodeV2.vue';
-import { useOrganizationChart } from '@/views/company/_composables/useOrganizationChart';
+import OrganizationTreeItem from '@/views/company/_components/organizationChart/OrganizationTreeItem.vue';
+import { fromTreeNodes, toTreeNodes } from '@/views/company/_types/organizationTree';
 
-const { t } = useI18n<{ message: MessageSchema }>();
-const { showErrorMessage, showSuccessMessage } = useFToast();
+import type { OrganizationNodeViewModel } from '@/client';
+import type { OrganizationTreeNode } from '@/views/company/_types/organizationTree';
+
+const { showErrorMessage } = useFToast();
 const organizationsStore = useCompanyOrganizationChartsStore();
 
-// Local state for API operations
+// Local state
 const isLoading = ref(false);
 const isSaving = ref(false);
+const treeData = ref<OrganizationTreeNode[]>([]);
+const originalTreeData = ref<OrganizationTreeNode[]>([]);
+const searchQuery = ref('');
+const expandAll = ref(true);
 
-// Use composable for all organization chart logic
-const {
-  organizationList,
-  originalOrganizationList,
-  searchQuery,
-  expandedNodes,
-  expandAll,
-  filteredOrganizationList,
-  showEditDialog,
-  showDeleteDialog,
-  selectedNode,
-  nodeToDelete,
-  dialogMode,
-  canUndo,
-  canRedo,
-  dragOverNodeId,
-  toggleExpandAll,
-  handleToggleExpand,
-  handleAddRootNode,
-  handleAddChild,
-  handleEditNode,
-  handleDeleteNode,
-  confirmDelete,
-  handleSaveNode,
-  handleUndo,
-  handleRedo,
-  handleDragStart,
-  handleDragOver,
-  handleDragLeave,
-  handleDrop,
-  handleCancel,
-  setOrganizationList,
-} = useOrganizationChart();
+// Dialog state
+const showEditDialog = ref(false);
+const showDeleteDialog = ref(false);
+const selectedNode = ref<OrganizationNodeViewModel | null>(null);
+const nodeToDelete = ref<OrganizationNodeViewModel | null>(null);
+const dialogMode = ref<'add' | 'edit'>('add');
 
-// API Operations
-const handleSave = async () => {
+// Undo state
+const history = ref<OrganizationTreeNode[][]>([]);
+const historyIndex = ref(-1);
+
+const canUndo = computed(() => historyIndex.value > 0);
+
+// Provide event handlers to tree item component
+provide('searchQuery', searchQuery);
+provide('onEdit', (node: OrganizationTreeNode) => {
+  dialogMode.value = 'edit';
+  selectedNode.value = node as unknown as OrganizationNodeViewModel;
+  showEditDialog.value = true;
+});
+provide('onDelete', (node: OrganizationTreeNode) => {
+  nodeToDelete.value = node as unknown as OrganizationNodeViewModel;
+  showDeleteDialog.value = true;
+});
+provide('onAddChild', (node: OrganizationTreeNode) => {
+  dialogMode.value = 'add';
+  selectedNode.value = {
+    children: [],
+    title: '',
+    MemberName: '',
+    TitleName: '',
+    Name: '',
+    _parentId: node.id,
+  } as OrganizationNodeViewModel & { _parentId?: string };
+  showEditDialog.value = true;
+});
+
+// Helper functions
+const generateTempId = (): string => {
+  return `temp_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+};
+
+const pushToHistory = (state: OrganizationTreeNode[]) => {
+  // Remove any future states if we're not at the end
+  if (historyIndex.value < history.value.length - 1) {
+    history.value = history.value.slice(0, historyIndex.value + 1);
+  }
+  history.value.push(JSON.parse(JSON.stringify(state)));
+  historyIndex.value = history.value.length - 1;
+};
+
+const removeNodeById = (nodes: OrganizationTreeNode[], id: string): OrganizationTreeNode[] => {
+  return nodes
+    .filter((node) => node.id !== id)
+    .map((node) => ({
+      ...node,
+      children: node.children ? removeNodeById(node.children, id) : [],
+    }));
+};
+
+const addChildToNode = (
+  nodes: OrganizationTreeNode[],
+  parentId: string,
+  newNode: OrganizationTreeNode,
+): OrganizationTreeNode[] => {
+  return nodes.map((node) => {
+    if (node.id === parentId) {
+      return {
+        ...node,
+        children: [...(node.children || []), newNode],
+        expanded: true,
+      };
+    }
+    if (node.children && node.children.length > 0) {
+      return {
+        ...node,
+        children: addChildToNode(node.children, parentId, newNode),
+      };
+    }
+    return node;
+  });
+};
+
+const updateNodeById = (
+  nodes: OrganizationTreeNode[],
+  id: string,
+  updatedNode: Partial<OrganizationTreeNode>,
+): OrganizationTreeNode[] => {
+  return nodes.map((node) => {
+    if (node.id === id) {
+      return { ...node, ...updatedNode, children: node.children };
+    }
+    if (node.children && node.children.length > 0) {
+      return {
+        ...node,
+        children: updateNodeById(node.children, id, updatedNode),
+      };
+    }
+    return node;
+  });
+};
+
+// Auto-save function
+const autoSave = async () => {
   try {
     isSaving.value = true;
-    const payload = {
-      Nodes: organizationList.value,
-    };
+    const payload = { Nodes: fromTreeNodes(treeData.value) };
     await organizationsStore.save(payload);
-    showSuccessMessage(t('pages.company.organizationChartV2.messages.saved'));
-    originalOrganizationList.value = JSON.parse(JSON.stringify(organizationList.value));
+    originalTreeData.value = JSON.parse(JSON.stringify(treeData.value));
   } catch (error) {
     showErrorMessage(error as Error);
   } finally {
@@ -161,11 +201,93 @@ const handleSave = async () => {
   }
 };
 
+// Handle move event from vue-tree-dnd
+const handleMove = () => {
+  pushToHistory(treeData.value);
+  // vue-tree-dnd already updates the v-model, so we just need to save
+  autoSave();
+};
+
+const toggleExpandAll = () => {
+  expandAll.value = !expandAll.value;
+  const setExpandedRecursive = (nodes: OrganizationTreeNode[], expanded: boolean): OrganizationTreeNode[] => {
+    return nodes.map((node) => ({
+      ...node,
+      expanded,
+      children: node.children ? setExpandedRecursive(node.children, expanded) : [],
+    }));
+  };
+  treeData.value = setExpandedRecursive(treeData.value, expandAll.value);
+};
+
+const handleAddRootNode = () => {
+  dialogMode.value = 'add';
+  selectedNode.value = {
+    children: [],
+    title: '',
+    MemberName: '',
+    TitleName: '',
+    Name: '',
+  };
+  showEditDialog.value = true;
+};
+
+const handleSaveNode = (node: OrganizationNodeViewModel) => {
+  pushToHistory(treeData.value);
+
+  if (dialogMode.value === 'add') {
+    const newNode: OrganizationTreeNode = {
+      ...node,
+      id: node.ID || generateTempId(),
+      expanded: true,
+      children: [],
+    };
+
+    const parentId = (node as OrganizationNodeViewModel & { _parentId?: string })._parentId;
+
+    if (parentId) {
+      treeData.value = addChildToNode(treeData.value, parentId, newNode);
+    } else {
+      treeData.value = [...treeData.value, newNode];
+    }
+  } else if (dialogMode.value === 'edit' && node.ID) {
+    treeData.value = updateNodeById(treeData.value, node.ID, {
+      ...node,
+      id: node.ID,
+    } as OrganizationTreeNode);
+  }
+
+  showEditDialog.value = false;
+  selectedNode.value = null;
+  autoSave();
+};
+
+const confirmDelete = () => {
+  if (nodeToDelete.value?.ID) {
+    pushToHistory(treeData.value);
+    treeData.value = removeNodeById(treeData.value, nodeToDelete.value.ID);
+    showDeleteDialog.value = false;
+    nodeToDelete.value = null;
+    autoSave();
+  }
+};
+
+const handleUndo = () => {
+  if (canUndo.value) {
+    historyIndex.value--;
+    treeData.value = JSON.parse(JSON.stringify(history.value[historyIndex.value]));
+    autoSave();
+  }
+};
+
+// API Operations
 const fetchOrganizationChart = async () => {
   try {
     isLoading.value = true;
     await organizationsStore.filter();
-    setOrganizationList(organizationsStore.list);
+    treeData.value = toTreeNodes(organizationsStore.list);
+    originalTreeData.value = JSON.parse(JSON.stringify(treeData.value));
+    pushToHistory(treeData.value);
   } catch (error) {
     showErrorMessage(error as Error);
   } finally {
@@ -178,12 +300,32 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .organization-chart-v2 {
-  @apply space-y-4;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .organization-tree {
-  @apply space-y-2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+:deep(.vue-tree-dnd) {
+  width: 100%;
+}
+
+:deep(.vue-tree-dnd-item) {
+  width: 100%;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+:deep(.vue-tree-dnd-children) {
+  width: 100%;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
 }
 </style>

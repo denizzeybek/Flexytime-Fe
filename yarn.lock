@@ -4892,6 +4892,11 @@ vue-toastification@^2.0.0-rc.5:
   resolved "https://registry.npmjs.org/vue-toastification/-/vue-toastification-2.0.0-rc.5.tgz"
   integrity sha512-q73e5jy6gucEO/U+P48hqX+/qyXDozAGmaGgLFm5tXX4wJBcVsnGp4e/iJqlm9xzHETYOilUuwOUje2Qg1JdwA==
 
+vue-tree-dnd@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/vue-tree-dnd/-/vue-tree-dnd-0.2.4.tgz#8d93aaa119d7a35aa071ebbdc37ee65fa95dbce0"
+  integrity sha512-3rVfiwFK1bYA+MaA0ogRy3t3ynOomXru/YXlRzCVYO5kWe0fRqGIQqS8zoLwQ6y7XpfUJ2TJmOhdKjiPaGqtPQ==
+
 vue-tsc@^2.1.6:
   version "2.1.6"
   resolved "https://registry.npmjs.org/vue-tsc/-/vue-tsc-2.1.6.tgz"

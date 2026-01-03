@@ -813,7 +813,8 @@
         },
         "messages": {
           "saved": "Organizasyon şeması başarıyla kaydedildi!"
-        }
+        },
+        "dropToRoot": "Ana seviyeye taşımak için buraya bırakın"
       },
       "workingHours": {
         "form": {

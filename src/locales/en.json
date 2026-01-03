@@ -813,7 +813,8 @@
         },
         "messages": {
           "saved": "Organization chart saved successfully!"
-        }
+        },
+        "dropToRoot": "Drop here to move to root level"
       },
       "workingHours": {
         "form": {

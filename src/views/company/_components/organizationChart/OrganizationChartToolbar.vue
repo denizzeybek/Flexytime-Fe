@@ -14,27 +14,16 @@
           </IconField>
         </div>
         <div class="flex gap-2 w-full lg:w-auto flex-wrap">
-          <!-- Undo/Redo Controls -->
-          <div class="flex gap-1">
-            <Button
-              v-tooltip.top="t('pages.company.organizationChartV2.buttons.undo')"
-              icon="pi pi-undo"
-              severity="secondary"
-              outlined
-              size="small"
-              :disabled="!canUndo"
-              @click="$emit('undo')"
-            />
-            <Button
-              v-tooltip.top="t('pages.company.organizationChartV2.buttons.redo')"
-              icon="pi pi-redo"
-              severity="secondary"
-              outlined
-              size="small"
-              :disabled="!canRedo"
-              @click="$emit('redo')"
-            />
-          </div>
+          <!-- Undo Control -->
+          <Button
+            v-tooltip.top="t('pages.company.organizationChartV2.buttons.undo')"
+            icon="pi pi-undo"
+            severity="secondary"
+            outlined
+            size="small"
+            :disabled="!canUndo"
+            @click="$emit('undo')"
+          />
 
           <Button
             :label="expandAll ? t('pages.company.organizationChartV2.buttons.collapseAll') : t('pages.company.organizationChartV2.buttons.expandAll')"
@@ -63,14 +52,12 @@ import { type MessageSchema } from '@/plugins/i18n';
 interface IProps {
   searchQuery: string;
   canUndo: boolean;
-  canRedo: boolean;
   expandAll: boolean;
 }
 
 interface IEmits {
   (e: 'update:searchQuery', value: string): void;
   (e: 'undo'): void;
-  (e: 'redo'): void;
   (e: 'toggleExpandAll'): void;
   (e: 'addRootNode'): void;
 }

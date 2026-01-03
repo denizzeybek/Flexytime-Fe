@@ -8,98 +8,56 @@
     class="w-full max-w-2xl"
     @update:visible="handleClose"
   >
-    <div class="space-y-4">
+    <form class="space-y-4" @submit.prevent="handleSave">
       <!-- Team/Title Name -->
-      <div class="flex flex-col gap-2">
-        <label for="node-title" class="font-semibold text-gray-700">
-          {{ t('pages.company.organizationChartV2.editDialog.fields.title.label') }}
-          <span class="text-red-500">*</span>
-        </label>
-        <InputText
-          id="node-title"
-          v-model="formData.title"
-          :placeholder="t('pages.company.organizationChartV2.editDialog.fields.title.placeholder')"
-          :class="{ 'p-invalid': errors.title }"
-          @blur="validateTitle"
-        />
-        <small v-if="errors.title" class="text-red-500">{{ errors.title }}</small>
-      </div>
+      <FInput
+        id="node-title"
+        name="title"
+        :label="t('pages.company.organizationChartV2.editDialog.fields.title.label') + ' *'"
+        :placeholder="t('pages.company.organizationChartV2.editDialog.fields.title.placeholder')"
+      />
 
       <!-- Team Name (Name field) -->
-      <div class="flex flex-col gap-2">
-        <label for="node-name" class="font-semibold text-gray-700">
-          {{ t('pages.company.organizationChartV2.editDialog.fields.name.label') }}
-        </label>
-        <InputText
-          id="node-name"
-          v-model="formData.Name"
-          :placeholder="t('pages.company.organizationChartV2.editDialog.fields.name.placeholder')"
-        />
-        <small class="text-gray-500">{{ t('pages.company.organizationChartV2.editDialog.fields.name.hint') }}</small>
-      </div>
+      <FInput
+        id="node-name"
+        name="name"
+        :label="t('pages.company.organizationChartV2.editDialog.fields.name.label')"
+        :placeholder="t('pages.company.organizationChartV2.editDialog.fields.name.placeholder')"
+      />
 
       <!-- Member Name -->
-      <div class="flex flex-col gap-2">
-        <label for="node-member" class="font-semibold text-gray-700">
-          {{ t('pages.company.organizationChartV2.editDialog.fields.memberName.label') }}
-        </label>
-        <InputText
-          id="node-member"
-          v-model="formData.MemberName"
-          :placeholder="t('pages.company.organizationChartV2.editDialog.fields.memberName.placeholder')"
-        />
-        <small class="text-gray-500">{{ t('pages.company.organizationChartV2.editDialog.fields.memberName.hint') }}</small>
-      </div>
+      <FSelect
+        name="member"
+        :label="t('pages.company.organizationChartV2.editDialog.fields.memberName.label')"
+        :placeholder="t('pages.company.organizationChartV2.editDialog.fields.memberName.placeholder')"
+        :options="memberOptions"
+        :prime-props="{
+          filter: true,
+          showClear: true,
+        }"
+      />
 
       <!-- Title Name (Job Title) -->
-      <div class="flex flex-col gap-2">
-        <label for="node-title-name" class="font-semibold text-gray-700">
-          {{ t('pages.company.organizationChartV2.editDialog.fields.titleName.label') }}
-        </label>
-        <InputText
-          id="node-title-name"
-          v-model="formData.TitleName"
-          :placeholder="t('pages.company.organizationChartV2.editDialog.fields.titleName.placeholder')"
-        />
-        <small class="text-gray-500">{{ t('pages.company.organizationChartV2.editDialog.fields.titleName.hint') }}</small>
-      </div>
+      <FSelect
+        name="jobTitle"
+        :label="t('pages.company.organizationChartV2.editDialog.fields.titleName.label')"
+        :placeholder="t('pages.company.organizationChartV2.editDialog.fields.titleName.placeholder')"
+        :options="titleOptions"
+        :prime-props="{
+          filter: true,
+          showClear: true,
+        }"
+      />
 
       <!-- Abbreviation -->
-      <div class="flex flex-col gap-2">
-        <label for="node-abbreviation" class="font-semibold text-gray-700">
-          {{ t('pages.company.organizationChartV2.editDialog.fields.abbreviation.label') }}
-        </label>
-        <InputText
-          id="node-abbreviation"
-          v-model="formData.Abbreviation"
-          :placeholder="t('pages.company.organizationChartV2.editDialog.fields.abbreviation.placeholder')"
-          maxlength="10"
-        />
-        <small class="text-gray-500">{{ t('pages.company.organizationChartV2.editDialog.fields.abbreviation.hint') }}</small>
-      </div>
-
-      <!-- Additional Info Panel -->
-      <div v-if="mode === 'edit' && node?.ID" class="p-4 bg-gray-50 rounded-lg border border-gray-200">
-        <div class="text-sm text-gray-600">
-          <div class="flex justify-between py-1">
-            <span class="font-medium">{{ t('pages.company.organizationChartV2.editDialog.info.nodeId') }}:</span>
-            <span class="font-mono text-xs">{{ node.ID }}</span>
-          </div>
-          <div v-if="node.TeamId" class="flex justify-between py-1">
-            <span class="font-medium">{{ t('pages.company.organizationChartV2.editDialog.info.teamId') }}:</span>
-            <span class="font-mono text-xs">{{ node.TeamId }}</span>
-          </div>
-          <div v-if="node.MemberId" class="flex justify-between py-1">
-            <span class="font-medium">{{ t('pages.company.organizationChartV2.editDialog.info.memberId') }}:</span>
-            <span class="font-mono text-xs">{{ node.MemberId }}</span>
-          </div>
-          <div v-if="node.TitleId" class="flex justify-between py-1">
-            <span class="font-medium">{{ t('pages.company.organizationChartV2.editDialog.info.titleId') }}:</span>
-            <span class="font-mono text-xs">{{ node.TitleId }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+      <FInput
+        id="node-abbreviation"
+        name="abbreviation"
+        :label="t('pages.company.organizationChartV2.editDialog.fields.abbreviation.label')"
+        :placeholder="t('pages.company.organizationChartV2.editDialog.fields.abbreviation.placeholder')"
+        :prime-props="{ maxlength: 10 }"
+      />
+    </form>
 
     <template #footer>
       <div class="flex justify-end gap-3">
@@ -112,7 +70,7 @@
         <Button
           :label="t('pages.company.organizationChartV2.editDialog.buttons.save')"
           icon="pi pi-check"
-          :disabled="!isFormValid"
+          :disabled="!meta.valid"
           @click="handleSave"
         />
       </div>
@@ -121,12 +79,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import { useForm } from 'vee-validate';
+import * as yup from 'yup';
+
 import { type MessageSchema } from '@/plugins/i18n';
+import { useCompanyOrganizationChartsStore } from '@/stores/company/organizationChart';
 
 import type { OrganizationNodeViewModel } from '@/client';
+import type { IOption } from '@/common/interfaces/option.interface';
 
 interface IProps {
   visible: boolean;
@@ -139,22 +102,56 @@ interface IEmits {
   (event: 'save', node: OrganizationNodeViewModel): void;
 }
 
+interface IFormValues {
+  title: string;
+  name: string;
+  member: IOption | null;
+  jobTitle: IOption | null;
+  abbreviation: string;
+}
+
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const organizationsStore = useCompanyOrganizationChartsStore();
 
-const formData = ref<OrganizationNodeViewModel>({
-  children: [],
-  title: '',
-  Name: '',
-  MemberName: '',
-  TitleName: '',
-  Abbreviation: '',
+const validationSchema = yup.object({
+  title: yup
+    .string()
+    .required(t('pages.company.organizationChartV2.editDialog.validation.titleRequired'))
+    .min(2, t('pages.company.organizationChartV2.editDialog.validation.titleMinLength')),
+  name: yup.string(),
+  member: yup.object().nullable(),
+  jobTitle: yup.object().nullable(),
+  abbreviation: yup.string().max(10),
 });
 
-const errors = ref({
-  title: '',
+const { meta, values, setValues, resetForm } = useForm<IFormValues>({
+  validationSchema,
+  initialValues: {
+    title: '',
+    name: '',
+    member: null,
+    jobTitle: null,
+    abbreviation: '',
+  },
+});
+
+const memberOptions = computed<IOption[]>(() => {
+  return organizationsStore.members.map((m) => ({
+    name: m.Name || '',
+    value: m.ID || '',
+    label: m.Name || '',
+  }));
+});
+
+const titleOptions = computed<IOption[]>(() => {
+  return organizationsStore.titles.map((item) => ({
+    name: item.Name || '',
+    value: item.ID || '',
+    label: item.Name || '',
+  }));
 });
 
 const dialogTitle = computed(() => {
@@ -163,69 +160,60 @@ const dialogTitle = computed(() => {
     : t('pages.company.organizationChartV2.editDialog.titleEdit');
 });
 
-const isFormValid = computed(() => {
-  return !!(formData.value.title?.trim() && !errors.value.title);
-});
-
-const validateTitle = () => {
-  if (!formData.value.title?.trim()) {
-    errors.value.title = t('pages.company.organizationChartV2.editDialog.validation.titleRequired');
-  } else if (formData.value.title.trim().length < 2) {
-    errors.value.title = t('pages.company.organizationChartV2.editDialog.validation.titleMinLength');
-  } else {
-    errors.value.title = '';
-  }
-};
-
 const handleSave = () => {
-  validateTitle();
+  if (!meta.value.valid) return;
 
-  if (isFormValid.value) {
-    // Clean up the data
-    const nodeToSave: OrganizationNodeViewModel = {
-      ...formData.value,
-      title: formData.value.title?.trim(),
-      Name: formData.value.Name?.trim(),
-      MemberName: formData.value.MemberName?.trim(),
-      TitleName: formData.value.TitleName?.trim(),
-      Abbreviation: formData.value.Abbreviation?.trim(),
-    };
+  const nodeToSave: OrganizationNodeViewModel = {
+    ...props.node,
+    title: values.title?.trim(),
+    Name: values.name?.trim(),
+    MemberId: values.member?.value || undefined,
+    MemberName: values.member?.name || '',
+    TitleId: values.jobTitle?.value || undefined,
+    TitleName: values.jobTitle?.name || '',
+    Abbreviation: values.abbreviation?.trim(),
+    children: props.node?.children || [],
+  };
 
-    emit('save', nodeToSave);
-    handleClose();
-  }
+  emit('save', nodeToSave);
+  handleClose();
 };
 
 const handleClose = () => {
   emit('update:visible', false);
-  // Reset errors
-  errors.value = {
-    title: '',
-  };
+  resetForm();
 };
 
 watch(
   () => props.node,
   (newNode) => {
     if (newNode) {
-      formData.value = {
-        ...newNode,
-        children: newNode.children || [],
-      };
+      // Find matching member and title options
+      let memberOption: IOption | null = null;
+      let jobTitleOption: IOption | null = null;
+
+      if (newNode.MemberId) {
+        memberOption = memberOptions.value.find((m) => m.value === newNode.MemberId) || null;
+      } else if (newNode.MemberName) {
+        memberOption = memberOptions.value.find((m) => m.name === newNode.MemberName) || null;
+      }
+
+      if (newNode.TitleId) {
+        jobTitleOption = titleOptions.value.find((t) => t.value === newNode.TitleId) || null;
+      } else if (newNode.TitleName) {
+        jobTitleOption = titleOptions.value.find((t) => t.name === newNode.TitleName) || null;
+      }
+
+      setValues({
+        title: newNode.title || '',
+        name: newNode.Name || '',
+        member: memberOption,
+        jobTitle: jobTitleOption,
+        abbreviation: newNode.Abbreviation || '',
+      });
     } else {
-      formData.value = {
-        children: [],
-        title: '',
-        Name: '',
-        MemberName: '',
-        TitleName: '',
-        Abbreviation: '',
-      };
+      resetForm();
     }
-    // Reset errors when node changes
-    errors.value = {
-      title: '',
-    };
   },
   { immediate: true, deep: true },
 );
