@@ -451,7 +451,8 @@
           "placeholder": "Ne üzerinde çalışıyorsunuz?"
         },
         "timeInput": {
-          "placeholder": "00:00"
+          "placeholder": "00:00",
+          "bothRequired": "Lütfen başlangıç ve bitiş saatlerini girin"
         },
         "project": {
           "placeholder": "Proje seçin",

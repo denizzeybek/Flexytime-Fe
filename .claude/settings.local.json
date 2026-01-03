@@ -37,7 +37,12 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:vuestripe.com)",
       "Bash(cat:*)",
-      "Bash(node ./scripts/checkVueOrder.js:*)"
+      "Bash(node ./scripts/checkVueOrder.js:*)",
+      "mcp__atlassian__getAccessibleAtlassianResources",
+      "mcp__atlassian__getVisibleJiraProjects",
+      "mcp__atlassian__lookupJiraAccountId",
+      "mcp__atlassian__createJiraIssue",
+      "mcp__atlassian__searchJiraIssuesUsingJql"
     ],
     "deny": [],
     "ask": []

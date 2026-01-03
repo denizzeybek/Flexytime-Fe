@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col gap-2">
-    <label :for="id">{{ label }}</label>
+  <div class="flex flex-col" :class="[hideError && !label ? '' : 'gap-2']">
+    <label v-if="label" :for="id">{{ label }}</label>
     <div class="flex items-center gap-1">
       <Button v-if="showPrevNextButtons" type="button" icon="pi pi-angle-left" @click="handleWeek(EWeek.PREV)" />
       <DatePicker
@@ -29,7 +29,7 @@
       </DatePicker>
       <Button v-if="showPrevNextButtons" type="button" icon="pi pi-angle-right" @click="handleWeek(EWeek.NEXT)" />
   </div>
-    <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
+    <small v-if="!hideError" :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
   </div>
 </template>
 
@@ -61,7 +61,8 @@ interface IProps {
   numberOfMonths?: number;
   manualInput?: boolean;
   format?: string;
-  showPrevNextButtons?:boolean;
+  showPrevNextButtons?: boolean;
+  hideError?: boolean;
 }
 
 type DatePickerValue = Date | Date[] | (Date | null)[] | null | undefined;
@@ -76,7 +77,8 @@ const props = withDefaults(defineProps<IProps>(), {
   numberOfMonths: 2,
   manualInput: true,
   format: 'YY/MM/DDDD',
-  showPrevNextButtons: false
+  showPrevNextButtons: false,
+  hideError: false,
 });
 
 const emit = defineEmits<IEmits>();

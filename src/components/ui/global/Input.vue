@@ -1,6 +1,6 @@
 <template>
-  <div v-click-outside="handleOutsideClick" class="flex flex-col gap-2 relative">
-    <label :for="id">{{ label }}</label>
+  <div v-click-outside="handleOutsideClick" class="flex flex-col relative" :class="[hideError && !label ? '' : 'gap-2']">
+    <label v-if="label" :for="id">{{ label }}</label>
     <InputText
       :id="id"
       v-model="model"
@@ -42,7 +42,7 @@
         />
       </div>
     </ul>
-    <small :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
+    <small v-if="!hideError" :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
   </div>
 </template>
 
@@ -73,6 +73,7 @@ interface IProps {
   unstyled?: boolean;
   datalistOptions?: string[];
   onAddOption?: (value: string) => void | Promise<void>;
+  hideError?: boolean;
 }
 
 interface IEmits {
@@ -84,6 +85,7 @@ const props = withDefaults(defineProps<IProps>(), {
   disabled: false,
   placeholder: '',
   unstyled: false,
+  hideError: false,
 });
 
 const emit = defineEmits<IEmits>();
