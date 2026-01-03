@@ -108,6 +108,7 @@ const {
   value,
   handleBlur,
   handleChange,
+  validate,
 } = useField<string>(() => props.name, undefined, {
   validateOnValueUpdate: false,
   syncVModel: true,
@@ -139,6 +140,8 @@ const selectOption = (option: string) => {
   value.value = option;
   showOptions.value = false;
   searchFilter.value = '';
+  // Validate to clear error after selection
+  validate();
 };
 
 const addNewOption = async () => {

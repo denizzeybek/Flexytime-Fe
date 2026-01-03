@@ -35,15 +35,6 @@
     <!-- Layout Toggle -->
     <div class="flex bg-gray-100 rounded-xl p-1 gap-1">
       <button
-        v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.timer')"
-        type="button"
-        class="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200"
-        :class="isTimerLayout ? 'bg-white text-f-primary shadow-sm' : 'text-gray-400 hover:text-gray-600'"
-        @click="$emit('update:activeLayout', 'timer')"
-      >
-        <i class="pi pi-clock" />
-      </button>
-      <button
         v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.manual')"
         type="button"
         class="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200"
@@ -51,6 +42,15 @@
         @click="$emit('update:activeLayout', 'manual')"
       >
         <i class="pi pi-list" />
+      </button>
+      <button
+        v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.timer')"
+        type="button"
+        class="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200"
+        :class="isTimerLayout ? 'bg-white text-f-primary shadow-sm' : 'text-gray-400 hover:text-gray-600'"
+        @click="$emit('update:activeLayout', 'timer')"
+      >
+        <i class="pi pi-clock" />
       </button>
     </div>
 

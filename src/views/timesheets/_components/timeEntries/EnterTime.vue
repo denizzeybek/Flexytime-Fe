@@ -121,12 +121,14 @@ const validationSchema = object({
     .label('End Time'),
   project: object()
     .shape({
-      name: string().label('Name'),
-      value: string().label('Value'),
+      name: string().required().label('Name'),
+      value: string().required().label('Value'),
     })
-    .nullable()
+    .required()
     .label('Project'),
   tags: array()
+    .min(1)
+    .required()
     .label('Tags')
     .of(
       object().shape({
@@ -138,13 +140,21 @@ const validationSchema = object({
 
 const { handleSubmit, resetForm, defineField, values, setFieldValue } = useForm({
   validationSchema,
+  initialValues: {
+    taskName: '' as string,
+    startTime: dayjs().subtract(10, 'minute').toDate(),
+    endTime: dayjs().toDate(),
+    date: dayjs().toDate(),
+    project: undefined as { name: string; value: string } | undefined,
+    tags: [] as ITagOption[],
+  },
 });
 
 const [startTime] = defineField('startTime');
 const [endTime] = defineField('endTime');
 
 // Layout state
-const activeLayout = ref(ELayout.TIMER);
+const activeLayout = ref(ELayout.MANUAL);
 const isBillable = ref(false);
 const timeDifference = ref('');
 
@@ -304,12 +314,5 @@ watch(
 // Initialize
 onMounted(() => {
   timeEntriesStore.fetchOptions();
-  resetForm({
-    values: {
-      startTime: dayjs().subtract(10, 'minute').toDate(),
-      endTime: dayjs().toDate(),
-      date: dayjs().toDate(),
-    },
-  });
 });
 </script>
