@@ -106,6 +106,23 @@ export const calculateTimeDifference = (start: string, end: string): string => {
   return diffDuration.format('HH:mm:ss');
 };
 
+export const calculateTimeDifferenceFromDates = (start: Date | null, end: Date | null): string => {
+  if (!start || !end) return '';
+
+  const startMoment = dayjs(start);
+  const endMoment = dayjs(end);
+
+  if (!startMoment.isValid() || !endMoment.isValid()) {
+    return '';
+  }
+
+  const diff = endMoment.diff(startMoment);
+  if (diff < 0) return '';
+
+  const diffDuration = dayjs.duration(diff);
+  return diffDuration.format('HH:mm:ss');
+};
+
 export const convertTimeToDate = (time) => {
   // Saat formatını düzelt: noktayı iki nokta ile değiştir
   const formattedTime = time.replace('.', ':');

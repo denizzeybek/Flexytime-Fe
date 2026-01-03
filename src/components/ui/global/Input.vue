@@ -1,28 +1,33 @@
 <template>
-  <div v-click-outside="handleOutsideClick" class="flex flex-col relative" :class="[hideError && !label ? '' : 'gap-2']">
+  <div v-click-outside="handleOutsideClick" class="flex flex-col" :class="[hideError && !label ? '' : 'gap-2']">
     <label v-if="label" :for="id">{{ label }}</label>
-    <InputText
-      :id="id"
-      v-model="model"
-      :data-error="!!errorMessage"
-      :data-valid="isValid"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :unstyled="unstyled"
-      class="w-full"
-      :invalid="!!errorMessage"
-      :list="list"
-      :class="[customClass]"
-      v-bind="primeProps"
-      @focus="list ? (showOptions = true) : (showOptions = false)"
-      @input="filterOptions"
-      v-on="listeners"
-    />
-    <slot name="dataList" />
-    <ul
-      v-if="showOptions"
-      class="absolute z-50 top-full left-0 py-2 px-1 gap-2 w-full mt-1 border border-gray-200 rounded-md bg-white shadow-lg max-h-60 overflow-auto"
-    >
+    <div class="relative">
+      <component :is="icon ? IconField : 'div'">
+        <InputIcon v-if="icon" :class="[icon, errorMessage ? '!text-red-400' : '']" />
+        <InputText
+          :id="id"
+          v-model="model"
+          :data-error="!!errorMessage"
+          :data-valid="isValid"
+          :placeholder="placeholder"
+          :disabled="disabled"
+          :unstyled="unstyled"
+          class="w-full"
+          :invalid="!!errorMessage"
+          :list="list"
+          :class="[customClass]"
+          v-bind="primeProps"
+          @focus="list ? (showOptions = true) : (showOptions = false)"
+          @input="filterOptions"
+          v-on="listeners"
+        />
+      </component>
+      <slot name="dataList" />
+      <ul
+        v-if="showOptions"
+        class="absolute z-50 top-full left-0 py-2 px-1 gap-2 w-full mt-1 border border-gray-200 rounded-md bg-white shadow-lg max-h-60 overflow-auto"
+      >
+      <!-- Options list -->
       <li
         v-for="option in filteredOptions"
         :key="option"
@@ -31,9 +36,11 @@
       >
         {{ option }}
       </li>
+      <!-- No results message + Add Button -->
       <div v-if="!filteredOptions.length" class="px-3 py-2 gap-4 w-full flex flex-col">
         <FText :innerText="t('components.input.noOptionFound')" />
         <Button
+          v-if="onAddOption"
           :label="t('components.input.addButton')"
           icon="pi pi-plus"
           class="flex-1"
@@ -41,7 +48,8 @@
           @click="addNewOption"
         />
       </div>
-    </ul>
+      </ul>
+    </div>
     <small v-if="!hideError" :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
   </div>
 </template>
@@ -50,6 +58,8 @@
 import { computed, type InputHTMLAttributes, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
 import { useField } from 'vee-validate';
 
 import { type MessageSchema } from '@/plugins/i18n';
@@ -74,6 +84,7 @@ interface IProps {
   datalistOptions?: string[];
   onAddOption?: (value: string) => void | Promise<void>;
   hideError?: boolean;
+  icon?: string;
 }
 
 interface IEmits {
@@ -145,6 +156,14 @@ const handleOutsideClick = () => {
   }
 };
 
+const handleKeydown = async (e: KeyboardEvent) => {
+  if (e.key === 'Enter' && props.onAddOption && !filteredOptions.value.length && value.value?.trim()) {
+    e.preventDefault();
+    await addNewOption();
+  }
+  props.customEvents?.keydown?.(e);
+};
+
 const listeners = {
   ...props.customEvents,
   blur: (e: InputEvent) => {
@@ -165,6 +184,7 @@ const listeners = {
     props.customEvents?.focus?.(e);
     isFocused.value = true;
   },
+  keydown: handleKeydown,
 };
 </script>
 

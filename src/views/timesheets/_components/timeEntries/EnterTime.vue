@@ -48,11 +48,11 @@ import { useI18n } from 'vue-i18n';
 import dayjs from 'dayjs';
 import Card from 'primevue/card';
 import { useForm } from 'vee-validate';
-import { array, object, string } from 'yup';
+import { array, date, object, string } from 'yup';
 
 import { TimesheetApiService } from '@/client';
 import { useFToast } from '@/composables/useFToast';
-import { calculateTimeDifference } from '@/helpers/utils';
+import { calculateTimeDifferenceFromDates } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 import ManualTimeInputs from '@/views/timesheets/_components/timeEntries/_components/ManualTimeInputs.vue';
@@ -98,21 +98,21 @@ const {
 // Form validation schema
 const validationSchema = object({
   taskName: string().required().label('Task'),
-  date: string()
+  date: date()
     .when([], {
       is: () => activeLayout.value === ELayout.MANUAL,
       then: (schema) => schema.required(),
       otherwise: (schema) => schema.nullable(),
     })
     .label('Date'),
-  startTime: string()
+  startTime: date()
     .when([], {
       is: () => activeLayout.value === ELayout.MANUAL,
       then: (schema) => schema.required(),
       otherwise: (schema) => schema.nullable(),
     })
     .label('Start Time'),
-  endTime: string()
+  endTime: date()
     .when([], {
       is: () => activeLayout.value === ELayout.MANUAL,
       then: (schema) => schema.required(),
@@ -241,11 +241,12 @@ const submitHandler = handleSubmit(async (formValues) => {
     let recordDate: string;
 
     if (isManualLayout.value) {
-      const startDayjs = selectedDate.format('DD.MM.YYYY') + ' ' + formValues.startTime;
-      const endDayjs = selectedDate.format('DD.MM.YYYY') + ' ' + formValues.endTime;
-      startDateTime = startDayjs;
-      endDateTime = endDayjs;
-      recordDate = startDayjs;
+      // formValues.startTime ve endTime artık Date objesi
+      const startTimeFormatted = formValues.startTime ? dayjs(formValues.startTime).format('HH:mm') : '00:00';
+      const endTimeFormatted = formValues.endTime ? dayjs(formValues.endTime).format('HH:mm') : '00:00';
+      startDateTime = selectedDate.format('DD.MM.YYYY') + ' ' + startTimeFormatted;
+      endDateTime = selectedDate.format('DD.MM.YYYY') + ' ' + endTimeFormatted;
+      recordDate = startDateTime;
     } else {
       const now = dayjs();
       const timerStartTime = getTimerStartTime();
@@ -294,7 +295,7 @@ watch(
   [startTime, endTime],
   ([newStartTime, newEndTime]) => {
     if (newStartTime && newEndTime) {
-      timeDifference.value = calculateTimeDifference(newStartTime, newEndTime);
+      timeDifference.value = calculateTimeDifferenceFromDates(newStartTime, newEndTime);
     }
   },
   { immediate: true },
@@ -305,8 +306,8 @@ onMounted(() => {
   timeEntriesStore.fetchOptions();
   resetForm({
     values: {
-      startTime: dayjs().subtract(10, 'minute').format('HH:mm'),
-      endTime: dayjs().format('HH:mm'),
+      startTime: dayjs().subtract(10, 'minute').toDate(),
+      endTime: dayjs().toDate(),
       date: dayjs().toDate(),
     },
   });

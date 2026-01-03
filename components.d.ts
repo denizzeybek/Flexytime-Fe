@@ -43,6 +43,8 @@ declare module 'vue' {
     TabPanel: typeof import('primevue/tabpanel')['default']
     Tag: typeof import('primevue/tag')['default']
     Text: typeof import('./src/components/ui/global/Text.vue')['default']
+    TimeInput: typeof import('./src/components/ui/global/TimeInput.vue')['default']
+    TimeRange: typeof import('./src/components/ui/global/TimeRange.vue')['default']
     TreeTable: typeof import('primevue/treetable')['default']
   }
 }

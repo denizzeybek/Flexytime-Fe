@@ -9,8 +9,16 @@
       :invalid="!!errorMessage"
       :class="[customWidth]"
       v-bind="primeProps"
+      :pt="{
+        pcFilterContainer: {
+          root: {
+            onkeydown: headerAddBtn ? handleFilterKeydown : undefined,
+          },
+        },
+      }"
       @change="onSelect($event)"
       @filter="onFilter($event)"
+      @show="focusFilterInput"
       v-on="validationListeners"
     >
       <template #value="slotProps">
@@ -130,10 +138,54 @@ const onFilter = (e: SelectFilterEvent) => {
   filterValue.value = e.value;
 };
 
+const clearFilterInput = () => {
+  filterValue.value = '';
+  // PrimeVue filter input'u overlay içinde, document'tan bul
+  const filterInput = document.querySelector('.p-select-overlay .p-select-filter') as HTMLInputElement;
+  if (filterInput) {
+    filterInput.value = '';
+    // Input event dispatch et ki PrimeVue internal state'i güncellensin
+    filterInput.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+};
+
+const focusFilterInput = () => {
+  setTimeout(() => {
+    const filterInput = document.querySelector('.p-select-overlay .p-select-filter') as HTMLInputElement;
+    if (filterInput) {
+      filterInput.focus();
+    }
+  }, 0);
+};
+
+const findExistingOption = (searchText: string) => {
+  return props.options.find(
+    (opt) => opt.name.toLowerCase() === searchText.toLowerCase()
+  );
+};
+
+const selectExistingOption = (option: IOption) => {
+  value.value = option;
+  clearFilterInput();
+};
+
 const handleAddClick = () => {
   if (filterValue.value.trim()) {
-    emit('addList', filterValue.value.trim());
-    filterValue.value = '';
+    const existingOption = findExistingOption(filterValue.value.trim());
+    if (existingOption) {
+      selectExistingOption(existingOption);
+    } else {
+      emit('addList', filterValue.value.trim());
+      clearFilterInput();
+    }
+  }
+};
+
+const handleFilterKeydown = (e: KeyboardEvent) => {
+  if (e.key === 'Enter' && filterValue.value.trim()) {
+    e.preventDefault();
+    e.stopPropagation();
+    handleAddClick();
   }
 };
 </script>

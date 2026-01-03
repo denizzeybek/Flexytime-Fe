@@ -11,8 +11,16 @@
       v-bind="primeProps"
       filter
       :display="chip ? 'chip' : 'comma'"
+      :pt="{
+        pcFilterContainer: {
+          root: {
+            onkeydown: headerAddBtn ? handleFilterKeydown : undefined,
+          },
+        },
+      }"
       @change="onSelect($event)"
       @filter="onFilter($event)"
+      @show="focusFilterInput"
       v-on="validationListeners"
     >
       <template #option="slotProps">
@@ -21,7 +29,7 @@
         </div>
       </template>
       <template #chip="{ value, removeCallback }: ChipSlotProps">
-        <Tag icon="pi pi-times" severity="primary" @click="removeCallback">{{ value.name }}</Tag>
+        <Tag icon="pi pi-times" severity="primary" class="!py-0.5 !text-xs" @click="removeCallback">{{ value.name }}</Tag>
       </template>
 
       <!-- <template #chip="{ value, removeCallback }">
@@ -141,10 +149,58 @@ const onFilter = (e: MultiSelectFilterEvent) => {
   filterValue.value = e.value;
 };
 
+const clearFilterInput = () => {
+  filterValue.value = '';
+  // PrimeVue filter input'u overlay içinde, document'tan bul
+  const filterInput = document.querySelector('.p-multiselect-overlay .p-multiselect-filter') as HTMLInputElement;
+  if (filterInput) {
+    filterInput.value = '';
+    // Input event dispatch et ki PrimeVue internal state'i güncellensin
+    filterInput.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+};
+
+const focusFilterInput = () => {
+  setTimeout(() => {
+    const filterInput = document.querySelector('.p-multiselect-overlay .p-multiselect-filter') as HTMLInputElement;
+    if (filterInput) {
+      filterInput.focus();
+    }
+  }, 0);
+};
+
+const findExistingOption = (searchText: string) => {
+  return props.options.find(
+    (opt) => opt.name.toLowerCase() === searchText.toLowerCase()
+  );
+};
+
+const selectExistingOption = (option: IOption) => {
+  const currentValues = value.value || [];
+  const alreadySelected = currentValues.some((v) => v.value === option.value);
+  if (!alreadySelected) {
+    value.value = [...currentValues, option];
+  }
+  clearFilterInput();
+};
+
 const handleAddClick = () => {
   if (filterValue.value.trim()) {
-    emit('addList', filterValue.value.trim());
-    filterValue.value = '';
+    const existingOption = findExistingOption(filterValue.value.trim());
+    if (existingOption) {
+      selectExistingOption(existingOption);
+    } else {
+      emit('addList', filterValue.value.trim());
+      clearFilterInput();
+    }
+  }
+};
+
+const handleFilterKeydown = (e: KeyboardEvent) => {
+  if (e.key === 'Enter' && filterValue.value.trim()) {
+    e.preventDefault();
+    e.stopPropagation();
+    handleAddClick();
   }
 };
 </script>
