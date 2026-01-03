@@ -13,7 +13,7 @@ import Classification from '@/views/classification/_views/Classification.vue';
 import ClassificationWebAddresses from '@/views/classification/_views/WebAddresses.vue';
 // Company
 import Company from '@/views/company/_views/Company.vue';
-import OrganizationChart from '@/views/company/_views/OrganizationChartV2.vue';
+import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
 import DefaultReports from '@/views/company/_views/reports/DefaultReports.vue';
 import ElasticReports from '@/views/company/_views/reports/ElasticReports.vue';
 import Reports from '@/views/company/_views/reports/Reports.vue';
