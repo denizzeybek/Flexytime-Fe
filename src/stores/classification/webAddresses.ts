@@ -33,6 +33,7 @@ interface State {
   list: IWebAddressDTOData[];
   totalItems: number;
   loading: boolean;
+  lastQuery: DataTableQueryModel | null;
 }
 
 export const useClassificationWebAddressesStore = defineStore(
@@ -42,6 +43,7 @@ export const useClassificationWebAddressesStore = defineStore(
       list: [],
       totalItems: 0,
       loading: false,
+      lastQuery: null,
     }),
     getters: {
       isLoading: (state): boolean => state.loading,
@@ -50,6 +52,7 @@ export const useClassificationWebAddressesStore = defineStore(
       async filter(payload: DataTableQueryModel) {
         try {
           this.loading = true;
+          this.lastQuery = payload;
           // Note: Backend returns DataTable format not in OpenAPI spec
           // TODO: Update OpenAPI spec to include DTO wrapper
           const rawResponse = await CategoryApiService.categoryApiQueryWebAddresses(payload);
@@ -67,15 +70,12 @@ export const useClassificationWebAddressesStore = defineStore(
         }
       },
       async save(payload: WebAddressModifyModel) {
-        this.list = this.list.map((webAddress) => {
-          if (webAddress.ID === payload.ID) {
-            webAddress.Domain = String(payload.Domain ?? '');
-            webAddress.AlwaysOn = payload.AlwaysOn ?? false;
-          }
-          return webAddress;
-        });
+        await CategoryApiService.categoryApiSaveWebAddress(payload);
 
-        return await CategoryApiService.categoryApiSaveWebAddress(payload);
+        // Refetch data after save to get updated list from backend
+        if (this.lastQuery) {
+          await this.filter(this.lastQuery);
+        }
       },
     },
   },

@@ -32,6 +32,7 @@ interface State {
   list: IApplicationDTOData[];
   totalItems: number;
   loading: boolean;
+  lastQuery: DataTableQueryModel | null;
 }
 
 export const useClassificationApplicationsStore = defineStore(
@@ -41,6 +42,7 @@ export const useClassificationApplicationsStore = defineStore(
       list: [],
       totalItems: 0,
       loading: false,
+      lastQuery: null,
     }),
     getters: {
       isLoading: (state): boolean => state.loading,
@@ -49,6 +51,7 @@ export const useClassificationApplicationsStore = defineStore(
       async filter(payload: DataTableQueryModel) {
         try {
           this.loading = true;
+          this.lastQuery = payload;
           // Note: Backend returns DataTable format not in OpenAPI spec
           // TODO: Update OpenAPI spec to include DTO wrapper
           const rawResponse = await CategoryApiService.categoryApiQueryAllocations(payload);
@@ -66,15 +69,12 @@ export const useClassificationApplicationsStore = defineStore(
         }
       },
       async save(payload: PerformAllocationModifyModel) {
-        this.list = this.list.map((allocation) => {
-          if (allocation.ID === payload.ID) {
-            allocation.Domain = String(payload.Domain ?? '');
-            allocation.AlwaysOn = payload.AlwaysOn ?? false;
-          }
-          return allocation;
-        });
+        await CategoryApiService.categoryApiSavePerformAllocation(payload);
 
-        return await CategoryApiService.categoryApiSavePerformAllocation(payload);
+        // Refetch data after save to get updated list from backend
+        if (this.lastQuery) {
+          await this.filter(this.lastQuery);
+        }
       },
     },
   },
