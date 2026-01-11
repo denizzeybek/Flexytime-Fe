@@ -35,7 +35,7 @@ export interface IWorktimeQuery {
   teamId?: string | null;
   memberId?: string | null;
   interval: string;
-  perspective: number;
+  perspective: string;
 }
 
 // ============================================

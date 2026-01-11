@@ -174,7 +174,7 @@ const submitHandler = handleSubmit(async (values) => {
 onMounted(async () => {
   try {
     isLoading.value = true;
-    await workingHoursStore.filter();
+    await Promise.all([workingHoursStore.filter(), profileStore.fetchTimezones()]);
     const days = workingHoursStore.days.map((day) => {
       return {
         ...day,

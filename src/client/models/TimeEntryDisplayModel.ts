@@ -15,6 +15,5 @@ export type TimeEntryDisplayModel = {
     Project?: TimeProjectViewModel;
     Tags?: Array<TimeTagViewModel>;
     Ranges?: Array<TimeEntryRangeDisplayModel>;
-    Billable?: boolean;
 };
 

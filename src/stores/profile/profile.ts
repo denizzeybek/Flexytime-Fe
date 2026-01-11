@@ -4,9 +4,9 @@ import { ProfileApiService, SettingApiService } from '@/client';
 import { ERole } from '@/enums/role.enum';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { LicenseModifyViewModel } from '@/client';
 import type {
   EmployeeViewModel,
+  LicenseModifyViewModel,
   LicenseViewModel,
   ProfileModifyViewModel,
   ProfileViewModel,
@@ -101,7 +101,6 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
       this.TimeZone = data.TimeZone;
       this.LanguageCode = data.LanguageCode;
       this.IsMailSubscribe = data.IsMailSubscribe;
-      this.TimeZoneList = data.Timezones ?? [];
 
       return data;
     },
@@ -145,6 +144,12 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
 
     async changePassword(password: string) {
       return await ProfileApiService.profileApiChangePassword({ Password: password });
+    },
+
+    async fetchTimezones() {
+      const data = await ProfileApiService.profileApiGetTimezones();
+      this.TimeZoneList = data;
+      return data;
     },
   },
 });

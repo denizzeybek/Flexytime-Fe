@@ -255,7 +255,7 @@ watch(currentLanguage, (newLang) => {
 });
 
 onMounted(async () => {
-  await profileStore.filter();
+  await Promise.all([profileStore.filter(), profileStore.fetchTimezones()]);
 
   // Set initial language model
   selectedLanguageModel.value = languageOptions.find(
@@ -264,6 +264,7 @@ onMounted(async () => {
 
   // Set initial timezone model
   const timeZone = profileStore?.TimeZone;
+  console.log('timeZoneList.value ', timeZoneList.value);
   selectedTimezoneModel.value = timeZoneList.value?.find((item) => item.value === timeZone);
 
   resetForm({

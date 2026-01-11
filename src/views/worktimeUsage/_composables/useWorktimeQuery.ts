@@ -24,7 +24,7 @@ export function useWorktimeQuery() {
       teamId: route.query.teamId as string | null | undefined,
       memberId: route.query.memberId as string | null | undefined,
       interval: (route.query.interval as string) || getDefaultInterval(),
-      perspective: Number(route.query.perspective) || 0,
+      perspective: (route.query.perspective as string) || '0',
     };
   });
 
@@ -129,7 +129,7 @@ export function useWorktimeQuery() {
   /**
    * Update perspective
    */
-  const updatePerspective = async (perspective: number) => {
+  const updatePerspective = async (perspective: string) => {
     await updateQuery({ perspective });
   };
 

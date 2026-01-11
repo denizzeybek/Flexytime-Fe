@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ClockSectionRequest = {
-    Perspective?: number;
+    Perspective?: string;
     Interval?: string;
     TeamId?: string;
 };

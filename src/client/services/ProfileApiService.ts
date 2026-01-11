@@ -9,6 +9,7 @@ import type { ProfileModifyViewModel } from '../models/ProfileModifyViewModel';
 import type { ProfilePasswordViewModel } from '../models/ProfilePasswordViewModel';
 import type { ProfileTimezoneViewModel } from '../models/ProfileTimezoneViewModel';
 import type { ProfileViewModel } from '../models/ProfileViewModel';
+import type { TimeZoneViewModel } from '../models/TimeZoneViewModel';
 import type { VerifyTokenViewModel } from '../models/VerifyTokenViewModel';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -102,6 +103,16 @@ export class ProfileApiService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/webapi/profile/confirm',
+        });
+    }
+    /**
+     * @returns TimeZoneViewModel OK
+     * @throws ApiError
+     */
+    public static profileApiGetTimezones(): CancelablePromise<Array<TimeZoneViewModel>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/webapi/timezones',
         });
     }
     /**

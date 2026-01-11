@@ -69,10 +69,10 @@ const { canAccessWorktimeUsage } = useAuthorization();
 const { dateFormat } = useDateFormat();
 
 enum EPerspective {
-  TIME = 0,
-  COST = 1,
-  RATE = 2,
-  IN_SHIFT = 3,
+  TIME = '0',
+  COST = '1',
+  RATE = '2',
+  IN_SHIFT = '3',
 }
 
 const perspectiveOptions = [
