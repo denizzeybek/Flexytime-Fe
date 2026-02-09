@@ -73,8 +73,8 @@ router.beforeEach(async (to, from, next) => {
       return next({ name: ERouteNames.Login });
     }
 
-    // Skip token refresh if coming from login page (fresh token)
-    const comingFromLogin = from.name === ERouteNames.Login;
+    // Skip token refresh if coming from login or register page (fresh token)
+    const comingFromLogin = from.name === ERouteNames.Login || from.name === ERouteNames.Register;
 
     // Refresh token on each protected route access if user not authenticated
     if (!usersStore.isAuthenticated && !isRefreshing && !comingFromLogin) {

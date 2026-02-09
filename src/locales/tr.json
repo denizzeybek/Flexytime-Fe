@@ -386,6 +386,8 @@
             "name": "Ad",
             "fullName": "Ad Soyad",
             "email": "E-posta",
+            "userCount": "Kullanıcı Sayısı",
+            "month": "Periyot (Ay)",
             "createDate": "Oluşturma Tarihi",
             "lastActivityDate": "Son Aktivite Tarihi",
             "dashboardActivityDate": "Dashboard Aktivite Tarihi",
@@ -420,6 +422,10 @@
           "userPeriod": {
             "label": "Kullanıcı Periyodu",
             "placeholder": "Kullanıcı periyodunu girin"
+          },
+          "license": {
+            "label": "Lisans",
+            "placeholder": "Lisans anahtarını girin"
           },
           "messages": {
             "added": "Şirket eklendi!",

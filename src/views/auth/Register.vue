@@ -135,6 +135,7 @@ import { object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { useGoogleLogin } from '@/composables/useGoogleLogin';
+import { EGrantType } from '@/enums/grantType.enum';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { type MessageSchema } from '@/plugins/i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
@@ -179,8 +180,15 @@ const submitHandler = handleSubmit(async (values) => {
       // Note: NO Recaptcha - not required in V2
     };
 
-    // Register (will auto-login with AccessKey)
+    // Register the account
     await authStore.register(registerPayload);
+
+    // Login with the same credentials to get a proper JWT token
+    await authStore.login({
+      username: values.email,
+      password: values.password,
+      grant_type: EGrantType.PASSWORD,
+    });
 
     // Load profile to get user roles
     await profileStore.filter();
@@ -211,10 +219,9 @@ onMounted(async () => {
 
     if (!success && googleLogin.errorMessage.value) {
       showErrorMessage(googleLogin.errorMessage.value);
+      // Clear query parameters from URL only on failure
+      router.replace({ name: ERouteNames.Register });
     }
-
-    // Clear query parameters from URL
-    router.replace({ name: ERouteNames.Register });
   }
 });
 </script>

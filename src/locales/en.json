@@ -386,6 +386,8 @@
             "name": "Name",
             "fullName": "Full Name",
             "email": "Email",
+            "userCount": "User Count",
+            "month": "Period (Month)",
             "createDate": "Create Date",
             "lastActivityDate": "Last Activity Date",
             "dashboardActivityDate": "Dashboard Activity Date",
@@ -420,6 +422,10 @@
           "userPeriod": {
             "label": "User Period",
             "placeholder": "Enter user period"
+          },
+          "license": {
+            "label": "License",
+            "placeholder": "Enter license key"
           },
           "messages": {
             "added": "Company added!",

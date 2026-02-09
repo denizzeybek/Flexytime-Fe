@@ -43,10 +43,22 @@
         <FText v-else>{{ slotProps.data.Email }}</FText>
       </template>
     </Column>
+    <Column sortable field="UserCount" :header="t('pages.settings.companies.table.columns.userCount')">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.UserCount ?? '-' }}</FText>
+      </template>
+    </Column>
+    <Column sortable field="Month" :header="t('pages.settings.companies.table.columns.month')">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
+        <FText v-else>{{ slotProps.data.Month ?? '-' }}</FText>
+      </template>
+    </Column>
     <Column sortable field="CreateDate" :header="t('pages.settings.companies.table.columns.createDate')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
-        <FText v-else>{{ slotProps.data.CreateDate }}</FText>
+        <FText v-else>{{ slotProps.data.CreateDate || '-' }}</FText>
       </template>
     </Column>
     <Column field="LastActivityDate" :header="t('pages.settings.companies.table.columns.lastActivityDate')">
@@ -125,6 +137,8 @@ const filters = ref({
   Name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   Fullname: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   Email: { value: null, matchMode: FilterMatchMode.IN },
+  UserCount: { value: null, matchMode: FilterMatchMode.EQUALS },
+  Month: { value: null, matchMode: FilterMatchMode.EQUALS },
   CreateDate: { value: null, matchMode: FilterMatchMode.CONTAINS },
   LastActivityDate: { value: null, matchMode: FilterMatchMode.CONTAINS },
   DashboardActivityDate: { value: null, matchMode: FilterMatchMode.CONTAINS },

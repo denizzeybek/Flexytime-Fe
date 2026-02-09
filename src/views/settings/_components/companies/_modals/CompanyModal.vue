@@ -37,7 +37,17 @@
         />
       </div>
 
-      <div class="flex w-50 justify-center">
+      <div class="flex flex-col flex-1 gap-4">
+        <FInput
+          class="grow"
+          :label="t('pages.settings.companies.modal.license.label')"
+          name="license"
+          disabled
+          :placeholder="t('pages.settings.companies.modal.license.placeholder')"
+        />
+      </div>
+
+      <div class="flex w-full justify-center">
         <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('common.buttons.save')" />
       </div>
     </form>
@@ -72,16 +82,24 @@ const validationSchema = object({
   name: string().required().label('Company name'),
   fullname: string().required().label('Authorized Name'),
   email: string().email().required().label('Authorized Email'),
-  password: string().required().min(6).label('Password'),
+  password: string()
+    .label('Password')
+    .optional(),
   userCount: number().required().label('User Count'),
   userPeriod: number().required().label('User Period'),
-});
-
-const { handleSubmit, isSubmitting, resetForm } = useForm({
-  validationSchema,
+  license: string().optional().label('License'),
 });
 
 const open = defineModel<boolean>('open');
+
+const isEditMode = !!props.data;
+
+const { handleSubmit, isSubmitting, resetForm } = useForm({
+  validationSchema,
+  validationContext: {
+    isEditing: isEditMode,
+  },
+});
 
 const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
 
@@ -93,6 +111,7 @@ const submitHandler = handleSubmit(async (values) => {
     Password: values.password,
     UserCount: values.userCount,
     Month: values.userPeriod,
+    License: values.license,
   };
 
   if (isEditing.value && props.data?.ID) {
@@ -120,6 +139,7 @@ const getInitialFormData = () => {
     password: company.Password || '',
     userCount: company.UserCount,
     userPeriod: company.Month,
+    license: company.License || '',
   };
 };
 
@@ -139,5 +159,6 @@ watch(
       }
     }
   },
+  { immediate: true },
 );
 </script>

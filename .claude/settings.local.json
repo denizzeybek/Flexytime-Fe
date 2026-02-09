@@ -49,7 +49,12 @@
       "mcp__atlassian__atlassianUserInfo",
       "Bash(npx license-checker --summary)",
       "Bash(npx license-checker:*)",
-      "Bash(npm outdated:*)"
+      "Bash(npm outdated:*)",
+      "Bash(npx vue-tsc:*)",
+      "Read(//Users/denizzeybek/**)",
+      "Bash(source:*)",
+      "Bash(nvm use:*)",
+      "Bash(npm run type-check:*)"
     ],
     "deny": [],
     "ask": []
