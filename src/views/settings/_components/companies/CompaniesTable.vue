@@ -67,7 +67,7 @@
         <FText v-else>{{ slotProps.data.LastActivityDate || '-' }}</FText>
       </template>
     </Column>
-    <Column field="DashboardActivityDate" :header="t('pages.settings.companies.table.columns.dashboardActivityDate')">
+    <Column sortable field="DashboardActivityDate" :header="t('pages.settings.companies.table.columns.dashboardActivityDate')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
         <FText v-else>{{ slotProps.data.DashboardActivityDate || '-' }}</FText>
