@@ -92,13 +92,8 @@ const validationSchema = object({
 
 const open = defineModel<boolean>('open');
 
-const isEditMode = !!props.data;
-
 const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema,
-  validationContext: {
-    isEditing: isEditMode,
-  },
 });
 
 const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
