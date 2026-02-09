@@ -80,7 +80,10 @@ const companiesStore = useSettingsCompaniesStore();
 
 const validationSchema = object({
   name: string().required().label('Company name'),
-  fullname: string().required().label('Authorized Name'),
+  fullname: string()
+    .required()
+    .matches(/^[a-zA-ZçÇğĞıİöÖşŞüÜ\s]+$/, 'Authorized Name must contain only letters')
+    .label('Authorized Name'),
   email: string().email().required().label('Authorized Email'),
   password: string()
     .label('Password')
