@@ -7,7 +7,7 @@
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <template v-for="(field, idx) in fields" :key="field.key">
               <div class="flex flex-col gap-3">
-                <FText class="font-medium">{{ field.value.Name }}</FText>
+                <FText class="font-medium">{{ t(`pages.settings.permissions.items.${field.value.Key}`) }}</FText>
                 <div class="flex items-center gap-4">
                   <FSwitch :name="`permissions[${idx}].Enabled`" />
                   <FSelectSwitchButton

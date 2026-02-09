@@ -361,6 +361,19 @@
           "everyone": "Everyone",
           "admin": "Admin"
         },
+        "items": {
+          "mesai-ici": "Business Hours Calculation",
+          "maliyet-gosterimi": "Cost Display",
+          "detaylari-maskele": "Mask Details",
+          "konumlar": "Locations",
+          "toplantilar": "Meetings",
+          "gorusmeler": "Phone Calls",
+          "verimlilik": "Productivity",
+          "list-supervisors": "Show Group Manager",
+          "zaman-girisleri": "Time Entries",
+          "web-gecmisi": "Web History",
+          "calisan-refahi": "Wellbeing"
+        },
         "messages": {
           "updated": "Permissions updated!"
         }

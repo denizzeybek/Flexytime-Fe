@@ -141,25 +141,25 @@ const toggleAllRows = () => {
 </script>
 
 <style scoped>
-.time-management-table :deep(.p-treetable-thead > tr > th) {
+.time-management-table::v-deep .p-treetable-thead > tr > th {
   background: #f8fafc;
   border-bottom: 2px solid #e2e8f0;
 }
 
-.time-management-table :deep(.p-treetable-tbody > tr) {
+.time-management-table::v-deep .p-treetable-tbody > tr {
   transition: background-color 0.2s;
 }
 
-.time-management-table :deep(.p-treetable-tbody > tr:hover) {
+.time-management-table::v-deep .p-treetable-tbody > tr:hover {
   background: #f1f5f9;
 }
 
-.time-management-table :deep(.p-treetable-tbody > tr > td) {
+.time-management-table::v-deep .p-treetable-tbody > tr > td {
   padding: 1rem;
   text-align: center;
 }
 
-.time-management-table :deep(.p-treetable-tbody > tr > td:first-child) {
+.time-management-table::v-deep .p-treetable-tbody > tr > td:first-child {
   text-align: left;
 }
 </style>

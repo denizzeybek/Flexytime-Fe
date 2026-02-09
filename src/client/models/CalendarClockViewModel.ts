@@ -6,5 +6,6 @@ export type CalendarClockViewModel = {
     title?: string;
     start?: string;
     end?: string;
+    meetLink?: string;
 };
 

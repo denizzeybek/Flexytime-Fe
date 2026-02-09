@@ -269,8 +269,8 @@ const submitHandler = handleSubmit(async (formValues) => {
     const task = formValues.taskName ? await getOrCreateTask(formValues.taskName) : undefined;
 
     const timeValue = isManualLayout.value
-      ? (timeDifference.value ? timeDifference.value + ':00' : '00:00:00:00')
-      : formatElapsedTimeForPayload(elapsedTime.value) + ':00';
+      ? (timeDifference.value ? timeDifference.value + ':00' : '00:00:00')
+      : formatElapsedTimeForPayload(elapsedTime.value);
 
     const payload: TimeEntryPayload = {
       Task: task,

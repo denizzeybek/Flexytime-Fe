@@ -40,7 +40,6 @@ declare module 'vue' {
     Skeleton: typeof import('primevue/skeleton')['default']
     SuccessToast: typeof import('./src/components/ui/global/SuccessToast.vue')['default']
     Switch: typeof import('./src/components/ui/global/Switch.vue')['default']
-    TabPanel: typeof import('primevue/tabpanel')['default']
     Tag: typeof import('primevue/tag')['default']
     Text: typeof import('./src/components/ui/global/Text.vue')['default']
     TimeInput: typeof import('./src/components/ui/global/TimeInput.vue')['default']

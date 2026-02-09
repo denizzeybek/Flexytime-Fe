@@ -46,7 +46,10 @@
       "WebFetch(domain:www.syncfusion.com)",
       "WebFetch(domain:vueflow.dev)",
       "mcp__atlassian__search",
-      "mcp__atlassian__atlassianUserInfo"
+      "mcp__atlassian__atlassianUserInfo",
+      "Bash(npx license-checker --summary)",
+      "Bash(npx license-checker:*)",
+      "Bash(npm outdated:*)"
     ],
     "deny": [],
     "ask": []

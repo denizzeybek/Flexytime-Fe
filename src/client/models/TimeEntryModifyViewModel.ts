@@ -13,5 +13,6 @@ export type TimeEntryModifyViewModel = {
     Billable?: boolean;
     StartDate: string;
     EndDate?: string;
+    time?: string;
 };
 

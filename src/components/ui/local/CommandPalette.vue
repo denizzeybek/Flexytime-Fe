@@ -251,11 +251,11 @@ defineExpose({
 </script>
 
 <style scoped>
-.command-palette-dialog :deep(.p-dialog-mask) {
+.command-palette-dialog::v-deep .p-dialog-mask {
   backdrop-filter: blur(4px);
 }
 
-.command-palette-dialog :deep(.p-dialog) {
+.command-palette-dialog::v-deep .p-dialog {
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 

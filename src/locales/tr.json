@@ -361,6 +361,19 @@
           "everyone": "Herkes",
           "admin": "Yönetici"
         },
+        "items": {
+          "mesai-ici": "Mesai İçi Hesaplama",
+          "maliyet-gosterimi": "Maliyet Gösterimi",
+          "detaylari-maskele": "Detayları Maskele",
+          "konumlar": "Konumlar",
+          "toplantilar": "Toplantılar",
+          "gorusmeler": "Görüşmeler",
+          "verimlilik": "Verimlilik",
+          "list-supervisors": "Grup Yöneticisini Göster",
+          "zaman-girisleri": "Zaman Girişleri",
+          "web-gecmisi": "Web Geçmişi",
+          "calisan-refahi": "Çalışan Refahı"
+        },
         "messages": {
           "updated": "İzinler güncellendi!"
         }

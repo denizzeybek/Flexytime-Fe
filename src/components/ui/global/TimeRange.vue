@@ -89,7 +89,7 @@ const errorMessage = computed(() => {
   width: 50px;
 }
 
-.f-time-picker-minimal :deep(.p-datepicker-input) {
+.f-time-picker-minimal::v-deep .p-datepicker-input {
   border: none !important;
   background: transparent !important;
   padding: 0 !important;
@@ -98,7 +98,7 @@ const errorMessage = computed(() => {
   box-shadow: none !important;
 }
 
-.f-time-picker-minimal :deep(.p-datepicker-input:focus) {
+.f-time-picker-minimal::v-deep .p-datepicker-input:focus {
   outline: none !important;
   box-shadow: none !important;
 }

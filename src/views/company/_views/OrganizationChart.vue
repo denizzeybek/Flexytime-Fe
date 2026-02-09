@@ -313,17 +313,17 @@ onMounted(() => {
   gap: 0.5rem;
 }
 
-:deep(.vue-tree-dnd) {
+::v-deep .vue-tree-dnd {
   width: 100%;
 }
 
-:deep(.vue-tree-dnd-item) {
+::v-deep .vue-tree-dnd-item {
   width: 100%;
   margin-left: 0 !important;
   padding-left: 0 !important;
 }
 
-:deep(.vue-tree-dnd-children) {
+::v-deep .vue-tree-dnd-children {
   width: 100%;
   margin-left: 0 !important;
   padding-left: 0 !important;
