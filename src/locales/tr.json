@@ -449,7 +449,13 @@
         "label": "Windows"
       },
       "macos": {
-        "label": "Macos"
+        "label": "Macos",
+        "step1": "İndirilen dosyadan uygulamayı kurun",
+        "step2": "Şirket anahtarı otomatik olarak yapıştırılacak",
+        "step3": "Erişilebilirlik ve Ekran Kaydı izinlerini verin",
+        "keyCopied": "Şirket anahtarı kopyalandı! Uygulamayı açtığınızda otomatik yapıştırılacak.",
+        "copyKeyLabel": "Anahtarı Kopyala",
+        "manualHint": "Anahtar otomatik yapıştırılmazsa, buraya tıklayarak manuel kopyalayın."
       },
       "downloadButton": "İndir",
       "imageAlt": "flexy mac"

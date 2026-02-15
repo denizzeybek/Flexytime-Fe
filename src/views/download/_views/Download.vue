@@ -36,18 +36,38 @@
               size="large"
               :label="t('pages.download.downloadButton')"
               class="flex-1 w-full"
-              @click="onDownloadButtonClicked(isMacos)"
+              @click="handleDownload"
             />
             <Button
               v-if="isMacos"
               class="flex-1 w-full"
-              :icon="isCopied ? 'pi pi-check' : ''"
+              :icon="isCopied ? 'pi pi-check' : 'pi pi-copy'"
               severity="warn"
               size="large"
-              :label="downloadsStore.ServiceKey"
+              :label="isCopied ? downloadsStore.ServiceKey : t('pages.download.macos.copyKeyLabel')"
               @click="copyDownloadKeyText"
             />
           </div>
+
+          <!-- macOS setup steps (shown after download starts) -->
+          <div v-if="isMacos" class="w-full flex flex-col gap-3 mt-2">
+            <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+              <span class="flex items-center justify-center w-7 h-7 rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">1</span>
+              <span class="text-sm">{{ t('pages.download.macos.step1') }}</span>
+            </div>
+            <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+              <span class="flex items-center justify-center w-7 h-7 rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">2</span>
+              <span class="text-sm">{{ t('pages.download.macos.step2') }}</span>
+            </div>
+            <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+              <span class="flex items-center justify-center w-7 h-7 rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">3</span>
+              <span class="text-sm">{{ t('pages.download.macos.step3') }}</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1 cursor-pointer hover:text-gray-600" @click="copyDownloadKeyText">
+              {{ t('pages.download.macos.manualHint') }}
+            </p>
+          </div>
+
           <template v-if="isWizard">
             <div class="w-full flex justify-end">
               <slot name="skipBtn"/>
@@ -82,7 +102,7 @@ interface IProps {
 defineProps<IProps>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
-const { showErrorMessage } = useFToast();
+const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const downloadsStore = useSettingsDownloadsStore();
 const { findActiveComputer, onDownloadButtonClicked } = useDownloadApp();
@@ -105,6 +125,20 @@ const copyDownloadKeyText = () => {
     showErrorMessage(t('common.errors.generic'));
     isCopied.value = false;
   }
+};
+
+const handleDownload = () => {
+  if (isMacos.value) {
+    try {
+      copyToClipboard(downloadsStore.ServiceKey);
+      showSuccessMessage(t('pages.download.macos.keyCopied'));
+      isCopied.value = true;
+      setTimeout(() => { isCopied.value = false; }, 2000);
+    } catch {
+      // Download still proceeds even if copy fails
+    }
+  }
+  onDownloadButtonClicked(isMacos.value);
 };
 
 onMounted(async () => {

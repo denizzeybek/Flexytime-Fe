@@ -449,7 +449,13 @@
         "label": "Windows"
       },
       "macos": {
-        "label": "Macos"
+        "label": "Macos",
+        "step1": "Install the app from the downloaded file",
+        "step2": "The service key will be pasted automatically",
+        "step3": "Grant Accessibility and Screen Recording permissions",
+        "keyCopied": "Service key copied! It will be pasted automatically when you open the app.",
+        "copyKeyLabel": "Copy Service Key",
+        "manualHint": "If the key is not auto-filled, click here to copy it manually."
       },
       "downloadButton": "Download",
       "imageAlt": "flexy mac"
