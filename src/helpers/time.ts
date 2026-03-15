@@ -19,11 +19,23 @@ export interface IParsedDuration {
 }
 
 /**
+ * Check if a string is a valid time format
+ * Valid formats: "HH:MM", "HH:MM:SS", "DD.HH:MM"
+ */
+export const isTimeFormat = (value: string): boolean => {
+  if (!value || typeof value !== 'string') return false;
+  // Must contain ":" to be a time format, or "." for day.time format
+  return value.includes(':') || (value.includes('.') && /^\d+\.\d+:\d+/.test(value));
+};
+
+/**
  * Parse time string in format "DD.HH:MM" or "HH:MM" or "HH:MM:SS"
+ * Also handles plain numbers (treated as minutes)
  * Examples:
  * - "109.23:27" = 109 days, 23 hours, 27 minutes
  * - "08:05" = 8 hours, 5 minutes (or 8 minutes, 5 seconds depending on context)
  * - "23:27" = 23 hours, 27 minutes
+ * - "123" = 123 minutes (plain number)
  */
 export const parseDuration = (timeString: string): IParsedDuration => {
   if (!timeString) {
@@ -34,6 +46,18 @@ export const parseDuration = (timeString: string): IParsedDuration => {
   let hours = 0;
   let minutes = 0;
   let seconds = 0;
+
+  // Check if it's a plain number (not a time format)
+  if (!isTimeFormat(timeString)) {
+    // Treat as total minutes
+    const totalMins = parseInt(timeString, 10) || 0;
+    days = Math.floor(totalMins / (24 * 60));
+    const remainingAfterDays = totalMins % (24 * 60);
+    hours = Math.floor(remainingAfterDays / 60);
+    minutes = remainingAfterDays % 60;
+
+    return { days, hours, minutes, seconds: 0, totalMinutes: totalMins };
+  }
 
   // Check if format includes days (DD.HH:MM)
   if (timeString.includes('.')) {

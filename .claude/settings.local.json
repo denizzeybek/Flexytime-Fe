@@ -61,7 +61,7 @@
       "Bash(xargs:*)",
       "Bash(curl:*)",
       "Bash(python3 -c \"import sys,json; d=json.load(sys.stdin); print(f''''recordsTotal: {d.get(\"\"DTO\"\",{}).get(\"\"recordsTotal\"\",\"\"N/A\"\")}''''); print(f''''data count: {len(d.get(\"\"DTO\"\",{}).get(\"\"data\"\",[]))}'''')\")",
-      "Bash(git commit:*)"
+      "Bash(__NEW_LINE__ cat /tmp/all_keys.txt)"
     ],
     "deny": [],
     "ask": []

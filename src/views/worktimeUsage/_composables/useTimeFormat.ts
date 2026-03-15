@@ -6,7 +6,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { formatShortTime, formatTimeString, type ITimeUnits } from '@/helpers/time';
+import { formatShortTime, formatTimeString, isTimeFormat, type ITimeUnits } from '@/helpers/time';
 import { type MessageSchema } from '@/plugins/i18n';
 
 export const useTimeFormat = () => {
@@ -23,9 +23,17 @@ export const useTimeFormat = () => {
   /**
    * Format duration time string (e.g., "109.23:27" -> "109d 23h 27m")
    * For work/leisure/meeting durations
+   * If the value is already formatted (e.g., "0 ₺", "50%"), return as-is
    */
   const formatDuration = (time: string | undefined): string => {
     if (!time || time === '-') return '-';
+
+    // If it's not a time format (contains currency, % or other non-time chars),
+    // return as-is since it's already formatted by the backend
+    if (!isTimeFormat(time) && !/^\d+$/.test(time)) {
+      return time;
+    }
+
     return formatTimeString(time, timeUnits.value);
   };
 
