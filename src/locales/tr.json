@@ -777,6 +777,9 @@
         }
       },
       "organizationChart": {
+        "title": "Organizasyon Şeması",
+        "selectedCount": "{count} seçildi",
+        "emptyState": "Henüz organizasyon yapısı tanımlanmamış",
         "header": {
           "teamName": "Ekip Adı",
           "memberName": "Üye Adı",
@@ -1335,7 +1338,15 @@
       "delete": "Sil",
       "edit": "Düzenle",
       "yes": "Evet",
-      "no": "Hayır"
+      "no": "Hayır",
+      "clearSelection": "Seçimi Temizle",
+      "expandAll": "Tümünü Genişlet",
+      "collapseAll": "Tümünü Daralt",
+      "zoom": "Yakınlaştır",
+      "resetZoom": "Yakınlaştırmayı Sıfırla"
+    },
+    "labels": {
+      "unsavedChanges": "Kaydedilmemiş Değişiklikler"
     },
     "actions": {
       "edit": "Düzenle",

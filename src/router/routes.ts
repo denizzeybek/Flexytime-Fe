@@ -14,6 +14,7 @@ import ClassificationWebAddresses from '@/views/classification/_views/WebAddress
 // Company
 import Company from '@/views/company/_views/Company.vue';
 import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
+import OrganizationChartV2 from '@/views/company/_views/OrganizationChartV2.vue';
 import DefaultReports from '@/views/company/_views/reports/DefaultReports.vue';
 import ElasticReports from '@/views/company/_views/reports/ElasticReports.vue';
 import Reports from '@/views/company/_views/reports/Reports.vue';
@@ -220,6 +221,15 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.CompanyOrganizationChart,
           name: ERouteNames.CompanyOrganizationChart,
+        },
+      },
+      {
+        path: '/organization-chart-v2',
+        name: ERouteNames.CompanyOrganizationChartV2,
+        component: OrganizationChartV2,
+        meta: {
+          title: ERouteNames.CompanyOrganizationChartV2,
+          name: ERouteNames.CompanyOrganizationChartV2,
         },
       },
       {

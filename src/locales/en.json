@@ -777,6 +777,9 @@
         }
       },
       "organizationChart": {
+        "title": "Organization Chart",
+        "selectedCount": "{count} selected",
+        "emptyState": "No organization structure defined yet",
         "header": {
           "teamName": "Team Name",
           "memberName": "Member Name",
@@ -1335,7 +1338,15 @@
       "delete": "Delete",
       "edit": "Edit",
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "clearSelection": "Clear Selection",
+      "expandAll": "Expand All",
+      "collapseAll": "Collapse All",
+      "zoom": "Zoom",
+      "resetZoom": "Reset Zoom"
+    },
+    "labels": {
+      "unsavedChanges": "Unsaved Changes"
     },
     "actions": {
       "edit": "Edit",

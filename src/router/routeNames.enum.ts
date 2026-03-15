@@ -40,6 +40,7 @@ export enum ERouteNames {
   // Company
   Company = 'Company',
   CompanyOrganizationChart = 'Organization Chart',
+  CompanyOrganizationChartV2 = 'Organization Chart V2',
   CompanyWorkingHours = 'Working Hours',
   CompanyReports = 'Reports',
   CompanyReportsElastic = 'Elastic Reports',

@@ -202,7 +202,7 @@ const menuItems = computed(() => {
       {
         label: t('pages.layouts.navbar.organizationChart'),
         icon: 'pi pi-sitemap',
-        route: ERouteNames.CompanyOrganizationChart,
+        route: ERouteNames.CompanyOrganizationChartV2,
         isChild: true,
       },
       {
