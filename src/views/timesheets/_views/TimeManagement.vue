@@ -90,7 +90,7 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const timeManagementsStore = useTimesheetsTimeManagementsStore();
 
 const validationSchema = object({
-  date: array().label('Date').of(string()),
+  date: array().label(t('common.validation.fields.date')).of(string()),
 });
 
 const { resetForm, defineField } = useForm({

@@ -146,9 +146,9 @@ const profileStore = useProfileStore();
 const { currentLanguage, changeLanguage, getLanguageOptions } = useLanguage();
 
 const validationSchema = object({
-  fullName: string().required().label('Full Name'),
-  email: string().required().email().label('Email'),
-  role: string().label('Role'),
+  fullName: string().required().label(t('pages.profile.basic.fullName.label')),
+  email: string().required().email().label(t('pages.profile.basic.email.label')),
+  role: string().label(t('pages.profile.basic.role.label')),
 });
 
 const { handleSubmit, isSubmitting, resetForm } = useForm({

@@ -140,7 +140,7 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const { showErrorMessage, showSuccessMessage } = useFToast();
 
 const validationSchema = object({
-  email: string().required().email().label('Email'),
+  email: string().required().email().label(t('pages.auth.forgotPassword.form.email.label')),
 });
 
 const { handleSubmit, isSubmitting, values } = useForm({

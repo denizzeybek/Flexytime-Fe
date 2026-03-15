@@ -42,12 +42,12 @@ const { showSuccessMessage, showErrorMessage } = useFToast();
 const profileStore = useProfileStore();
 
 const validationSchema = object({
-  password: string().required().min(6).label('Password'),
+  password: string().required().min(6).label(t('pages.profile.password.password.label')),
   repeatPassword: string()
     .oneOf([yupRef('password')], t('pages.profile.password.validation.passwordsMustMatch'))
     .required()
     .min(6)
-    .label('Repeat Password'),
+    .label(t('pages.profile.password.repeatPassword.label')),
 });
 
 const { handleSubmit, isSubmitting, resetForm } = useForm({

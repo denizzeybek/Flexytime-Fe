@@ -4,6 +4,8 @@
     "auth": {
       "login": {
         "title": "Giriş",
+        "subtitle": "Tekrar hoş geldiniz! Lütfen bilgilerinizi girin.",
+        "termsAndPrivacy": "Devam ederek Kullanım Şartları ve Gizlilik Politikasını kabul etmiş olursunuz",
         "form": {
           "email": {
             "label": "E-posta",
@@ -69,10 +71,15 @@
           "success": "Şifre başarıyla sıfırlandı! Artık yeni şifrenizle giriş yapabilirsiniz.",
           "invalidLink": "Geçersiz veya süresi dolmuş bağlantı. Lütfen yeni bir şifre sıfırlama isteği gönderin."
         },
+        "validation": {
+          "passwordsMustMatch": "Şifreler eşleşmelidir"
+        },
         "backToLogin": "Giriş Sayfasına Dön"
       },
       "register": {
         "title": "Ücretsiz Hesap Oluşturun",
+        "subtitle": "Başlamak için hesabınızı oluşturun",
+        "termsAndPrivacy": "Devam ederek Kullanım Şartları ve Gizlilik Politikasını kabul etmiş olursunuz",
         "googleLogin": "Google ile Giriş Yap",
         "orRegister": "veya e-posta ile kayıt olun",
         "form": {
@@ -414,6 +421,9 @@
         "modal": {
           "addTitle": "Şirket Ekle",
           "updateTitle": "Şirket Güncelle",
+          "validation": {
+            "authorizedNameLettersOnly": "Yetkili adı yalnızca harflerden oluşmalıdır"
+          },
           "companyName": {
             "label": "Şirket Adı",
             "placeholder": "Şirket adını girin"
@@ -1255,6 +1265,7 @@
     }
   },
   "common": {
+    "notAvailable": "Yok",
     "noDataAvailable": "Gösterilecek veri yok.",
     "dates": {
       "today": "Bugün",

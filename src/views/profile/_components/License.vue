@@ -85,7 +85,7 @@ const profileStore = useProfileStore();
 const router = useRouter();
 
 const validationSchema = object({
-  licenseKey: string().required().label('License Key'),
+  licenseKey: string().required().label(t('pages.profile.license.licenseKey.label')),
 });
 
 const { handleSubmit, isSubmitting, resetForm } = useForm({

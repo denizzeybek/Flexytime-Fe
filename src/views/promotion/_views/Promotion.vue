@@ -87,10 +87,10 @@ const promotionsStore = usePromotionsStore();
 
 const validationSchema = object({
   emails: array()
-    .label('Email')
-    .of(string().email('Please enter a valid email address.').required('Email is required.'))
-    .required('Please add at least one email.')
-    .min(1, 'Please add at least one email.'),
+    .label(t('common.validation.fields.email'))
+    .of(string().email(t('components.emailList.invalidEmail')).required(t('components.emailList.required', { field: t('common.validation.fields.email') })))
+    .required(t('common.validation.array.min', { field: t('common.validation.fields.emails'), min: 1 }))
+    .min(1, t('common.validation.array.min', { field: t('common.validation.fields.emails'), min: 1 })),
 });
 
 const { handleSubmit, isSubmitting, resetForm } = useForm({

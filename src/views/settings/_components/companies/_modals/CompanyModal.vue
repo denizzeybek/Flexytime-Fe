@@ -79,18 +79,18 @@ const { executeWithFeedback } = useOperationFeedback({ showLoading: false });
 const companiesStore = useSettingsCompaniesStore();
 
 const validationSchema = object({
-  name: string().required().label('Company name'),
+  name: string().required().label(t('pages.settings.companies.modal.companyName.label')),
   fullname: string()
     .required()
-    .matches(/^[a-zA-ZçÇğĞıİöÖşŞüÜ\s]+$/, 'Authorized Name must contain only letters')
-    .label('Authorized Name'),
-  email: string().email().required().label('Authorized Email'),
+    .matches(/^[a-zA-ZçÇğĞıİöÖşŞüÜ\s]+$/, t('pages.settings.companies.modal.validation.authorizedNameLettersOnly'))
+    .label(t('pages.settings.companies.modal.authorizedName.label')),
+  email: string().email().required().label(t('pages.settings.companies.modal.authorizedEmail.label')),
   password: string()
-    .label('Password')
+    .label(t('pages.settings.companies.modal.password.label'))
     .optional(),
-  userCount: number().required().label('User Count'),
-  userPeriod: number().required().label('User Period'),
-  license: string().optional().label('License'),
+  userCount: number().required().label(t('pages.settings.companies.modal.userCount.label')),
+  userPeriod: number().required().label(t('pages.settings.companies.modal.userPeriod.label')),
+  license: string().optional().label(t('pages.settings.companies.modal.license.label')),
 });
 
 const open = defineModel<boolean>('open');

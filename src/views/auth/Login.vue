@@ -23,7 +23,7 @@
               {{ $t('pages.auth.login.title') }}
             </h1>
             <p class="text-sm text-slate-600">
-              Welcome back! Please enter your details.
+              {{ $t('pages.auth.login.subtitle') }}
             </p>
           </div>
 
@@ -109,7 +109,7 @@
 
         <!-- Footer Text -->
         <p class="mt-4 text-center text-xs text-slate-500">
-          By continuing, you agree to our Terms of Service and Privacy Policy
+          {{ $t('pages.auth.login.termsAndPrivacy') }}
         </p>
       </div>
     </div>
@@ -118,6 +118,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useForm } from 'vee-validate';
@@ -127,6 +128,7 @@ import { useFToast } from '@/composables/useFToast';
 import { useGoogleLogin } from '@/composables/useGoogleLogin';
 import { EGrantType } from '@/enums/grantType.enum';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
+import { type MessageSchema } from '@/plugins/i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useAuthStore } from '@/stores/auth';
 import { useProfileStore } from '@/stores/profile/profile';
@@ -135,6 +137,7 @@ import GoogleCallbackLoader from '@/views/auth/_components/GoogleCallbackLoader.
 
 const route = useRoute();
 const router = useRouter();
+const { t } = useI18n<{ message: MessageSchema }>();
 const authStore = useAuthStore();
 const profileStore = useProfileStore();
 // const commonUsersStore = useCommonUsersStore();
@@ -142,8 +145,8 @@ const { showErrorMessage } = useFToast();
 const googleLogin = useGoogleLogin();
 
 const validationSchema = object({
-  email: string().email().required().label('Email'),
-  password: string().required().label('Password'),
+  email: string().email().required().label(t('pages.auth.login.form.email.label')),
+  password: string().required().label(t('pages.auth.login.form.password.label')),
 });
 
 const { handleSubmit, isSubmitting } = useForm({

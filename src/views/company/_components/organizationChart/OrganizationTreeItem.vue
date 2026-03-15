@@ -15,7 +15,7 @@
 
       <!-- Avatar -->
       <FAvatar
-        :label="item.title || item.Name || 'N/A'"
+        :label="item.title || item.Name || t('common.notAvailable')"
         :size="depth === 0 ? 'large' : 'normal'"
         class="flex-shrink-0"
       />

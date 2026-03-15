@@ -87,16 +87,16 @@ const open = defineModel<boolean>('open');
 const validationSchema = object({
   employeeName: object()
     .shape({
-      name: string().label('Name'),
-      value: string().label('Value'),
+      name: string().label(t('common.validation.fields.name')),
+      value: string().label(t('common.validation.fields.value')),
     })
     .required()
-    .label('Employee Name'),
-  leaveType: string().required().label('Employee name'),
-  startFullDay: boolean().label('Start time all day'),
-  startDate: string().required().label('Start date'),
-  endFullDay: boolean().label('End time all day'),
-  endDate: string().required().label('End date'),
+    .label(t('pages.hrSettings.annuals.modal.employeeName.label')),
+  leaveType: string().required().label(t('pages.hrSettings.annuals.modal.leaveType.label')),
+  startFullDay: boolean().label(t('pages.hrSettings.annuals.modal.allDay.label')),
+  startDate: string().required().label(t('pages.hrSettings.annuals.modal.startDate.label')),
+  endFullDay: boolean().label(t('pages.hrSettings.annuals.modal.allDay.label')),
+  endDate: string().required().label(t('pages.hrSettings.annuals.modal.endDate.label')),
 });
 
 const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({

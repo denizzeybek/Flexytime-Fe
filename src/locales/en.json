@@ -4,6 +4,8 @@
     "auth": {
       "login": {
         "title": "Login",
+        "subtitle": "Welcome back! Please enter your details.",
+        "termsAndPrivacy": "By continuing, you agree to our Terms of Service and Privacy Policy",
         "form": {
           "email": {
             "label": "Email",
@@ -69,10 +71,15 @@
           "success": "Password reset successfully! You can now login with your new password.",
           "invalidLink": "Invalid or expired reset link. Please request a new password reset."
         },
+        "validation": {
+          "passwordsMustMatch": "Passwords must match"
+        },
         "backToLogin": "Back to Login"
       },
       "register": {
         "title": "Create a Free Account",
+        "subtitle": "Create your account to get started",
+        "termsAndPrivacy": "By continuing, you agree to our Terms of Service and Privacy Policy",
         "googleLogin": "Login with Google",
         "orRegister": "or register with your email",
         "form": {
@@ -414,6 +421,9 @@
         "modal": {
           "addTitle": "Add Company",
           "updateTitle": "Update Company",
+          "validation": {
+            "authorizedNameLettersOnly": "Authorized Name must contain only letters"
+          },
           "companyName": {
             "label": "Company Name",
             "placeholder": "Enter company name"
@@ -1255,6 +1265,7 @@
     }
   },
   "common": {
+    "notAvailable": "N/A",
     "noDataAvailable": "No data available.",
     "dates": {
       "today": "Today",

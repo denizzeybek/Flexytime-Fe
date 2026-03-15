@@ -91,15 +91,15 @@ const timeEntriesStore = useTimesheetsTimeEntriesStore();
 const { formatSpendTime } = useUnclassifiedDomainHelpers();
 
 const validationSchema = object({
-  selectAll: boolean().nullable().label('Select All'),
+  selectAll: boolean().nullable(),
   timeClocks: array().of(
     object().shape({
       Clocks: array().of(
         object().shape({
-          Selected: boolean().nullable().label('Selected'),
+          Selected: boolean().nullable(),
           Details: array().of(
             object().shape({
-              Selected: boolean().nullable().label('Selected'),
+              Selected: boolean().nullable(),
             }),
           ),
         }),

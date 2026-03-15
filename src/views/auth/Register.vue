@@ -20,7 +20,7 @@
               {{ $t('pages.auth.register.title') }}
             </h1>
             <p class="text-sm text-slate-600">
-              Create your account to get started
+              {{ $t('pages.auth.register.subtitle') }}
             </p>
           </div>
 
@@ -118,7 +118,7 @@
 
         <!-- Footer Text -->
         <p class="mt-4 text-center text-xs text-slate-500">
-          By continuing, you agree to our Terms of Service and Privacy Policy
+          {{ $t('pages.auth.register.termsAndPrivacy') }}
         </p>
       </div>
     </div>
@@ -154,10 +154,10 @@ const googleLogin = useGoogleLogin();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const validationSchema = object({
-  companyName: string().required().label('Company Name'),
-  fullName: string().required().label('Full Name'),
-  email: string().email().required().label('Email'),
-  password: string().required().label('Password'),
+  companyName: string().required().label(t('pages.auth.register.form.companyName.label')),
+  fullName: string().required().label(t('pages.auth.register.form.fullName.label')),
+  email: string().email().required().label(t('pages.auth.register.form.email.label')),
+  password: string().required().label(t('pages.auth.register.form.password.label')),
 });
 
 const { handleSubmit, isSubmitting } = useForm({

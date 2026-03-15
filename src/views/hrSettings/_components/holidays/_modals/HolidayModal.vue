@@ -79,12 +79,12 @@ const holidaysStore = useHRSettingsHolidaysStore();
 const open = defineModel<boolean>('open');
 
 const validationSchema = object({
-  name: string().required().label('Holiday Name'),
-  startFullDay: boolean().label('Start time all day'),
-  startDate: string().required().label('Start date'),
-  endFullDay: boolean().label('End time all day'),
-  endDate: string().required().label('End date'),
-  repeat: boolean().label('Repeat every year'),
+  name: string().required().label(t('pages.hrSettings.holidays.modal.nameLabel')),
+  startFullDay: boolean().label(t('pages.hrSettings.holidays.modal.allDay')),
+  startDate: string().required().label(t('pages.hrSettings.holidays.modal.startDateLabel')),
+  endFullDay: boolean().label(t('pages.hrSettings.holidays.modal.allDay')),
+  endDate: string().required().label(t('pages.hrSettings.holidays.modal.endDateLabel')),
+  repeat: boolean().label(t('pages.hrSettings.holidays.modal.repeatYearly')),
 });
 
 const { handleSubmit, isSubmitting, resetForm, defineField } = useForm({

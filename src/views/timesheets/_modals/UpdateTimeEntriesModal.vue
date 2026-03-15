@@ -107,40 +107,40 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const validationSchema = object({
-  timeEntry: string().required().label('Time entry'),
+  timeEntry: string().required().label(t('common.validation.fields.task')),
   date: string()
     .when([], {
       is: () => activeLayout.value === ELayout.MANUAL,
       then: (schema) => schema.required(),
       otherwise: (schema) => schema.nullable(),
     })
-    .label('Date'),
+    .label(t('common.validation.fields.date')),
   startTime: string()
     .when([], {
       is: () => activeLayout.value === ELayout.MANUAL,
       then: (schema) => schema.required(),
       otherwise: (schema) => schema.nullable(),
     })
-    .label('Start Time'),
+    .label(t('common.validation.fields.startTime')),
   endTime: string()
     .when([], {
       is: () => activeLayout.value === ELayout.MANUAL,
       then: (schema) => schema.required(),
       otherwise: (schema) => schema.nullable(),
     })
-    .label('End Time'),
+    .label(t('common.validation.fields.endTime')),
   project: object()
     .shape({
-      name: string().label('Name'),
-      value: string().label('Value'),
+      name: string().label(t('common.validation.fields.name')),
+      value: string().label(t('common.validation.fields.value')),
     })
-    .label('Project'),
+    .label(t('common.validation.fields.project')),
   tags: array()
-    .label('Tags')
+    .label(t('common.validation.fields.tags'))
     .of(
       object().shape({
-        name: string().required().label('Name'),
-        value: string().required().label('Value'),
+        name: string().required().label(t('common.validation.fields.name')),
+        value: string().required().label(t('common.validation.fields.value')),
       }),
     ),
 });

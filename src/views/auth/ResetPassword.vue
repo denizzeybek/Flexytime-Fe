@@ -112,11 +112,11 @@ const router = useRouter();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
 const validationSchema = object({
-  password: string().required().min(6).label('Password'),
+  password: string().required().min(6).label(t('pages.auth.resetPassword.form.password.label')),
   confirmPassword: string()
     .required()
-    .oneOf([yupRef('password')], 'Passwords must match')
-    .label('Confirm Password'),
+    .oneOf([yupRef('password')], t('pages.auth.resetPassword.validation.passwordsMustMatch'))
+    .label(t('pages.auth.resetPassword.form.confirmPassword.label')),
 });
 
 const { handleSubmit, isSubmitting } = useForm({
