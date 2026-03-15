@@ -1,5 +1,9 @@
 {
   "language": "Dil",
+  "languages": {
+    "en": "English",
+    "tr": "Türkçe"
+  },
   "pages": {
     "auth": {
       "login": {
@@ -516,6 +520,10 @@
         "layoutButtons": {
           "timer": "Zamanlayıcı",
           "manual": "Manuel"
+        },
+        "billable": {
+          "billable": "Faturalanabilir",
+          "nonBillable": "Faturalanmaz"
         },
         "messages": {
           "success": "Zaman kaydı girildi!"

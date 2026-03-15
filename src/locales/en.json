@@ -1,5 +1,9 @@
 {
   "language": "Language",
+  "languages": {
+    "en": "English",
+    "tr": "Türkçe"
+  },
   "pages": {
     "auth": {
       "login": {
@@ -516,6 +520,10 @@
         "layoutButtons": {
           "timer": "Timer",
           "manual": "Manual"
+        },
+        "billable": {
+          "billable": "Billable",
+          "nonBillable": "Not Billable"
         },
         "messages": {
           "success": "Time entry entered!"

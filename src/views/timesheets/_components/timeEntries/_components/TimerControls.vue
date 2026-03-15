@@ -2,7 +2,7 @@
   <div class="flex items-center gap-3">
     <!-- Billable Toggle -->
     <button
-      v-tooltip.top="isBillable ? 'Billable' : 'Not Billable'"
+      v-tooltip.top="isBillable ? t('pages.timesheets.enterTime.billable.billable') : t('pages.timesheets.enterTime.billable.nonBillable')"
       type="button"
       class="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200"
       :class="

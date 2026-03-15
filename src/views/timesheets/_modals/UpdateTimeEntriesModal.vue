@@ -94,6 +94,7 @@ import { array, object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
+import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 import { ELayout } from '@/views/timesheets/_etc/layout.enum';
 
 interface IProps {
@@ -103,6 +104,7 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const timeEntriesStore = useTimesheetsTimeEntriesStore();
 
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
@@ -151,35 +153,8 @@ const { handleSubmit, resetForm } = useForm({
 
 const open = defineModel<boolean>('open');
 
-// const timeEntryOptions = ['Lansman projesi', 'Reconcilliation', 'Settlement'];
-const projectOptions = [
-  {
-    name: 'Clearing',
-    value: 'Clearing',
-  },
-  {
-    name: 'Productivity',
-    value: 'Productivity',
-  },
-  {
-    name: 'SAP',
-    value: 'SAP',
-  },
-];
-const tagOptions = [
-  {
-    name: 'Lansman',
-    value: 'Lansman',
-  },
-  {
-    name: 'Reporting',
-    value: 'Reporting',
-  },
-  {
-    name: 'Seller',
-    value: 'Seller',
-  },
-];
+const projectOptions = computed(() => timeEntriesStore.projectOptions);
+const tagOptions = computed(() => timeEntriesStore.tagOptions);
 
 const activeLayout = ref(ELayout.MANUAL);
 const isBillable = ref(false);
