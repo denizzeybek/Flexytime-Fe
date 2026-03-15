@@ -127,11 +127,11 @@ const validationSchema = object({
   shiftRangeTime: mixed().required(),
   timeZone: object()
     .shape({
-      name: string().label('Name'),
-      value: string().label('Value'),
+      name: string().label(t('common.validation.fields.name')),
+      value: string().label(t('common.validation.fields.value')),
     })
     .required()
-    .label('Country'),
+    .label(t('common.validation.fields.timezone')),
 });
 
 const { handleSubmit, isSubmitting, resetForm } = useForm({

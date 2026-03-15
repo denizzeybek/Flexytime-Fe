@@ -64,7 +64,7 @@ const columns = computed(() => {
   return [
     { field: 'Group1', header: props.group1Title },
     { field: 'Group2', header: props.group2Title },
-    { field: 'Total', header: 'Total' },
+    { field: 'Total', header: t('common.validation.fields.total') },
   ];
 });
 

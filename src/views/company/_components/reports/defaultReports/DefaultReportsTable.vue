@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Card from 'primevue/card';
@@ -97,14 +97,14 @@ const { t } = useI18n<{ message: MessageSchema }>();
 
 const reportsStore = useCompanyReportsStore();
 
-const options = ref([
+const options = computed(() => [
   {
-    label: 'Edit',
+    label: t('common.actions.edit'),
     icon: 'pi pi-pencil',
     value: EOptionsDropdown.Edit,
   },
   {
-    label: 'Delete',
+    label: t('common.actions.delete'),
     icon: 'pi pi-trash',
     value: EOptionsDropdown.Delete,
   },

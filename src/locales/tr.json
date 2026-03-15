@@ -1309,7 +1309,12 @@
         "team": "Ekip",
         "operatinguser": "İşletim Kullanıcısı",
         "operating user": "İşletim Kullanıcısı",
-        "salary": "Maaş"
+        "salary": "Maaş",
+        "country": "Ülke",
+        "timezone": "Saat Dilimi",
+        "reportType": "Rapor Türü",
+        "frequency": "Sıklık",
+        "total": "Toplam"
       }
     },
     "buttons": {

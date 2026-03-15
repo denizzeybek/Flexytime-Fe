@@ -94,38 +94,38 @@ const frequencyOptions = [
 const validationSchema = object({
   reportType: object()
     .shape({
-      name: string().label('Report type'),
-      value: string().label('Report type').required(),
+      name: string().label(t('common.validation.fields.reportType')),
+      value: string().label(t('common.validation.fields.reportType')).required(),
     })
     .required()
-    .label('Report type'),
+    .label(t('common.validation.fields.reportType')),
   frequency: object()
     .shape({
-      name: string().label('Frequency'),
-      value: number().label('Frequency').required(),
+      name: string().label(t('common.validation.fields.frequency')),
+      value: number().label(t('common.validation.fields.frequency')).required(),
     })
     .required()
-    .label('Frequency'),
+    .label(t('common.validation.fields.frequency')),
   teams: array()
     .required()
-    .label('Team')
+    .label(t('common.validation.fields.team'))
     .of(
       object().shape({
-        name: string().required().label('Name'),
-        value: string().required().label('Value'),
+        name: string().required().label(t('common.validation.fields.name')),
+        value: string().required().label(t('common.validation.fields.value')),
       }),
     ),
   to: array()
-    .label('Email')
-    .of(string().email('Please enter a valid email address.').required('Email is required.'))
-    .required('Please add at least one email.')
-    .min(1, 'Please add at least one email.'),
+    .label(t('common.validation.fields.email'))
+    .of(string().email(t('components.emailList.invalidEmail')).required(t('common.validation.mixed.required', { field: t('common.validation.fields.email') })))
+    .required(t('common.validation.array.min', { field: t('common.validation.fields.emails'), min: 1 }))
+    .min(1, t('common.validation.array.min', { field: t('common.validation.fields.emails'), min: 1 })),
   cc: array()
-    .label('Email')
-    .of(string().email('Please enter a valid email address.').required('Email is required.')),
+    .label(t('common.validation.fields.email'))
+    .of(string().email(t('components.emailList.invalidEmail')).required(t('common.validation.mixed.required', { field: t('common.validation.fields.email') }))),
   bcc: array()
-    .label('Email')
-    .of(string().email('Please enter a valid email address.').required('Email is required.')),
+    .label(t('common.validation.fields.email'))
+    .of(string().email(t('components.emailList.invalidEmail')).required(t('common.validation.mixed.required', { field: t('common.validation.fields.email') }))),
 });
 
 const { handleSubmit, isSubmitting, resetForm } = useForm({

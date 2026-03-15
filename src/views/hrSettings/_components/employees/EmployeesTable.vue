@@ -130,14 +130,14 @@ const filters = ref({
   Salary: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
-const options = ref([
+const options = computed(() => [
   {
-    label: 'Edit',
+    label: t('common.actions.edit'),
     icon: 'pi pi-pencil',
     value: EOptionsDropdown.Edit,
   },
   {
-    label: 'Delete',
+    label: t('common.actions.delete'),
     icon: 'pi pi-trash',
     value: EOptionsDropdown.Delete,
   },

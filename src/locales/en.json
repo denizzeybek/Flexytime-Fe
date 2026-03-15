@@ -1309,7 +1309,12 @@
         "team": "Team",
         "operatinguser": "Operating User",
         "operating user": "Operating User",
-        "salary": "Salary"
+        "salary": "Salary",
+        "country": "Country",
+        "timezone": "Timezone",
+        "reportType": "Report Type",
+        "frequency": "Frequency",
+        "total": "Total"
       }
     },
     "buttons": {
