@@ -14,6 +14,8 @@ export enum EStoreNames {
   HR_SETTINGS_EMPLOYEES = 'employees',
   HR_SETTINGS_ANNUALS = 'annuals',
   HR_SETTINGS_HOLIDAYS = 'holidays',
+  HR_SETTINGS_TEAMS = 'teams',
+  HR_SETTINGS_TITLES = 'titles',
 
   SETTINGS_PERMISSIONS = 'permissions',
   SETTINGS_ADVANCED = 'advanced',

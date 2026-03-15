@@ -25,6 +25,7 @@ import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue'
 import Annuals from '@/views/hrSettings/_views/Annuals.vue';
 import Employees from '@/views/hrSettings/_views/Employees.vue';
 import Holidays from '@/views/hrSettings/_views/Holidays.vue';
+import TeamsAndTitles from '@/views/hrSettings/_views/TeamsAndTitles.vue';
 // HR Settings
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
 import Payment from '@/views/payment/_views/Payment.vue';
@@ -174,6 +175,15 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.HRSettingsEmployees,
           name: ERouteNames.HRSettingsEmployees,
+        },
+      },
+      {
+        path: '/teams-titles',
+        name: ERouteNames.HRSettingsTeamsAndTitles,
+        component: TeamsAndTitles,
+        meta: {
+          title: ERouteNames.HRSettingsTeamsAndTitles,
+          name: ERouteNames.HRSettingsTeamsAndTitles,
         },
       },
       {

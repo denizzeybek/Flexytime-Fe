@@ -179,6 +179,12 @@ const menuItems = computed(() => {
         isChild: true,
       },
       {
+        label: t('pages.layouts.navbar.teamsAndTitles'),
+        icon: 'pi pi-id-card',
+        route: ERouteNames.HRSettingsTeamsAndTitles,
+        isChild: true,
+      },
+      {
         label: t('pages.layouts.navbar.annualLeaves'),
         icon: 'pi pi-calendar-minus',
         route: ERouteNames.HRSettingsActiveAnnuals,
@@ -252,6 +258,7 @@ const updateExpandedKeys = () => {
   // HR Settings altındaki route'lar
   const hrSettingsRoutes = [
     ERouteNames.HRSettingsEmployees,
+    ERouteNames.HRSettingsTeamsAndTitles,
     ERouteNames.HRSettingsActiveAnnuals,
     ERouteNames.HRSettingsHolidays,
   ];

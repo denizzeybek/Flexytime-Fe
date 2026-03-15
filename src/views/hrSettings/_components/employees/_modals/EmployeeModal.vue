@@ -2,7 +2,7 @@
   <Dialog
     v-model:visible="open"
     modal
-    :header="t('pages.hrSettings.employees.modal.header')"
+    :header="isEditing ? t('pages.hrSettings.employees.modal.edit') : t('pages.hrSettings.employees.modal.add')"
     class="lg:!w-[700px] !w-full"
     :style="{ width: '50rem' }"
   >
@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { type MessageSchema } from '@/plugins/i18n';
@@ -27,9 +28,12 @@ interface IProps {
   data?: TheMemberViewModel;
 }
 
-defineProps<IProps>();
+const props = defineProps<IProps>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
 const open = defineModel<boolean>('open');
+
+const isEditing = computed(() => !!props.data);
+
 </script>

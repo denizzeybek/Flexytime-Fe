@@ -180,6 +180,7 @@
         "reports": "Reports",
         "hrSettings": "HR Settings",
         "employees": "Employees",
+        "teamsAndTitles": "Teams & Titles",
         "annualLeaves": "Annual Leaves",
         "holidays": "Holidays",
         "company": "Company",
@@ -999,8 +1000,22 @@
         "footerText": "In total there are {count} annuals."
       },
       "employees": {
+        "warning": {
+          "incomplete": "{count} employee(s) need team/title assignment",
+          "showIncomplete": "Show Incomplete"
+        },
+        "filter": {
+          "all": "All",
+          "incomplete": "Incomplete",
+          "active": "Complete"
+        },
+        "status": {
+          "incomplete": "Incomplete",
+          "complete": "Complete"
+        },
         "modal": {
-          "header": "Edit Employee",
+          "edit": "Edit Employee",
+          "add": "Add Employee",
           "role": {
             "label": "Role",
             "placeholder": "Select role"
@@ -1052,6 +1067,7 @@
             "tags": "Tags",
             "titleName": "Title Name",
             "teamName": "Team Name",
+            "status": "Status",
             "salary": "Salary",
             "enabled": "Enabled",
             "actions": "Actions"
@@ -1091,6 +1107,63 @@
           "save": "Save",
           "messages": {
             "updated": "Holiday updated!"
+          }
+        }
+      },
+      "teamsAndTitles": {
+        "title": "Teams & Titles",
+        "apiNotReady": "API not ready yet - Coming soon",
+        "tabs": {
+          "teams": "Teams",
+          "titles": "Titles"
+        },
+        "teams": {
+          "addButton": "Add Team",
+          "table": {
+            "columns": {
+              "name": "Team Name",
+              "memberCount": "Members",
+              "actions": "Actions"
+            },
+            "empty": "No teams found."
+          },
+          "footer": "In total there are {count} teams.",
+          "modal": {
+            "add": "Add Team",
+            "edit": "Edit Team"
+          },
+          "form": {
+            "name": "Team Name",
+            "namePlaceholder": "Enter team name"
+          },
+          "messages": {
+            "created": "Team created successfully!",
+            "updated": "Team updated successfully!",
+            "deleted": "Team deleted successfully!"
+          }
+        },
+        "titles": {
+          "addButton": "Add Title",
+          "table": {
+            "columns": {
+              "name": "Title Name",
+              "actions": "Actions"
+            },
+            "empty": "No titles found."
+          },
+          "footer": "In total there are {count} titles.",
+          "modal": {
+            "add": "Add Title",
+            "edit": "Edit Title"
+          },
+          "form": {
+            "name": "Title Name",
+            "namePlaceholder": "Enter title name"
+          },
+          "messages": {
+            "created": "Title created successfully!",
+            "updated": "Title updated successfully!",
+            "deleted": "Title deleted successfully!"
           }
         }
       },

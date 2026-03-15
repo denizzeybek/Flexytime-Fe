@@ -49,5 +49,3 @@ onMounted(() => {
   fetchEmployees();
 });
 </script>
-
-<style scoped></style>

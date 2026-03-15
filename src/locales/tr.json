@@ -180,6 +180,7 @@
         "reports": "Raporlar",
         "hrSettings": "İK Ayarları",
         "employees": "Çalışanlar",
+        "teamsAndTitles": "Ekipler & Ünvanlar",
         "annualLeaves": "Yıllık İzinler",
         "holidays": "Tatiller",
         "company": "Şirket",
@@ -999,8 +1000,22 @@
         "footerText": "Toplam {count} yıllık izin var."
       },
       "employees": {
+        "warning": {
+          "incomplete": "{count} çalışanın ekip/ünvan ataması gerekiyor",
+          "showIncomplete": "Eksikleri Göster"
+        },
+        "filter": {
+          "all": "Tümü",
+          "incomplete": "Eksik",
+          "active": "Tamamlanmış"
+        },
+        "status": {
+          "incomplete": "Eksik",
+          "complete": "Tamamlanmış"
+        },
         "modal": {
-          "header": "Çalışanı Düzenle",
+          "edit": "Çalışanı Düzenle",
+          "add": "Çalışan Ekle",
           "role": {
             "label": "Rol",
             "placeholder": "Rol seçin"
@@ -1052,6 +1067,7 @@
             "tags": "Etiketler",
             "titleName": "Ünvan",
             "teamName": "Ekip Adı",
+            "status": "Durum",
             "salary": "Maaş",
             "enabled": "Aktif",
             "actions": "İşlemler"
@@ -1091,6 +1107,63 @@
           "save": "Kaydet",
           "messages": {
             "updated": "Tatil güncellendi!"
+          }
+        }
+      },
+      "teamsAndTitles": {
+        "title": "Ekipler & Ünvanlar",
+        "apiNotReady": "API henüz hazır değil - Yakında",
+        "tabs": {
+          "teams": "Ekipler",
+          "titles": "Ünvanlar"
+        },
+        "teams": {
+          "addButton": "Ekip Ekle",
+          "table": {
+            "columns": {
+              "name": "Ekip Adı",
+              "memberCount": "Üyeler",
+              "actions": "İşlemler"
+            },
+            "empty": "Ekip bulunamadı."
+          },
+          "footer": "Toplam {count} ekip var.",
+          "modal": {
+            "add": "Ekip Ekle",
+            "edit": "Ekip Düzenle"
+          },
+          "form": {
+            "name": "Ekip Adı",
+            "namePlaceholder": "Ekip adını girin"
+          },
+          "messages": {
+            "created": "Ekip başarıyla oluşturuldu!",
+            "updated": "Ekip başarıyla güncellendi!",
+            "deleted": "Ekip başarıyla silindi!"
+          }
+        },
+        "titles": {
+          "addButton": "Ünvan Ekle",
+          "table": {
+            "columns": {
+              "name": "Ünvan Adı",
+              "actions": "İşlemler"
+            },
+            "empty": "Ünvan bulunamadı."
+          },
+          "footer": "Toplam {count} ünvan var.",
+          "modal": {
+            "add": "Ünvan Ekle",
+            "edit": "Ünvan Düzenle"
+          },
+          "form": {
+            "name": "Ünvan Adı",
+            "namePlaceholder": "Ünvan adını girin"
+          },
+          "messages": {
+            "created": "Ünvan başarıyla oluşturuldu!",
+            "updated": "Ünvan başarıyla güncellendi!",
+            "deleted": "Ünvan başarıyla silindi!"
           }
         }
       },
