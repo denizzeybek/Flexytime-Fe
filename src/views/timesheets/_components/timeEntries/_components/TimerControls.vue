@@ -7,8 +7,8 @@
       class="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200"
       :class="
         isBillable
-          ? 'bg-emerald-500 text-white shadow-md shadow-emerald-200'
-          : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+          ? 'bg-emerald-500 text-white shadow-md shadow-emerald-200 dark:shadow-emerald-900/50'
+          : 'bg-surface-tertiary dark:bg-surface-secondary text-content-quaternary hover:bg-surface-secondary dark:hover:bg-surface-tertiary'
       "
       @click="$emit('update:isBillable', !isBillable)"
     >
@@ -25,20 +25,20 @@
         isRunning
           ? 'bg-f-primary/10 text-f-primary animate-pulse'
           : isManualLayout
-            ? 'bg-blue-50 text-blue-600'
-            : 'bg-gray-100 text-gray-600'
+            ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400'
+            : 'bg-surface-tertiary dark:bg-surface-secondary text-content-secondary'
       "
     >
       {{ displayTime }}
     </div>
 
     <!-- Layout Toggle -->
-    <div class="flex bg-gray-100 rounded-xl p-1 gap-1">
+    <div class="flex bg-surface-tertiary dark:bg-surface-secondary rounded-xl p-1 gap-1">
       <button
         v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.manual')"
         type="button"
         class="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200"
-        :class="isManualLayout ? 'bg-white text-f-primary shadow-sm' : 'text-gray-400 hover:text-gray-600'"
+        :class="isManualLayout ? 'bg-surface-primary text-f-primary shadow-sm' : 'text-content-quaternary hover:text-content-secondary'"
         @click="$emit('update:activeLayout', 'manual')"
       >
         <i class="pi pi-list" />
@@ -47,7 +47,7 @@
         v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.timer')"
         type="button"
         class="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200"
-        :class="isTimerLayout ? 'bg-white text-f-primary shadow-sm' : 'text-gray-400 hover:text-gray-600'"
+        :class="isTimerLayout ? 'bg-surface-primary text-f-primary shadow-sm' : 'text-content-quaternary hover:text-content-secondary'"
         @click="$emit('update:activeLayout', 'timer')"
       >
         <i class="pi pi-clock" />

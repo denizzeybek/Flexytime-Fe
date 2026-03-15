@@ -15,7 +15,7 @@
         <a
           v-else
           href="#"
-          class="text-gray-900 hover:text-gray-600 hover:underline cursor-pointer"
+          class="text-content-primary hover:text-content-secondary hover:underline cursor-pointer"
           @click.prevent="handleTeamClick(slotProps.data.ID)"
         >
           {{ slotProps.data.TeamName }}
@@ -36,7 +36,7 @@
             (slotProps.data.Supervisor.MemberId || slotProps.data.Supervisor.MemberUrl)
           "
           href="#"
-          class="text-gray-900 hover:text-gray-600 hover:underline cursor-pointer flex items-center gap-2"
+          class="text-content-primary hover:text-content-secondary hover:underline cursor-pointer flex items-center gap-2"
           @click.prevent="
             handleEmployeeClick(
               slotProps.data.Supervisor.MemberId || slotProps.data.Supervisor.MemberUrl,
@@ -58,7 +58,7 @@
           {{ slotProps.data.SupervisorName }}
         </a>
         <!-- If no ID, just show as plain text -->
-        <div v-else-if="slotProps.data.Supervisor" class="flex items-center gap-2 text-gray-600">
+        <div v-else-if="slotProps.data.Supervisor" class="flex items-center gap-2 text-content-secondary">
           <Avatar
             v-if="slotProps.data.Supervisor.ImageUrl"
             :image="slotProps.data.Supervisor.ImageUrl"
@@ -130,7 +130,7 @@
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <div v-else class="flex items-center gap-2">
-          <i class="pi pi-question text-gray-600"></i>
+          <i class="pi pi-question text-content-tertiary"></i>
           <span class="font-semibold">
             {{ formatDuration(slotProps.data.Unclassified?.time) }}
           </span>

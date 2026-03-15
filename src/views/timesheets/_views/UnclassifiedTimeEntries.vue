@@ -25,14 +25,14 @@
               <div class="w-10 h-10 rounded-full bg-f-primary/10 border-2 border-f-primary flex items-center justify-center flex-shrink-0">
                 <i class="pi pi-clock text-f-primary" />
               </div>
-              <div class="w-0.5 flex-1 bg-gray-200 mt-2" />
+              <div class="w-0.5 flex-1 bg-border-secondary dark:bg-border-primary mt-2" />
             </div>
 
             <!-- Time Info -->
             <div class="flex-1 pb-6">
               <div class="flex items-center gap-2 mb-4">
-                <span class="text-lg font-bold text-gray-800">{{ field.value.RecordTime }}</span>
-                <span class="text-sm text-gray-500">{{ field.value.RecordDate }}</span>
+                <span class="text-lg font-bold text-content-primary">{{ field.value.RecordTime }}</span>
+                <span class="text-sm text-content-tertiary">{{ field.value.RecordDate }}</span>
               </div>
 
               <!-- Clock Cards -->

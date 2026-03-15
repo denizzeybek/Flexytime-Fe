@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-2">
-    <label :for="name" :class="{ 'text-red-500': !!errorMessage }">{{ label }}</label>
+    <label :for="name" :class="['text-content-primary dark:text-content-primary transition-colors', { '!text-red-500': !!errorMessage }]">{{ label }}</label>
     <MultiSelect
       v-model="value"
       :options="options"
@@ -205,3 +205,4 @@ const handleFilterKeydown = (e: KeyboardEvent) => {
   }
 };
 </script>
+

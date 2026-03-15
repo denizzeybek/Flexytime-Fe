@@ -1,5 +1,5 @@
 <template>
-  <Card class="shadow-md border border-gray-100 rounded-xl">
+  <Card class="shadow-md border border-border-secondary dark:border-border-primary rounded-xl transition-colors">
     <template #header>
       <div class="flex gap-3 w-fit px-5 pt-5">
         <FSelect

@@ -4,7 +4,7 @@
       <!-- Logo -->
       <div class="flex items-center justify-between px-6 py-5 shrink-0">
         <span class="inline-flex items-center gap-2">
-          <img class="transform scale-90" src="@/components/images/login-logo.png" />
+          <img class="transform scale-90 dark:brightness-0 dark:invert" src="@/components/images/login-logo.png" />
         </span>
       </div>
 
@@ -24,10 +24,10 @@
               :class="[
                 'flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all w-full',
                 {
-                  'bg-purple-600 shadow-sm': isActive && !item.isChild,
-                  'bg-gray-50 border-l-4 border-l-purple-600': isActive && item.isChild,
+                  'bg-brand-primary dark:bg-brand-primary shadow-sm': isActive && !item.isChild,
+                  'bg-interactive-hover dark:bg-interactive-hover border-l-4 border-l-brand-primary dark:border-l-brand-primary': isActive && item.isChild,
                   'border-l-4 border-l-transparent': !isActive && item.isChild,
-                  'hover:bg-gray-50': !isActive
+                  'hover:bg-interactive-hover dark:hover:bg-interactive-hover': !isActive
                 }
               ]"
               @click="navigate"
@@ -38,9 +38,9 @@
                   item.icon,
                   'text-base',
                   {
-                    'text-white': isActive && !item.isChild,
-                    'text-f-primary': isActive && item.isChild,
-                    'text-gray-600': !isActive
+                    'text-white dark:text-zinc-900': isActive && !item.isChild,
+                    'text-brand-primary': isActive && item.isChild,
+                    'text-content-secondary': !isActive
                   }
                 ]"
               ></i>
@@ -48,9 +48,9 @@
                 :class="[
                   'text-[14px] font-medium whitespace-nowrap',
                   {
-                    'text-white font-semibold': isActive && !item.isChild,
-                    'text-f-primary font-semibold': isActive && item.isChild,
-                    'text-gray-600': !isActive
+                    'text-white dark:text-zinc-900 font-semibold': isActive && !item.isChild,
+                    'text-brand-primary font-semibold': isActive && item.isChild,
+                    'text-content-secondary': !isActive
                   }
                 ]"
               >
@@ -62,7 +62,7 @@
           <!-- Parent items with children (no route) -->
           <div
             v-else
-            class="flex items-center justify-between px-3 py-2 gap-2 text-gray-600 w-full"
+            class="flex items-center justify-between px-3 py-2 gap-2 text-content-secondary w-full"
           >
             <div class="flex items-center gap-2">
               <i v-if="item.icon" :class="[item.icon, 'text-base']"></i>
@@ -71,7 +71,7 @@
             <i
               v-if="item.items"
               :class="[
-                'pi text-sm text-gray-400 transition-transform',
+                'pi text-sm text-content-muted transition-transform',
                 item.key && expandedKeys[item.key] ? 'pi-chevron-down' : 'pi-chevron-right'
               ]"
             ></i>

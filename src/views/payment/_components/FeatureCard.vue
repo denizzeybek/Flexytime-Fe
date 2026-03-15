@@ -12,8 +12,8 @@
         :class="[icon, iconColorClass]"
       ></i>
     </div>
-    <h3 class="font-bold text-gray-900 mb-3">{{ title }}</h3>
-    <p class="text-gray-500 text-sm leading-relaxed">{{ description }}</p>
+    <h3 class="font-bold text-content-primary mb-3">{{ title }}</h3>
+    <p class="text-content-tertiary text-sm leading-relaxed">{{ description }}</p>
   </div>
 </template>
 
@@ -39,23 +39,23 @@ const colorMap: Record<FeatureColor, {
   hoverShadow: string;
 }> = {
   blue: {
-    bg: 'bg-blue-50',
-    icon: 'text-blue-500',
-    hoverBg: 'hover:bg-blue-100/30',
+    bg: 'bg-blue-50 dark:bg-blue-950/40',
+    icon: 'text-blue-500 dark:text-blue-400',
+    hoverBg: 'hover:bg-blue-100/30 dark:hover:bg-blue-900/30',
     hoverIconBg: 'group-hover:bg-blue-500',
     hoverShadow: 'group-hover:shadow-blue-500/25',
   },
   green: {
-    bg: 'bg-green-50',
-    icon: 'text-green-500',
-    hoverBg: 'hover:bg-green-100/30',
+    bg: 'bg-green-50 dark:bg-green-950/40',
+    icon: 'text-green-500 dark:text-green-400',
+    hoverBg: 'hover:bg-green-100/30 dark:hover:bg-green-900/30',
     hoverIconBg: 'group-hover:bg-green-500',
     hoverShadow: 'group-hover:shadow-green-500/25',
   },
   purple: {
-    bg: 'bg-purple-50',
-    icon: 'text-purple-500',
-    hoverBg: 'hover:bg-purple-100/30',
+    bg: 'bg-purple-50 dark:bg-purple-950/40',
+    icon: 'text-purple-500 dark:text-purple-400',
+    hoverBg: 'hover:bg-purple-100/30 dark:hover:bg-purple-900/30',
     hoverIconBg: 'group-hover:bg-purple-500',
     hoverShadow: 'group-hover:shadow-purple-500/25',
   },

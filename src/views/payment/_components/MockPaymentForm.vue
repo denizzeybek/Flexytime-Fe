@@ -2,7 +2,7 @@
   <div class="space-y-4">
     <!-- Demo Card Input -->
     <div class="space-y-3">
-      <label class="block text-sm font-medium text-gray-700">{{ cardNumberLabel }}</label>
+      <label class="block text-sm font-medium text-content-secondary">{{ cardNumberLabel }}</label>
       <div class="relative">
         <InputText
           v-model="cardNumber"
@@ -11,13 +11,13 @@
           :class="{ '!border-primary': cardNumber.length > 0 }"
           @update:model-value="emitChange"
         />
-        <i class="pi pi-credit-card absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        <i class="pi pi-credit-card absolute left-4 top-1/2 -translate-y-1/2 text-content-quaternary"></i>
       </div>
     </div>
 
     <div class="grid grid-cols-2 gap-3">
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">{{ expiryLabel }}</label>
+        <label class="block text-sm font-medium text-content-secondary mb-1">{{ expiryLabel }}</label>
         <InputText
           v-model="expiry"
           placeholder="MM/YY"
@@ -26,7 +26,7 @@
         />
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">{{ cvcLabel }}</label>
+        <label class="block text-sm font-medium text-content-secondary mb-1">{{ cvcLabel }}</label>
         <InputText
           v-model="cvc"
           placeholder="123"
@@ -39,7 +39,7 @@
     </div>
 
     <!-- Demo Notice -->
-    <div class="flex items-center gap-2 p-3 bg-amber-50 rounded-xl text-amber-700 text-xs">
+    <div class="flex items-center gap-2 p-3 bg-amber-50 dark:bg-amber-950/40 rounded-xl text-amber-700 dark:text-amber-400 text-xs">
       <i class="pi pi-info-circle"></i>
       <span>{{ demoModeText }}</span>
     </div>

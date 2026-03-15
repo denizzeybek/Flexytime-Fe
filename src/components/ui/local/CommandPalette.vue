@@ -15,7 +15,7 @@
     <template #container>
       <div class="flex flex-col">
         <!-- Search Input -->
-        <div class="relative border-b border-gray-200">
+        <div class="relative border-b border-border-primary dark:border-border-primary">
           <IconField iconPosition="left" class="w-full">
             <InputIcon class="pi pi-search" />
             <InputText
@@ -26,7 +26,7 @@
               unstyled
               :pt="{
                 root: {
-                  class: 'w-full pl-12 pr-24 py-4 text-base outline-none border-none bg-transparent focus:ring-0'
+                  class: 'w-full pl-12 pr-24 py-4 text-base outline-none border-none bg-transparent focus:ring-0 text-content-primary'
                 }
               }"
               @keydown.down.prevent="navigateDown"
@@ -36,10 +36,14 @@
             />
           </IconField>
           <div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
-            <kbd class="px-2 py-1 text-xs font-semibold text-gray-600 bg-gray-100 border border-gray-300 rounded">
+            <kbd class="px-2 py-1 text-xs font-semibold rounded transition-colors
+                        text-content-secondary bg-surface-tertiary border border-border-primary
+                        dark:text-content-secondary dark:bg-surface-secondary dark:border-border-primary">
               {{ isMac ? '⌘' : 'Ctrl' }}
             </kbd>
-            <kbd class="px-2 py-1 text-xs font-semibold text-gray-600 bg-gray-100 border border-gray-300 rounded">
+            <kbd class="px-2 py-1 text-xs font-semibold rounded transition-colors
+                        text-content-secondary bg-surface-tertiary border border-border-primary
+                        dark:text-content-secondary dark:bg-surface-secondary dark:border-border-primary">
               K
             </kbd>
           </div>
@@ -47,7 +51,7 @@
 
         <!-- Results -->
         <div class="max-h-96 overflow-y-auto">
-          <div v-if="filteredRoutes.length === 0" class="px-4 py-8 text-center text-gray-500">
+          <div v-if="filteredRoutes.length === 0" class="px-4 py-8 text-center text-content-muted">
             {{ t('components.commandPalette.noResults') }}
           </div>
           <div v-else class="py-2">
@@ -58,7 +62,9 @@
               :severity="selectedIndex === index ? 'primary' : 'secondary'"
               :class="[
                 'w-full !px-4 !py-3 !justify-start !gap-3 !text-left transition-all',
-                selectedIndex === index ? '!bg-primary-50 !text-primary-700' : '!bg-transparent hover:!bg-gray-50 !text-gray-700'
+                selectedIndex === index
+                  ? '!bg-interactive-selected !text-brand-primary dark:!bg-interactive-selected dark:!text-brand-primary'
+                  : '!bg-transparent hover:!bg-interactive-hover !text-content-primary dark:hover:!bg-interactive-hover dark:!text-content-primary'
               ]"
               :pt="{
                 root: { class: 'w-full justify-start' },
@@ -265,15 +271,15 @@ defineExpose({
 }
 
 .max-h-96::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--color-surface-tertiary);
 }
 
 .max-h-96::-webkit-scrollbar-thumb {
-  background: #cbd5e0;
+  background: var(--color-border-secondary);
   border-radius: 4px;
 }
 
 .max-h-96::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
+  background: var(--color-border-primary);
 }
 </style>

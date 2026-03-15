@@ -16,7 +16,7 @@
         <a
           v-else-if="slotProps.data.Employee"
           href="#"
-          class="text-gray-900 hover:text-gray-600 hover:underline cursor-pointer flex items-center gap-2"
+          class="text-content-primary hover:text-content-secondary hover:underline cursor-pointer flex items-center gap-2"
           @click.prevent="handleEmployeeClick(slotProps.data.Employee.MemberUrl)"
         >
           <Avatar
@@ -68,7 +68,7 @@
             :class="[getWellbeingIcon(item.Type), 'text-red-600 cursor-help text-lg']"
           ></i>
         </div>
-        <span v-else class="text-gray-400">-</span>
+        <span v-else class="text-content-quaternary">-</span>
       </template>
     </Column>
 
@@ -83,7 +83,7 @@
             :class="[getWellbeingIcon(item.Type), 'text-orange-500 cursor-help text-lg']"
           ></i>
         </div>
-        <span v-else class="text-gray-400">-</span>
+        <span v-else class="text-content-quaternary">-</span>
       </template>
     </Column>
 
@@ -98,7 +98,7 @@
             :class="[getWellbeingIcon(item.Type), 'text-green-600 cursor-help text-lg']"
           ></i>
         </div>
-        <span v-else class="text-gray-400">-</span>
+        <span v-else class="text-content-quaternary">-</span>
       </template>
     </Column>
   </DataTable>

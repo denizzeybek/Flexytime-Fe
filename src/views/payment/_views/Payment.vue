@@ -1,5 +1,5 @@
 <template>
-  <Card class="shadow-sm rounded-2xl overflow-hidden bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-white relative">
+  <Card class="shadow-sm rounded-2xl overflow-hidden bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-white dark:from-surface-secondary dark:via-surface-primary dark:to-surface-primary relative transition-colors">
     <template #content>
       <!-- Decorative Background Pattern -->
       <div class="absolute inset-0 opacity-[0.02] pointer-events-none">
@@ -20,10 +20,10 @@
       <div v-else class="relative">
         <!-- Header Section -->
         <div class="text-center pt-8 pb-8">
-          <h1 class="text-4xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent mb-4">
+          <h1 class="text-4xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-gray-100 dark:via-gray-200 dark:to-gray-100 bg-clip-text text-transparent mb-4">
             {{ t('pages.payment.title') }}
           </h1>
-          <p class="text-gray-500 text-lg max-w-xl mx-auto">
+          <p class="text-content-tertiary text-lg max-w-xl mx-auto">
             {{ t('pages.payment.subtitle') }}
           </p>
         </div>
@@ -34,7 +34,7 @@
             <div class="absolute inset-0 bg-primary/10 rounded-full blur-xl animate-pulse"></div>
             <ProgressSpinner style="width: 50px; height: 50px" class="relative" />
           </div>
-          <p class="text-gray-400 mt-6">{{ t('pages.payment.loadingPlans') }}</p>
+          <p class="text-content-quaternary mt-6">{{ t('pages.payment.loadingPlans') }}</p>
         </div>
 
         <!-- Main Grid Layout -->
@@ -65,12 +65,12 @@
               </div>
 
               <!-- Features Section -->
-              <div class="mt-12 pt-12 border-t border-gray-100/60 px-4">
+              <div class="mt-12 pt-12 border-t border-border-secondary dark:border-border-primary px-4">
                 <div class="text-center mb-12">
-                  <h2 class="text-2xl font-bold text-gray-900 mb-3">
+                  <h2 class="text-2xl font-bold text-content-primary mb-3">
                     {{ t('pages.payment.whyChooseUs') }}
                   </h2>
-                  <p class="text-gray-500">
+                  <p class="text-content-tertiary">
                     {{ t('pages.payment.whyChooseUsSubtitle') }}
                   </p>
                 </div>

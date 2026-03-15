@@ -65,7 +65,9 @@
       "Bash(mcp__atlassian__getVisibleJiraProjects)",
       "mcp__atlassian__editJiraIssue",
       "mcp__atlassian__getJiraIssue",
-      "mcp__atlassian__addCommentToJiraIssue"
+      "mcp__atlassian__addCommentToJiraIssue",
+      "Bash(paste - -)",
+      "Bash(sort:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center gap-4 py-8">
-    <img src="@/assets/images/noData.svg" alt="No Data" class="w-32" />
-    <p class="text-gray-500">{{ displayMessage }}</p>
+    <img src="@/assets/images/noData.svg" alt="No Data" class="w-32 dark:opacity-80" />
+    <p class="text-content-tertiary">{{ displayMessage }}</p>
   </div>
 </template>
 

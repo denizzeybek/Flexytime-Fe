@@ -29,11 +29,12 @@
 
     <!-- Content Area -->
     <div>
-      <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
+      <Card class="shadow-lg border rounded-2xl overflow-hidden transition-colors
+                   border-border-secondary dark:border-border-primary">
         <template #content>
           <Tabs v-model:value="activeTabIndex">
             <!-- Tab List with Buttons -->
-            <div class="flex items-center justify-between mb-6 pb-5 border-b border-gray-100">
+            <div class="flex items-center justify-between mb-6 pb-5 border-b border-border-secondary dark:border-border-primary transition-colors">
               <TabList class="flex-1">
                 <Tab
                   v-for="tab in availableTabs"
@@ -64,7 +65,8 @@
                 <!-- Team/Employees Toggle (only for team view and when IsTeam is true) -->
                 <div
                   v-if="showTeamToggle"
-                  class="flex gap-1 p-1 bg-gray-100 rounded-xl"
+                  class="flex gap-1 p-1 rounded-xl transition-colors
+                         bg-surface-tertiary dark:bg-surface-secondary"
                 >
                   <Button
                     :label="$t('pages.worktimeUsage.teamLabel')"

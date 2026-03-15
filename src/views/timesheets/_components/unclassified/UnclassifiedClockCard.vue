@@ -1,9 +1,9 @@
 <template>
   <div
-    class="group bg-white rounded-xl border-2 transition-all duration-300 overflow-hidden"
+    class="group bg-surface-primary rounded-xl border-2 transition-all duration-300 overflow-hidden"
     :class="clock.Selected
       ? 'border-f-primary shadow-md shadow-f-primary/10'
-      : 'border-gray-100 hover:border-gray-200 hover:shadow-md'"
+      : 'border-border-secondary dark:border-border-primary hover:border-border-focus hover:shadow-md'"
   >
     <div class="flex items-stretch">
       <!-- Domain Color Bar -->
@@ -33,7 +33,7 @@
 
             <div class="min-w-0 flex-1">
               <div class="flex items-center gap-2">
-                <span class="font-semibold text-gray-800 truncate">{{ clock.Name }}</span>
+                <span class="font-semibold text-content-primary truncate">{{ clock.Name }}</span>
                 <Tag
                   v-if="clock.Details?.length"
                   :value="`+${clock.Details.length}`"
@@ -41,7 +41,7 @@
                   class="!text-xs !px-1.5 !py-0.5"
                 />
               </div>
-              <p v-if="!clock.Details?.length && clock.Title" class="text-sm text-gray-500 truncate">
+              <p v-if="!clock.Details?.length && clock.Title" class="text-sm text-content-tertiary truncate">
                 {{ clock.Title }}
               </p>
             </div>
@@ -56,23 +56,23 @@
         </div>
 
         <!-- Details (Expandable) -->
-        <div v-if="clock.Details?.length" class="mt-4 pt-4 border-t border-gray-100">
+        <div v-if="clock.Details?.length" class="mt-4 pt-4 border-t border-border-secondary dark:border-border-primary">
           <div class="space-y-2">
             <div
               v-for="(detail, dIdx) in clock.Details"
               :key="dIdx"
               class="flex items-center gap-3 p-3 rounded-lg transition-colors"
-              :class="detail.Selected ? 'bg-f-primary/5' : 'bg-gray-50 hover:bg-gray-100'"
+              :class="detail.Selected ? 'bg-f-primary/5' : 'bg-surface-tertiary dark:bg-surface-secondary hover:bg-surface-secondary dark:hover:bg-surface-tertiary'"
             >
               <FCheckbox
                 :name="`timeClocks[${groupIndex}].Clocks[${clockIndex}].Details[${dIdx}].Selected`"
                 class="flex-shrink-0"
               />
               <div class="flex-1 min-w-0">
-                <p class="font-medium text-gray-700 truncate">{{ detail.Name }}</p>
-                <p v-if="detail.Title" class="text-sm text-gray-500 truncate">{{ detail.Title }}</p>
+                <p class="font-medium text-content-secondary truncate">{{ detail.Name }}</p>
+                <p v-if="detail.Title" class="text-sm text-content-tertiary truncate">{{ detail.Title }}</p>
               </div>
-              <span class="text-sm font-medium text-gray-600">{{ formatSpendTime(detail.Spend) }}</span>
+              <span class="text-sm font-medium text-content-secondary">{{ formatSpendTime(detail.Spend) }}</span>
             </div>
           </div>
         </div>

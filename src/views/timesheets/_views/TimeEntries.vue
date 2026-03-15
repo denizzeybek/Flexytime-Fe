@@ -1,5 +1,5 @@
 <template>
-  <Card class="shadow-lg mb-5 border border-gray-100 rounded-2xl overflow-hidden">
+  <Card class="shadow-lg mb-5 border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors">
     <template #content>
       <div class="flex justify-between items-center">
         <Tabs :value="route.name?.toString()!">

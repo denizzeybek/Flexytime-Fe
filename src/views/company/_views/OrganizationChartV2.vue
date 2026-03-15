@@ -4,7 +4,7 @@
     <OrganizationChartV2Toolbar />
 
     <!-- Loading State -->
-    <Card v-if="isLoading" class="shadow-lg border border-gray-100 rounded-2xl">
+    <Card v-if="isLoading" class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl transition-colors">
       <template #content>
         <div class="flex items-center justify-center py-16">
           <ProgressSpinner />
@@ -15,7 +15,7 @@
     <!-- Organization Chart with Vue Flow -->
     <Card
       v-else-if="nodes.length > 0"
-      class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden"
+      class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors"
     >
       <template #content>
         <div class="vue-flow-container" style="height: 600px;">
@@ -44,7 +44,7 @@
               position="bottom-left"
               :pannable="true"
               :zoomable="true"
-              class="!bg-gray-50 !border-gray-200"
+              class="!bg-surface-secondary !border-border-secondary dark:!border-border-primary"
             />
 
             <!-- Background -->
@@ -55,9 +55,9 @@
     </Card>
 
     <!-- Empty State -->
-    <Card v-else class="shadow-lg border border-gray-100 rounded-2xl">
+    <Card v-else class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl transition-colors">
       <template #content>
-        <div class="flex flex-col items-center justify-center py-16 text-gray-500">
+        <div class="flex flex-col items-center justify-center py-16 text-content-tertiary">
           <i class="pi pi-sitemap text-5xl mb-4" />
           <p class="text-lg">{{ t('pages.company.organizationChart.emptyState') }}</p>
         </div>
@@ -136,7 +136,7 @@ onMounted(() => {
 }
 
 .vue-flow-container {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: linear-gradient(135deg, var(--color-surface-secondary) 0%, var(--color-surface-tertiary) 100%);
   border-radius: 0.5rem;
 }
 
@@ -150,25 +150,27 @@ onMounted(() => {
 }
 
 :deep(.vue-flow__edge-path) {
-  stroke: #cbd5e1;
+  stroke: var(--color-border-secondary);
   stroke-width: 2;
 }
 
 :deep(.vue-flow__controls) {
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   border-radius: 0.5rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border-secondary);
+  background: var(--color-surface-primary);
 }
 
 :deep(.vue-flow__controls-button) {
-  background: white;
+  background: var(--color-surface-primary);
   border: none;
   width: 28px;
   height: 28px;
+  color: var(--color-content-primary);
 }
 
 :deep(.vue-flow__controls-button:hover) {
-  background: #f3f4f6;
+  background: var(--color-interactive-hover);
 }
 
 :deep(.vue-flow__minimap) {

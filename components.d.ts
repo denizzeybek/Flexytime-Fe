@@ -43,6 +43,7 @@ declare module 'vue' {
     Switch: typeof import('./src/components/ui/global/Switch.vue')['default']
     Tag: typeof import('primevue/tag')['default']
     Text: typeof import('./src/components/ui/global/Text.vue')['default']
+    ThemeToggle: typeof import('./src/components/ui/local/ThemeToggle.vue')['default']
     TimeInput: typeof import('./src/components/ui/global/TimeInput.vue')['default']
     TimeRange: typeof import('./src/components/ui/global/TimeRange.vue')['default']
     TreeTable: typeof import('primevue/treetable')['default']

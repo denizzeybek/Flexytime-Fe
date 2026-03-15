@@ -27,13 +27,14 @@
       <slot name="dataList" />
       <ul
         v-if="showOptions"
-        class="absolute z-50 top-full left-0 py-2 px-1 gap-2 w-full mt-1 border border-gray-200 rounded-md bg-white shadow-lg max-h-60 overflow-auto"
+        class="absolute z-50 top-full left-0 py-2 px-1 gap-2 w-full mt-1 border rounded-md shadow-lg max-h-60 overflow-auto transition-colors
+               border-border-primary bg-surface-primary dark:border-border-primary dark:bg-surface-elevated"
       >
       <!-- Options list -->
       <li
         v-for="option in filteredOptions"
         :key="option"
-        class="hover:bg-slate-100 cursor-pointer rounded-s px-3 py-2"
+        class="hover:bg-interactive-hover cursor-pointer rounded-s px-3 py-2 transition-colors"
         @click="selectOption(option)"
       >
         {{ option }}

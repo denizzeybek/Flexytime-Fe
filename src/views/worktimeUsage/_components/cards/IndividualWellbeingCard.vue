@@ -52,19 +52,19 @@
 
               <!-- Description -->
               <div class="flex items-start gap-2 min-h-12">
-                <i class="pi pi-info-circle text-gray-400 mt-0.5 shrink-0"></i>
-                <p class="text-gray-600 text-sm">{{ item.Description }}</p>
+                <i class="pi pi-info-circle text-content-quaternary mt-0.5 shrink-0"></i>
+                <p class="text-content-secondary text-sm">{{ item.Description }}</p>
               </div>
 
               <!-- Suggestion -->
-              <div class="bg-gray-50 p-3 rounded-lg">
+              <div class="bg-surface-tertiary dark:bg-surface-secondary p-3 rounded-lg transition-colors">
                 <div class="flex items-start gap-2">
-                  <i class="pi pi-lightbulb text-amber-500 mt-0.5 shrink-0"></i>
+                  <i class="pi pi-lightbulb text-amber-500 dark:text-amber-400 mt-0.5 shrink-0"></i>
                   <div>
-                    <span class="text-xs font-medium text-gray-500 uppercase">
+                    <span class="text-xs font-medium text-content-tertiary uppercase">
                       {{ t('components.wellbeing.suggestion') }}
                     </span>
-                    <p class="text-gray-700 text-sm mt-1">{{ item.Suggestion }}</p>
+                    <p class="text-content-secondary text-sm mt-1">{{ item.Suggestion }}</p>
                   </div>
                 </div>
               </div>
@@ -107,41 +107,41 @@ const { t } = useI18n<{ message: MessageSchema }>();
 // Color mappings based on SummaryBadge colors
 const colorConfig = {
   red: {
-    headerBg: 'bg-red-50',
+    headerBg: 'bg-red-50 dark:bg-red-950/40',
     iconBg: 'bg-red-500',
-    text: 'text-red-700',
+    text: 'text-red-700 dark:text-red-400',
     chartBg: 'rgba(239, 68, 68, 0.8)',
     chartBorder: 'rgb(239, 68, 68)',
   },
   yellow: {
-    headerBg: 'bg-orange-50',
+    headerBg: 'bg-orange-50 dark:bg-orange-950/40',
     iconBg: 'bg-orange-500',
-    text: 'text-orange-700',
+    text: 'text-orange-700 dark:text-orange-400',
     chartBg: 'rgba(249, 115, 22, 0.8)',
     chartBorder: 'rgb(249, 115, 22)',
   },
   green: {
-    headerBg: 'bg-green-50',
+    headerBg: 'bg-green-50 dark:bg-green-950/40',
     iconBg: 'bg-green-500',
-    text: 'text-green-700',
+    text: 'text-green-700 dark:text-green-400',
     chartBg: 'rgba(34, 197, 94, 0.8)',
     chartBorder: 'rgb(34, 197, 94)',
   },
 };
 
 const getHeaderBgClass = (color?: string): string => {
-  if (!color) return 'bg-gray-50';
-  return colorConfig[color as keyof typeof colorConfig]?.headerBg || 'bg-gray-50';
+  if (!color) return 'bg-surface-tertiary dark:bg-surface-secondary';
+  return colorConfig[color as keyof typeof colorConfig]?.headerBg || 'bg-surface-tertiary dark:bg-surface-secondary';
 };
 
 const getIconBgClass = (color?: string): string => {
-  if (!color) return 'bg-gray-500';
-  return colorConfig[color as keyof typeof colorConfig]?.iconBg || 'bg-gray-500';
+  if (!color) return 'bg-content-tertiary';
+  return colorConfig[color as keyof typeof colorConfig]?.iconBg || 'bg-content-tertiary';
 };
 
 const getTextClass = (color?: string): string => {
-  if (!color) return 'text-gray-700';
-  return colorConfig[color as keyof typeof colorConfig]?.text || 'text-gray-700';
+  if (!color) return 'text-content-secondary';
+  return colorConfig[color as keyof typeof colorConfig]?.text || 'text-content-secondary';
 };
 
 // Convert FontAwesome icons to PrimeIcons

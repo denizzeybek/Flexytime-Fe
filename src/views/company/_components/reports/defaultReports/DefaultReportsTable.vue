@@ -1,5 +1,5 @@
 <template>
-  <Card class="shadow-lg border mb-5 border-gray-100 rounded-2xl overflow-hidden">
+  <Card class="shadow-lg border mb-5 border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors">
     <template #content>
       <DataTable
         tableStyle="min-width: 50rem"

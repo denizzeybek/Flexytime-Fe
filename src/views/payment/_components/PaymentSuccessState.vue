@@ -9,8 +9,8 @@
         </div>
       </div>
 
-      <h2 class="text-3xl font-bold text-gray-900 mb-3">{{ title }}</h2>
-      <p class="text-gray-500 mb-10 max-w-sm mx-auto">{{ description }}</p>
+      <h2 class="text-3xl font-bold text-content-primary mb-3">{{ title }}</h2>
+      <p class="text-content-tertiary mb-10 max-w-sm mx-auto">{{ description }}</p>
 
       <Button
         :label="buttonLabel"

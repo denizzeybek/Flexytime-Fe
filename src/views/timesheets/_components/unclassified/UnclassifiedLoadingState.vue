@@ -7,7 +7,7 @@
         <Skeleton height="0.75rem" width="3rem" />
       </div>
     </div>
-    <div class="bg-white rounded-2xl border border-gray-100 p-5 ml-5">
+    <div class="bg-surface-primary rounded-2xl border border-border-secondary dark:border-border-primary p-5 ml-5 transition-colors">
       <div class="flex items-center gap-4">
         <Skeleton shape="circle" size="1.25rem" />
         <div class="flex-1">

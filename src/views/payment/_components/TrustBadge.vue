@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-2 text-gray-500">
+  <div class="flex items-center gap-2 text-content-tertiary">
     <div
       class="w-8 h-8 rounded-lg flex items-center justify-center"
       :class="bgColorClass"
@@ -27,9 +27,9 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const colorMap: Record<BadgeColor, { bg: string; icon: string }> = {
-  green: { bg: 'bg-green-50', icon: 'text-green-500' },
-  blue: { bg: 'bg-blue-50', icon: 'text-blue-500' },
-  purple: { bg: 'bg-purple-50', icon: 'text-purple-500' },
+  green: { bg: 'bg-green-50 dark:bg-green-950/40', icon: 'text-green-500 dark:text-green-400' },
+  blue: { bg: 'bg-blue-50 dark:bg-blue-950/40', icon: 'text-blue-500 dark:text-blue-400' },
+  purple: { bg: 'bg-purple-50 dark:bg-purple-950/40', icon: 'text-purple-500 dark:text-purple-400' },
 };
 
 const bgColorClass = computed(() => colorMap[props.color].bg);

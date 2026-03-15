@@ -1,7 +1,7 @@
 <template>
-  <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
+  <Card class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors">
     <template #content>
-      <div class="mb-6 pb-5 border-b border-gray-100">
+      <div class="mb-6 pb-5 border-b border-border-secondary dark:border-border-primary transition-colors">
         <Tabs :value="route.name?.toString()!">
           <TabList>
             <Tab v-for="(tab, idx) in items" :key="idx" :value="tab.route" @click="tab.method">
@@ -12,8 +12,8 @@
       </div>
 
       <div class="mt-1">
-        <div :class="route.name !== ERouteNames.ProfileBasic ? 
-        'bg-white rounded-xl border border-gray-200 p-6' : 
+        <div :class="route.name !== ERouteNames.ProfileBasic ?
+        'bg-surface-primary rounded-xl border border-border-secondary dark:border-border-primary p-6 transition-colors' :
         ''">
           <router-view :key="route.path" />
         </div>

@@ -1528,6 +1528,13 @@
     "profile": {
       "profile": "Profile",
       "logout": "Logout"
+    },
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System",
+      "switchToLight": "Switch to light mode",
+      "switchToDark": "Switch to dark mode"
     }
   },
   "routes": {
@@ -1569,7 +1576,8 @@
     "License": "License",
     "Communication": "Communication",
     "Password": "Password",
-    "Promotion": "Promotion"
+    "Promotion": "Promotion",
+    "Teams": "Teams"
   },
   "components": {
     "input": {

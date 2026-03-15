@@ -3,13 +3,15 @@
     <!-- AuthAside hidden for cleaner login experience -->
     <!-- <AuthAside :ad="ads[adName]" /> -->
 
-    <main class="flex w-full flex-col items-center h-screen bg-f-tertiary-purple overflow-y-auto">
-      <div class="px-4 flex justify-between items-center w-full py-3">
+    <main class="flex w-full flex-col items-center h-screen overflow-y-auto transition-colors duration-300
+                 bg-brand-primary-subtle dark:bg-surface-primary">
+      <div class="px-4 flex justify-between items-center w-full py-3 gap-2">
+        <ThemeToggle />
         <FSelect
           v-model="selectedLanguageModel"
           name="language"
           :options="languageOptions"
-          class="max-w-[140px] ms-auto"
+          class="max-w-[140px]"
           @update:model-value="handleLanguageChange"
         />
       </div>
@@ -21,6 +23,7 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 
+import ThemeToggle from '@/components/ui/local/ThemeToggle.vue';
 import { useLanguage } from '@/composables/useLanguage';
 
 type TAdName = 'login' | 'register' | 'download' | 'forgot-password' | 'reset-password';

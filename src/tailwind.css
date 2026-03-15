@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 
+/* Dark mode variant - class-based (.dark on html element) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* === Design System: Single Source of Truth === */
   /* Override Tailwind built-in colors for consistency */
@@ -122,6 +125,60 @@
 
   /* Custom Heights */
   --height-full-offcanvas: 91%;
+
+  /* ============================================
+   * SEMANTIC COLOR TOKENS (Theme-aware)
+   * Usage: bg-surface-primary, text-content-primary, etc.
+   * ============================================ */
+
+  /* Surface Colors - Backgrounds */
+  --color-surface-primary: var(--color-white);
+  --color-surface-secondary: var(--color-slate-50);
+  --color-surface-tertiary: var(--color-slate-100);
+  --color-surface-elevated: var(--color-white);
+  --color-surface-overlay: rgba(0, 0, 0, 0.4);
+
+  /* Content Colors - Text & Icons */
+  --color-content-primary: var(--color-slate-900);
+  --color-content-secondary: var(--color-slate-600);
+  --color-content-tertiary: var(--color-slate-500);
+  --color-content-muted: var(--color-slate-400);
+  --color-content-inverted: var(--color-white);
+
+  /* Border Colors */
+  --color-border-primary: var(--color-slate-200);
+  --color-border-secondary: var(--color-slate-100);
+  --color-border-focus: var(--color-purple-600);
+
+  /* Brand Colors (context-aware) */
+  --color-brand-primary: var(--color-purple-600);
+  --color-brand-primary-hover: var(--color-purple-700);
+  --color-brand-primary-active: var(--color-purple-800);
+  --color-brand-primary-subtle: var(--color-purple-50);
+
+  /* State Colors */
+  --color-state-success: var(--color-green-500);
+  --color-state-success-bg: var(--color-green-50);
+  --color-state-success-border: var(--color-green-200);
+  --color-state-warning: var(--color-orange-500);
+  --color-state-warning-bg: var(--color-orange-50);
+  --color-state-warning-border: var(--color-orange-200);
+  --color-state-error: var(--color-red-500);
+  --color-state-error-bg: var(--color-red-50);
+  --color-state-error-border: var(--color-red-200);
+  --color-state-info: var(--color-sky-500);
+  --color-state-info-bg: var(--color-sky-50);
+  --color-state-info-border: var(--color-sky-200);
+
+  /* Interactive States */
+  --color-interactive-hover: var(--color-slate-50);
+  --color-interactive-active: var(--color-slate-100);
+  --color-interactive-selected: var(--color-purple-50);
+  --color-interactive-selected-border: var(--color-purple-600);
+
+  /* Shadow Colors */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-color-strong: rgba(0, 0, 0, 0.15);
 }
 
 @layer base {
@@ -138,6 +195,130 @@
   body {
     font-family: var(--font-sans);
     font-size: 14px;
+  }
+
+  /* ============================================
+   * DARK MODE OVERRIDES
+   * These override the semantic tokens when .dark is on html
+   * ============================================ */
+  .dark {
+    /* Surface Colors - Dark Mode */
+    --color-surface-primary: #18181b; /* zinc-900 */
+    --color-surface-secondary: #27272a; /* zinc-800 */
+    --color-surface-tertiary: #3f3f46; /* zinc-700 */
+    --color-surface-elevated: #27272a; /* zinc-800 */
+    --color-surface-overlay: rgba(0, 0, 0, 0.7);
+
+    /* Content Colors - Dark Mode */
+    --color-content-primary: #fafafa; /* zinc-50 */
+    --color-content-secondary: #a1a1aa; /* zinc-400 */
+    --color-content-tertiary: #71717a; /* zinc-500 */
+    --color-content-muted: #52525b; /* zinc-600 */
+    --color-content-inverted: #18181b; /* zinc-900 */
+
+    /* Border Colors - Dark Mode */
+    --color-border-primary: #3f3f46; /* zinc-700 */
+    --color-border-secondary: #27272a; /* zinc-800 */
+    --color-border-focus: #a78bfa; /* purple-400 */
+
+    /* Brand Colors - Dark Mode (lighter for visibility) */
+    --color-brand-primary: #a78bfa; /* purple-400 */
+    --color-brand-primary-hover: #c4b5fd; /* purple-300 */
+    --color-brand-primary-active: #ddd6fe; /* purple-200 */
+    --color-brand-primary-subtle: rgba(167, 139, 250, 0.1); /* purple-400/10 */
+
+    /* State Colors - Dark Mode */
+    --color-state-success: #34d399; /* green-400 */
+    --color-state-success-bg: rgba(52, 211, 153, 0.1); /* green-400/10 */
+    --color-state-success-border: rgba(52, 211, 153, 0.3); /* green-400/30 */
+    --color-state-warning: #fbbf24; /* amber-400 */
+    --color-state-warning-bg: rgba(251, 191, 36, 0.1); /* amber-400/10 */
+    --color-state-warning-border: rgba(251, 191, 36, 0.3); /* amber-400/30 */
+    --color-state-error: #f87171; /* red-400 */
+    --color-state-error-bg: rgba(248, 113, 113, 0.1); /* red-400/10 */
+    --color-state-error-border: rgba(248, 113, 113, 0.3); /* red-400/30 */
+    --color-state-info: #38bdf8; /* sky-400 */
+    --color-state-info-bg: rgba(56, 189, 248, 0.1); /* sky-400/10 */
+    --color-state-info-border: rgba(56, 189, 248, 0.3); /* sky-400/30 */
+
+    /* Interactive States - Dark Mode */
+    --color-interactive-hover: #27272a; /* zinc-800 */
+    --color-interactive-active: #3f3f46; /* zinc-700 */
+    --color-interactive-selected: rgba(167, 139, 250, 0.15); /* purple-400/15 */
+    --color-interactive-selected-border: #a78bfa; /* purple-400 */
+
+    /* Shadow Colors - Dark Mode */
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --shadow-color-strong: rgba(0, 0, 0, 0.5);
+
+    /* Override gray aliases for dark mode */
+    --color-f-body-bg: #18181b; /* zinc-900 */
+    --color-f-off-white: #27272a; /* zinc-800 */
+    --color-f-light-gray: #3f3f46; /* zinc-700 */
+    --color-f-stroke: #3f3f46; /* zinc-700 */
+    --color-f-gray: #52525b; /* zinc-600 */
+    --color-f-text-gray: #a1a1aa; /* zinc-400 */
+    --color-f-secondary: #a1a1aa; /* zinc-400 */
+    --color-f-dark-gray: #d4d4d8; /* zinc-300 */
+    --color-f-black: #fafafa; /* zinc-50 */
+    --color-f-light-black: #d4d4d8; /* zinc-300 */
+    --color-f-white: #18181b; /* zinc-900 - inverted */
+
+    /* Primary color adjustments for dark mode */
+    --color-f-primary: #a78bfa; /* purple-400 */
+    --color-f-primary-hovered: #c4b5fd; /* purple-300 */
+    --color-f-light-purple: rgba(167, 139, 250, 0.1);
+    --color-f-secondary-purple: rgba(167, 139, 250, 0.15);
+    --color-f-tertiary-purple: rgba(167, 139, 250, 0.2);
+    --color-f-fifth-purple: rgba(167, 139, 250, 0.3);
+
+    /* State color adjustments for dark mode */
+    --color-f-success: #34d399; /* green-400 */
+    --color-f-green: #34d399;
+    --color-f-light-green: rgba(52, 211, 153, 0.1);
+
+    --color-f-danger: #f87171; /* red-400 */
+    --color-f-red: #f87171;
+    --color-f-light-red: rgba(248, 113, 113, 0.1);
+
+    --color-f-warn: #fbbf24; /* amber-400 */
+    --color-f-yellow: #fbbf24;
+    --color-f-light-yellow: rgba(251, 191, 36, 0.1);
+
+    --color-f-info: #38bdf8; /* sky-400 */
+    --color-f-blue: #38bdf8;
+
+    color-scheme: dark;
+  }
+
+  /* Theme transition */
+  html {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Scrollbar styling for dark mode */
+  .dark ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background: #27272a; /* zinc-800 */
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: #52525b; /* zinc-600 */
+    border-radius: 4px;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #71717a; /* zinc-500 */
+  }
+
+  /* Selection colors */
+  ::selection {
+    background-color: var(--color-brand-primary-subtle);
+    color: var(--color-brand-primary);
   }
 }
 
@@ -167,12 +348,245 @@
 
 /* PrimeVue Dialog - White background & Blur overlay */
 .p-dialog {
-  background: white !important;
+  background: var(--color-surface-primary) !important;
 }
 
 .p-dialog-mask {
   backdrop-filter: blur(4px) !important;
   -webkit-backdrop-filter: blur(4px) !important;
 }
+
+/* ============================================
+ * PRIMEVUE DARK MODE OVERRIDES
+ * Sync PrimeVue with our custom dark class
+ * ============================================ */
+
+/* When .dark is present, also apply PrimeVue dark theme */
+.dark {
+  /* PrimeVue will use .my-app-dark, we sync with .dark */
+}
+
+/* Make PrimeVue components respect our dark mode */
+.dark .p-component {
+  color: var(--color-content-primary);
+}
+
+.dark .p-card {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-datatable {
+  background: var(--color-surface-primary);
+}
+
+.dark .p-datatable .p-datatable-thead > tr > th {
+  background: var(--color-surface-secondary);
+  color: var(--color-content-primary);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-datatable .p-datatable-tbody > tr {
+  background: var(--color-surface-primary);
+  color: var(--color-content-primary);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-datatable .p-datatable-tbody > tr:hover {
+  background: var(--color-interactive-hover);
+}
+
+.dark .p-inputtext {
+  background: var(--color-surface-secondary);
+  color: var(--color-content-primary);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-inputtext:focus {
+  border-color: var(--color-border-focus);
+}
+
+.dark .p-button {
+  /* Primary buttons keep brand color */
+}
+
+.dark .p-button.p-button-secondary {
+  background: var(--color-surface-tertiary);
+  color: var(--color-content-primary);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-select {
+  background: var(--color-surface-secondary);
+  color: var(--color-content-primary);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-select:hover {
+  border-color: var(--color-border-focus);
+}
+
+.dark .p-select.p-focus {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.2);
+}
+
+.dark .p-select .p-select-label {
+  color: var(--color-content-primary);
+}
+
+.dark .p-select .p-select-label.p-placeholder {
+  color: var(--color-content-tertiary);
+}
+
+.dark .p-select .p-select-dropdown {
+  color: var(--color-content-tertiary);
+}
+
+.dark .p-select-overlay {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-select-overlay .p-select-option {
+  color: var(--color-content-primary);
+}
+
+.dark .p-select-overlay .p-select-option:hover {
+  background: var(--color-interactive-hover);
+}
+
+.dark .p-select-overlay .p-select-option.p-highlight {
+  background: var(--color-interactive-selected);
+  color: var(--color-brand-primary);
+}
+
+.dark .p-multiselect {
+  background: var(--color-surface-secondary);
+  color: var(--color-content-primary);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-multiselect:hover {
+  border-color: var(--color-border-focus);
+}
+
+.dark .p-multiselect.p-focus {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.2);
+}
+
+.dark .p-multiselect-label {
+  color: var(--color-content-primary);
+}
+
+.dark .p-multiselect-label.p-placeholder {
+  color: var(--color-content-tertiary);
+}
+
+.dark .p-multiselect-dropdown {
+  color: var(--color-content-tertiary);
+}
+
+.dark .p-multiselect-overlay {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-multiselect-overlay .p-multiselect-header {
+  background: var(--color-surface-secondary);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-multiselect-overlay .p-multiselect-list {
+  background: var(--color-surface-elevated);
+}
+
+.dark .p-multiselect-overlay .p-multiselect-option {
+  color: var(--color-content-primary);
+}
+
+.dark .p-multiselect-overlay .p-multiselect-option:hover {
+  background: var(--color-interactive-hover);
+}
+
+.dark .p-multiselect-overlay .p-multiselect-option.p-highlight {
+  background: var(--color-interactive-selected);
+  color: var(--color-brand-primary);
+}
+
+.dark .p-menu {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-menu .p-menu-item:not(.p-disabled).p-focus > .p-menu-item-content {
+  background: var(--color-interactive-hover);
+}
+
+.dark .p-tag {
+  /* Tags will use state colors which are already adjusted */
+}
+
+.dark .p-message {
+  /* Messages use state colors */
+}
+
+.dark .p-skeleton {
+  background: var(--color-surface-tertiary);
+}
+
+.dark .p-skeleton::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-surface-secondary),
+    transparent
+  );
+}
+
+.dark .p-drawer {
+  background: var(--color-surface-primary);
+}
+
+.dark .p-dialog {
+  background: var(--color-surface-elevated) !important;
+}
+
+.dark .p-panelmenu .p-panelmenu-panel {
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-panelmenu .p-panelmenu-header-content {
+  background: var(--color-surface-secondary);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-panelmenu .p-panelmenu-content {
+  background: var(--color-surface-primary);
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-tablist {
+  border-color: var(--color-border-primary);
+}
+
+.dark .p-tablist-tab-list {
+  background: var(--color-surface-secondary);
+}
+
+.dark .p-breadcrumb {
+  background: transparent;
+}
+
+.dark .p-breadcrumb .p-breadcrumb-item-link {
+  color: var(--color-content-secondary);
+}
+
+.dark .p-breadcrumb .p-breadcrumb-item-link:hover {
+  color: var(--color-content-primary);
+}
+
+/* Chart.js dark mode - handled via composable */
 
 

@@ -8,15 +8,15 @@
       class="rounded-3xl p-8 h-full flex flex-col  transition-all duration-200"
       :class="[
         selected
-          ? 'bg-purple-100'
-          : 'ring-1 ring-gray-200 hover:ring-gray-300 bg-white',
+          ? 'bg-purple-100 dark:bg-purple-950/40'
+          : 'ring-1 ring-border-secondary dark:ring-border-primary hover:ring-border-focus bg-surface-primary',
       ]"
     >
       <!-- Header: Plan Name + Badge -->
       <div class="flex items-center justify-between gap-x-4">
         <h3
           class="text-lg font-semibold leading-8"
-          :class="[selected || plan.recommended ? 'text-primary' : 'text-gray-900']"
+          :class="[selected || plan.recommended ? 'text-primary' : 'text-content-primary']"
         >
           {{ plan.name }}
         </h3>
@@ -29,18 +29,18 @@
       </div>
 
       <!-- Description -->
-      <p class="mt-4 text-sm leading-6 text-gray-600">
+      <p class="mt-4 text-sm leading-6 text-content-secondary">
         {{ plan.description }}
       </p>
 
       <!-- Price -->
       <p class="mt-6 flex items-baseline gap-x-1">
         <span
-          class="text-5xl font-bold tracking-tight text-gray-900"
+          class="text-5xl font-bold tracking-tight text-content-primary"
         >
           ${{ plan.price }}
         </span>
-        <span class="text-sm font-semibold leading-6 text-gray-600">
+        <span class="text-sm font-semibold leading-6 text-content-secondary">
           /{{ t('pages.payment.mo') }}
         </span>
       </p>
@@ -48,7 +48,7 @@
       <!-- Features -->
       <ul
         role="list"
-        class="mt-8 space-y-3 text-sm leading-6 text-gray-600 flex-grow"
+        class="mt-8 space-y-3 text-sm leading-6 text-content-secondary flex-grow"
       >
         <li
           v-for="feature in plan.features"

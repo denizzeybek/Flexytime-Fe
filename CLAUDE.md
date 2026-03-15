@@ -139,3 +139,66 @@ Follow this order in Vue SFCs:
 - **TypeScript**: Project references for app, node, and test configurations
 - **Tailwind**: Custom configuration for design system
 - **ESLint**: Vue 3 + TypeScript rules with Prettier integration
+
+## Dark Theme System
+
+This project has a fully implemented dark theme system. **All new development MUST be dark theme compatible.**
+
+### Semantic Color Tokens (MANDATORY)
+
+Never use direct Tailwind colors (`text-gray-500`, `bg-white`, `border-slate-200`). Always use semantic tokens defined in `src/tailwind.css`:
+
+| Category | Token | Usage |
+|----------|-------|-------|
+| **Surface** | `bg-surface-primary` | Main background |
+| | `bg-surface-secondary` | Secondary background |
+| | `bg-surface-tertiary` | Tertiary/nested background |
+| | `bg-surface-elevated` | Cards, modals, dropdowns |
+| **Content** | `text-content-primary` | Main text |
+| | `text-content-secondary` | Secondary text |
+| | `text-content-tertiary` | Tertiary/placeholder text |
+| | `text-content-muted` | Disabled/muted text |
+| **Border** | `border-border-primary` | Primary borders |
+| | `border-border-secondary` | Secondary/subtle borders |
+| **Brand** | `text-brand-primary` | Brand color (purple) |
+| | `bg-brand-primary` | Brand background |
+| **State** | `text-state-success` | Success state |
+| | `bg-state-success-bg` | Success background |
+| **Interactive** | `bg-interactive-hover` | Hover state |
+| | `bg-interactive-selected` | Selected state |
+
+### Example Usage
+
+```vue
+<!-- ✅ CORRECT: Using semantic tokens -->
+<div class="bg-surface-primary dark:bg-surface-secondary
+            border border-border-secondary dark:border-border-primary
+            text-content-primary transition-colors">
+
+<!-- ❌ WRONG: Using direct colors -->
+<div class="bg-white dark:bg-gray-800 border-gray-200 text-gray-900">
+```
+
+### Theme Composable
+
+```typescript
+import { useTheme } from '@/composables/useTheme';
+
+const { isDark, toggleTheme, setTheme } = useTheme();
+```
+
+### PrimeVue Dark Theme
+
+PrimeVue components automatically receive dark theme styles from global CSS in `src/tailwind.css`. For custom overrides:
+
+```vue
+<Card class="!bg-surface-primary dark:!bg-surface-secondary !border !border-border-secondary dark:!border-border-primary">
+```
+
+### Key Rules
+
+1. Always use semantic color tokens, never direct colors
+2. Add `transition-colors` for smooth theme transitions
+3. Test both light and dark modes during development
+4. For nested elements, use `surface-tertiary` or opacity (`/50`) for contrast
+5. Borders are critical for visibility in dark mode

@@ -1,9 +1,9 @@
 <template>
-  <Card class="shadow-lg border border-gray-100 rounded-2xl">
+  <Card class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl transition-colors">
     <template #content>
       <div class="text-center py-12">
-        <i class="pi pi-sitemap text-6xl text-gray-300 mb-4"></i>
-        <p class="text-xl text-gray-600 mb-4">
+        <i class="pi pi-sitemap text-6xl text-content-quaternary mb-4"></i>
+        <p class="text-xl text-content-secondary mb-4">
           {{ hasSearchQuery ? t('pages.company.organizationChartV2.emptyState.noResults') : t('pages.company.organizationChartV2.emptyState.noData') }}
         </p>
         <Button

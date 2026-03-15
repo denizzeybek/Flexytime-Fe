@@ -3,7 +3,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       <!-- Loading skeleton cards -->
       <template v-if="isLoading">
-        <Card v-for="i in 4" :key="`skeleton-${i}`">
+        <Card v-for="i in 4" :key="`skeleton-${i}`" class="!bg-surface-primary dark:!bg-surface-secondary !border !border-border-secondary dark:!border-border-primary transition-colors">
           <template #header>
             <div class="flex items-center justify-between p-4">
               <div class="flex items-center gap-2">
@@ -20,7 +20,7 @@
               <div class="col-span-2 flex items-center justify-center">
                 <Skeleton shape="circle" size="12rem" />
               </div>
-              <div class="flex flex-col gap-2 bg-gray-100 p-6 rounded-lg h-full col-span-2">
+              <div class="flex flex-col gap-2 bg-surface-tertiary dark:bg-surface-tertiary/50 p-6 rounded-lg h-full col-span-2 transition-colors border border-border-secondary dark:border-border-primary">
                 <Skeleton v-for="j in 5" :key="j" height="1.5rem" class="mb-2" />
               </div>
             </div>
@@ -31,7 +31,7 @@
       <!-- Actual data cards -->
       <template v-else-if="distributions && distributions.length > 0">
         <template v-for="(distribution, idx) in chartData" :key="idx">
-          <Card>
+          <Card class="!bg-surface-primary dark:!bg-surface-secondary !border !border-border-secondary dark:!border-border-primary transition-colors">
             <template #header>
               <div class="flex items-center justify-between p-4">
                 <div class="flex items-center gap-2">
@@ -41,11 +41,11 @@
                   >
                     <i :class="getBadgeIcon(distribution.statisticType ?? '')" class="text-white"></i>
                   </div>
-                  <span class="font-semibold text-lg">{{ getBadgeTitle(distribution.statisticType ?? '') }}</span>
+                  <span class="font-semibold text-lg text-content-primary">{{ getBadgeTitle(distribution.statisticType ?? '') }}</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="font-medium">{{ $t('components.distribution.totalTime') }}:</span>
-                  <span class="font-semibold">{{ distribution.formattedTime }}</span>
+                  <span class="font-medium text-content-secondary">{{ $t('components.distribution.totalTime') }}:</span>
+                  <span class="font-semibold text-content-primary">{{ distribution.formattedTime }}</span>
                 </div>
               </div>
             </template>
@@ -60,11 +60,11 @@
                     :height="250"
                     class="col-span-2"
                   />
-                  <div class="flex flex-col gap-2 bg-gray-100 p-6 rounded-lg col-span-2 max-h-64 overflow-y-auto">
+                  <div class="flex flex-col gap-2 bg-surface-tertiary dark:bg-surface-tertiary/50 p-6 rounded-lg col-span-2 max-h-64 overflow-y-auto transition-colors border border-border-secondary dark:border-border-primary">
                     <template v-for="(application, appIdx) in distribution.applications" :key="appIdx">
                       <div class="flex gap-2 justify-between">
-                        <span class="font-medium">{{ application.title }}</span>
-                        <span>{{ application.formattedTime }}</span>
+                        <span class="font-medium text-content-primary">{{ application.title }}</span>
+                        <span class="text-content-secondary">{{ application.formattedTime }}</span>
                       </div>
                     </template>
                   </div>

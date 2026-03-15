@@ -1,5 +1,5 @@
 <template>
-  <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
+  <Card class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors">
     <template #content>
       <div class="flex flex-col justify-between items-center h-full gap-4">
         <div class="flex flex-col justify-center items-center gap-4">
@@ -9,10 +9,10 @@
           <FText class="text-center">
             {{ t('pages.promotion.description') }}
           </FText>
-          <span class="text-xs text-gray-400">{{ t('pages.promotion.disclaimer') }}</span>
+          <span class="text-xs text-content-quaternary">{{ t('pages.promotion.disclaimer') }}</span>
         </div>
 
-        <Card class="w-2/3 my-12 shadow-lg border border-gray-100 rounded-2xl">
+        <Card class="w-2/3 my-12 shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl transition-colors">
           <template #header>
             <div class="w-full flex items-center justify-center p-4">
               <FText as="h4">{{ t('pages.promotion.inviteByEmail') }}</FText>

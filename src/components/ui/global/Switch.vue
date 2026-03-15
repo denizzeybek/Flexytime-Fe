@@ -27,12 +27,13 @@
       <span
         class="relative w-10 h-5 transition-colors duration-200 rounded-full"
         :class="{
-          'bg-gray-300': !checked,
-          'bg-f-primary': checked,
+          'bg-border-primary dark:bg-zinc-600': !checked,
+          'bg-brand-primary': checked,
         }"
       >
         <span
-          class="absolute top-0.5 left-0.5 h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+          class="absolute top-0.5 left-0.5 h-4 w-4 transform rounded-full transition-transform duration-200
+                 bg-surface-primary dark:bg-zinc-200"
           :class="{
             'translate-x-5': checked,
             'translate-x-0': !checked,

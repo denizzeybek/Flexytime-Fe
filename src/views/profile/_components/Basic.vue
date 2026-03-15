@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col gap-8">
     <!-- Personal Info Section (saved with button) -->
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-      <h3 class="text-lg font-semibold mb-6">{{ t('pages.profile.basic.sections.personalInfo') }}</h3>
+    <div class="bg-surface-primary rounded-xl border border-border-secondary dark:border-border-primary p-6 transition-colors">
+      <h3 class="text-lg font-semibold text-content-primary mb-6">{{ t('pages.profile.basic.sections.personalInfo') }}</h3>
       <form class="flex flex-col gap-6" @submit.prevent="submitHandler">
         <div class="flex items-center flex-col lg:flex-row gap-8">
           <!-- Avatar -->
@@ -25,9 +25,9 @@
               />
               <div
                 v-else
-                class="w-[120px] h-[120px] flex items-center justify-center border-2 rounded-full border-gray-300 bg-gray-50"
+                class="w-[120px] h-[120px] flex items-center justify-center border-2 rounded-full border-border-secondary dark:border-border-primary bg-surface-tertiary dark:bg-surface-secondary transition-colors"
               >
-                <span class="pi pi-user !text-5xl text-gray-400"></span>
+                <span class="pi pi-user !text-5xl text-content-quaternary"></span>
               </div>
             </template>
             <FileUpload
@@ -87,10 +87,10 @@
     </div>
 
     <!-- Preferences Section (auto-save on change) -->
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <div class="bg-surface-primary rounded-xl border border-border-secondary dark:border-border-primary p-6 transition-colors">
       <div class="flex items-center justify-between mb-6">
-        <h3 class="text-lg font-semibold">{{ t('pages.profile.basic.sections.preferences') }}</h3>
-        <span class="text-xs text-gray-400">{{ t('pages.profile.basic.sections.autoSave') }}</span>
+        <h3 class="text-lg font-semibold text-content-primary">{{ t('pages.profile.basic.sections.preferences') }}</h3>
+        <span class="text-xs text-content-quaternary">{{ t('pages.profile.basic.sections.autoSave') }}</span>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Language -->

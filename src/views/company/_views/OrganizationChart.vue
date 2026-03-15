@@ -12,7 +12,7 @@
     />
 
     <!-- Organization Tree -->
-    <Card v-if="!isLoading && treeData.length > 0" class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
+    <Card v-if="!isLoading && treeData.length > 0" class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors">
       <template #content>
         <div class="organization-tree">
           <VueTreeDnd
@@ -32,7 +32,7 @@
     />
 
     <!-- Loading State -->
-    <Card v-if="isLoading" class="shadow-lg border border-gray-100 rounded-2xl">
+    <Card v-if="isLoading" class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl transition-colors">
       <template #content>
         <div class="text-center py-12">
           <ProgressSpinner />

@@ -4,11 +4,13 @@
       <!-- Forgot Password Card -->
       <div class="w-full max-w-md my-auto">
         <!-- Card Container -->
-        <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-8">
+        <div class="rounded-2xl shadow-xl border p-6 sm:p-8 transition-colors duration-300
+                    bg-surface-primary dark:bg-surface-elevated
+                    border-border-secondary dark:border-border-primary">
           <!-- Logo -->
           <div class="flex justify-center mb-6">
             <img
-              class="h-14 w-auto"
+              class="h-14 w-auto dark:brightness-0 dark:invert"
               src="@/components/images/login-logo.png"
               alt="Logo"
             />
@@ -17,24 +19,26 @@
           <!-- Success State - Email Sent -->
           <template v-if="emailSent">
             <div class="text-center mb-6">
-              <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="pi pi-envelope text-2xl text-green-600"></i>
+              <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4
+                          bg-state-success-bg dark:bg-state-success-bg">
+                <i class="pi pi-envelope text-2xl text-state-success"></i>
               </div>
-              <h1 class="text-2xl font-bold text-slate-900 mb-2">
+              <h1 class="text-2xl font-bold text-content-primary mb-2">
                 {{ t('pages.auth.forgotPassword.emailSent.title') }}
               </h1>
-              <p class="text-sm text-slate-600">
+              <p class="text-sm text-content-secondary">
                 {{ t('pages.auth.forgotPassword.emailSent.description') }}
               </p>
             </div>
 
             <!-- Info Box -->
-            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
+            <div class="rounded-xl p-4 mb-6 transition-colors
+                        bg-state-info-bg border border-state-info-border">
               <div class="flex gap-3">
-                <i class="pi pi-info-circle text-blue-600 mt-0.5"></i>
-                <div class="text-sm text-blue-800">
+                <i class="pi pi-info-circle text-state-info mt-0.5"></i>
+                <div class="text-sm text-content-primary">
                   <p class="font-medium mb-1">{{ t('pages.auth.forgotPassword.emailSent.infoTitle') }}</p>
-                  <ul class="list-disc list-inside space-y-1 text-blue-700">
+                  <ul class="list-disc list-inside space-y-1 text-content-secondary">
                     <li>{{ t('pages.auth.forgotPassword.emailSent.checkInbox') }}</li>
                     <li>{{ t('pages.auth.forgotPassword.emailSent.checkSpam') }}</li>
                     <li>{{ t('pages.auth.forgotPassword.emailSent.linkExpiry') }}</li>
@@ -55,7 +59,7 @@
                 @click="handleResend"
               />
               <RouterLink
-                class="block text-center text-sm font-medium text-purple-600 hover:text-purple-700 transition-colors"
+                class="block text-center text-sm font-medium text-brand-primary hover:text-brand-primary-hover transition-colors"
                 :to="{ name: ERouteNames.Login }"
               >
                 ← {{ t('pages.auth.forgotPassword.backToLogin') }}
@@ -67,10 +71,10 @@
           <template v-else>
             <!-- Header -->
             <div class="text-center mb-6">
-              <h1 class="text-2xl font-bold text-slate-900 mb-1">
+              <h1 class="text-2xl font-bold text-content-primary mb-1">
                 {{ t('pages.auth.forgotPassword.title') }}
               </h1>
-              <p class="text-sm text-slate-600">
+              <p class="text-sm text-content-secondary">
                 {{ t('pages.auth.forgotPassword.description') }}
               </p>
             </div>
@@ -103,7 +107,7 @@
             <!-- Back to Login -->
             <div class="mt-6 text-center">
               <RouterLink
-                class="text-sm font-medium text-purple-600 hover:text-purple-700 transition-colors"
+                class="text-sm font-medium text-brand-primary hover:text-brand-primary-hover transition-colors"
                 :to="{ name: ERouteNames.Login }"
               >
                 ← {{ t('pages.auth.forgotPassword.backToLogin') }}
@@ -113,7 +117,7 @@
         </div>
 
         <!-- Footer Text -->
-        <p class="mt-4 text-center text-xs text-slate-500">
+        <p class="mt-4 text-center text-xs text-content-tertiary">
           {{ t('pages.auth.forgotPassword.footer') }}
         </p>
       </div>

@@ -1,10 +1,10 @@
 <template>
-  <Card class="shadow-md border border-gray-100 rounded-xl">
+  <Card class="shadow-md border border-border-secondary dark:border-border-primary rounded-xl transition-colors">
     <template #header>
       <div class="w-full flex items-center justify-between flex-wrap px-5 pt-5">
         <section id="summary" class="flex gap-5 flex-col lg:flex-row">
           <div v-for="(item, idx) in summary" :key="idx" class="flex items-center gap-2">
-            <FText class="text-gray-600">{{ item.label }}</FText>
+            <FText class="text-content-secondary">{{ item.label }}</FText>
             <FText as="h6" class="font-semibold">{{ item.value }}</FText>
           </div>
         </section>

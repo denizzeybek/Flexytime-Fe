@@ -1,5 +1,5 @@
 <template>
-  <Card class="shadow-md border border-gray-100 rounded-xl">
+  <Card class="shadow-md border border-border-secondary dark:border-border-primary rounded-xl transition-colors">
     <template #content>
       <form class="flex flex-col gap-5" @submit="submitHandler">
         <div class="flex items-center gap-4 flex-wrap lg:flex-nowrap">

@@ -1528,6 +1528,13 @@
     "profile": {
       "profile": "Profil",
       "logout": "Çıkış Yap"
+    },
+    "theme": {
+      "light": "Açık",
+      "dark": "Koyu",
+      "system": "Sistem",
+      "switchToLight": "Açık temaya geç",
+      "switchToDark": "Koyu temaya geç"
     }
   },
   "routes": {
@@ -1569,7 +1576,8 @@
     "License": "Lisans",
     "Communication": "İletişim",
     "Password": "Şifre",
-    "Promotion": "Promosyon"
+    "Promotion": "Promosyon",
+    "Teams": "Takımlar"
   },
   "components": {
     "input": {

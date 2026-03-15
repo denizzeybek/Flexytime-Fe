@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-6">
     <!-- Filters Form -->
-    <Card class="shadow-md border border-gray-100 rounded-xl">
+    <Card class="shadow-md border border-border-secondary dark:border-border-primary rounded-xl transition-colors">
       <template #content>
         <div class="flex flex-col gap-4">
           <div class="flex items-center gap-4 flex-wrap">
@@ -71,20 +71,20 @@
     </Card>
 
     <!-- Summary & Bar Chart -->
-    <Card class="shadow-md border border-gray-100 rounded-xl">
+    <Card class="shadow-md border border-border-secondary dark:border-border-primary rounded-xl transition-colors">
       <template #header>
         <div class="flex items-center justify-between flex-wrap px-5 pt-5 gap-4">
           <div class="flex gap-6 flex-wrap">
             <div class="flex items-center gap-2">
-              <span class="text-gray-500">{{ t('pages.company.reports.elasticReports.summary.total') }}</span>
+              <span class="text-content-tertiary">{{ t('pages.company.reports.elasticReports.summary.total') }}</span>
               <span class="font-semibold text-lg">{{ summary?.Total ?? '00:00' }}</span>
             </div>
             <div class="flex items-center gap-2">
-              <span class="text-gray-500">{{ t('pages.company.reports.elasticReports.summary.billable') }}</span>
+              <span class="text-content-tertiary">{{ t('pages.company.reports.elasticReports.summary.billable') }}</span>
               <span class="font-semibold text-lg text-green-600">{{ summary?.Billable ?? '00:00' }}</span>
             </div>
             <div class="flex items-center gap-2">
-              <span class="text-gray-500">{{ t('pages.company.reports.elasticReports.summary.unbillable') }}</span>
+              <span class="text-content-tertiary">{{ t('pages.company.reports.elasticReports.summary.unbillable') }}</span>
               <span class="font-semibold text-lg text-orange-600">{{ summary?.Unbillable ?? '00:00' }}</span>
             </div>
           </div>
@@ -110,7 +110,7 @@
     </Card>
 
     <!-- Grouping Table & Pie Chart -->
-    <Card class="shadow-md border border-gray-100 rounded-xl">
+    <Card class="shadow-md border border-border-secondary dark:border-border-primary rounded-xl transition-colors">
       <template #header>
         <div class="flex gap-4 px-5 pt-5">
           <Select
@@ -151,7 +151,7 @@
             <Column :field="'Group2'" :header="group2Label" sortable />
             <Column field="Total" :header="t('pages.company.reports.elasticReports.columns.total')" sortable />
             <template #empty>
-              <div class="text-center text-gray-500 py-4">
+              <div class="text-center text-content-tertiary py-4">
                 {{ t('pages.company.reports.elasticReports.noData') }}
               </div>
             </template>

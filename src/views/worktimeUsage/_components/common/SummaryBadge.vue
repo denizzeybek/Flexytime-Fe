@@ -14,7 +14,7 @@
         </div>
         <div class="flex flex-col items-start justify-center gap-1">
           <Skeleton v-if="isLoading" height="0.75rem" width="4rem" />
-          <span v-else class="text-xs text-gray-500 font-medium">{{ title }}</span>
+          <span v-else class="text-xs text-content-tertiary font-medium">{{ title }}</span>
 
           <Skeleton v-if="isLoading" height="1rem" width="3rem" />
           <span v-else :class="textClass" class="font-bold text-base">{{ value }}</span>
@@ -97,22 +97,22 @@ const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);
 }
 
 .card-text-success {
-  @apply text-green-700;
+  @apply text-green-700 dark:text-green-400;
 }
 .card-text-danger {
-  @apply text-red-700;
+  @apply text-red-700 dark:text-red-400;
 }
 .card-text-warn {
-  @apply text-orange-700;
+  @apply text-orange-700 dark:text-orange-400;
 }
 .card-text-secondary {
-  @apply text-slate-700;
+  @apply text-slate-700 dark:text-slate-300;
 }
 .card-text-info {
-  @apply text-blue-700;
+  @apply text-blue-700 dark:text-blue-400;
 }
 .card-text-primary {
-  @apply text-purple-700;
+  @apply text-purple-700 dark:text-purple-400;
 }
 
 .bg-success {
@@ -135,21 +135,21 @@ const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);
 }
 
 .bg-light-success {
-  @apply bg-green-50/80 border-green-200/50;
+  @apply bg-green-50/80 border-green-200/50 dark:bg-green-950/40 dark:border-green-700/30;
 }
 .bg-light-danger {
-  @apply bg-red-50/80 border-red-200/50;
+  @apply bg-red-50/80 border-red-200/50 dark:bg-red-950/40 dark:border-red-700/30;
 }
 .bg-light-warn {
-  @apply bg-orange-50/80 border-orange-200/50;
+  @apply bg-orange-50/80 border-orange-200/50 dark:bg-orange-950/40 dark:border-orange-700/30;
 }
 .bg-light-secondary {
-  @apply bg-slate-50/80 border-slate-200/50;
+  @apply bg-slate-50/80 border-slate-200/50 dark:bg-slate-800/40 dark:border-slate-600/30;
 }
 .bg-light-info {
-  @apply bg-blue-50/80 border-blue-200/50;
+  @apply bg-blue-50/80 border-blue-200/50 dark:bg-blue-950/40 dark:border-blue-700/30;
 }
 .bg-light-primary {
-  @apply bg-purple-50/80 border-purple-200/50;
+  @apply bg-purple-50/80 border-purple-200/50 dark:bg-purple-950/40 dark:border-purple-700/30;
 }
 </style>

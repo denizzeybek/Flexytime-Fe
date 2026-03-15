@@ -21,7 +21,7 @@
           v-else
           :href="slotProps.data.Url"
           target="_blank"
-          class="text-blue-600 hover:underline truncate max-w-md block"
+          class="text-brand-primary dark:text-brand-primary hover:underline truncate max-w-md block"
           :title="slotProps.data.Url"
         >
           {{ slotProps.data.Url }}

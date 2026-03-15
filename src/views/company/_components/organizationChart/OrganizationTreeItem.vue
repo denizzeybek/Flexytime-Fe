@@ -1,6 +1,6 @@
 <template>
   <div class="organization-tree-item w-full" :class="{ highlighted: isHighlighted }" :style="{ paddingLeft: `${depth * 24}px` }">
-    <div class="flex items-center gap-3 p-4 border border-gray-200 rounded-lg bg-white hover:shadow-md transition-shadow duration-200 w-full">
+    <div class="flex items-center gap-3 p-4 border border-border-secondary dark:border-border-primary rounded-lg bg-surface-primary hover:shadow-md transition-all duration-200 w-full">
       <!-- Expand/Collapse Icon -->
       <Button
         v-if="hasChildren"
@@ -24,18 +24,18 @@
       <div class="flex-1 min-w-0">
         <div class="flex flex-col lg:flex-row lg:items-center gap-1 lg:gap-4">
           <!-- Title/Team Name -->
-          <div class="font-semibold text-gray-900 truncate" :class="depth === 0 ? 'text-lg' : 'text-base'">
+          <div class="font-semibold text-content-primary truncate" :class="depth === 0 ? 'text-lg' : 'text-base'">
             {{ item.title || item.Name || t('pages.company.organizationChartV2.node.untitled') }}
           </div>
 
           <!-- Member Name -->
-          <div v-if="item.MemberName" class="text-sm text-gray-600 truncate lg:flex-shrink-0">
+          <div v-if="item.MemberName" class="text-sm text-content-secondary truncate lg:flex-shrink-0">
             <i class="pi pi-user text-xs mr-1" />
             {{ item.MemberName }}
           </div>
 
           <!-- Title Name (Job Title) -->
-          <div v-if="item.TitleName" class="text-sm text-gray-500 truncate lg:flex-shrink-0">
+          <div v-if="item.TitleName" class="text-sm text-content-tertiary truncate lg:flex-shrink-0">
             <i class="pi pi-briefcase text-xs mr-1" />
             {{ item.TitleName }}
           </div>
@@ -147,7 +147,7 @@ const handleAddChild = () => {
 
   &.highlighted {
     > div {
-      @apply ring-2 ring-blue-400 ring-opacity-50 bg-blue-50;
+      @apply ring-2 ring-brand-primary ring-opacity-50 bg-brand-primary/10;
     }
   }
 }

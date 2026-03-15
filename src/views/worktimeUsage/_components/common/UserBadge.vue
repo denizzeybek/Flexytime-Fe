@@ -1,6 +1,7 @@
 <template>
   <div class="hidden sm:block h-full">
-    <Card class="h-full flex flex-col shadow-lg border border-gray-100 hover:shadow-xl transition-shadow rounded-2xl overflow-hidden">
+    <Card class="h-full flex flex-col shadow-lg border hover:shadow-xl transition-all rounded-2xl overflow-hidden
+                 border-border-secondary dark:border-border-primary">
       <template #footer>
         <div class="flex flex-col items-center justify-center gap-3.5 flex-1 py-2">
           <template v-if="isLoading">
@@ -14,19 +15,19 @@
                 :image="card.ImageUrl"
                 size="xlarge"
                 shape="circle"
-                class="border-2 border-gray-200"
+                class="border-2 border-border-primary"
               />
               <Avatar
                 v-else
                 :label="getAvatarLabel(card.Name)"
                 size="xlarge"
                 shape="circle"
-                class="border-2 border-gray-200"
+                class="border-2 border-border-primary"
               />
             </div>
             <div class="text-center px-3">
-              <div class="text-base font-semibold text-gray-800 mb-1">{{ card.Name }}</div>
-              <div v-if="card.Title" class="text-sm text-gray-500">
+              <div class="text-base font-semibold text-content-primary mb-1">{{ card.Name }}</div>
+              <div v-if="card.Title" class="text-sm text-content-tertiary">
                 {{ card.Title }}
               </div>
             </div>

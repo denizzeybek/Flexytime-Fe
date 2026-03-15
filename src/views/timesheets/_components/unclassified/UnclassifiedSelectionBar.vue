@@ -16,7 +16,7 @@
       <Button
         :label="t('pages.timesheets.unclassified.categorizeButton')"
         icon="pi pi-tag"
-        class="!bg-white !text-f-primary hover:!bg-gray-100"
+        class="!bg-white dark:!bg-surface-secondary !text-f-primary hover:!bg-gray-100 dark:hover:!bg-surface-tertiary"
         @click="$emit('categorize')"
       />
     </div>

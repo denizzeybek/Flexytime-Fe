@@ -1,5 +1,5 @@
 <template>
-  <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
+  <Card class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors">
     <template #content>
       <form class="flex flex-col gap-12" @submit="submitHandler">
         <Skeleton v-if="isLoading" height="30rem" width="w-full" />

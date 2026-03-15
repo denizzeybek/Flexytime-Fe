@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-3xl bg-white shadow-xl shadow-gray-200/50 overflow-hidden">
+  <div class="rounded-3xl bg-surface-primary shadow-xl shadow-gray-200/50 dark:shadow-gray-900/50 overflow-hidden transition-colors">
     <!-- Selected Plan Summary -->
     <PlanSummaryHeader
       :label="t('pages.payment.selectedPlan')"
@@ -13,19 +13,19 @@
       <!-- Order Details -->
       <div class="space-y-3 mb-6">
         <div class="flex justify-between items-center text-sm">
-          <span class="text-gray-500">{{ t('pages.payment.billingCycle') }}</span>
-          <span class="font-medium text-gray-900">
+          <span class="text-content-tertiary">{{ t('pages.payment.billingCycle') }}</span>
+          <span class="font-medium text-content-primary">
             {{ selectedPlan?.interval === 'month' ? t('pages.payment.monthly') : t('pages.payment.yearly') }}
           </span>
         </div>
         <div class="flex justify-between items-center text-sm">
-          <span class="text-gray-500">{{ t('pages.payment.startDate') }}</span>
-          <span class="font-medium text-gray-900">{{ t('pages.payment.today') }}</span>
+          <span class="text-content-tertiary">{{ t('pages.payment.startDate') }}</span>
+          <span class="font-medium text-content-primary">{{ t('pages.payment.today') }}</span>
         </div>
-        <div class="h-px bg-gray-100 my-4"></div>
+        <div class="h-px bg-border-secondary dark:bg-border-primary my-4"></div>
         <div class="flex justify-between items-center">
-          <span class="font-semibold text-gray-900">{{ t('pages.payment.total') }}</span>
-          <span class="text-xl font-bold text-gray-900">${{ selectedPlan?.price }}</span>
+          <span class="font-semibold text-content-primary">{{ t('pages.payment.total') }}</span>
+          <span class="text-xl font-bold text-content-primary">${{ selectedPlan?.price }}</span>
         </div>
       </div>
 
@@ -87,7 +87,7 @@
       </div>
 
       <!-- Security Note -->
-      <div class="flex items-center justify-center gap-2 text-gray-400 text-xs mt-4">
+      <div class="flex items-center justify-center gap-2 text-content-quaternary text-xs mt-4">
         <i class="pi pi-shield"></i>
         <span>{{ t('pages.payment.securePayment') }}</span>
       </div>

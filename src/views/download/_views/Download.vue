@@ -1,5 +1,5 @@
 <template>
-  <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
+  <Card class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors">
     <template #content>
       <div
         class="h-full max-h-full w-full max-w-full flex flex-col lg:flex-row items-center gap-4 lg:gap-12"
@@ -51,19 +51,19 @@
 
           <!-- macOS setup steps (shown after download starts) -->
           <div v-if="isMacos" class="w-full flex flex-col gap-3 mt-2">
-            <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+            <div class="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/40 rounded-lg">
               <span class="flex items-center justify-center w-7 h-7 rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">1</span>
-              <span class="text-sm">{{ t('pages.download.macos.step1') }}</span>
+              <span class="text-sm text-content-primary">{{ t('pages.download.macos.step1') }}</span>
             </div>
-            <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+            <div class="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/40 rounded-lg">
               <span class="flex items-center justify-center w-7 h-7 rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">2</span>
-              <span class="text-sm">{{ t('pages.download.macos.step2') }}</span>
+              <span class="text-sm text-content-primary">{{ t('pages.download.macos.step2') }}</span>
             </div>
-            <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+            <div class="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/40 rounded-lg">
               <span class="flex items-center justify-center w-7 h-7 rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">3</span>
-              <span class="text-sm">{{ t('pages.download.macos.step3') }}</span>
+              <span class="text-sm text-content-primary">{{ t('pages.download.macos.step3') }}</span>
             </div>
-            <p class="text-xs text-gray-400 mt-1 cursor-pointer hover:text-gray-600" @click="copyDownloadKeyText">
+            <p class="text-xs text-content-quaternary mt-1 cursor-pointer hover:text-content-secondary" @click="copyDownloadKeyText">
               {{ t('pages.download.macos.manualHint') }}
             </p>
           </div>

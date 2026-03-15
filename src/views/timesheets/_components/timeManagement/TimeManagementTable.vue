@@ -30,15 +30,15 @@
       >
         <template #header>
           <div class="flex flex-col gap-1 justify-center items-center text-center">
-            <span class="text-gray-400 text-xs">{{ col.header.title }}</span>
-            <span class="font-medium text-gray-700 text-sm">{{ col.header.subTitle }}</span>
+            <span class="text-content-quaternary text-xs">{{ col.header.title }}</span>
+            <span class="font-medium text-content-secondary text-sm">{{ col.header.subTitle }}</span>
           </div>
         </template>
         <template #body="{ node }">
           <span
             :class="[
-              col.field === 'title' ? 'font-semibold' : 'text-gray-600',
-              node.children?.length ? 'text-gray-800' : 'text-gray-500',
+              col.field === 'title' ? 'font-semibold' : 'text-content-secondary',
+              node.children?.length ? 'text-content-primary' : 'text-content-tertiary',
             ]"
           >
             {{ node.data[col.field] }}
@@ -142,8 +142,13 @@ const toggleAllRows = () => {
 
 <style scoped>
 .time-management-table::v-deep .p-treetable-thead > tr > th {
-  background: #f8fafc;
-  border-bottom: 2px solid #e2e8f0;
+  background: var(--color-surface-tertiary);
+  border-bottom: 2px solid var(--color-border-secondary);
+}
+
+:where(.dark) .time-management-table::v-deep .p-treetable-thead > tr > th {
+  background: var(--color-surface-secondary);
+  border-bottom: 2px solid var(--color-border-primary);
 }
 
 .time-management-table::v-deep .p-treetable-tbody > tr {
@@ -151,7 +156,11 @@ const toggleAllRows = () => {
 }
 
 .time-management-table::v-deep .p-treetable-tbody > tr:hover {
-  background: #f1f5f9;
+  background: var(--color-surface-tertiary);
+}
+
+:where(.dark) .time-management-table::v-deep .p-treetable-tbody > tr:hover {
+  background: var(--color-surface-secondary);
 }
 
 .time-management-table::v-deep .p-treetable-tbody > tr > td {

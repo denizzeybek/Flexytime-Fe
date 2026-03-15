@@ -1,9 +1,9 @@
 <template>
-  <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
+  <Card class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors">
     <template #content>
       <div class="flex w-full justify-between items-center flex-col lg:flex-row gap-5 mb-6 pb-5">
         <!-- Perspective Switch (Person / Project) -->
-        <div class="flex bg-gray-100 rounded-xl p-1 gap-1">
+        <div class="flex bg-surface-tertiary dark:bg-surface-secondary rounded-xl p-1 gap-1">
           <button
             v-for="tab in perspectiveTabs"
             :key="tab.key"
@@ -11,8 +11,8 @@
             class="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200"
             :class="
               timeManagementsStore.perspective === tab.key
-                ? 'bg-white text-f-primary shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'bg-surface-primary text-f-primary shadow-sm'
+                : 'text-content-tertiary hover:text-content-secondary'
             "
             @click="onPerspectiveChanged(tab.key)"
           >

@@ -1,10 +1,11 @@
 <template>
   <div class="relative">
     <div
-      class="flex items-center gap-2 px-3 py-2 rounded-md border bg-white transition-colors"
+      class="flex items-center gap-2 px-3 py-2 rounded-md border transition-colors
+             bg-surface-primary dark:bg-surface-secondary"
       :class="[
-        hasError ? 'border-red-500' : 'border-f-stroke',
-        isFocused ? 'border-f-primary' : '',
+        hasError ? 'border-state-error' : 'border-border-primary',
+        isFocused ? 'border-border-focus' : '',
       ]"
     >
       <i class="pi pi-clock text-sm" :class="[hasError ? 'text-red-400' : 'text-f-text-gray']" />

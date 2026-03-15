@@ -1,7 +1,7 @@
 <template>
   <div class="web-history-tab flex flex-col gap-4">
     <!-- Loading State -->
-    <Card v-if="isLoading">
+    <Card v-if="isLoading" class="!bg-surface-primary dark:!bg-surface-secondary !border !border-border-secondary dark:!border-border-primary transition-colors">
       <template #content>
         <WebHistoryTable :web-clocks="[]" :is-loading="true" />
       </template>
@@ -9,7 +9,7 @@
 
     <!-- Empty / Data State -->
     <template v-else>
-      <Card v-for="group in props.webClocks" :key="group.ID">
+      <Card v-for="group in props.webClocks" :key="group.ID" class="!bg-surface-primary dark:!bg-surface-secondary !border !border-border-secondary dark:!border-border-primary transition-colors">
         <template #header>
           <div class="flex items-center justify-between p-4">
             <div class="flex items-center gap-2">
@@ -19,11 +19,11 @@
               >
                 <i :class="getIconClass(group.Type ?? 0)" class="text-white"></i>
               </div>
-              <span class="font-semibold text-lg">{{ group.Name }}</span>
+              <span class="font-semibold text-lg text-content-primary">{{ group.Name }}</span>
             </div>
             <div class="flex items-center gap-2">
-              <span class="font-medium">{{ $t('components.webHistory.totalTime') }}:</span>
-              <span class="font-semibold">{{ group.Spent }}</span>
+              <span class="font-medium text-content-secondary">{{ $t('components.webHistory.totalTime') }}:</span>
+              <span class="font-semibold text-content-primary">{{ group.Spent }}</span>
             </div>
           </div>
         </template>

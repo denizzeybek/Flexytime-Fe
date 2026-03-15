@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-f-white py-2 rounded-xl flex justify-center w-full lg:w-fit">
+  <div class="bg-surface-primary dark:bg-surface-secondary py-2 rounded-xl flex justify-center w-full lg:w-fit transition-colors">
     <Skeleton v-if="isLoading" height="1.5rem" width="20rem" />
 
     <PBreadcrumb v-else-if="items.length > 0" :home="home" :model="breadcrumbItems">

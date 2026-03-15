@@ -18,7 +18,7 @@
         <a
           v-else-if="slotProps.data.Employee"
           href="#"
-          class="text-gray-900 hover:text-gray-600 hover:underline cursor-pointer flex items-center gap-2"
+          class="text-content-primary hover:text-content-secondary hover:underline cursor-pointer flex items-center gap-2"
           @click.prevent="handleEmployeeClick(slotProps.data.Employee.MemberUrl)"
         >
           <Avatar
@@ -44,7 +44,7 @@
         <a
           v-else-if="slotProps.data.Team"
           href="#"
-          class="text-gray-900 hover:text-gray-600 hover:underline cursor-pointer"
+          class="text-content-primary hover:text-content-secondary hover:underline cursor-pointer"
           @click.prevent="handleTeamClick(slotProps.data.ID)"
         >
           {{ slotProps.data.TeamName }}
@@ -123,7 +123,7 @@
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" />
         <div v-else class="flex items-center gap-2">
-          <i class="pi pi-question text-gray-600"></i>
+          <i class="pi pi-question text-content-tertiary"></i>
           <span class="font-semibold">
             {{ formatDuration(slotProps.data.Unclassified?.time) }}
           </span>

@@ -2,10 +2,10 @@
     <div class="flex flex-col gap-6">
       <!-- Header -->
       <div class="flex flex-col gap-2">
-        <h2 class="text-xl font-semibold text-gray-900">
+        <h2 class="text-xl font-semibold text-content-primary">
           {{ t('pages.profile.calendarIntegrations.title') }}
         </h2>
-        <p class="text-sm text-gray-500">
+        <p class="text-sm text-content-tertiary">
           {{ t('pages.profile.calendarIntegrations.description') }}
         </p>
       </div>

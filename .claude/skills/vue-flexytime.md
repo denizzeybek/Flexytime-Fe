@@ -428,3 +428,141 @@ Bu kontroller başarılı olmadan commit yapılmamalıdır.
 - **Composables**: camelCase with "use" prefix (`useTimer.ts`, `useFToast.ts`)
 - **Stores**: camelCase (`profile.ts`, `timeEntries.ts`)
 - **Types/Interfaces**: PascalCase with "I" prefix for interfaces (`IOption`, `IProps`)
+
+## Dark Theme Desteği (ZORUNLU)
+
+Bu projede dark theme aktif olarak kullanılmaktadır. Tüm yeni geliştirmeler dark theme'e uyumlu olmalıdır.
+
+### Semantic Color Token'lar
+
+Doğrudan renk class'ları (`text-gray-500`, `bg-white`, `border-slate-200` vb.) kullanılMAMALI. Bunun yerine semantic token'lar kullanılmalıdır:
+
+#### Yüzey/Arkaplan Renkleri
+```
+bg-surface-primary      → Ana arkaplan (light: white, dark: zinc-900)
+bg-surface-secondary    → İkincil arkaplan (light: slate-50, dark: zinc-800)
+bg-surface-tertiary     → Üçüncül arkaplan (light: slate-100, dark: zinc-700)
+bg-surface-elevated     → Elevated surfaces (cards, modals)
+```
+
+#### İçerik/Metin Renkleri
+```
+text-content-primary    → Ana metin (light: slate-900, dark: zinc-50)
+text-content-secondary  → İkincil metin (light: slate-600, dark: zinc-400)
+text-content-tertiary   → Üçüncül metin (light: slate-500, dark: zinc-500)
+text-content-muted      → Silik metin (light: slate-400, dark: zinc-600)
+```
+
+#### Border Renkleri
+```
+border-border-primary   → Ana border (light: slate-200, dark: zinc-700)
+border-border-secondary → İkincil border (light: slate-100, dark: zinc-800)
+```
+
+#### Brand/Marka Renkleri
+```
+text-brand-primary      → Marka rengi (purple)
+bg-brand-primary        → Marka arkaplanı
+hover:bg-brand-primary-hover → Hover durumu
+```
+
+#### State Renkleri
+```
+text-state-success / bg-state-success-bg / border-state-success-border
+text-state-warning / bg-state-warning-bg / border-state-warning-border
+text-state-error   / bg-state-error-bg   / border-state-error-border
+text-state-info    / bg-state-info-bg    / border-state-info-border
+```
+
+#### Interactive Renkleri
+```
+bg-interactive-hover    → Hover durumu
+bg-interactive-active   → Active durumu
+bg-interactive-selected → Seçili durum
+```
+
+### Örnek: Dark Theme Uyumlu Component
+
+```vue
+<template>
+  <!-- Card container -->
+  <div class="rounded-xl p-6 transition-colors
+              bg-surface-primary dark:bg-surface-secondary
+              border border-border-secondary dark:border-border-primary">
+
+    <!-- Başlık -->
+    <h2 class="text-lg font-semibold text-content-primary">
+      {{ title }}
+    </h2>
+
+    <!-- Alt başlık -->
+    <p class="text-sm text-content-secondary mt-1">
+      {{ subtitle }}
+    </p>
+
+    <!-- İç kutu (nested) -->
+    <div class="mt-4 p-4 rounded-lg
+                bg-surface-tertiary dark:bg-surface-tertiary/50
+                border border-border-secondary dark:border-border-primary">
+      <span class="text-content-tertiary">Nested content</span>
+    </div>
+
+    <!-- Success mesajı -->
+    <div class="mt-4 p-3 rounded-lg
+                bg-state-success-bg border border-state-success-border">
+      <span class="text-state-success">İşlem başarılı!</span>
+    </div>
+
+    <!-- Button -->
+    <Button
+      class="mt-4 !bg-brand-primary hover:!bg-brand-primary-hover !text-white"
+      label="Kaydet"
+    />
+  </div>
+</template>
+```
+
+### PrimeVue Component'lerinde Dark Theme
+
+PrimeVue component'leri için global CSS stilleri `src/tailwind.css` içinde tanımlıdır. Özel styling gerekirse:
+
+```vue
+<!-- Card için -->
+<Card class="!bg-surface-primary dark:!bg-surface-secondary
+             !border !border-border-secondary dark:!border-border-primary">
+
+<!-- DataTable otomatik olarak dark theme alır (global CSS) -->
+<DataTable :value="items" striped-rows>
+
+<!-- Input için -->
+<InputText class="!bg-surface-secondary dark:!bg-surface-tertiary
+                  !text-content-primary !border-border-primary" />
+```
+
+### Dikkat Edilmesi Gerekenler
+
+1. **ASLA doğrudan renk kullanma**: `text-gray-500`, `bg-white`, `border-slate-200` ❌
+2. **HER ZAMAN semantic token kullan**: `text-content-secondary`, `bg-surface-primary` ✅
+3. **Transition ekle**: `transition-colors` class'ını ekleyerek yumuşak geçiş sağla
+4. **Nested elementlerde kontrast**: İç içe kutularda `surface-tertiary` veya `/50` opacity kullan
+5. **Border'ları unutma**: Dark mode'da border'lar görünürlük için kritik
+6. **Test et**: Geliştirme sırasında hem light hem dark mode'u kontrol et
+
+### useTheme Composable
+
+```typescript
+import { useTheme } from '@/composables/useTheme';
+
+const { isDark, toggleTheme, setTheme } = useTheme();
+
+// Dark mode kontrolü
+if (isDark.value) {
+  // dark mode specific logic
+}
+
+// Theme değiştir
+toggleTheme();
+
+// Specific theme set et
+setTheme('dark'); // veya 'light'
+```

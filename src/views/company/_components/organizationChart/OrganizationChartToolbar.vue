@@ -1,5 +1,5 @@
 <template>
-  <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden mb-4">
+  <Card class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden mb-4 transition-colors">
     <template #content>
       <div class="flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center">
         <div class="flex-1 w-full lg:w-auto">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-visible">
+    <Card class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl overflow-visible transition-colors">
       <template #content>
         <form @submit="submitHandler">
           <!-- Main Input Row -->

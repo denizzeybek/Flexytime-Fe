@@ -13,7 +13,7 @@
         <a
           v-else
           href="#"
-          class="text-gray-900 hover:text-gray-600 hover:underline cursor-pointer"
+          class="text-content-primary hover:text-content-secondary hover:underline cursor-pointer"
           @click.prevent="handleTeamClick(slotProps.data.ID)"
         >
           {{ slotProps.data.TeamName }}
@@ -34,7 +34,7 @@
             (slotProps.data.Supervisor.MemberId || slotProps.data.Supervisor.MemberUrl)
           "
           href="#"
-          class="text-gray-900 hover:text-gray-600 hover:underline cursor-pointer flex items-center gap-2"
+          class="text-content-primary hover:text-content-secondary hover:underline cursor-pointer flex items-center gap-2"
           @click.prevent="
             handleEmployeeClick(
               slotProps.data.Supervisor.MemberId || slotProps.data.Supervisor.MemberUrl,
@@ -56,7 +56,7 @@
           {{ slotProps.data.SupervisorName }}
         </a>
         <!-- If no ID, just show as plain text -->
-        <div v-else-if="slotProps.data.Supervisor" class="flex items-center gap-2 text-gray-600">
+        <div v-else-if="slotProps.data.Supervisor" class="flex items-center gap-2 text-content-secondary">
           <Avatar
             v-if="slotProps.data.Supervisor.ImageUrl"
             :image="slotProps.data.Supervisor.ImageUrl"
@@ -99,7 +99,7 @@
             :class="[getWellbeingIcon(item.Type), 'text-red-600 cursor-help text-lg']"
           ></i>
         </div>
-        <span v-else class="text-gray-400">-</span>
+        <span v-else class="text-content-quaternary">-</span>
       </template>
     </Column>
 
@@ -114,7 +114,7 @@
             :class="[getWellbeingIcon(item.Type), 'text-orange-500 cursor-help text-lg']"
           ></i>
         </div>
-        <span v-else class="text-gray-400">-</span>
+        <span v-else class="text-content-quaternary">-</span>
       </template>
     </Column>
 
@@ -129,7 +129,7 @@
             :class="[getWellbeingIcon(item.Type), 'text-green-600 cursor-help text-lg']"
           ></i>
         </div>
-        <span v-else class="text-gray-400">-</span>
+        <span v-else class="text-content-quaternary">-</span>
       </template>
     </Column>
   </DataTable>

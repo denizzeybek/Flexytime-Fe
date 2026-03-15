@@ -1,5 +1,6 @@
 <template>
-  <Card class="w-full h-full shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
+  <Card class="w-full h-full shadow-lg border rounded-2xl overflow-hidden transition-colors
+               border-border-secondary dark:border-border-primary">
     <template #content>
       <div class="flex flex-col justify-between h-full flex-1 gap-5">
         <div

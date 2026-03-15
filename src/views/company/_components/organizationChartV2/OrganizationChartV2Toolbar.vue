@@ -1,8 +1,8 @@
 <template>
-  <Card class="shadow-lg border border-gray-100 rounded-2xl mb-4">
+  <Card class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl mb-4 transition-colors">
     <template #content>
       <div class="flex items-center">
-        <h2 class="text-xl font-semibold text-gray-900">
+        <h2 class="text-xl font-semibold text-content-primary">
           {{ t('pages.company.organizationChart.title') }}
         </h2>
       </div>

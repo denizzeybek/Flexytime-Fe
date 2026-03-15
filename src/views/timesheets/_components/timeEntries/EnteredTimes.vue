@@ -4,7 +4,7 @@
     <template v-if="timeEntriesStore.loading">
       <div v-for="i in 3" :key="i" class="flex flex-col gap-4">
         <Skeleton height="1.5rem" width="8rem" class="mx-auto" />
-        <div class="bg-white rounded-2xl border border-gray-100 p-5">
+        <div class="bg-surface-primary rounded-2xl border border-border-secondary dark:border-border-primary p-5 transition-colors">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-3 flex-1">
               <Skeleton height="1.25rem" width="60%" />
@@ -26,13 +26,13 @@
     <template v-else>
       <div v-for="group in timeEntriesStore.timeEntries" :key="group.RecordDate" class="flex flex-col gap-4">
         <!-- Date Divider -->
-        <div class="flex items-center gap-3 sticky top-0 bg-gray-50/95 backdrop-blur-sm py-2 z-10">
-          <div class="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
-          <div class="flex items-center gap-2 px-4 py-1.5 bg-white rounded-full shadow-sm border border-gray-200">
+        <div class="flex items-center gap-3 sticky top-0 bg-surface-tertiary/95 dark:bg-surface-secondary/95 backdrop-blur-sm py-2 z-10">
+          <div class="h-px flex-1 bg-gradient-to-r from-transparent via-border-secondary dark:via-border-primary to-transparent" />
+          <div class="flex items-center gap-2 px-4 py-1.5 bg-surface-primary rounded-full shadow-sm border border-border-secondary dark:border-border-primary">
             <i class="pi pi-calendar text-f-primary text-sm" />
-            <span class="text-sm font-semibold text-gray-700">{{ formatDateLabel(group.RecordDate) }}</span>
+            <span class="text-sm font-semibold text-content-secondary">{{ formatDateLabel(group.RecordDate) }}</span>
           </div>
-          <div class="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+          <div class="h-px flex-1 bg-gradient-to-r from-transparent via-border-secondary dark:via-border-primary to-transparent" />
         </div>
 
         <!-- Empty State for this date -->
@@ -46,7 +46,7 @@
           v-for="entry in group.Entries"
           v-else
           :key="entry.ID"
-          class="group bg-white rounded-2xl border border-gray-100 hover:border-f-primary/30 hover:shadow-lg transition-all duration-300 overflow-hidden"
+          class="group bg-surface-primary rounded-2xl border border-border-secondary dark:border-border-primary hover:border-f-primary/30 hover:shadow-lg transition-all duration-300 overflow-hidden"
         >
           <div class="flex">
             <!-- Time Indicator Bar -->
@@ -62,10 +62,10 @@
                       <i class="pi pi-briefcase text-f-primary" />
                     </div>
                     <div class="min-w-0">
-                      <h4 class="font-semibold text-gray-800 truncate">
+                      <h4 class="font-semibold text-content-primary truncate">
                         {{ entry.Task?.Name || t('pages.timesheets.enteredTimes.untitled') }}
                       </h4>
-                      <p v-if="entry.Project?.Name" class="text-sm text-gray-500 flex items-center gap-1">
+                      <p v-if="entry.Project?.Name" class="text-sm text-content-tertiary flex items-center gap-1">
                         <i class="pi pi-folder text-xs" />
                         {{ entry.Project.Name }}
                       </p>
@@ -90,7 +90,7 @@
                     <div class="text-2xl font-bold text-f-primary">
                       {{ entry.TimeSpanText }}
                     </div>
-                    <div class="flex items-center gap-1.5 text-sm text-gray-500">
+                    <div class="flex items-center gap-1.5 text-sm text-content-tertiary">
                       <i class="pi pi-clock text-xs" />
                       {{ entry.DateRangeText }}
                     </div>
@@ -110,9 +110,9 @@
               </div>
 
               <!-- Ranges (Expandable) -->
-              <div v-if="entry.Ranges?.length" class="mt-4 pt-4 border-t border-gray-100">
+              <div v-if="entry.Ranges?.length" class="mt-4 pt-4 border-t border-border-secondary dark:border-border-primary">
                 <button
-                  class="flex items-center gap-2 text-sm text-gray-600 hover:text-f-primary transition-colors mb-3"
+                  class="flex items-center gap-2 text-sm text-content-secondary hover:text-f-primary transition-colors mb-3"
                   @click="entry.ID && toggleRanges(entry.ID)"
                 >
                   <i
@@ -127,11 +127,11 @@
                     <div
                       v-for="range in entry.Ranges"
                       :key="range.ID"
-                      class="group/range flex items-center justify-between py-2 px-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm transition-colors"
+                      class="group/range flex items-center justify-between py-2 px-3 bg-surface-tertiary dark:bg-surface-secondary hover:bg-surface-secondary dark:hover:bg-surface-tertiary rounded-lg text-sm transition-colors"
                     >
-                      <span class="text-gray-600">{{ range.DateRangeText }}</span>
+                      <span class="text-content-secondary">{{ range.DateRangeText }}</span>
                       <div class="flex items-center gap-2">
-                        <span class="font-medium text-gray-800">{{ range.TimeSpanText }}</span>
+                        <span class="font-medium text-content-primary">{{ range.TimeSpanText }}</span>
                         <Button
                           v-tooltip.left="t('common.buttons.delete')"
                           :icon="deletingRangeId === range.ID ? 'pi pi-spin pi-spinner' : 'pi pi-trash'"
