@@ -351,6 +351,20 @@
         },
         "messages": {
           "updated": "Gelişmiş İzinler güncellendi!"
+        },
+        "fields": {
+          "type0": "Bir çalışanın ortalamaya dahil edilmesi için gereken minimum çalışma süresi. Çalışan tanımlanan süreden az çalışırsa, tüm değerler 0 olarak gösterilir.",
+          "type1": "Çalışanın en erken başlangıç saati. Çalışan tanımlanan saatten önce başlarsa, başlangıç saati tanımlanan saate güncellenir.",
+          "type4": "İzin günlerinde çalışılan süre ortalamaya dahil edilsin mi? Özellik etkin değilse, izin gününü içeren bir aralık seçildiğinde ortalamaya dahil edilmez. Yalnızca izin günleri seçildiğinde ortalama görüntülenebilir.",
+          "type5": "Çalışanları etiketle",
+          "type6": "İyi olma göstergelerini göster",
+          "type9": "Grup yöneticisini göster",
+          "type11": "Çalışan maliyetlerini göster",
+          "type12": "Çalışma saatlerinde çalışan aktivitesi",
+          "type13": "Toplantı detaylarını göster",
+          "type14": "Verimliliği göster",
+          "type15": "Web sitesi aktivitelerini göster",
+          "type16": "Manuel zaman girişlerini etkinleştir"
         }
       },
       "permissions": {
@@ -1141,7 +1155,8 @@
           "updated": "Profil başarıyla güncellendi!",
           "languageUpdated": "Dil başarıyla güncellendi!",
           "timezoneUpdated": "Saat dilimi başarıyla güncellendi!",
-          "confirmationSent": "Onay e-postası başarıyla gönderildi!"
+          "confirmationSent": "Onay e-postası başarıyla gönderildi!",
+          "imageUpdated": "Profil resmi başarıyla güncellendi!"
         }
       },
       "password": {
@@ -1259,6 +1274,31 @@
         "max": "{field} en fazla {max} karakter uzunluğunda olmalıdır",
         "email": "{field} geçerli değil",
         "matches": "{field} geçerli değil"
+      },
+      "array": {
+        "min": "{field} en az {min} öğe içermelidir"
+      },
+      "fields": {
+        "tags": "Etiketler",
+        "project": "Proje",
+        "task": "Görev",
+        "taskname": "Görev",
+        "date": "Tarih",
+        "startTime": "Başlangıç Saati",
+        "endTime": "Bitiş Saati",
+        "name": "Ad",
+        "value": "Değer",
+        "email": "E-posta",
+        "emails": "E-postalar",
+        "password": "Şifre",
+        "membername": "Ad Soyad",
+        "full name": "Ad Soyad",
+        "enabled": "Aktif",
+        "title": "Ünvan",
+        "team": "Ekip",
+        "operatinguser": "İşletim Kullanıcısı",
+        "operating user": "İşletim Kullanıcısı",
+        "salary": "Maaş"
       }
     },
     "buttons": {

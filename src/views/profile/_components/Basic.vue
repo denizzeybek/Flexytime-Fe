@@ -36,6 +36,7 @@
               auto
               severity="secondary"
               class="p-button-outlined"
+              :disabled="isImageUploading"
               @select="onFileSelect"
             />
           </div>
@@ -157,6 +158,7 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 const src = ref();
 const isLanguageLoading = ref(false);
 const isTimezoneLoading = ref(false);
+const isImageUploading = ref(false);
 
 // Language options and model (independent from form)
 const languageOptions = getLanguageOptions();
@@ -196,16 +198,28 @@ const submitHandler = handleSubmit(async (values) => {
   }
 });
 
-const onFileSelect = (event: any) => {
+const onFileSelect = async (event: any) => {
   const file = event.files[0];
+  if (!file) return;
+
+  // Show preview immediately
   const reader = new FileReader();
-
-  reader.onload = async (e) => {
+  reader.onload = (e) => {
     src.value = e?.target?.result;
-    // TODO: Implement image upload API call
   };
-
   reader.readAsDataURL(file);
+
+  // Upload to server
+  isImageUploading.value = true;
+  try {
+    await profileStore.uploadProfileImage(file);
+    showSuccessMessage(t('pages.profile.basic.messages.imageUpdated'));
+  } catch {
+    showErrorMessage(t('common.errors.generic'));
+    src.value = null; // Reset preview on error
+  } finally {
+    isImageUploading.value = false;
+  }
 };
 
 // Handle language change - saves to backend and updates UI

@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-2">
-    <label v-if="label" :for="name" class="">{{ label }}</label>
+    <label v-if="label" :for="name" :class="{ 'text-red-500': !!errorMessage }">{{ label }}</label>
     <SelectButton
       v-model="value"
       :options="options"

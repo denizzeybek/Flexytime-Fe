@@ -5,6 +5,7 @@
       class="grow"
       :label="t('pages.hrSettings.employees.modal.password.label')"
       name="password"
+      :prime-props="{ autocomplete: 'new-password' }"
     />
   </div>
 </template>

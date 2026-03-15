@@ -6,6 +6,7 @@
       :class="[
         {
           'opacity-50 !cursor-not-allowed': disabled,
+          'text-red-500': !!errorMessage,
         },
         { 'flex-col-reverse': labelTop },
         { 'flex-row': labelLeft },

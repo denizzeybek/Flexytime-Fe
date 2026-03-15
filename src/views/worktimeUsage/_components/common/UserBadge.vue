@@ -18,7 +18,7 @@
               />
               <Avatar
                 v-else
-                :label="card.Abbreviation"
+                :label="getAvatarLabel(card.Name)"
                 size="xlarge"
                 shape="circle"
                 class="border-2 border-gray-200"
@@ -41,6 +41,8 @@
 import Avatar from 'primevue/avatar';
 import Card from 'primevue/card';
 import Skeleton from 'primevue/skeleton';
+
+import { getAvatarLabel } from '@/helpers/utils';
 
 import type { ICard } from '../../_types';
 

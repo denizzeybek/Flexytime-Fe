@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 
-import { ProfileApiService, SettingApiService } from '@/client';
+import axios from 'axios';
+
+import { OpenAPI, ProfileApiService, SettingApiService } from '@/client';
 import { ERole } from '@/enums/role.enum';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
@@ -133,7 +135,9 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     },
 
     async updateLanguageCode(languageCode: string) {
-      const response = await ProfileApiService.profileApiUpdateLanguageCode({ LanguageCode: languageCode });
+      const response = await ProfileApiService.profileApiUpdateLanguageCode({
+        LanguageCode: languageCode,
+      });
       this.LanguageCode = languageCode;
       return response;
     },
@@ -150,6 +154,23 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
       const data = await ProfileApiService.profileApiGetTimezones();
       this.TimeZoneList = data;
       return data;
+    },
+
+    async uploadProfileImage(file: File) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axios.post(`${OpenAPI.BASE}/upload/profileimage`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${OpenAPI.TOKEN}`,
+        },
+      });
+
+      // Refresh profile to get new image path
+      await this.filter();
+
+      return response.data;
     },
   },
 });

@@ -57,7 +57,10 @@
       "Bash(npm run type-check:*)",
       "Bash(git push:*)",
       "Bash(git stash pop:*)",
-      "Bash(git stash drop:*)"
+      "Bash(git stash drop:*)",
+      "Bash(xargs:*)",
+      "Bash(curl:*)",
+      "Bash(python3 -c \"import sys,json; d=json.load(sys.stdin); print(f''''recordsTotal: {d.get(\"\"DTO\"\",{}).get(\"\"recordsTotal\"\",\"\"N/A\"\")}''''); print(f''''data count: {len(d.get(\"\"DTO\"\",{}).get(\"\"data\"\",[]))}'''')\")"
     ],
     "deny": [],
     "ask": []

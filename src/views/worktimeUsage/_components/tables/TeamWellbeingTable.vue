@@ -49,7 +49,7 @@
           />
           <Avatar
             v-else
-            :label="slotProps.data.Supervisor.Abbreviation"
+            :label="getAvatarLabel(slotProps.data.SupervisorName)"
             shape="circle"
             size="normal"
           />
@@ -65,7 +65,7 @@
           />
           <Avatar
             v-else
-            :label="slotProps.data.Supervisor.Abbreviation"
+            :label="getAvatarLabel(slotProps.data.SupervisorName)"
             shape="circle"
             size="normal"
           />
@@ -144,6 +144,7 @@ import DataTable from 'primevue/datatable';
 import Skeleton from 'primevue/skeleton';
 import Tooltip from 'primevue/tooltip';
 
+import { getAvatarLabel } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 
 import { useWorktimeNavigation } from '../../_composables';

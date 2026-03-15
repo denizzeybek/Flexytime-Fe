@@ -35,6 +35,28 @@ export function debounce<T extends (...args: any[]) => any>(
 
 export const nullToString = (value: any) => (value === null ? '' : value);
 
+/**
+ * İsimden avatar için baş harfleri çıkarır.
+ * Birden fazla kelime varsa sadece ilk ve son kelimelerin baş harflerini alır.
+ * Tek kelime varsa ilk harfi alır.
+ * @param name İsim
+ * @returns Baş harfler (max 2 karakter)
+ */
+export const getAvatarLabel = (name: string | null | undefined): string => {
+  if (!name) return '';
+
+  const words = name.trim().split(/\s+/).filter(Boolean);
+
+  if (words.length === 0) return '';
+  if (words.length === 1) return words[0][0].toUpperCase();
+
+  // İlk ve son kelimenin baş harflerini al
+  const firstInitial = words[0][0];
+  const lastInitial = words[words.length - 1][0];
+
+  return (firstInitial + lastInitial).toUpperCase();
+};
+
 export const decodeJWT = (token: string) => {
   // Split the token into its parts
   const parts = token.split('.');

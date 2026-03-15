@@ -29,7 +29,7 @@
           />
           <Avatar
             v-else
-            :label="slotProps.data.Employee.Abbreviation"
+            :label="getAvatarLabel(slotProps.data.EmployeeName)"
             shape="circle"
             size="normal"
           />
@@ -142,6 +142,7 @@ import DataTable from 'primevue/datatable';
 import Skeleton from 'primevue/skeleton';
 import Tag from 'primevue/tag';
 
+import { getAvatarLabel } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 
 import { useTimeFormat, useWorktimeNavigation } from '../../_composables';

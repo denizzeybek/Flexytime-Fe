@@ -95,48 +95,52 @@ const {
   formatElapsedTimeForPayload,
 } = useEnterTimeTimer();
 
-// Form validation schema
-const validationSchema = object({
-  taskName: string().required().label('Task'),
-  date: date()
-    .when([], {
-      is: () => activeLayout.value === ELayout.MANUAL,
-      then: (schema) => schema.required(),
-      otherwise: (schema) => schema.nullable(),
-    })
-    .label('Date'),
-  startTime: date()
-    .when([], {
-      is: () => activeLayout.value === ELayout.MANUAL,
-      then: (schema) => schema.required(),
-      otherwise: (schema) => schema.nullable(),
-    })
-    .label('Start Time'),
-  endTime: date()
-    .when([], {
-      is: () => activeLayout.value === ELayout.MANUAL,
-      then: (schema) => schema.required(),
-      otherwise: (schema) => schema.nullable(),
-    })
-    .label('End Time'),
-  project: object()
-    .shape({
-      name: string().required().label('Name'),
-      value: string().required().label('Value'),
-    })
-    .required()
-    .label('Project'),
-  tags: array()
-    .min(1)
-    .required()
-    .label('Tags')
-    .of(
-      object().shape({
-        name: string().required().label('Name'),
-        value: string().required().label('Value'),
-      }),
-    ),
-});
+// Form validation schema - computed ile i18n label'ları kullanıyoruz
+const validationSchema = computed(() =>
+  object({
+    taskName: string()
+      .required(t('common.validation.mixed.required', { field: t('common.validation.fields.task') }))
+      .label(t('common.validation.fields.task')),
+    date: date()
+      .when([], {
+        is: () => activeLayout.value === ELayout.MANUAL,
+        then: (schema) => schema.required(t('common.validation.mixed.required', { field: t('common.validation.fields.date') })),
+        otherwise: (schema) => schema.nullable(),
+      })
+      .label(t('common.validation.fields.date')),
+    startTime: date()
+      .when([], {
+        is: () => activeLayout.value === ELayout.MANUAL,
+        then: (schema) => schema.required(t('common.validation.mixed.required', { field: t('common.validation.fields.startTime') })),
+        otherwise: (schema) => schema.nullable(),
+      })
+      .label(t('common.validation.fields.startTime')),
+    endTime: date()
+      .when([], {
+        is: () => activeLayout.value === ELayout.MANUAL,
+        then: (schema) => schema.required(t('common.validation.mixed.required', { field: t('common.validation.fields.endTime') })),
+        otherwise: (schema) => schema.nullable(),
+      })
+      .label(t('common.validation.fields.endTime')),
+    project: object()
+      .shape({
+        name: string().required(t('common.validation.mixed.required', { field: t('common.validation.fields.project') })),
+        value: string().required(t('common.validation.mixed.required', { field: t('common.validation.fields.project') })),
+      })
+      .required(t('common.validation.mixed.required', { field: t('common.validation.fields.project') }))
+      .label(t('common.validation.fields.project')),
+    tags: array()
+      .min(1, t('common.validation.array.min', { field: t('common.validation.fields.tags'), min: 1 }))
+      .required(t('common.validation.mixed.required', { field: t('common.validation.fields.tags') }))
+      .label(t('common.validation.fields.tags'))
+      .of(
+        object().shape({
+          name: string().required(t('common.validation.mixed.required', { field: t('common.validation.fields.tags') })),
+          value: string().required(t('common.validation.mixed.required', { field: t('common.validation.fields.tags') })),
+        }),
+      ),
+  })
+);
 
 const { handleSubmit, resetForm, defineField, values, setFieldValue } = useForm({
   validationSchema,

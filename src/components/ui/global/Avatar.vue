@@ -9,6 +9,8 @@ import { computed } from 'vue';
 
 import Avatar, { type AvatarProps } from 'primevue/avatar';
 
+import { getAvatarLabel } from '@/helpers/utils';
+
 interface IProps {
   primeProps?: AvatarProps;
   label: string;
@@ -16,14 +18,7 @@ interface IProps {
 }
 const props = defineProps<IProps>();
 
-const avatarLabel = computed(() => {
-  if (!props?.label) return ''
-  return props.label
-    .split(' ') // Split the name by spaces
-    .map((word) => word[0]) // Get the first letter of each word
-    .join('') // Join the letters together
-    .toUpperCase();
-});
+const avatarLabel = computed(() => getAvatarLabel(props.label));
 </script>
 
 <style scoped></style>

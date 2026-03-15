@@ -49,7 +49,7 @@ const fetchApplications = async () => {
 const handlePageChange = ({ offset, rows }) => {
   payload.value = {
     ...payload.value,
-    start: offset,
+    start: offset + 1, // PrimeVue 0-based → Backend 1-based
     length: rows,
   };
   fetchApplications();

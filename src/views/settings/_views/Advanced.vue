@@ -7,7 +7,7 @@
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <template v-for="(field, idx) in fields" :key="field.key">
               <div class="flex flex-col gap-3">
-                <FText class="font-medium">{{ field.value.TypeName }}</FText>
+                <FText class="font-medium">{{ getFieldLabel(field.value.SettingType) }}</FText>
                 <div class="flex items-center">
                   <FSwitch
                     v-if="field.value.DataType === 2"
@@ -117,6 +117,21 @@ const handleDateChange = (field: any, settingType: number, newValue: any) => {
 const handleSwitchChange = (field: any, settingType: number, newValue: any) => {
   field.Value = newValue ? 'true' : 'false';
   submit(settingType, field.Value);
+};
+
+const getFieldLabel = (settingType: number | undefined): string => {
+  if (settingType === undefined) return '';
+
+  const key = `pages.settings.advanced.fields.type${settingType}`;
+  const translation = t(key);
+
+  // Eğer çeviri bulunamazsa (key döndürülürse), backend'den gelen TypeName'i kullan
+  if (translation === key) {
+    const field = fields.value.find(f => f.value.SettingType === settingType);
+    return field?.value.TypeName || '';
+  }
+
+  return translation;
 };
 
 onMounted(async () => {

@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col" :class="[hideError && !label ? '' : 'gap-2']">
-    <label v-if="label" :for="id" class="text-sm font-medium text-f-secondary">
+    <label v-if="label" :for="id" class="text-sm font-medium" :class="error ? 'text-red-500' : 'text-f-secondary'">
       {{ label }}
     </label>
     <DatePicker

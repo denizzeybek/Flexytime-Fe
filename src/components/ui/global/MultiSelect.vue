@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-2">
-    <label :for="name" class="">{{ label }}</label>
+    <label :for="name" :class="{ 'text-red-500': !!errorMessage }">{{ label }}</label>
     <MultiSelect
       v-model="value"
       :options="options"
@@ -172,7 +172,7 @@ const focusFilterInput = () => {
 
 const findExistingOption = (searchText: string) => {
   return props.options.find(
-    (opt) => opt.name.toLowerCase() === searchText.toLowerCase()
+    (opt) => opt.name?.toLowerCase() === searchText?.toLowerCase()
   );
 };
 

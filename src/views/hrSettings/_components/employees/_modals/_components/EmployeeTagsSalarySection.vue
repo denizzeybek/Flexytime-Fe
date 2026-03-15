@@ -17,6 +17,7 @@
       class="grow"
       :label="t('pages.hrSettings.employees.modal.salary.label')"
       name="salary"
+      :prime-props="{ autocomplete: 'off' }"
     />
   </div>
 </template>

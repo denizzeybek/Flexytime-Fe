@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref } from 'vue';
 
 import { useFToast } from '@/composables/useFToast';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
@@ -26,9 +26,10 @@ const isModalOpen = ref(false);
 
 const isLoading = computed(() => employeesStore.isLoading);
 
-const handleNew = () => {
-  isModalOpen.value = true;
+const handleNew = async () => {
   currentEmployee.value = undefined;
+  await nextTick();
+  isModalOpen.value = true;
 };
 
 const handleEdit = (employee: TheMemberViewModel) => {

@@ -113,7 +113,7 @@ const addToList = () => {
   resetField();
   if (
     itemInput.value &&
-    !itemList.value.includes(itemInput.value) &&
+    !itemList.value?.includes(itemInput.value) &&
     !errorMessage.value
   ) {
     itemList.value.push(itemInput.value);

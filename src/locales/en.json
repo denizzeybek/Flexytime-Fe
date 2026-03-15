@@ -351,6 +351,20 @@
         },
         "messages": {
           "updated": "Advanced Permissions updated!"
+        },
+        "fields": {
+          "type0": "The minimum working time required for an employee to be included in the average. If the employee works less than the defined time, all values are displayed as 0.",
+          "type1": "The earliest starting time of the employee. If the employee starts earlier than the defined time, the start time is updated to the defined time.",
+          "type4": "Should time worked on days off be included in the average? If the feature is not enabled, it will not be included in the average if a range that includes the day off is selected. Only if days off are selected, the average can be displayed.",
+          "type5": "Tag employees",
+          "type6": "Show well being indicators",
+          "type9": "Show group manager",
+          "type11": "Show employee costs",
+          "type12": "Employee activity in working hours",
+          "type13": "Show meeting details",
+          "type14": "Show productivity",
+          "type15": "Show web site activities",
+          "type16": "Enable manual time entries"
         }
       },
       "permissions": {
@@ -1141,7 +1155,8 @@
           "updated": "Profile updated successfully!",
           "languageUpdated": "Language updated successfully!",
           "timezoneUpdated": "Timezone updated successfully!",
-          "confirmationSent": "Confirmation email sent successfully!"
+          "confirmationSent": "Confirmation email sent successfully!",
+          "imageUpdated": "Profile image updated successfully!"
         }
       },
       "password": {
@@ -1259,6 +1274,31 @@
         "max": "{field} must be at most {max} characters long",
         "email": "{field} is not valid",
         "matches": "{field} is not valid"
+      },
+      "array": {
+        "min": "{field} must have at least {min} item(s)"
+      },
+      "fields": {
+        "tags": "Tags",
+        "project": "Project",
+        "task": "Task",
+        "taskname": "Task",
+        "date": "Date",
+        "startTime": "Start Time",
+        "endTime": "End Time",
+        "name": "Name",
+        "value": "Value",
+        "email": "Email",
+        "emails": "Emails",
+        "password": "Password",
+        "membername": "Full Name",
+        "full name": "Full Name",
+        "enabled": "Enabled",
+        "title": "Title",
+        "team": "Team",
+        "operatinguser": "Operating User",
+        "operating user": "Operating User",
+        "salary": "Salary"
       }
     },
     "buttons": {

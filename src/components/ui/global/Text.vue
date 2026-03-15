@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<IProps>(), {
   as: 'p',
 });
 
-const tag = computed(() => (['info', 'ps'].includes(props.as) ? 'p' : props.as));
+const tag = computed(() => (['info', 'ps']?.includes(props.as) ? 'p' : props.as));
 const classes = computed(() => {
   const cls = [props.className];
   switch (props.as) {

@@ -1,6 +1,6 @@
 <template>
   <div v-click-outside="handleOutsideClick" class="flex flex-col" :class="[hideError && !label ? '' : 'gap-2']">
-    <label v-if="label" :for="id">{{ label }}</label>
+    <label v-if="label" :for="id" :class="{ 'text-red-500': !!errorMessage }">{{ label }}</label>
     <div class="relative">
       <component :is="icon ? IconField : 'div'">
         <InputIcon v-if="icon" :class="[icon, errorMessage ? '!text-red-400' : '']" />
@@ -16,8 +16,10 @@
           :invalid="!!errorMessage"
           :list="list"
           :class="[customClass]"
+          autocomplete="off"
+          :readonly="isAutofillProtected"
           v-bind="primeProps"
-          @focus="list ? (showOptions = true) : (showOptions = false)"
+          @focus="handleInputFocus"
           @input="filterOptions"
           v-on="listeners"
         />
@@ -117,15 +119,23 @@ const {
 const isFocused = ref(false);
 const showOptions = ref(false);
 const searchFilter = ref('');
+const isAutofillProtected = ref(true);
 
 // Computed filtered options - automatically reactive when props.datalistOptions changes
 const filteredOptions = computed(() => {
   const options = props.datalistOptions || [];
   if (!searchFilter.value) return options;
-  return options.filter((option) => option.toLowerCase().includes(searchFilter.value.toLowerCase()));
+  return options.filter((option) => option?.toLowerCase()?.includes(searchFilter.value?.toLowerCase()));
 });
 
 const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
+
+const handleInputFocus = () => {
+  isAutofillProtected.value = false;
+  if (props.list) {
+    showOptions.value = true;
+  }
+};
 
 const model = computed<string>({
   get: () => value.value ?? '',

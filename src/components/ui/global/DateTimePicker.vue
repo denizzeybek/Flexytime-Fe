@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col" :class="[hideError && !label ? '' : 'gap-2']">
-    <label v-if="label" :for="id">{{ label }}</label>
+    <label v-if="label" :for="id" :class="{ 'text-red-500': !!errorMessage }">{{ label }}</label>
     <div class="flex items-center gap-1">
       <Button v-if="showPrevNextButtons" type="button" icon="pi pi-angle-left" @click="handleWeek(EWeek.PREV)" />
       <DatePicker

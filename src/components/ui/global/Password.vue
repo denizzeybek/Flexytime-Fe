@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-2">
-    <label :for="id">{{ label }}</label>
+    <label :for="id" :class="{ 'text-red-500': !!errorMessage }">{{ label }}</label>
     <Password
       v-model="model"
       :placeholder="finalPlaceholder"
@@ -10,6 +10,13 @@
       :invalid="!!errorMessage"
       :class="[customClass]"
       :disabled="disabled"
+      :pt="{
+        input: {
+          autocomplete: 'new-password',
+          readonly: isReadonly,
+          onfocus: handleFocus,
+        },
+      }"
       v-bind="primeProps"
     />
     <small v-if="errorMessage" :id="`${id}-help`" class="p-error text-red-500">{{
@@ -19,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Password from 'primevue/password';
@@ -55,12 +62,6 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
-const finalPlaceholder = computed(() => props.placeholder || t('components.password.placeholder'));
-
-// const passwordVisible = ref(false);
-// const isFocused = ref(false);
-// const input = ref<HTMLInputElement>();
-
 const {
   errorMessage: vError,
   value,
@@ -70,12 +71,20 @@ const {
   validateOnValueUpdate: false,
   syncVModel: true,
 });
-const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
 
+// Prevent browser autofill by starting readonly
+const isReadonly = ref(true);
+
+const finalPlaceholder = computed(() => props.placeholder || t('components.password.placeholder'));
+const errorMessage = computed(() => (props.errorMessage ? props.errorMessage : vError.value));
 const model = computed<string>({
   get: () => value.value ?? '',
   set: (v) => (value.value = v),
 });
+
+const handleFocus = () => {
+  isReadonly.value = false;
+};
 // const listeners = {
 //   ...props.customEvents,
 //   blur: (e: InputEvent) => {
