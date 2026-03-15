@@ -179,9 +179,9 @@ const menuItems = computed(() => {
         isChild: true,
       },
       {
-        label: t('pages.layouts.navbar.teamsAndTitles'),
+        label: t('pages.layouts.navbar.jobTitles'),
         icon: 'pi pi-id-card',
-        route: ERouteNames.HRSettingsTeamsAndTitles,
+        route: ERouteNames.HRSettingsJobTitles,
         isChild: true,
       },
       {
@@ -209,6 +209,12 @@ const menuItems = computed(() => {
         label: t('pages.layouts.navbar.organizationChart'),
         icon: 'pi pi-sitemap',
         route: ERouteNames.CompanyOrganizationChartV2,
+        isChild: true,
+      },
+      {
+        label: t('pages.layouts.navbar.teams'),
+        icon: 'pi pi-users',
+        route: ERouteNames.CompanyTeams,
         isChild: true,
       },
       {
@@ -258,7 +264,7 @@ const updateExpandedKeys = () => {
   // HR Settings altındaki route'lar
   const hrSettingsRoutes = [
     ERouteNames.HRSettingsEmployees,
-    ERouteNames.HRSettingsTeamsAndTitles,
+    ERouteNames.HRSettingsJobTitles,
     ERouteNames.HRSettingsActiveAnnuals,
     ERouteNames.HRSettingsHolidays,
   ];
@@ -266,6 +272,8 @@ const updateExpandedKeys = () => {
   // Company altındaki route'lar
   const companyRoutes = [
     ERouteNames.CompanyOrganizationChart,
+    ERouteNames.CompanyOrganizationChartV2,
+    ERouteNames.CompanyTeams,
     ERouteNames.CompanyWorkingHours,
   ];
 

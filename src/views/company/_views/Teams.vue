@@ -1,7 +1,7 @@
 <template>
   <Card class="shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
     <template #content>
-      <TeamsAndTitlesList />
+      <TeamsTable />
     </template>
   </Card>
 </template>
@@ -9,7 +9,5 @@
 <script setup lang="ts">
 import Card from 'primevue/card';
 
-import TeamsAndTitlesList from '@/views/hrSettings/_components/teamsAndTitles/TeamsAndTitlesList.vue';
+import TeamsTable from '@/views/hrSettings/_components/teamsAndTitles/TeamsTable.vue';
 </script>
-
-<style scoped></style>
