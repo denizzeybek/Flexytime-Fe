@@ -17,8 +17,6 @@
       <!-- Role & Team Section (Employee & Team Manager only) -->
       <template v-if="!isSystemAdminRole">
         <EmployeeRoleSection
-          :title-options="titleOptions"
-          :team-options="teamOptions"
           :show-operating-user="isEmployeeRole"
         />
         <EmployeeTagsSalarySection
@@ -103,21 +101,7 @@ const selectedRole = ref<IRoleOption>({
 const isEmployeeRole = computed(() => selectedRole.value?.value === 0);
 const isSystemAdminRole = computed(() => selectedRole.value?.value === 2);
 
-const titleOptions = computed(() => {
-  return employeesStore.employeeTitles.map((employee) => ({
-    name: employee.Name ?? '',
-    value: employee.ID ?? '',
-  }));
-});
-
 const tagOptions = computed(() => employeesStore.tags ?? []);
-
-const teamOptions = computed(() => {
-  return employeesStore.teams.map((employee) => ({
-    name: employee.Name ?? '',
-    value: employee.ID ?? '',
-  }));
-});
 
 const getInitialFormData = computed(() => {
   const employee = props.data;

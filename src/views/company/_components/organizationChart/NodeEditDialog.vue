@@ -43,10 +43,12 @@
         :label="t('pages.company.organizationChartV2.editDialog.fields.titleName.label')"
         :placeholder="t('pages.company.organizationChartV2.editDialog.fields.titleName.placeholder')"
         :options="titleOptions"
+        :header-add-btn="true"
         :prime-props="{
           filter: true,
           showClear: true,
         }"
+        @add-list="handleAddTitle"
       />
 
       <!-- Abbreviation -->
@@ -79,14 +81,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 
+import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyOrganizationChartsStore } from '@/stores/company/organizationChart';
+import { useHRSettingsTitlesStore } from '@/stores/hrSettings/titles';
 
 import type { OrganizationNodeViewModel } from '@/client';
 import type { IOption } from '@/common/interfaces/option.interface';
@@ -114,7 +118,9 @@ const props = defineProps<IProps>();
 const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const { showSuccessMessage, showErrorMessage } = useFToast();
 const organizationsStore = useCompanyOrganizationChartsStore();
+const titlesStore = useHRSettingsTitlesStore();
 
 const validationSchema = yup.object({
   title: yup
@@ -147,7 +153,7 @@ const memberOptions = computed<IOption[]>(() => {
 });
 
 const titleOptions = computed<IOption[]>(() => {
-  return organizationsStore.titles.map((item) => ({
+  return titlesStore.list.map((item) => ({
     name: item.Name || '',
     value: item.ID || '',
     label: item.Name || '',
@@ -159,6 +165,15 @@ const dialogTitle = computed(() => {
     ? t('pages.company.organizationChartV2.editDialog.titleAdd')
     : t('pages.company.organizationChartV2.editDialog.titleEdit');
 });
+
+const handleAddTitle = async (name: string) => {
+  try {
+    await titlesStore.saveTitle({ Name: name });
+    showSuccessMessage(t('pages.hrSettings.teamsAndTitles.titles.messages.created'));
+  } catch (error) {
+    showErrorMessage(error as Error);
+  }
+};
 
 const handleSave = () => {
   if (!meta.value.valid) return;
@@ -217,4 +232,11 @@ watch(
   },
   { immediate: true, deep: true },
 );
+
+onMounted(async () => {
+  // Fetch titles if not already loaded
+  if (titlesStore.list.length === 0) {
+    await titlesStore.fetchTitles();
+  }
+});
 </script>
