@@ -6,6 +6,7 @@ import type { AnnualViewModel } from '../models/AnnualViewModel';
 import type { DataResultViewModel } from '../models/DataResultViewModel';
 import type { PerformAnnualViewModel } from '../models/PerformAnnualViewModel';
 import type { PerformEmployeeViewModel } from '../models/PerformEmployeeViewModel';
+import type { PerformNameValueModel } from '../models/PerformNameValueModel';
 import type { PerformReferenceModel } from '../models/PerformReferenceModel';
 import type { TheMemberModifyViewModel } from '../models/TheMemberModifyViewModel';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -114,6 +115,66 @@ export class DefinitionApiService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/webapi/definition/employees',
+        });
+    }
+    /**
+     * @returns PerformNameValueModel OK
+     * @throws ApiError
+     */
+    public static definitionApiMembers(): CancelablePromise<Array<PerformNameValueModel>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/webapi/definition/members',
+        });
+    }
+    /**
+     * @returns PerformNameValueModel OK
+     * @throws ApiError
+     */
+    public static definitionApiTeams(): CancelablePromise<Array<PerformNameValueModel>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/webapi/definition/teams',
+        });
+    }
+    /**
+     * @returns PerformNameValueModel OK
+     * @throws ApiError
+     */
+    public static definitionApiRoles(): CancelablePromise<Array<PerformNameValueModel>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/webapi/definition/roles',
+        });
+    }
+    /**
+     * @returns PerformNameValueModel OK
+     * @throws ApiError
+     */
+    public static definitionApiEmployeeTitles(): CancelablePromise<Array<PerformNameValueModel>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/webapi/definition/employee-titles',
+        });
+    }
+    /**
+     * @returns PerformNameValueModel OK
+     * @throws ApiError
+     */
+    public static definitionApiManagerTitles(): CancelablePromise<Array<PerformNameValueModel>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/webapi/definition/manager-titles',
+        });
+    }
+    /**
+     * @returns string OK
+     * @throws ApiError
+     */
+    public static definitionApiEmployeeTags(): CancelablePromise<Record<string, string>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/webapi/definition/employee-tags',
         });
     }
 }

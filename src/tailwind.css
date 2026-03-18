@@ -291,10 +291,11 @@
     color-scheme: dark;
   }
 
-  /* Theme transition */
-  html {
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
+  /* ============================================
+   * VIEW TRANSITION API - THEME SWITCHING
+   * Uses native browser crossfade (same as PrimeVue website)
+   * Supported in Chrome 111+, Edge 111+, Firefox 133+, Safari 18+
+   * ============================================ */
 
   /* Scrollbar styling for dark mode */
   .dark ::-webkit-scrollbar {
@@ -588,5 +589,3 @@
 }
 
 /* Chart.js dark mode - handled via composable */
-
-

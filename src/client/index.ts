@@ -110,6 +110,7 @@ export type { SectionClockSummary } from './models/SectionClockSummary';
 export type { ShiftViewModel } from './models/ShiftViewModel';
 export type { SubscriptionModifyViewModel } from './models/SubscriptionModifyViewModel';
 export type { SubscriptionViewModel } from './models/SubscriptionViewModel';
+export type { TeamViewModel } from './models/TeamViewModel';
 export type { TheMemberModifyViewModel } from './models/TheMemberModifyViewModel';
 export type { TheMemberViewModel } from './models/TheMemberViewModel';
 export type { TimeClockDetailViewModel } from './models/TimeClockDetailViewModel';

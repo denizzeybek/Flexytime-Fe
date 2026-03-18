@@ -19,8 +19,20 @@ const effectiveTheme = computed(() => {
 // Check if dark mode is active
 const isDark = computed(() => effectiveTheme.value === 'dark');
 
-// Apply theme to DOM
-const applyTheme = (theme: 'light' | 'dark') => {
+/**
+ * Check if View Transitions API is supported and user allows motion
+ */
+const supportsViewTransitions = () => {
+  return (
+    'startViewTransition' in document &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+};
+
+/**
+ * Apply theme classes to DOM
+ */
+const applyThemeClasses = (theme: 'light' | 'dark') => {
   const html = document.documentElement;
 
   if (theme === 'dark') {
@@ -32,12 +44,33 @@ const applyTheme = (theme: 'light' | 'dark') => {
   }
 };
 
-// Initialize theme on module load
-applyTheme(effectiveTheme.value);
+/**
+ * Apply theme with View Transition API for smooth animation
+ * Uses browser's native crossfade (same as PrimeVue website)
+ * Falls back to instant change if API not supported
+ */
+const applyTheme = (theme: 'light' | 'dark', animate = true) => {
+  // If no animation needed or API not supported, apply instantly
+  if (!animate || !supportsViewTransitions()) {
+    applyThemeClasses(theme);
+    return;
+  }
 
-// Watch for theme changes
-watch(effectiveTheme, (newTheme) => {
-  applyTheme(newTheme);
+  // Use View Transition API - browser handles the smooth crossfade
+  (document as Document & { startViewTransition: (callback: () => void) => void }).startViewTransition(() => {
+    applyThemeClasses(theme);
+  });
+};
+
+// Initialize theme on module load (no animation on first load)
+applyTheme(effectiveTheme.value, false);
+
+// Watch for theme changes (triggered by system preference changes)
+watch(effectiveTheme, (newTheme, oldTheme) => {
+  // Only animate if theme actually changed
+  if (newTheme !== oldTheme) {
+    applyTheme(newTheme);
+  }
 });
 
 // Listen for system theme changes
@@ -51,21 +84,31 @@ if (typeof window !== 'undefined') {
 }
 
 export const useTheme = () => {
-  // Initialize theme (call on app start)
+  // Initialize theme (call on app start - no animation)
   const initTheme = () => {
     const saved = localStorage.getItem(EStorageKeys.THEME) as Theme | null;
     currentTheme.value = saved || 'system';
-    applyTheme(effectiveTheme.value);
+    applyTheme(effectiveTheme.value, false);
   };
 
-  // Set theme and persist
+  /**
+   * Set theme with smooth View Transition animation
+   */
   const setTheme = (theme: Theme) => {
+    const previousEffective = effectiveTheme.value;
     currentTheme.value = theme;
     localStorage.setItem(EStorageKeys.THEME, theme);
-    applyTheme(effectiveTheme.value);
+
+    // Only animate if effective theme actually changed
+    const newEffective = effectiveTheme.value;
+    if (newEffective !== previousEffective) {
+      applyTheme(newEffective);
+    }
   };
 
-  // Toggle between light and dark (ignores system)
+  /**
+   * Toggle between light and dark with smooth animation
+   */
   const toggleTheme = () => {
     const newTheme = effectiveTheme.value === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);

@@ -28,6 +28,14 @@
       </TabList>
     </Tabs>
 
+    <!-- Incomplete Tab Info Banner -->
+    <Message v-if="activeFilter === 'incomplete' && !isLoading" severity="info" :closable="false" class="w-full">
+      <div class="flex items-center gap-2">
+        <i class="pi pi-info-circle" />
+        <span>{{ t('pages.hrSettings.employees.incompleteInfo.description') }}</span>
+      </div>
+    </Message>
+
     <DataTable
       v-model:filters="filters"
       tableStyle="min-width: 50rem"
@@ -92,14 +100,25 @@
     <Column field="Status" :header="t('pages.hrSettings.employees.table.columns.status')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="5rem" />
-        <Tag
-          v-else
-          :value="isEmployeeIncomplete(slotProps.data)
-            ? t('pages.hrSettings.employees.status.incomplete')
-            : t('pages.hrSettings.employees.status.complete')"
-          :severity="isEmployeeIncomplete(slotProps.data) ? 'warn' : 'success'"
-          :icon="isEmployeeIncomplete(slotProps.data) ? 'pi pi-exclamation-triangle' : 'pi pi-check'"
-        />
+        <div v-else class="flex items-center gap-2">
+          <Tag
+            :value="isEmployeeIncomplete(slotProps.data)
+              ? t('pages.hrSettings.employees.status.incomplete')
+              : t('pages.hrSettings.employees.status.complete')"
+            :severity="isEmployeeIncomplete(slotProps.data) ? 'warn' : 'success'"
+            :icon="isEmployeeIncomplete(slotProps.data) ? 'pi pi-exclamation-triangle' : 'pi pi-check'"
+          />
+          <Button
+            v-if="isEmployeeIncomplete(slotProps.data)"
+            v-tooltip.top="t('pages.hrSettings.employees.quickAssign.button')"
+            icon="pi pi-pencil"
+            size="small"
+            text
+            rounded
+            severity="warn"
+            @click="openQuickAssign(slotProps.data)"
+          />
+        </div>
       </template>
     </Column>
     <Column field="Salary" :header="t('pages.hrSettings.employees.table.columns.salary')">
@@ -126,6 +145,12 @@
         </div>
       </template>
     </DataTable>
+
+    <QuickAssignModal
+      v-if="isQuickAssignOpen"
+      v-model:open="isQuickAssignOpen"
+      :employee="quickAssignEmployee"
+    />
   </div>
 </template>
 
@@ -147,6 +172,8 @@ import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
+
+import QuickAssignModal from './_modals/QuickAssignModal.vue';
 
 import type { TheMemberViewModel } from '@/client';
 
@@ -178,6 +205,8 @@ const filters = ref({
 });
 
 const activeFilter = ref<'all' | 'incomplete' | 'active'>('all');
+const isQuickAssignOpen = ref(false);
+const quickAssignEmployee = ref<TheMemberViewModel>();
 
 const options = computed(() => [
   {
@@ -221,6 +250,11 @@ const filteredEmployees = computed(() => {
 
 const handleEdit = (employee: TheMemberViewModel) => {
   emit('edit', employee);
+};
+
+const openQuickAssign = (employee: TheMemberViewModel) => {
+  quickAssignEmployee.value = employee;
+  isQuickAssignOpen.value = true;
 };
 
 const handleDelete = async (employeeID: string) => {

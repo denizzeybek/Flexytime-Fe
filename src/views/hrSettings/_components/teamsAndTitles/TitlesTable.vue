@@ -63,6 +63,7 @@ import { useI18n } from 'vue-i18n';
 
 import { FilterMatchMode } from '@primevue/core/api';
 import Skeleton from 'primevue/skeleton';
+import { useConfirm } from 'primevue/useconfirm';
 
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { useFToast } from '@/composables/useFToast';
@@ -79,6 +80,7 @@ import type { TitleListItem } from '@/stores/hrSettings/titles';
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showErrorMessage } = useFToast();
 const { executeWithFeedback } = useOperationFeedback({ showLoading: false });
+const confirm = useConfirm();
 const titlesStore = useHRSettingsTitlesStore();
 
 const filters = ref({
@@ -116,11 +118,21 @@ const handleEdit = (title: TitleListItem) => {
   isModalOpen.value = true;
 };
 
-const handleDelete = async (titleId: string) => {
-  await executeWithFeedback(
-    () => titlesStore.deleteTitle(titleId),
-    t('pages.hrSettings.teamsAndTitles.titles.messages.deleted'),
-  );
+const handleDelete = (titleId: string) => {
+  confirm.require({
+    message: t('common.confirmDelete'),
+    header: t('common.confirmation'),
+    icon: 'pi pi-exclamation-triangle',
+    acceptClass: 'p-button-danger',
+    acceptLabel: t('common.buttons.yes'),
+    rejectLabel: t('common.buttons.no'),
+    accept: async () => {
+      await executeWithFeedback(
+        () => titlesStore.deleteTitle(titleId),
+        t('pages.hrSettings.teamsAndTitles.titles.messages.deleted'),
+      );
+    },
+  });
 };
 
 const handleOptionClick = (option: EOptionsDropdown, title: TitleListItem) => {

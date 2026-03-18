@@ -37,6 +37,16 @@
         <Tag v-else :value="String(slotProps.data.MemberCount || 0)" severity="info" />
       </template>
     </Column>
+    <Column field="Manager" :header="t('pages.hrSettings.teamsAndTitles.teams.table.columns.manager')">
+      <template #body="slotProps">
+        <Skeleton v-if="isLoading" height="1.5rem" width="8rem" />
+        <div v-else-if="slotProps.data.Manager" class="flex items-center gap-2">
+          <FAvatar :label="slotProps.data.Manager.Name" size="small" />
+          <FText>{{ slotProps.data.Manager.Name }}</FText>
+        </div>
+        <Tag v-else :value="t('pages.hrSettings.teamsAndTitles.teams.table.noManager')" severity="warn" />
+      </template>
+    </Column>
     <Column :header="t('pages.hrSettings.teamsAndTitles.teams.table.columns.actions')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="5rem" />
@@ -70,6 +80,7 @@ import { useI18n } from 'vue-i18n';
 import { FilterMatchMode } from '@primevue/core/api';
 import Skeleton from 'primevue/skeleton';
 import Tag from 'primevue/tag';
+import { useConfirm } from 'primevue/useconfirm';
 
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { useFToast } from '@/composables/useFToast';
@@ -86,6 +97,7 @@ import type { TeamListItem } from '@/stores/hrSettings/teams';
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showErrorMessage } = useFToast();
 const { executeWithFeedback } = useOperationFeedback({ showLoading: false });
+const confirm = useConfirm();
 const teamsStore = useHRSettingsTeamsStore();
 
 const filters = ref({
@@ -123,11 +135,21 @@ const handleEdit = (team: TeamListItem) => {
   isModalOpen.value = true;
 };
 
-const handleDelete = async (teamId: string) => {
-  await executeWithFeedback(
-    () => teamsStore.deleteTeam(teamId),
-    t('pages.hrSettings.teamsAndTitles.teams.messages.deleted'),
-  );
+const handleDelete = (teamId: string) => {
+  confirm.require({
+    message: t('common.confirmDelete'),
+    header: t('common.confirmation'),
+    icon: 'pi pi-exclamation-triangle',
+    acceptClass: 'p-button-danger',
+    acceptLabel: t('common.buttons.yes'),
+    rejectLabel: t('common.buttons.no'),
+    accept: async () => {
+      await executeWithFeedback(
+        () => teamsStore.deleteTeam(teamId),
+        t('pages.hrSettings.teamsAndTitles.teams.messages.deleted'),
+      );
+    },
+  });
 };
 
 const handleOptionClick = (option: EOptionsDropdown, team: TeamListItem) => {
@@ -149,6 +171,7 @@ const fetchTeams = async () => {
 const skeletonData = createSkeletonData(5, {
   Name: '',
   MemberCount: 0,
+  Manager: undefined,
 });
 
 onMounted(() => {

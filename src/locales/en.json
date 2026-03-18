@@ -1080,6 +1080,15 @@
         "messages": {
           "statusUpdated": "Employee status updated!",
           "deleted": "Employee deleted!"
+        },
+        "quickAssign": {
+          "title": "Quick Assign Team & Title",
+          "button": "Assign",
+          "employee": "Employee",
+          "success": "Team and title assigned successfully!"
+        },
+        "incompleteInfo": {
+          "description": "Employees without an assigned Team or Title are listed here. System Admins do not require team/title assignment."
         }
       },
       "holidays": {
@@ -1124,9 +1133,11 @@
             "columns": {
               "name": "Team Name",
               "memberCount": "Members",
+              "manager": "Manager",
               "actions": "Actions"
             },
-            "empty": "No teams found."
+            "empty": "No teams found.",
+            "noManager": "No Manager"
           },
           "footer": "In total there are {count} teams.",
           "modal": {
@@ -1135,7 +1146,9 @@
           },
           "form": {
             "name": "Team Name",
-            "namePlaceholder": "Enter team name"
+            "namePlaceholder": "Enter team name",
+            "manager": "Team Manager",
+            "managerPlaceholder": "Select a manager"
           },
           "messages": {
             "created": "Team created successfully!",
@@ -1352,6 +1365,8 @@
   "common": {
     "notAvailable": "N/A",
     "noDataAvailable": "No data available.",
+    "confirmation": "Confirmation",
+    "confirmDelete": "Are you sure you want to delete this item?",
     "dates": {
       "today": "Today",
       "yesterday": "Yesterday"

@@ -67,7 +67,12 @@
       "mcp__atlassian__getJiraIssue",
       "mcp__atlassian__addCommentToJiraIssue",
       "Bash(paste - -)",
-      "Bash(sort:*)"
+      "Bash(sort:*)",
+      "Bash(python3:*)",
+      "mcp__atlassian__getTransitionsForJiraIssue",
+      "mcp__atlassian__transitionJiraIssue",
+      "WebFetch(domain:dev.to)",
+      "WebFetch(domain:akashhamirwasia.com)"
     ],
     "deny": [],
     "ask": []

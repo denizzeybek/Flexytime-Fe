@@ -18,6 +18,7 @@ import OrganizationChartV2 from '@/views/company/_views/OrganizationChartV2.vue'
 import DefaultReports from '@/views/company/_views/reports/DefaultReports.vue';
 import ElasticReports from '@/views/company/_views/reports/ElasticReports.vue';
 import Reports from '@/views/company/_views/reports/Reports.vue';
+import Teams from '@/views/company/_views/Teams.vue';
 import WorkingHours from '@/views/company/_views/WorkingHours.vue';
 import Download from '@/views/download/_views/Download.vue';
 import Unauthorized from '@/views/errors/Unauthorized.vue';
@@ -25,10 +26,9 @@ import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue'
 import Annuals from '@/views/hrSettings/_views/Annuals.vue';
 import Employees from '@/views/hrSettings/_views/Employees.vue';
 import Holidays from '@/views/hrSettings/_views/Holidays.vue';
-import JobTitles from '@/views/hrSettings/_views/JobTitles.vue';
 // HR Settings
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
-import Teams from '@/views/company/_views/Teams.vue';
+import JobTitles from '@/views/hrSettings/_views/JobTitles.vue';
 import Payment from '@/views/payment/_views/Payment.vue';
 import Basic from '@/views/profile/_components/Basic.vue';
 import CalendarIntegrations from '@/views/profile/_components/CalendarIntegrations.vue';

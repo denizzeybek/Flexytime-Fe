@@ -1080,6 +1080,15 @@
         "messages": {
           "statusUpdated": "Çalışan durumu güncellendi!",
           "deleted": "Çalışan silindi!"
+        },
+        "quickAssign": {
+          "title": "Hızlı Takım & Ünvan Ata",
+          "button": "Ata",
+          "employee": "Çalışan",
+          "success": "Takım ve ünvan başarıyla atandı!"
+        },
+        "incompleteInfo": {
+          "description": "Takım veya Ünvan atanmamış çalışanlar burada listelenir. Sistem Yöneticileri takım/ünvan ataması gerektirmez."
         }
       },
       "holidays": {
@@ -1124,9 +1133,11 @@
             "columns": {
               "name": "Ekip Adı",
               "memberCount": "Üyeler",
+              "manager": "Yönetici",
               "actions": "İşlemler"
             },
-            "empty": "Ekip bulunamadı."
+            "empty": "Ekip bulunamadı.",
+            "noManager": "Yönetici Yok"
           },
           "footer": "Toplam {count} ekip var.",
           "modal": {
@@ -1135,7 +1146,9 @@
           },
           "form": {
             "name": "Ekip Adı",
-            "namePlaceholder": "Ekip adını girin"
+            "namePlaceholder": "Ekip adını girin",
+            "manager": "Ekip Yöneticisi",
+            "managerPlaceholder": "Yönetici seçin"
           },
           "messages": {
             "created": "Ekip başarıyla oluşturuldu!",
@@ -1352,6 +1365,8 @@
   "common": {
     "notAvailable": "Yok",
     "noDataAvailable": "Gösterilecek veri yok.",
+    "confirmation": "Onay",
+    "confirmDelete": "Bu öğeyi silmek istediğinizden emin misiniz?",
     "dates": {
       "today": "Bugün",
       "yesterday": "Dün"

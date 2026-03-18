@@ -94,5 +94,24 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
       await DefinitionApiService.definitionApiDeleteEmployee({ ID: id });
       await this.filter();
     },
+    async quickAssign(id: string, teamId: string, titleId: string) {
+      const employee = this.list.find((e) => e.ID === id);
+      if (!employee) {
+        throw new Error('Employee not found');
+      }
+      await DefinitionApiService.definitionApiSaveEmployee({
+        ID: employee.ID,
+        MemberName: employee.MemberName ?? '',
+        TeamId: teamId,
+        TitleId: titleId,
+        TitleName: employee.TitleName,
+        Salary: employee.Salary,
+        Email: employee.Email,
+        Enabled: employee.Enabled,
+        Role: employee.Role,
+        Tags: employee.Tags,
+      });
+      await this.filter();
+    },
   },
 });

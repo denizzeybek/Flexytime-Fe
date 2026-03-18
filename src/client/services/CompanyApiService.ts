@@ -8,6 +8,7 @@ import type { OrganizationViewModel } from '../models/OrganizationViewModel';
 import type { PerformReferenceModel } from '../models/PerformReferenceModel';
 import type { PerformReportViewModel } from '../models/PerformReportViewModel';
 import type { ReportModifyModel } from '../models/ReportModifyModel';
+import type { TeamViewModel } from '../models/TeamViewModel';
 import type { TitleViewModel } from '../models/TitleViewModel';
 import type { WorkSettingViewModel } from '../models/WorkSettingViewModel';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -125,6 +126,44 @@ export class CompanyApiService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/company/title',
+            body: request,
+        });
+    }
+    /**
+     * @returns TeamViewModel OK
+     * @throws ApiError
+     */
+    public static companyApiTeams(): CancelablePromise<Array<TeamViewModel>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/webapi/company/teams',
+        });
+    }
+    /**
+     * @param request
+     * @returns DataResultViewModel OK
+     * @throws ApiError
+     */
+    public static companyApiSaveTeam(
+        request: TeamViewModel,
+    ): CancelablePromise<DataResultViewModel> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/webapi/company/team/save',
+            body: request,
+        });
+    }
+    /**
+     * @param request
+     * @returns DataResultViewModel OK
+     * @throws ApiError
+     */
+    public static companyApiDeleteTeam(
+        request: PerformReferenceModel,
+    ): CancelablePromise<DataResultViewModel> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/webapi/company/team/delete',
             body: request,
         });
     }
