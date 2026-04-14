@@ -1592,7 +1592,9 @@
     "Communication": "Communication",
     "Password": "Password",
     "Promotion": "Promotion",
-    "Teams": "Teams"
+    "Teams": "Teams",
+    "Job Titles": "Job Titles",
+    "Organization Chart V2": "Organization Chart"
   },
   "components": {
     "input": {

@@ -1592,7 +1592,9 @@
     "Communication": "İletişim",
     "Password": "Şifre",
     "Promotion": "Promosyon",
-    "Teams": "Takımlar"
+    "Teams": "Takımlar",
+    "Job Titles": "Ünvanlar",
+    "Organization Chart V2": "Organizasyon Şeması"
   },
   "components": {
     "input": {

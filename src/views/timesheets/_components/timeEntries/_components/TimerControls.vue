@@ -1,10 +1,10 @@
 <template>
-  <div class="flex items-center gap-3">
+  <div class="flex flex-wrap items-center gap-3">
     <!-- Billable Toggle -->
     <button
       v-tooltip.top="isBillable ? t('pages.timesheets.enterTime.billable.billable') : t('pages.timesheets.enterTime.billable.nonBillable')"
       type="button"
-      class="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200"
+      class="order-3 w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200"
       :class="
         isBillable
           ? 'bg-emerald-500 text-white shadow-md shadow-emerald-200 dark:shadow-emerald-900/50'
@@ -16,11 +16,13 @@
     </button>
 
     <!-- Manual Time Inputs Slot -->
-    <slot name="manualInputs" />
+    <div class="order-1">
+      <slot name="manualInputs" />
+    </div>
 
     <!-- Time Display -->
     <div
-      class="min-w-[100px] h-11 px-4 rounded-xl flex items-center justify-center font-mono text-lg font-bold transition-all duration-200"
+      class="order-2 grow lg:grow-0 min-w-[100px] h-11 px-4 rounded-xl flex items-center justify-center font-mono text-lg font-bold transition-all duration-200"
       :class="
         isRunning
           ? 'bg-f-primary/10 text-f-primary animate-pulse'
@@ -33,7 +35,7 @@
     </div>
 
     <!-- Layout Toggle -->
-    <div class="flex bg-surface-tertiary dark:bg-surface-secondary rounded-xl p-1 gap-1">
+    <div class="order-4 flex bg-surface-tertiary dark:bg-surface-secondary rounded-xl p-1 gap-1">
       <button
         v-tooltip.top="t('pages.timesheets.enterTime.layoutButtons.manual')"
         type="button"
@@ -59,7 +61,7 @@
       v-if="isTimerLayout"
       :severity="!isRunning ? 'info' : 'danger'"
       type="button"
-      class="h-11 px-6 rounded-xl font-semibold transition-all duration-200"
+      class="order-5 grow lg:grow-0 h-11 px-6 rounded-xl font-semibold transition-all duration-200"
       :class="isRunning ? 'animate-pulse' : ''"
       @click="isRunning ? $emit('stop') : $emit('start')"
     >
@@ -72,7 +74,7 @@
       v-if="isManualLayout"
       severity="info"
       type="submit"
-      class="h-11 px-6 rounded-xl font-semibold"
+      class="order-5 grow lg:grow-0 h-11 px-6 rounded-xl font-semibold"
     >
       <i class="pi pi-plus mr-2" />
       {{ t('common.buttons.add') }}

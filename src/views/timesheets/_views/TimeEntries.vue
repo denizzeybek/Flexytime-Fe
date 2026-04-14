@@ -1,22 +1,22 @@
 <template>
   <Card class="shadow-lg mb-5 border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors">
     <template #content>
-      <div class="flex justify-between items-center">
-        <Tabs :value="route.name?.toString()!">
+      <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
+        <Tabs :value="route.name?.toString()!" class="grow sm:grow-0">
           <TabList>
             <Tab v-for="(tab, idx) in items" :key="idx" :value="tab.route" @click="tab.method">
               <span class="font-medium">{{ tab.label }}</span>
             </Tab>
           </TabList>
         </Tabs>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 grow sm:grow-0">
           <!-- Hours Filter (only for Unclassified) -->
           <FSelect
             v-if="isUnclassifiedRoute"
             name="selectedHours"
             :options="hoursOptions"
             :placeholder="t('pages.timesheets.timeEntries.hoursFilter.placeholder')"
-            class="w-40"
+            class="grow sm:w-40 sm:grow-0"
             @selected="onHoursChange"
           />
           <DatePicker
@@ -26,7 +26,7 @@
             showIcon
             iconDisplay="input"
             :placeholder="t('pages.timesheets.timeEntries.datePicker.placeholder')"
-            class="w-48"
+            class="grow sm:w-48 sm:grow-0"
           />
         </div>
       </div>

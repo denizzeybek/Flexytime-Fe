@@ -200,7 +200,6 @@ const remainingCount = computed(() => Math.max(0, allSelectedNames.value.length 
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    console.log('values ', values);
     showSuccessMessage(t('pages.timesheets.updateTimeEntriesModal.messages.success'));
 
     resetForm();

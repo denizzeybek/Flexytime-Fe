@@ -301,10 +301,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         // If so, build Card and Breadcrumb from profile data
         const useProfileData = !response.Card || !response.Breadcrumbs;
 
-        if (useProfileData) {
-          console.log('⚠️ API returned null data. Building from profile...');
-        }
-
         // Transform API response to match our IEmployeeResponse interface
         const transformedData: IEmployeeResponse = {
           Card: useProfileData ? this.buildCardFromProfile() : (response.Card ?? null),

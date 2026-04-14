@@ -11,11 +11,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 import MobileSidebar from './_components/MobileSidebar.vue'
 import PageWrapper from './_components/PageWrapper.vue'
 import Sidebar from './_components/Sidebar.vue'
 
+const route = useRoute()
 const visible = ref(false)
+
+watch(() => route.name, () => {
+  visible.value = false
+})
 </script>

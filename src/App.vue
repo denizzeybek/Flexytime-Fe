@@ -11,17 +11,17 @@ import ConfirmDialog from 'primevue/confirmdialog';
 @reference "@/tailwind.css";
 
 /* #region tablist */
-/* .p-tablist-content { */
-  /* @apply !px-5; */
-/* } */
+.p-tablist-content {
+  @apply !overflow-x-auto !overflow-y-hidden sm:!overflow-visible;
+}
 .p-tabs {
   @apply !p-0 !m-0;
 }
 .p-tablist-tab-list {
-  @apply !w-fit !rounded-xl !border-f-gray !border !bg-f-light-gray;
+  @apply !w-full !min-w-fit sm:!w-fit !rounded-xl !border-f-gray !border !bg-f-light-gray;
 }
 .p-tab {
-  @apply !border-transparent !text-f-dark-gray  !rounded-xl !py-3;
+  @apply !border-transparent !text-f-dark-gray !rounded-xl !py-3 !grow sm:!grow-0;
 }
 .p-tab.p-tab-active {
   @apply !bg-f-primary !text-white !rounded-xl  !transform !scale-104;

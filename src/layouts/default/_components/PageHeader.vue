@@ -10,6 +10,9 @@
       </div>
       <h1 class="text-2xl font-semibold text-content-primary tracking-tight">{{ localizedRouteName }}</h1>
     </div>
+    <div class="flex lg:hidden items-center gap-2">
+      <ThemeToggle />
+    </div>
     <div class="hidden lg:flex items-center gap-2">
       <!-- Theme Toggle -->
       <ThemeToggle />

@@ -203,7 +203,6 @@ const handlePlanSelect = (plan: PricingPlan) => {
 
 // Handle successful payment
 const handlePaymentSuccess = (paymentIntentId: string) => {
-  console.log('Payment successful:', paymentIntentId);
   paymentSuccess.value = true;
   showSuccessMessage(t('pages.payment.success.message'));
 };

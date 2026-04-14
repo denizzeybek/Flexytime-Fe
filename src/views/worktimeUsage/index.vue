@@ -34,20 +34,20 @@
         <template #content>
           <Tabs v-model:value="activeTabIndex">
             <!-- Tab List with Buttons -->
-            <div class="flex items-center justify-between mb-6 pb-5 border-b border-border-secondary dark:border-border-primary transition-colors">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-5 border-b border-border-secondary dark:border-border-primary transition-colors">
               <TabList class="flex-1">
                 <Tab
                   v-for="tab in availableTabs"
                   :key="tab.key"
                   :value="tab.key"
-                  class="font-medium"
+                  class="font-medium whitespace-nowrap"
                 >
                   {{ tab.label }}
                 </Tab>
               </TabList>
 
               <!-- Right Side Buttons -->
-              <div class="flex items-center gap-2.5">
+              <div class="flex items-center gap-2.5 flex-shrink-0">
                 <!-- Graph Toggle Button (shown when not in graph tab) -->
                 <Button
                   v-if="
@@ -58,7 +58,7 @@
                   :icon="showGraphBelow ? 'pi pi-eye-slash' : 'pi pi-chart-line'"
                   :severity="showGraphBelow ? 'secondary' : 'primary'"
                   raised
-                  class="shadow-sm"
+                  class="shadow-sm grow sm:grow-0"
                   @click="showGraphBelow = !showGraphBelow"
                 />
 
@@ -305,7 +305,6 @@ const fetchData = async () => {
 const handleDownload = () => {
   const downloadKey = store.sectionData?.DownloadKey;
   if (!downloadKey) {
-    console.warn('No download key available');
     return;
   }
 

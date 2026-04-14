@@ -126,7 +126,6 @@ export class PaymentService {
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Mock success
-    console.log(`[Mock] Payment confirmed: ${paymentIntentId}`);
     return true;
   }
 }

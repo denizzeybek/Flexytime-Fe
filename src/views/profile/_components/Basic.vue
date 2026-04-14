@@ -278,7 +278,6 @@ onMounted(async () => {
 
   // Set initial timezone model
   const timeZone = profileStore?.TimeZone;
-  console.log('timeZoneList.value ', timeZoneList.value);
   selectedTimezoneModel.value = timeZoneList.value?.find((item) => item.value === timeZone);
 
   resetForm({
