@@ -1027,10 +1027,12 @@
             "systemAdmin": "System Admin"
           },
           "memberName": {
-            "label": "Full Name"
+            "label": "Full Name",
+            "placeholder": "Enter full name"
           },
           "email": {
-            "label": "Email"
+            "label": "Email",
+            "placeholder": "Enter email"
           },
           "enabled": {
             "label": "Enabled"
@@ -1044,17 +1046,20 @@
             "placeholder": "Team"
           },
           "operatingUser": {
-            "label": "Operating User"
+            "label": "Operating User",
+            "placeholder": "Enter operating user"
           },
           "tags": {
             "label": "Tag",
             "placeholder": "Select tag(s)"
           },
           "salary": {
-            "label": "Salary"
+            "label": "Salary",
+            "placeholder": "Enter salary"
           },
           "password": {
-            "label": "Password"
+            "label": "Password",
+            "placeholder": "Enter password"
           },
           "messages": {
             "added": "Employee added!",
@@ -1112,7 +1117,9 @@
           "enterName": "Enter name",
           "allDay": "All Day",
           "startDateLabel": "Start Date",
+          "startDatePlaceholder": "Select start date",
           "endDateLabel": "End Date",
+          "endDatePlaceholder": "Select end date",
           "repeatYearly": "Repeat every year",
           "save": "Save",
           "messages": {
@@ -1210,10 +1217,12 @@
             "label": "All Day"
           },
           "startDate": {
-            "label": "Start Date"
+            "label": "Start Date",
+            "placeholder": "Select start date"
           },
           "endDate": {
-            "label": "End Date"
+            "label": "End Date",
+            "placeholder": "Select end date"
           },
           "messages": {
             "updated": "Annual updated!"
@@ -1239,10 +1248,12 @@
           "alt": "Profile image"
         },
         "fullName": {
-          "label": "Full Name"
+          "label": "Full Name",
+          "placeholder": "Enter full name"
         },
         "email": {
-          "label": "Email"
+          "label": "Email",
+          "placeholder": "Enter email"
         },
         "role": {
           "label": "Role"
@@ -1594,7 +1605,8 @@
     "Promotion": "Promotion",
     "Teams": "Teams",
     "Job Titles": "Job Titles",
-    "Organization Chart V2": "Organization Chart"
+    "Organization Chart V2": "Organization Chart",
+    "Payment": "Payment"
   },
   "components": {
     "input": {

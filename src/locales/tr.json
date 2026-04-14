@@ -1027,10 +1027,12 @@
             "systemAdmin": "Sistem Yöneticisi"
           },
           "memberName": {
-            "label": "Ad Soyad"
+            "label": "Ad Soyad",
+            "placeholder": "Ad soyad girin"
           },
           "email": {
-            "label": "E-posta"
+            "label": "E-posta",
+            "placeholder": "E-posta girin"
           },
           "enabled": {
             "label": "Aktif"
@@ -1044,17 +1046,20 @@
             "placeholder": "Ekip"
           },
           "operatingUser": {
-            "label": "İşletim Kullanıcısı"
+            "label": "İşletim Kullanıcısı",
+            "placeholder": "İşletim kullanıcısı girin"
           },
           "tags": {
             "label": "Etiket",
             "placeholder": "Etiket(ler) seçin"
           },
           "salary": {
-            "label": "Maaş"
+            "label": "Maaş",
+            "placeholder": "Maaş girin"
           },
           "password": {
-            "label": "Şifre"
+            "label": "Şifre",
+            "placeholder": "Şifre girin"
           },
           "messages": {
             "added": "Çalışan eklendi!",
@@ -1112,7 +1117,9 @@
           "enterName": "Ad girin",
           "allDay": "Tüm Gün",
           "startDateLabel": "Başlangıç Tarihi",
+          "startDatePlaceholder": "Başlangıç tarihi seçin",
           "endDateLabel": "Bitiş Tarihi",
+          "endDatePlaceholder": "Bitiş tarihi seçin",
           "repeatYearly": "Her yıl tekrarla",
           "save": "Kaydet",
           "messages": {
@@ -1210,10 +1217,12 @@
             "label": "Tüm Gün"
           },
           "startDate": {
-            "label": "Başlangıç Tarihi"
+            "label": "Başlangıç Tarihi",
+            "placeholder": "Başlangıç tarihi seçin"
           },
           "endDate": {
-            "label": "Bitiş Tarihi"
+            "label": "Bitiş Tarihi",
+            "placeholder": "Bitiş tarihi seçin"
           },
           "messages": {
             "updated": "Yıllık izin güncellendi!"
@@ -1239,10 +1248,12 @@
           "alt": "Profil resmi"
         },
         "fullName": {
-          "label": "Ad Soyad"
+          "label": "Ad Soyad",
+          "placeholder": "Ad soyad girin"
         },
         "email": {
-          "label": "E-posta"
+          "label": "E-posta",
+          "placeholder": "E-posta girin"
         },
         "role": {
           "label": "Rol"
@@ -1594,7 +1605,8 @@
     "Promotion": "Promosyon",
     "Teams": "Takımlar",
     "Job Titles": "Ünvanlar",
-    "Organization Chart V2": "Organizasyon Şeması"
+    "Organization Chart V2": "Organizasyon Şeması",
+    "Payment": "Ödeme"
   },
   "components": {
     "input": {

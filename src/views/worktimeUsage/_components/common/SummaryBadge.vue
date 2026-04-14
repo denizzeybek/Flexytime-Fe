@@ -66,16 +66,18 @@ const bgClass = computed(() => `bg-${mappedSeverity.value}`);
 const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);
 </script>
 
+<style>
+.summary-badge .p-card-body {
+  padding-inline: calc(var(--spacing, 0.25rem) * 3) !important;
+  padding-block: calc(var(--spacing, 0.25rem) * 3) !important;
+}
+.summary-badge .p-card-content {
+  padding: 0 !important;
+}
+</style>
+
 <style scoped>
 @reference "@/tailwind.css";
-
-.summary-badge :deep(.p-card-body) {
-  @apply !px-3 !py-3;
-}
-
-.summary-badge :deep(.p-card-content) {
-  @apply !p-0;
-}
 
 .card-border-success {
   @apply border border-green-500;

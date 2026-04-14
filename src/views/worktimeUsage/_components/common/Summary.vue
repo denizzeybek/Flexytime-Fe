@@ -1,5 +1,5 @@
 <template>
-  <Card class="w-full h-full shadow-lg border rounded-2xl overflow-hidden transition-colors
+  <Card class="summary-wrapper w-full h-full shadow-lg border rounded-2xl overflow-hidden transition-colors
                border-border-secondary dark:border-border-primary">
     <template #content>
       <div class="flex flex-col justify-between h-full flex-1 gap-5">
@@ -49,12 +49,11 @@ const handleDownload = () => {
 };
 </script>
 
-<style scoped>
-@reference "@/tailwind.css";
-:deep(.p-card-content) {
-  @apply !h-full;
+<style>
+.summary-wrapper .p-card-content {
+  height: 100% !important;
 }
-:deep(.p-card-body) {
-  @apply !h-full;
+.summary-wrapper .p-card-body {
+  height: 100% !important;
 }
 </style>

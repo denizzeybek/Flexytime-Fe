@@ -29,7 +29,7 @@
       </DatePicker>
       <Button v-if="showPrevNextButtons" type="button" icon="pi pi-angle-right" @click="handleWeek(EWeek.NEXT)" />
   </div>
-    <small v-if="!hideError" :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
+    <small v-if="errorMessage" :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
   </div>
 </template>
 

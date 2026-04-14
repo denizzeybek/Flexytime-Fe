@@ -4,6 +4,7 @@
       id="password"
       class="grow"
       :label="t('pages.hrSettings.employees.modal.password.label')"
+      :placeholder="t('pages.hrSettings.employees.modal.password.placeholder')"
       name="password"
       :prime-props="{ autocomplete: 'new-password' }"
     />

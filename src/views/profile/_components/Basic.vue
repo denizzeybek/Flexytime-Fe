@@ -46,6 +46,7 @@
             <FInput
               id="fullName"
               :label="t('pages.profile.basic.fullName.label')"
+              :placeholder="t('pages.profile.basic.fullName.placeholder')"
               name="fullName"
             />
             <div class="flex flex-col gap-1">
@@ -53,6 +54,7 @@
                 id="email"
                 type="email"
                 :label="t('pages.profile.basic.email.label')"
+                :placeholder="t('pages.profile.basic.email.placeholder')"
                 name="email"
               />
               <a

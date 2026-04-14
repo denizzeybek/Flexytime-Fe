@@ -3,36 +3,32 @@
     <template #content>
       <div class="flex w-full justify-between items-center flex-col lg:flex-row gap-5 mb-6 pb-5">
         <!-- Perspective Switch (Person / Project) -->
-        <div class="flex bg-surface-tertiary dark:bg-surface-secondary rounded-xl p-1 gap-1">
-          <button
-            v-for="tab in perspectiveTabs"
-            :key="tab.key"
-            type="button"
-            class="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200"
-            :class="
-              timeManagementsStore.perspective === tab.key
-                ? 'bg-surface-primary text-f-primary shadow-sm'
-                : 'text-content-tertiary hover:text-content-secondary'
-            "
-            @click="onPerspectiveChanged(tab.key)"
-          >
-            <i :class="tab.icon" />
-            <span>{{ t(tab.labelKey) }}</span>
-          </button>
-        </div>
+        <Tabs :value="timeManagementsStore.perspective">
+          <TabList>
+            <Tab
+              v-for="tab in perspectiveTabs"
+              :key="tab.key"
+              :value="tab.key"
+              @click="onPerspectiveChanged(tab.key)"
+            >
+              <span class="font-medium">{{ t(tab.labelKey) }}</span>
+            </Tab>
+          </TabList>
+        </Tabs>
 
         <!-- Date Navigation -->
         <div class="flex items-center gap-2">
           <Button
             severity="secondary"
             outlined
-            class="w-10 h-10"
+            class="!w-11 !h-11 !min-w-11 !p-0 flex items-center justify-center"
             @click="timeManagementsStore.goToPreviousWeek()"
           >
             <i class="pi pi-chevron-left" />
           </Button>
 
           <FDateTimePicker
+            id="time-management-date"
             class="min-w-[15rem]"
             name="date"
             :placeholder="t('pages.timesheets.timeManagement.datePlaceholder')"
@@ -49,7 +45,7 @@
           <Button
             severity="secondary"
             outlined
-            class="w-10 h-10"
+            class="!w-11 !h-11 !min-w-11 !p-0 flex items-center justify-center"
             :disabled="isNextWeekDisabled"
             @click="timeManagementsStore.goToNextWeek()"
           >
@@ -77,6 +73,9 @@ import { useI18n } from 'vue-i18n';
 
 import dayjs from 'dayjs';
 import Card from 'primevue/card';
+import Tab from 'primevue/tab';
+import TabList from 'primevue/tablist';
+import Tabs from 'primevue/tabs';
 import { useForm } from 'vee-validate';
 import { array, object, string } from 'yup';
 

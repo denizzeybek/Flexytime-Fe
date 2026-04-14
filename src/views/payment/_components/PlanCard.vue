@@ -5,31 +5,31 @@
   >
     <!-- Main Card -->
     <div
-      class="rounded-3xl p-8 h-full flex flex-col  transition-all duration-200"
+      class="rounded-3xl p-8 h-full flex flex-col transition-all duration-200 relative"
       :class="[
         selected
           ? 'bg-purple-100 dark:bg-purple-950/40'
           : 'ring-1 ring-border-secondary dark:ring-border-primary hover:ring-border-focus bg-surface-primary',
       ]"
     >
-      <!-- Header: Plan Name + Badge -->
-      <div class="flex items-center justify-between gap-x-4">
-        <h3
-          class="text-lg font-semibold leading-8"
-          :class="[selected || plan.recommended ? 'text-primary' : 'text-content-primary']"
-        >
-          {{ plan.name }}
-        </h3>
-        <span
-          v-if="plan.recommended"
-          class="rounded-full bg-yellow-500 px-2.5 py-1 text-xs text-center font-semibold leading-5 text-white"
-        >
-          {{ t('pages.payment.recommended') }}
-        </span>
-      </div>
+      <!-- Badge (absolute so it doesn't affect layout) -->
+      <span
+        v-if="plan.recommended"
+        class="absolute top-8 right-6 rounded-full bg-yellow-500 px-2.5 py-1 text-xs text-center font-semibold leading-5 text-white"
+      >
+        {{ t('pages.payment.recommended') }}
+      </span>
+
+      <!-- Header: Plan Name -->
+      <h3
+        class="text-lg font-semibold leading-8"
+        :class="[selected || plan.recommended ? 'text-primary' : 'text-content-primary']"
+      >
+        {{ plan.name }}
+      </h3>
 
       <!-- Description -->
-      <p class="mt-4 text-sm leading-6 text-content-secondary">
+      <p class="mt-4 text-sm leading-6 text-content-secondary min-h-[3rem]">
         {{ plan.description }}
       </p>
 

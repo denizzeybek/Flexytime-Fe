@@ -5,6 +5,7 @@
         id="memberName"
         class="flex-1"
         :label="t('pages.hrSettings.employees.modal.memberName.label')"
+        :placeholder="t('pages.hrSettings.employees.modal.memberName.placeholder')"
         name="memberName"
       />
       <FInput
@@ -12,6 +13,7 @@
         class="flex-1"
         type="email"
         :label="t('pages.hrSettings.employees.modal.email.label')"
+        :placeholder="t('pages.hrSettings.employees.modal.email.placeholder')"
         name="email"
       />
     </div>

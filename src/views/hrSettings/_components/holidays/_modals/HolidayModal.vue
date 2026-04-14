@@ -16,6 +16,7 @@
           <FCheckbox name="startFullDay" labelTop :label="t('pages.hrSettings.holidays.modal.allDay')" />
           <FDateTimePicker
             :label="t('pages.hrSettings.holidays.modal.startDateLabel')"
+            :placeholder="t('pages.hrSettings.holidays.modal.startDatePlaceholder')"
             class="grow"
             name="startDate"
             :prime-props="{
@@ -30,6 +31,7 @@
           <FCheckbox name="endFullDay" labelTop labelLeft :label="t('pages.hrSettings.holidays.modal.allDay')" />
           <FDateTimePicker
             :label="t('pages.hrSettings.holidays.modal.endDateLabel')"
+            :placeholder="t('pages.hrSettings.holidays.modal.endDatePlaceholder')"
             class="grow"
             name="endDate"
             :prime-props="{

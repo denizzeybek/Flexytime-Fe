@@ -92,7 +92,7 @@
             </div>
 
             <!-- Tab Panels (hidden when graph is shown) -->
-            <TabPanels v-else class="mt-1">
+            <TabPanels v-else class="mt-1 !px-0">
               <!-- Productivity Tab -->
               <TabPanel v-if="showTab('productivity')" value="productivity">
                 <ProductivityTab

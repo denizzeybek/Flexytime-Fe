@@ -31,6 +31,7 @@
       id="operatingUser"
       class="grow"
       :label="t('pages.hrSettings.employees.modal.operatingUser.label')"
+      :placeholder="t('pages.hrSettings.employees.modal.operatingUser.placeholder')"
       name="operatingUser"
     />
   </div>
