@@ -73,7 +73,8 @@
       "mcp__atlassian__transitionJiraIssue",
       "WebFetch(domain:dev.to)",
       "WebFetch(domain:akashhamirwasia.com)",
-      "mcp__atlassian__createIssueLink"
+      "mcp__atlassian__createIssueLink",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
