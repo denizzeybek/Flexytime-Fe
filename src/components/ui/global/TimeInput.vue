@@ -55,7 +55,7 @@ const error = useFieldError(() => props.name);
 </script>
 
 <style scoped>
-.f-time-input::v-deep .p-datepicker-input {
+.f-time-input :deep(.p-datepicker-input) {
   width: 100%;
 }
 </style>

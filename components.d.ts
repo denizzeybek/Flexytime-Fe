@@ -26,7 +26,6 @@ declare module 'vue' {
     InputIcon: typeof import('primevue/inputicon')['default']
     InputText: typeof import('primevue/inputtext')['default']
     Menu: typeof import('primevue/menu')['default']
-    Message: typeof import('primevue/message')['default']
     MultiSelect: typeof import('./src/components/ui/global/MultiSelect.vue')['default']
     NoDataState: typeof import('./src/components/common/NoDataState.vue')['default']
     OptionsDropdown: typeof import('./src/components/ui/local/OptionsDropdown.vue')['default']

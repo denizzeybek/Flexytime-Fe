@@ -72,7 +72,8 @@
       "mcp__atlassian__getTransitionsForJiraIssue",
       "mcp__atlassian__transitionJiraIssue",
       "WebFetch(domain:dev.to)",
-      "WebFetch(domain:akashhamirwasia.com)"
+      "WebFetch(domain:akashhamirwasia.com)",
+      "mcp__atlassian__createIssueLink"
     ],
     "deny": [],
     "ask": []

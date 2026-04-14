@@ -289,9 +289,10 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       }
 
       try {
-        await TimesheetApiService.timesheetApiSaveTask({ Name: taskName });
-        // Add to local list
-        const newTask: TimeTaskViewModel = { Name: taskName };
+        const response = await TimesheetApiService.timesheetApiSaveTask({ Name: taskName });
+        // Extract ID from backend response DTO
+        const dto = (response as unknown as { DTO?: { ID?: string; Name?: string } }).DTO;
+        const newTask: TimeTaskViewModel = { ID: dto?.ID, Name: dto?.Name ?? taskName };
         this.tasks.push(newTask);
         return newTask;
       } catch (err: unknown) {

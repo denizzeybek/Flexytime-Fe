@@ -141,34 +141,34 @@ const toggleAllRows = () => {
 </script>
 
 <style scoped>
-.time-management-table::v-deep .p-treetable-thead > tr > th {
+.time-management-table :deep(.p-treetable-thead > tr > th) {
   background: var(--color-surface-tertiary);
   border-bottom: 2px solid var(--color-border-secondary);
 }
 
-:where(.dark) .time-management-table::v-deep .p-treetable-thead > tr > th {
+:where(.dark) .time-management-table :deep(.p-treetable-thead > tr > th) {
   background: var(--color-surface-secondary);
   border-bottom: 2px solid var(--color-border-primary);
 }
 
-.time-management-table::v-deep .p-treetable-tbody > tr {
+.time-management-table :deep(.p-treetable-tbody > tr) {
   transition: background-color 0.2s;
 }
 
-.time-management-table::v-deep .p-treetable-tbody > tr:hover {
+.time-management-table :deep(.p-treetable-tbody > tr:hover) {
   background: var(--color-surface-tertiary);
 }
 
-:where(.dark) .time-management-table::v-deep .p-treetable-tbody > tr:hover {
+:where(.dark) .time-management-table :deep(.p-treetable-tbody > tr:hover) {
   background: var(--color-surface-secondary);
 }
 
-.time-management-table::v-deep .p-treetable-tbody > tr > td {
+.time-management-table :deep(.p-treetable-tbody > tr > td) {
   padding: 1rem;
   text-align: center;
 }
 
-.time-management-table::v-deep .p-treetable-tbody > tr > td:first-child {
+.time-management-table :deep(.p-treetable-tbody > tr > td:first-child) {
   text-align: left;
 }
 </style>

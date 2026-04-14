@@ -51,10 +51,10 @@ const handleDownload = () => {
 
 <style scoped>
 @reference "@/tailwind.css";
-::v-deep .p-card-content {
+:deep(.p-card-content) {
   @apply !h-full;
 }
-::v-deep .p-card-body {
+:deep(.p-card-body) {
   @apply !h-full;
 }
 </style>
