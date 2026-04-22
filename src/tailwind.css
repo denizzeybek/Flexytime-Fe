@@ -417,6 +417,37 @@
   border-color: var(--color-border-primary);
 }
 
+/* Contrast severity (filled) — force readable text in dark mode */
+.dark .p-button.p-button-contrast:not(.p-button-outlined):not(.p-button-text) {
+  background: var(--color-content-primary);
+  border-color: var(--color-content-primary);
+  color: var(--color-content-inverted);
+}
+
+.dark .p-button.p-button-contrast:not(.p-button-outlined):not(.p-button-text):hover {
+  background: var(--color-f-dark-gray);
+  border-color: var(--color-f-dark-gray);
+  color: var(--color-content-inverted);
+}
+
+.dark .p-button.p-button-contrast:not(.p-button-outlined):not(.p-button-text) .p-button-label,
+.dark .p-button.p-button-contrast:not(.p-button-outlined):not(.p-button-text) .p-button-icon {
+  color: var(--color-content-inverted);
+}
+
+/* Contrast severity (outlined) — ensure label/icon stay visible */
+.dark .p-button.p-button-contrast.p-button-outlined {
+  background: transparent;
+  border-color: var(--color-border-primary);
+  color: var(--color-content-primary);
+}
+
+.dark .p-button.p-button-contrast.p-button-outlined:hover {
+  background: var(--color-interactive-hover);
+  border-color: var(--color-border-focus);
+  color: var(--color-content-primary);
+}
+
 .dark .p-select {
   background: var(--color-surface-secondary);
   color: var(--color-content-primary);
