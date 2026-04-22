@@ -164,9 +164,16 @@ onMounted(() => {
 :deep(.vue-flow__controls-button) {
   background: var(--color-surface-primary);
   border: none;
+  border-bottom: 1px solid var(--color-border-secondary);
   width: 28px;
   height: 28px;
   color: var(--color-content-primary);
+  fill: var(--color-content-primary);
+}
+
+:deep(.vue-flow__controls-button svg),
+:deep(.vue-flow__controls-button svg path) {
+  fill: currentColor;
 }
 
 :deep(.vue-flow__controls-button:hover) {

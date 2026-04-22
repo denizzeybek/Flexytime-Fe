@@ -54,9 +54,10 @@
                     currentQuery.tab !== 'graph' &&
                     (currentQuery.view !== 'individual' || currentQuery.tab === 'distribution')
                   "
-                  :label="showGraphBelow ? $t('pages.worktimeUsage.hideGraph') : $t('pages.worktimeUsage.showGraph')"
-                  :icon="showGraphBelow ? 'pi pi-eye-slash' : 'pi pi-chart-line'"
-                  :severity="showGraphBelow ? 'secondary' : 'primary'"
+                  :label="$t('pages.worktimeUsage.showGraph')"
+                  icon="pi pi-chart-line"
+                  :severity="showGraphBelow ? 'primary' : 'secondary'"
+                  :outlined="!showGraphBelow"
                   raised
                   class="shadow-sm grow sm:grow-0"
                   @click="showGraphBelow = !showGraphBelow"

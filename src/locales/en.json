@@ -202,7 +202,6 @@
     },
     "worktimeUsage": {
       "showGraph": "Show Graph",
-      "hideGraph": "Hide Graph",
       "teamLabel": "Team",
       "employeesLabel": "Employees",
       "downloadReportTooltip": "Download Report",

@@ -202,7 +202,6 @@
     },
     "worktimeUsage": {
       "showGraph": "Grafik Göster",
-      "hideGraph": "Grafik Gizle",
       "teamLabel": "Ekip",
       "employeesLabel": "Çalışanlar",
       "downloadReportTooltip": "Rapor İndir",

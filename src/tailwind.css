@@ -126,6 +126,9 @@
   /* Custom Heights */
   --height-full-offcanvas: 91%;
 
+  /* Theme switch transition duration — single source of truth (used by JS + CSS) */
+  --theme-transition-duration: 50ms;
+
   /* ============================================
    * SEMANTIC COLOR TOKENS (Theme-aware)
    * Usage: bg-surface-primary, text-content-primary, etc.
@@ -321,6 +324,16 @@
     background-color: var(--color-brand-primary-subtle);
     color: var(--color-brand-primary);
   }
+
+  /* Unified theme-switch transition — only active while .theme-transitioning is on <html> */
+  .theme-transitioning,
+  .theme-transitioning *,
+  .theme-transitioning *::before,
+  .theme-transitioning *::after {
+    transition-property: background-color, color, border-color, fill, stroke, box-shadow, filter !important;
+    transition-duration: var(--theme-transition-duration) !important;
+    transition-timing-function: ease !important;
+  }
 }
 
 @layer utilities {
@@ -355,268 +368,6 @@
 .p-dialog-mask {
   backdrop-filter: blur(4px) !important;
   -webkit-backdrop-filter: blur(4px) !important;
-}
-
-/* ============================================
- * PRIMEVUE DARK MODE OVERRIDES
- * Sync PrimeVue with our custom dark class
- * ============================================ */
-
-/* When .dark is present, also apply PrimeVue dark theme */
-.dark {
-  /* PrimeVue will use .my-app-dark, we sync with .dark */
-}
-
-/* Make PrimeVue components respect our dark mode */
-.dark .p-component {
-  color: var(--color-content-primary);
-}
-
-.dark .p-card {
-  background: var(--color-surface-elevated);
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-datatable {
-  background: var(--color-surface-primary);
-}
-
-.dark .p-datatable .p-datatable-thead > tr > th {
-  background: var(--color-surface-secondary);
-  color: var(--color-content-primary);
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-datatable .p-datatable-tbody > tr {
-  background: var(--color-surface-primary);
-  color: var(--color-content-primary);
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-datatable .p-datatable-tbody > tr:hover {
-  background: var(--color-interactive-hover);
-}
-
-.dark .p-inputtext {
-  background: var(--color-surface-secondary);
-  color: var(--color-content-primary);
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-inputtext:focus {
-  border-color: var(--color-border-focus);
-}
-
-.dark .p-button {
-  /* Primary buttons keep brand color */
-}
-
-.dark .p-button.p-button-secondary {
-  background: var(--color-surface-tertiary);
-  color: var(--color-content-primary);
-  border-color: var(--color-border-primary);
-}
-
-/* Contrast severity (filled) — force readable text in dark mode */
-.dark .p-button.p-button-contrast:not(.p-button-outlined):not(.p-button-text) {
-  background: var(--color-content-primary);
-  border-color: var(--color-content-primary);
-  color: var(--color-content-inverted);
-}
-
-.dark .p-button.p-button-contrast:not(.p-button-outlined):not(.p-button-text):hover {
-  background: var(--color-f-dark-gray);
-  border-color: var(--color-f-dark-gray);
-  color: var(--color-content-inverted);
-}
-
-.dark .p-button.p-button-contrast:not(.p-button-outlined):not(.p-button-text) .p-button-label,
-.dark .p-button.p-button-contrast:not(.p-button-outlined):not(.p-button-text) .p-button-icon {
-  color: var(--color-content-inverted);
-}
-
-/* Contrast severity (outlined) — ensure label/icon stay visible */
-.dark .p-button.p-button-contrast.p-button-outlined {
-  background: transparent;
-  border-color: var(--color-border-primary);
-  color: var(--color-content-primary);
-}
-
-.dark .p-button.p-button-contrast.p-button-outlined:hover {
-  background: var(--color-interactive-hover);
-  border-color: var(--color-border-focus);
-  color: var(--color-content-primary);
-}
-
-.dark .p-select {
-  background: var(--color-surface-secondary);
-  color: var(--color-content-primary);
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-select:hover {
-  border-color: var(--color-border-focus);
-}
-
-.dark .p-select.p-focus {
-  border-color: var(--color-border-focus);
-  box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.2);
-}
-
-.dark .p-select .p-select-label {
-  color: var(--color-content-primary);
-}
-
-.dark .p-select .p-select-label.p-placeholder {
-  color: var(--color-content-tertiary);
-}
-
-.dark .p-select .p-select-dropdown {
-  color: var(--color-content-tertiary);
-}
-
-.dark .p-select-overlay {
-  background: var(--color-surface-elevated);
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-select-overlay .p-select-option {
-  color: var(--color-content-primary);
-}
-
-.dark .p-select-overlay .p-select-option:hover {
-  background: var(--color-interactive-hover);
-}
-
-.dark .p-select-overlay .p-select-option.p-highlight {
-  background: var(--color-interactive-selected);
-  color: var(--color-brand-primary);
-}
-
-.dark .p-multiselect {
-  background: var(--color-surface-secondary);
-  color: var(--color-content-primary);
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-multiselect:hover {
-  border-color: var(--color-border-focus);
-}
-
-.dark .p-multiselect.p-focus {
-  border-color: var(--color-border-focus);
-  box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.2);
-}
-
-.dark .p-multiselect-label {
-  color: var(--color-content-primary);
-}
-
-.dark .p-multiselect-label.p-placeholder {
-  color: var(--color-content-tertiary);
-}
-
-.dark .p-multiselect-dropdown {
-  color: var(--color-content-tertiary);
-}
-
-.dark .p-multiselect-overlay {
-  background: var(--color-surface-elevated);
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-multiselect-overlay .p-multiselect-header {
-  background: var(--color-surface-secondary);
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-multiselect-overlay .p-multiselect-list {
-  background: var(--color-surface-elevated);
-}
-
-.dark .p-multiselect-overlay .p-multiselect-option {
-  color: var(--color-content-primary);
-}
-
-.dark .p-multiselect-overlay .p-multiselect-option:hover {
-  background: var(--color-interactive-hover);
-}
-
-.dark .p-multiselect-overlay .p-multiselect-option.p-highlight {
-  background: var(--color-interactive-selected);
-  color: var(--color-brand-primary);
-}
-
-.dark .p-menu {
-  background: var(--color-surface-elevated);
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-menu .p-menu-item:not(.p-disabled).p-focus > .p-menu-item-content {
-  background: var(--color-interactive-hover);
-}
-
-.dark .p-tag {
-  /* Tags will use state colors which are already adjusted */
-}
-
-.dark .p-message {
-  /* Messages use state colors */
-}
-
-.dark .p-skeleton {
-  background: var(--color-surface-tertiary);
-}
-
-.dark .p-skeleton::after {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--color-surface-secondary),
-    transparent
-  );
-}
-
-.dark .p-drawer {
-  background: var(--color-surface-primary);
-}
-
-.dark .p-dialog {
-  background: var(--color-surface-elevated) !important;
-}
-
-.dark .p-panelmenu .p-panelmenu-panel {
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-panelmenu .p-panelmenu-header-content {
-  background: var(--color-surface-secondary);
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-panelmenu .p-panelmenu-content {
-  background: var(--color-surface-primary);
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-tablist {
-  border-color: var(--color-border-primary);
-}
-
-.dark .p-tablist-tab-list {
-  background: var(--color-surface-secondary);
-}
-
-.dark .p-breadcrumb {
-  background: transparent;
-}
-
-.dark .p-breadcrumb .p-breadcrumb-item-link {
-  color: var(--color-content-secondary);
-}
-
-.dark .p-breadcrumb .p-breadcrumb-item-link:hover {
-  color: var(--color-content-primary);
 }
 
 /* Chart.js dark mode - handled via composable */

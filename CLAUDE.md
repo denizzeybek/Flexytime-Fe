@@ -127,11 +127,12 @@ Follow this order in Vue SFCs:
 
 #### API Integration
 
-- API services manually written in `src/services/`
-- Type definitions manually maintained in `src/types/`
-- Base URL configured via `VITE_API_URL` environment variable
-- Axios interceptors configured in `src/plugins/axios` for auth and error handling
-- **Note**: Backend is not yet ready for OpenAPI code generation, so all API types and services are written manually
+- API services are **OpenAPI-generated** under `@/client` (see `src/client/services/*ApiService.ts`). Never hand-edit.
+- Custom endpoints not covered by the spec live in `@/customClient` (e.g. `LoginService`).
+- DTO types are imported from `@/client` as type-only (`import type { … } from '@/client'`).
+- Base URL set in `main.ts` via `OpenAPI.BASE = import.meta.env.VITE_API_URL`.
+- Auth token is carried via `OpenAPI.TOKEN`, set by `stores/auth.ts`. There is no axios auth interceptor.
+- `src/services/` is deprecated and intentionally empty — do not add new files there.
 
 ### Configuration Files
 
@@ -202,3 +203,25 @@ PrimeVue components automatically receive dark theme styles from global CSS in `
 3. Test both light and dark modes during development
 4. For nested elements, use `surface-tertiary` or opacity (`/50`) for contrast
 5. Borders are critical for visibility in dark mode
+
+## Project Rules
+
+Detailed project rules live in [`.claude/rules/`](./.claude/rules/). Every file there is mandatory unless the user explicitly overrides in conversation.
+
+| File | Scope |
+|---|---|
+| [vue-components.md](./.claude/rules/vue-components.md) | SFC structure, `<script setup>`, Composition API order |
+| [styling.md](./.claude/rules/styling.md) | Tailwind semantic tokens, dark mode, forbidden colors |
+| [i18n.md](./.claude/rules/i18n.md) | No hardcoded strings, `en.json` + `tr.json` parity |
+| [state-services.md](./.claude/rules/state-services.md) | Pinia stores, services, axios usage |
+| [forms.md](./.claude/rules/forms.md) | vee-validate + yup patterns |
+| [dates.md](./.claude/rules/dates.md) | dayjs only, no moment/native Date math |
+| [routing-auth.md](./.claude/rules/routing-auth.md) | Router guards, route meta, lazy loading |
+| [typescript.md](./.claude/rules/typescript.md) | No `any`, no non-null `!`, explicit public APIs |
+| [naming.md](./.claude/rules/naming.md) | Files, folders, composables, stores, props, emits, keys |
+| [commits.md](./.claude/rules/commits.md) | Conventional Commits with examples |
+| [branches-prs.md](./.claude/rules/branches-prs.md) | Branch naming, PR format, review checklist |
+| [done-checklist.md](./.claude/rules/done-checklist.md) | Verify before marking a task done |
+| [anti-patterns.md](./.claude/rules/anti-patterns.md) | Things to reject on sight |
+
+When touching a specific concern, load the matching rule file. More specific files win over generic notes in this document.

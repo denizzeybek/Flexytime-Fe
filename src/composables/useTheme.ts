@@ -32,15 +32,30 @@ const supportsViewTransitions = () => {
 /**
  * Apply theme classes to DOM
  */
+let themeTransitionTimer: ReturnType<typeof setTimeout> | null = null;
+
+const getThemeTransitionMs = (): number => {
+  const raw = getComputedStyle(document.documentElement)
+    .getPropertyValue('--theme-transition-duration')
+    .trim();
+  if (raw.endsWith('ms')) return parseFloat(raw);
+  if (raw.endsWith('s')) return parseFloat(raw) * 1000;
+  return 250;
+};
+
 const applyThemeClasses = (theme: 'light' | 'dark') => {
   const html = document.documentElement;
 
+  html.classList.add('theme-transitioning');
+  if (themeTransitionTimer) clearTimeout(themeTransitionTimer);
+  themeTransitionTimer = setTimeout(() => {
+    html.classList.remove('theme-transitioning');
+  }, getThemeTransitionMs());
+
   if (theme === 'dark') {
     html.classList.add('dark');
-    html.classList.add('my-app-dark'); // PrimeVue dark mode selector
   } else {
     html.classList.remove('dark');
-    html.classList.remove('my-app-dark');
   }
 };
 

@@ -1,6 +1,6 @@
 <template>
   <Button
-    class="w-full lg:w-fit"
+    class="w-full lg:w-fit capitalize"
     type="button"
     variant="outlined"
     aria-haspopup="true"
@@ -15,12 +15,9 @@
   <div class="card flex justify-center">
     <Menu ref="menu" :model="items" class="w-40 lg:w-60" :popup="true">
       <template #item="{ item, props }">
-        <a v-ripple class="flex items-center" v-bind="props.action" @click="() => item.method?.()">
+        <a v-ripple class="flex items-center" v-bind="props.action" @click="onItemClick(item)">
           <span :class="item.icon" />
-          <RouterLink v-if="item?.route" :to="item.route" class="ml-2">
-            {{ item.label }}
-          </RouterLink>
-          <span v-else class="ml-2">{{ item.label }}</span>
+          <span class="ml-2">{{ item.label }}</span>
           <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
         </a>
       </template>
@@ -31,15 +28,23 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter, type RouteLocationRaw } from 'vue-router';
 
 import { useLogout } from '@/composables/useLogout';
 import { useProfile } from '@/composables/useProfile';
 import { type MessageSchema } from '@/plugins/i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
 
+type IMenuItem = {
+  route?: RouteLocationRaw;
+  method?: () => void;
+  [key: string]: unknown;
+};
+
 const { t } = useI18n<{ message: MessageSchema }>();
 const { logout } = useLogout();
 const { userName, userTitle } = useProfile();
+const router = useRouter();
 
 const menu = ref();
 
@@ -66,6 +71,14 @@ const items = computed(() => [
 
 const toggle = (event) => {
   menu.value.toggle(event);
+};
+
+const onItemClick = (item: IMenuItem) => {
+  if (item.route) {
+    router.push(item.route);
+    return;
+  }
+  item.method?.();
 };
 </script>
 

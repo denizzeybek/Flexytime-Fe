@@ -56,7 +56,7 @@ export default {
       theme: {
         preset: flexyPreset,
         options: {
-          darkModeSelector: '.my-app-dark',
+          darkModeSelector: '.dark',
         },
       },
     });

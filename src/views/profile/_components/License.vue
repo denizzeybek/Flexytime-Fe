@@ -38,6 +38,7 @@
           <FInput
             id="licenseKey"
             class="grow"
+            disabled
             :label="t('pages.profile.license.licenseKey.label')"
             :placeholder="t('pages.profile.license.licenseKey.placeholder')"
             name="licenseKey"

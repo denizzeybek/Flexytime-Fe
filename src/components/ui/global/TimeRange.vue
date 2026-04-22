@@ -1,12 +1,8 @@
 <template>
   <div class="relative">
     <div
-      class="flex items-center gap-2 px-3 py-2 rounded-md border transition-colors
-             bg-surface-primary dark:bg-surface-secondary"
-      :class="[
-        hasError ? 'border-state-error' : 'border-border-primary',
-        isFocused ? 'border-border-focus' : '',
-      ]"
+      class="flex items-center gap-2 px-3 py-2 rounded-md border transition-colors f-time-range-wrapper"
+      :class="{ 'has-error': hasError, 'is-focused': isFocused }"
     >
       <i class="pi pi-clock text-sm" :class="[hasError ? 'text-red-400' : 'text-f-text-gray']" />
       <DatePicker
@@ -86,6 +82,24 @@ const errorMessage = computed(() => {
 </script>
 
 <style scoped>
+.f-time-range-wrapper {
+  background: var(--p-form-field-background);
+  border-color: var(--p-form-field-border-color);
+  color: var(--p-form-field-color);
+}
+
+.f-time-range-wrapper:hover {
+  border-color: var(--p-form-field-hover-border-color);
+}
+
+.f-time-range-wrapper.is-focused {
+  border-color: var(--p-form-field-focus-border-color);
+}
+
+.f-time-range-wrapper.has-error {
+  border-color: var(--p-form-field-invalid-border-color);
+}
+
 .f-time-picker-minimal {
   width: 50px;
 }

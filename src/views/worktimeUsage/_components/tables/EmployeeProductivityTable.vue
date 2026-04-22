@@ -1,7 +1,6 @@
 <template>
   <DataTable
     :value="isLoading ? skeletonData : individuals"
-    striped-rows
     paginator
     :rows="10"
     :rows-per-page-options="[5, 10, 20, 50]"

@@ -573,32 +573,32 @@ export const flexyPreset = definePreset(Aura, {
           hoverMutedColor: '{surface.300}'
         },
         content: {
-          background: '{surface.900}',
-          hoverBackground: '{surface.800}',
+          background: '{surface.800}',
+          hoverBackground: '{surface.700}',
           borderColor: '{surface.700}',
           color: '{text.color}',
           hoverColor: '{text.hover.color}'
         },
         overlay: {
           select: {
-            background: '{surface.900}',
+            background: '{surface.800}',
             borderColor: '{surface.700}',
             color: '{text.color}'
           },
           popover: {
-            background: '{surface.900}',
+            background: '{surface.800}',
             borderColor: '{surface.700}',
             color: '{text.color}'
           },
           modal: {
-            background: '{surface.900}',
+            background: '{surface.800}',
             borderColor: '{surface.700}',
             color: '{text.color}'
           }
         },
         list: {
           option: {
-            focusBackground: '{surface.800}',
+            focusBackground: '{surface.700}',
             selectedBackground: '{highlight.background}',
             selectedFocusBackground: '{highlight.focus.background}',
             color: '{text.color}',
@@ -617,8 +617,8 @@ export const flexyPreset = definePreset(Aura, {
         },
         navigation: {
           item: {
-            focusBackground: '{surface.800}',
-            activeBackground: '{surface.800}',
+            focusBackground: '{surface.700}',
+            activeBackground: '{surface.700}',
             color: '{text.color}',
             focusColor: '{text.hover.color}',
             activeColor: '{text.hover.color}',
@@ -636,6 +636,17 @@ export const flexyPreset = definePreset(Aura, {
             color: '{surface.500}',
             focusColor: '{surface.400}',
             activeColor: '{surface.400}'
+          }
+        }
+      }
+    }
+  },
+  components: {
+    datatable: {
+      colorScheme: {
+        dark: {
+          root: {
+            borderColor: '{surface.700}'
           }
         }
       }
