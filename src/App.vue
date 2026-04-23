@@ -76,7 +76,7 @@ import ConfirmDialog from 'primevue/confirmdialog';
   @apply !text-sm !text-gray-400 transition-transform;
 }
 .p-panelmenu-content {
-  @apply !bg-gray-50/30;
+  @apply !bg-gray-50/30 dark:!bg-transparent;
 }
 .p-panelmenu-panel .p-menuitem-content {
   @apply !border-0 !pt-2 !pb-2 !pl-3 !space-y-1;
