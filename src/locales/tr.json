@@ -449,7 +449,7 @@
             "placeholder": "Kullanıcı sayısını girin"
           },
           "userPeriod": {
-            "label": "Kullanıcı Periyodu",
+            "label": "Kullanıcı Periyodu (Ay)",
             "placeholder": "Kullanıcı periyodunu girin"
           },
           "license": {

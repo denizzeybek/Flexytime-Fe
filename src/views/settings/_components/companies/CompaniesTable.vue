@@ -108,6 +108,7 @@ import Skeleton from 'primevue/skeleton';
 
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
+import { parseLicense } from '@/helpers/license';
 import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useSettingsCompaniesStore } from '@/stores/settings/companies';
@@ -159,7 +160,15 @@ const options = ref([
 ]);
 
 const companies = computed(() => {
-  return companiesStore.list;
+  const list = companiesStore.list ?? [];
+  return list.map((company) => {
+    const parsed = parseLicense(company.License);
+    return {
+      ...company,
+      UserCount: parsed.userCount ?? company.UserCount,
+      Month: parsed.month ?? company.Month,
+    };
+  });
 });
 
 const handleEdit = (company: CompanyViewModel) => {

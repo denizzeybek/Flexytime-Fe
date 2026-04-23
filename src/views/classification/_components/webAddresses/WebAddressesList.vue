@@ -49,7 +49,7 @@ const fetchWebAddresses = async () => {
 const handlePageChange = ({ offset, rows }) => {
   payload.value = {
     ...payload.value,
-    start: offset,
+    start: Math.floor(offset / rows) + 1,
     length: rows,
   };
   fetchWebAddresses();

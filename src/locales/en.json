@@ -449,7 +449,7 @@
             "placeholder": "Enter user count"
           },
           "userPeriod": {
-            "label": "User Period",
+            "label": "User Period (Month)",
             "placeholder": "Enter user period"
           },
           "license": {
