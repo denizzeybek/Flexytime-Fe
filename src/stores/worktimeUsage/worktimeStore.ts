@@ -1,8 +1,24 @@
 /**
- * Worktime Usage Pinia Store
+ * Worktime Usage Pinia Store — v2 BE shapes.
  *
- * Manages state and API requests for worktime usage data
- * Caches responses to avoid unnecessary API calls
+ * The legacy `ClockSection2Response.Sections[]` / `Model.Allocations[]` / per-
+ * domain `Summary[]` array layouts are gone. v2 returns the clean RESHAPED-v2
+ * contracts directly (see docs/worktime-redesign.md):
+ *
+ *   /clock/section   → ClockSectionResponse   { Summary, Distribution[],
+ *                                                WellBeings[], ProductivityGraph[],
+ *                                                WellBeingGraph[], Teams[],
+ *                                                Individuals[], Company }
+ *
+ *   /clock/employee  → ClockEmployeeResponse  { Employee, Summary, Distribution[],
+ *                                                WellBeings[], ProductivityGraph[],
+ *                                                Manuals[], WebClocks[],
+ *                                                HasRefreshScheduled, Alerts }
+ *
+ * This store exposes the v2 responses verbatim and only carries a tiny adapter
+ * layer for the legacy tab components that still expect an `IEmployeeResponse`
+ * (Card / Breadcrumb / per-domain Summary[] / Distributions[] etc.). The next
+ * FE pass should retire `IEmployeeResponse` and consume the v2 shape directly.
  */
 
 import { defineStore } from 'pinia';
@@ -11,11 +27,11 @@ import { ClockService } from '@/client';
 import { useProfileStore } from '@/stores/profile/profile';
 
 import type {
-  AllocationViewModel,
-  BreadCrumbViewModel,
+  ClockDistribution,
   ClockEmployeeRequest,
-  ClockSection2Response,
+  ClockEmployeeResponse,
   ClockSectionRequest,
+  ClockSectionResponse,
   WebClockModifyModel,
 } from '@/client';
 import type {
@@ -39,9 +55,9 @@ interface ApiError {
 
 interface State {
   // Section data (Team/Department view + Individuals list)
-  sectionData: ClockSection2Response | null;
+  sectionData: ClockSectionResponse | null;
 
-  // Employee data (Individual view)
+  // Employee data (Individual view) — legacy-shaped tab adapter
   employeeData: IEmployeeResponse | null;
 
   // Loading states
@@ -53,6 +69,46 @@ interface State {
   // Last request payloads for caching logic
   lastSectionRequest: ClockSectionRequest | null;
   lastEmployeeRequest: ClockEmployeeRequest | null;
+}
+
+/**
+ * v2 `Summary` is a single object with the four per-domain seconds; the legacy
+ * tab UI iterates an `ISummary[]` keyed by `statisticType`. We expand the
+ * v2 object back into the legacy array shape so the existing tab markup keeps
+ * rendering until it gets refactored.
+ */
+function summaryObjectToArray(summary: ClockEmployeeResponse['Summary']): ISummary[] {
+  return [
+    { id: 'work', statisticType: 'work', time: String(summary.Work ?? 0) },
+    { id: 'meeting', statisticType: 'meeting', time: String(summary.Meeting ?? 0) },
+    { id: 'leisure', statisticType: 'leisure', time: String(summary.Leisure ?? 0) },
+    {
+      id: 'unclassified',
+      statisticType: 'unclassified',
+      time: String(summary.Unclassified ?? 0),
+    },
+  ];
+}
+
+/**
+ * v2 `Distribution[]` already mirrors the per-domain tab structure (Domain,
+ * Seconds, Cost, Applications). We re-shape only enough fields to keep the
+ * legacy `IDistribution` rendering working — the presentational keys
+ * (`statisticType`, `time` string, `imgPath`) are filled but Chart/Chart2 are
+ * dropped (FE rebuilds the pie from `Applications` directly).
+ */
+function distributionsToLegacy(distribution: ClockDistribution[]): IDistribution[] {
+  return distribution.map((row) => ({
+    id: String(row.Domain).toLowerCase(),
+    statisticType: String(row.Domain).toLowerCase(),
+    time: String(row.Seconds ?? 0),
+    Applications: (row.Applications ?? []).map((app) => ({
+      imgPath: '',
+      title: app.Name ?? '',
+      time: String(app.Seconds ?? 0),
+    })),
+    Chart: [],
+  })) as IDistribution[];
 }
 
 export const useWorktimeStore = defineStore('worktimeUsage', {
@@ -72,122 +128,31 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
   }),
 
   getters: {
-    /**
-     * Get section data (team/department view)
-     */
-    getSectionData: (state): ClockSection2Response | null => state.sectionData,
-
-    /**
-     * Get employee data (individual view)
-     */
+    getSectionData: (state): ClockSectionResponse | null => state.sectionData,
     getEmployeeData: (state): IEmployeeResponse | null => state.employeeData,
 
-    /**
-     * Get individuals list from section data
-     * Used for employees list view
-     */
-    getIndividuals: (state) => state.sectionData?.Individuals || [],
+    /** v2: Individuals is at the top level (no Sections[] nesting). */
+    getIndividuals: (state) => state.sectionData?.Individuals ?? [],
 
-    /**
-     * Get teams from section data
-     */
-    getTeams: (state) => state.sectionData?.Teamset?.Teams || [],
+    /** v2: Teams is at the top level (no Teamset.Teams nesting). */
+    getTeams: (state) => state.sectionData?.Teams ?? [],
 
-    /**
-     * Check if section is loading
-     */
     isSectionLoading: (state): boolean => state.loading.section,
-
-    /**
-     * Check if employee is loading
-     */
     isEmployeeLoading: (state): boolean => state.loading.employee,
-
-    /**
-     * Check if any request is loading
-     */
     isLoading: (state): boolean => state.loading.section || state.loading.employee,
-
-    /**
-     * Get section error
-     */
     getSectionError: (state): string | null => state.error.section,
-
-    /**
-     * Get employee error
-     */
     getEmployeeError: (state): string | null => state.error.employee,
   },
 
   actions: {
     /**
-     * Transform Summary.Allocations to ISummary array
-     */
-    transformSummary(allocations: AllocationViewModel[]): ISummary[] {
-      return allocations.map((alloc) => ({
-        id: alloc.id,
-        statisticType: alloc.name?.toLowerCase() || '',
-        time: alloc.spend || '00:00',
-      })) as ISummary[];
-    },
-
-    /**
-     * Transform Model.Allocations to IDistribution array
-     */
-    transformDistributions(allocations: AllocationViewModel[]): IDistribution[] {
-      return allocations.map((alloc) => ({
-        id: alloc.id,
-        statisticType: alloc.name?.toLowerCase() || '',
-        time: alloc.spend || '00:00',
-        Applications: (alloc.Allocations || []).map((app) => ({
-          imgPath: app.imageurl || '',
-          title: app.name || '',
-          time: app.spend || '00:00',
-        })),
-        Chart: (alloc.Chart2?.labels || []).map((label: string, index: number) => ({
-          label,
-          value: alloc.Chart2?.data?.[index] || 0,
-        })),
-      })) as IDistribution[];
-    },
-
-    /**
-     * Transform Employee API Breadcrumbs to Section format
-     * Employee: { Url, Name, IsEnabled }
-     * Section: { id, title, path, isLastElement }
-     */
-    transformBreadcrumbs(breadcrumbs: BreadCrumbViewModel[]): IBreadcrumb[] {
-      if (!breadcrumbs || breadcrumbs.length === 0) return [];
-
-      return breadcrumbs.map((crumb, index) => {
-        // Extract ID from URL (e.g., "~/Clock/Section/629176fe57a0318a082d51a2" -> "629176fe57a0318a082d51a2")
-        const urlParts = crumb.Url?.split('/') || [];
-        const id = urlParts[urlParts.length - 1] || '';
-
-        // Convert URL to path format
-        const path = crumb.Url?.replace('~', '') || '';
-
-        return {
-          id,
-          title: crumb.Name || '',
-          path,
-          isLastElement: index === breadcrumbs.length - 1,
-        };
-      });
-    },
-
-    /**
-     * Build Card data from profile when API returns null
-     * Used for employee view when backend doesn't provide Card data
+     * Build Card data from profile — v2 `/clock/employee` no longer returns a
+     * Card block; the FE always derives it from the profile.
      */
     buildCardFromProfile(): ICard | null {
       const profileStore = useProfileStore();
       const employee = profileStore.GeneralProfile?.Employee;
-
-      if (!employee) {
-        return null;
-      }
-
+      if (!employee) return null;
       return {
         Abbreviation: employee.abbreviation || '',
         Name: employee.fullname || '',
@@ -196,19 +161,10 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       };
     },
 
-    /**
-     * Build Breadcrumb data from profile when API returns null
-     * Used for employee view when backend doesn't provide Breadcrumb data
-     */
     buildBreadcrumbFromProfile(): IBreadcrumb[] {
       const profileStore = useProfileStore();
       const employee = profileStore.GeneralProfile?.Employee;
-
-      if (!employee) {
-        return [];
-      }
-
-      // Create a simple breadcrumb with just the employee name
+      if (!employee) return [];
       return [
         {
           id: 'employee',
@@ -220,39 +176,34 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     },
 
     /**
-     * Fetch section data (Team/Department view + Individuals)
-     * Endpoint: /clock/section
-     *
-     * @param payload - Request payload with Perspective, Interval, TeamId
-     * @param force - Force refresh even if same request exists
+     * Fetch section data. Endpoint: `/clock/section`. v2: response is the
+     * `ClockSectionResponse` directly (no Sections[] wrapper).
      */
-    async fetchSectionData(payload: ClockSectionRequest, force = false): Promise<ClockSection2Response | null> {
-      // Check if we need to make a new request
+    async fetchSectionData(
+      payload: ClockSectionRequest,
+      force = false,
+    ): Promise<ClockSectionResponse | null> {
       if (!force && this.lastSectionRequest && this.sectionData) {
         const isSameRequest =
-          this.lastSectionRequest.Perspective === payload.Perspective &&
-          this.lastSectionRequest.Interval === payload.Interval &&
-          this.lastSectionRequest.TeamId === payload.TeamId;
-
-        if (isSameRequest) {
-          // Return cached data
-          return this.sectionData;
-        }
+          this.lastSectionRequest.Date === payload.Date &&
+          this.lastSectionRequest.StartDate === payload.StartDate &&
+          this.lastSectionRequest.EndDate === payload.EndDate &&
+          this.lastSectionRequest.TeamId === payload.TeamId &&
+          this.lastSectionRequest.Category === payload.Category;
+        if (isSameRequest) return this.sectionData;
       }
 
       try {
         this.loading.section = true;
         this.error.section = null;
-
         const response = await ClockService.clockControllerGetSection(payload);
-
         this.sectionData = response;
         this.lastSectionRequest = { ...payload };
-
         return response;
       } catch (err: unknown) {
         const apiErr = err as ApiError;
-        this.error.section = apiErr?.response?.data?.message || 'Failed to fetch section data';
+        this.error.section =
+          apiErr?.response?.data?.message ?? 'Failed to fetch section data';
         console.error('Error fetching section data:', err);
         return null;
       } finally {
@@ -261,34 +212,28 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     },
 
     /**
-     * Fetch employee data (Individual view)
-     * Endpoint: /clock/employee
-     *
-     * @param payload - Request payload with Perspective, Interval, MemberId
-     * @param force - Force refresh even if same request exists
+     * Fetch employee data. Endpoint: `/clock/employee`. v2: response is the
+     * flat `ClockEmployeeResponse`. We adapt it to the legacy
+     * `IEmployeeResponse` shape for the existing tab components.
      */
-    async fetchEmployeeData(payload: ClockEmployeeRequest, force = false): Promise<IEmployeeResponse | null> {
+    async fetchEmployeeData(
+      payload: ClockEmployeeRequest,
+      force = false,
+    ): Promise<IEmployeeResponse | null> {
       // Extract just the ID from MemberId if it contains a full path
       const cleanMemberId = payload.MemberId?.includes('/')
         ? payload.MemberId.split('/').pop() || payload.MemberId
         : payload.MemberId;
+      const cleanPayload: ClockEmployeeRequest = { ...payload, MemberId: cleanMemberId };
 
-      const cleanPayload: ClockEmployeeRequest = {
-        ...payload,
-        MemberId: cleanMemberId,
-      };
-
-      // Check if we need to make a new request
       if (!force && this.lastEmployeeRequest && this.employeeData) {
         const isSameRequest =
-          this.lastEmployeeRequest.Perspective === cleanPayload.Perspective &&
-          this.lastEmployeeRequest.Interval === cleanPayload.Interval &&
-          this.lastEmployeeRequest.MemberId === cleanPayload.MemberId;
-
-        if (isSameRequest) {
-          // Return cached data
-          return this.employeeData;
-        }
+          this.lastEmployeeRequest.Date === cleanPayload.Date &&
+          this.lastEmployeeRequest.StartDate === cleanPayload.StartDate &&
+          this.lastEmployeeRequest.EndDate === cleanPayload.EndDate &&
+          this.lastEmployeeRequest.MemberId === cleanPayload.MemberId &&
+          this.lastEmployeeRequest.Category === cleanPayload.Category;
+        if (isSameRequest) return this.employeeData;
       }
 
       try {
@@ -297,30 +242,23 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
 
         const response = await ClockService.clockControllerGetEmployee(cleanPayload);
 
-        // Check if API returned null/empty data (happens for employee role)
-        // If so, build Card and Breadcrumb from profile data
-        const useProfileData = !response.Card || !response.Breadcrumbs;
-
-        // Transform API response to match our IEmployeeResponse interface
-        const transformedData: IEmployeeResponse = {
-          Card: useProfileData ? this.buildCardFromProfile() : (response.Card ?? null),
-          Breadcrumb: useProfileData
-            ? this.buildBreadcrumbFromProfile()
-            : this.transformBreadcrumbs(response.Breadcrumbs || []),
-          Summary: this.transformSummary(response.Model?.Summary?.Allocations || []),
-          WellBeings: response.Model?.WellBeings || [],
-          Distributions: this.transformDistributions(response.Model?.Allocations || []),
-          Graphs: response.Model?.Graph ?? ({} as IGraph),
-          WebClocks: response.Model?.WebClocks || [],
+        const transformed: IEmployeeResponse = {
+          Card: this.buildCardFromProfile(),
+          Breadcrumb: this.buildBreadcrumbFromProfile(),
+          Summary: summaryObjectToArray(response.Summary),
+          WellBeings: (response.WellBeings ?? []) as IEmployeeResponse['WellBeings'],
+          Distributions: distributionsToLegacy(response.Distribution ?? []),
+          Graphs: {} as IGraph, // v2: ProductivityGraph is a raw per-day series; chart datasets dropped (FE rebuilds).
+          WebClocks: (response.WebClocks ?? []) as unknown as IEmployeeResponse['WebClocks'],
         };
 
-        this.employeeData = transformedData;
+        this.employeeData = transformed;
         this.lastEmployeeRequest = { ...cleanPayload };
-
-        return transformedData;
+        return transformed;
       } catch (err: unknown) {
         const apiErr = err as ApiError;
-        this.error.employee = apiErr?.response?.data?.message || 'Failed to fetch employee data';
+        this.error.employee =
+          apiErr?.response?.data?.message ?? 'Failed to fetch employee data';
         console.error('Error fetching employee data:', err);
         return null;
       } finally {
@@ -328,50 +266,28 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       }
     },
 
-    /**
-     * Clear section data and cache
-     */
     clearSectionData() {
       this.sectionData = null;
       this.lastSectionRequest = null;
       this.error.section = null;
     },
-
-    /**
-     * Clear employee data and cache
-     */
     clearEmployeeData() {
       this.employeeData = null;
       this.lastEmployeeRequest = null;
       this.error.employee = null;
     },
-
-    /**
-     * Clear all data and reset store
-     */
     resetStore() {
       this.sectionData = null;
       this.employeeData = null;
       this.lastSectionRequest = null;
       this.lastEmployeeRequest = null;
-      this.loading = {
-        section: false,
-        employee: false,
-      };
-      this.error = {
-        section: null,
-        employee: null,
-      };
+      this.loading = { section: false, employee: false };
+      this.error = { section: null, employee: null };
     },
 
-    /**
-     * Save web clock domain
-     * Endpoint: /clock/web/save
-     *
-     * @param payload - Request payload with HostName and Domain
-     */
+    /** Save web clock domain. Endpoint: `/clock/web/save`. */
     async saveWebClock(payload: WebClockModifyModel) {
-      return await ClockService.clockControllerSaveWebClock(payload);
+      return ClockService.clockControllerSaveWebClock(payload);
     },
   },
 });

@@ -1,107 +1,83 @@
+/**
+ * Legacy `useSectionsStore` retained as a thin v2 shim.
+ *
+ * The legacy store was a verbatim mirror of `ClockSection2Response` /
+ * `EmployeeClockViewModel` (Card / Breadcrumb / Teamset / Model / etc.). v2's
+ * RESHAPED contracts dropped those wrappers; the canonical worktime store is
+ * now `useWorktimeStore` (worktimeStore.ts), and most call sites should move
+ * to it. We keep this shim so the few remaining consumers — currently a couple
+ * of layout-level Cards — keep compiling while the worktime UI is refactored
+ * tab-by-tab.
+ */
+
 import { defineStore } from 'pinia';
 
 import { ClockService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type {
-  CardViewModel,
-  ClockBreadCrumb,
   ClockDistribution,
   ClockEmployeeRequest,
-  ClockGraphGroup,
-  ClockInvitation,
-  ClockSectionIndividual,
+  ClockEmployeeResponse,
+  ClockProductivityDay,
   ClockSectionRequest,
-  ClockSectionTeamset,
-  ClockWellBeingDetail,
-  EmployeeClockViewModel,
-  SectionClockSummary,
+  ClockSectionResponse,
+  ClockTeamSummary,
   WebClockModifyModel,
 } from '@/client';
 
 interface State {
-  Card: CardViewModel;
-  Individuals?: ClockSectionIndividual[];
-  Summary?: SectionClockSummary[];
-  WellBeings?: ClockWellBeingDetail[];
-  Breadcrumb?: ClockBreadCrumb[];
-  Distributions?: ClockDistribution[];
-  Graphs?: ClockGraphGroup;
-  Teamset?: ClockSectionTeamset;
-  Invitations?: ClockInvitation[];
-  DownloadKey?: string;
-  IndividualEmployeeModel?: EmployeeClockViewModel;
+  section: ClockSectionResponse | null;
+  employee: ClockEmployeeResponse | null;
   isLoading: boolean;
 }
 
 export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, {
   state: (): State => ({
-    Card: {} as CardViewModel,
-    Individuals: [],
-    Summary: [],
-    WellBeings: [],
-    Breadcrumb: [],
-    Distributions: [],
-    Graphs: undefined,
-    Teamset: {} as ClockSectionTeamset,
-    Invitations: [],
-    DownloadKey: '',
-    IndividualEmployeeModel: {} as EmployeeClockViewModel,
+    section: null,
+    employee: null,
     isLoading: false,
   }),
+  getters: {
+    Individuals: (state) => state.section?.Individuals ?? [],
+    Teams: (state) => (state.section?.Teams ?? []) as ClockTeamSummary[],
+    SectionSummary: (state) => state.section?.Summary ?? null,
+    SectionDistribution: (state): ClockDistribution[] => state.section?.Distribution ?? [],
+    SectionProductivityGraph: (state): ClockProductivityDay[] =>
+      state.section?.ProductivityGraph ?? [],
+    EmployeeSummary: (state) => state.employee?.Summary ?? null,
+    EmployeeDistribution: (state): ClockDistribution[] => state.employee?.Distribution ?? [],
+    EmployeeProductivityGraph: (state): ClockProductivityDay[] =>
+      state.employee?.ProductivityGraph ?? [],
+    Manuals: (state) => state.employee?.Manuals ?? [],
+    WebClocks: (state) => state.employee?.WebClocks ?? [],
+  },
   actions: {
     async filter(payload: ClockSectionRequest) {
       this.isLoading = true;
       try {
         const response = await ClockService.clockControllerGetSection(payload);
-        this.Card = response.Card!;
-        this.Summary = response.Summary;
-        this.Individuals = response.Individuals;
-        this.WellBeings = response.WellBeings;
-        this.Breadcrumb = response.Breadcrumb;
-        this.Distributions = response.Distributions;
-        this.Graphs = response.Graphs;
-        this.Teamset = response.Teamset;
-        this.Invitations = response.Invitations;
-        this.DownloadKey = response.DownloadKey;
+        this.section = response;
         return response;
       } finally {
         this.isLoading = false;
       }
     },
     async filterSection(payload: ClockSectionRequest) {
-      this.isLoading = true;
-      try {
-        const response = await ClockService.clockControllerGetSection(payload);
-        this.Card = response.Card!;
-        this.Summary = response.Summary;
-        this.Individuals = response.Individuals;
-        this.WellBeings = response.WellBeings;
-        this.Breadcrumb = response.Breadcrumb;
-        this.Distributions = response.Distributions;
-        this.Graphs = response.Graphs;
-        this.Teamset = response.Teamset;
-        this.Invitations = response.Invitations;
-        this.DownloadKey = response.DownloadKey;
-        return response;
-      } finally {
-        this.isLoading = false;
-      }
+      return this.filter(payload);
     },
     async filterEmployee(payload: ClockEmployeeRequest) {
       this.isLoading = true;
       try {
         const response = await ClockService.clockControllerGetEmployee(payload);
-        this.Card = response.Card!;
-        this.Breadcrumb = response.Breadcrumbs as ClockBreadCrumb[];
-        this.IndividualEmployeeModel = response.Model;
+        this.employee = response;
         return response;
       } finally {
         this.isLoading = false;
       }
     },
     async saveWebClock(payload: WebClockModifyModel) {
-      return await ClockService.clockControllerSaveWebClock(payload);
+      return ClockService.clockControllerSaveWebClock(payload);
     },
   },
 });

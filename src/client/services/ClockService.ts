@@ -4,6 +4,8 @@
 /* eslint-disable */
 import type { ClockActivitiesRequestDto } from '../models/ClockActivitiesRequestDto';
 import type { ClockActivitiesResponse } from '../models/ClockActivitiesResponse';
+import type { ClockEmployeeResponse } from '../models/ClockEmployeeResponse';
+import type { ClockSectionResponse } from '../models/ClockSectionResponse';
 import type { PerformReferenceDto } from '../models/PerformReferenceDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -23,10 +25,10 @@ export class ClockService {
     /**
      * Return a clock section (group of employees + their current clock state)
      * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (Summary object not array, seconds not "HH:mm", string-enum codes e.g. Domain "Work" / WellBeing "Overtime", no charts/labels). FE refactor required. See docs/worktime-redesign.md.
-     * @returns any ClockSectionResponse
+     * @returns ClockSectionResponse
      * @throws ApiError
      */
-    public static clockControllerGetSection(): CancelablePromise<any> {
+    public static clockControllerGetSection(): CancelablePromise<ClockSectionResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/clock/section',
@@ -35,10 +37,10 @@ export class ClockService {
     /**
      * Return clock detail for a single employee
      * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (no Model wrapper / Days[]; flat Employee+Summary+Distribution+WellBeings+ProductivityGraph, raw seconds + string-enum codes e.g. Domain "Work" / WellBeing "Overtime"). FE refactor required. See docs/worktime-redesign.md.
-     * @returns any ClockEmployeeResponse
+     * @returns ClockEmployeeResponse
      * @throws ApiError
      */
-    public static clockControllerGetEmployee(): CancelablePromise<any> {
+    public static clockControllerGetEmployee(): CancelablePromise<ClockEmployeeResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/clock/employee',
