@@ -63,7 +63,6 @@ import { number, object, string } from 'yup';
 
 import { useModalForm } from '@/composables/useModalFormInit';
 import { useOperationFeedback } from '@/composables/useOperationFeedback';
-import { parseLicense } from '@/helpers/license';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useSettingsCompaniesStore } from '@/stores/settings/companies';
 
@@ -131,15 +130,13 @@ const getInitialFormData = () => {
 
   if (!company) return {};
 
-  const parsed = parseLicense(company.License);
-
   return {
     name: company.Name,
     fullname: company.Fullname,
     email: company.Email,
     password: company.Password || '',
-    userCount: parsed.userCount ?? company.UserCount,
-    userPeriod: parsed.month ?? company.Month,
+    userCount: company.UserCount,
+    userPeriod: company.Month,
     license: company.License || '',
   };
 };

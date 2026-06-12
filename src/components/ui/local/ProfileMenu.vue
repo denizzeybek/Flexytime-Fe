@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter, type RouteLocationRaw } from 'vue-router';
+import { type RouteLocationRaw,useRouter } from 'vue-router';
 
 import { useLogout } from '@/composables/useLogout';
 import { useProfile } from '@/composables/useProfile';

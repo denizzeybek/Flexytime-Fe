@@ -127,7 +127,7 @@ const copyDownloadKeyText = () => {
   }
 };
 
-const handleDownload = () => {
+const handleDownload = (): void => {
   if (isMacos.value) {
     try {
       copyToClipboard(downloadsStore.ServiceKey);
