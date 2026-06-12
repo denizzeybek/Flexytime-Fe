@@ -16,12 +16,8 @@
             <span v-else>{{ slotProps.data.Name }}</span>
           </template>
         </Column>
-        <Column sortable field="Teams" :header="t('pages.classification.table.columns.teams')">
-          <template #body="slotProps">
-            <Skeleton v-if="isLoading" height="1.5rem" width="6rem" />
-            <span v-else>{{ slotProps.data.Teams }}</span>
-          </template>
-        </Column>
+        <!-- v2: Teams column dropped — RESHAPED-v2 AllocationViewModel no
+             longer carries a Teams denorm. Re-add when/if the BE surfaces it. -->
         <Column :header="t('pages.classification.table.columns.alwaysOn')">
           <template #body="slotProps">
             <Skeleton v-if="isLoading" width="2rem" height="2rem" class="rounded" />
@@ -155,7 +151,6 @@ const updateDomain = async (event) => {
 
 const skeletonData = createSkeletonData(5, {
   Name: '',
-  Teams: '',
   AlwaysOn: false,
   Domain: 0,
 });

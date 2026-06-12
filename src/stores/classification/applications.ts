@@ -3,36 +3,44 @@ import { defineStore } from 'pinia';
 import { CategoryService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { DataTableQueryModel, PerformAllocationModifyModel } from '@/client';
+import type { PerformAllocationModifyModel } from '@/client';
 
-interface IApplicationDTOData {
+/**
+ * v2 `AllocationViewModel` shape returned by `category/allocations` (list +
+ * query) and `category/allocation` (single). Like `WebAddressViewModel`,
+ * the RESHAPED-v2 contract dropped the legacy presentational fields
+ * (`DomainDisplay`, `TopicName`, `IsWork/IsMeeting/IsLeisure`, `Timeout`).
+ * The "host" field here is purely cosmetic for executable allocations
+ * (the Query the BE classifies on); FE keeps it under `HostName` so the
+ * Applications table doesn't have to change its column key.
+ */
+export interface ApplicationViewModel {
+  ID: string;
   HostName: string;
   Name: string;
-  IsWork: boolean;
-  IsMeeting: boolean;
-  IsLeisure: boolean;
-  TopicName: string;
-  Actions?: null;
-  Customise?: null;
-  Timeout: number | string | null;
   AlwaysOn: boolean;
-  ID: string;
-  Domain: string;
+  Domain: number;
 }
 
-// Backend returns a DataTable response with DTO structure (not in OpenAPI spec)
-interface DataTableResponse {
-  DTO?: {
-    data: IApplicationDTOData[];
-    recordsTotal: number;
-  };
+export interface ApplicationsFilterRequest {
+  start?: number;
+  length?: number;
+  search?: string;
+  sort?: string;
+  descending?: boolean;
+}
+
+interface QueryResponse {
+  Total?: number;
+  Filtered?: number;
+  Items?: ApplicationViewModel[];
 }
 
 interface State {
-  list: IApplicationDTOData[];
+  list: ApplicationViewModel[];
   totalItems: number;
   loading: boolean;
-  lastQuery: DataTableQueryModel | null;
+  lastQuery: ApplicationsFilterRequest | null;
 }
 
 export const useClassificationApplicationsStore = defineStore(
@@ -48,30 +56,33 @@ export const useClassificationApplicationsStore = defineStore(
       isLoading: (state): boolean => state.loading,
     },
     actions: {
-      async filter(payload: DataTableQueryModel) {
+      async filter(payload: ApplicationsFilterRequest) {
         try {
           this.loading = true;
           this.lastQuery = payload;
-          // Note: Backend returns DataTable format not in OpenAPI spec
-          // TODO: Update OpenAPI spec to include DTO wrapper
-          const rawResponse = await CategoryService.categoryControllerQueryAllocations(payload);
-          const response = rawResponse as unknown as DataTableResponse;
+          // v2 ClassificationQuery body (PascalCase); Start is 1-based.
+          const body = {
+            Start: payload.start ?? 1,
+            Length: payload.length ?? 10,
+            Sort: payload.sort ?? '',
+            Descending: payload.descending ?? false,
+            Search: payload.search ?? '',
+          };
+          const response = (await CategoryService.categoryControllerQueryAllocations(
+            body as never,
+          )) as unknown as QueryResponse;
 
-          // Runtime validation
-          const applications = Array.isArray(response.DTO?.data) ? response.DTO.data : [];
-          const total = typeof response.DTO?.recordsTotal === 'number' ? response.DTO.recordsTotal : 0;
-
-          this.list = applications;
-          this.totalItems = total;
-          return applications;
+          this.list = Array.isArray(response.Items) ? response.Items : [];
+          this.totalItems = typeof response.Total === 'number' ? response.Total : 0;
+          return this.list;
         } finally {
           this.loading = false;
         }
       },
       async save(payload: PerformAllocationModifyModel) {
-        await CategoryService.categoryControllerSavePerformAllocation(payload);
+        await CategoryService.categoryControllerSavePerformAllocation(payload as never);
 
-        // Refetch data after save to get updated list from backend
+        // Refetch data after save to get the updated list from backend.
         if (this.lastQuery) {
           await this.filter(this.lastQuery);
         }
