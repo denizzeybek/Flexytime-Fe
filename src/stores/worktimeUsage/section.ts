@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { ClockApiService } from '@/client';
+import { ClockService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type {
@@ -53,7 +53,7 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
     async filter(payload: ClockSectionRequest) {
       this.isLoading = true;
       try {
-        const response = await ClockApiService.clockApiGetSection(payload);
+        const response = await ClockService.clockControllerGetSection(payload);
         this.Card = response.Card!;
         this.Summary = response.Summary;
         this.Individuals = response.Individuals;
@@ -72,7 +72,7 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
     async filterSection(payload: ClockSectionRequest) {
       this.isLoading = true;
       try {
-        const response = await ClockApiService.clockApiGetSection(payload);
+        const response = await ClockService.clockControllerGetSection(payload);
         this.Card = response.Card!;
         this.Summary = response.Summary;
         this.Individuals = response.Individuals;
@@ -91,7 +91,7 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
     async filterEmployee(payload: ClockEmployeeRequest) {
       this.isLoading = true;
       try {
-        const response = await ClockApiService.clockApiGetEmployee(payload);
+        const response = await ClockService.clockControllerGetEmployee(payload);
         this.Card = response.Card!;
         this.Breadcrumb = response.Breadcrumbs as ClockBreadCrumb[];
         this.IndividualEmployeeModel = response.Model;
@@ -101,7 +101,7 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
       }
     },
     async saveWebClock(payload: WebClockModifyModel) {
-      return await ClockApiService.clockApiSaveWebClock(payload);
+      return await ClockService.clockControllerSaveWebClock(payload);
     },
   },
 });

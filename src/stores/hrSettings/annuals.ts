@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { DefinitionApiService } from '@/client';
+import { DefinitionService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { AnnualViewModel, DefinitionMemberViewModel } from '@/client';
@@ -30,7 +30,7 @@ export const useHRSettingsAnnualsStore = defineStore(EStoreNames.HR_SETTINGS_ANN
     async filter() {
       try {
         this.loading = true;
-        const data = await DefinitionApiService.definitionApiAnnuals();
+        const data = await DefinitionService.definitionControllerAnnuals();
 
         this.activeList = data.ActiveAnnuals ?? [];
         this.activeTotalItems = data.ActiveAnnuals?.length ?? 0;
@@ -46,11 +46,11 @@ export const useHRSettingsAnnualsStore = defineStore(EStoreNames.HR_SETTINGS_ANN
       }
     },
     async save(payload: AnnualViewModel) {
-      await DefinitionApiService.definitionApiSaveAnnual(payload);
+      await DefinitionService.definitionControllerSaveAnnual(payload);
       await this.filter();
     },
     async delete(ID: { ID: string }) {
-      await DefinitionApiService.definitionApiDeleteAnnual(ID);
+      await DefinitionService.definitionControllerDeleteAnnual(ID);
       await this.filter();
     },
   },

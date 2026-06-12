@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { SettingApiService } from '@/client';
+import { SettingService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { CompanyViewModel } from '@/client';
@@ -63,7 +63,7 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
         this.loading = true;
         this.error = null;
 
-        const data = await SettingApiService.settingApiCompanies();
+        const data = await SettingService.settingControllerCompanies();
 
         this.list = data;
         this.totalItems = data.length;
@@ -89,7 +89,7 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
         this.loading = true;
         this.error = null;
 
-        await SettingApiService.settingApiSaveCompany(payload);
+        await SettingService.settingControllerSaveCompany(payload);
         await this.filter();
 
         return true;
@@ -113,7 +113,7 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
         this.loading = true;
         this.error = null;
 
-        await SettingApiService.settingApiDeleteCompany({ ID: companyID });
+        await SettingService.settingControllerDeleteCompany({ ID: companyID });
         await this.filter();
 
         return true;

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { CompanyApiService } from '@/client';
+import { CompanyService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { WorkDayViewModel, WorkSettingViewModel } from '@/client';
@@ -21,7 +21,7 @@ export const useCompanyWorkingHoursStore = defineStore(EStoreNames.COMPANY_WORKI
   }),
   actions: {
     async filter() {
-      const data = await CompanyApiService.companyApiWorkHours();
+      const data = await CompanyService.companyControllerWorkHours();
 
       this.days = data.Days ?? [];
       this.maxIdleTime = data.MaxIdleTime;
@@ -31,7 +31,7 @@ export const useCompanyWorkingHoursStore = defineStore(EStoreNames.COMPANY_WORKI
       return data;
     },
     async save(payload: WorkSettingViewModel) {
-      return await CompanyApiService.companyApiSaveWorkHours(payload);
+      return await CompanyService.companyControllerSaveWorkHours(payload);
     },
   },
 });

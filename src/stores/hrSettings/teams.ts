@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { CompanyApiService, DefinitionApiService } from '@/client';
+import { CompanyService, DefinitionService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import { useHRSettingsEmployeesStore } from './Employees';
@@ -37,7 +37,7 @@ export const useHRSettingsTeamsStore = defineStore(EStoreNames.HR_SETTINGS_TEAMS
         const employeesStore = useHRSettingsEmployeesStore();
 
         // Get teams from API
-        const teams = await CompanyApiService.companyApiTeams();
+        const teams = await CompanyService.companyControllerTeams();
 
         // Ensure employees data is loaded for member count calculation
         if (employeesStore.list.length === 0) {
@@ -77,11 +77,11 @@ export const useHRSettingsTeamsStore = defineStore(EStoreNames.HR_SETTINGS_TEAMS
       }
     },
     async saveTeam(payload: { ID?: string; Name: string }) {
-      await CompanyApiService.companyApiSaveTeam(payload);
+      await CompanyService.companyControllerSaveTeam(payload);
       await this.fetchTeams();
     },
     async deleteTeam(id: string) {
-      await CompanyApiService.companyApiDeleteTeam({ ID: id });
+      await CompanyService.companyControllerDeleteTeam({ ID: id });
       await this.fetchTeams();
     },
     async assignManager(teamId: string, managerId: string | null) {
@@ -93,7 +93,7 @@ export const useHRSettingsTeamsStore = defineStore(EStoreNames.HR_SETTINGS_TEAMS
       );
 
       if (currentManager && currentManager.ID !== managerId) {
-        await DefinitionApiService.definitionApiSaveEmployee({
+        await DefinitionService.definitionControllerSaveEmployee({
           ID: currentManager.ID,
           MemberName: currentManager.MemberName ?? '',
           TeamId: currentManager.TeamId,
@@ -111,7 +111,7 @@ export const useHRSettingsTeamsStore = defineStore(EStoreNames.HR_SETTINGS_TEAMS
       if (managerId) {
         const newManager = employeesStore.list.find((emp) => emp.ID === managerId);
         if (newManager) {
-          await DefinitionApiService.definitionApiSaveEmployee({
+          await DefinitionService.definitionControllerSaveEmployee({
             ID: newManager.ID,
             MemberName: newManager.MemberName ?? '',
             TeamId: teamId, // Assign to this team

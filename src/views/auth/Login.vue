@@ -132,7 +132,6 @@ import { object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { useGoogleLogin } from '@/composables/useGoogleLogin';
-import { EGrantType } from '@/enums/grantType.enum';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { type MessageSchema } from '@/plugins/i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
@@ -167,12 +166,12 @@ const isGoogleCallback = computed(() => {
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    const payload = {
+    // v2: AuthService.authControllerLogin expects { username, password };
+    // legacy OAuth2 `grant_type=password` form field is gone.
+    await authStore.login({
       username: values.email,
       password: values.password,
-      grant_type: EGrantType.PASSWORD,
-    };
-    await authStore.login(payload);
+    });
 
     // Load user profile to check role
     await profileStore.filter();

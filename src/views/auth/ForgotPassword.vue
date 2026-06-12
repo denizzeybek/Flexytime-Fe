@@ -132,7 +132,7 @@ import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
 
-import { AccountApiService } from '@/client';
+import { AccountService } from '@/client';
 import { useFToast } from '@/composables/useFToast';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { type MessageSchema } from '@/plugins/i18n';
@@ -183,7 +183,7 @@ const startResendCooldown = () => {
 
 const submitHandler = handleSubmit(async (formValues) => {
   try {
-    await AccountApiService.accountApiForgot({
+    await AccountService.accountControllerForgot({
       Email: formValues.email,
     });
 
@@ -199,7 +199,7 @@ const handleResend = async () => {
   if (!canResend.value) return;
 
   try {
-    await AccountApiService.accountApiForgot({
+    await AccountService.accountControllerForgot({
       Email: lastEmail.value || values.email,
     });
     showSuccessMessage(t('pages.auth.forgotPassword.emailSent.resendSuccess'));

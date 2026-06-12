@@ -100,7 +100,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useForm } from 'vee-validate';
 import { object, ref as yupRef, string } from 'yup';
 
-import { AccountApiService } from '@/client';
+import { AccountService } from '@/client';
 import { useFToast } from '@/composables/useFToast';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { type MessageSchema } from '@/plugins/i18n';
@@ -137,10 +137,12 @@ const submitHandler = handleSubmit(async (values) => {
       return;
     }
 
-    await AccountApiService.accountApiReset({
+    // v2 AccountResetDto = { Email, Code, Password, Recaptcha? } — no
+    // ConfirmPassword on the wire; the form's confirm field is validated
+    // client-side only.
+    await AccountService.accountControllerReset({
       Email: email.value,
       Password: values.password,
-      ConfirmPassword: values.confirmPassword,
       Code: code.value,
     });
 

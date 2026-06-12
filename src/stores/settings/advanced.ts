@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { SettingApiService } from '@/client';
+import { SettingService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { AdvancedPermissonViewModel, AdvancedSettingModifyModel } from '@/client';
@@ -17,7 +17,7 @@ export const useSettingsAdvancedsStore = defineStore(EStoreNames.SETTINGS_ADVANC
   }),
   actions: {
     async filter() {
-      const data = await SettingApiService.settingApiAdvancedPermissions();
+      const data = await SettingService.settingControllerAdvancedPermissions();
 
       this.list = data;
       this.totalItems = data.length;
@@ -25,7 +25,7 @@ export const useSettingsAdvancedsStore = defineStore(EStoreNames.SETTINGS_ADVANC
       return data;
     },
     async save(payload: AdvancedSettingModifyModel[]) {
-      return await SettingApiService.settingApiSaveAdvancedPermissions(payload);
+      return await SettingService.settingControllerSaveAdvancedPermissions(payload);
     },
   },
 });

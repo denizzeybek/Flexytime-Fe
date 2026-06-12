@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { DefinitionApiService } from '@/client';
+import { DefinitionService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type {
@@ -46,7 +46,7 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
     async filter() {
       try {
         this.loading = true;
-        const data = await DefinitionApiService.definitionApiEmployees();
+        const data = await DefinitionService.definitionControllerEmployees();
         const members = data.Members ?? [];
 
         this.roles = data.Roles ?? [];
@@ -68,7 +68,7 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
       }
     },
     async save(payload: TheMemberModifyViewModel) {
-      await DefinitionApiService.definitionApiSaveEmployee(payload);
+      await DefinitionService.definitionControllerSaveEmployee(payload);
       await this.filter();
     },
     async updateEnabled(id: string, enabled: boolean) {
@@ -76,7 +76,7 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
       if (!employee) {
         throw new Error('Employee not found');
       }
-      await DefinitionApiService.definitionApiSaveEmployee({
+      await DefinitionService.definitionControllerSaveEmployee({
         ID: employee.ID,
         MemberName: employee.MemberName ?? '',
         TeamId: employee.TeamId,
@@ -91,7 +91,7 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
       await this.filter();
     },
     async deleteEmployee(id: string) {
-      await DefinitionApiService.definitionApiDeleteEmployee({ ID: id });
+      await DefinitionService.definitionControllerDeleteEmployee({ ID: id });
       await this.filter();
     },
     async quickAssign(id: string, teamId: string, titleId: string) {
@@ -99,7 +99,7 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
       if (!employee) {
         throw new Error('Employee not found');
       }
-      await DefinitionApiService.definitionApiSaveEmployee({
+      await DefinitionService.definitionControllerSaveEmployee({
         ID: employee.ID,
         MemberName: employee.MemberName ?? '',
         TeamId: teamId,

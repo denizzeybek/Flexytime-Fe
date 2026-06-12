@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 import dayjs from 'dayjs';
 
-import { TimesheetApiService } from '@/client';
+import { TimesheetService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { TimeEntryWeekViewModel } from '@/client';
@@ -54,7 +54,7 @@ export const useTimesheetsTimeManagementsStore = defineStore(
       async fetchWeekEntries() {
         this.isLoading = true;
         try {
-          const response = await TimesheetApiService.timesheetApiGetTimeWeekEntries({
+          const response = await TimesheetService.timesheetControllerGetTimeWeekEntries({
             StartDate: this.formattedStartDate,
             Perspective: this.perspective,
           });

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { SettingApiService } from '@/client';
+import { SettingService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { DownloadViewModel } from '@/client';
@@ -38,7 +38,7 @@ export const useSettingsDownloadsStore = defineStore(EStoreNames.SETTINGS_DOWNLO
         this.loading = true;
         this.error = null;
 
-        const data = await SettingApiService.settingApiDownload();
+        const data = await SettingService.settingControllerDownload();
 
         this.InvitationLink = data.InvitationLink ?? '';
         this.InvitationId = data.InvitationId ?? '';

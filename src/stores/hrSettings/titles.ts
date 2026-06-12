@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { CompanyApiService } from '@/client';
+import { CompanyService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { TitleViewModel } from '@/client';
@@ -28,7 +28,7 @@ export const useHRSettingsTitlesStore = defineStore(EStoreNames.HR_SETTINGS_TITL
     async fetchTitles() {
       try {
         this.loading = true;
-        const data = await CompanyApiService.companyApiTitles();
+        const data = await CompanyService.companyControllerTitles();
         this.list = data.map((title) => ({
           ID: title.ID,
           Name: title.Name,
@@ -40,11 +40,11 @@ export const useHRSettingsTitlesStore = defineStore(EStoreNames.HR_SETTINGS_TITL
       }
     },
     async saveTitle(payload: TitleViewModel) {
-      await CompanyApiService.companyApiSaveTitle(payload);
+      await CompanyService.companyControllerSaveTitle(payload);
       await this.fetchTitles();
     },
     async deleteTitle(id: string) {
-      await CompanyApiService.companyApiDeleteTitle({ ID: id });
+      await CompanyService.companyControllerDeleteTitle({ ID: id });
       await this.fetchTitles();
     },
   },

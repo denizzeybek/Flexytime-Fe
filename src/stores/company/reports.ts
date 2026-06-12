@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { CompanyApiService, ReportApiService } from '@/client';
+import { CompanyService, ReportService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type {
@@ -68,7 +68,7 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
     async fetchFilters() {
       this.isFiltersLoading = true;
       try {
-        const response = await ReportApiService.reportApiGetFilters();
+        const response = await ReportService.reportControllerGetFilters();
         this.filters = response;
         return response;
       } finally {
@@ -79,7 +79,7 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
     async queryReport(request: ReportQueryViewModel) {
       this.isLoading = true;
       try {
-        const response = await ReportApiService.reportApiQueryReport(request);
+        const response = await ReportService.reportControllerQueryReport(request);
         this.result = response;
         this.summary = response.Summary ?? null;
         this.graphs = response.Graphs ?? null;
@@ -103,7 +103,7 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
     async fetchDefaultReports() {
       this.isDefaultReportsLoading = true;
       try {
-        const response = await CompanyApiService.companyApiReports();
+        const response = await CompanyService.companyControllerReports();
         this.defaultReports = response;
         this.defaultReportItems = response.Items ?? [];
         this.reportTypes = response.ReportTypes ?? [];
@@ -115,13 +115,13 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
     },
 
     async saveReport(request: ReportModifyModel) {
-      const response = await CompanyApiService.companyApiSaveReport(request);
+      const response = await CompanyService.companyControllerSaveReport(request);
       await this.fetchDefaultReports();
       return response;
     },
 
     async deleteReport(id: string) {
-      const response = await CompanyApiService.companyApiDeleteReport({ ID: id });
+      const response = await CompanyService.companyControllerDeleteReport({ ID: id });
       await this.fetchDefaultReports();
       return response;
     },

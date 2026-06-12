@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 import axios from 'axios';
 
-import { OpenAPI, ProfileApiService, SettingApiService } from '@/client';
+import { OpenAPI, ProfileService, SettingService } from '@/client';
 import { ERole } from '@/enums/role.enum';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
@@ -97,7 +97,7 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
   },
   actions: {
     async filter() {
-      const data = await ProfileApiService.profileApiGetProfile();
+      const data = await ProfileService.profileControllerGetProfile();
       this.GeneralProfile = data;
       this.User = data.Employee ?? ({} as EmployeeViewModel);
       this.TimeZone = data.TimeZone;
@@ -107,7 +107,7 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
       return data;
     },
     async filterLicense() {
-      const data = await SettingApiService.settingApiLicense();
+      const data = await SettingService.settingControllerLicense();
       this.License = data;
 
       return data;
@@ -115,27 +115,27 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
 
     async saveLicense(licenseKey: string) {
       const payload: LicenseModifyViewModel = { LicenseKey: licenseKey };
-      const response = await SettingApiService.settingApiSaveLicense(payload);
+      const response = await SettingService.settingControllerSaveLicense(payload);
       // Refresh license data after save
       await this.filterLicense();
       return response;
     },
 
     async updateProfile(model: ProfileModifyViewModel) {
-      const response = await ProfileApiService.profileApiUpdateProfile(model);
+      const response = await ProfileService.profileControllerUpdateProfile(model);
       // Refresh profile data after update
       await this.filter();
       return response;
     },
 
     async updateTimezone(timeZone: string) {
-      const response = await ProfileApiService.profileApiUpdateTimezone({ TimeZone: timeZone });
+      const response = await ProfileService.profileControllerUpdateTimezone({ TimeZone: timeZone });
       this.TimeZone = timeZone;
       return response;
     },
 
     async updateLanguageCode(languageCode: string) {
-      const response = await ProfileApiService.profileApiUpdateLanguageCode({
+      const response = await ProfileService.profileControllerUpdateLanguageCode({
         LanguageCode: languageCode,
       });
       this.LanguageCode = languageCode;
@@ -143,15 +143,15 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     },
 
     async resendConfirmation() {
-      return await ProfileApiService.profileApiResendConfirm();
+      return await ProfileService.profileControllerResendConfirm();
     },
 
     async changePassword(password: string) {
-      return await ProfileApiService.profileApiChangePassword({ Password: password });
+      return await ProfileService.profileControllerChangePassword({ Password: password });
     },
 
     async fetchTimezones() {
-      const data = await ProfileApiService.profileApiGetTimezones();
+      const data = await ProfileService.profileControllerGetTimezones();
       this.TimeZoneList = data;
       return data;
     },

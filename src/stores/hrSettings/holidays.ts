@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { CompanyApiService } from '@/client';
+import { CompanyService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { HolidayViewModel, PerformReferenceModel } from '@/client';
@@ -24,7 +24,7 @@ export const useHRSettingsHolidaysStore = defineStore(EStoreNames.HR_SETTINGS_HO
     async filter() {
       try {
         this.loading = true;
-        const data = await CompanyApiService.companyApiHolidays();
+        const data = await CompanyService.companyControllerHolidays();
         this.list = data;
         this.totalItems = data?.length || 0;
         return data;
@@ -33,11 +33,11 @@ export const useHRSettingsHolidaysStore = defineStore(EStoreNames.HR_SETTINGS_HO
       }
     },
     async save(payload: HolidayViewModel) {
-      await CompanyApiService.companyApiSaveHoliday(payload);
+      await CompanyService.companyControllerSaveHoliday(payload);
       await this.filter();
     },
     async delete(ID: PerformReferenceModel) {
-      await CompanyApiService.companyApiDeleteHoliday(ID);
+      await CompanyService.companyControllerDeleteHoliday(ID);
       await this.filter();
     },
   },

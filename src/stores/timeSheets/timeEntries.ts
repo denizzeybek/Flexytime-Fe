@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 import dayjs from 'dayjs';
 
-import { TimesheetApiService } from '@/client';
+import { TimesheetService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type {
@@ -201,7 +201,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
           EntryId: query?.EntryId ?? this.query.EntryId,
           Hours: query?.Hours ?? this.query.Hours,
         };
-        const data = await TimesheetApiService.timesheetApiGetTimeEntries(requestQuery);
+        const data = await TimesheetService.timesheetControllerGetTimeEntries(requestQuery);
 
         this.timeEntries = data;
         return data;
@@ -230,7 +230,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
           EntryId: query?.EntryId ?? this.query.EntryId,
           Hours: query?.Hours ?? this.query.Hours,
         };
-        const data = await TimesheetApiService.timesheetApiGetTimeClocks(requestQuery);
+        const data = await TimesheetService.timesheetControllerGetTimeClocks(requestQuery);
 
         this.timeClocks = data;
         return data;
@@ -264,9 +264,9 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       try {
         this.optionsLoading = true;
         const [projects, tags, tasks] = await Promise.all([
-          TimesheetApiService.timesheetApiGetProjects(),
-          TimesheetApiService.timesheetApiGetTags(),
-          TimesheetApiService.timesheetApiGetTasks(),
+          TimesheetService.timesheetControllerGetProjects(),
+          TimesheetService.timesheetControllerGetTags(),
+          TimesheetService.timesheetControllerGetTasks(),
         ]);
 
         this.projects = projects;
@@ -289,7 +289,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       }
 
       try {
-        const response = await TimesheetApiService.timesheetApiSaveTask({ Name: taskName });
+        const response = await TimesheetService.timesheetControllerSaveTask({ Name: taskName });
         // Extract ID from backend response DTO
         const dto = (response as unknown as { DTO?: { ID?: string; Name?: string } }).DTO;
         const newTask: TimeTaskViewModel = { ID: dto?.ID, Name: dto?.Name ?? taskName };
@@ -315,9 +315,9 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       }
 
       try {
-        await TimesheetApiService.timesheetApiSaveProject({ Name: projectName });
+        await TimesheetService.timesheetControllerSaveProject({ Name: projectName });
         // Refresh projects list to get the new project with ID
-        const projects = await TimesheetApiService.timesheetApiGetProjects();
+        const projects = await TimesheetService.timesheetControllerGetProjects();
         this.projects = projects;
         // Return the newly added project
         return this.projects.find((p) => p.Name?.toLowerCase() === projectName.toLowerCase()) ?? null;
@@ -337,9 +337,9 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       }
 
       try {
-        await TimesheetApiService.timesheetApiSaveTag({ Name: tagName });
+        await TimesheetService.timesheetControllerSaveTag({ Name: tagName });
         // Refresh tags list to get the new tag with ID
-        const tags = await TimesheetApiService.timesheetApiGetTags();
+        const tags = await TimesheetService.timesheetControllerGetTags();
         this.tags = tags;
         // Return the newly added tag
         return this.tags.find((t) => t.Name?.toLowerCase() === tagName.toLowerCase()) ?? null;
@@ -351,7 +351,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
 
     async deleteTimeEntry(entryId: string): Promise<boolean> {
       try {
-        await TimesheetApiService.timesheetApiDeleteTimeEntry({ ID: entryId });
+        await TimesheetService.timesheetControllerDeleteTimeEntry({ ID: entryId });
         // Refresh the list after deletion
         await this.fetchTimeEntries();
         return true;
@@ -363,7 +363,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
 
     async deleteTimeEntryRange(rangeId: string): Promise<boolean> {
       try {
-        await TimesheetApiService.timesheetApiDeleteTimeEntryRange({ ID: rangeId });
+        await TimesheetService.timesheetControllerDeleteTimeEntryRange({ ID: rangeId });
         // Refresh the list after deletion
         await this.fetchTimeEntries();
         return true;

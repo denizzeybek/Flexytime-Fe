@@ -1,81 +1,44 @@
-/* Custom service - not auto-generated */
-/* istanbul ignore file */
+/**
+ * Deprecated — kept only so any orphan caller on the v2 backend fails loudly
+ * instead of silently sending an HTTP Basic + grant_type=password form to a
+ * route that no longer exists.
+ *
+ * The legacy flow (`POST /oauth/token` with hard-coded Basic auth +
+ * `grant_type=password`) is gone. v2 uses:
+ *
+ *   - `AuthService.authControllerLogin({ username, password })` for
+ *     email/password sign-in,
+ *   - `AuthService.googleControllerGoogle({ idToken })` for Google Sign-In,
+ *
+ * both returning `AuthResponseDto` directly. The store wrappers live in
+ * `src/stores/auth.ts` (see `login`, `register`, `loginWithGoogle`,
+ * `refreshToken`).
+ *
+ * Delete this file once `src/customClient/index.ts` and any of its other
+ * consumers (DownloadService, PaymentService) move to the auto-generated
+ * `@/client` clients too.
+ */
 /* tslint:disable */
- 
+/* eslint-disable */
+
 import { CancelablePromise } from '@/client/core/CancelablePromise';
-import { OpenAPI } from '@/client/core/OpenAPI';
-import { request as __request } from '@/client/core/request';
 
 import type { LoginRequest } from '../models/LoginRequest';
 import type { TokenResponse } from '../models/TokenResponse';
 
+const NOT_IMPLEMENTED_MSG =
+  'LoginService is deprecated. Use AuthService.authControllerLogin / authControllerRefresh / googleControllerGoogle from @/client. See src/stores/auth.ts.';
+
 export class LoginService {
-  /**
-   * Login with username and password to get access token
-   * @param request Login credentials (username, password, grant_type)
-   * @returns TokenResponse OK
-   * @throws ApiError
-   */
-  public static login(request: LoginRequest): CancelablePromise<TokenResponse> {
-    // Convert object to application/x-www-form-urlencoded format
-    const formData = new URLSearchParams({
-      username: request.username,
-      password: request.password,
-      grant_type: request.grant_type,
-      ...(request.code && { code: request.code }), // Add code if present
-    }).toString();
-
-    // Basic auth credentials - hardcoded from .env
-    // OpenAPI.USERNAME/PASSWORD would work but headers is more explicit
-    const BASIC_AUTH = 'QzFBMDNCMTAtN0Q1OS00MDdBLUE5M0UtQjcxQUIxN0FEOEMyOjE3N0UzMjk1LTA2NTYtNDMxNy1CQzkxLUREMjcxQTE5QUNGRg==';
-
-    // Temporarily clear TOKEN to prevent Bearer auth from overriding Basic auth
-    // The request.ts getHeaders() adds Bearer token if OpenAPI.TOKEN exists,
-    // which would override our Basic auth header
-    const savedToken = OpenAPI.TOKEN;
-    OpenAPI.TOKEN = undefined;
-
-    const result = __request<TokenResponse>(OpenAPI, {
-      method: 'POST',
-      url: '/oauth/token',
-      mediaType: 'application/x-www-form-urlencoded',
-      headers: {
-        'Authorization': `Basic ${BASIC_AUTH}`,
-      },
-      body: formData,
-    });
-
-    // Restore token after request is created (it's a promise, actual request happens later)
-    // We need to restore it in the promise chain to ensure it's restored after the request completes
-    return new CancelablePromise<TokenResponse>((resolve, reject, onCancel) => {
-      result
-        .then((response: TokenResponse) => {
-          OpenAPI.TOKEN = savedToken;
-          resolve(response);
-        })
-        .catch((error: unknown) => {
-          OpenAPI.TOKEN = savedToken;
-          reject(error);
-        });
-
-      onCancel(() => {
-        OpenAPI.TOKEN = savedToken;
-      });
+  public static login(_request: LoginRequest): CancelablePromise<TokenResponse> {
+    return new CancelablePromise<TokenResponse>((_resolve, reject) => {
+      reject(new Error(NOT_IMPLEMENTED_MSG));
     });
   }
 
-  /**
-   * Login with Google OAuth code to get access token
-   * @param code Google OAuth code from backend callback
-   * @returns TokenResponse OK
-   * @throws ApiError
-   */
-  public static loginWithGoogle(code: string): CancelablePromise<TokenResponse> {
-    return this.login({
-      username: '',
-      password: '',
-      grant_type: 'password' as any,
-      code,
+  public static loginWithGoogle(_code: string): CancelablePromise<TokenResponse> {
+    return new CancelablePromise<TokenResponse>((_resolve, reject) => {
+      reject(new Error(NOT_IMPLEMENTED_MSG));
     });
   }
 }

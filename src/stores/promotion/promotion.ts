@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { PromotionApiService } from '@/client';
+import { PromotionService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { PromotionListViewModel, PromotionModifyViewModel, PromotionViewModel } from '@/client';
@@ -42,7 +42,7 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
         this.loading = true;
         this.error = null;
 
-        const data = await PromotionApiService.promotionApiPromotions();
+        const data = await PromotionService.promotionControllerPromotions();
 
         this.EarnedPromotionList = data.Earned ?? [];
         this.PromotedPromotionList = data.Promoted ?? [];
@@ -67,7 +67,7 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
         this.loading = true;
         this.error = null;
 
-        const data = await PromotionApiService.promotionApiPromote();
+        const data = await PromotionService.promotionControllerPromote();
 
         this.PromotionLink = data.PromotionLink ?? '';
 
@@ -91,7 +91,7 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
         this.loading = true;
         this.error = null;
 
-        await PromotionApiService.promotionApiSavePromotion(payload);
+        await PromotionService.promotionControllerSavePromotion(payload);
 
         // Refresh the promotions list after saving
         await this.filter();

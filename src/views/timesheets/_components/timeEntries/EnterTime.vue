@@ -50,7 +50,7 @@ import Card from 'primevue/card';
 import { useForm } from 'vee-validate';
 import { array, date, object, string } from 'yup';
 
-import { TimesheetApiService } from '@/client';
+import { TimesheetService } from '@/client';
 import { useFToast } from '@/composables/useFToast';
 import { calculateTimeDifferenceFromDates } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
@@ -290,7 +290,7 @@ const submitHandler = handleSubmit(async (formValues) => {
       Clocks: [],
     };
 
-    await TimesheetApiService.timesheetApiSaveTimeEntry(payload);
+    await TimesheetService.timesheetControllerSaveTimeEntry(payload);
     await timeEntriesStore.fetchTimeEntries();
 
     showSuccessMessage(t('pages.timesheets.enterTime.messages.success'));

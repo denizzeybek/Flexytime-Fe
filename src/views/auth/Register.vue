@@ -141,14 +141,13 @@ import { object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
 import { useGoogleLogin } from '@/composables/useGoogleLogin';
-import { EGrantType } from '@/enums/grantType.enum';
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { type MessageSchema } from '@/plugins/i18n';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { useAuthStore } from '@/stores/auth';
 import { useProfileStore } from '@/stores/profile/profile';
 
-import type { AccountRegisterViewModel } from '@/client';
+import type { AccountRegisterDto } from '@/client';
 
 const route = useRoute();
 const router = useRouter();
@@ -176,7 +175,7 @@ const submitHandler = handleSubmit(async (values) => {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const languageCode = localStorage.getItem('languageCode') || 'en';
 
-    const registerPayload: AccountRegisterViewModel = {
+    const registerPayload: AccountRegisterDto = {
       FullName: values.fullName,
       CompanyName: values.companyName,
       Email: values.email,
@@ -189,11 +188,11 @@ const submitHandler = handleSubmit(async (values) => {
     // Register the account
     await authStore.register(registerPayload);
 
-    // Login with the same credentials to get a proper JWT token
+    // Login with the same credentials to get a proper JWT token.
+    // v2: AuthService.authControllerLogin — no OAuth2 `grant_type` form field.
     await authStore.login({
       username: values.email,
       password: values.password,
-      grant_type: EGrantType.PASSWORD,
     });
 
     // Load profile to get user roles

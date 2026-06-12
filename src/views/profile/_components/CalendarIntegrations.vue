@@ -99,7 +99,7 @@ const outlookCalendars = computed(() => profileStore.GeneralProfile?.OutlookCale
 const handleToggleCalendar = async (_provider: Provider, _calendar: CalendarFolder, _selected: boolean) => {
   try {
     // TODO: Implement API call when endpoint is ready
-    // await ProfileApiService.syncCalendar({ Provider: provider, Name: calendar.Name, Selected: selected });
+    // await ProfileService.syncCalendar({ Provider: provider, Name: calendar.Name, Selected: selected });
     showSuccessMessage(t('pages.profile.calendarIntegrations.messages.calendarUpdated'));
     await profileStore.filter();
   } catch {

@@ -7,7 +7,7 @@
 
 import { defineStore } from 'pinia';
 
-import { ClockApiService } from '@/client';
+import { ClockService } from '@/client';
 import { useProfileStore } from '@/stores/profile/profile';
 
 import type {
@@ -244,7 +244,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         this.loading.section = true;
         this.error.section = null;
 
-        const response = await ClockApiService.clockApiGetSection(payload);
+        const response = await ClockService.clockControllerGetSection(payload);
 
         this.sectionData = response;
         this.lastSectionRequest = { ...payload };
@@ -295,7 +295,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         this.loading.employee = true;
         this.error.employee = null;
 
-        const response = await ClockApiService.clockApiGetEmployee(cleanPayload);
+        const response = await ClockService.clockControllerGetEmployee(cleanPayload);
 
         // Check if API returned null/empty data (happens for employee role)
         // If so, build Card and Breadcrumb from profile data
@@ -371,7 +371,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * @param payload - Request payload with HostName and Domain
      */
     async saveWebClock(payload: WebClockModifyModel) {
-      return await ClockApiService.clockApiSaveWebClock(payload);
+      return await ClockService.clockControllerSaveWebClock(payload);
     },
   },
 });

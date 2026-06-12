@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { CategoryApiService } from '@/client';
+import { CategoryService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { DataTableQueryModel, PerformAllocationModifyModel } from '@/client';
@@ -54,7 +54,7 @@ export const useClassificationApplicationsStore = defineStore(
           this.lastQuery = payload;
           // Note: Backend returns DataTable format not in OpenAPI spec
           // TODO: Update OpenAPI spec to include DTO wrapper
-          const rawResponse = await CategoryApiService.categoryApiQueryAllocations(payload);
+          const rawResponse = await CategoryService.categoryControllerQueryAllocations(payload);
           const response = rawResponse as unknown as DataTableResponse;
 
           // Runtime validation
@@ -69,7 +69,7 @@ export const useClassificationApplicationsStore = defineStore(
         }
       },
       async save(payload: PerformAllocationModifyModel) {
-        await CategoryApiService.categoryApiSavePerformAllocation(payload);
+        await CategoryService.categoryControllerSavePerformAllocation(payload);
 
         // Refetch data after save to get updated list from backend
         if (this.lastQuery) {

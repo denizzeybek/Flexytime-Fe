@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { CategoryApiService } from '@/client';
+import { CategoryService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { DataTableQueryModel, WebAddressModifyModel } from '@/client';
@@ -55,7 +55,7 @@ export const useClassificationWebAddressesStore = defineStore(
           this.lastQuery = payload;
           // Note: Backend returns DataTable format not in OpenAPI spec
           // TODO: Update OpenAPI spec to include DTO wrapper
-          const rawResponse = await CategoryApiService.categoryApiQueryWebAddresses(payload);
+          const rawResponse = await CategoryService.categoryControllerQueryWebAddresses(payload);
           const response = rawResponse as unknown as DataTableResponse;
 
           // Runtime validation
@@ -70,7 +70,7 @@ export const useClassificationWebAddressesStore = defineStore(
         }
       },
       async save(payload: WebAddressModifyModel) {
-        await CategoryApiService.categoryApiSaveWebAddress(payload);
+        await CategoryService.categoryControllerSaveWebAddress(payload);
 
         // Refetch data after save to get updated list from backend
         if (this.lastQuery) {

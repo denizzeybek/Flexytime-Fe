@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { SettingApiService } from '@/client';
+import { SettingService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { PermissionModifyViewModel, PermissonViewModel } from '@/client';
@@ -17,7 +17,7 @@ export const useSettingsPermissionsStore = defineStore(EStoreNames.SETTINGS_PERM
   }),
   actions: {
     async filter() {
-      const data = await SettingApiService.settingApiPermissions();
+      const data = await SettingService.settingControllerPermissions();
 
       this.list = data;
       this.totalItems = data.length;
@@ -25,7 +25,7 @@ export const useSettingsPermissionsStore = defineStore(EStoreNames.SETTINGS_PERM
       return data;
     },
     async save(payload: PermissionModifyViewModel) {
-      return await SettingApiService.settingApiSavePermissions(payload);
+      return await SettingService.settingControllerSavePermissions(payload);
     },
   },
 });

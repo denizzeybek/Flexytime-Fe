@@ -1,15 +1,22 @@
 import { computed } from 'vue';
 import { defineStore } from 'pinia';
 
-import { AccountApiService, OpenAPI, ProfileApiService, WizardApiService } from '@/client';
+import { AccountService, AuthService, OpenAPI, WizardService } from '@/client';
 import { EStorageKeys } from '@/constants/storageKeys';
-import { LoginService } from '@/customClient';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import { useUsersStore } from './users';
 
-import type { AccountRegisterViewModel } from '@/client';
-import type { LoginRequest } from '@/customClient';
+import type { AccountRegisterDto, GoogleLoginDto, LoginDto } from '@/client';
+
+interface AuthBag {
+  authentication?: unknown;
+  user?: unknown;
+}
+
+interface ProfileResultHolder {
+  user?: unknown;
+}
 
 export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
   const usersStore = useUsersStore();
@@ -17,14 +24,14 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
 
   return {
     isAuth,
-    setAuth(payload: any) {
+    setAuth(payload: AuthBag) {
       const { authentication, user } = payload;
       usersStore.setUser(payload);
       if (authentication) {
-        localStorage.setItem(EStorageKeys.USER, JSON.stringify(payload.user));
+        localStorage.setItem(EStorageKeys.USER, JSON.stringify(user));
       }
       if (user) {
-        localStorage.setItem(EStorageKeys.AUTHENTICATION, JSON.stringify(payload.authentication));
+        localStorage.setItem(EStorageKeys.AUTHENTICATION, JSON.stringify(authentication));
       }
     },
     $reset() {
@@ -32,14 +39,17 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
       localStorage.removeItem(EStorageKeys.AUTHENTICATION);
       localStorage.removeItem(EStorageKeys.TOKEN);
     },
-    async login(payload: LoginRequest) {
-      const response = await LoginService.login(payload);
+
+    async login(payload: LoginDto) {
+      // v2: POST /auth/login with { username, password }. Returns
+      // { access_token, token_type, expires_in, user: { ID, Email, Fullname,
+      // CompanyId } }; refresh token is set as an httpOnly cookie by the BE.
+      const response = await AuthService.authControllerLogin(payload);
       const { access_token: token } = response;
 
-      // Store token
       if (token) {
         localStorage.setItem(EStorageKeys.TOKEN, token);
-        OpenAPI.TOKEN = token; // Set for all API requests
+        OpenAPI.TOKEN = token;
       }
 
       return response;
@@ -47,22 +57,19 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
 
     async refreshToken() {
       try {
-        // Verify and refresh token using profileApiVerifyToken
-        const response = await ProfileApiService.profileApiVerifyToken();
-        const { Token: token, IsValid } = response;
+        // v2: POST /auth/refresh reads the httpOnly refresh cookie and issues
+        // a fresh access token. Returns AuthResponseDto.
+        const response = await AuthService.authControllerRefresh();
+        const { access_token: token } = response;
 
-        if (!IsValid || !token) {
-          throw new Error('Token is invalid');
-        }
+        if (!token) throw new Error('Token is invalid');
 
-        // Update token (replace with new one)
         localStorage.setItem(EStorageKeys.TOKEN, token);
         OpenAPI.TOKEN = token;
         usersStore.isAuthenticated = true;
 
         return response;
       } catch (error) {
-        // Clear token on error
         localStorage.removeItem(EStorageKeys.TOKEN);
         OpenAPI.TOKEN = undefined;
         usersStore.isAuthenticated = false;
@@ -70,12 +77,15 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
       }
     },
 
-    async getProfile(result: any) {
+    async getProfile(result: ProfileResultHolder) {
       const languageCode = localStorage.getItem(EStorageKeys.LANGUAGE);
       if (!languageCode) localStorage.setItem(EStorageKeys.LANGUAGE, 'en');
 
       try {
-        const response = await WizardApiService.wizardApiGetProfile();
+        // v2: rename WizardService.wizardControllerGetProfile →
+        // WizardService.wizardControllerGetProfile (shape unchanged per the
+        // Phase 6 wizard port).
+        const response = await WizardService.wizardControllerGetProfile();
         this.setAuth({ authentication: null, user: response });
         result.user = response;
         return result;
@@ -84,24 +94,30 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
       }
     },
 
-    async register(payload: AccountRegisterViewModel) {
+    async register(payload: AccountRegisterDto) {
       try {
-        const response = await AccountApiService.accountApiRegister(payload);
+        // v2: POST /account/register — same JSON shape, just the wrapper moved
+        // from AccountService.accountControllerRegister.
+        const response = await AccountService.accountControllerRegister(payload);
         return response;
       } catch (error) {
         throw error;
       }
     },
 
-    async loginWithGoogle(code: string) {
+    async loginWithGoogle(payload: GoogleLoginDto) {
+      // v2: POST /auth/google with a Google **ID token** (JWT) — verifies via
+      // Google's public keys, finds-or-auto-provisions the tenant + owner,
+      // returns AuthResponseDto. The FE obtains the idToken via the Google
+      // Identity Services library on the login screen; the legacy
+      // `/account/externallogin` redirect flow + `?code=` callback is gone.
       try {
-        const response = await LoginService.loginWithGoogle(code);
+        const response = await AuthService.googleControllerGoogle(payload);
         const { access_token: token } = response;
 
-        // Store token
         if (token) {
           localStorage.setItem(EStorageKeys.TOKEN, token);
-          OpenAPI.TOKEN = token; // Set for all API requests
+          OpenAPI.TOKEN = token;
         }
 
         return response;
