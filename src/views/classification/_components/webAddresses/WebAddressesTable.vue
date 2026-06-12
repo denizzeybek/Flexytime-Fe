@@ -16,18 +16,10 @@
             <span v-else>{{ slotProps.data.HostName }}</span>
           </template>
         </Column>
-        <Column sortable field="TopicName" :header="t('pages.classification.table.columns.topic')">
-          <template #body="slotProps">
-            <Skeleton v-if="isLoading" height="1.5rem" width="8rem" />
-            <span v-else>{{ slotProps.data.TopicName }}</span>
-          </template>
-        </Column>
-        <Column field="Teams" :header="t('pages.classification.table.columns.teams')">
-          <template #body="slotProps">
-            <Skeleton v-if="isLoading" height="1.5rem" width="6rem" />
-            <span v-else>{{ slotProps.data.Teams }}</span>
-          </template>
-        </Column>
+        <!-- v2: TopicName + Teams columns dropped — RESHAPED-v2 contract no
+             longer carries those fields on WebAddressViewModel; topic was an
+             i18n string the BE used to localise, Teams was a denorm we
+             removed.  Re-add when/if the BE surfaces them again. -->
         <Column :header="t('pages.classification.table.columns.alwaysOn')">
           <template #body="slotProps">
             <Skeleton v-if="isLoading" width="2rem" height="2rem" class="rounded" />
@@ -161,8 +153,6 @@ const updateDomain = async (event) => {
 
 const skeletonData = createSkeletonData(5, {
   HostName: '',
-  TopicName: '',
-  Teams: '',
   AlwaysOn: false,
   Domain: 0,
 });

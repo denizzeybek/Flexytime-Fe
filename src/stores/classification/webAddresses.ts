@@ -3,37 +3,48 @@ import { defineStore } from 'pinia';
 import { CategoryService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { DataTableQueryModel, WebAddressModifyModel } from '@/client';
+import type { WebClockModifyModel } from '@/client';
 
-interface IWebAddressDTOData {
-  HostName: string;
-  DomainDisplay: string;
-  Name: string;
-  IsWork: boolean;
-  IsMeeting: boolean;
-  IsLeisure: boolean;
-  TopicName: string;
-  Actions?: null;
-  Customise?: null;
-  Timeout: number | string | null;
-  AlwaysOn: boolean;
+/**
+ * v2 `WebAddressViewModel` shape returned by `category/webaddresses` (list +
+ * query) and `category/webaddress` (single). The RESHAPED-v2 contract dropped
+ * the legacy presentational fields (`DomainDisplay`, `TopicName`,
+ * `IsWork/IsMeeting/IsLeisure`, `Timeout`) — the FE i18n labels + icons now
+ * derive from the numeric `Domain` directly via `EDomain` / `getDomainEnum`.
+ */
+export interface WebAddressViewModel {
   ID: string;
-  Domain: string;
+  HostName: string;
+  Name: string;
+  AlwaysOn: boolean;
+  Domain: number;
 }
 
-// Backend returns a DataTable response with DTO structure (not in OpenAPI spec)
-interface DataTableResponse {
-  DTO?: {
-    data: IWebAddressDTOData[];
-    recordsTotal: number;
-  };
+/**
+ * What the FE table emits when paginating / sorting / searching. Mirrors the
+ * legacy `DataTableQueryModel` (lowercase) so the table components don't
+ * change; the store maps it to the v2 PascalCase `ClassificationQuery` shape
+ * before sending.
+ */
+export interface WebAddressesFilterRequest {
+  start?: number;
+  length?: number;
+  search?: string;
+  sort?: string;
+  descending?: boolean;
+}
+
+interface QueryResponse {
+  Total?: number;
+  Filtered?: number;
+  Items?: WebAddressViewModel[];
 }
 
 interface State {
-  list: IWebAddressDTOData[];
+  list: WebAddressViewModel[];
   totalItems: number;
   loading: boolean;
-  lastQuery: DataTableQueryModel | null;
+  lastQuery: WebAddressesFilterRequest | null;
 }
 
 export const useClassificationWebAddressesStore = defineStore(
@@ -49,30 +60,34 @@ export const useClassificationWebAddressesStore = defineStore(
       isLoading: (state): boolean => state.loading,
     },
     actions: {
-      async filter(payload: DataTableQueryModel) {
+      async filter(payload: WebAddressesFilterRequest) {
         try {
           this.loading = true;
           this.lastQuery = payload;
-          // Note: Backend returns DataTable format not in OpenAPI spec
-          // TODO: Update OpenAPI spec to include DTO wrapper
-          const rawResponse = await CategoryService.categoryControllerQueryWebAddresses(payload);
-          const response = rawResponse as unknown as DataTableResponse;
+          // v2 ClassificationQuery body (PascalCase). `Start` is 1-based on
+          // the BE side.
+          const body = {
+            Start: payload.start ?? 1,
+            Length: payload.length ?? 10,
+            Sort: payload.sort ?? '',
+            Descending: payload.descending ?? false,
+            Search: payload.search ?? '',
+          };
+          const response = (await CategoryService.categoryControllerQueryWebAddresses(
+            body as never,
+          )) as unknown as QueryResponse;
 
-          // Runtime validation
-          const webAddresses = Array.isArray(response.DTO?.data) ? response.DTO.data : [];
-          const total = typeof response.DTO?.recordsTotal === 'number' ? response.DTO.recordsTotal : 0;
-
-          this.list = webAddresses;
-          this.totalItems = total;
-          return webAddresses;
+          this.list = Array.isArray(response.Items) ? response.Items : [];
+          this.totalItems = typeof response.Total === 'number' ? response.Total : 0;
+          return this.list;
         } finally {
           this.loading = false;
         }
       },
-      async save(payload: WebAddressModifyModel) {
-        await CategoryService.categoryControllerSaveWebAddress(payload);
+      async save(payload: WebClockModifyModel) {
+        await CategoryService.categoryControllerSaveWebAddress(payload as never);
 
-        // Refetch data after save to get updated list from backend
+        // Refetch data after save to get the updated list from backend.
         if (this.lastQuery) {
           await this.filter(this.lastQuery);
         }
