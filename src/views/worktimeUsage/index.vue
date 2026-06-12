@@ -193,39 +193,49 @@ const showGraphBelow = ref(false);
 // Computed Properties
 const isLoading = computed(() => store.isLoading);
 
+// v2: the section response no longer carries a Card / Breadcrumb / Teamset
+// header block — the FE derives those from the profile (legacy build* helpers
+// on the store). Summary + Distribution come back as the new RESHAPED-v2
+// shapes; we use the store's adapter getters (`sectionSummary`,
+// `sectionDistributions`) to project them back to the legacy ISummary[] /
+// IDistribution[] markup the existing components still expect.
 const currentCard = computed(() => {
   if (currentQuery.value.view === 'individual') {
     return store.employeeData?.Card || null;
   }
-  return store.sectionData?.Card || null;
+  return store.buildCardFromProfile();
 });
 
 const currentBreadcrumb = computed(() => {
   if (currentQuery.value.view === 'individual') {
     return store.employeeData?.Breadcrumb || [];
   }
-  return store.sectionData?.Breadcrumb || [];
+  return store.buildBreadcrumbFromProfile();
 });
 
 const currentSummary = computed(() => {
   if (currentQuery.value.view === 'individual') {
     return store.employeeData?.Summary || [];
   }
-  return store.sectionData?.Summary || [];
+  return store.sectionSummary;
 });
 
 const currentDistributions = computed(() => {
   if (currentQuery.value.view === 'individual') {
     return store.employeeData?.Distributions || [];
   }
-  return store.sectionData?.Distributions || [];
+  return store.sectionDistributions;
 });
 
+// v2: ProductivityGraph[] is a raw per-day per-domain series; the legacy
+// chart-dataset shape is gone. Components that still want a chart should
+// build it from the raw points. For now we expose null so the chart
+// component shows its empty state.
 const currentGraphs = computed(() => {
   if (currentQuery.value.view === 'individual') {
     return store.employeeData?.Graphs || null;
   }
-  return store.sectionData?.Graphs || null;
+  return null;
 });
 
 const currentWebClocks = computed(() => {
@@ -239,9 +249,11 @@ const currentIndividualWellbeings = computed(() => {
 const teams = computed(() => store.getTeams);
 const individuals = computed(() => store.getIndividuals);
 
-const showTeamToggle = computed(() => {
-  return currentQuery.value.view === 'team' && store.sectionData?.Teamset?.IsTeam === true;
-});
+// v2: the legacy `Teamset.IsTeam` flag is gone; we now infer "are we looking
+// at a team that has children to toggle into" from whether the section query
+// is in team mode at all. The toggle currently disappears under v2 until we
+// build a proper section-detail surface (FE-side decision pending).
+const showTeamToggle = computed(() => false);
 
 // Available tabs based on view mode
 const availableTabs = computed<Array<{ key: TabType; label: string }>>(() => {
@@ -304,12 +316,11 @@ const fetchData = async () => {
 };
 
 const handleDownload = () => {
-  const downloadKey = store.sectionData?.DownloadKey;
-  if (!downloadKey) {
-    return;
-  }
-
-  DownloadService.downloadSection(downloadKey);
+  // v2: ClockSectionResponse no longer carries a `DownloadKey` (export endpoint
+  // moved out per the redesign — the FE will call a dedicated authorize-key
+  // mint endpoint). Until that's wired the button is a no-op.
+  // const downloadKey = store.sectionData?.DownloadKey;
+  // DownloadService.downloadSection(downloadKey);
 };
 
 const handleToggleDomain = async (webClock: IWebClock, newDomain: number) => {

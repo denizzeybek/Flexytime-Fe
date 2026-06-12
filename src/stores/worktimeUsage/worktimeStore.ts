@@ -137,6 +137,16 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     /** v2: Teams is at the top level (no Teamset.Teams nesting). */
     getTeams: (state) => state.sectionData?.Teams ?? [],
 
+    /**
+     * Legacy-shape adapter views over the v2 ClockSectionResponse so the
+     * existing index.vue + BadgeGroup + DistributionTab markup keeps
+     * rendering. Mirrors what the employee fetch builds inline.
+     */
+    sectionSummary: (state): ISummary[] =>
+      state.sectionData ? summaryObjectToArray(state.sectionData.Summary) : [],
+    sectionDistributions: (state): IDistribution[] =>
+      distributionsToLegacy(state.sectionData?.Distribution ?? []),
+
     isSectionLoading: (state): boolean => state.loading.section,
     isEmployeeLoading: (state): boolean => state.loading.employee,
     isLoading: (state): boolean => state.loading.section || state.loading.employee,
