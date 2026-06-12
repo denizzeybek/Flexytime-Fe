@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 import axios from 'axios';
 
-import { OpenAPI, ProfileService, SettingService } from '@/client';
+import { OpenAPI, ProfileLegacyWebapiService, SettingService } from '@/client';
 import { ERole } from '@/enums/role.enum';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
@@ -97,7 +97,11 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
   },
   actions: {
     async filter() {
-      const data = await ProfileService.profileControllerGetProfile();
+      // v2: the rich profile shape (Wizard/Employee/etc.) lives behind
+      // `/webapi/profile` (legacy-compat surface). The modern, slim
+      // `/profile/me` shipped first; the legacy webapi profile is kept
+      // for the SPA until the rich shape is reshaped.
+      const data = await ProfileLegacyWebapiService.legacyProfileControllerGetProfile();
       this.GeneralProfile = data;
       this.User = data.Employee ?? ({} as EmployeeViewModel);
       this.TimeZone = data.TimeZone;
@@ -122,37 +126,44 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     },
 
     async updateProfile(model: ProfileModifyViewModel) {
-      const response = await ProfileService.profileControllerUpdateProfile(model);
-      // Refresh profile data after update
+      // v2: legacy webapi profile uses SaveProfile (renamed from UpdateProfile).
+      const response = await ProfileLegacyWebapiService.legacyProfileControllerSaveProfile(
+        model as never,
+      );
       await this.filter();
       return response;
     },
 
     async updateTimezone(timeZone: string) {
-      const response = await ProfileService.profileControllerUpdateTimezone({ TimeZone: timeZone });
+      const response = await ProfileLegacyWebapiService.legacyProfileControllerUpdateTimezone(
+        { TimeZone: timeZone } as never,
+      );
       this.TimeZone = timeZone;
       return response;
     },
 
     async updateLanguageCode(languageCode: string) {
-      const response = await ProfileService.profileControllerUpdateLanguageCode({
-        LanguageCode: languageCode,
-      });
+      // v2: renamed from UpdateLanguageCode → UpdateLanguage; payload key kept.
+      const response = await ProfileLegacyWebapiService.legacyProfileControllerUpdateLanguage(
+        { LanguageCode: languageCode } as never,
+      );
       this.LanguageCode = languageCode;
       return response;
     },
 
     async resendConfirmation() {
-      return await ProfileService.profileControllerResendConfirm();
+      return ProfileLegacyWebapiService.legacyProfileControllerResendConfirm();
     },
 
     async changePassword(password: string) {
-      return await ProfileService.profileControllerChangePassword({ Password: password });
+      return ProfileLegacyWebapiService.legacyProfileControllerChangePassword(
+        { Password: password } as never,
+      );
     },
 
     async fetchTimezones() {
-      const data = await ProfileService.profileControllerGetTimezones();
-      this.TimeZoneList = data;
+      const data = await ProfileLegacyWebapiService.legacyProfileControllerGetTimezones();
+      this.TimeZoneList = data as unknown as TimeZoneViewModel[];
       return data;
     },
 
