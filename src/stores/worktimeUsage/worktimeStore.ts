@@ -72,6 +72,19 @@ interface State {
 }
 
 /**
+ * The team / individual rows the legacy tables expect — one stat-cell per
+ * domain with `time` strings (seconds-formatted). v2 returns a single
+ * `Summary` object per row instead; we widen back into the field shape the
+ * existing column markup reads.
+ */
+interface LegacyStatCell {
+  time: string;
+}
+function statCell(seconds: number | null | undefined): LegacyStatCell {
+  return { time: String(seconds ?? 0) };
+}
+
+/**
  * v2 `Summary` is a single object with the four per-domain seconds; the legacy
  * tab UI iterates an `ISummary[]` keyed by `statisticType`. We expand the
  * v2 object back into the legacy array shape so the existing tab markup keeps
@@ -131,11 +144,55 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     getSectionData: (state): ClockSectionResponse | null => state.sectionData,
     getEmployeeData: (state): IEmployeeResponse | null => state.employeeData,
 
-    /** v2: Individuals is at the top level (no Sections[] nesting). */
-    getIndividuals: (state) => state.sectionData?.Individuals ?? [],
+    /**
+     * Individuals projected to the legacy `IIndividual` field shape the
+     * EmployeeProductivityTable + EmployeeWellbeingTable read. v2 returns
+     * `Fullname` / `UserId` / `TeamId` / `Availability` / `OnLeave` /
+     * `LeaveType` / `Summary{Work,Meeting,Leisure,Unclassified,StartTime,
+     * EndTime}` directly — the table reads `EmployeeName`, `Start.time`,
+     * `Work.time` etc., so we widen each row.
+     */
+    getIndividuals: (state) =>
+      (state.sectionData?.Individuals ?? []).map((row) => ({
+        ID: row.UserId,
+        EmployeeName: row.Fullname ?? '',
+        TeamName: '',
+        Availability: row.Availability,
+        OnLeave: row.OnLeave,
+        LeaveType: row.LeaveType ?? '',
+        Tags: [],
+        TagsDisplay: '',
+        Start: statCell(row.Summary.StartTime),
+        End: statCell(row.Summary.EndTime),
+        Work: statCell(row.Summary.Work),
+        Leisure: statCell(row.Summary.Leisure),
+        Meeting: statCell(row.Summary.Meeting),
+        Unclassified: statCell(row.Summary.Unclassified),
+      })),
 
-    /** v2: Teams is at the top level (no Teamset.Teams nesting). */
-    getTeams: (state) => state.sectionData?.Teams ?? [],
+    /**
+     * Teams projected to the legacy `ITeam` field shape the
+     * TeamProductivityTable + TeamWellbeingTable read. v2 returns `Name` +
+     * `SupervisorUserId` + the same `Summary` object; we map to `TeamName`,
+     * `SupervisorName` and the four stat cells.
+     */
+    getTeams: (state) =>
+      (state.sectionData?.Teams ?? []).map((row) => ({
+        ID: row.TeamId,
+        TeamName: row.Name ?? '',
+        // v2 returns the supervisor as a user-id, not a denormalized name.
+        // The legacy table renders `SupervisorName` (string) + optional
+        // `Supervisor` (avatar metadata). Empty string / undefined here is
+        // fine; the FE will follow up with a fan-out to populate names.
+        SupervisorName: '',
+        Supervisor: undefined,
+        Start: statCell(row.Summary.StartTime),
+        End: statCell(row.Summary.EndTime),
+        Work: statCell(row.Summary.Work),
+        Leisure: statCell(row.Summary.Leisure),
+        Meeting: statCell(row.Summary.Meeting),
+        Unclassified: statCell(row.Summary.Unclassified),
+      })),
 
     /**
      * Legacy-shape adapter views over the v2 ClockSectionResponse so the
