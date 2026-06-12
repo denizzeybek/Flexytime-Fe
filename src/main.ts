@@ -12,6 +12,12 @@ import '@/plugins/axios';
 import '@/plugins/nprogress';
 
 OpenAPI.BASE = import.meta.env.VITE_API_URL;
+// v2: the BE issues the refresh token as an httpOnly cookie and reads it back
+// on `/auth/refresh`. Axios only sends cookies cross-origin when
+// `withCredentials` is true. Enable it once globally on the codegen client so
+// every generated method opts in.
+OpenAPI.WITH_CREDENTIALS = true;
+OpenAPI.CREDENTIALS = 'include';
 
 const app = createApp(App);
 
