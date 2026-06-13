@@ -97,7 +97,12 @@
         <FText v-else>{{ slotProps.data.TeamName }}</FText>
       </template>
     </Column>
-    <Column field="Status" :header="t('pages.hrSettings.employees.table.columns.status')">
+    <Column
+      sortable
+      field="StatusOrder"
+      sortField="StatusOrder"
+      :header="t('pages.hrSettings.employees.table.columns.status')"
+    >
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="5rem" />
         <div v-else class="flex items-center gap-2">
@@ -261,6 +266,20 @@ const isEmployeeIncomplete = (employee: TheMemberViewModel): boolean => {
  * them." Pending rows render with `IsPending: true` so the Status /
  * Actions columns can branch on it.
  */
+/**
+ * Numeric sort key the Status column reads when the operator clicks the
+ * header. Order is "most-urgent first" ascending so the default sort
+ * pushes new invites + incomplete rows to the top:
+ *   0 = Invited       (just sent — the operator likely wants to see it)
+ *   1 = Incomplete    (real Member but missing Team / Title)
+ *   2 = Complete      (fully assigned)
+ */
+const statusOrder = (row: TheMemberViewModel & { IsPending?: boolean }): number => {
+  if (row.IsPending) return 0;
+  if (isEmployeeIncomplete(row)) return 1;
+  return 2;
+};
+
 const pendingInvitations = computed(() =>
   employeesStore.invitations.map((inv) => ({
     ID: inv.ID,
@@ -274,7 +293,8 @@ const pendingInvitations = computed(() =>
     TeamName: '',
     Salary: '',
     IsPending: true,
-  })) as Array<TheMemberViewModel & { IsPending: true }>,
+    StatusOrder: 0,
+  })) as Array<TheMemberViewModel & { IsPending: true; StatusOrder: number }>,
 );
 
 const incompleteCount = computed(() =>
@@ -289,16 +309,32 @@ const pendingCount = computed(() => pendingInvitations.value.length);
 
 const totalCount = computed(() => employeesStore.list.length + pendingCount.value);
 
+/**
+ * Project every real Member into the same shape as a pending row so the
+ * DataTable can sort on `StatusOrder` regardless of which branch the row
+ * came from. We don't mutate `employeesStore.list` itself — Pinia state
+ * stays in its server-shape, this is purely a render-time decoration.
+ */
+const enrichedRoster = computed(() =>
+  employeesStore.list.map((emp) => ({
+    ...emp,
+    IsPending: false as const,
+    StatusOrder: statusOrder(emp),
+  })),
+);
+
 const filteredEmployees = computed(() => {
   if (activeFilter.value === 'incomplete') {
-    return employeesStore.list.filter((emp) => isEmployeeIncomplete(emp));
+    return enrichedRoster.value.filter((emp) => isEmployeeIncomplete(emp));
   }
   if (activeFilter.value === 'active') {
-    return employeesStore.list.filter((emp) => !isEmployeeIncomplete(emp));
+    return enrichedRoster.value.filter((emp) => !isEmployeeIncomplete(emp));
   }
   // "All" tab: pending invitations float to the top so the operator sees
-  // their just-sent invite immediately under the Add User flow.
-  return [...pendingInvitations.value, ...employeesStore.list];
+  // their just-sent invite immediately under the Add User flow. Once the
+  // operator clicks the Status column header the DataTable's own sort
+  // (keyed off StatusOrder) takes over.
+  return [...pendingInvitations.value, ...enrichedRoster.value];
 });
 
 const handleEdit = (employee: TheMemberViewModel) => {
