@@ -412,8 +412,8 @@
             "name": "Name",
             "fullName": "Full Name",
             "email": "Email",
-            "userCount": "User Count",
-            "month": "Period (Month)",
+            "userCount": "Licensed User Count",
+            "month": "License Period (Month)",
             "createDate": "Create Date",
             "lastActivityDate": "Last Activity Date",
             "dashboardActivityDate": "Dashboard Activity Date",
@@ -445,11 +445,11 @@
             "label": "Password"
           },
           "userCount": {
-            "label": "User Count",
-            "placeholder": "Enter user count"
+            "label": "Licensed User Count",
+            "placeholder": "Enter licensed user count"
           },
           "userPeriod": {
-            "label": "User Period (Month)",
+            "label": "License Period (Month)",
             "placeholder": "Enter user period"
           },
           "license": {

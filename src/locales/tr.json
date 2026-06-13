@@ -412,8 +412,8 @@
             "name": "Ad",
             "fullName": "Ad Soyad",
             "email": "E-posta",
-            "userCount": "Kullanıcı Sayısı",
-            "month": "Periyot (Ay)",
+            "userCount": "Lisanslı Kullanıcı Sayısı",
+            "month": "Lisans Periyodu (Ay)",
             "createDate": "Oluşturma Tarihi",
             "lastActivityDate": "Son Aktivite Tarihi",
             "dashboardActivityDate": "Dashboard Aktivite Tarihi",
@@ -445,12 +445,12 @@
             "label": "Şifre"
           },
           "userCount": {
-            "label": "Kullanıcı Sayısı",
-            "placeholder": "Kullanıcı sayısını girin"
+            "label": "Lisanslı Kullanıcı Sayısı",
+            "placeholder": "Lisanslı kullanıcı sayısını girin"
           },
           "userPeriod": {
-            "label": "Kullanıcı Periyodu (Ay)",
-            "placeholder": "Kullanıcı periyodunu girin"
+            "label": "Lisans Periyodu (Ay)",
+            "placeholder": "Lisans periyodunu girin"
           },
           "license": {
             "label": "Lisans",
