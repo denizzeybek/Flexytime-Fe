@@ -48,12 +48,14 @@
 
               <!-- Right Side Buttons -->
               <div class="flex items-center gap-2.5 flex-shrink-0">
-                <!-- Graph Toggle Button (shown when not in graph tab) -->
+                <!-- Show Graph toggle. Visible only on tabs that have an
+                     associated chart in the v1 sense (`#grafik-bar` for the
+                     productivity stacked-bar, `#graphic-wellbeing` for the
+                     per-type well-being series). Distribution stays hidden
+                     because the distribution cards already render their own
+                     per-app doughnut inline. -->
                 <Button
-                  v-if="
-                    currentQuery.tab !== 'graph' &&
-                    (currentQuery.view !== 'individual' || currentQuery.tab === 'distribution')
-                  "
+                  v-if="showGraphToggleVisible"
                   :label="$t('pages.worktimeUsage.showGraph')"
                   icon="pi pi-chart-line"
                   :severity="showGraphBelow ? 'primary' : 'secondary'"
@@ -87,9 +89,16 @@
               </div>
             </div>
 
-            <!-- Show Graph View (when button is active) -->
-            <div v-if="showGraphBelow && currentQuery.tab !== 'graph'" class="mt-1">
-              <GraphTab :graphs="currentGraphs" :is-loading="isLoading" />
+            <!-- Show Graph view — context-aware. Productivity tab → per-day
+                 stacked bar from `ProductivityGraph`. Wellbeing tab → one
+                 chart per well-being type from `WellBeingGraph`. -->
+            <div v-if="showGraphBelow" class="mt-1">
+              <WellBeingGraphTab
+                v-if="currentQuery.tab === 'wellbeing'"
+                :graphs="currentWellBeingGraphs"
+                :is-loading="isLoading"
+              />
+              <GraphTab v-else :graphs="currentGraphs" :is-loading="isLoading" />
             </div>
 
             <!-- Tab Panels (hidden when graph is shown) -->
@@ -120,11 +129,6 @@
               <!-- Distribution Tab -->
               <TabPanel v-if="showTab('distribution')" value="distribution">
                 <DistributionTab :distributions="currentDistributions" :is-loading="isLoading" />
-              </TabPanel>
-
-              <!-- Graph Tab -->
-              <TabPanel v-if="showTab('graph')" value="graph">
-                <GraphTab :graphs="currentGraphs" :is-loading="isLoading" />
               </TabPanel>
 
               <!-- Web History Tab -->
@@ -169,6 +173,7 @@ import DistributionTab from './_components/tabs/DistributionTab.vue';
 import GraphTab from './_components/tabs/GraphTab.vue';
 import ProductivityTab from './_components/tabs/ProductivityTab.vue';
 import WebHistoryTab from './_components/tabs/WebHistoryTab.vue';
+import WellBeingGraphTab from './_components/tabs/WellBeingGraphTab.vue';
 import WellbeingTab from './_components/tabs/WellbeingTab.vue';
 import { useWorktimeQuery } from './_composables';
 
@@ -237,6 +242,32 @@ const currentGraphs = computed(() => {
   return store.sectionGraphs;
 });
 
+// Per-type well-being series (one chart per type). Section view ships
+// `WellBeingGraph[]`; individual view's per-type Points are already
+// embedded in each `WellBeings[]` row — surface the same shape from
+// there so the Show-Graph toggle works on both views.
+const currentWellBeingGraphs = computed(() => {
+  if (currentQuery.value.view === 'individual') {
+    return (store.employeeData?.WellBeings ?? []).map((wb) => ({
+      Type: wb.Type,
+      Name: wb.Name,
+      Color: wb.Color,
+      Icon: wb.Icon,
+      Graph: wb.Graph,
+    }));
+  }
+  return store.sectionWellBeingGraphs;
+});
+
+// Show-Graph toggle is only meaningful for tabs that *have* a
+// secondary chart in the v1 sense — Productivity (per-day stacked bar)
+// and Wellbeing (per-type per-day series). Distribution stays hidden
+// because each domain card already carries its own inline doughnut.
+const showGraphToggleVisible = computed(() => {
+  const tab = currentQuery.value.tab;
+  return tab === 'productivity' || tab === 'wellbeing';
+});
+
 const currentWebClocks = computed(() => {
   return store.employeeData?.WebClocks || [];
 });
@@ -269,7 +300,6 @@ const availableTabs = computed<Array<{ key: TabType; label: string }>>(() => {
       { key: 'productivity' as TabType, label: t('pages.worktimeUsage.tabs.productivity') },
       { key: 'wellbeing' as TabType, label: t('pages.worktimeUsage.tabs.wellbeing') },
       { key: 'distribution' as TabType, label: t('pages.worktimeUsage.tabs.distribution') },
-      { key: 'graph' as TabType, label: t('pages.worktimeUsage.tabs.graph') },
     );
   }
 

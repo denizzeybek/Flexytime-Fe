@@ -14,7 +14,7 @@ export type ViewMode = 'team' | 'employees' | 'individual';
 /**
  * Tab types available in different views
  */
-export type TabType = 'productivity' | 'wellbeing' | 'distribution' | 'graph' | 'webHistory';
+export type TabType = 'productivity' | 'wellbeing' | 'distribution' | 'webHistory';
 
 /**
  * Toggle state for Team/Employees display in right panel

@@ -191,6 +191,46 @@ function buildProductivityGraph(
 }
 
 /**
+ * `WellBeingGraph` on the section response is one per-type per-day series
+ * (legacy `Model.WellBeingGraphs[]`). Build the card shape — one chart per
+ * type with `{Name, Color, Icon, Graph: {labels, datasets, Unit}}` — so the
+ * Show-Graph toggle on the Wellbeing tab can render directly. Color defaults
+ * to yellow because the section-level series doesn't carry a `Level` (the
+ * org-wide severity flag lives on `WellBeings[]`); a future enhancement
+ * could join them.
+ */
+export interface IWellBeingGraph {
+  Type: string;
+  Name: string;
+  Color: 'red' | 'yellow' | 'green';
+  Icon: string;
+  Graph: { labels: string[]; datasets: Array<{ label: string; data: number[] }>; Unit: string };
+}
+function buildWellBeingGraphs(
+  graphs: Array<{ Type?: string; Points?: Array<{ Date?: string; Value?: number }> }>,
+): IWellBeingGraph[] {
+  return (graphs ?? []).map((g) => {
+    const type = g.Type ?? '';
+    const unit = WELLBEING_TYPE_UNIT[type] ?? '';
+    const toUnit = (v: number | undefined): number =>
+      unit === 'h' ? Number(((v ?? 0) / 3600).toFixed(2)) : (v ?? 0);
+    const labels = (g.Points ?? []).map((p) => p.Date ?? '');
+    const data = (g.Points ?? []).map((p) => toUnit(p.Value));
+    return {
+      Type: type,
+      Name: type,
+      Color: 'yellow' as const,
+      Icon: WELLBEING_TYPE_ICON[type] ?? 'fas fa-heart',
+      Graph: {
+        labels,
+        datasets: [{ label: type, data }],
+        Unit: unit,
+      },
+    };
+  });
+}
+
+/**
  * v2 `ClockEmployeeWellBeing` is the raw `{Type, Notification, Level,
  * Points: [{Date, Value}]}`. The legacy card markup wants
  * `{Name, Color, Icon, Description, Suggestion, Graph: ClockGraph}`.
@@ -355,6 +395,8 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       state.sectionData
         ? buildProductivityGraph(state.sectionData.ProductivityGraph ?? [])
         : null,
+    sectionWellBeingGraphs: (state): IWellBeingGraph[] =>
+      buildWellBeingGraphs(state.sectionData?.WellBeingGraph ?? []),
 
     /**
      * Section-mode Card: derived from the v2 response's Company + Teams
