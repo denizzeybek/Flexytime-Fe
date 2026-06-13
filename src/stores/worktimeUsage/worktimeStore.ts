@@ -396,6 +396,81 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     },
 
     /**
+     * Org-tree projection for the productivity TreeTable. Builds a forest from
+     * the flat `Teams[]` (using `ParentTeamId` parent refs — `null` = root) and
+     * attaches each team's direct members as leaf nodes (`nodeType: 'individual'`).
+     * Multi-root supported: every team whose `ParentTeamId` is null becomes a
+     * top-level node. Codegen has not yet surfaced `ParentTeamId`, hence the
+     * structural cast on the raw row read.
+     */
+    getTeamTree: (state) => {
+      const data = state.sectionData;
+      if (!data) return [];
+      const rawTeams = data.Teams ?? [];
+      const individuals = data.Individuals ?? [];
+
+      const teamRows = rawTeams.map((row) => {
+        const parentId = (row as unknown as { ParentTeamId?: string | null }).ParentTeamId ?? null;
+        return {
+          ID: row.TeamId,
+          ParentTeamId: parentId,
+          TeamName: row.Name ?? '',
+          SupervisorName: '',
+          Supervisor: undefined as unknown,
+          Start: clockTimeCell(row.Summary.StartTime),
+          End: clockTimeCell(row.Summary.EndTime),
+          Work: statCell(row.Summary.Work),
+          Leisure: statCell(row.Summary.Leisure),
+          Meeting: statCell(row.Summary.Meeting),
+          Unclassified: statCell(row.Summary.Unclassified),
+        };
+      });
+
+      const membersByTeam = new Map<string, typeof individuals>();
+      for (const ind of individuals) {
+        const teamId = ind.TeamId ?? null;
+        if (!teamId) continue;
+        const list = membersByTeam.get(teamId) ?? [];
+        list.push(ind);
+        membersByTeam.set(teamId, list);
+      }
+
+      const childrenByParent = new Map<string | null, typeof teamRows>();
+      for (const t of teamRows) {
+        const list = childrenByParent.get(t.ParentTeamId) ?? [];
+        list.push(t);
+        childrenByParent.set(t.ParentTeamId, list);
+      }
+
+      const buildNode = (team: (typeof teamRows)[number]): Record<string, unknown> => {
+        const subTeams = (childrenByParent.get(team.ID) ?? []).map(buildNode);
+        const members = (membersByTeam.get(team.ID) ?? []).map((m) => ({
+          key: `i:${m.UserId}`,
+          data: {
+            nodeType: 'individual' as const,
+            ID: m.UserId,
+            TeamName: m.Fullname ?? '',
+            SupervisorName: '',
+            Supervisor: undefined,
+            Start: clockTimeCell(m.Summary.StartTime),
+            End: clockTimeCell(m.Summary.EndTime),
+            Work: statCell(m.Summary.Work),
+            Leisure: statCell(m.Summary.Leisure),
+            Meeting: statCell(m.Summary.Meeting),
+            Unclassified: statCell(m.Summary.Unclassified),
+          },
+        }));
+        return {
+          key: `t:${team.ID}`,
+          data: { nodeType: 'team' as const, ...team },
+          children: [...subTeams, ...members],
+        };
+      };
+
+      return (childrenByParent.get(null) ?? []).map(buildNode);
+    },
+
+    /**
      * Legacy-shape adapter views over the v2 ClockSectionResponse so the
      * existing index.vue + BadgeGroup + DistributionTab markup keeps
      * rendering. Mirrors what the employee fetch builds inline.

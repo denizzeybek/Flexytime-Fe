@@ -849,29 +849,15 @@
           "titleAdd": "Add New Node",
           "titleEdit": "Edit Node",
           "fields": {
-            "title": {
-              "label": "Title",
-              "placeholder": "Enter team or position title"
-            },
             "name": {
               "label": "Team Name",
-              "placeholder": "Enter team name (optional)",
+              "placeholder": "Enter team name",
               "hint": "The official team name or department"
             },
             "memberName": {
-              "label": "Member Name",
-              "placeholder": "Enter member name (optional)",
-              "hint": "The person responsible for this position"
-            },
-            "titleName": {
-              "label": "Job Title",
-              "placeholder": "Enter job title (optional)",
-              "hint": "The position or role title"
-            },
-            "abbreviation": {
-              "label": "Abbreviation",
-              "placeholder": "Enter abbreviation (optional)",
-              "hint": "Short code or abbreviation (max 10 characters)"
+              "label": "Team Leader",
+              "placeholder": "Select team leader (optional)",
+              "hint": "The person responsible for this team"
             }
           },
           "info": {

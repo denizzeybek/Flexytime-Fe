@@ -21,8 +21,8 @@
       />
 
       <TeamProductivityTable
-        v-else-if="isLoading || teamRowsWithCompany.length > 0"
-        :teams="teamRowsWithCompany"
+        v-else-if="isLoading || teamTree.length > 0"
+        :nodes="teamTree"
         :is-loading="isLoading"
       />
 
@@ -68,13 +68,7 @@ const store = useWorktimeStore();
 
 const currentTeamId = computed(() => currentQuery.value.teamId ?? null);
 
-const teamRowsWithCompany = computed<ITeam[]>(() => {
-  const companyRow = store.getCompanyRow as ITeam | null;
-  const rows: ITeam[] = [];
-  if (companyRow) rows.push(companyRow);
-  for (const t of props.teams) rows.push(t);
-  return rows;
-});
+const teamTree = computed(() => store.getTeamTree ?? []);
 
 const filteredIndividuals = computed<IIndividual[]>(() => {
   if (!currentTeamId.value) return props.individuals;

@@ -849,29 +849,15 @@
           "titleAdd": "Yeni Düğüm Ekle",
           "titleEdit": "Düğümü Düzenle",
           "fields": {
-            "title": {
-              "label": "Başlık",
-              "placeholder": "Ekip veya pozisyon başlığı girin"
-            },
             "name": {
               "label": "Ekip Adı",
-              "placeholder": "Ekip adı girin (opsiyonel)",
+              "placeholder": "Ekip adı girin",
               "hint": "Resmi ekip adı veya departman"
             },
             "memberName": {
-              "label": "Üye Adı",
-              "placeholder": "Üye adı girin (opsiyonel)",
-              "hint": "Bu pozisyondan sorumlu kişi"
-            },
-            "titleName": {
-              "label": "İş Ünvanı",
-              "placeholder": "İş ünvanı girin (opsiyonel)",
-              "hint": "Pozisyon veya rol ünvanı"
-            },
-            "abbreviation": {
-              "label": "Kısaltma",
-              "placeholder": "Kısaltma girin (opsiyonel)",
-              "hint": "Kısa kod veya kısaltma (maks 10 karakter)"
+              "label": "Ekip Lideri",
+              "placeholder": "Ekip lideri seçin (opsiyonel)",
+              "hint": "Bu ekipten sorumlu kişi"
             }
           },
           "info": {
