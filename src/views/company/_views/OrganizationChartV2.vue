@@ -1,9 +1,7 @@
 <template>
   <div class="organization-chart-v2">
-    <!-- Toolbar -->
-    <OrganizationChartV2Toolbar />
+    <OrganizationChartV2Toolbar @add-root-node="handleAddRootNode" />
 
-    <!-- Loading State -->
     <Card v-if="isLoading" class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl transition-colors">
       <template #content>
         <div class="flex items-center justify-center py-16">
@@ -12,7 +10,6 @@
       </template>
     </Card>
 
-    <!-- Organization Chart with Vue Flow -->
     <Card
       v-else-if="nodes.length > 0"
       class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors"
@@ -31,15 +28,12 @@
             fit-view-on-init
             class="org-flow"
           >
-            <!-- Custom Node Template -->
             <template #node-organization="nodeProps">
               <OrganizationChartV2Node v-bind="nodeProps" />
             </template>
 
-            <!-- Controls -->
             <Controls position="bottom-right" />
 
-            <!-- MiniMap -->
             <MiniMap
               position="bottom-left"
               :pannable="true"
@@ -47,39 +41,60 @@
               class="!bg-surface-secondary !border-border-secondary dark:!border-border-primary"
             />
 
-            <!-- Background -->
             <Background :gap="20" :size="1" pattern-color="#e5e7eb" />
           </VueFlow>
         </div>
       </template>
     </Card>
 
-    <!-- Empty State -->
     <Card v-else class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl transition-colors">
       <template #content>
-        <div class="flex flex-col items-center justify-center py-16 text-content-tertiary">
-          <i class="pi pi-sitemap text-5xl mb-4" />
+        <div class="flex flex-col items-center justify-center py-16 text-content-tertiary gap-4">
+          <i class="pi pi-sitemap text-5xl" />
           <p class="text-lg">{{ t('pages.company.organizationChart.emptyState') }}</p>
+          <Button
+            :label="t('pages.company.organizationChartV2.buttons.addFirstTeam')"
+            icon="pi pi-plus"
+            severity="primary"
+            @click="handleAddRootNode"
+          />
         </div>
       </template>
     </Card>
+
+    <NodeEditDialog
+      v-model:visible="showEditDialog"
+      :node="selectedNode"
+      :mode="dialogMode"
+      @save="handleSaveNode"
+    />
+
+    <OrganizationChartDeleteDialog
+      :visible="showDeleteDialog"
+      :node="nodeToDelete"
+      @update:visible="showDeleteDialog = $event"
+      @confirm="confirmDelete"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, provide, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Background } from '@vue-flow/background';
 import { Controls } from '@vue-flow/controls';
 import { VueFlow } from '@vue-flow/core';
 import { MiniMap } from '@vue-flow/minimap';
 
+import Button from 'primevue/button';
 import Card from 'primevue/card';
 import ProgressSpinner from 'primevue/progressspinner';
 
 import { useFToast } from '@/composables/useFToast';
 import { useCompanyOrganizationChartsStore } from '@/stores/company/organizationChart';
 
+import NodeEditDialog from '../_components/organizationChart/NodeEditDialog.vue';
+import OrganizationChartDeleteDialog from '../_components/organizationChart/OrganizationChartDeleteDialog.vue';
 import OrganizationChartV2Node from '../_components/organizationChartV2/OrganizationChartV2Node.vue';
 import OrganizationChartV2Toolbar from '../_components/organizationChartV2/OrganizationChartV2Toolbar.vue';
 import {
@@ -93,26 +108,207 @@ import '@vue-flow/core/dist/theme-default.css';
 import '@vue-flow/controls/dist/style.css';
 import '@vue-flow/minimap/dist/style.css';
 
+import type { OrganizationNodeViewModel } from '@/client';
 import type { MessageSchema } from '@/plugins/i18n';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showErrorMessage } = useFToast();
 const store = useCompanyOrganizationChartsStore();
 
+/**
+ * Two parallel sources of truth:
+ *   apiTreeData — the raw `OrganizationNodeViewModel[]` tree. Mutations
+ *                  (add / edit / delete) happen here and `autoSave` POSTs
+ *                  this to `/webapi/company/organization/save`.
+ *   nodes / edges — the flattened Vue Flow render. Recomputed via
+ *                    `convertToFlowElements(apiTreeData)` after each
+ *                    mutation so the canvas re-layouts.
+ *
+ * The page mirrors the v1 `OrganizationChart.vue` mutation pattern but
+ * skips the `OrganizationTreeNode` shape (Vue Flow doesn't need it).
+ */
 const isLoading = ref(false);
+const isSaving = ref(false);
+const apiTreeData = ref<OrganizationNodeViewModel[]>([]);
 const nodes = ref<OrganizationFlowNode[]>([]);
 const edges = ref<OrganizationFlowEdge[]>([]);
+
+const showEditDialog = ref(false);
+const showDeleteDialog = ref(false);
+const selectedNode = ref<OrganizationNodeViewModel | null>(null);
+const nodeToDelete = ref<OrganizationNodeViewModel | null>(null);
+const dialogMode = ref<'add' | 'edit'>('add');
+
+const refreshFlow = () => {
+  const flowElements = convertToFlowElements(apiTreeData.value);
+  nodes.value = flowElements.nodes;
+  edges.value = flowElements.edges;
+};
+
+const findNodeById = (
+  tree: OrganizationNodeViewModel[],
+  id: string,
+): OrganizationNodeViewModel | null => {
+  for (const n of tree) {
+    if (n.ID === id) return n;
+    if (n.children?.length) {
+      const found = findNodeById(n.children, id);
+      if (found) return found;
+    }
+  }
+  return null;
+};
+
+const removeNodeById = (
+  tree: OrganizationNodeViewModel[],
+  id: string,
+): OrganizationNodeViewModel[] => {
+  return tree
+    .filter((n) => n.ID !== id)
+    .map((n) => ({
+      ...n,
+      children: n.children ? removeNodeById(n.children, id) : [],
+    }));
+};
+
+/**
+ * Update by ID — preserve `children` because NodeEditDialog only edits
+ * the displayed fields, not the subtree; without this guard, editing a
+ * parent would drop its descendants.
+ */
+const updateNodeById = (
+  tree: OrganizationNodeViewModel[],
+  id: string,
+  patch: Partial<OrganizationNodeViewModel>,
+): OrganizationNodeViewModel[] => {
+  return tree.map((n) => {
+    if (n.ID === id) {
+      return { ...n, ...patch, children: n.children } as OrganizationNodeViewModel;
+    }
+    if (n.children?.length) {
+      return { ...n, children: updateNodeById(n.children, id, patch) };
+    }
+    return n;
+  });
+};
+
+const addChildToNode = (
+  tree: OrganizationNodeViewModel[],
+  parentId: string,
+  newNode: OrganizationNodeViewModel,
+): OrganizationNodeViewModel[] => {
+  return tree.map((n) => {
+    if (n.ID === parentId) {
+      return { ...n, children: [...(n.children ?? []), newNode] };
+    }
+    if (n.children?.length) {
+      return { ...n, children: addChildToNode(n.children, parentId, newNode) };
+    }
+    return n;
+  });
+};
+
+const generateTempId = (): string =>
+  `temp_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
+/**
+ * Node action handlers — exposed to the custom node component via
+ * `provide` so the on-hover overlay buttons can reach back into the
+ * page's dialog state. Mirrors the v1 `OrganizationTreeItem.vue` ↔
+ * `OrganizationChart.vue` injection pattern, but the callback takes a
+ * Vue Flow node id (which is the API ID we minted in
+ * `convertToFlowElements`) rather than the raw OrganizationTreeNode.
+ */
+provide('onEdit', (id: string) => {
+  const node = findNodeById(apiTreeData.value, id);
+  if (!node) return;
+  dialogMode.value = 'edit';
+  selectedNode.value = node;
+  showEditDialog.value = true;
+});
+
+provide('onDelete', (id: string) => {
+  const node = findNodeById(apiTreeData.value, id);
+  if (!node) return;
+  nodeToDelete.value = node;
+  showDeleteDialog.value = true;
+});
+
+provide('onAddChild', (id: string) => {
+  dialogMode.value = 'add';
+  selectedNode.value = {
+    children: [],
+    title: '',
+    MemberName: '',
+    TitleName: '',
+    Name: '',
+    _parentId: id,
+  } as OrganizationNodeViewModel & { _parentId?: string };
+  showEditDialog.value = true;
+});
+
+const handleAddRootNode = () => {
+  dialogMode.value = 'add';
+  selectedNode.value = {
+    children: [],
+    title: '',
+    MemberName: '',
+    TitleName: '',
+    Name: '',
+  };
+  showEditDialog.value = true;
+};
+
+const autoSave = async () => {
+  try {
+    isSaving.value = true;
+    await store.save({ Nodes: apiTreeData.value });
+  } catch (error) {
+    showErrorMessage(error as Error);
+  } finally {
+    isSaving.value = false;
+  }
+};
+
+const handleSaveNode = (node: OrganizationNodeViewModel) => {
+  if (dialogMode.value === 'add') {
+    const newNode: OrganizationNodeViewModel = {
+      ...node,
+      ID: node.ID || generateTempId(),
+      children: [],
+    };
+    const parentId = (node as OrganizationNodeViewModel & { _parentId?: string })._parentId;
+    if (parentId) {
+      apiTreeData.value = addChildToNode(apiTreeData.value, parentId, newNode);
+    } else {
+      apiTreeData.value = [...apiTreeData.value, newNode];
+    }
+  } else if (dialogMode.value === 'edit' && node.ID) {
+    apiTreeData.value = updateNodeById(apiTreeData.value, node.ID, node);
+  }
+
+  showEditDialog.value = false;
+  selectedNode.value = null;
+  refreshFlow();
+  autoSave();
+};
+
+const confirmDelete = () => {
+  if (nodeToDelete.value?.ID) {
+    apiTreeData.value = removeNodeById(apiTreeData.value, nodeToDelete.value.ID);
+    refreshFlow();
+    showDeleteDialog.value = false;
+    nodeToDelete.value = null;
+    autoSave();
+  }
+};
 
 const fetchData = async () => {
   try {
     isLoading.value = true;
     await store.filter();
-
-    if (store.list && store.list.length > 0) {
-      const flowElements = convertToFlowElements(store.list);
-      nodes.value = flowElements.nodes;
-      edges.value = flowElements.edges;
-    }
+    apiTreeData.value = store.list ?? [];
+    refreshFlow();
   } catch (error) {
     showErrorMessage(error as Error);
   } finally {
@@ -137,7 +333,6 @@ onMounted(() => {
   border-radius: 0.5rem;
 }
 
-/* Vue Flow custom styles */
 :deep(.vue-flow) {
   background: transparent;
 }
