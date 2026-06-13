@@ -3,7 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ClassificationQueryDto } from '../models/ClassificationQueryDto';
+import type { PerformAllocationModifyDto } from '../models/PerformAllocationModifyDto';
 import type { PerformReferenceDto } from '../models/PerformReferenceDto';
+import type { WebAddressModifyDto } from '../models/WebAddressModifyDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -55,13 +57,18 @@ export class CategoryService {
     }
     /**
      * Create or update an allocation entry
+     * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
      */
-    public static categoryControllerSavePerformAllocation(): CancelablePromise<any> {
+    public static categoryControllerSavePerformAllocation(
+        requestBody: PerformAllocationModifyDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/category/allocation/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -110,13 +117,18 @@ export class CategoryService {
     }
     /**
      * Create or update a web address entry
+     * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
      */
-    public static categoryControllerSaveWebAddress(): CancelablePromise<any> {
+    public static categoryControllerSaveWebAddress(
+        requestBody: WebAddressModifyDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/category/webaddress/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**

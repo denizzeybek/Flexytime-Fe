@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { CategoryService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { PerformAllocationModifyModel } from '@/client';
+import type { PerformAllocationModifyDto } from '@/client';
 
 /**
  * v2 `AllocationViewModel` shape returned by `category/allocations` (list +
@@ -79,7 +79,7 @@ export const useClassificationApplicationsStore = defineStore(
           this.loading = false;
         }
       },
-      async save(payload: PerformAllocationModifyModel) {
+      async save(payload: PerformAllocationModifyDto) {
         await CategoryService.categoryControllerSavePerformAllocation(payload as never);
 
         // Refetch data after save to get the updated list from backend.

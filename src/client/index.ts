@@ -43,6 +43,7 @@ export { ClockWellBeingGraph } from './models/ClockWellBeingGraph';
 export type { ErrorResponseDto } from './models/ErrorResponseDto';
 export type { GoogleLoginDto } from './models/GoogleLoginDto';
 export type { LoginDto } from './models/LoginDto';
+export type { PerformAllocationModifyDto } from './models/PerformAllocationModifyDto';
 export type { PerformReferenceDto } from './models/PerformReferenceDto';
 export type { ProfileLanguageDto } from './models/ProfileLanguageDto';
 export type { ProfileMarketingDto } from './models/ProfileMarketingDto';
@@ -51,6 +52,7 @@ export type { ProfileResponseDto } from './models/ProfileResponseDto';
 export type { ProfileTimezoneDto } from './models/ProfileTimezoneDto';
 export type { ProfileUpdateDto } from './models/ProfileUpdateDto';
 export type { SaveCalendarFoldersDto } from './models/SaveCalendarFoldersDto';
+export type { WebAddressModifyDto } from './models/WebAddressModifyDto';
 export type { WizardProfileResponseDto } from './models/WizardProfileResponseDto';
 
 export { AccountService } from './services/AccountService';
