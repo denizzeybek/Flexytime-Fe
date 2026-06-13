@@ -60,11 +60,25 @@ import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
 import { boolean, object, string } from 'yup';
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
 import { useModalForm } from '@/composables/useModalFormInit';
 import { useOperationFeedback } from '@/composables/useOperationFeedback';
-import { convertDateToString, convertStringToDate } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
+
+dayjs.extend(utc);
+
+// RESHAPED-v2: BE expects Start/End as UTC ISO 8601 instants (Rule 13).
+// Full-day holidays: UTC-midnight of the picked calendar day (Rule 13 bucket #3).
+// Half-day holidays: the picked instant as UTC.
+const toIsoInstant = (date: Date, fullDay: boolean): string => {
+  if (fullDay) {
+    return dayjs(date).utc().startOf('day').toISOString();
+  }
+  return dayjs(date).toISOString();
+};
 
 import type { HolidayDto } from '@/client';
 
@@ -101,13 +115,14 @@ const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
 const getInitialFormData = computed(() => {
   const holiday = props.data;
   if (holiday) {
+    // RESHAPED-v2: BE returns Start/End as UTC ISO 8601 instants.
     return {
       ID: holiday.ID,
       name: holiday.Name,
       startFullDay: holiday.StartFullDay,
-      startDate: convertStringToDate(holiday.StartDate, holiday.StartTime),
+      startDate: holiday.Start ? dayjs(holiday.Start).toDate() : undefined,
       endFullDay: holiday.EndFullDay,
-      endDate: convertStringToDate(holiday.EndDate, holiday.EndTime),
+      endDate: holiday.End ? dayjs(holiday.End).toDate() : undefined,
       repeat: holiday.Repeat,
     };
   }
@@ -119,23 +134,16 @@ const getInitialFormData = computed(() => {
 });
 
 const submitHandler = handleSubmit(async (values) => {
-  const startDateTime = convertDateToString(values.startDate, true) as { date: string; time: string };
-  const endDateTime = convertDateToString(values.endDate, true) as { date: string; time: string };
-
-  let payload = {
-    StartDate: convertDateToString(values.startDate),
-    StartTime: values.startFullDay ? '00:00' : startDateTime.time,
-    EndDate: convertDateToString(values.endDate),
-    EndTime: values.endFullDay ? '00:00' : endDateTime.time,
+  const payload: HolidayDto = {
+    // RESHAPED-v2 (Rule 13): BE expects UTC ISO 8601 instants on Start/End.
+    Start: toIsoInstant(values.startDate, values.startFullDay === true),
+    End: toIsoInstant(values.endDate, values.endFullDay === true),
     Name: values.name,
     StartFullDay: values.startFullDay,
     EndFullDay: values.endFullDay,
     Repeat: values.repeat,
-  } as HolidayDto;
-
-  if (isEditing.value) {
-    payload = { ...payload, ID: values.ID } as HolidayDto;
-  }
+    ...(isEditing.value ? { ID: values.ID } : {}),
+  };
 
   await executeWithFeedback(
     () => holidaysStore.save(payload),
