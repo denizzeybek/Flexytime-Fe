@@ -79,7 +79,10 @@ export const useEmployeeModalValidation = (propsData: TheMemberViewModel | undef
             value: string().required(requiredMsg(t('pages.hrSettings.employees.modal.team.label'))),
           })
           .required(requiredMsg(t('pages.hrSettings.employees.modal.team.label'))),
-        operatingUser: string().required(requiredMsg(t('pages.hrSettings.employees.modal.operatingUser.label'))),
+        // Operating User (WindowsIdentity) is collected at agent-install
+        // time, not from the admin form — the field is hidden in the edit
+        // template, so the schema must allow it to be absent / null.
+        operatingUser: string().optional().nullable(),
         salary: number().required(requiredMsg(t('pages.hrSettings.employees.modal.salary.label'))),
         password: passwordRule(),
         tags: array()

@@ -11,7 +11,6 @@ export type TheMemberModifyDto = {
     Salary?: string;
     Password?: string;
     Email?: string;
-    WindowsIdentity?: string;
     Enabled?: boolean;
     Role?: number;
     Tags?: Array<string>;

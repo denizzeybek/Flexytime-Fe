@@ -1083,7 +1083,8 @@
           },
           "password": {
             "label": "Password",
-            "placeholder": "Enter password"
+            "placeholder": "Enter password",
+            "placeholderEdit": "Leave blank to keep the current password"
           },
           "messages": {
             "added": "Employee added!",

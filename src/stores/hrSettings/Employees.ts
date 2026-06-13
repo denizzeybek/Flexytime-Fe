@@ -103,6 +103,21 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
       await this.filter();
     },
     /**
+     * Detail fetch keyed by member id. The `employees()` list deliberately
+     * omits `Email` (contract: "Set by the single-member read for the
+     * edit form") to keep the roster payload lean, so opening the edit
+     * modal must round-trip through `/definition/employee` to get a
+     * fully-populated MemberViewModel. Returns the DTO ready to seed the
+     * form; the caller maps to the modal's prop shape.
+     */
+    async fetchEmployeeDetail(id: string): Promise<TheMemberViewModel | null> {
+      const result = await DefinitionService.definitionControllerGetEmployee({ ID: id });
+      // `result` is the BE `DataResult<MemberViewModel | undefined>` envelope.
+      const envelope = result as unknown as { Status?: number; DTO?: TheMemberViewModel };
+      if (envelope?.Status === 0 && envelope.DTO) return envelope.DTO;
+      return null;
+    },
+    /**
      * Batch invite path (Add → Employee role). Sends the email list to the
      * shared invitation endpoint (`/webapi/setting/invitation/save`) — that
      * mints a Download access key per email and queues the JoinTeam invite

@@ -36,8 +36,22 @@ const handleNew = async () => {
   isModalOpen.value = true;
 };
 
-const handleEdit = (employee: TheMemberViewModel) => {
-  currentEmployee.value = employee;
+const handleEdit = async (employee: TheMemberViewModel) => {
+  // The list payload deliberately omits `Email` (per the v2 contract:
+  // "Set by the single-member read for the edit form"), and the BE has
+  // it on `POST /webapi/definition/employee`. Round-trip there before
+  // opening the modal so the form seeds with the full shape rather
+  // than a stale list-row snapshot.
+  if (!employee.ID) return;
+  try {
+    const detail = await employeesStore.fetchEmployeeDetail(employee.ID);
+    currentEmployee.value = detail ?? employee;
+  } catch (error) {
+    // Fall back to the list-row data so the operator can still edit
+    // Name / Team / Title / Salary even if the detail fetch errored.
+    showErrorMessage(error as Error);
+    currentEmployee.value = employee;
+  }
   isModalOpen.value = true;
 };
 

@@ -15,11 +15,11 @@
     <template v-else>
       <EmployeeBasicInfoSection :show-enabled="isEditing" />
 
-      <!-- Role & Team Section (Employee & Team Manager only) -->
+      <!-- Role & Team Section (Employee & Team Manager only).
+           Operating User (WindowsIdentity) is collected at agent-install
+           time, not from this admin form — hide it on edit too. -->
       <template v-if="!isSystemAdminRole">
-        <EmployeeRoleSection
-          :show-operating-user="isEmployeeRole"
-        />
+        <EmployeeRoleSection :show-operating-user="false" />
         <EmployeeTagsSalarySection
           :tag-options="tagOptions"
           :show-tags="isEmployeeRole"
@@ -27,7 +27,10 @@
       </template>
 
       <Divider />
-      <EmployeePasswordSection />
+      <!-- Password is optional on edit (BE preserves the existing hash
+           when the field is blank); we surface that in the placeholder
+           so the operator doesn't think the field is mandatory. -->
+      <EmployeePasswordSection :is-edit="isEditing" />
     </template>
   </form>
 
@@ -124,7 +127,9 @@ const getInitialFormData = computed(() => {
         name: employee.TeamName,
         value: employee.TeamId,
       },
-      operatingUser: employee.WindowsIdentity,
+      // operatingUser dropped from v2 contract — the BE no longer
+      // accepts it on save, and the read no longer emits it. Agent
+      // installer owns Customer.WindowsIdentity.
       salary: employee.Salary,
     }),
   };
@@ -147,7 +152,6 @@ type EmployeeFormValues = {
   email?: string;
   password?: string;
   enabled?: boolean;
-  operatingUser?: string;
   salary?: number;
   title?: { name?: string; value?: string };
   team?: { name?: string; value?: string };
@@ -175,7 +179,6 @@ const buildEditPayload = (
     TeamId: formValues.team?.value ?? employee?.TeamId,
     TitleId: formValues.title?.value ?? employee?.TitleId,
     TitleName: formValues.title?.name ?? employee?.TitleName,
-    WindowsIdentity: formValues.operatingUser ?? employee?.WindowsIdentity ?? '',
     Enabled: formValues.enabled ?? employee?.Enabled ?? true,
     Tags: formValues.tags?.map((tag) => tag.name ?? '').filter(Boolean) ?? employee?.Tags ?? [],
   };
@@ -193,7 +196,6 @@ const buildAddManagerPayload = (
   TeamId: formValues.team?.value,
   TitleId: formValues.title?.value,
   TitleName: formValues.title?.name,
-  WindowsIdentity: '',
   Enabled: true,
   Tags: [],
 });
@@ -207,7 +209,6 @@ const buildAddAdminPayload = (
   ...(formValues.password && { Password: formValues.password }),
   Role: roleValue,
   Salary: '0',
-  WindowsIdentity: '',
   Enabled: true,
   Tags: [],
 });

@@ -1083,7 +1083,8 @@
           },
           "password": {
             "label": "Şifre",
-            "placeholder": "Şifre girin"
+            "placeholder": "Şifre girin",
+            "placeholderEdit": "Boş bırakırsanız mevcut şifre korunur"
           },
           "messages": {
             "added": "Çalışan eklendi!",
