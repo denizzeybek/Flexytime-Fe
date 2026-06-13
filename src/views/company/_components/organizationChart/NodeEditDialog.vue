@@ -62,7 +62,7 @@
     </form>
 
     <template #footer>
-      <div class="flex justify-end gap-3">
+      <FModalFooter>
         <Button
           :label="t('pages.company.organizationChartV2.editDialog.buttons.cancel')"
           severity="secondary"
@@ -75,7 +75,7 @@
           :disabled="!meta.valid"
           @click="handleSave"
         />
-      </div>
+      </FModalFooter>
     </template>
   </Dialog>
 </template>

@@ -34,11 +34,12 @@
     </template>
   </form>
 
-  <div class="flex justify-end gap-2 mt-4">
+  <FModalFooter>
     <Button
       type="button"
       :label="t('common.buttons.cancel')"
       severity="secondary"
+      outlined
       @click.stop="emit('close')"
     />
     <Button
@@ -48,7 +49,7 @@
       :loading="isSubmitting"
       @click.stop="submitHandler"
     />
-  </div>
+  </FModalFooter>
 </template>
 
 <script setup lang="ts">

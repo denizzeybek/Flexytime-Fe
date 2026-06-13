@@ -46,9 +46,21 @@
       <div class="flex flex-col gap-4 flex-1">
         <FEmailList name="bcc" :label="t('pages.company.reports.modal.emailBcc.label')" />
       </div>
-      <div class="flex flex-col gap-4 flex-1">
-        <Button class="w-1/2 mx-auto" :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('common.buttons.save')" />
-      </div>
+      <FModalFooter>
+        <Button
+          type="button"
+          :label="t('common.buttons.cancel')"
+          severity="secondary"
+          outlined
+          @click="handleClose"
+        />
+        <Button
+          type="submit"
+          :label="t('common.buttons.save')"
+          :disabled="isSubmitting"
+          :loading="isSubmitting"
+        />
+      </FModalFooter>
     </form>
   </Dialog>
 </template>

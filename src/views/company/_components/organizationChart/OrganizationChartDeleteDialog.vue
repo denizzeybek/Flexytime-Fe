@@ -18,17 +18,19 @@
       </div>
     </div>
     <template #footer>
-      <Button
-        :label="t('pages.company.organizationChartV2.deleteDialog.cancel')"
-        severity="secondary"
-        outlined
-        @click="$emit('update:visible', false)"
-      />
-      <Button
-        :label="t('pages.company.organizationChartV2.deleteDialog.confirm')"
-        severity="danger"
-        @click="$emit('confirm')"
-      />
+      <FModalFooter>
+        <Button
+          :label="t('pages.company.organizationChartV2.deleteDialog.cancel')"
+          severity="secondary"
+          outlined
+          @click="$emit('update:visible', false)"
+        />
+        <Button
+          :label="t('pages.company.organizationChartV2.deleteDialog.confirm')"
+          severity="danger"
+          @click="$emit('confirm')"
+        />
+      </FModalFooter>
     </template>
   </Dialog>
 </template>

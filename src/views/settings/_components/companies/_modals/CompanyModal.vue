@@ -47,9 +47,21 @@
         />
       </div>
 
-      <div class="flex w-full justify-center">
-        <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('common.buttons.save')" />
-      </div>
+      <FModalFooter>
+        <Button
+          type="button"
+          :label="t('common.buttons.cancel')"
+          severity="secondary"
+          outlined
+          @click="handleClose"
+        />
+        <Button
+          type="submit"
+          :label="t('common.buttons.save')"
+          :disabled="isSubmitting"
+          :loading="isSubmitting"
+        />
+      </FModalFooter>
     </form>
   </Dialog>
 </template>

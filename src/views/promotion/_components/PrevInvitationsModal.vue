@@ -24,6 +24,14 @@
         </DataTable>
       </template>
     </Card>
+
+    <FModalFooter>
+      <Button
+        type="button"
+        label="OK"
+        @click="open = false"
+      />
+    </FModalFooter>
   </Dialog>
 </template>
 
