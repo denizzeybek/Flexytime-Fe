@@ -203,14 +203,14 @@ const currentCard = computed(() => {
   if (currentQuery.value.view === 'individual') {
     return store.employeeData?.Card || null;
   }
-  return store.buildCardFromProfile();
+  return store.sectionCard;
 });
 
 const currentBreadcrumb = computed(() => {
   if (currentQuery.value.view === 'individual') {
     return store.employeeData?.Breadcrumb || [];
   }
-  return store.buildBreadcrumbFromProfile();
+  return store.sectionBreadcrumb;
 });
 
 const currentSummary = computed(() => {

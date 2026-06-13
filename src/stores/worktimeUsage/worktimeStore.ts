@@ -90,7 +90,21 @@ function statCell(seconds: number | null | undefined): LegacyStatCell {
  * v2 object back into the legacy array shape so the existing tab markup keeps
  * rendering until it gets refactored.
  */
-function summaryObjectToArray(summary: ClockEmployeeResponse['Summary']): ISummary[] {
+function summaryObjectToArray(
+  summary: ClockEmployeeResponse['Summary'] & {
+    StartTime?: number | null;
+    EndTime?: number | null;
+    Start?: number | null;
+    End?: number | null;
+  },
+): ISummary[] {
+  // v2: `Start*`/`End*` are seconds-since-midnight (legacy ConvertSummary
+  // averages). The badge component matches on the lowercase statisticType
+  // 'starttime' / 'endtime' (see EStatisticType + BadgeGroup.mapStatistic-
+  // TypeToBadge). The legacy summary surfaced 6 badges; v2 keeps the same
+  // semantics, we just need to expand the object back into the array.
+  const start = summary.StartTime ?? summary.Start ?? null;
+  const end = summary.EndTime ?? summary.End ?? null;
   return [
     { id: 'work', statisticType: 'work', time: String(summary.Work ?? 0) },
     { id: 'meeting', statisticType: 'meeting', time: String(summary.Meeting ?? 0) },
@@ -100,6 +114,8 @@ function summaryObjectToArray(summary: ClockEmployeeResponse['Summary']): ISumma
       statisticType: 'unclassified',
       time: String(summary.Unclassified ?? 0),
     },
+    { id: 'starttime', statisticType: 'starttime', time: String(start ?? 0) },
+    { id: 'endtime', statisticType: 'endtime', time: String(end ?? 0) },
   ];
 }
 
@@ -203,6 +219,60 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       state.sectionData ? summaryObjectToArray(state.sectionData.Summary) : [],
     sectionDistributions: (state): IDistribution[] =>
       distributionsToLegacy(state.sectionData?.Distribution ?? []),
+
+    /**
+     * Section-mode Card: derived from the v2 response's Company + Teams
+     * because the section view at the worktime root is always "current
+     * team/department". The avatar's `ImageUrl` stays empty (the BE only
+     * gives names); UserBadge falls back to the abbreviation initials.
+     */
+    sectionCard: (state): ICard | null => {
+      const team = state.sectionData?.Teams?.[0];
+      const companyName = state.sectionData?.Company?.Name ?? '';
+      const label = team?.Name ?? companyName;
+      if (!label) return null;
+      // Build a 2-letter abbreviation from the team / company name.
+      const abbreviation = label
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((w) => w[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase();
+      return {
+        Abbreviation: abbreviation,
+        Name: label,
+        ImageUrl: '',
+        Title: companyName && team?.Name && companyName !== team.Name ? companyName : '',
+      };
+    },
+
+    /**
+     * Section-mode Breadcrumb: `home > <Team / Company>`. The legacy BE
+     * sent a `BreadCrumb[]` (Url-encoded path); v2 dropped that. We
+     * synthesise the two-step breadcrumb the UI shows from the same
+     * Company + Teams blocks.
+     */
+    sectionBreadcrumb: (state): IBreadcrumb[] => {
+      const team = state.sectionData?.Teams?.[0];
+      const companyName = state.sectionData?.Company?.Name ?? '';
+      const leafName = team?.Name ?? companyName;
+      if (!leafName) return [];
+      return [
+        {
+          id: 'home',
+          title: '',
+          path: '/clock',
+          isLastElement: false,
+        },
+        {
+          id: team?.TeamId ?? 'company',
+          title: leafName,
+          path: '/clock',
+          isLastElement: true,
+        },
+      ];
+    },
 
     isSectionLoading: (state): boolean => state.loading.section,
     isEmployeeLoading: (state): boolean => state.loading.employee,
