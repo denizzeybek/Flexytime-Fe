@@ -1,46 +1,33 @@
 <template>
   <div class="wellbeing-tab">
-    <!-- Individual View: Show individual wellbeing cards -->
     <IndividualWellbeingCard
       v-if="viewMode === 'individual'"
       :wellbeings="individualWellbeings"
       :is-loading="isLoading"
     />
 
-    <!-- Employees View: Always show all employees -->
     <EmployeeWellbeingTable
       v-else-if="viewMode === 'employees'"
       :individuals="individuals"
       :is-loading="isLoading"
     />
 
-    <!-- Team View with Company → Team → Employee drill-down ladder (mirrors
-         ProductivityTab). Restored from legacy v1: user lands on the
-         Company row at the top of the team table, clicks a team to drill
-         into its employees, clicks the Company breadcrumb segment to come
-         back up. -->
     <template v-else-if="viewMode === 'team'">
-      <!-- Drilled INTO a specific team: show its employees. During re-fetch
-           we render the employees table skeleton, matching the level the
-           user is navigating to. -->
       <EmployeeWellbeingTable
         v-if="currentTeamId"
         :individuals="filteredIndividuals"
         :is-loading="isLoading"
       />
 
-      <!-- Root level: Company row pinned on top + per-team rows. -->
       <TeamWellbeingTable
         v-else-if="isLoading || teamRowsWithCompany.length > 0"
         :teams="teamRowsWithCompany"
         :is-loading="isLoading"
       />
 
-      <!-- Empty state (only show when NOT loading and no data) -->
       <NoDataState v-else-if="!isLoading" :message="t('components.wellbeing.noDataAvailable')" />
     </template>
 
-    <!-- Fallback empty state -->
     <NoDataState v-else-if="!isLoading" :message="t('components.wellbeing.noDataAvailable')" />
   </div>
 </template>

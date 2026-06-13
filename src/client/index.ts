@@ -53,6 +53,7 @@ export type { InvitationSingleDto } from './models/InvitationSingleDto';
 export type { LoginDto } from './models/LoginDto';
 export type { ManualClockModifyDto } from './models/ManualClockModifyDto';
 export type { OrganizationDto } from './models/OrganizationDto';
+export type { OrganizationNodeViewModel } from './models/OrganizationNodeViewModel';
 export type { PaymentSuccessDto } from './models/PaymentSuccessDto';
 export type { PerformAllocationModifyDto } from './models/PerformAllocationModifyDto';
 export type { PerformReferenceDto } from './models/PerformReferenceDto';

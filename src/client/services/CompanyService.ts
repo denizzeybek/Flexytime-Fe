@@ -205,10 +205,10 @@ export class CompanyService {
     }
     /**
      * Return the tenant organisation tree (departments + reporting chain)
-     * @returns any OrganizationViewModel
+     * @returns OrganizationDto OrganizationViewModel
      * @throws ApiError
      */
-    public static companyControllerOrganization(): CancelablePromise<any> {
+    public static companyControllerOrganization(): CancelablePromise<OrganizationDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/webapi/company/organization',

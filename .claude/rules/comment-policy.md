@@ -6,7 +6,6 @@ Only the comments that pay for themselves stay. Everything else is noise.
 
 ## Allowed
 
-- `/* ... */` block comments — including JSDoc (`/** ... */`).
 - `// TODO`, `// FIXME`, `// HACK` (case-insensitive) — actionable markers.
 - `// eslint-disable-*`, `// eslint-enable-*` — lint directives.
 - `// @ts-expect-error`, `// @ts-ignore`, `// @ts-nocheck` — TypeScript directives. Pair with a one-line reason.
@@ -24,6 +23,7 @@ Only the comments that pay for themselves stay. Everything else is noise.
 - 🚫 Restating the obvious (`// loop over users`).
 - 🚫 Author / date markers (`// added by X on 2024-...`).
 - 🚫 Bracketing comments (`// end of foo`, `// end if`).
+- 🚫 `/* ... */` block comments — including JSDoc (`/** ... */`).
 
 ## When a comment is worth writing
 
@@ -46,7 +46,6 @@ If none of those apply, the comment is decoration. Don't write it.
   ```ts
   // @ts-expect-error -- legacy api returns `any`; ticket #2010 to fix the swagger.
   ```
-- JSDoc on public functions/composables exposes the contract for autocomplete. Keep them tight; don't restate parameter names.
 
 ## Enforcement
 

@@ -2,8 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { OrganizationNodeViewModel } from './OrganizationNodeViewModel';
 export type OrganizationDto = {
-    Nodes?: Array<Record<string, any>>;
+    Nodes?: Array<OrganizationNodeViewModel>;
     Titles?: Array<Record<string, any>>;
     Members?: Array<Record<string, any>>;
 };
