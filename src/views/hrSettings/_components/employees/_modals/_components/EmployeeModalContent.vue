@@ -96,7 +96,7 @@ const employeesStore = useHRSettingsEmployeesStore();
 const titlesStore = useHRSettingsTitlesStore();
 const teamsStore = useHRSettingsTeamsStore();
 const { validationSchema, activeTab, isEditing } = useEmployeeModalValidation(props.data);
-const { handleSubmit, isSubmitting, resetForm } = useForm({
+const { handleSubmit, isSubmitting, resetForm, setFieldValue } = useForm({
   validationSchema,
 });
 
@@ -320,8 +320,11 @@ onMounted(() => {
 /**
  * When the user changes Role in Add mode, the supervisor-vs-employee
  * title pool flips, so re-seed the Title default for the new role.
- * Skip in Edit mode (we don't want to overwrite the operator's manual
- * change while the modal is open).
+ * Use `setFieldValue` instead of `resetForm` so the role field itself
+ * (and every other field the operator might have already touched)
+ * isn't wiped — resetting the role mid-change would round-trip
+ * through the FSelect's `syncVModel`, push `undefined` back into the
+ * parent `selectedRole`, and freeze the dropdown. Skip in Edit mode.
  */
 watch(
   () => selectedRole.value?.value,
@@ -329,11 +332,7 @@ watch(
     if (isEditing.value) return;
     if (newRoleValue === undefined || newRoleValue === oldRoleValue) return;
     const nextTitle = pickDefaultTitle(newRoleValue);
-    if (nextTitle) {
-      resetForm({
-        values: { ...(getInitialFormData.value as any), title: nextTitle },
-      });
-    }
+    if (nextTitle) setFieldValue('title', nextTitle);
   },
 );
 </script>
