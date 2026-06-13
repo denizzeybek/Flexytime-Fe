@@ -1,7 +1,14 @@
 <template>
   <div class="organization-chart-v2">
-    <OrganizationChartV2Toolbar @add-root-node="handleAddRootNode" />
-
+    <div class="w-full d-flex items-end">
+      <Button
+        class="w-fit"
+        :label="t('pages.company.organizationChartV2.buttons.addRootTeam')"
+        icon="pi pi-plus"
+        severity="primary"
+        @click="handleAddRootNode"
+      />
+    </div>
     <Card v-if="isLoading" class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl transition-colors">
       <template #content>
         <div class="flex items-center justify-center py-16">
@@ -96,7 +103,6 @@ import { useCompanyOrganizationChartsStore } from '@/stores/company/organization
 import NodeEditDialog from '../_components/organizationChart/NodeEditDialog.vue';
 import OrganizationChartDeleteDialog from '../_components/organizationChart/OrganizationChartDeleteDialog.vue';
 import OrganizationChartV2Node from '../_components/organizationChartV2/OrganizationChartV2Node.vue';
-import OrganizationChartV2Toolbar from '../_components/organizationChartV2/OrganizationChartV2Toolbar.vue';
 import {
   convertToFlowElements,
   type OrganizationFlowEdge,
@@ -259,10 +265,34 @@ const handleAddRootNode = () => {
   showEditDialog.value = true;
 };
 
+/**
+ * Strip the local-only `temp_*` ids the FE mints for unsaved nodes
+ * before posting. BE is defensive too (helpers.ts:upsertTeam matches
+ * the prefix), but a clean payload makes the wire shape obviously
+ * "this is a new node" and the BE doesn't have to reason about an id
+ * it cannot use.
+ */
+const stripTempIds = (
+  tree: OrganizationNodeViewModel[],
+): OrganizationNodeViewModel[] =>
+  tree.map((n) => ({
+    ...n,
+    ID: n.ID?.startsWith('temp_') ? undefined : n.ID,
+    children: n.children ? stripTempIds(n.children) : [],
+  }));
+
 const autoSave = async () => {
   try {
     isSaving.value = true;
-    await store.save({ Nodes: apiTreeData.value });
+    await store.save({ Nodes: stripTempIds(apiTreeData.value) });
+    /* Re-sync with the BE so temp ids in `apiTreeData` are replaced
+       with the persisted ObjectIds the BE just minted. Without this
+       a subsequent edit/delete of the same just-added node would post
+       the temp id again and create a duplicate row instead of editing
+       the already-persisted one. */
+    await store.filter();
+    apiTreeData.value = store.list ?? [];
+    refreshFlow();
   } catch (error) {
     showErrorMessage(error as Error);
   } finally {
