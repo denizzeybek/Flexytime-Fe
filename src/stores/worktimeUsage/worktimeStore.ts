@@ -457,33 +457,61 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
 
   actions: {
     /**
-     * Build Card data from profile — v2 `/clock/employee` no longer returns a
-     * Card block; the FE always derives it from the profile.
+     * Build Card data from the v2 ClockEmployeeIdentity block returned by
+     * `/clock/employee`. Falls back to the slim ProfileResponseDto fields
+     * (fullname / imageUrl) if the identity block is absent.
+     *
+     * Note: the v2 ProfileResponseDto has no `Employee` sub-object — it
+     * ships `fullname` and `imageUrl` at the top level. The legacy
+     * `GeneralProfile.Employee.*` path is always undefined in v2 and must
+     * NOT be used.
      */
-    buildCardFromProfile(): ICard | null {
+    buildCardFromEmployeeIdentity(identity: { Fullname?: string; Title?: string | null } | null): ICard | null {
       const profileStore = useProfileStore();
-      const employee = profileStore.GeneralProfile?.Employee;
-      if (!employee) return null;
+      // Prefer the identity block from /clock/employee (has Fullname + Title).
+      const name = identity?.Fullname || profileStore.GeneralProfile?.fullname || '';
+      if (!name) return null;
+      const title = identity?.Title ?? '';
+      // Build 2-letter abbreviation from the display name.
+      const abbreviation = name
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((w: string) => w[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase();
       return {
-        Abbreviation: employee.abbreviation || '',
-        Name: employee.fullname || '',
-        ImageUrl: employee.imageurl || '',
-        Title: employee.title || '',
+        Abbreviation: abbreviation,
+        Name: name,
+        ImageUrl: profileStore.GeneralProfile?.imageUrl || '',
+        Title: title,
       };
     },
 
-    buildBreadcrumbFromProfile(): IBreadcrumb[] {
+    buildBreadcrumbFromEmployeeIdentity(identity: { Fullname?: string } | null): IBreadcrumb[] {
       const profileStore = useProfileStore();
-      const employee = profileStore.GeneralProfile?.Employee;
-      if (!employee) return [];
+      const name = identity?.Fullname || profileStore.GeneralProfile?.fullname || '';
+      if (!name) return [];
       return [
         {
           id: 'employee',
-          title: employee.fullname || '',
+          title: name,
           path: '/clock',
           isLastElement: true,
         },
       ];
+    },
+
+    /**
+     * @deprecated Use buildCardFromEmployeeIdentity instead.
+     * Kept so any external callers don't break while transitioning.
+     */
+    buildCardFromProfile(): ICard | null {
+      return this.buildCardFromEmployeeIdentity(null);
+    },
+
+    buildBreadcrumbFromProfile(): IBreadcrumb[] {
+      return this.buildBreadcrumbFromEmployeeIdentity(null);
     },
 
     /**
@@ -554,8 +582,8 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         const response = await ClockService.clockControllerGetEmployee(cleanPayload);
 
         const transformed: IEmployeeResponse = {
-          Card: this.buildCardFromProfile(),
-          Breadcrumb: this.buildBreadcrumbFromProfile(),
+          Card: this.buildCardFromEmployeeIdentity(response.Employee ?? null),
+          Breadcrumb: this.buildBreadcrumbFromEmployeeIdentity(response.Employee ?? null),
           Summary: summaryObjectToArray(response.Summary),
           WellBeings: buildIndividualWellbeings(response.WellBeings ?? []),
           Distributions: distributionsToLegacy(response.Distribution ?? []),

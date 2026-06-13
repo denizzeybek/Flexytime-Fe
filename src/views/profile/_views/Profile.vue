@@ -23,53 +23,69 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { ERouteNames } from '@/router/routeNames.enum';
+import { useProfileStore } from '@/stores/profile/profile';
 
 import type { MessageSchema } from '@/plugins/i18n';
 
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n<{ message: MessageSchema }>();
+const profileStore = useProfileStore();
 
-const items = ref([
-  {
-    route: ERouteNames.ProfileBasic,
-    label: t('pages.profile.tabs.basic'),
-    method: () => {
-      router.push({ name: ERouteNames.ProfileBasic });
+// License and Calendar Integration tabs are admin-only.
+// Plain employees must not see them (they have no license management
+// capability and calendar OAuth is configured per-company, not per-user).
+const items = computed(() => {
+  const allTabs = [
+    {
+      route: ERouteNames.ProfileBasic,
+      label: t('pages.profile.tabs.basic'),
+      method: () => {
+        router.push({ name: ERouteNames.ProfileBasic });
+      },
     },
-  },
-  {
-    route: ERouteNames.ProfileLicense,
-    label: t('pages.profile.tabs.license'),
-    method: () => {
-      router.push({ name: ERouteNames.ProfileLicense });
+    ...(!profileStore.isEmployee
+      ? [
+          {
+            route: ERouteNames.ProfileLicense,
+            label: t('pages.profile.tabs.license'),
+            method: () => {
+              router.push({ name: ERouteNames.ProfileLicense });
+            },
+          },
+        ]
+      : []),
+    // {
+    //   route: ERouteNames.ProfileCommunication,
+    //   label: t('pages.profile.tabs.communications'),
+    //   method: () => {
+    //     router.push({ name: ERouteNames.ProfileCommunication });
+    //   },
+    // },
+    {
+      route: ERouteNames.ProfilePassword,
+      label: t('pages.profile.tabs.password'),
+      method: () => {
+        router.push({ name: ERouteNames.ProfilePassword });
+      },
     },
-  },
-  // {
-  //   route: ERouteNames.ProfileCommunication,
-  //   label: t('pages.profile.tabs.communications'),
-  //   method: () => {
-  //     router.push({ name: ERouteNames.ProfileCommunication });
-  //   },
-  // },
-  {
-    route: ERouteNames.ProfilePassword,
-    label: t('pages.profile.tabs.password'),
-    method: () => {
-      router.push({ name: ERouteNames.ProfilePassword });
-    },
-  },
-  {
-    route: ERouteNames.ProfileCalendarIntegrations,
-    label: t('pages.profile.tabs.calendarIntegrations'),
-    method: () => {
-      router.push({ name: ERouteNames.ProfileCalendarIntegrations });
-    },
-  },
-]);
+    ...(!profileStore.isEmployee
+      ? [
+          {
+            route: ERouteNames.ProfileCalendarIntegrations,
+            label: t('pages.profile.tabs.calendarIntegrations'),
+            method: () => {
+              router.push({ name: ERouteNames.ProfileCalendarIntegrations });
+            },
+          },
+        ]
+      : []),
+  ];
+  return allTabs;
+});
 </script>
