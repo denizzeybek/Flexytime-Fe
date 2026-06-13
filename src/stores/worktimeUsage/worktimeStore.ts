@@ -315,6 +315,11 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * `LeaveType` / `Summary{Work,Meeting,Leisure,Unclassified,StartTime,
      * EndTime}` directly — the table reads `EmployeeName`, `Start.time`,
      * `Work.time` etc., so we widen each row.
+     *
+     * Note: this is the FULL roster (all employees, ungrouped by team). The
+     * drill-down (`getIndividualsForTeam`) filters this list by `TeamId` so
+     * the Team→Employees navigation runs entirely client-side — no extra BE
+     * hit, the data is already in `Individuals[]`.
      */
     getIndividuals: (state) => {
       const teamNameById = new Map(
@@ -323,9 +328,10 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       return (state.sectionData?.Individuals ?? []).map((row) => ({
         ID: row.UserId,
         EmployeeName: row.Fullname ?? '',
-        Employee: { MemberUrl: '', ImageUrl: null },
+        Employee: { MemberUrl: row.UserId, ImageUrl: null },
         TeamName: row.TeamId ? (teamNameById.get(row.TeamId) ?? '') : '',
         Team: row.TeamId ? { TeamId: row.TeamId, ImageUrl: null } : null,
+        TeamId: row.TeamId ?? null,
         Availability: row.Availability,
         OnLeave: row.OnLeave,
         LeaveType: row.LeaveType ?? '',
@@ -361,6 +367,35 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       })),
 
     /**
+     * Drill-down row 1 — the **Company** aggregate, shaped like a team row so
+     * the same TeamProductivityTable / TeamWellbeingTable markup can render
+     * it. The Company row carries the page-level `Summary` (which IS the
+     * company-wide rollup the BE already returns) and uses the sentinel ID
+     * `__company__` so the click handler can drill back to the root.
+     *
+     * Restored from legacy v1 (SectionWorktime.vue) where the worktime usage
+     * page started at the Company root and the user drilled Company → Team →
+     * Employee. v2 dropped that top-level row when the page was reshaped;
+     * this getter brings it back without any BE change.
+     */
+    getCompanyRow: (state) => {
+      const data = state.sectionData;
+      if (!data) return null;
+      return {
+        ID: '__company__',
+        TeamName: data.Company?.Name ?? '',
+        SupervisorName: '',
+        Supervisor: undefined,
+        Start: clockTimeCell(data.Summary.StartTime),
+        End: clockTimeCell(data.Summary.EndTime),
+        Work: statCell(data.Summary.Work),
+        Leisure: statCell(data.Summary.Leisure),
+        Meeting: statCell(data.Summary.Meeting),
+        Unclassified: statCell(data.Summary.Unclassified),
+      };
+    },
+
+    /**
      * Legacy-shape adapter views over the v2 ClockSectionResponse so the
      * existing index.vue + BadgeGroup + DistributionTab markup keeps
      * rendering. Mirrors what the employee fetch builds inline.
@@ -377,14 +412,19 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       buildWellBeingGraphs(state.sectionData?.WellBeingGraph ?? []),
 
     /**
-     * Section-mode Card: derived from the v2 response's Company + Teams
-     * because the section view at the worktime root is always "current
-     * team/department". The avatar's `ImageUrl` stays empty (the BE only
-     * gives names); UserBadge falls back to the abbreviation initials.
+     * Section-mode Card: at the **root** (no `teamId` in URL) shows the
+     * Company badge; when drilled into a team, shows that team's badge with
+     * the company name as the subtitle. Restoring the legacy v1 worktime
+     * usage badge behaviour where the user always saw "where they are" at a
+     * glance. The avatar's `ImageUrl` stays empty (the BE only gives
+     * names); UserBadge falls back to the abbreviation initials.
      */
     sectionCard: (state): ICard | null => {
-      const team = state.sectionData?.Teams?.[0];
       const companyName = state.sectionData?.Company?.Name ?? '';
+      const currentTeamId = state.lastSectionRequest?.TeamId ?? null;
+      const team = currentTeamId
+        ? (state.sectionData?.Teams ?? []).find((t) => t.TeamId === currentTeamId)
+        : null;
       const label = team?.Name ?? companyName;
       if (!label) return null;
       const abbreviation = label
@@ -398,31 +438,49 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         Abbreviation: abbreviation,
         Name: label,
         ImageUrl: '',
-        Title: companyName && team?.Name && companyName !== team.Name ? companyName : '',
+        Title: team ? companyName : '',
       };
     },
 
     /**
-     * Section-mode Breadcrumb: a single leaf segment whose label is the
-     * current team (or, at the root, the company) name. PrimeVue's
-     * `<PBreadcrumb>` renders the home-icon segment itself via the
-     * `home` prop — we only ever return the trail under it. The legacy
-     * BE used to ship a server-built BreadCrumb[]; v2 dropped that, so
-     * the FE derives the trail from the Company + Teams blocks.
+     * Section-mode Breadcrumb: at the **root** (no `teamId` filter from the
+     * URL) shows a single Company segment; when drilled into a team it shows
+     * `Company → Team`. PrimeVue's `<PBreadcrumb>` renders the home-icon
+     * segment itself via the `home` prop — we only return the trail under
+     * it. The legacy BE used to ship a server-built BreadCrumb[]; v2 dropped
+     * that, so the FE derives the trail from the Company + Teams blocks +
+     * the URL's `teamId` parameter.
+     *
+     * `lastSectionRequest.TeamId` reflects what was actually fetched, which
+     * matches the URL — that's our single source of truth for "where the
+     * user has drilled to". The `__company__` sentinel ID on the root
+     * segment is what the breadcrumb click handler watches for to navigate
+     * back to the root.
      */
     sectionBreadcrumb: (state): IBreadcrumb[] => {
-      const team = state.sectionData?.Teams?.[0];
       const companyName = state.sectionData?.Company?.Name ?? '';
-      const leafName = team?.Name ?? companyName;
-      if (!leafName) return [];
-      return [
+      if (!companyName) return [];
+      const currentTeamId = state.lastSectionRequest?.TeamId ?? null;
+      const team = currentTeamId
+        ? (state.sectionData?.Teams ?? []).find((t) => t.TeamId === currentTeamId)
+        : null;
+      const crumbs: IBreadcrumb[] = [
         {
-          id: team?.TeamId ?? 'company',
-          title: leafName,
+          id: '__company__',
+          title: companyName,
           path: '/clock',
-          isLastElement: true,
+          isLastElement: team === null || team === undefined,
         },
       ];
+      if (team) {
+        crumbs.push({
+          id: team.TeamId,
+          title: team.Name ?? '',
+          path: '/clock',
+          isLastElement: true,
+        });
+      }
+      return crumbs;
     },
 
     isSectionLoading: (state): boolean => state.loading.section,

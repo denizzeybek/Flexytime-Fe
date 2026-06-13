@@ -13,10 +13,16 @@ export function useWorktimeNavigation() {
   const { navigateToTeam, navigateToIndividual } = useWorktimeQuery();
 
   /**
-   * Handle department/team name click
-   * Navigates to that team's view
+   * Handle department/team name click. Navigates to that team's view,
+   * unless the sentinel `__company__` ID is passed (top-level Company row
+   * in the drill-down ladder, or the Company breadcrumb segment) — in which
+   * case we navigate back to the section root with `teamId` cleared.
    */
   const handleTeamClick = (teamId: string) => {
+    if (teamId === '__company__') {
+      navigateToTeam(null);
+      return;
+    }
     navigateToTeam(teamId);
   };
 

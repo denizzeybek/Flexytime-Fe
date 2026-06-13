@@ -14,23 +14,25 @@
       :is-loading="isLoading"
     />
 
-    <!-- Team View with displayMode toggle -->
+    <!-- Team View with Company → Team → Employee drill-down ladder (mirrors
+         ProductivityTab). Restored from legacy v1: user lands on the
+         Company row at the top of the team table, clicks a team to drill
+         into its employees, clicks the Company breadcrumb segment to come
+         back up. -->
     <template v-else-if="viewMode === 'team'">
-      <!-- Show teams ONLY when there are 2+ sub-teams to drill into. With a
-           single team the section is effectively a leaf — the legacy UI
-           fell through to the employees table in that case (matches what
-           users expect post RESHAPED-v2). -->
-      <TeamWellbeingTable
-        v-if="displayMode === 'team' && (isLoading || teams.length > 1)"
-        :teams="teams"
+      <!-- Drilled INTO a specific team: show its employees. During re-fetch
+           we render the employees table skeleton, matching the level the
+           user is navigating to. -->
+      <EmployeeWellbeingTable
+        v-if="currentTeamId"
+        :individuals="filteredIndividuals"
         :is-loading="isLoading"
       />
 
-      <!-- Show individuals when displayMode is 'employees', the level is a
-           leaf (zero or one teams), or no teams exist at all. -->
-      <EmployeeWellbeingTable
-        v-else-if="isLoading || (displayMode === 'employees' && individuals.length > 0) || (teams.length <= 1 && individuals.length > 0)"
-        :individuals="individuals"
+      <!-- Root level: Company row pinned on top + per-team rows. -->
+      <TeamWellbeingTable
+        v-else-if="isLoading || teamRowsWithCompany.length > 0"
+        :teams="teamRowsWithCompany"
         :is-loading="isLoading"
       />
 
@@ -44,11 +46,14 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import NoDataState from '@/components/common/NoDataState.vue';
 import { type MessageSchema } from '@/plugins/i18n';
+import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
 
+import { useWorktimeQuery } from '../../_composables';
 import IndividualWellbeingCard from '../cards/IndividualWellbeingCard.vue';
 import EmployeeWellbeingTable from '../tables/EmployeeWellbeingTable.vue';
 import TeamWellbeingTable from '../tables/TeamWellbeingTable.vue';
@@ -64,7 +69,7 @@ interface IProps {
   isLoading?: boolean;
 }
 
-withDefaults(defineProps<IProps>(), {
+const props = withDefaults(defineProps<IProps>(), {
   displayMode: 'team',
   teams: () => [],
   individuals: () => [],
@@ -73,4 +78,24 @@ withDefaults(defineProps<IProps>(), {
 });
 
 const { t } = useI18n<{ message: MessageSchema }>();
+const { currentQuery } = useWorktimeQuery();
+const store = useWorktimeStore();
+
+const currentTeamId = computed(() => currentQuery.value.teamId ?? null);
+
+const teamRowsWithCompany = computed<ITeam[]>(() => {
+  const companyRow = store.getCompanyRow as ITeam | null;
+  const rows: ITeam[] = [];
+  if (companyRow) rows.push(companyRow);
+  for (const t of props.teams) rows.push(t);
+  return rows;
+});
+
+const filteredIndividuals = computed<IIndividual[]>(() => {
+  if (!currentTeamId.value) return props.individuals;
+  return props.individuals.filter((row) => {
+    const teamRef = row as IIndividual & { TeamId?: string | null };
+    return teamRef.TeamId === currentTeamId.value;
+  });
+});
 </script>
