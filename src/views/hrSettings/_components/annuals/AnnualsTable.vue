@@ -43,21 +43,21 @@
         <FText v-else>{{ slotProps.data.Days }}</FText>
       </template>
     </Column>
-    <Column sortable field="StartDate" :header="t('pages.hrSettings.annualsTable.columns.startDate')">
+    <Column sortable field="Start" :header="t('pages.hrSettings.annualsTable.columns.startDate')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <div v-else class="flex flex-col items-start gap-2">
-          <FText>{{ slotProps.data.StartDate }}</FText>
-          <FText>{{ slotProps.data.StartTime }}</FText>
+          <FText>{{ formatDate(slotProps.data.Start, slotProps.data.StartFullDay) }}</FText>
+          <FText v-if="!slotProps.data.StartFullDay">{{ formatTime(slotProps.data.Start) }}</FText>
         </div>
       </template>
     </Column>
-    <Column sortable field="EndDate" :header="t('pages.hrSettings.annualsTable.columns.endDate')">
+    <Column sortable field="End" :header="t('pages.hrSettings.annualsTable.columns.endDate')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
         <div v-else class="flex flex-col items-start gap-2">
-          <FText>{{ slotProps.data.EndDate }}</FText>
-          <FText>{{ slotProps.data.EndTime }}</FText>
+          <FText>{{ formatDate(slotProps.data.End, slotProps.data.EndFullDay) }}</FText>
+          <FText v-if="!slotProps.data.EndFullDay">{{ formatTime(slotProps.data.End) }}</FText>
         </div>
       </template>
     </Column>
@@ -86,10 +86,27 @@ import { computed,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
 import { FilterMatchMode } from '@primevue/core/api';
 import Skeleton from 'primevue/skeleton';
 
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
+
+dayjs.extend(utc);
+
+// RESHAPED-v2: BE returns Start/End as UTC ISO 8601 instants (Rule 13).
+// Full-day leaves: render the calendar day in UTC (date-only semantics — Rule 13 bucket #3).
+// Half-day leaves: render the wall-clock the user picked (no zone conversion — local).
+const formatDate = (iso: string | undefined, fullDay: boolean | undefined): string => {
+  if (!iso) return '';
+  return fullDay ? dayjs(iso).utc().format('DD.MM.YYYY') : dayjs(iso).format('DD.MM.YYYY');
+};
+const formatTime = (iso: string | undefined): string => {
+  if (!iso) return '';
+  return dayjs(iso).format('HH:mm');
+};
 import { EOptionsDropdown } from '@/enums/optionsDropdown.enum';
 import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
@@ -122,8 +139,8 @@ const filters = ref({
   MemberName: { value: null, matchMode: FilterMatchMode.CONTAINS },
   LeaveType: { value: null, matchMode: FilterMatchMode.CONTAINS },
   Days: { value: null, matchMode: FilterMatchMode.EQUALS },
-  StartDate: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  EndDate: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  Start: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  End: { value: null, matchMode: FilterMatchMode.CONTAINS },
   Salary: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
@@ -170,9 +187,9 @@ const skeletonData = createSkeletonData(5, {
   MemberName: '',
   LeaveType: '',
   Days: '',
-  StartDate: '',
-  StartTime: '',
-  EndDate: '',
-  EndTime: '',
+  Start: '',
+  End: '',
+  StartFullDay: true,
+  EndFullDay: true,
 });
 </script>
