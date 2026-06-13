@@ -18,12 +18,14 @@ export function useWorktimeQuery() {
    * Get current query parameters from URL
    */
   const currentQuery = computed((): IWorktimeQuery => {
+    const fallback = todayUtcWindow();
     return {
       view: (route.query.view as ViewMode) || 'team',
       tab: (route.query.tab as TabType) || getDefaultTab((route.query.view as ViewMode) || 'team'),
       teamId: route.query.teamId as string | null | undefined,
       memberId: route.query.memberId as string | null | undefined,
-      interval: (route.query.interval as string) || getDefaultInterval(),
+      startDate: (route.query.startDate as string) || fallback.startDate,
+      endDate: (route.query.endDate as string) || fallback.endDate,
       perspective: (route.query.perspective as string) || '0',
     };
   });
@@ -41,16 +43,16 @@ export function useWorktimeQuery() {
   };
 
   /**
-   * Get default interval (today)
-   * Format: DD.MM.YYYY-1 (1 = bugün)
+   * Default window = "today UTC, single day", expressed as
+   * `start = today 00:00 UTC` (inclusive) and `end = tomorrow 00:00 UTC`
+   * (exclusive). Returning ISO strings keeps the URL query stable
+   * (`?startDate=...&endDate=...`) and matches the BE contract verbatim.
    */
-  const getDefaultInterval = (): string => {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const year = today.getFullYear();
-
-    return `${day}.${month}.${year}-1`;
+  const todayUtcWindow = (): { startDate: string; endDate: string } => {
+    const now = new Date();
+    const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
+    return { startDate: start.toISOString(), endDate: end.toISOString() };
   };
 
   /**
@@ -120,10 +122,11 @@ export function useWorktimeQuery() {
   };
 
   /**
-   * Update interval (date range)
+   * Update the date-range window. Both args are ISO 8601 strings; `endDate`
+   * is exclusive (start of the day AFTER the user-selected end).
    */
-  const updateInterval = async (interval: string) => {
-    await updateQuery({ interval });
+  const updateDateRange = async (startDate: string, endDate: string) => {
+    await updateQuery({ startDate, endDate });
   };
 
   /**
@@ -143,9 +146,9 @@ export function useWorktimeQuery() {
     navigateToEmployees,
     navigateToIndividual,
     changeTab,
-    updateInterval,
+    updateDateRange,
     updatePerspective,
     getDefaultTab,
-    getDefaultInterval,
+    todayUtcWindow,
   };
 }

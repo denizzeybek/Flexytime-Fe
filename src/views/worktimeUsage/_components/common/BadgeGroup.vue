@@ -62,7 +62,16 @@ const badgeList = computed<IBadgeData[]>(() => {
   }
 
   return props.summary
-    .map((item) => mapStatisticTypeToBadge(item.statisticType ?? '', formatDuration(item.time)))
+    .map((item) => {
+      const type = (item.statisticType ?? '').toLowerCase();
+      // Start/End badges carry a wall-clock instant ("08:30"), pre-formatted
+      // by the worktime store adapter. Running them through `formatDuration`
+      // would mis-interpret them as a duration (→ "8h 30m"); pass through raw.
+      const isClockTime =
+        type === EStatisticType.START_TIME || type === EStatisticType.END_TIME;
+      const value = isClockTime ? (item.time || '-') : formatDuration(item.time);
+      return mapStatisticTypeToBadge(type, value);
+    })
     .filter((item): item is IBadgeData => item !== null);
 });
 

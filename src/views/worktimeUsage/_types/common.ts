@@ -34,7 +34,10 @@ export interface IWorktimeQuery {
   tab: TabType;
   teamId?: string | null;
   memberId?: string | null;
-  interval: string;
+  /** Inclusive start of the date-picker window, as ISO 8601 (start-of-day UTC). */
+  startDate: string;
+  /** Exclusive end of the date-picker window (start of next day), ISO 8601 UTC. */
+  endDate: string;
   perspective: string;
 }
 

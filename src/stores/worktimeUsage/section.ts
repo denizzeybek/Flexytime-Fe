@@ -17,10 +17,10 @@ import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type {
   ClockDistribution,
-  ClockEmployeeRequest,
+  ClockEmployeeRequestDto,
   ClockEmployeeResponse,
   ClockProductivityDay,
-  ClockSectionRequest,
+  ClockSectionRequestDto,
   ClockSectionResponse,
   ClockTeamSummary,
   WebClockModifyModel,
@@ -53,7 +53,7 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
     WebClocks: (state) => state.employee?.WebClocks ?? [],
   },
   actions: {
-    async filter(payload: ClockSectionRequest) {
+    async filter(payload: ClockSectionRequestDto) {
       this.isLoading = true;
       try {
         const response = await ClockService.clockControllerGetSection(payload);
@@ -63,10 +63,10 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
         this.isLoading = false;
       }
     },
-    async filterSection(payload: ClockSectionRequest) {
+    async filterSection(payload: ClockSectionRequestDto) {
       return this.filter(payload);
     },
-    async filterEmployee(payload: ClockEmployeeRequest) {
+    async filterEmployee(payload: ClockEmployeeRequestDto) {
       this.isLoading = true;
       try {
         const response = await ClockService.clockControllerGetEmployee(payload);

@@ -4,7 +4,9 @@
 /* eslint-disable */
 import type { ClockActivitiesRequestDto } from '../models/ClockActivitiesRequestDto';
 import type { ClockActivitiesResponse } from '../models/ClockActivitiesResponse';
+import type { ClockEmployeeRequestDto } from '../models/ClockEmployeeRequestDto';
 import type { ClockEmployeeResponse } from '../models/ClockEmployeeResponse';
+import type { ClockSectionRequestDto } from '../models/ClockSectionRequestDto';
 import type { ClockSectionResponse } from '../models/ClockSectionResponse';
 import type { PerformReferenceDto } from '../models/PerformReferenceDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -25,25 +27,35 @@ export class ClockService {
     /**
      * Return a clock section (group of employees + their current clock state)
      * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (Summary object not array, seconds not "HH:mm", string-enum codes e.g. Domain "Work" / WellBeing "Overtime", no charts/labels). FE refactor required. See docs/worktime-redesign.md.
+     * @param requestBody
      * @returns ClockSectionResponse
      * @throws ApiError
      */
-    public static clockControllerGetSection(): CancelablePromise<ClockSectionResponse> {
+    public static clockControllerGetSection(
+        requestBody: ClockSectionRequestDto,
+    ): CancelablePromise<ClockSectionResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/clock/section',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
      * Return clock detail for a single employee
      * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (no Model wrapper / Days[]; flat Employee+Summary+Distribution+WellBeings+ProductivityGraph, raw seconds + string-enum codes e.g. Domain "Work" / WellBeing "Overtime"). FE refactor required. See docs/worktime-redesign.md.
+     * @param requestBody
      * @returns ClockEmployeeResponse
      * @throws ApiError
      */
-    public static clockControllerGetEmployee(): CancelablePromise<ClockEmployeeResponse> {
+    public static clockControllerGetEmployee(
+        requestBody: ClockEmployeeRequestDto,
+    ): CancelablePromise<ClockEmployeeResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/clock/employee',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**

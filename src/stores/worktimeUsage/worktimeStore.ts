@@ -28,9 +28,9 @@ import { useProfileStore } from '@/stores/profile/profile';
 
 import type {
   ClockDistribution,
-  ClockEmployeeRequest,
+  ClockEmployeeRequestDto,
   ClockEmployeeResponse,
-  ClockSectionRequest,
+  ClockSectionRequestDto,
   ClockSectionResponse,
   WebClockModifyModel,
 } from '@/client';
@@ -67,8 +67,8 @@ interface State {
   error: IErrorState;
 
   // Last request payloads for caching logic
-  lastSectionRequest: ClockSectionRequest | null;
-  lastEmployeeRequest: ClockEmployeeRequest | null;
+  lastSectionRequest: ClockSectionRequestDto | null;
+  lastEmployeeRequest: ClockEmployeeRequestDto | null;
 }
 
 /**
@@ -82,6 +82,24 @@ interface LegacyStatCell {
 }
 function statCell(seconds: number | null | undefined): LegacyStatCell {
   return { time: String(seconds ?? 0) };
+}
+
+/**
+ * Format seconds-since-midnight as `HH:mm` clock time (e.g. 30600 → "08:30").
+ * Used for Start/End columns and badges, which carry a wall-clock instant
+ * for the day rather than a duration. Returns "-" for null/zero/invalid so
+ * the table cell stays readable when the shift bound is unknown.
+ */
+function secondsToClockTime(seconds: number | null | undefined): string {
+  if (seconds == null || !Number.isFinite(seconds) || seconds <= 0) return '-';
+  const total = Math.round(seconds);
+  const h = Math.floor(total / 3600) % 24;
+  const m = Math.floor((total % 3600) / 60);
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+}
+
+function clockTimeCell(seconds: number | null | undefined): LegacyStatCell {
+  return { time: secondsToClockTime(seconds) };
 }
 
 /**
@@ -101,8 +119,10 @@ function summaryObjectToArray(
   // v2: `Start*`/`End*` are seconds-since-midnight (legacy ConvertSummary
   // averages). The badge component matches on the lowercase statisticType
   // 'starttime' / 'endtime' (see EStatisticType + BadgeGroup.mapStatistic-
-  // TypeToBadge). The legacy summary surfaced 6 badges; v2 keeps the same
-  // semantics, we just need to expand the object back into the array.
+  // TypeToBadge). Work/Meeting/Leisure/Unclassified stay as raw seconds —
+  // the badge runs them through `formatDuration` for the "8h 30m" label.
+  // Start/End are pre-formatted to "HH:mm" here so the badge bypasses
+  // the duration formatter and surfaces a real clock time.
   const start = summary.StartTime ?? summary.Start ?? null;
   const end = summary.EndTime ?? summary.End ?? null;
   return [
@@ -114,8 +134,8 @@ function summaryObjectToArray(
       statisticType: 'unclassified',
       time: String(summary.Unclassified ?? 0),
     },
-    { id: 'starttime', statisticType: 'starttime', time: String(start ?? 0) },
-    { id: 'endtime', statisticType: 'endtime', time: String(end ?? 0) },
+    { id: 'starttime', statisticType: 'starttime', time: secondsToClockTime(start) },
+    { id: 'endtime', statisticType: 'endtime', time: secondsToClockTime(end) },
   ];
 }
 
@@ -178,14 +198,20 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       return (state.sectionData?.Individuals ?? []).map((row) => ({
         ID: row.UserId,
         EmployeeName: row.Fullname ?? '',
+        // Legacy tables render the name/team columns only when `Employee` /
+        // `Team` are truthy (v-else-if without v-else). v2 doesn't ship rich
+        // MemberUrl/ImageUrl, so we inject a minimal object — avatar falls
+        // back to initials, click is a no-op while MemberUrl is empty.
+        Employee: { MemberUrl: '', ImageUrl: null },
         TeamName: row.TeamId ? (teamNameById.get(row.TeamId) ?? '') : '',
+        Team: row.TeamId ? { TeamId: row.TeamId, ImageUrl: null } : null,
         Availability: row.Availability,
         OnLeave: row.OnLeave,
         LeaveType: row.LeaveType ?? '',
         Tags: [],
         TagsDisplay: '',
-        Start: statCell(row.Summary.StartTime),
-        End: statCell(row.Summary.EndTime),
+        Start: clockTimeCell(row.Summary.StartTime),
+        End: clockTimeCell(row.Summary.EndTime),
         Work: statCell(row.Summary.Work),
         Leisure: statCell(row.Summary.Leisure),
         Meeting: statCell(row.Summary.Meeting),
@@ -209,8 +235,8 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         // fine; the FE will follow up with a fan-out to populate names.
         SupervisorName: '',
         Supervisor: undefined,
-        Start: statCell(row.Summary.StartTime),
-        End: statCell(row.Summary.EndTime),
+        Start: clockTimeCell(row.Summary.StartTime),
+        End: clockTimeCell(row.Summary.EndTime),
         Work: statCell(row.Summary.Work),
         Leisure: statCell(row.Summary.Leisure),
         Meeting: statCell(row.Summary.Meeting),
@@ -320,12 +346,12 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * `ClockSectionResponse` directly (no Sections[] wrapper).
      */
     async fetchSectionData(
-      payload: ClockSectionRequest,
+      payload: ClockSectionRequestDto,
       force = false,
     ): Promise<ClockSectionResponse | null> {
       if (!force && this.lastSectionRequest && this.sectionData) {
         const isSameRequest =
-          this.lastSectionRequest.Date === payload.Date &&
+          this.lastSectionRequest.Perspective === payload.Perspective &&
           this.lastSectionRequest.StartDate === payload.StartDate &&
           this.lastSectionRequest.EndDate === payload.EndDate &&
           this.lastSectionRequest.TeamId === payload.TeamId &&
@@ -357,18 +383,18 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * `IEmployeeResponse` shape for the existing tab components.
      */
     async fetchEmployeeData(
-      payload: ClockEmployeeRequest,
+      payload: ClockEmployeeRequestDto,
       force = false,
     ): Promise<IEmployeeResponse | null> {
       // Extract just the ID from MemberId if it contains a full path
       const cleanMemberId = payload.MemberId?.includes('/')
         ? payload.MemberId.split('/').pop() || payload.MemberId
         : payload.MemberId;
-      const cleanPayload: ClockEmployeeRequest = { ...payload, MemberId: cleanMemberId };
+      const cleanPayload: ClockEmployeeRequestDto = { ...payload, MemberId: cleanMemberId };
 
       if (!force && this.lastEmployeeRequest && this.employeeData) {
         const isSameRequest =
-          this.lastEmployeeRequest.Date === cleanPayload.Date &&
+          this.lastEmployeeRequest.Perspective === cleanPayload.Perspective &&
           this.lastEmployeeRequest.StartDate === cleanPayload.StartDate &&
           this.lastEmployeeRequest.EndDate === cleanPayload.EndDate &&
           this.lastEmployeeRequest.MemberId === cleanPayload.MemberId &&

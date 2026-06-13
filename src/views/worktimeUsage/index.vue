@@ -287,11 +287,10 @@ const fetchData = async () => {
     errorMessage.value = null;
 
     if (currentQuery.value.view === 'individual') {
-      // Fetch individual data
-      // MemberId can be null/undefined - backend will return current user's data from auth token
       await store.fetchEmployeeData({
         Perspective: currentQuery.value.perspective,
-        Interval: currentQuery.value.interval,
+        StartDate: currentQuery.value.startDate,
+        EndDate: currentQuery.value.endDate,
         MemberId: currentQuery.value.memberId ?? undefined,
       });
 
@@ -299,10 +298,10 @@ const fetchData = async () => {
         errorMessage.value = store.getEmployeeError;
       }
     } else {
-      // Fetch section data (team or employees view)
       await store.fetchSectionData({
         Perspective: currentQuery.value.perspective,
-        Interval: currentQuery.value.interval,
+        StartDate: currentQuery.value.startDate,
+        EndDate: currentQuery.value.endDate,
         TeamId: currentQuery.value.teamId ?? undefined,
       });
 

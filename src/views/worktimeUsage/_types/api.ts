@@ -3,8 +3,8 @@
  */
 
 import type {
-  ClockEmployeeRequest,
-  ClockSectionRequest,
+  ClockEmployeeRequestDto,
+  ClockSectionRequestDto,
 } from '@/client';
 
 // ============================================
@@ -15,13 +15,13 @@ import type {
  * Request payload for /clock/section endpoint
  * Used for Team and Department views, also provides Individuals data
  */
-export type ISectionRequest = ClockSectionRequest;
+export type ISectionRequest = ClockSectionRequestDto;
 
 /**
  * Request payload for /clock/employee endpoint
  * Used for Individual employee view
  */
-export type IEmployeeRequest = ClockEmployeeRequest;
+export type IEmployeeRequest = ClockEmployeeRequestDto;
 
 import type {
   CardViewModel,

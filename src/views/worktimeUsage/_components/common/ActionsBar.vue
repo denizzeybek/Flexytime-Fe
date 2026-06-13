@@ -64,7 +64,7 @@ interface IEmits {
 const emit = defineEmits<IEmits>();
 const { t } = useI18n();
 
-const { currentQuery, updateInterval, updatePerspective } = useWorktimeQuery();
+const { currentQuery, updateDateRange, updatePerspective } = useWorktimeQuery();
 const { canAccessWorktimeUsage } = useAuthorization();
 const { dateFormat } = useDateFormat();
 
@@ -90,22 +90,23 @@ const selectedPerspective = ref(
 
 const handleDateChange = (value: Date | Date[] | (Date | null)[] | null | undefined): void => {
   if (value && Array.isArray(value) && value.length === 2 && value[0] && value[1]) {
-    const startDate = value[0] as Date;
-    const endDate = value[1] as Date;
+    const startLocal = value[0] as Date;
+    const endLocal = value[1] as Date;
 
-    // Calculate difference in days
-    const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include end date
+    // The DatePicker hands us local-zone Dates clamped to midnight. The BE
+    // contract is `start` (inclusive, UTC 00:00 of the picked day) and
+    // `end` (exclusive, UTC 00:00 of the day AFTER the picked end). Build
+    // those instants directly from the calendar fields so the URL/query
+    // round-trips deterministically regardless of the viewer's offset.
+    const startUtc = new Date(
+      Date.UTC(startLocal.getFullYear(), startLocal.getMonth(), startLocal.getDate()),
+    );
+    const endUtc = new Date(
+      Date.UTC(endLocal.getFullYear(), endLocal.getMonth(), endLocal.getDate() + 1),
+    );
 
-    // Format: DD.MM.YYYY-{days} using startDate
-    const day = String(startDate.getDate()).padStart(2, '0');
-    const month = String(startDate.getMonth() + 1).padStart(2, '0');
-    const year = startDate.getFullYear();
+    updateDateRange(startUtc.toISOString(), endUtc.toISOString());
 
-    const interval = `${day}.${month}.${year}-${diffDays}`;
-    updateInterval(interval);
-
-    // Hide datepicker after both dates are selected
     if (datePicker.value) {
       datePicker.value.overlayVisible = false;
     }
@@ -120,38 +121,27 @@ const handleDownload = () => {
   emit('download');
 };
 
-// Parse interval string to date range
-const parseIntervalToDateRange = (interval: string | undefined): Date[] => {
-  if (!interval) {
-    // Default: today only
-    const today = new Date();
-    return [today, today];
-  }
-
-  const [dateStr, daysStr] = interval.split('-');
-  const days = parseInt(daysStr, 10);
-
-  // Parse DD.MM.YYYY as startDate
-  const [day, month, year] = dateStr.split('.').map(Number);
-  const startDate = new Date(year, month - 1, day);
-
-  // Calculate end date
-  const endDate = new Date(startDate);
-  endDate.setDate(endDate.getDate() + (days - 1)); // -1 because days includes start date
-
-  return [startDate, endDate];
+// Translate the URL window (`startDate` inclusive UTC, `endDate` exclusive
+// UTC) back into the two-Date tuple the DatePicker expects. End is the day
+// BEFORE `endDate` so the calendar highlights the inclusive picked range.
+const isoWindowToDateRange = (startIso: string, endIso: string): Date[] => {
+  const start = new Date(startIso);
+  const end = new Date(endIso);
+  const inclusiveEnd = new Date(end.getTime() - 24 * 60 * 60 * 1000);
+  return [start, inclusiveEnd];
 };
 
-// Watch for query changes and update datepicker
 watch(
-  () => currentQuery.value.interval,
-  (newInterval) => {
-    dateRange.value = parseIntervalToDateRange(newInterval);
+  () => [currentQuery.value.startDate, currentQuery.value.endDate],
+  ([newStart, newEnd]) => {
+    dateRange.value = isoWindowToDateRange(newStart, newEnd);
   },
 );
 
-// Initialize date range from query
 onMounted(() => {
-  dateRange.value = parseIntervalToDateRange(currentQuery.value.interval);
+  dateRange.value = isoWindowToDateRange(
+    currentQuery.value.startDate,
+    currentQuery.value.endDate,
+  );
 });
 </script>
