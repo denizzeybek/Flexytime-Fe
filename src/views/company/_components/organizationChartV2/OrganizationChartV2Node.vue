@@ -82,9 +82,8 @@ import Avatar from 'primevue/avatar';
 import Button from 'primevue/button';
 import Tag from 'primevue/tag';
 
-import type { MessageSchema } from '@/plugins/i18n';
-
 import type { IOrganizationNodeData } from '../../_types/organizationChartV2';
+import type { MessageSchema } from '@/plugins/i18n';
 import type { NodeProps } from '@vue-flow/core';
 
 const props = defineProps<NodeProps<IOrganizationNodeData>>();

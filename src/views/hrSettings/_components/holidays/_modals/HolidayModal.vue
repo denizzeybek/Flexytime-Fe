@@ -70,16 +70,17 @@
 import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { useForm } from 'vee-validate';
-import { boolean, object, string } from 'yup';
-
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { useForm } from 'vee-validate';
+import { boolean, object, string } from 'yup';
 
 import { useModalForm } from '@/composables/useModalFormInit';
 import { useOperationFeedback } from '@/composables/useOperationFeedback';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
+
+const props = defineProps<IProps>();
 
 dayjs.extend(utc);
 
@@ -95,8 +96,6 @@ import type { HolidayDto } from '@/client';
 interface IProps {
   data?: HolidayDto;
 }
-
-const props = defineProps<IProps>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { executeWithFeedback } = useOperationFeedback({ showLoading: false });

@@ -197,6 +197,8 @@ const handlePlanSelect = (plan: PricingPlan) => {
 
 const handlePaymentSuccess = (_paymentIntentId: string) => {
   paymentSuccess.value = true;
+    console.log(_paymentIntentId);
+
   showSuccessMessage(t('pages.payment.success.message'));
 };
 

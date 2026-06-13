@@ -77,16 +77,17 @@
 import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { useForm } from 'vee-validate';
-import { boolean, object, string } from 'yup';
-
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { useForm } from 'vee-validate';
+import { boolean, object, string } from 'yup';
 
 import { useModalForm } from '@/composables/useModalFormInit';
 import { useOperationFeedback } from '@/composables/useOperationFeedback';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
+
+const props = defineProps<IProps>();
 
 dayjs.extend(utc);
 
@@ -102,8 +103,6 @@ import type { AnnualDto } from '@/client';
 interface IProps {
   data?: AnnualDto;
 }
-
-const props = defineProps<IProps>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { executeWithFeedback } = useOperationFeedback({ showLoading: false });

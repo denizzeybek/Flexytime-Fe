@@ -107,6 +107,7 @@ export class PaymentService {
    */
   public static async confirmPayment(_paymentIntentId: string): Promise<boolean> {
     // TODO: Replace with actual API call when backend is ready
+    console.log(_paymentIntentId);
 
     await new Promise((resolve) => setTimeout(resolve, 500));
 

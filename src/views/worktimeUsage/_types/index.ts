@@ -25,7 +25,6 @@ export type {
   IWebClocks,
   IWellbeing,
 } from './api';
-
 export type {
   DisplayMode,
   IErrorState,
