@@ -4,22 +4,22 @@
  */
 
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 
-import { type MessageSchema } from '@/plugins/i18n';
 import { useProfileStore } from '@/stores/profile/profile';
 
 export const useProfile = () => {
-  const { t } = useI18n<{ message: MessageSchema }>();
   const profileStore = useProfileStore();
 
+  // v2 ProfileResponseDto ships fullname at the top level; the legacy
+  // GeneralProfile.Employee sub-object does not exist in the v2 shape.
   const userName = computed(() => {
-    return profileStore.GeneralProfile?.Employee?.fullname || t('components.profileMenu.defaultTitle');
+    return profileStore.GeneralProfile?.fullname ?? '';
   });
 
   const userTitle = computed(() => {
-    const title = profileStore.GeneralProfile?.Employee?.title;
-    return title;
+    // v2 does not return a job title on the profile endpoint; return empty
+    // string so no fabricated label appears in the UI.
+    return '';
   });
 
   const buttonSize = computed(() => {

@@ -1672,7 +1672,7 @@
       "required": "Lütfen {field} girin"
     },
     "profileMenu": {
-      "defaultTitle": "Teknik Lider"
+      "defaultTitle": ""
     },
     "badges": {
       "statisticType": {

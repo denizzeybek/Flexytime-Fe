@@ -1672,7 +1672,7 @@
       "required": "Please enter {field}"
     },
     "profileMenu": {
-      "defaultTitle": "Tech Lead"
+      "defaultTitle": ""
     },
     "badges": {
       "statisticType": {

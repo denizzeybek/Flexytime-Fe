@@ -46,9 +46,9 @@
         </template>
       </Button>
 
-      <!-- Upgrade Button -->
+      <!-- Upgrade Button — hidden for plain employees -->
       <Button
-        v-if="!isAdmin"
+        v-if="!isAdmin && !isEmployee"
         icon="pi pi-sparkles"
         :label="t('pages.layouts.pageHeader.upgrade.label')"
         class="!bg-gradient-to-r !from-amber-500 !to-orange-500 hover:!from-amber-600 hover:!to-orange-600 dark:!from-amber-500 dark:!to-orange-500 dark:hover:!from-amber-400 dark:hover:!to-orange-400 !text-white !border-0 !shadow-lg !shadow-amber-500/25 dark:!shadow-amber-500/20 hover:!shadow-xl hover:!shadow-amber-500/30 transition-all !rounded-xl"
@@ -87,6 +87,7 @@ const router = useRouter();
 const profileStore = useProfileStore();
 
 const isAdmin = computed(() => profileStore.isAdmin);
+const isEmployee = computed(() => profileStore.isEmployee && !profileStore.isSupervisor && !profileStore.isHR);
 
 const commandPaletteRef = ref<InstanceType<typeof CommandPalette> | null>(null);
 

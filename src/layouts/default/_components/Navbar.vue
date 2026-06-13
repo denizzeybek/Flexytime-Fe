@@ -136,37 +136,40 @@ const menuItems = computed(() => {
     return items;
   }
 
-  // For non-admin users - show all other menu items
-
-  // Worktime Usage
+  // Worktime Usage — visible to all authenticated users
   items.push({
     label: t('pages.layouts.navbar.worktimeUsage'),
     icon: 'pi pi-chart-line',
     route: ERouteNames.WorktimeUsage,
   });
 
-  // Time Entries
+  // Time Entries — visible to all authenticated users
   items.push({
     label: t('pages.layouts.navbar.timeEntries'),
     icon: 'pi pi-clock',
     route: ERouteNames.TimeEntriesManual,
   });
 
-  // Time Management
+  // Time Management — visible to all authenticated users
   items.push({
     label: t('pages.layouts.navbar.timeManagement'),
     icon: 'pi pi-calendar',
     route: ERouteNames.TimeManagement,
   });
 
-  // Reports
+  // Employee-only items end here — the remaining items require admin or supervisor
+  if (profileStore.isEmployee && !profileStore.isSupervisor && !profileStore.isHR) {
+    return items;
+  }
+
+  // Reports — hidden for plain employees
   items.push({
     label: t('pages.layouts.navbar.reports'),
     icon: 'pi pi-chart-bar',
     route: ERouteNames.CompanyReportsElastic,
   });
 
-  // HR Settings
+  // HR Settings — hidden for plain employees
   items.push({
     key: ERouteNames.HRSettingsEmployees,
     label: t('pages.layouts.navbar.hrSettings'),
@@ -199,7 +202,7 @@ const menuItems = computed(() => {
     ],
   });
 
-  // Company
+  // Company — hidden for plain employees
   items.push({
     key: ERouteNames.CompanyOrganizationChart,
     label: t('pages.layouts.navbar.company'),
@@ -226,7 +229,7 @@ const menuItems = computed(() => {
     ],
   });
 
-  // Settings
+  // Settings — hidden for plain employees
   items.push({
     key: ERouteNames.ClassificationWebAddresses,
     label: t('pages.layouts.navbar.settings'),

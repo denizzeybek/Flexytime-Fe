@@ -92,6 +92,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: ERouteNames.ClassificationWebAddresses,
               name: ERouteNames.ClassificationWebAddresses,
+              requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
             },
           },
           {
@@ -101,6 +102,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: ERouteNames.ClassificationApplications,
               name: ERouteNames.ClassificationApplications,
+              requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
             },
           },
         ],
@@ -159,6 +161,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.Company,
           name: ERouteNames.Company,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
       {
@@ -168,6 +171,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.HRSettings,
           name: ERouteNames.HRSettings,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
       {
@@ -177,6 +181,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.HRSettingsEmployees,
           name: ERouteNames.HRSettingsEmployees,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
       {
@@ -186,6 +191,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.HRSettingsJobTitles,
           name: ERouteNames.HRSettingsJobTitles,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
       {
@@ -195,6 +201,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.HRSettingsAnnuals,
           name: ERouteNames.HRSettingsAnnuals,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
         children: [
           {
@@ -204,6 +211,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: ERouteNames.HRSettingsActiveAnnuals,
               name: ERouteNames.HRSettingsActiveAnnuals,
+              requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
             },
           },
           {
@@ -213,6 +221,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: ERouteNames.HRSettingsPassiveAnnuals,
               name: ERouteNames.HRSettingsPassiveAnnuals,
+              requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
             },
           },
         ],
@@ -224,6 +233,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.HRSettingsHolidays,
           name: ERouteNames.HRSettingsHolidays,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
       {
@@ -233,6 +243,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.CompanyOrganizationChart,
           name: ERouteNames.CompanyOrganizationChart,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
       {
@@ -242,6 +253,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.CompanyOrganizationChartV2,
           name: ERouteNames.CompanyOrganizationChartV2,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
       {
@@ -251,6 +263,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.CompanyTeams,
           name: ERouteNames.CompanyTeams,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
       {
@@ -260,6 +273,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.CompanyWorkingHours,
           name: ERouteNames.CompanyWorkingHours,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
       {
@@ -269,6 +283,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.CompanyReports,
           name: ERouteNames.CompanyReports,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
         children: [
           {
@@ -278,6 +293,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: ERouteNames.CompanyReportsElastic,
               name: ERouteNames.CompanyReportsElastic,
+              requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
             },
           },
           {
@@ -287,6 +303,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: ERouteNames.CompanyReportsDefault,
               name: ERouteNames.CompanyReportsDefault,
+              requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
             },
           },
         ],
@@ -298,6 +315,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.Settings,
           name: ERouteNames.Settings,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
       {
@@ -307,6 +325,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.SettingsPermissions,
           name: ERouteNames.SettingsPermissions,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
       {
@@ -316,6 +335,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.SettingsAdvanced,
           name: ERouteNames.SettingsAdvanced,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
       {
@@ -409,6 +429,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.Payment,
           name: ERouteNames.Payment,
+          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
     ],
