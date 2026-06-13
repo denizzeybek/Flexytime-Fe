@@ -16,16 +16,20 @@
 
     <!-- Team View with displayMode toggle -->
     <template v-else-if="viewMode === 'team'">
-      <!-- Show teams when displayMode is 'team' -->
+      <!-- Show teams ONLY when there are 2+ sub-teams to drill into. With a
+           single team the section is effectively a leaf — the legacy UI
+           fell through to the employees table in that case (matches what
+           users expect post RESHAPED-v2). -->
       <TeamWellbeingTable
-        v-if="displayMode === 'team' && (isLoading || teams.length > 0)"
+        v-if="displayMode === 'team' && (isLoading || teams.length > 1)"
         :teams="teams"
         :is-loading="isLoading"
       />
 
-      <!-- Show individuals when displayMode is 'employees' OR no teams exist (leaf node) -->
+      <!-- Show individuals when displayMode is 'employees', the level is a
+           leaf (zero or one teams), or no teams exist at all. -->
       <EmployeeWellbeingTable
-        v-else-if="isLoading || (displayMode === 'employees' && individuals.length > 0) || (teams.length === 0 && individuals.length > 0)"
+        v-else-if="isLoading || (displayMode === 'employees' && individuals.length > 0) || (teams.length <= 1 && individuals.length > 0)"
         :individuals="individuals"
         :is-loading="isLoading"
       />
