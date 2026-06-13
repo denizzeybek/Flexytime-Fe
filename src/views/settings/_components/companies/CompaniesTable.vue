@@ -73,10 +73,10 @@
         <FText v-else>{{ slotProps.data.DashboardActivityDate || '-' }}</FText>
       </template>
     </Column>
-    <Column field="License" :header="t('pages.settings.companies.table.columns.license')">
+    <Column field="LicenseExpireDate" :header="t('pages.settings.companies.table.columns.license')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" shape="circle" height="1.5rem" width="10rem" />
-        <FText v-else>{{ slotProps.data.License }}</FText>
+        <FText v-else>{{ formatLicense(slotProps.data) }}</FText>
       </template>
     </Column>
     <Column :header="t('pages.settings.companies.table.columns.actions')">
@@ -142,8 +142,26 @@ const filters = ref({
   CreateDate: { value: null, matchMode: FilterMatchMode.CONTAINS },
   LastActivityDate: { value: null, matchMode: FilterMatchMode.CONTAINS },
   DashboardActivityDate: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  License: { value: null, matchMode: FilterMatchMode.EQUALS },
+  LicenseExpireDate: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
+
+/**
+ * Display the v2 license as the legacy summary string. BE now ships
+ * `ActiveUserCount` / `UserCount` / `LicenseExpireDate` as raw fields so
+ * the network response is self-explanatory; this composer matches the
+ * legacy "{active}/{cap} kullanıcı {expire:dd.MM.yyyy}" the operations
+ * team is used to reading.
+ */
+const formatLicense = (row: CompanyViewModel): string => {
+  const active = row.ActiveUserCount ?? 0;
+  const cap = row.UserCount ?? 0;
+  if (!row.LicenseExpireDate) return `${active}/${cap} kullanıcı -`;
+  const d = new Date(row.LicenseExpireDate);
+  const dd = String(d.getUTCDate()).padStart(2, '0');
+  const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const yyyy = d.getUTCFullYear();
+  return `${active}/${cap} kullanıcı ${dd}.${mm}.${yyyy}`;
+};
 
 const options = ref([
   {
@@ -184,8 +202,9 @@ const skeletonData = createSkeletonData(5, {
   Email: '',
   Password: null as string | null,
   UserCount: 0,
+  ActiveUserCount: 0,
   Month: 0,
-  License: '',
+  LicenseExpireDate: null as string | null,
   CreateDate: '',
   LastActivityDate: null as string | null,
   DashboardActivityDate: null as string | null,

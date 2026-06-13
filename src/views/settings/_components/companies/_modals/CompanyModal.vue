@@ -102,6 +102,10 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
 
 const submitHandler = handleSubmit(async (values) => {
+  // `license` is a display-only summary string (active/cap kullanıcı expire)
+  // composed from ActiveUserCount + UserCount + LicenseExpireDate. It is
+  // NOT a settable field; the BE rebuilds it from the next read after
+  // saveCompany re-keys the license blob from Month + UserCount.
   const payload: CompanyViewModel = {
     Name: values.name,
     Fullname: values.fullname,
@@ -109,7 +113,6 @@ const submitHandler = handleSubmit(async (values) => {
     Password: values.password,
     UserCount: values.userCount,
     Month: values.userPeriod,
-    License: values.license,
   };
 
   if (isEditing.value && props.data?.ID) {
@@ -125,6 +128,24 @@ const submitHandler = handleSubmit(async (values) => {
   handleClose();
 });
 
+/**
+ * Compose the legacy summary string "{active}/{cap} kullanıcı {dd.mm.yyyy}"
+ * from the v2 structured license fields (ActiveUserCount + UserCount +
+ * LicenseExpireDate). BE no longer ships a pre-composed `License` string —
+ * the FE composes for display only. Returns an empty string when the
+ * company has no valid license blob.
+ */
+const formatLicense = (company: CompanyViewModel): string => {
+  const active = company.ActiveUserCount ?? 0;
+  const cap = company.UserCount ?? 0;
+  if (!company.LicenseExpireDate) return '';
+  const d = new Date(company.LicenseExpireDate);
+  const dd = String(d.getUTCDate()).padStart(2, '0');
+  const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const yyyy = d.getUTCFullYear();
+  return `${active}/${cap} kullanıcı ${dd}.${mm}.${yyyy}`;
+};
+
 const getInitialFormData = () => {
   const company = props.data;
 
@@ -137,7 +158,7 @@ const getInitialFormData = () => {
     password: company.Password || '',
     userCount: company.UserCount,
     userPeriod: company.Month,
-    license: company.License || '',
+    license: formatLicense(company),
   };
 };
 
