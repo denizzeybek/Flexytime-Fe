@@ -41,7 +41,7 @@
       tableStyle="min-width: 50rem"
       paginator
       :value="isLoading ? skeletonData : filteredEmployees"
-      :rows="10"
+      :rows="50"
       :rowsPerPageOptions="[5, 10, 20, 50]"
     >
       <template #header>
@@ -102,22 +102,30 @@
         <Skeleton v-if="isLoading" height="1.5rem" width="5rem" />
         <div v-else class="flex items-center gap-2">
           <Tag
-            :value="isEmployeeIncomplete(slotProps.data)
-              ? t('pages.hrSettings.employees.status.incomplete')
-              : t('pages.hrSettings.employees.status.complete')"
-            :severity="isEmployeeIncomplete(slotProps.data) ? 'warn' : 'success'"
-            :icon="isEmployeeIncomplete(slotProps.data) ? 'pi pi-exclamation-triangle' : 'pi pi-check'"
+            v-if="slotProps.data.IsPending"
+            :value="t('pages.hrSettings.employees.status.pending')"
+            severity="info"
+            icon="pi pi-envelope"
           />
-          <Button
-            v-if="isEmployeeIncomplete(slotProps.data)"
-            v-tooltip.top="t('pages.hrSettings.employees.quickAssign.button')"
-            icon="pi pi-pencil"
-            size="small"
-            text
-            rounded
-            severity="warn"
-            @click="openQuickAssign(slotProps.data)"
-          />
+          <template v-else>
+            <Tag
+              :value="isEmployeeIncomplete(slotProps.data)
+                ? t('pages.hrSettings.employees.status.incomplete')
+                : t('pages.hrSettings.employees.status.complete')"
+              :severity="isEmployeeIncomplete(slotProps.data) ? 'warn' : 'success'"
+              :icon="isEmployeeIncomplete(slotProps.data) ? 'pi pi-exclamation-triangle' : 'pi pi-check'"
+            />
+            <Button
+              v-if="isEmployeeIncomplete(slotProps.data)"
+              v-tooltip.top="t('pages.hrSettings.employees.quickAssign.button')"
+              icon="pi pi-pencil"
+              size="small"
+              text
+              rounded
+              severity="warn"
+              @click="openQuickAssign(slotProps.data)"
+            />
+          </template>
         </div>
       </template>
     </Column>
@@ -130,8 +138,11 @@
     <Column :header="t('pages.hrSettings.employees.table.columns.actions')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
+        <!-- Pending invitations don't yet have a Customer / Member row, so
+             Edit / Delete don't apply — only the regular roster gets the
+             actions dropdown. -->
         <OptionsDropdown
-          v-else
+          v-else-if="!slotProps.data.IsPending"
           :options="options"
           @optionClick="handleOptionClick($event, slotProps.data)"
         />
@@ -240,6 +251,32 @@ const isEmployeeIncomplete = (employee: TheMemberViewModel): boolean => {
   return !employee.TeamId || !employee.TitleId;
 };
 
+/**
+ * Surface pending invitations (Role=0 batch path) in the same DataTable
+ * as a synthetic "pending" row. The BE deliberately holds off creating
+ * the Customer + PerformMember until the invitee accepts via the public
+ * /invite/:id welcome page, so until then they're invisible on the
+ * Members[] roster. Projecting Invitations[] → table-shaped rows keeps
+ * the operator's mental model consistent: "I just invited them, I see
+ * them." Pending rows render with `IsPending: true` so the Status /
+ * Actions columns can branch on it.
+ */
+const pendingInvitations = computed(() =>
+  employeesStore.invitations.map((inv) => ({
+    ID: inv.ID,
+    // The display columns key off MemberName; until the employee picks
+    // a Fullname during invite-accept, all we know is the email.
+    MemberName: inv.Email ?? '',
+    Email: inv.Email ?? '',
+    Role: undefined,
+    Tags: [],
+    TitleName: '',
+    TeamName: '',
+    Salary: '',
+    IsPending: true,
+  })) as Array<TheMemberViewModel & { IsPending: true }>,
+);
+
 const incompleteCount = computed(() =>
   employeesStore.list.filter((emp) => isEmployeeIncomplete(emp)).length,
 );
@@ -248,7 +285,9 @@ const completeCount = computed(() =>
   employeesStore.list.filter((emp) => !isEmployeeIncomplete(emp)).length,
 );
 
-const totalCount = computed(() => employeesStore.list.length);
+const pendingCount = computed(() => pendingInvitations.value.length);
+
+const totalCount = computed(() => employeesStore.list.length + pendingCount.value);
 
 const filteredEmployees = computed(() => {
   if (activeFilter.value === 'incomplete') {
@@ -257,7 +296,9 @@ const filteredEmployees = computed(() => {
   if (activeFilter.value === 'active') {
     return employeesStore.list.filter((emp) => !isEmployeeIncomplete(emp));
   }
-  return employeesStore.list;
+  // "All" tab: pending invitations float to the top so the operator sees
+  // their just-sent invite immediately under the Add User flow.
+  return [...pendingInvitations.value, ...employeesStore.list];
 });
 
 const handleEdit = (employee: TheMemberViewModel) => {

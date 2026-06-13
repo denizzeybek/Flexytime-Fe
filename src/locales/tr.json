@@ -1035,7 +1035,8 @@
         },
         "status": {
           "incomplete": "Eksik",
-          "complete": "Tamamlanmış"
+          "complete": "Tamamlanmış",
+          "pending": "Davet Gönderildi"
         },
         "modal": {
           "edit": "Çalışanı Düzenle",
