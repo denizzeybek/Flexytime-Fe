@@ -43,6 +43,7 @@ import { useI18n } from 'vue-i18n';
 
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
+import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
 import { useHRSettingsTeamsStore } from '@/stores/hrSettings/teams';
 import { useHRSettingsTitlesStore } from '@/stores/hrSettings/titles';
 
@@ -56,18 +57,57 @@ withDefaults(defineProps<IProps>(), {
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
+const employeesStore = useHRSettingsEmployeesStore();
 const titlesStore = useHRSettingsTitlesStore();
 const teamsStore = useHRSettingsTeamsStore();
 
+/**
+ * Two data sources can populate these dropdowns:
+ *   (1) The dedicated `titlesStore.list` / `teamsStore.list` — fetched
+ *       eagerly on Employees-page mount via `/webapi/company/titles` and
+ *       `/webapi/company/teams`. Used by every CRUD screen for these
+ *       entities.
+ *   (2) The bundled lookups inside `definitionControllerEmployees()` —
+ *       already populated on Employees-page mount because the table is
+ *       built from the same response. Lives on
+ *       `employeesStore.{employeeTitles,managerTitles,teams}`.
+ *
+ * We prefer (1) when it's hydrated (matches Add-Title / Add-Team
+ * round-trips), and fall back to (2) so the dropdowns are never empty
+ * on first paint even if (1) is still in flight. The maps land on the
+ * same `{name, value}` shape `FSelect` consumes regardless.
+ */
 const titleOptions = computed(() => {
-  return titlesStore.list.map((title) => ({
-    name: title.Name ?? '',
-    value: title.ID ?? '',
-  }));
+  const primary = titlesStore.list;
+  if (primary.length > 0) {
+    return primary.map((title) => ({
+      name: title.Name ?? '',
+      value: title.ID ?? '',
+    }));
+  }
+  // Fallback: titles bundled into the employees() response carry the
+  // same {ID, Name} shape (DefinitionMemberViewModel) — merge
+  // employee + manager title pools, dedup by ID.
+  const seen = new Set<string>();
+  const fallback: Array<{ name: string; value: string }> = [];
+  for (const t of [...employeesStore.employeeTitles, ...employeesStore.managerTitles]) {
+    const id = t.ID ?? '';
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    fallback.push({ name: t.Name ?? '', value: id });
+  }
+  return fallback;
 });
 
 const teamOptions = computed(() => {
-  return teamsStore.list.map((team) => ({
+  const primary = teamsStore.list;
+  if (primary.length > 0) {
+    return primary.map((team) => ({
+      name: team.Name ?? '',
+      value: team.ID ?? '',
+    }));
+  }
+  return employeesStore.teams.map((team) => ({
     name: team.Name ?? '',
     value: team.ID ?? '',
   }));
