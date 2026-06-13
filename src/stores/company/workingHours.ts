@@ -3,13 +3,13 @@ import { defineStore } from 'pinia';
 import { CompanyService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { WorkDayViewModel, WorkSettingViewModel } from '@/client';
+import type { WorkDayViewModel, WorkSettingDto } from '@/client';
 
 interface State {
   days: WorkDayViewModel[];
-  maxIdleTime: WorkSettingViewModel['MaxIdleTime'];
-  shiftRangeTime: WorkSettingViewModel['ShiftRangeTime'];
-  timeZone: WorkSettingViewModel['TimeZone'];
+  maxIdleTime: WorkSettingDto['MaxIdleTime'];
+  shiftRangeTime: WorkSettingDto['ShiftRangeTime'];
+  timeZone: WorkSettingDto['TimeZone'];
 }
 
 export const useCompanyWorkingHoursStore = defineStore(EStoreNames.COMPANY_WORKING_HOURS, {
@@ -30,7 +30,7 @@ export const useCompanyWorkingHoursStore = defineStore(EStoreNames.COMPANY_WORKI
 
       return data;
     },
-    async save(payload: WorkSettingViewModel) {
+    async save(payload: WorkSettingDto) {
       return await CompanyService.companyControllerSaveWorkHours(payload);
     },
   },

@@ -9,8 +9,8 @@ import type {
   ReportFilterViewModel,
   ReportGraphGroupViewModel,
   ReportGroupViewModel,
-  ReportModifyModel,
-  ReportQueryViewModel,
+  ReportModifyDto,
+  ReportQueryDto,
   ReportResultViewModel,
   ReportSummaryViewModel,
   ReportViewModel,
@@ -76,7 +76,7 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
       }
     },
 
-    async queryReport(request: ReportQueryViewModel) {
+    async queryReport(request: ReportQueryDto) {
       this.isLoading = true;
       try {
         const response = await ReportService.reportControllerQueryReport(request);
@@ -114,7 +114,7 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
       }
     },
 
-    async saveReport(request: ReportModifyModel) {
+    async saveReport(request: ReportModifyDto) {
       const response = await CompanyService.companyControllerSaveReport(request);
       await this.fetchDefaultReports();
       return response;

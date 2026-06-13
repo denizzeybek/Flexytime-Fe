@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PromotionModifyDto } from '../models/PromotionModifyDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -32,13 +33,18 @@ export class PromotionService {
     }
     /**
      * Create or update a promotion entry
+     * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
      */
-    public static promotionControllerSavePromotion(): CancelablePromise<any> {
+    public static promotionControllerSavePromotion(
+        requestBody: PromotionModifyDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/promotion/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

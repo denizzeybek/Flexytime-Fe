@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Function } from '../models/Function';
 import type { WizardProfileResponseDto } from '../models/WizardProfileResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -31,13 +32,18 @@ export class WizardService {
     }
     /**
      * Legacy: resolve a download key and invitation to a service key
+     * @param requestBody
      * @returns any DownloadViewModel
      * @throws ApiError
      */
-    public static wizardControllerGetDownloadDetails(): CancelablePromise<any> {
+    public static wizardControllerGetDownloadDetails(
+        requestBody: Function,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/wizard/download',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

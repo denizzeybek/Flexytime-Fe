@@ -8,7 +8,10 @@ import type { ClockEmployeeRequestDto } from '../models/ClockEmployeeRequestDto'
 import type { ClockEmployeeResponse } from '../models/ClockEmployeeResponse';
 import type { ClockSectionRequestDto } from '../models/ClockSectionRequestDto';
 import type { ClockSectionResponse } from '../models/ClockSectionResponse';
+import type { InvitationSingleDto } from '../models/InvitationSingleDto';
+import type { ManualClockModifyDto } from '../models/ManualClockModifyDto';
 import type { PerformReferenceDto } from '../models/PerformReferenceDto';
+import type { WebClockModifyDto } from '../models/WebClockModifyDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -76,13 +79,18 @@ export class ClockService {
     }
     /**
      * Create or update a manual clock entry
+     * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
      */
-    public static clockControllerSaveManual(): CancelablePromise<any> {
+    public static clockControllerSaveManual(
+        requestBody: ManualClockModifyDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/clock/manual/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -119,35 +127,50 @@ export class ClockService {
     }
     /**
      * Resend a pending invitation email to the targeted employee
+     * @param requestBody
      * @returns any DataResult envelope reflecting send outcome
      * @throws ApiError
      */
-    public static clockControllerResendInvitation(): CancelablePromise<any> {
+    public static clockControllerResendInvitation(
+        requestBody: InvitationSingleDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/clock/invitation/resend',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
      * Revoke a pending invitation
+     * @param requestBody
      * @returns any DataResult envelope reflecting delete outcome
      * @throws ApiError
      */
-    public static clockControllerDeleteInvitation(): CancelablePromise<any> {
+    public static clockControllerDeleteInvitation(
+        requestBody: InvitationSingleDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/clock/invitation/delete',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
      * Persist a web-clock punch (in/out/break) for the current user
+     * @param requestBody
      * @returns any DataResult envelope reflecting punch outcome
      * @throws ApiError
      */
-    public static clockControllerSaveWebClock(): CancelablePromise<any> {
+    public static clockControllerSaveWebClock(
+        requestBody: WebClockModifyDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/clock/web/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

@@ -23,7 +23,7 @@ import type {
   ClockSectionRequestDto,
   ClockSectionResponse,
   ClockTeamSummary,
-  WebClockModifyModel,
+  WebClockModifyDto,
 } from '@/client';
 
 interface State {
@@ -76,7 +76,7 @@ export const useSectionsStore = defineStore(EStoreNames.WORKTIME_USAGE_SECTION, 
         this.isLoading = false;
       }
     },
-    async saveWebClock(payload: WebClockModifyModel) {
+    async saveWebClock(payload: WebClockModifyDto) {
       return ClockService.clockControllerSaveWebClock(payload);
     },
   },

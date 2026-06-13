@@ -3,10 +3,10 @@ import { defineStore } from 'pinia';
 import { CompanyService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { HolidayViewModel, PerformReferenceModel } from '@/client';
+import type { HolidayDto, PerformReferenceModel } from '@/client';
 
 interface State {
-  list: HolidayViewModel[];
+  list: HolidayDto[];
   totalItems: number;
   loading: boolean;
 }
@@ -32,7 +32,7 @@ export const useHRSettingsHolidaysStore = defineStore(EStoreNames.HR_SETTINGS_HO
         this.loading = false;
       }
     },
-    async save(payload: HolidayViewModel) {
+    async save(payload: HolidayDto) {
       await CompanyService.companyControllerSaveHoliday(payload);
       await this.filter();
     },

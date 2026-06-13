@@ -8,7 +8,7 @@ import { EStoreNames } from '@/stores/storeNames.enum';
 import type {
   TimeClockGroupViewModel,
   TimeEntryGroupViewModel,
-  TimeEntryQueryViewModel,
+  TimeEntryQueryDto,
   TimeProjectViewModel,
   TimeTagViewModel,
   TimeTaskViewModel,
@@ -144,7 +144,7 @@ interface State {
   tasks: TimeTaskViewModel[];
   projects: TimeProjectViewModel[];
   tags: TimeTagViewModel[];
-  query: TimeEntryQueryViewModel;
+  query: TimeEntryQueryDto;
   loading: boolean;
   optionsLoading: boolean;
   error: string | null;
@@ -169,7 +169,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
   getters: {
     getTimeEntries: (state): TimeEntryGroupViewModel[] => state.timeEntries,
     getTimeClocks: (state): TimeClockGroupViewModel[] => state.timeClocks,
-    getQuery: (state): TimeEntryQueryViewModel => state.query,
+    getQuery: (state): TimeEntryQueryDto => state.query,
     isLoading: (state): boolean => state.loading,
     // Options getters
     taskNames: (state): string[] => state.tasks.map((t) => t.Name ?? '').filter(Boolean),
@@ -180,11 +180,11 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
   },
 
   actions: {
-    setQuery(query: Partial<TimeEntryQueryViewModel>) {
+    setQuery(query: Partial<TimeEntryQueryDto>) {
       this.query = { ...this.query, ...query };
     },
 
-    async fetchTimeEntries(query?: TimeEntryQueryViewModel): Promise<TimeEntryGroupViewModel[]> {
+    async fetchTimeEntries(query?: TimeEntryQueryDto): Promise<TimeEntryGroupViewModel[]> {
       try {
         this.loading = true;
         this.error = null;
@@ -196,7 +196,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
           return MOCK_TIME_ENTRIES;
         }
 
-        const requestQuery: TimeEntryQueryViewModel = {
+        const requestQuery: TimeEntryQueryDto = {
           RecordDate: query?.RecordDate ?? this.query.RecordDate ?? dayjs().format('DD.MM.YYYY'),
           EntryId: query?.EntryId ?? this.query.EntryId,
           Hours: query?.Hours ?? this.query.Hours,
@@ -213,7 +213,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       }
     },
 
-    async fetchTimeClocks(query?: TimeEntryQueryViewModel): Promise<TimeClockGroupViewModel[]> {
+    async fetchTimeClocks(query?: TimeEntryQueryDto): Promise<TimeClockGroupViewModel[]> {
       try {
         this.loading = true;
         this.error = null;
@@ -225,7 +225,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
           return MOCK_TIME_CLOCKS;
         }
 
-        const requestQuery: TimeEntryQueryViewModel = {
+        const requestQuery: TimeEntryQueryDto = {
           RecordDate: query?.RecordDate ?? this.query.RecordDate ?? dayjs().format('DD.MM.YYYY'),
           EntryId: query?.EntryId ?? this.query.EntryId,
           Hours: query?.Hours ?? this.query.Hours,
@@ -243,7 +243,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
     },
 
     async selectTimeEntry(entryId: string) {
-      const updatedQuery: TimeEntryQueryViewModel = {
+      const updatedQuery: TimeEntryQueryDto = {
         ...this.query,
         EntryId: entryId,
       };
@@ -256,7 +256,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       if (this.query.EntryId) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { EntryId: _, ...rest } = this.query;
-        this.query = rest as TimeEntryQueryViewModel;
+        this.query = rest as TimeEntryQueryDto;
       }
     },
 

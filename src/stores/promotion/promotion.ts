@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { PromotionService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { PromotionListViewModel, PromotionModifyViewModel, PromotionViewModel } from '@/client';
+import type { PromotionListViewModel, PromotionModifyDto, PromotionViewModel } from '@/client';
 
 interface ApiError {
   response?: {
@@ -86,7 +86,7 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
      * Save promotion (send invitation emails)
      * Endpoint: POST /webapi/promotion/save
      */
-    async savePromotion(payload: PromotionModifyViewModel): Promise<boolean> {
+    async savePromotion(payload: PromotionModifyDto): Promise<boolean> {
       try {
         this.loading = true;
         this.error = null;

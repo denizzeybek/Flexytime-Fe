@@ -82,7 +82,7 @@ import { createSkeletonData } from '@/helpers/skeleton';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 
-import type { HolidayViewModel } from '@/client';
+import type { HolidayDto } from '@/client';
 
 interface IProps {
   isLoading: boolean;
@@ -90,7 +90,7 @@ interface IProps {
 
 interface IEmits {
   (event: 'new'): void;
-  (event: 'edit', value: HolidayViewModel): void;
+  (event: 'edit', value: HolidayDto): void;
   (event: 'delete', ID: string): void;
 }
 
@@ -128,7 +128,7 @@ const holidays = computed(() => {
   return holidaysStore.list;
 });
 
-const handleEdit = (holiday: HolidayViewModel) => {
+const handleEdit = (holiday: HolidayDto) => {
   emit('edit', holiday);
 };
 
@@ -136,7 +136,7 @@ const handleDelete = async (ID: string) => {
   emit('delete', ID);
 };
 
-const handleOptionClick = (option: EOptionsDropdown, holiday: HolidayViewModel) => {
+const handleOptionClick = (option: EOptionsDropdown, holiday: HolidayDto) => {
   if (option === EOptionsDropdown.Edit) {
     handleEdit(holiday);
   } else if (option === EOptionsDropdown.Delete) {

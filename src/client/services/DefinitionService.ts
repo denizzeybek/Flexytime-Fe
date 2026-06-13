@@ -2,7 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AnnualDto } from '../models/AnnualDto';
 import type { PerformReferenceDto } from '../models/PerformReferenceDto';
+import type { TheMemberModifyDto } from '../models/TheMemberModifyDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -37,13 +39,18 @@ export class DefinitionService {
     }
     /**
      * Create or update an employee record
+     * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
      */
-    public static definitionControllerSaveEmployee(): CancelablePromise<any> {
+    public static definitionControllerSaveEmployee(
+        requestBody: TheMemberModifyDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/definition/employee/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -64,7 +71,7 @@ export class DefinitionService {
     }
     /**
      * List annual-leave allotments for the current tenant
-     * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (AnnualViewModel Start/End are UTC ISO instants, not dd.MM.yyyy/HH:mm; StartDate/StartTime/EndDate/EndTime/StartDateText/EndDateText dropped — FE formats in UTC). FE refactor required. See docs/time-and-timezone-contract.md.
+     * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (AnnualDto Start/End are UTC ISO instants, not dd.MM.yyyy/HH:mm; StartDate/StartTime/EndDate/EndTime/StartDateText/EndDateText dropped — FE formats in UTC). FE refactor required. See docs/time-and-timezone-contract.md.
      * @returns any AnnualListResponse
      * @throws ApiError
      */
@@ -77,7 +84,7 @@ export class DefinitionService {
     /**
      * Look up a single annual-leave entry by id
      * @param requestBody
-     * @returns any DataResult<AnnualViewModel>
+     * @returns any DataResult<AnnualDto>
      * @throws ApiError
      */
     public static definitionControllerGetAnnual(
@@ -93,13 +100,18 @@ export class DefinitionService {
     /**
      * Create or update an annual-leave entry
      * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (Start/End are ISO-8601 UTC instants instead of dd.MM.yyyy + HH:mm tr-TR StartDate/StartTime/EndDate/EndTime; member by MemberId). FE refactor required. See docs/worktime-redesign.md.
+     * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
      */
-    public static definitionControllerSaveAnnual(): CancelablePromise<any> {
+    public static definitionControllerSaveAnnual(
+        requestBody: AnnualDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/definition/annual/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**

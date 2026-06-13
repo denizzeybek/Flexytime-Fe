@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { CompanyService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { TitleViewModel } from '@/client';
+import type { TitleDto } from '@/client';
 
 export interface TitleListItem {
   ID?: string;
@@ -39,7 +39,7 @@ export const useHRSettingsTitlesStore = defineStore(EStoreNames.HR_SETTINGS_TITL
         this.loading = false;
       }
     },
-    async saveTitle(payload: TitleViewModel) {
+    async saveTitle(payload: TitleDto) {
       await CompanyService.companyControllerSaveTitle(payload);
       await this.fetchTitles();
     },

@@ -32,7 +32,7 @@ import type {
   ClockEmployeeResponse,
   ClockSectionRequestDto,
   ClockSectionResponse,
-  WebClockModifyModel,
+  WebClockModifyDto,
 } from '@/client';
 import type {
   IBreadcrumb,
@@ -597,7 +597,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     },
 
     /** Save web clock domain. Endpoint: `/clock/web/save`. */
-    async saveWebClock(payload: WebClockModifyModel) {
+    async saveWebClock(payload: WebClockModifyDto) {
       return ClockService.clockControllerSaveWebClock(payload);
     },
   },

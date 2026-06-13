@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ReportQueryDto } from '../models/ReportQueryDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -19,13 +20,18 @@ export class ReportService {
     }
     /**
      * Execute a report query with the given filter selections
+     * @param requestBody
      * @returns any ReportResultViewModel — rows + aggregates for the query
      * @throws ApiError
      */
-    public static reportControllerQueryReport(): CancelablePromise<any> {
+    public static reportControllerQueryReport(
+        requestBody: ReportQueryDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/report/query',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

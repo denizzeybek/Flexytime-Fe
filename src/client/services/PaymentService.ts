@@ -2,19 +2,27 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CouponRequestDto } from '../models/CouponRequestDto';
+import type { PaymentSuccessDto } from '../models/PaymentSuccessDto';
+import type { SubscriptionModifyDto } from '../models/SubscriptionModifyDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 export class PaymentService {
     /**
      * Validate a coupon code and return the resulting price breakdown
+     * @param requestBody
      * @returns any DataResult envelope wrapping CouponViewModel { Amount } (Amount=0 when not found/expired)
      * @throws ApiError
      */
-    public static paymentControllerGetCoupon(): CancelablePromise<any> {
+    public static paymentControllerGetCoupon(
+        requestBody: CouponRequestDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/payment/coupon',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -41,13 +49,18 @@ export class PaymentService {
     }
     /**
      * Persist the chosen subscription plan and seat count
+     * @param requestBody
      * @returns any DataResult envelope reflecting Stripe + DB outcome
      * @throws ApiError
      */
-    public static paymentControllerSaveSubscription(): CancelablePromise<any> {
+    public static paymentControllerSaveSubscription(
+        requestBody: SubscriptionModifyDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/payment/subscribe/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -63,13 +76,18 @@ export class PaymentService {
     }
     /**
      * Finalize a payment after redirect-back from the gateway and emit the invoice
+     * @param requestBody
      * @returns any InvoiceViewModel — finalised invoice for the receipt screen
      * @throws ApiError
      */
-    public static paymentControllerPaymentSuccess(): CancelablePromise<any> {
+    public static paymentControllerPaymentSuccess(
+        requestBody: PaymentSuccessDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/payment/success',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

@@ -21,13 +21,13 @@ import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 import AnnualModal from './_modals/AnnualModal.vue';
 import AnnualsTable from './AnnualsTable.vue';
 
-import type { AnnualViewModel } from '@/client';
+import type { AnnualDto } from '@/client';
 
 const annualsStore = useHRSettingsAnnualsStore();
 const { showErrorMessage } = useFToast();
 
 const isModalOpen = ref(false);
-const currentAnnual = ref<AnnualViewModel>();
+const currentAnnual = ref<AnnualDto>();
 
 const isLoading = computed(() => annualsStore.isLoading);
 
@@ -36,7 +36,7 @@ const handleNew = () => {
   currentAnnual.value = undefined;
 };
 
-const handleEdit = (annual: AnnualViewModel) => {
+const handleEdit = (annual: AnnualDto) => {
   currentAnnual.value = annual;
   isModalOpen.value = true;
 };

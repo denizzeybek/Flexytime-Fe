@@ -66,10 +66,10 @@ import { convertDateToString, convertStringToDate } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 
-import type { HolidayViewModel } from '@/client';
+import type { HolidayDto } from '@/client';
 
 interface IProps {
-  data?: HolidayViewModel;
+  data?: HolidayDto;
 }
 
 const props = defineProps<IProps>();
@@ -131,10 +131,10 @@ const submitHandler = handleSubmit(async (values) => {
     StartFullDay: values.startFullDay,
     EndFullDay: values.endFullDay,
     Repeat: values.repeat,
-  } as HolidayViewModel;
+  } as HolidayDto;
 
   if (isEditing.value) {
-    payload = { ...payload, ID: values.ID } as HolidayViewModel;
+    payload = { ...payload, ID: values.ID } as HolidayDto;
   }
 
   await executeWithFeedback(

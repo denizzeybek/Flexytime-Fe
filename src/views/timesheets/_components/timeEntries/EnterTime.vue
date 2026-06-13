@@ -62,7 +62,7 @@ import TimerControls from '@/views/timesheets/_components/timeEntries/_component
 import { useEnterTimeTimer } from '@/views/timesheets/_composables/useEnterTimeTimer';
 import { ELayout } from '@/views/timesheets/_etc/layout.enum';
 
-import type { TimeClockViewModel, TimeEntryModifyViewModel } from '@/client';
+import type { TimeClockViewModel, TimeEntryModifyDto } from '@/client';
 
 interface ITagOption {
   name: string;
@@ -71,7 +71,7 @@ interface ITagOption {
 
 // Extended type for time entry payload - backend expects additional fields not in OpenAPI spec
 // TODO: Update OpenAPI spec to include these fields
-interface TimeEntryPayload extends TimeEntryModifyViewModel {
+interface TimeEntryPayload extends TimeEntryModifyDto {
   RecordDate?: string;
   RecordDateCustom?: string;
   time?: string;

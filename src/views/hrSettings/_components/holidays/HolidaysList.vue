@@ -21,13 +21,13 @@ import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 import HolidayModal from './_modals/HolidayModal.vue';
 import HolidaysTable from './HolidaysTable.vue';
 
-import type { HolidayViewModel } from '@/client';
+import type { HolidayDto } from '@/client';
 
 const holidaysStore = useHRSettingsHolidaysStore();
 const { showErrorMessage } = useFToast();
 
 const isModalOpen = ref(false);
-const currentHoliday = ref<HolidayViewModel>();
+const currentHoliday = ref<HolidayDto>();
 
 const isLoading = computed(() => holidaysStore.isLoading);
 
@@ -36,7 +36,7 @@ const handleNew = () => {
   currentHoliday.value = undefined;
 };
 
-const handleEdit = (holiday: HolidayViewModel) => {
+const handleEdit = (holiday: HolidayDto) => {
   currentHoliday.value = holiday;
   isModalOpen.value = true;
 };

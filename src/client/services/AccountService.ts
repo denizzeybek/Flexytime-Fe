@@ -7,6 +7,7 @@ import type { AccountForgotDto } from '../models/AccountForgotDto';
 import type { AccountRegisterDto } from '../models/AccountRegisterDto';
 import type { AccountResetDto } from '../models/AccountResetDto';
 import type { AuthResponseDto } from '../models/AuthResponseDto';
+import type { Function } from '../models/Function';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -81,13 +82,18 @@ export class AccountService {
     }
     /**
      * Resolve a promotion code to the inviter fullname
+     * @param requestBody
      * @returns any DataResult<WizardPromotionSelectDto>
      * @throws ApiError
      */
-    public static accountControllerGetPromotion(): CancelablePromise<any> {
+    public static accountControllerGetPromotion(
+        requestBody: Function,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/account/promotion',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

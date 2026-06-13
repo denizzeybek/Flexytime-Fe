@@ -72,10 +72,10 @@ import { convertDateToString, convertStringToDate } from '@/helpers/utils';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 
-import type { AnnualViewModel } from '@/client';
+import type { AnnualDto } from '@/client';
 
 interface IProps {
-  data?: AnnualViewModel;
+  data?: AnnualDto;
 }
 
 const props = defineProps<IProps>();
@@ -154,10 +154,10 @@ const submitHandler = handleSubmit(async (values) => {
     Repeat: values.repeat,
     MemberId: values.employeeName.value,
     LeaveType: values.leaveType,
-  } as AnnualViewModel;
+  } as AnnualDto;
 
   if (isEditing.value) {
-    payload = { ...payload, ID: values.ID } as AnnualViewModel;
+    payload = { ...payload, ID: values.ID } as AnnualDto;
   }
 
   await executeWithFeedback(

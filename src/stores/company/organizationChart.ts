@@ -3,12 +3,12 @@ import { defineStore } from 'pinia';
 import { CompanyService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { OrganizationNodeViewModel, OrganizationViewModel, PerformNameValueModel, TitleViewModel } from '@/client';
+import type { OrganizationNodeViewModel, OrganizationDto, PerformNameValueModel, TitleDto } from '@/client';
 
 interface State {
   list: OrganizationNodeViewModel[];
   members: PerformNameValueModel[];
-  titles: TitleViewModel[];
+  titles: TitleDto[];
 }
 
 export const useCompanyOrganizationChartsStore = defineStore(
@@ -31,7 +31,7 @@ export const useCompanyOrganizationChartsStore = defineStore(
 
         return orgData;
       },
-      async save(payload: OrganizationViewModel) {
+      async save(payload: OrganizationDto) {
         await CompanyService.companyControllerSaveOrganization(payload);
         // Note: Do not call filter() here as it may return stale data
         // The caller should manage the local state

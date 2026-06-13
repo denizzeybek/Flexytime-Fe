@@ -3,11 +3,11 @@ import { defineStore } from 'pinia';
 import { DefinitionService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { AnnualViewModel, DefinitionMemberViewModel } from '@/client';
+import type { AnnualDto, DefinitionMemberViewModel } from '@/client';
 
 interface State {
-  activeList: AnnualViewModel[];
-  passiveList: AnnualViewModel[];
+  activeList: AnnualDto[];
+  passiveList: AnnualDto[];
   activeTotalItems: number;
   passiveTotalItems: number;
   members: DefinitionMemberViewModel[];
@@ -45,7 +45,7 @@ export const useHRSettingsAnnualsStore = defineStore(EStoreNames.HR_SETTINGS_ANN
         this.loading = false;
       }
     },
-    async save(payload: AnnualViewModel) {
+    async save(payload: AnnualDto) {
       await DefinitionService.definitionControllerSaveAnnual(payload);
       await this.filter();
     },

@@ -3,6 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { PerformReferenceDto } from '../models/PerformReferenceDto';
+import type { SaveCompanyRequestDto } from '../models/SaveCompanyRequestDto';
+import type { SaveInvitationRequestDto } from '../models/SaveInvitationRequestDto';
+import type { SaveLicenseRequestDto } from '../models/SaveLicenseRequestDto';
+import type { SavePermissionsRequestDto } from '../models/SavePermissionsRequestDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -37,13 +41,18 @@ export class SettingService {
     }
     /**
      * Create or update a company entry
+     * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
      */
-    public static settingControllerSaveCompany(): CancelablePromise<any> {
+    public static settingControllerSaveCompany(
+        requestBody: SaveCompanyRequestDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/setting/company/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -76,13 +85,18 @@ export class SettingService {
     }
     /**
      * Save the permission matrix for a group
+     * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
      */
-    public static settingControllerSavePermissions(): CancelablePromise<any> {
+    public static settingControllerSavePermissions(
+        requestBody: SavePermissionsRequestDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/setting/permission/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -99,13 +113,18 @@ export class SettingService {
     }
     /**
      * Apply or update the license (validates against the Rijndael blob)
+     * @param requestBody
      * @returns any DataResult envelope reflecting license apply outcome
      * @throws ApiError
      */
-    public static settingControllerSaveLicense(): CancelablePromise<any> {
+    public static settingControllerSaveLicense(
+        requestBody: SaveLicenseRequestDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/setting/license/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -133,13 +152,18 @@ export class SettingService {
     }
     /**
      * Create or update an invitation entry
+     * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
      */
-    public static settingControllerSaveInvitation(): CancelablePromise<any> {
+    public static settingControllerSaveInvitation(
+        requestBody: SaveInvitationRequestDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/setting/invitation/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**

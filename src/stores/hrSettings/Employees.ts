@@ -6,7 +6,7 @@ import { EStoreNames } from '@/stores/storeNames.enum';
 import type {
   ClockInvitation,
   DefinitionMemberViewModel,
-  TheMemberModifyViewModel,
+  TheMemberModifyDto,
   TheMemberViewModel,
 } from '@/client';
 
@@ -67,7 +67,7 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
         this.loading = false;
       }
     },
-    async save(payload: TheMemberModifyViewModel) {
+    async save(payload: TheMemberModifyDto) {
       await DefinitionService.definitionControllerSaveEmployee(payload);
       await this.filter();
     },

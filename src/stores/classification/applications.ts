@@ -82,9 +82,19 @@ export const useClassificationApplicationsStore = defineStore(
       async save(payload: PerformAllocationModifyDto) {
         await CategoryService.categoryControllerSavePerformAllocation(payload as never);
 
-        // Refetch data after save to get the updated list from backend.
-        if (this.lastQuery) {
-          await this.filter(this.lastQuery);
+        // In-place mutation to avoid re-querying the full page.
+        // BE matches by ID when present, otherwise by Name (executable path).
+        const idx = this.list.findIndex(
+          (item) => (payload.ID ? item.ID === payload.ID : item.Name === payload.Name),
+        );
+        if (idx !== -1) {
+          // Domain === 1 is "Unclassified-skip": keep the previous domain value.
+          if (typeof payload.Domain === 'number' && payload.Domain !== 1) {
+            this.list[idx].Domain = payload.Domain;
+          }
+          if (typeof payload.AlwaysOn === 'boolean') {
+            this.list[idx].AlwaysOn = payload.AlwaysOn;
+          }
         }
       },
     },

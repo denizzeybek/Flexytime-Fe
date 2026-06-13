@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { CategoryService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { WebClockModifyModel } from '@/client';
+import type { WebClockModifyDto } from '@/client';
 
 /**
  * v2 `WebAddressViewModel` shape returned by `category/webaddresses` (list +
@@ -84,12 +84,19 @@ export const useClassificationWebAddressesStore = defineStore(
           this.loading = false;
         }
       },
-      async save(payload: WebClockModifyModel) {
+      async save(payload: WebClockModifyDto) {
         await CategoryService.categoryControllerSaveWebAddress(payload as never);
 
-        // Refetch data after save to get the updated list from backend.
-        if (this.lastQuery) {
-          await this.filter(this.lastQuery);
+        // In-place mutation to avoid re-querying the full page.
+        const idx = this.list.findIndex((item) => item.ID === payload.ID);
+        if (idx !== -1) {
+          // Domain === 1 is "Unclassified-skip": keep the previous domain value.
+          if (typeof payload.Domain === 'number' && payload.Domain !== 1) {
+            this.list[idx].Domain = payload.Domain;
+          }
+          if (typeof payload.AlwaysOn === 'boolean') {
+            this.list[idx].AlwaysOn = payload.AlwaysOn;
+          }
         }
       },
     },
