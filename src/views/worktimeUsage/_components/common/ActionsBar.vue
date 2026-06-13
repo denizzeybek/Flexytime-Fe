@@ -93,11 +93,6 @@ const handleDateChange = (value: Date | Date[] | (Date | null)[] | null | undefi
     const startLocal = value[0] as Date;
     const endLocal = value[1] as Date;
 
-    // The DatePicker hands us local-zone Dates clamped to midnight. The BE
-    // contract is `start` (inclusive, UTC 00:00 of the picked day) and
-    // `end` (exclusive, UTC 00:00 of the day AFTER the picked end). Build
-    // those instants directly from the calendar fields so the URL/query
-    // round-trips deterministically regardless of the viewer's offset.
     const startUtc = new Date(
       Date.UTC(startLocal.getFullYear(), startLocal.getMonth(), startLocal.getDate()),
     );
@@ -121,9 +116,6 @@ const handleDownload = () => {
   emit('download');
 };
 
-// Translate the URL window (`startDate` inclusive UTC, `endDate` exclusive
-// UTC) back into the two-Date tuple the DatePicker expects. End is the day
-// BEFORE `endDate` so the calendar highlights the inclusive picked range.
 const isoWindowToDateRange = (startIso: string, endIso: string): Date[] => {
   const start = new Date(startIso);
   const end = new Date(endIso);

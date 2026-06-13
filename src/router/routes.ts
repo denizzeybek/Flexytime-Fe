@@ -9,10 +9,8 @@ import Register from '@/views/auth/Register.vue';
 import ResetPassword from '@/views/auth/ResetPassword.vue';
 import WizardDownload from '@/views/auth/WizardDownload.vue';
 import ClassificationApplications from '@/views/classification/_views/Applications.vue';
-// Classification
 import Classification from '@/views/classification/_views/Classification.vue';
 import ClassificationWebAddresses from '@/views/classification/_views/WebAddresses.vue';
-// Company
 import Company from '@/views/company/_views/Company.vue';
 import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
 import OrganizationChartV2 from '@/views/company/_views/OrganizationChartV2.vue';
@@ -27,7 +25,6 @@ import AnnualsList from '@/views/hrSettings/_components/annuals/AnnualsList.vue'
 import Annuals from '@/views/hrSettings/_views/Annuals.vue';
 import Employees from '@/views/hrSettings/_views/Employees.vue';
 import Holidays from '@/views/hrSettings/_views/Holidays.vue';
-// HR Settings
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
 import JobTitles from '@/views/hrSettings/_views/JobTitles.vue';
 import Payment from '@/views/payment/_views/Payment.vue';
@@ -41,22 +38,17 @@ import Promotion from '@/views/promotion/_views/Promotion.vue';
 import Advanced from '@/views/settings/_views/Advanced.vue';
 import Companies from '@/views/settings/_views/Companies.vue';
 import Permissions from '@/views/settings/_views/Permissions.vue';
-// Settings
 import Settings from '@/views/settings/_views/Settings.vue';
 import ManualTimeEntries from '@/views/timesheets/_views/ManualTimeEntries.vue';
 import TimeEntries from '@/views/timesheets/_views/TimeEntries.vue';
 import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
-// Timesheets
 import Timesheets from '@/views/timesheets/_views/TimeSheets.vue';
 import UnclassifiedTimeEntries from '@/views/timesheets/_views/UnclassifiedTimeEntries.vue';
 import WorktimeUsage from '@/views/worktimeUsage/index.vue';
 
 import type { RouteRecordRaw } from 'vue-router';
-// Not Found Page
-// import NotFound from '@/views/NotFound.vue'
 
 const routes: RouteRecordRaw[] = [
-  // DEFAULT ROUTES (REQUIRES AUTH)
   {
     path: '',
     component: DefaultLayout,
@@ -434,7 +426,6 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-  // AUTHENTICATION ROUTES (REQUIRES UN_AUTH)
   {
     path: '/login',
     name: ERouteNames.Login,
@@ -504,7 +495,6 @@ const routes: RouteRecordRaw[] = [
     },
   },
 
-  // ERROR ROUTES
   {
     path: '/unauthorized',
     name: ERouteNames.Unauthorized,

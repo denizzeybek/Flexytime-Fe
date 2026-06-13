@@ -33,7 +33,6 @@ export default [
       'vue/multi-word-component-names': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
 
-      // Vue block order: template -> script -> style
       'vue/block-order': [
         'error',
         {
@@ -42,10 +41,8 @@ export default [
       ],
       'vue/valid-v-bind': 'off',
 
-      // Enforce Composition API style
       'vue/component-api-style': ['error', ['script-setup']],
 
-      // Script setup order enforcement
       'vue/define-macros-order': [
         'error',
         {
@@ -54,31 +51,22 @@ export default [
         },
       ],
 
-      // Import sorting
       'simple-import-sort/imports': [
         'error',
         {
           groups: [
-            // Vue and framework imports first
             ['^vue', '^@vue', '^vue-router', '^pinia'],
-            // External packages
             ['^@?\\w'],
-            // Internal packages (@ alias)
             ['^@/'],
-            // Parent imports
             ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
-            // Same folder imports
             ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
-            // Style imports
             ['^.+\\.s?css$'],
-            // Type imports
             ['^.*\\u0000$'],
           ],
         },
       ],
       'simple-import-sort/exports': 'error',
 
-      // Vue component attributes ordering
       'vue/attributes-order': [
         'error',
         {

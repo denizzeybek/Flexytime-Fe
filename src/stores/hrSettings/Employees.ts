@@ -104,8 +104,6 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
     addPendingTag(name: string): ITagOption {
       const trimmed = name.trim();
       if (!trimmed) {
-        // reason: defensive — MultiSelect already guards on a non-empty filter,
-        // but a programmatic caller could still hand us whitespace.
         return { name: '', value: '' };
       }
       const existing = this.tags.find(
@@ -137,7 +135,6 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
      */
     async fetchEmployeeDetail(id: string): Promise<TheMemberViewModel | null> {
       const result = await DefinitionService.definitionControllerGetEmployee({ ID: id });
-      // `result` is the BE `DataResult<MemberViewModel | undefined>` envelope.
       const envelope = result as unknown as { Status?: number; DTO?: TheMemberViewModel };
       if (envelope?.Status === 0 && envelope.DTO) return envelope.DTO;
       return null;

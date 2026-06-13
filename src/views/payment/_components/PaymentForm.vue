@@ -126,15 +126,12 @@ const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
-// Stripe configuration
 const stripeKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 
-// Refs
 const elementsRef = ref<{ instance: Stripe; elements: StripeElementsType } | null>(null);
 const paymentElementRef = ref<ComponentPublicInstance | null>(null);
 const mockFormRef = ref<InstanceType<typeof MockPaymentForm> | null>(null);
 
-// State
 const clientSecret = ref<string>('');
 const isStripeReady = ref(false);
 const isComplete = ref(false);
@@ -142,7 +139,6 @@ const processing = ref(false);
 const errorMessage = ref('');
 const isMockFormValid = ref(false);
 
-// Computed
 const isRealStripeMode = computed(() => {
   return stripeKey && (stripeKey.startsWith('pk_test_') || stripeKey.startsWith('pk_live_'));
 });
@@ -151,7 +147,6 @@ const intervalLabel = computed(() => {
   return props.selectedPlan?.interval === 'month' ? t('pages.payment.mo') : t('pages.payment.yr');
 });
 
-// Stripe Elements options
 const elementsOptions = computed<StripeElementsOptionsMode>(() => ({
   mode: 'payment',
   amount: (props.selectedPlan?.price || 0) * 100,
@@ -185,12 +180,10 @@ const paymentElementOptions = ref<StripePaymentElementOptions>({
   layout: 'tabs',
 });
 
-// Handle mock form valid change
 const handleMockValidChange = (isValid: boolean) => {
   isMockFormValid.value = isValid;
 };
 
-// Handle payment element change
 const handlePaymentElementChange = (event: { complete: boolean }) => {
   isComplete.value = event.complete;
   if (event.complete) {
@@ -198,7 +191,6 @@ const handlePaymentElementChange = (event: { complete: boolean }) => {
   }
 };
 
-// Create payment intent
 const createPaymentIntent = async () => {
   if (!props.selectedPlan) return;
 
@@ -214,7 +206,6 @@ const createPaymentIntent = async () => {
   }
 };
 
-// Handle real Stripe form submission
 const handleSubmit = async () => {
   if (!elementsRef.value?.instance || !elementsRef.value?.elements) {
     errorMessage.value = t('pages.payment.errors.stripeNotLoaded');
@@ -251,16 +242,13 @@ const handleSubmit = async () => {
   }
 };
 
-// Handle mock form submission
 const handleMockSubmit = async () => {
   processing.value = true;
   errorMessage.value = '';
 
   try {
-    // Simulate payment processing
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // Simulate successful payment
     const mockPaymentIntentId = `pi_mock_${Date.now()}`;
     emit('success', mockPaymentIntentId);
   } catch (error: unknown) {
@@ -272,7 +260,6 @@ const handleMockSubmit = async () => {
   }
 };
 
-// Watch for plan changes
 watch(
   () => props.selectedPlan,
   async (newPlan) => {
@@ -283,7 +270,6 @@ watch(
   { immediate: true }
 );
 
-// Initialize
 onMounted(() => {
   setTimeout(() => {
     isStripeReady.value = true;

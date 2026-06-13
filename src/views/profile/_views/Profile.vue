@@ -37,9 +37,6 @@ const router = useRouter();
 const { t } = useI18n<{ message: MessageSchema }>();
 const profileStore = useProfileStore();
 
-// License and Calendar Integration tabs are admin-only.
-// Plain employees must not see them (they have no license management
-// capability and calendar OAuth is configured per-company, not per-user).
 const items = computed(() => {
   const allTabs = [
     {
@@ -60,13 +57,6 @@ const items = computed(() => {
           },
         ]
       : []),
-    // {
-    //   route: ERouteNames.ProfileCommunication,
-    //   label: t('pages.profile.tabs.communications'),
-    //   method: () => {
-    //     router.push({ name: ERouteNames.ProfileCommunication });
-    //   },
-    // },
     {
       route: ERouteNames.ProfilePassword,
       label: t('pages.profile.tabs.password'),

@@ -104,7 +104,6 @@ withDefaults(defineProps<IProps>(), {
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
-// Color mappings based on SummaryBadge colors
 const colorConfig = {
   red: {
     headerBg: 'bg-red-50 dark:bg-red-950/40',
@@ -144,7 +143,6 @@ const getTextClass = (color?: string): string => {
   return colorConfig[color as keyof typeof colorConfig]?.text || 'text-content-secondary';
 };
 
-// Convert FontAwesome icons to PrimeIcons
 const getIconClass = (icon?: string): string => {
   if (!icon) return 'pi pi-heart';
   const iconMap: Record<string, string> = {

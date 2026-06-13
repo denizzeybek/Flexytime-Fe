@@ -122,7 +122,6 @@ const showOptions = ref(false);
 const searchFilter = ref('');
 const isAutofillProtected = ref(true);
 
-// Computed filtered options - automatically reactive when props.datalistOptions changes
 const filteredOptions = computed(() => {
   const options = props.datalistOptions || [];
   if (!searchFilter.value) return options;
@@ -151,7 +150,6 @@ const selectOption = (option: string) => {
   value.value = option;
   showOptions.value = false;
   searchFilter.value = '';
-  // Validate to clear error after selection
   validate();
 };
 

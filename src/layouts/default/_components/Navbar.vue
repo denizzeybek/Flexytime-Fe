@@ -126,7 +126,6 @@ const expandedKeys = ref<Record<string, boolean>>({});
 const menuItems = computed(() => {
   const items: any[] = [];
 
-  // If Admin role - show only Companies
   if (profileStore.isAdmin) {
     items.push({
       label: t('pages.layouts.navbar.companies'),
@@ -136,40 +135,34 @@ const menuItems = computed(() => {
     return items;
   }
 
-  // Worktime Usage — visible to all authenticated users
   items.push({
     label: t('pages.layouts.navbar.worktimeUsage'),
     icon: 'pi pi-chart-line',
     route: ERouteNames.WorktimeUsage,
   });
 
-  // Time Entries — visible to all authenticated users
   items.push({
     label: t('pages.layouts.navbar.timeEntries'),
     icon: 'pi pi-clock',
     route: ERouteNames.TimeEntriesManual,
   });
 
-  // Time Management — visible to all authenticated users
   items.push({
     label: t('pages.layouts.navbar.timeManagement'),
     icon: 'pi pi-calendar',
     route: ERouteNames.TimeManagement,
   });
 
-  // Employee-only items end here — the remaining items require admin or supervisor
   if (profileStore.isEmployee && !profileStore.isSupervisor && !profileStore.isHR) {
     return items;
   }
 
-  // Reports — hidden for plain employees
   items.push({
     label: t('pages.layouts.navbar.reports'),
     icon: 'pi pi-chart-bar',
     route: ERouteNames.CompanyReportsElastic,
   });
 
-  // HR Settings — hidden for plain employees
   items.push({
     key: ERouteNames.HRSettingsEmployees,
     label: t('pages.layouts.navbar.hrSettings'),
@@ -202,7 +195,6 @@ const menuItems = computed(() => {
     ],
   });
 
-  // Company — hidden for plain employees
   items.push({
     key: ERouteNames.CompanyOrganizationChart,
     label: t('pages.layouts.navbar.company'),
@@ -229,7 +221,6 @@ const menuItems = computed(() => {
     ],
   });
 
-  // Settings — hidden for plain employees
   items.push({
     key: ERouteNames.ClassificationWebAddresses,
     label: t('pages.layouts.navbar.settings'),
@@ -259,12 +250,10 @@ const menuItems = computed(() => {
   return items;
 });
 
-// Route'a göre hangi menünün açık olacağını belirle
 const updateExpandedKeys = () => {
   const currentRoute = route.name as ERouteNames;
   const newExpandedKeys: Record<string, boolean> = {};
 
-  // HR Settings altındaki route'lar
   const hrSettingsRoutes = [
     ERouteNames.HRSettingsEmployees,
     ERouteNames.HRSettingsJobTitles,
@@ -272,7 +261,6 @@ const updateExpandedKeys = () => {
     ERouteNames.HRSettingsHolidays,
   ];
 
-  // Company altındaki route'lar
   const companyRoutes = [
     ERouteNames.CompanyOrganizationChart,
     ERouteNames.CompanyOrganizationChartV2,
@@ -280,7 +268,6 @@ const updateExpandedKeys = () => {
     ERouteNames.CompanyWorkingHours,
   ];
 
-  // Settings altındaki route'lar
   const settingsRoutes = [
     ERouteNames.ClassificationWebAddresses,
     ERouteNames.SettingsPermissions,
@@ -298,7 +285,6 @@ const updateExpandedKeys = () => {
   expandedKeys.value = newExpandedKeys;
 };
 
-// İlk yüklemede ve route değiştiğinde güncelle
 updateExpandedKeys();
 watch(() => route.name, updateExpandedKeys);
 </script>

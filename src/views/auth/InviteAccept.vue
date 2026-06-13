@@ -129,15 +129,14 @@
 import { onMounted, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 
-import { useForm } from 'vee-validate';
-import { object, string } from 'yup';
 import Button from 'primevue/button';
 import ProgressSpinner from 'primevue/progressspinner';
+import { useForm } from 'vee-validate';
+import { object, string } from 'yup';
 
 import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
-
-import { acceptInvite, lookupInvite, type InviteLookup } from '@/services/invite';
+import { acceptInvite, type InviteLookup,lookupInvite } from '@/services/invite';
 
 /**
  * Phases of the welcome page:
@@ -152,9 +151,6 @@ import { acceptInvite, lookupInvite, type InviteLookup } from '@/services/invite
  */
 type Phase = 'loading' | 'invalid' | 'welcome' | 'done';
 
-// Placeholder agent installer URLs — wired up to the real `Download`
-// surface once that endpoint exists for v2. For now they let the new
-// employee see and click the buttons without a 404.
 const MAC_DOWNLOAD = 'https://download.flexytime.com/flexyagent-mac.dmg';
 const WINDOWS_DOWNLOAD = 'https://download.flexytime.com/flexyagent-win.exe';
 

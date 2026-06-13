@@ -12,7 +12,6 @@ import { type MessageSchema } from '@/plugins/i18n';
 export const useTimeFormat = () => {
   const { t } = useI18n<{ message: MessageSchema }>();
 
-  // Time units for i18n
   const timeUnits = computed<ITimeUnits>(() => ({
     days: t('common.time.days'),
     hours: t('common.time.hours'),
@@ -28,8 +27,6 @@ export const useTimeFormat = () => {
   const formatDuration = (time: string | undefined): string => {
     if (!time || time === '-') return '-';
 
-    // If it's not a time format (contains currency, % or other non-time chars),
-    // return as-is since it's already formatted by the backend
     if (!isTimeFormat(time) && !/^\d+$/.test(time)) {
       return time;
     }

@@ -60,7 +60,6 @@ const severityMap: Record<ESeverity, string> = {
 
 const mappedSeverity = computed(() => severityMap[props.severity] || 'default');
 
-// const borderClass = computed(() => `card-border-${mappedSeverity.value}`);
 const textClass = computed(() => `card-text-${mappedSeverity.value}`);
 const bgClass = computed(() => `bg-${mappedSeverity.value}`);
 const bgLightClass = computed(() => `bg-light-${mappedSeverity.value}`);

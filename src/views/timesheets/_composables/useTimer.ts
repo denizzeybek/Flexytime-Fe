@@ -1,11 +1,10 @@
 import { computed,ref } from 'vue';
 
 export const useTimer = () => {
-  const elapsedTime = ref(0); // Store elapsed time in seconds
-  const isRunning = ref(false); // Check if timer is running or not
-  let timerInterval: any = null; // Timer interval
+  const elapsedTime = ref(0);
+  const isRunning = ref(false);
+  let timerInterval: any = null;
 
-  // Computed property to format elapsed time as HH:mm:ss
   const formattedElapsedTime = computed(() => {
     const hours = Math.floor(elapsedTime.value / 3600)
       .toString()
@@ -17,7 +16,6 @@ export const useTimer = () => {
     return `${hours}:${minutes}:${seconds}`;
   });
 
-  // Start the timer
   const startTimer = () => {
     if (!isRunning.value) {
       isRunning.value = true;
@@ -27,7 +25,6 @@ export const useTimer = () => {
     }
   };
 
-  // Stop the timer
   const stopTimer = () => {
     if (isRunning.value) {
       isRunning.value = false;
@@ -38,7 +35,6 @@ export const useTimer = () => {
     }
   };
 
-  // Reset the timer
   const resetTimer = () => {
     stopTimer();
     elapsedTime.value = 0;

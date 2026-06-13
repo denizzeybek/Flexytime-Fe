@@ -129,7 +129,6 @@ const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
   emit('toggle-domain', webClock, newDomain);
 };
 
-// Skeleton dummy data - 10 rows for loading state (web history usually has more rows)
 const skeletonData = Array.from({ length: 10 }, (_, i) => ({
   ID: `skeleton-${i}`,
   Url: '',

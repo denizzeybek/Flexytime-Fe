@@ -57,7 +57,6 @@ const router = useRouter();
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
 const { t } = useI18n<{ message: MessageSchema }>();
 
-// Form for FSelect
 const { resetForm } = useForm();
 
 const selectedDate = ref<Date>(new Date());
@@ -111,7 +110,6 @@ watch(
   () => route.name,
   (name) => {
     if (name === ERouteNames.TimeEntriesManual || name === ERouteNames.TimeEntriesUnclassified) {
-      // Set default value for hours select
       resetForm({
         values: {
           selectedHours: hoursOptions.value.find((o) => o.value === '24'),

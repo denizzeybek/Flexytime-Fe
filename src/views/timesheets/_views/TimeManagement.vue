@@ -132,14 +132,12 @@ watch(
 );
 
 onMounted(() => {
-  // Set initial date range from store
   resetForm({
     values: {
       date: timeManagementsStore.dateRange,
     },
   });
 
-  // Fetch initial data
   timeManagementsStore.fetchWeekEntries();
 });
 </script>

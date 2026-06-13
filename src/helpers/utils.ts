@@ -50,7 +50,6 @@ export const getAvatarLabel = (name: string | null | undefined): string => {
   if (words.length === 0) return '';
   if (words.length === 1) return words[0][0].toUpperCase();
 
-  // İlk ve son kelimenin baş harflerini al
   const firstInitial = words[0][0];
   const lastInitial = words[words.length - 1][0];
 
@@ -58,18 +57,15 @@ export const getAvatarLabel = (name: string | null | undefined): string => {
 };
 
 export const decodeJWT = (token: string) => {
-  // Split the token into its parts
   const parts = token.split('.');
 
   if (parts.length !== 3) {
     throw new Error('Invalid JWT token');
   }
 
-  // Base64 decode the payload (second part of the token)
   const payload = parts[1];
   const decodedPayload = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
 
-  // Decode the UTF-8 string
   const utf8Decoder = new TextDecoder('utf-8');
   const decodedArray = new Uint8Array(decodedPayload.split('').map((char) => char.charCodeAt(0)));
   const parsedPayload = JSON.parse(utf8Decoder.decode(decodedArray));
@@ -114,9 +110,8 @@ export const transformTimeValue = (event: InputEvent): string | null => {
 export const calculateTimeDifference = (start: string, end: string): string => {
   if (!start || !end) return 'Zaman değerleri eksik';
 
-  const today = dayjs().format('YYYY-MM-DD'); // Bugünün tarihi
+  const today = dayjs().format('YYYY-MM-DD');
 
-  // Start ve End zamanlarını geçerli bir tarih ile oluşturuyoruz
   const startMoment = dayjs(`${today} ${start}`, 'YYYY-MM-DD HH:mm');
   const endMoment = dayjs(`${today} ${end}`, 'YYYY-MM-DD HH:mm');
 
@@ -146,18 +141,14 @@ export const calculateTimeDifferenceFromDates = (start: Date | null, end: Date |
 };
 
 export const convertTimeToDate = (time) => {
-  // Saat formatını düzelt: noktayı iki nokta ile değiştir
   const formattedTime = time.replace('.', ':');
 
-  // Saat değeri ile Date objesi oluştur
   const parsedTime = new Date(`1970-01-01T${formattedTime}:00`);
 
-  // Saat ve dakikayı sıfırla
-  parsedTime.setHours(parsedTime.getHours()); // Saat olduğu gibi bırak
-  parsedTime.setMinutes(0); // Dakikaları sıfırla
-  parsedTime.setSeconds(0); // Saniyeleri sıfırla
+  parsedTime.setHours(parsedTime.getHours());
+  parsedTime.setMinutes(0);
+  parsedTime.setSeconds(0);
 
-  // Dönüşüm sonrası alınan saat, Date formatında döndürülür
   return parsedTime;
 };
 

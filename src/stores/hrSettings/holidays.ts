@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { CompanyService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { HolidayDto, PerformReferenceModel } from '@/client';
+import type { HolidayDto, PerformReferenceDto } from '@/client';
 
 interface State {
   list: HolidayDto[];
@@ -36,7 +36,7 @@ export const useHRSettingsHolidaysStore = defineStore(EStoreNames.HR_SETTINGS_HO
       await CompanyService.companyControllerSaveHoliday(payload);
       await this.filter();
     },
-    async delete(ID: PerformReferenceModel) {
+    async delete(ID: PerformReferenceDto) {
       await CompanyService.companyControllerDeleteHoliday(ID);
       await this.filter();
     },

@@ -137,9 +137,6 @@ const submitHandler = handleSubmit(async (values) => {
       return;
     }
 
-    // v2 AccountResetDto = { Email, Code, Password, Recaptcha? } — no
-    // ConfirmPassword on the wire; the form's confirm field is validated
-    // client-side only.
     await AccountService.accountControllerReset({
       Email: email.value,
       Password: values.password,
@@ -155,7 +152,6 @@ const submitHandler = handleSubmit(async (values) => {
 
 onMounted(() => {
   email.value = (route.query.email as string) || '';
-  // URL'deki + karakterleri space olarak gelir, geri çeviriyoruz
   const rawCode = (route.query.code as string) || '';
   code.value = rawCode.replace(/\s/g, '+');
 });

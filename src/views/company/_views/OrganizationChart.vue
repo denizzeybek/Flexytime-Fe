@@ -77,7 +77,6 @@ import type { OrganizationTreeNode } from '@/views/company/_types/organizationTr
 const { showErrorMessage } = useFToast();
 const organizationsStore = useCompanyOrganizationChartsStore();
 
-// Local state
 const isLoading = ref(false);
 const isSaving = ref(false);
 const treeData = ref<OrganizationTreeNode[]>([]);
@@ -85,20 +84,17 @@ const originalTreeData = ref<OrganizationTreeNode[]>([]);
 const searchQuery = ref('');
 const expandAll = ref(true);
 
-// Dialog state
 const showEditDialog = ref(false);
 const showDeleteDialog = ref(false);
 const selectedNode = ref<OrganizationNodeViewModel | null>(null);
 const nodeToDelete = ref<OrganizationNodeViewModel | null>(null);
 const dialogMode = ref<'add' | 'edit'>('add');
 
-// Undo state
 const history = ref<OrganizationTreeNode[][]>([]);
 const historyIndex = ref(-1);
 
 const canUndo = computed(() => historyIndex.value > 0);
 
-// Provide event handlers to tree item component
 provide('searchQuery', searchQuery);
 provide('onEdit', (node: OrganizationTreeNode) => {
   dialogMode.value = 'edit';
@@ -122,13 +118,11 @@ provide('onAddChild', (node: OrganizationTreeNode) => {
   showEditDialog.value = true;
 });
 
-// Helper functions
 const generateTempId = (): string => {
   return `temp_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 };
 
 const pushToHistory = (state: OrganizationTreeNode[]) => {
-  // Remove any future states if we're not at the end
   if (historyIndex.value < history.value.length - 1) {
     history.value = history.value.slice(0, historyIndex.value + 1);
   }
@@ -187,7 +181,6 @@ const updateNodeById = (
   });
 };
 
-// Auto-save function
 const autoSave = async () => {
   try {
     isSaving.value = true;
@@ -201,10 +194,8 @@ const autoSave = async () => {
   }
 };
 
-// Handle move event from vue-tree-dnd
 const handleMove = () => {
   pushToHistory(treeData.value);
-  // vue-tree-dnd already updates the v-model, so we just need to save
   autoSave();
 };
 
@@ -280,7 +271,6 @@ const handleUndo = () => {
   }
 };
 
-// API Operations
 const fetchOrganizationChart = async () => {
   try {
     isLoading.value = true;

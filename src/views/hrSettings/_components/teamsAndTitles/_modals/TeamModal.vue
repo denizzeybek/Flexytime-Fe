@@ -80,17 +80,15 @@ const open = defineModel<boolean>('open');
 
 const isEditing = computed(() => !!props.data);
 
-// Get all employees as potential managers (excluding System Admins - Role 2)
 const managerOptions = computed(() => {
   return employeesStore.list
-    .filter((emp) => emp.Role !== 2) // Exclude System Admins
+    .filter((emp) => emp.Role !== 2)
     .map((emp) => ({
       name: emp.MemberName ?? '',
       value: emp.ID ?? '',
     }));
 });
 
-// Get initial manager option for the dropdown
 const getInitialManagerOption = () => {
   if (!props.data?.Manager) return undefined;
   return {
@@ -117,7 +115,6 @@ const { defineField, handleSubmit, errors, isSubmitting } = useForm({
 const [name, nameAttrs] = defineField('name');
 const [, managerAttrs] = defineField('manager');
 
-// Suppress unused variable warning
 void nameAttrs;
 void managerAttrs;
 
@@ -128,10 +125,8 @@ const onSubmit = handleSubmit(async (values) => {
   };
 
   await executeWithFeedback(async () => {
-    // Save team first
     await teamsStore.saveTeam(payload);
 
-    // If editing and manager changed, assign new manager
     if (isEditing.value && props.data?.ID) {
       const currentManagerId = props.data?.Manager?.ID || null;
       const newManagerId = (values.manager as { value?: string } | null)?.value || null;
@@ -148,7 +143,6 @@ const onSubmit = handleSubmit(async (values) => {
 });
 
 onMounted(async () => {
-  // Ensure employees are loaded for manager dropdown
   if (employeesStore.list.length === 0) {
     await employeesStore.filter();
   }

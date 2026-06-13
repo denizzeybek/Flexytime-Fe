@@ -12,7 +12,6 @@ export const useEmployeeModalValidation = (propsData: TheMemberViewModel | undef
   const activeTab = ref(0);
   const isEditing = computed(() => !!propsData);
 
-  // Helper to create required message
   const requiredMsg = (field: string) => t('common.validation.mixed.required', { field });
   const emailMsg = (field: string) => t('common.validation.string.email', { field });
   const minMsg = (field: string, min: number) => t('common.validation.string.min', { field, min });
@@ -25,7 +24,6 @@ export const useEmployeeModalValidation = (propsData: TheMemberViewModel | undef
           .of(string().email(emailMsg(t('pages.hrSettings.employees.modal.email.label'))).required(requiredMsg(t('pages.hrSettings.employees.modal.email.label'))))
           .required(arrayMinMsg(t('pages.hrSettings.employees.modal.email.label'), 1))
           .min(1, arrayMinMsg(t('pages.hrSettings.employees.modal.email.label'), 1)),
-        // Title and Team are optional at invite time — admin can leave both blank.
         title: object()
           .shape({
             name: string(),
@@ -79,9 +77,6 @@ export const useEmployeeModalValidation = (propsData: TheMemberViewModel | undef
             value: string().required(requiredMsg(t('pages.hrSettings.employees.modal.team.label'))),
           })
           .required(requiredMsg(t('pages.hrSettings.employees.modal.team.label'))),
-        // Operating User (WindowsIdentity) is collected at agent-install
-        // time, not from the admin form — the field is hidden in the edit
-        // template, so the schema must allow it to be absent / null.
         operatingUser: string().optional().nullable(),
         salary: number().required(requiredMsg(t('pages.hrSettings.employees.modal.salary.label'))),
         password: passwordRule(),

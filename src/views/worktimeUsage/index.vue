@@ -159,13 +159,10 @@ import TabPanel from 'primevue/tabpanel';
 import TabPanels from 'primevue/tabpanels';
 import Tabs from 'primevue/tabs';
 
-// Store and Composables
 import { useFToast } from '@/composables/useFToast';
-import { DownloadService } from '@/customClient/services/DownloadService';
 import { useProfileStore } from '@/stores/profile/profile';
 import { useWorktimeStore } from '@/stores/worktimeUsage/worktimeStore';
 
-// Components
 import Message from './_components/common/Message.vue';
 import Summary from './_components/common/Summary.vue';
 import UserBadge from './_components/common/UserBadge.vue';
@@ -180,30 +177,20 @@ import { useWorktimeQuery } from './_composables';
 import type { DisplayMode, IWebClock,TabType } from './_types';
 import type { MessageSchema } from '@/plugins/i18n';
 
-// Store
 const store = useWorktimeStore();
 const profileStore = useProfileStore();
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
-// Composables
 const { currentQuery, changeTab, navigateToIndividual } = useWorktimeQuery();
 
-// Local State
 const displayMode = ref<DisplayMode>('team');
 const errorMessage = ref<string | null>(null);
 const activeTabIndex = ref<TabType>(currentQuery.value.tab);
 const showGraphBelow = ref(false);
 
-// Computed Properties
 const isLoading = computed(() => store.isLoading);
 
-// v2: the section response no longer carries a Card / Breadcrumb / Teamset
-// header block — the FE derives those from the profile (legacy build* helpers
-// on the store). Summary + Distribution come back as the new RESHAPED-v2
-// shapes; we use the store's adapter getters (`sectionSummary`,
-// `sectionDistributions`) to project them back to the legacy ISummary[] /
-// IDistribution[] markup the existing components still expect.
 const currentCard = computed(() => {
   if (currentQuery.value.view === 'individual') {
     return store.employeeData?.Card || null;
@@ -232,9 +219,6 @@ const currentDistributions = computed(() => {
   return store.sectionDistributions;
 });
 
-// v2 ProductivityGraph is the raw per-day per-domain series; the store
-// builds the ClockGraphGroup shape (stacked bar dataset) from it for
-// both views.
 const currentGraphs = computed(() => {
   if (currentQuery.value.view === 'individual') {
     return store.employeeData?.Graphs || null;
@@ -242,10 +226,6 @@ const currentGraphs = computed(() => {
   return store.sectionGraphs;
 });
 
-// Per-type well-being series (one chart per type). Section view ships
-// `WellBeingGraph[]`; individual view's per-type Points are already
-// embedded in each `WellBeings[]` row — surface the same shape from
-// there so the Show-Graph toggle works on both views.
 const currentWellBeingGraphs = computed(() => {
   if (currentQuery.value.view === 'individual') {
     return (store.employeeData?.WellBeings ?? []).map((wb) => ({
@@ -259,10 +239,6 @@ const currentWellBeingGraphs = computed(() => {
   return store.sectionWellBeingGraphs;
 });
 
-// Show-Graph toggle is only meaningful for tabs that *have* a
-// secondary chart in the v1 sense — Productivity (per-day stacked bar)
-// and Wellbeing (per-type per-day series). Distribution stays hidden
-// because each domain card already carries its own inline doughnut.
 const showGraphToggleVisible = computed(() => {
   const tab = currentQuery.value.tab;
   return tab === 'productivity' || tab === 'wellbeing';
@@ -279,13 +255,8 @@ const currentIndividualWellbeings = computed(() => {
 const teams = computed(() => store.getTeams);
 const individuals = computed(() => store.getIndividuals);
 
-// v2: the legacy `Teamset.IsTeam` flag is gone; we now infer "are we looking
-// at a team that has children to toggle into" from whether the section query
-// is in team mode at all. The toggle currently disappears under v2 until we
-// build a proper section-detail surface (FE-side decision pending).
 const showTeamToggle = computed(() => false);
 
-// Available tabs based on view mode
 const availableTabs = computed<Array<{ key: TabType; label: string }>>(() => {
   const tabs: Array<{ key: TabType; label: string }> = [];
 
@@ -306,7 +277,6 @@ const availableTabs = computed<Array<{ key: TabType; label: string }>>(() => {
   return tabs;
 });
 
-// Functions
 const showTab = (tabKey: TabType): boolean => {
   return availableTabs.value.some((tab) => tab.key === tabKey);
 };
@@ -358,20 +328,17 @@ const handleToggleDomain = async (webClock: IWebClock, newDomain: number) => {
       Domain: newDomain,
     });
     showSuccessMessage(t('pages.worktimeUsage.messages.domainUpdated'));
-    // Refresh the data to show updated domain
     await fetchData();
   } catch (error) {
     showErrorMessage(error as Error);
   }
 };
 
-// Watchers
 watch(
   () => currentQuery.value,
   () => {
     fetchData();
     activeTabIndex.value = currentQuery.value.tab;
-    // Hide graph when switching tabs
     showGraphBelow.value = false;
   },
   { deep: true },
@@ -383,18 +350,13 @@ watch(activeTabIndex, (newTab) => {
   }
 });
 
-// Lifecycle
 onMounted(async () => {
-  // Auto-redirect employees to individual view (based on ROLE, not permission)
   const isEmployee = profileStore.isEmployee;
   const currentView = currentQuery.value.view;
 
-  // If user role is EMPLOYEE (not supervisor/admin) and in team view, redirect to individual
-  // Backend accepts MemberId: null and returns current user's data from token
   if (isEmployee && currentView === 'team') {
-    // Use null as memberId - backend will get user from auth token
     await navigateToIndividual(null);
-    return; // fetchData will be called by the route change watcher
+    return;
   }
 
   fetchData();

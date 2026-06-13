@@ -223,5 +223,6 @@ Detailed project rules live in [`.claude/rules/`](./.claude/rules/). Every file 
 | [branches-prs.md](./.claude/rules/branches-prs.md) | Branch naming, PR format, review checklist |
 | [done-checklist.md](./.claude/rules/done-checklist.md) | Verify before marking a task done |
 | [anti-patterns.md](./.claude/rules/anti-patterns.md) | Things to reject on sight |
+| [comment-policy.md](./.claude/rules/comment-policy.md) | What `//` comments are allowed (TODO/FIXME/HACK + lint/TS directives only) |
 
 When touching a specific concern, load the matching rule file. More specific files win over generic notes in this document.

@@ -17,6 +17,7 @@ Machine-readable project rules for Claude Code. Every file here is a focused rul
 | [branches-prs.md](./branches-prs.md) | Branch naming, PR format, review checklist |
 | [done-checklist.md](./done-checklist.md) | What to verify before marking a task done |
 | [anti-patterns.md](./anti-patterns.md) | Things to reject on sight |
+| [comment-policy.md](./comment-policy.md) | Allowed `//` comments (TODO/FIXME/HACK + lint/TS directives) |
 
 ## How Claude should use these
 

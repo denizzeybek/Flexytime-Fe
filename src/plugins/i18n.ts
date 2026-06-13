@@ -35,7 +35,6 @@ const loadLocaleMessages = async (locale: Language) => {
   if (i18n.global.availableLocales.includes(locale)) {
     return Promise.resolve()
   }
-  // lazy loading
   const messages = await import(`@/locales/${locale}.json`)
   i18n.global.setLocaleMessage(locale, messages.default)
   return Promise.resolve()

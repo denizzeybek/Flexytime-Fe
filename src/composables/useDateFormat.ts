@@ -37,7 +37,6 @@ export const useDateFormat = () => {
 
   const dateFormat = computed(() => {
     const currentLocale = locale.value as keyof typeof DATE_FORMATS;
-    // Default to Turkish format for all locales (dd.mm.yy)
     return DATE_FORMATS[currentLocale] || DATE_FORMATS.tr;
   });
 

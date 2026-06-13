@@ -94,7 +94,6 @@ const submit = async (settingType: number, value: any) => {
       },
     ];
     if (settingType === 0 || settingType === 1) {
-      // date formatını saat'e çevir
       payload = [
         {
           SettingType: settingType,
@@ -125,7 +124,6 @@ const getFieldLabel = (settingType: number | undefined): string => {
   const key = `pages.settings.advanced.fields.type${settingType}`;
   const translation = t(key);
 
-  // Eğer çeviri bulunamazsa (key döndürülürse), backend'den gelen TypeName'i kullan
   if (translation === key) {
     const field = fields.value.find(f => f.value.SettingType === settingType);
     return field?.value.TypeName || '';

@@ -162,13 +162,11 @@ const isLanguageLoading = ref(false);
 const isTimezoneLoading = ref(false);
 const isImageUploading = ref(false);
 
-// Language options and model (independent from form)
 const languageOptions = getLanguageOptions();
 const selectedLanguageModel = ref<{ name: string; value: 'en' | 'tr' } | undefined>(
   languageOptions.find((lang) => lang.value === currentLanguage.value),
 );
 
-// Timezone options and model
 const timeZoneList = computed(() =>
   profileStore?.TimeZoneList?.map((item) => ({ name: item.Name, value: item.ID })),
 );
@@ -204,27 +202,24 @@ const onFileSelect = async (event: any) => {
   const file = event.files[0];
   if (!file) return;
 
-  // Show preview immediately
   const reader = new FileReader();
   reader.onload = (e) => {
     src.value = e?.target?.result;
   };
   reader.readAsDataURL(file);
 
-  // Upload to server
   isImageUploading.value = true;
   try {
     await profileStore.uploadProfileImage(file);
     showSuccessMessage(t('pages.profile.basic.messages.imageUpdated'));
   } catch {
     showErrorMessage(t('common.errors.generic'));
-    src.value = null; // Reset preview on error
+    src.value = null;
   } finally {
     isImageUploading.value = false;
   }
 };
 
-// Handle language change - saves to backend and updates UI
 const handleLanguageChange = async (option: { name: string; value: 'en' | 'tr' }) => {
   if (option && option.value) {
     isLanguageLoading.value = true;
@@ -240,7 +235,6 @@ const handleLanguageChange = async (option: { name: string; value: 'en' | 'tr' }
   }
 };
 
-// Handle timezone change - saves to backend immediately
 const handleTimezoneChange = async (option: { name: string; value: string }) => {
   if (option && option.value) {
     isTimezoneLoading.value = true;
@@ -255,7 +249,6 @@ const handleTimezoneChange = async (option: { name: string; value: string }) => 
   }
 };
 
-// Resend email confirmation
 const onResendConfirmation = async () => {
   try {
     await profileStore.resendConfirmation();
@@ -265,7 +258,6 @@ const onResendConfirmation = async () => {
   }
 };
 
-// Watch currentLanguage changes and update model
 watch(currentLanguage, (newLang) => {
   selectedLanguageModel.value = languageOptions.find((lang) => lang.value === newLang);
 });
@@ -273,12 +265,10 @@ watch(currentLanguage, (newLang) => {
 onMounted(async () => {
   await Promise.all([profileStore.filter(), profileStore.fetchTimezones()]);
 
-  // Set initial language model
   selectedLanguageModel.value = languageOptions.find(
     (lang) => lang.value === currentLanguage.value,
   );
 
-  // Set initial timezone model
   const timeZone = profileStore?.TimeZone;
   selectedTimezoneModel.value = timeZoneList.value?.find((item) => item.value === timeZone);
 

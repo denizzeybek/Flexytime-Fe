@@ -193,7 +193,6 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const reportsStore = useCompanyReportsStore();
 const { teamOptions, employeeOptions, projectOptions, billableOptions, groupOptions } = useReport();
 
-// Filter state
 const selectedTeams = ref<string[]>([]);
 const selectedEmployees = ref<string[]>([]);
 const selectedProjects = ref<string[]>([]);
@@ -203,7 +202,6 @@ const selectedDateRange = ref<Date[]>([today, today]);
 const selectedGroup1 = ref<EGroupOptions>(EGroupOptions.PROJECTS);
 const selectedGroup2 = ref<EGroupOptions>(EGroupOptions.EMPLOYEES);
 
-// Computed
 const summary = computed(() => reportsStore.summary);
 
 const group1Label = computed(() => {
@@ -317,10 +315,8 @@ const pieChartOptions = computed(() => {
   };
 });
 
-// Methods
 const buildQueryPayload = () => {
   const [start, end] = selectedDateRange.value;
-  // Format: DD.MM.YYYY-days (same as worktime usage)
   const diffTime = Math.abs(end.getTime() - start.getTime());
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
   const interval = `${formatDateToInterval(start)}-${diffDays}`;

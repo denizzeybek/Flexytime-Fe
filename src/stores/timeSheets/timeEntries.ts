@@ -171,7 +171,6 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
     getTimeClocks: (state): TimeClockGroupViewModel[] => state.timeClocks,
     getQuery: (state): TimeEntryQueryDto => state.query,
     isLoading: (state): boolean => state.loading,
-    // Options getters
     taskNames: (state): string[] => state.tasks.map((t) => t.Name ?? '').filter(Boolean),
     projectOptions: (state): Array<{ name: string; value: string }> =>
       state.projects.map((p) => ({ name: p.Name ?? '', value: p.ID ?? '' })),
@@ -201,7 +200,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
           EntryId: query?.EntryId ?? this.query.EntryId,
           Hours: query?.Hours ?? this.query.Hours,
         };
-        const data = await TimesheetService.timesheetControllerGetTimeEntries(requestQuery);
+        const data = await TimesheetService.timesheetControllerGetEntries(requestQuery);
 
         this.timeEntries = data;
         return data;
@@ -230,7 +229,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
           EntryId: query?.EntryId ?? this.query.EntryId,
           Hours: query?.Hours ?? this.query.Hours,
         };
-        const data = await TimesheetService.timesheetControllerGetTimeClocks(requestQuery);
+        const data = await TimesheetService.timesheetControllerGetClocks(requestQuery);
 
         this.timeClocks = data;
         return data;
@@ -280,7 +279,6 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
     },
 
     async saveTask(taskName: string): Promise<TimeTaskViewModel | null> {
-      // Check if task already exists
       const existingTask = this.tasks.find(
         (t) => t.Name?.toLowerCase() === taskName.toLowerCase(),
       );
@@ -290,7 +288,6 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
 
       try {
         const response = await TimesheetService.timesheetControllerSaveTask({ Name: taskName });
-        // Extract ID from backend response DTO
         const dto = (response as unknown as { DTO?: { ID?: string; Name?: string } }).DTO;
         const newTask: TimeTaskViewModel = { ID: dto?.ID, Name: dto?.Name ?? taskName };
         this.tasks.push(newTask);
@@ -306,7 +303,6 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
     },
 
     async saveProject(projectName: string): Promise<TimeProjectViewModel | null> {
-      // Check if project already exists
       const existingProject = this.projects.find(
         (p) => p.Name?.toLowerCase() === projectName.toLowerCase(),
       );
@@ -316,10 +312,8 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
 
       try {
         await TimesheetService.timesheetControllerSaveProject({ Name: projectName });
-        // Refresh projects list to get the new project with ID
         const projects = await TimesheetService.timesheetControllerGetProjects();
         this.projects = projects;
-        // Return the newly added project
         return this.projects.find((p) => p.Name?.toLowerCase() === projectName.toLowerCase()) ?? null;
       } catch (err: unknown) {
         console.error('Failed to save project:', err);
@@ -328,7 +322,6 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
     },
 
     async saveTag(tagName: string): Promise<TimeTagViewModel | null> {
-      // Check if tag already exists
       const existingTag = this.tags.find(
         (t) => t.Name?.toLowerCase() === tagName.toLowerCase(),
       );
@@ -338,10 +331,8 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
 
       try {
         await TimesheetService.timesheetControllerSaveTag({ Name: tagName });
-        // Refresh tags list to get the new tag with ID
         const tags = await TimesheetService.timesheetControllerGetTags();
         this.tags = tags;
-        // Return the newly added tag
         return this.tags.find((t) => t.Name?.toLowerCase() === tagName.toLowerCase()) ?? null;
       } catch (err: unknown) {
         console.error('Failed to save tag:', err);
@@ -352,7 +343,6 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
     async deleteTimeEntry(entryId: string): Promise<boolean> {
       try {
         await TimesheetService.timesheetControllerDeleteTimeEntry({ ID: entryId });
-        // Refresh the list after deletion
         await this.fetchTimeEntries();
         return true;
       } catch (err: unknown) {
@@ -364,7 +354,6 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
     async deleteTimeEntryRange(rangeId: string): Promise<boolean> {
       try {
         await TimesheetService.timesheetControllerDeleteTimeEntryRange({ ID: rangeId });
-        // Refresh the list after deletion
         await this.fetchTimeEntries();
         return true;
       } catch (err: unknown) {

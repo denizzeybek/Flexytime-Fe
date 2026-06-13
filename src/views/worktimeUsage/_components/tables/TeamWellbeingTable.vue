@@ -164,10 +164,8 @@ const { t } = useI18n<{ message: MessageSchema }>();
 
 const { handleTeamClick, handleEmployeeClick } = useWorktimeNavigation();
 
-// Register tooltip directive
 const vTooltip = Tooltip;
 
-// Map backend wellbeing types to PrimeVue icons
 const getWellbeingIcon = (type: string): string => {
   const iconMap: Record<string, string> = {
     overloaded: 'pi pi-exclamation-triangle',
@@ -185,7 +183,6 @@ const getWellbeingIcon = (type: string): string => {
   return iconMap[type] || 'pi pi-circle';
 };
 
-// Skeleton dummy data - 5 rows for loading state
 const skeletonData = Array.from({ length: 5 }, (_, i) => ({
   ID: `skeleton-${i}`,
   TeamName: '',

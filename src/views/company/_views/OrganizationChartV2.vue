@@ -88,7 +88,6 @@ import {
   type OrganizationFlowNode,
 } from '../_types/organizationChartV2';
 
-// Import Vue Flow styles
 import '@vue-flow/core/dist/style.css';
 import '@vue-flow/core/dist/theme-default.css';
 import '@vue-flow/controls/dist/style.css';
@@ -100,12 +99,10 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const { showErrorMessage } = useFToast();
 const store = useCompanyOrganizationChartsStore();
 
-// State
 const isLoading = ref(false);
 const nodes = ref<OrganizationFlowNode[]>([]);
 const edges = ref<OrganizationFlowEdge[]>([]);
 
-// Methods
 const fetchData = async () => {
   try {
     isLoading.value = true;

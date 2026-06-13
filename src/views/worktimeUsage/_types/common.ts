@@ -2,9 +2,6 @@
  * Common Types and Enums for Worktime Usage V2
  */
 
-// ============================================
-// View Mode Types
-// ============================================
 
 /**
  * Main view modes in the application
@@ -21,9 +18,6 @@ export type TabType = 'productivity' | 'wellbeing' | 'distribution' | 'webHistor
  */
 export type DisplayMode = 'team' | 'employees';
 
-// ============================================
-// Query Parameter Interface
-// ============================================
 
 /**
  * URL query parameters structure
@@ -41,9 +35,6 @@ export interface IWorktimeQuery {
   perspective: string;
 }
 
-// ============================================
-// Navigation Helpers
-// ============================================
 
 /**
  * Navigation target for clickable elements
@@ -54,9 +45,6 @@ export interface INavigationTarget {
   name: string;
 }
 
-// ============================================
-// Loading and Error States
-// ============================================
 
 export interface ILoadingState {
   section: boolean;
@@ -68,9 +56,6 @@ export interface IErrorState {
   employee: string | null;
 }
 
-// ============================================
-// Tab Configuration
-// ============================================
 
 /**
  * Configuration for each tab
@@ -91,9 +76,6 @@ export interface IViewTabConfig {
   individual: ITabConfig[];
 }
 
-// ============================================
-// Table Column Definitions
-// ============================================
 
 export interface ITableColumn {
   field: string;

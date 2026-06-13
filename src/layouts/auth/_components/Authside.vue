@@ -23,8 +23,6 @@
 </template>
 
 <script lang="ts" setup>
-// import { EIconNames } from '@/common/enums/icons.enum';
-// import { colors } from '@/constants/colors';
 import { computed } from 'vue';
 
 import { ERouteNames } from '@/router/routeNames.enum';

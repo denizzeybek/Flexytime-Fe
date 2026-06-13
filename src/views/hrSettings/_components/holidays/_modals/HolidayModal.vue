@@ -83,9 +83,6 @@ import { useHRSettingsHolidaysStore } from '@/stores/hrSettings/holidays';
 
 dayjs.extend(utc);
 
-// RESHAPED-v2: BE expects Start/End as UTC ISO 8601 instants (Rule 13).
-// Full-day holidays: UTC-midnight of the picked calendar day (Rule 13 bucket #3).
-// Half-day holidays: the picked instant as UTC.
 const toIsoInstant = (date: Date, fullDay: boolean): string => {
   if (fullDay) {
     return dayjs(date).utc().startOf('day').toISOString();
@@ -128,7 +125,6 @@ const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
 const getInitialFormData = computed(() => {
   const holiday = props.data;
   if (holiday) {
-    // RESHAPED-v2: BE returns Start/End as UTC ISO 8601 instants.
     return {
       ID: holiday.ID,
       name: holiday.Name,
@@ -148,7 +144,6 @@ const getInitialFormData = computed(() => {
 
 const submitHandler = handleSubmit(async (values) => {
   const payload: HolidayDto = {
-    // RESHAPED-v2 (Rule 13): BE expects UTC ISO 8601 instants on Start/End.
     Start: toIsoInstant(values.startDate, values.startFullDay === true),
     End: toIsoInstant(values.endDate, values.endFullDay === true),
     Name: values.name,

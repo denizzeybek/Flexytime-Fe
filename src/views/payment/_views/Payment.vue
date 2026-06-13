@@ -131,13 +131,11 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const router = useRouter();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 
-// State
 const loading = ref(true);
 const plans = ref<PricingPlan[]>([]);
 const selectedPlan = ref<PricingPlan | null>(null);
 const paymentSuccess = ref(false);
 
-// Trust badges configuration
 const trustBadges = computed(() => [
   {
     icon: 'pi pi-shield',
@@ -156,7 +154,6 @@ const trustBadges = computed(() => [
   },
 ]);
 
-// Features configuration
 const features = computed(() => [
   {
     icon: 'pi pi-clock',
@@ -178,13 +175,11 @@ const features = computed(() => [
   },
 ]);
 
-// Fetch plans
 const fetchPlans = async () => {
   try {
     loading.value = true;
     plans.value = await PaymentService.getPlans();
 
-    // Auto-select recommended plan
     const recommended = plans.value.find((p) => p.recommended);
     if (recommended) {
       selectedPlan.value = recommended;
@@ -196,28 +191,23 @@ const fetchPlans = async () => {
   }
 };
 
-// Handle plan selection
 const handlePlanSelect = (plan: PricingPlan) => {
   selectedPlan.value = plan;
 };
 
-// Handle successful payment
-const handlePaymentSuccess = (paymentIntentId: string) => {
+const handlePaymentSuccess = (_paymentIntentId: string) => {
   paymentSuccess.value = true;
   showSuccessMessage(t('pages.payment.success.message'));
 };
 
-// Handle payment error
 const handlePaymentError = (error: string) => {
   showErrorMessage(error);
 };
 
-// Go to dashboard
 const goToDashboard = () => {
   router.push({ name: ERouteNames.WorktimeUsage });
 };
 
-// Initialize
 onMounted(() => {
   fetchPlans();
 });

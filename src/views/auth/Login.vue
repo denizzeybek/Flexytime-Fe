@@ -138,14 +138,12 @@ import { ERouteNames } from '@/router/routeNames.enum';
 import { useAuthStore } from '@/stores/auth';
 import { useProfileStore } from '@/stores/profile/profile';
 import GoogleCallbackLoader from '@/views/auth/_components/GoogleCallbackLoader.vue';
-// import { useCommonUsersStore } from '@/stores/common/users';
 
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n<{ message: MessageSchema }>();
 const authStore = useAuthStore();
 const profileStore = useProfileStore();
-// const commonUsersStore = useCommonUsersStore();
 const { showErrorMessage } = useFToast();
 const googleLogin = useGoogleLogin();
 
@@ -158,7 +156,6 @@ const { handleSubmit, isSubmitting } = useForm({
   validationSchema,
 });
 
-// Check if this is a Google OAuth callback (show loading screen instead of login form)
 const isGoogleCallback = computed(() => {
   const { status, key } = route.query;
   return !!(status && key);
@@ -166,17 +163,13 @@ const isGoogleCallback = computed(() => {
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    // v2: AuthService.authControllerLogin expects { username, password };
-    // legacy OAuth2 `grant_type=password` form field is gone.
     await authStore.login({
       username: values.email,
       password: values.password,
     });
 
-    // Load user profile to check role
     await profileStore.filter();
 
-    // Redirect based on role
     if (profileStore.isAdmin) {
       router.push({
         name: ERouteNames.SettingsCompanies,
@@ -191,11 +184,9 @@ const submitHandler = handleSubmit(async (values) => {
   }
 });
 
-// Handle Google OAuth callback
 onMounted(async () => {
   const { status, key } = route.query;
 
-  // Check if this is a Google OAuth callback
   if (status && key) {
     const success = await googleLogin.handleGoogleCallback(
       status as string,

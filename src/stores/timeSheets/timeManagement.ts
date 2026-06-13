@@ -7,7 +7,6 @@ import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { TimeEntryWeekViewModel } from '@/client';
 
-// isoWeek plugin is extended in @/helpers/utils.ts - this import ensures it's loaded
 import '@/helpers/utils';
 
 type EPerspective = 'employee' | 'project';
@@ -54,7 +53,7 @@ export const useTimesheetsTimeManagementsStore = defineStore(
       async fetchWeekEntries() {
         this.isLoading = true;
         try {
-          const response = await TimesheetService.timesheetControllerGetTimeWeekEntries({
+          const response = await TimesheetService.timesheetControllerGetWeek({
             StartDate: this.formattedStartDate,
             Perspective: this.perspective,
           });

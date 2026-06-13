@@ -98,7 +98,6 @@ const props = defineProps<IProps>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
-// Inject event handlers from parent
 const onEdit = inject<(node: OrganizationTreeNode) => void>('onEdit');
 const onDelete = inject<(node: OrganizationTreeNode) => void>('onDelete');
 const onAddChild = inject<(node: OrganizationTreeNode) => void>('onAddChild');

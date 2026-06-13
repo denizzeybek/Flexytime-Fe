@@ -198,7 +198,7 @@ const remainingNames = computed(() => allSelectedNames.value.slice(MAX_VISIBLE_I
 
 const remainingCount = computed(() => Math.max(0, allSelectedNames.value.length - MAX_VISIBLE_ITEMS));
 
-const submitHandler = handleSubmit(async (values) => {
+const submitHandler = handleSubmit(async (_values) => {
   try {
     showSuccessMessage(t('pages.timesheets.updateTimeEntriesModal.messages.success'));
 

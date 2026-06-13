@@ -8,7 +8,6 @@ declare module 'vue-router' {
     requiresAuth?: boolean;
     requiresUnAuth?: boolean;
     isPublic?: boolean;
-    // isGuest?: boolean
 
     /**
      * Roles required to access this route

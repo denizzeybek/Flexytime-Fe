@@ -114,10 +114,6 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 const { isEditing, handleClose } = useModalForm(open, props.data, resetForm);
 
 const submitHandler = handleSubmit(async (values) => {
-  // `license` is a display-only summary string (active/cap kullanıcı expire)
-  // composed from ActiveUserCount + UserCount + LicenseExpireDate. It is
-  // NOT a settable field; the BE rebuilds it from the next read after
-  // saveCompany re-keys the license blob from Month + UserCount.
   const payload: CompanyViewModel = {
     Name: values.name,
     Fullname: values.fullname,
@@ -174,18 +170,15 @@ const getInitialFormData = () => {
   };
 };
 
-// Reset form whenever modal opens or data changes
 watch(
   [open, () => props.data],
   ([isOpen]) => {
     if (isOpen) {
       if (isEditing.value) {
-        // Edit mode: populate form with existing data
         resetForm({
           values: getInitialFormData(),
         });
       } else {
-        // Add mode: clear form completely
         resetForm();
       }
     }

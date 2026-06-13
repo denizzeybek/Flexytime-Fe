@@ -249,8 +249,6 @@ const options = computed(() => [
   },
 ]);
 
-// Check if employee is incomplete (missing team or title)
-// System Admin (Role 2) doesn't need team/title
 const isEmployeeIncomplete = (employee: TheMemberViewModel): boolean => {
   if (employee.Role === 2) return false;
   return !employee.TeamId || !employee.TitleId;
@@ -283,8 +281,6 @@ const statusOrder = (row: TheMemberViewModel & { IsPending?: boolean }): number 
 const pendingInvitations = computed(() =>
   employeesStore.invitations.map((inv) => ({
     ID: inv.ID,
-    // The display columns key off MemberName; until the employee picks
-    // a Fullname during invite-accept, all we know is the email.
     MemberName: inv.Email ?? '',
     Email: inv.Email ?? '',
     Role: undefined,
@@ -330,10 +326,6 @@ const filteredEmployees = computed(() => {
   if (activeFilter.value === 'active') {
     return enrichedRoster.value.filter((emp) => !isEmployeeIncomplete(emp));
   }
-  // "All" tab: pending invitations float to the top so the operator sees
-  // their just-sent invite immediately under the Add User flow. Once the
-  // operator clicks the Status column header the DataTable's own sort
-  // (keyed off StatusOrder) takes over.
   return [...pendingInvitations.value, ...enrichedRoster.value];
 });
 

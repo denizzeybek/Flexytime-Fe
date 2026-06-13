@@ -106,26 +106,21 @@ export const useAuthorization = () => {
   });
 
   return {
-    // Role checks
     hasRole,
     hasAnyRole,
     hasAllRoles,
 
-    // Permission checks
     hasPermission,
     hasAnyPermission,
     hasAllPermissions,
 
-    // Computed role flags
     isAdmin,
     isSupervisor,
     isHR,
     isEmployee,
 
-    // Feature-specific computed flags
     canAccessWorktimeUsage,
 
-    // Raw data (for advanced use cases)
     roles: computed(() => profileStore.roles),
     permissions: computed(() => profileStore.permissions),
   };

@@ -169,7 +169,6 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const { handleTeamClick, handleEmployeeClick } = useWorktimeNavigation();
 const { formatDuration } = useTimeFormat();
 
-// Skeleton dummy data - 5 rows for loading state
 const skeletonData = Array.from({ length: 5 }, (_, i) => ({
   ID: `skeleton-${i}`,
   TeamName: '',

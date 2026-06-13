@@ -93,7 +93,6 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
 
         await PromotionService.promotionControllerSavePromotion(payload);
 
-        // Refresh the promotions list after saving
         await this.filter();
 
         return true;

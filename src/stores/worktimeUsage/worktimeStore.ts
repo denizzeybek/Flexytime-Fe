@@ -54,19 +54,14 @@ interface ApiError {
 }
 
 interface State {
-  // Section data (Team/Department view + Individuals list)
   sectionData: ClockSectionResponse | null;
 
-  // Employee data (Individual view) — legacy-shaped tab adapter
   employeeData: IEmployeeResponse | null;
 
-  // Loading states
   loading: ILoadingState;
 
-  // Error states
   error: IErrorState;
 
-  // Last request payloads for caching logic
   lastSectionRequest: ClockSectionRequestDto | null;
   lastEmployeeRequest: ClockEmployeeRequestDto | null;
 }
@@ -116,13 +111,6 @@ function summaryObjectToArray(
     End?: number | null;
   },
 ): ISummary[] {
-  // v2: `Start*`/`End*` are seconds-since-midnight (legacy ConvertSummary
-  // averages). The badge component matches on the lowercase statisticType
-  // 'starttime' / 'endtime' (see EStatisticType + BadgeGroup.mapStatistic-
-  // TypeToBadge). Work/Meeting/Leisure/Unclassified stay as raw seconds —
-  // the badge runs them through `formatDuration` for the "8h 30m" label.
-  // Start/End are pre-formatted to "HH:mm" here so the badge bypasses
-  // the duration formatter and surfaces a real clock time.
   const start = summary.StartTime ?? summary.Start ?? null;
   const end = summary.EndTime ?? summary.End ?? null;
   return [
@@ -328,19 +316,12 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * `Work.time` etc., so we widen each row.
      */
     getIndividuals: (state) => {
-      // v2 Individuals carry only `TeamId`; the legacy table renders
-      // `TeamName`. Build a lookup from the same response's Teams[] so the
-      // join happens client-side without a follow-up fetch.
       const teamNameById = new Map(
         (state.sectionData?.Teams ?? []).map((t) => [t.TeamId, t.Name ?? '']),
       );
       return (state.sectionData?.Individuals ?? []).map((row) => ({
         ID: row.UserId,
         EmployeeName: row.Fullname ?? '',
-        // Legacy tables render the name/team columns only when `Employee` /
-        // `Team` are truthy (v-else-if without v-else). v2 doesn't ship rich
-        // MemberUrl/ImageUrl, so we inject a minimal object — avatar falls
-        // back to initials, click is a no-op while MemberUrl is empty.
         Employee: { MemberUrl: '', ImageUrl: null },
         TeamName: row.TeamId ? (teamNameById.get(row.TeamId) ?? '') : '',
         Team: row.TeamId ? { TeamId: row.TeamId, ImageUrl: null } : null,
@@ -368,10 +349,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       (state.sectionData?.Teams ?? []).map((row) => ({
         ID: row.TeamId,
         TeamName: row.Name ?? '',
-        // v2 returns the supervisor as a user-id, not a denormalized name.
-        // The legacy table renders `SupervisorName` (string) + optional
-        // `Supervisor` (avatar metadata). Empty string / undefined here is
-        // fine; the FE will follow up with a fan-out to populate names.
         SupervisorName: '',
         Supervisor: undefined,
         Start: clockTimeCell(row.Summary.StartTime),
@@ -409,7 +386,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       const companyName = state.sectionData?.Company?.Name ?? '';
       const label = team?.Name ?? companyName;
       if (!label) return null;
-      // Build a 2-letter abbreviation from the team / company name.
       const abbreviation = label
         .split(/\s+/)
         .filter(Boolean)
@@ -468,11 +444,9 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      */
     buildCardFromEmployeeIdentity(identity: { Fullname?: string; Title?: string | null } | null): ICard | null {
       const profileStore = useProfileStore();
-      // Prefer the identity block from /clock/employee (has Fullname + Title).
       const name = identity?.Fullname || profileStore.GeneralProfile?.fullname || '';
       if (!name) return null;
       const title = identity?.Title ?? '';
-      // Build 2-letter abbreviation from the display name.
       const abbreviation = name
         .split(/\s+/)
         .filter(Boolean)
@@ -559,7 +533,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       payload: ClockEmployeeRequestDto,
       force = false,
     ): Promise<IEmployeeResponse | null> {
-      // Extract just the ID from MemberId if it contains a full path
       const cleanMemberId = payload.MemberId?.includes('/')
         ? payload.MemberId.split('/').pop() || payload.MemberId
         : payload.MemberId;

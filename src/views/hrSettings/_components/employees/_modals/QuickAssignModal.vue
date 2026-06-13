@@ -93,7 +93,6 @@ const teamsStore = useHRSettingsTeamsStore();
 
 const open = defineModel<boolean>('open');
 
-// Get initial team option for the dropdown
 const getInitialTeamOption = () => {
   if (!props.employee?.TeamId) return undefined;
   return {
@@ -102,7 +101,6 @@ const getInitialTeamOption = () => {
   };
 };
 
-// Get initial title option for the dropdown
 const getInitialTitleOption = () => {
   if (!props.employee?.TitleId) return undefined;
   return {
@@ -129,7 +127,6 @@ const { defineField, handleSubmit, errors, isSubmitting } = useForm({
 const [, teamAttrs] = defineField('team');
 const [, titleAttrs] = defineField('title');
 
-// Suppress unused variable warnings
 void teamAttrs;
 void titleAttrs;
 void errors;

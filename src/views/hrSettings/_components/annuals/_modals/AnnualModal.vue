@@ -90,9 +90,6 @@ import { useHRSettingsAnnualsStore } from '@/stores/hrSettings/annuals';
 
 dayjs.extend(utc);
 
-// RESHAPED-v2: BE expects Start/End as UTC ISO 8601 instants (Rule 13).
-// Full-day leaves: UTC-midnight of the picked calendar day (Rule 13 bucket #3).
-// Half-day leaves: the picked instant as UTC.
 const toIsoInstant = (date: Date, fullDay: boolean): string => {
   if (fullDay) {
     return dayjs(date).utc().startOf('day').toISOString();
@@ -150,7 +147,6 @@ const employees = computed(() => {
 const getInitialFormData = computed(() => {
   const annual = props.data;
   if (annual) {
-    // RESHAPED-v2: BE returns Start/End as UTC ISO 8601 instants.
     return {
       ID: annual.ID,
       employeeName: { name: annual.MemberName, value: annual.MemberId },
@@ -166,7 +162,6 @@ const getInitialFormData = computed(() => {
 
 const submitHandler = handleSubmit(async (values) => {
   const payload: AnnualDto = {
-    // RESHAPED-v2 (Rule 13): BE expects UTC ISO 8601 instants on Start/End.
     Start: toIsoInstant(values.startDate, values.startFullDay === true),
     End: toIsoInstant(values.endDate, values.endFullDay === true),
     StartFullDay: values.startFullDay,

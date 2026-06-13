@@ -96,7 +96,6 @@ const isMac = computed(() => navigator.platform.toUpperCase().indexOf('MAC') >= 
 const localizedRouteName = computed(() => {
   const routeName = route.name as string;
   if (!routeName) return '';
-  // Try to get translation, fallback to route name if not found
   const key = `routes.${routeName}` as any;
   return t(key);
 });

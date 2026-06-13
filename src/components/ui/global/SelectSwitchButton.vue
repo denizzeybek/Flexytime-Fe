@@ -71,7 +71,7 @@ const validationListeners = {
 };
 
 const onSelect = (e: SelectButtonChangeEvent) => {
-  const selectedValue = e?.value; // Extract the value from the event
+  const selectedValue = e?.value;
   emit('selected', selectedValue);
 };
 </script>

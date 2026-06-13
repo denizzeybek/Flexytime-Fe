@@ -93,8 +93,8 @@ export interface IProps {
   customClass?: string;
   primeProps?: MultiSelectProps;
   errorMessage?: string;
-  filterIcon?: string; // icon class ex: pi pi-map-marker
-  dropdownIcon?: string; // icon class ex: pi pi-map-marker
+  filterIcon?: string;
+  dropdownIcon?: string;
   chip?: boolean;
   customWidth?: string;
   headerAddBtn?: boolean;
@@ -152,11 +152,9 @@ const onFilter = (e: MultiSelectFilterEvent) => {
 
 const clearFilterInput = () => {
   filterValue.value = '';
-  // PrimeVue filter input'u overlay içinde, document'tan bul
   const filterInput = document.querySelector('.p-multiselect-overlay .p-multiselect-filter') as HTMLInputElement;
   if (filterInput) {
     filterInput.value = '';
-    // Input event dispatch et ki PrimeVue internal state'i güncellensin
     filterInput.dispatchEvent(new Event('input', { bubbles: true }));
   }
 };

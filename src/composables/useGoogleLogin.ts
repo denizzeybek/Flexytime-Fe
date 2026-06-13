@@ -26,13 +26,10 @@ export const useGoogleLogin = () => {
   const initiateGoogleLogin = () => {
     const API_URL = import.meta.env.VITE_API_URL;
 
-    // Get timezone from browser
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    // Get language code from localStorage (fallback to 'en')
     const languageCode = localStorage.getItem(EStorageKeys.LANGUAGE) || 'en';
 
-    // Build OAuth URL
     const params = new URLSearchParams({
       lang: languageCode,
       zone: timezone,
@@ -40,7 +37,6 @@ export const useGoogleLogin = () => {
       page: '', // Redirect page (empty, backend will redirect to /login)
     });
 
-    // Redirect to backend Google OAuth endpoint
     window.location.href = `${API_URL}/account/externallogin?${params.toString()}`;
   };
 
@@ -56,7 +52,6 @@ export const useGoogleLogin = () => {
     errorMessage.value = null;
 
     try {
-      // Check status
       if (status === '-1') {
         errorMessage.value = 'Google login failed. Please try again.';
         return false;
@@ -67,13 +62,10 @@ export const useGoogleLogin = () => {
         return false;
       }
 
-      // Login with Google key
       await authStore.loginWithGoogle(key);
 
-      // Load user profile
       await profileStore.filter();
 
-      // Redirect based on role
       redirectAfterLogin();
 
       return true;
@@ -90,20 +82,16 @@ export const useGoogleLogin = () => {
    * Redirect user after successful login based on their role
    */
   const redirectAfterLogin = () => {
-    // Admin -> Companies
     if (profileStore.isAdmin) {
       router.push({ name: ERouteNames.SettingsCompanies });
       return;
     }
 
-    // HR -> Active Annuals
     if (profileStore.isHR) {
       router.push({ name: ERouteNames.HRSettingsActiveAnnuals });
       return;
     }
 
-    // Employee -> WorktimeUsage (individual view)
-    // Backend will redirect to individual view automatically if user is employee
     router.push({ name: ERouteNames.WorktimeUsage });
   };
 

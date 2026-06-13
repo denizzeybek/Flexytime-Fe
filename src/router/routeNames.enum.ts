@@ -1,14 +1,11 @@
 export enum ERouteNames {
-  // AUTH
   Login = 'Login',
   Logout = 'Logout',
   ForgotPassword = 'Forgot Password',
   ResetPassword = 'Reset Password',
 
-  // ERRORS
   Unauthorized = 'Unauthorized',
 
-  // REGISTER
   Register = 'Register',
   Register_ChooseAccountType = 'Choose Account Type',
   Register_CreateForm = 'Create Form',
@@ -21,15 +18,12 @@ export enum ERouteNames {
   Wizard_Download= 'Download',
   InviteAccept = 'Invitation',
 
-  // WorktimeUsage
   WorktimeUsage = 'Worktime Usage',
 
-  // Classification
   Classification = 'Classification',
   ClassificationWebAddresses = 'Web Addresses',
   ClassificationApplications = 'Applications',
 
-  // TimeSheets
   Timesheets = 'Timesheets',
   TimeEntries = 'Time Entries',
   TimeEntriesManual = 'Time Entries Manual',
@@ -38,7 +32,6 @@ export enum ERouteNames {
   TimeManagementPerson = 'Person',
   TimeManagementProject = 'Project',
 
-  // Company
   Company = 'Company',
   CompanyOrganizationChart = 'Organization Chart',
   CompanyOrganizationChartV2 = 'Organization Chart V2',
@@ -48,7 +41,6 @@ export enum ERouteNames {
   CompanyReportsElastic = 'Elastic Reports',
   CompanyReportsDefault = 'Default Reports',
 
-  // Employees
   HRSettings = 'HR Settings',
   HRSettingsEmployees = 'Employees',
   HRSettingsJobTitles = 'Job Titles',
@@ -57,14 +49,12 @@ export enum ERouteNames {
   HRSettingsPassiveAnnuals = 'Passive Annuals',
   HRSettingsHolidays = 'Holidays',
 
-  // SETTINGS
   Settings = 'Settings',
   SettingsPermissions = 'Permissions',
   SettingsAdvanced = 'Advanced',
   SettingsDownload = 'Download Client',
   SettingsCompanies = 'Companies',
 
-  // PROFILE
   Profile = 'Profile',
   ProfileBasic = 'Basic',
   ProfileLicense = 'License',
@@ -74,6 +64,5 @@ export enum ERouteNames {
 
   Promotion = 'Promotion',
 
-  // PAYMENT
   Payment = 'Payment',
 }

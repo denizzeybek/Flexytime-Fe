@@ -41,9 +41,6 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
     },
 
     async login(payload: LoginDto) {
-      // v2: POST /auth/login with { username, password }. Returns
-      // { access_token, token_type, expires_in, user: { ID, Email, Fullname,
-      // CompanyId } }; refresh token is set as an httpOnly cookie by the BE.
       const response = await AuthService.authControllerLogin(payload);
       const { access_token: token } = response;
 
@@ -57,8 +54,6 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
 
     async refreshToken() {
       try {
-        // v2: POST /auth/refresh reads the httpOnly refresh cookie and issues
-        // a fresh access token. Returns AuthResponseDto.
         const response = await AuthService.authControllerRefresh();
         const { access_token: token } = response;
 
@@ -82,9 +77,6 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
       if (!languageCode) localStorage.setItem(EStorageKeys.LANGUAGE, 'en');
 
       try {
-        // v2: rename WizardService.wizardControllerGetProfile →
-        // WizardService.wizardControllerGetProfile (shape unchanged per the
-        // Phase 6 wizard port).
         const response = await WizardService.wizardControllerGetProfile();
         this.setAuth({ authentication: null, user: response });
         result.user = response;
@@ -96,8 +88,6 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
 
     async register(payload: AccountRegisterDto) {
       try {
-        // v2: POST /account/register — same JSON shape, just the wrapper moved
-        // from AccountService.accountControllerRegister.
         const response = await AccountService.accountControllerRegister(payload);
         return response;
       } catch (error) {
@@ -106,11 +96,6 @@ export const useAuthStore = defineStore(EStoreNames.AUTH, () => {
     },
 
     async loginWithGoogle(payload: GoogleLoginDto) {
-      // v2: POST /auth/google with a Google **ID token** (JWT) — verifies via
-      // Google's public keys, finds-or-auto-provisions the tenant + owner,
-      // returns AuthResponseDto. The FE obtains the idToken via the Google
-      // Identity Services library on the login screen; the legacy
-      // `/account/externallogin` redirect flow + `?code=` callback is gone.
       try {
         const response = await AuthService.googleControllerGoogle(payload);
         const { access_token: token } = response;

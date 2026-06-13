@@ -135,7 +135,6 @@ const handleOptionClick = (option: EOptionsDropdown, report: ReportViewModel) =>
   }
 };
 
-// Skeleton dummy data - 5 rows for loading state
 const skeletonData = Array.from({ length: 5 }, (_, i) => ({
   ID: `skeleton-${i}`,
   TypeDisplay: '',

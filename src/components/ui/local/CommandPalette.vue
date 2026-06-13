@@ -120,7 +120,6 @@ const isMac = computed(() => navigator.platform.toUpperCase().indexOf('MAC') >= 
 
 const filteredRoutes = computed(() => {
   if (!searchQuery.value.trim()) {
-    // Show top 3 routes when no search query
     return allRoutes.value.slice(0, 3);
   }
 
@@ -143,7 +142,6 @@ const getAllRoutes = (): RouteItem[] => {
   const navigableRoutes: RouteItem[] = [];
 
   routes.forEach((route) => {
-    // Only include routes that have a name and path, exclude auth routes
     if (
       route.name &&
       route.path &&
@@ -152,7 +150,6 @@ const getAllRoutes = (): RouteItem[] => {
     ) {
       const routeName = route.name as string;
 
-      // Get both English and Turkish labels using global i18n
       const labelEn = i18n.global.t(`routes.${routeName}`, {}, { locale: 'en' }) as string;
       const labelTr = i18n.global.t(`routes.${routeName}`, {}, { locale: 'tr' }) as string;
       const currentLabel = t(`routes.${routeName}`) as string;
@@ -205,7 +202,6 @@ const closeDialog = () => {
   selectedIndex.value = 0;
 };
 
-// Keyboard shortcut handler
 const handleKeydown = (event: KeyboardEvent) => {
   const isCmdOrCtrl = isMac.value ? event.metaKey : event.ctrlKey;
 
@@ -219,7 +215,6 @@ const handleKeydown = (event: KeyboardEvent) => {
   }
 };
 
-// Watch visibility and focus input
 watch(isVisible, async (newVal) => {
   if (newVal) {
     await nextTick();
@@ -227,21 +222,17 @@ watch(isVisible, async (newVal) => {
   }
 });
 
-// Reset selected index when search changes
 watch(searchQuery, () => {
   selectedIndex.value = 0;
 });
 
-// Reload routes when language changes
 watch(currentLanguage, () => {
   allRoutes.value = getAllRoutes();
 });
 
 onMounted(() => {
-  // Load all routes
   allRoutes.value = getAllRoutes();
 
-  // Add keyboard listener
   window.addEventListener('keydown', handleKeydown);
 });
 
@@ -249,7 +240,6 @@ onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown);
 });
 
-// Expose method to parent
 defineExpose({
   openDialog,
   closeDialog

@@ -72,7 +72,6 @@ const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
   emit('toggle-domain', webClock, newDomain);
 };
 
-// Badge class helper function based on allocation Type
 const getBadgeClass = (type: number): string => {
   const mapping: Record<number, string> = {
     4: 'bg-green-500',   // Work
@@ -83,7 +82,6 @@ const getBadgeClass = (type: number): string => {
   return mapping[type] || 'bg-blue-500';
 };
 
-// Icon helper function based on allocation Type (matching WebHistoryTable icons)
 const getIconClass = (type: number): string => {
   const mapping: Record<number, string> = {
     4: 'pi pi-wrench',         // Work

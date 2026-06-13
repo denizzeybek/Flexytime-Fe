@@ -3,7 +3,6 @@
  * Central export point for all type definitions
  */
 
-// API Types
 export type {
   IBreadcrumb,
   ICard,
@@ -27,7 +26,6 @@ export type {
   IWellbeing,
 } from './api';
 
-// Common Types
 export type {
   DisplayMode,
   IErrorState,

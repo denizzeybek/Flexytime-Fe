@@ -86,19 +86,19 @@ import { computed,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
+import { FilterMatchMode } from '@primevue/core/api';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-
-import { FilterMatchMode } from '@primevue/core/api';
 import Skeleton from 'primevue/skeleton';
 
 import OptionsDropdown from '@/components/ui/local/OptionsDropdown.vue';
 
+defineProps<IProps>();
+
+const emit = defineEmits<IEmits>();
+
 dayjs.extend(utc);
 
-// RESHAPED-v2: BE returns Start/End as UTC ISO 8601 instants (Rule 13).
-// Full-day leaves: render the calendar day in UTC (date-only semantics — Rule 13 bucket #3).
-// Half-day leaves: render the wall-clock the user picked (no zone conversion — local).
 const formatDate = (iso: string | undefined, fullDay: boolean | undefined): string => {
   if (!iso) return '';
   return fullDay ? dayjs(iso).utc().format('DD.MM.YYYY') : dayjs(iso).format('DD.MM.YYYY');
@@ -124,10 +124,6 @@ interface IEmits {
   (event: 'edit', value: AnnualDto): void;
   (event: 'delete', ID: string): void;
 }
-
-defineProps<IProps>();
-
-const emit = defineEmits<IEmits>();
 
 const { t } = useI18n<{ message: MessageSchema }>();
 

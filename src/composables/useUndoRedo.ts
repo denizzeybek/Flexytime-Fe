@@ -20,20 +20,16 @@ export const useUndoRedo = <T>(initialState: T) => {
   };
 
   const execute = (command: Command<T>) => {
-    // Remove any commands after current index (branching timeline)
     if (currentIndex.value < history.value.length - 1) {
       history.value = history.value.slice(0, currentIndex.value + 1);
     }
 
-    // Execute command and save new state
     const newState = command.execute();
     currentState.value = newState;
 
-    // Add to history
     history.value.push(command);
     currentIndex.value++;
 
-    // Limit history to 50 items to prevent memory issues
     if (history.value.length > 50) {
       history.value.shift();
       currentIndex.value--;

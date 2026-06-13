@@ -52,7 +52,6 @@ export const useEnterTimeTimer = () => {
     return `${hours}:${minutes}:${seconds}`;
   };
 
-  // Cleanup on unmount
   onUnmounted(() => {
     if (timerInterval) {
       clearInterval(timerInterval);

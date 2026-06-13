@@ -171,7 +171,6 @@ const { handleSubmit, isSubmitting } = useForm({
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    // Get timezone and language like Google login does
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const languageCode = localStorage.getItem('languageCode') || 'en';
 
@@ -185,22 +184,17 @@ const submitHandler = handleSubmit(async (values) => {
       // Note: NO Recaptcha - not required in V2
     };
 
-    // Register the account
     await authStore.register(registerPayload);
 
-    // Login with the same credentials to get a proper JWT token.
-    // v2: AuthService.authControllerLogin — no OAuth2 `grant_type` form field.
     await authStore.login({
       username: values.email,
       password: values.password,
     });
 
-    // Load profile to get user roles
     await profileStore.filter();
 
     showSuccessMessage(t('pages.auth.register.messages.success'));
 
-    // Redirect based on role (same as login)
     if (profileStore.isAdmin) {
       router.push({ name: ERouteNames.SettingsCompanies });
     } else {
@@ -211,11 +205,9 @@ const submitHandler = handleSubmit(async (values) => {
   }
 });
 
-// Handle Google OAuth callback (same as Login.vue)
 onMounted(async () => {
   const { status, key } = route.query;
 
-  // Check if this is a Google OAuth callback
   if (status && key) {
     const success = await googleLogin.handleGoogleCallback(
       status as string,
@@ -224,7 +216,6 @@ onMounted(async () => {
 
     if (!success && googleLogin.errorMessage.value) {
       showErrorMessage(googleLogin.errorMessage.value);
-      // Clear query parameters from URL only on failure
       router.replace({ name: ERouteNames.Register });
     }
   }

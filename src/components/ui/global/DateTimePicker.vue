@@ -145,7 +145,7 @@ const buttonProps = computed(() => [
 ])
 
 const handleChangeEvent = () => {
-  emit('change', value.value);  // Emit value on change
+  emit('change', value.value);
 };
 
 const handleChange = (btnType: EHelperButton) => {

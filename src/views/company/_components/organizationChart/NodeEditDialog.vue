@@ -203,7 +203,6 @@ watch(
   () => props.node,
   (newNode) => {
     if (newNode) {
-      // Find matching member and title options
       let memberOption: IOption | null = null;
       let jobTitleOption: IOption | null = null;
 
@@ -234,7 +233,6 @@ watch(
 );
 
 onMounted(async () => {
-  // Fetch titles if not already loaded
   if (titlesStore.list.length === 0) {
     await titlesStore.fetchTitles();
   }

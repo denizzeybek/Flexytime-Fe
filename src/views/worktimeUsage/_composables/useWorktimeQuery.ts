@@ -35,10 +35,8 @@ export function useWorktimeQuery() {
    */
   const getDefaultTab = (view: ViewMode): TabType => {
     if (view === 'individual') {
-      // Individual view doesn't have productivity, default to distribution
       return 'distribution';
     }
-    // Team and employees views default to productivity
     return 'productivity';
   };
 
@@ -65,7 +63,6 @@ export function useWorktimeQuery() {
       ...updates,
     };
 
-    // Remove null/undefined values
     Object.keys(newQuery).forEach((key) => {
       if (newQuery[key] === null || newQuery[key] === undefined) {
         delete newQuery[key];
@@ -137,10 +134,8 @@ export function useWorktimeQuery() {
   };
 
   return {
-    // Computed
     currentQuery,
 
-    // Methods
     updateQuery,
     navigateToTeam,
     navigateToEmployees,

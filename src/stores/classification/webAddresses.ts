@@ -64,8 +64,6 @@ export const useClassificationWebAddressesStore = defineStore(
         try {
           this.loading = true;
           this.lastQuery = payload;
-          // v2 ClassificationQuery body (PascalCase). `Start` is 1-based on
-          // the BE side.
           const body = {
             Start: payload.start ?? 1,
             Length: payload.length ?? 10,
@@ -87,10 +85,8 @@ export const useClassificationWebAddressesStore = defineStore(
       async save(payload: WebClockModifyDto) {
         await CategoryService.categoryControllerSaveWebAddress(payload as never);
 
-        // In-place mutation to avoid re-querying the full page.
         const idx = this.list.findIndex((item) => item.ID === payload.ID);
         if (idx !== -1) {
-          // Domain === 1 is "Unclassified-skip": keep the previous domain value.
           if (typeof payload.Domain === 'number' && payload.Domain !== 1) {
             this.list[idx].Domain = payload.Domain;
           }

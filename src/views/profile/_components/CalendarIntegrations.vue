@@ -71,7 +71,7 @@ import { useProfileStore } from '@/stores/profile/profile';
 
 import IntegrationCard from './IntegrationCard.vue';
 
-import type { CalendarFolder } from '@/client';
+import type { CalendarFolderDto } from '@/client';
 
 type Provider = 'google' | 'office' | 'outlook';
 
@@ -85,7 +85,6 @@ const loadingStates = reactive({
   outlook: false,
 });
 
-// Computed properties from store
 const hasGoogle = computed(() => profileStore.GeneralProfile?.HasGoogle ?? false);
 const hasOffice = computed(() => profileStore.GeneralProfile?.HasOffice ?? false);
 const hasOutlook = computed(() => profileStore.GeneralProfile?.HasOutlook ?? false);
@@ -94,12 +93,10 @@ const googleCalendars = computed(() => profileStore.GeneralProfile?.GoogleCalend
 const officeCalendars = computed(() => profileStore.GeneralProfile?.OfficeCalendars ?? []);
 const outlookCalendars = computed(() => profileStore.GeneralProfile?.OutlookCalendars ?? []);
 
-// Handle calendar toggle
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const handleToggleCalendar = async (_provider: Provider, _calendar: CalendarFolder, _selected: boolean) => {
+const handleToggleCalendar = async (_provider: Provider, _calendar: CalendarFolderDto, _selected: boolean) => {
   try {
     // TODO: Implement API call when endpoint is ready
-    // await ProfileService.syncCalendar({ Provider: provider, Name: calendar.Name, Selected: selected });
     showSuccessMessage(t('pages.profile.calendarIntegrations.messages.calendarUpdated'));
     await profileStore.filter();
   } catch {

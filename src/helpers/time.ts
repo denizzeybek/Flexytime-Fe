@@ -24,7 +24,6 @@ export interface IParsedDuration {
  */
 export const isTimeFormat = (value: string): boolean => {
   if (!value || typeof value !== 'string') return false;
-  // Must contain ":" to be a time format, or "." for day.time format
   return value.includes(':') || (value.includes('.') && /^\d+\.\d+:\d+/.test(value));
 };
 
@@ -47,9 +46,7 @@ export const parseDuration = (timeString: string): IParsedDuration => {
   let minutes = 0;
   let seconds = 0;
 
-  // Check if it's a plain number (not a time format)
   if (!isTimeFormat(timeString)) {
-    // Treat as total minutes
     const totalMins = parseInt(timeString, 10) || 0;
     days = Math.floor(totalMins / (24 * 60));
     const remainingAfterDays = totalMins % (24 * 60);
@@ -59,7 +56,6 @@ export const parseDuration = (timeString: string): IParsedDuration => {
     return { days, hours, minutes, seconds: 0, totalMinutes: totalMins };
   }
 
-  // Check if format includes days (DD.HH:MM)
   if (timeString.includes('.')) {
     const [dayPart, timePart] = timeString.split('.');
     days = parseInt(dayPart, 10) || 0;
@@ -71,7 +67,6 @@ export const parseDuration = (timeString: string): IParsedDuration => {
       seconds = parseInt(timeParts[2], 10) || 0;
     }
   } else {
-    // Format is HH:MM or HH:MM:SS
     const timeParts = timeString.split(':');
     hours = parseInt(timeParts[0], 10) || 0;
     minutes = parseInt(timeParts[1], 10) || 0;
@@ -110,7 +105,6 @@ export const formatDuration = (
     parts.push(`${duration.seconds}${units.seconds}`);
   }
 
-  // If all parts are zero, show "0m" or equivalent
   if (parts.length === 0) {
     return `0${units.minutes}`;
   }

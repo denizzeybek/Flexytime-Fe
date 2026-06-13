@@ -112,7 +112,6 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const { t } = useI18n<{ message: MessageSchema }>();
 
-// Time units for formatting
 const timeUnits = computed<ITimeUnits>(() => ({
   days: t('common.time.days'),
   hours: t('common.time.hours'),
@@ -120,13 +119,11 @@ const timeUnits = computed<ITimeUnits>(() => ({
   seconds: t('common.time.seconds'),
 }));
 
-// Format time string helper
 const formatTime = (time: string | undefined): string => {
   if (!time) return `0${timeUnits.value.minutes}`;
   return formatTimeString(time, timeUnits.value);
 };
 
-// Transform chart data for each distribution
 const chartData = computed(() => {
   return props.distributions?.map((distribution) => {
     return {
@@ -141,7 +138,6 @@ const chartData = computed(() => {
   });
 });
 
-// Chart options with usePointStyle
 const chartOptions = computed(() => {
   const documentStyle = getComputedStyle(document.documentElement);
   const textColor = documentStyle.getPropertyValue('--p-text-color');
@@ -158,7 +154,6 @@ const chartOptions = computed(() => {
   };
 });
 
-// Transform raw data to chart format with colors
 const transformDataToChartFormat = (rawData: any[]) => {
   const colors = [
     '#06b6d4',
@@ -184,7 +179,6 @@ const transformDataToChartFormat = (rawData: any[]) => {
     '#2dd4bf',
   ];
 
-  // Add percentage to labels for better readability
   const labels = rawData.map((item) => `${item.label} (${formatPercentage(item.value)})`);
   const data = rawData.map((item) => item.value);
 
@@ -200,7 +194,6 @@ const transformDataToChartFormat = (rawData: any[]) => {
   };
 };
 
-// Badge helper functions
 const getBadgeClass = (statisticType: string): string => {
   const mapping: Record<string, string> = {
     work: 'bg-green-500',

@@ -69,7 +69,6 @@ interface ITagOption {
   value: string;
 }
 
-// Extended type for time entry payload - backend expects additional fields not in OpenAPI spec
 // TODO: Update OpenAPI spec to include these fields
 interface TimeEntryPayload extends TimeEntryModifyDto {
   RecordDate?: string;
@@ -83,7 +82,6 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
 
-// Timer composable
 const {
   elapsedTime,
   isRunning,
@@ -95,7 +93,6 @@ const {
   formatElapsedTimeForPayload,
 } = useEnterTimeTimer();
 
-// Form validation schema - computed ile i18n label'ları kullanıyoruz
 const validationSchema = computed(() =>
   object({
     taskName: string()
@@ -157,17 +154,14 @@ const { handleSubmit, resetForm, defineField, values, setFieldValue } = useForm(
 const [startTime] = defineField('startTime');
 const [endTime] = defineField('endTime');
 
-// Layout state
 const activeLayout = ref(ELayout.MANUAL);
 const isBillable = ref(false);
 const timeDifference = ref('');
 
-// Store computed options
 const taskOptions = computed(() => timeEntriesStore.taskNames);
 const projectOptions = computed(() => timeEntriesStore.projectOptions);
 const tagOptions = computed(() => timeEntriesStore.tagOptions);
 
-// Computed for v-model binding (string version for component)
 const activeLayoutString = computed({
   get: () => (activeLayout.value === ELayout.TIMER ? 'timer' : 'manual'),
   set: (val: 'timer' | 'manual') => {
@@ -182,17 +176,14 @@ const displayTime = computed(() => {
   return isManualLayout.value ? timeDifference.value || '00:00' : formattedElapsedTime.value;
 });
 
-// Handle adding new task from input dropdown
 const handleAddTask = async (taskName: string) => {
   await timeEntriesStore.saveTask(taskName);
 };
 
-// Handle adding new project
 const handleAddProject = async (projectName: string) => {
   try {
     const newProject = await timeEntriesStore.saveProject(projectName);
     showSuccessMessage(t('pages.timesheets.enterTime.project.addSuccess'));
-    // Select the newly added project
     if (newProject?.ID && newProject?.Name) {
       setFieldValue('project', { name: newProject.Name, value: newProject.ID });
     }
@@ -201,12 +192,10 @@ const handleAddProject = async (projectName: string) => {
   }
 };
 
-// Handle adding new tag
 const handleAddTag = async (tagName: string) => {
   try {
     const newTag = await timeEntriesStore.saveTag(tagName);
     showSuccessMessage(t('pages.timesheets.enterTime.tags.addSuccess'));
-    // Add the newly created tag to existing tags selection
     if (newTag?.ID && newTag?.Name) {
       const currentTags = (values.tags as ITagOption[]) || [];
       setFieldValue('tags', [...currentTags, { name: newTag.Name, value: newTag.ID }]);
@@ -216,20 +205,17 @@ const handleAddTag = async (tagName: string) => {
   }
 };
 
-// Timer handlers
 const handleStart = () => {
   startTimer();
 };
 
 const handleStop = async () => {
   stopTimer();
-  // Auto-submit when stopping the timer
   if (elapsedTime.value > 0 && values.taskName) {
     await submitHandler();
   }
 };
 
-// Task helper
 const getOrCreateTask = async (taskName: string): Promise<{ ID?: string; Name: string }> => {
   const existingTask = timeEntriesStore.getTaskByName(taskName);
   if (existingTask) {
@@ -244,7 +230,6 @@ const getOrCreateTask = async (taskName: string): Promise<{ ID?: string; Name: s
   return { Name: taskName };
 };
 
-// Submit handler
 const submitHandler = handleSubmit(async (formValues) => {
   try {
     const dateFormat = 'DD.MM.YYYY HH:mm';
@@ -255,7 +240,6 @@ const submitHandler = handleSubmit(async (formValues) => {
     let recordDate: string;
 
     if (isManualLayout.value) {
-      // formValues.startTime ve endTime artık Date objesi
       const startTimeFormatted = formValues.startTime ? dayjs(formValues.startTime).format('HH:mm') : '00:00';
       const endTimeFormatted = formValues.endTime ? dayjs(formValues.endTime).format('HH:mm') : '00:00';
       startDateTime = selectedDate.format('DD.MM.YYYY') + ' ' + startTimeFormatted;
@@ -304,7 +288,6 @@ const submitHandler = handleSubmit(async (formValues) => {
   }
 });
 
-// Watch time difference
 watch(
   [startTime, endTime],
   ([newStartTime, newEndTime]) => {
@@ -315,7 +298,6 @@ watch(
   { immediate: true },
 );
 
-// Initialize
 onMounted(() => {
   timeEntriesStore.fetchOptions();
 });

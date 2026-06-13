@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { CompanyService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
-import type { OrganizationNodeViewModel, OrganizationDto, PerformNameValueModel, TitleDto } from '@/client';
+import type { OrganizationDto, OrganizationNodeViewModel, PerformNameValueModel, TitleDto } from '@/client';
 
 interface State {
   list: OrganizationNodeViewModel[];

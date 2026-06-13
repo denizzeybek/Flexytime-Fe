@@ -154,7 +154,7 @@ import Tag from 'primevue/tag';
 
 import { type MessageSchema } from '@/plugins/i18n';
 
-import type { CalendarFolder } from '@/client';
+import type { CalendarFolderDto } from '@/client';
 
 type Provider = 'google' | 'office' | 'outlook';
 
@@ -163,7 +163,7 @@ interface IProps {
   title: string;
   description: string;
   connected: boolean;
-  calendars: CalendarFolder[];
+  calendars: CalendarFolderDto[];
   loading?: boolean;
   isDesktopApp?: boolean;
   comingSoon?: boolean;
@@ -172,7 +172,7 @@ interface IProps {
 interface IEmits {
   (e: 'connect'): void;
   (e: 'disconnect'): void;
-  (e: 'toggleCalendar', calendar: CalendarFolder, selected: boolean): void;
+  (e: 'toggleCalendar', calendar: CalendarFolderDto, selected: boolean): void;
 }
 
 const props = defineProps<IProps>();

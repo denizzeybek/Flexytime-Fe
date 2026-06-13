@@ -1,4 +1,3 @@
-// Domain constants
 const DOMAIN = {
   WORK: 4,
   COMMUNICATION: 3,

@@ -19,7 +19,6 @@ import routes from './routes';
 const findFirstAccessibleRoute = (): ERouteNames => {
   const { hasAnyRole } = useAuthorization();
 
-  // Route priority order - check in this order
   const routePriority = [
     { name: ERouteNames.WorktimeUsage, roles: [] }, // All authenticated users can access
     { name: ERouteNames.Timesheets, roles: [] },
@@ -30,14 +29,12 @@ const findFirstAccessibleRoute = (): ERouteNames => {
     { name: ERouteNames.Profile, roles: [] },
   ];
 
-  // Find first route user has access to
   for (const route of routePriority) {
     if (route.roles.length === 0 || hasAnyRole(route.roles)) {
       return route.name;
     }
   }
 
-  // Fallback to WorktimeUsage (no role requirement)
   return ERouteNames.WorktimeUsage;
 };
 const router = createRouter({
@@ -45,7 +42,6 @@ const router = createRouter({
   routes,
 });
 
-// GUARD
 let isRefreshing = false;
 let isLoadingProfile = false;
 router.beforeEach(async (to, from, next) => {
@@ -63,7 +59,6 @@ router.beforeEach(async (to, from, next) => {
 
   const { logout } = useLogout();
 
-  // Set token for OpenAPI if exists in localStorage but not in OpenAPI
   if (hasToken && !OpenAPI.TOKEN) {
     OpenAPI.TOKEN = token;
   }
@@ -73,15 +68,12 @@ router.beforeEach(async (to, from, next) => {
       return next({ name: ERouteNames.Login });
     }
 
-    // Skip token refresh if coming from login or register page (fresh token)
     const comingFromLogin = from.name === ERouteNames.Login || from.name === ERouteNames.Register;
 
-    // Refresh token on each protected route access if user not authenticated
     if (!usersStore.isAuthenticated && !isRefreshing && !comingFromLogin) {
       isRefreshing = true;
 
       try {
-        // Refresh access token using auth store
         await authStore.refreshToken();
         isRefreshing = false;
       } catch (err) {
@@ -91,7 +83,6 @@ router.beforeEach(async (to, from, next) => {
       }
     }
 
-    // ALWAYS load profile for authenticated routes (needed for role/permission checks)
     const hasProfile = profileStore.GeneralProfile && profileStore.GeneralProfile.Wizard;
     if (!hasProfile && !isLoadingProfile) {
       isLoadingProfile = true;
@@ -104,37 +95,32 @@ router.beforeEach(async (to, from, next) => {
       }
     }
 
-    // Check role requirements
     if (requiresRole && requiresRole.length > 0) {
       const { hasAnyRole } = useAuthorization();
       if (!hasAnyRole(requiresRole)) {
-          // Smart redirect: send user to first accessible route instead of Unauthorized
         const firstAccessibleRoute = findFirstAccessibleRoute();
         return next({ name: firstAccessibleRoute });
       }
     }
 
-    // Check permission requirements
     if (requiresPermission && requiresPermission.length > 0) {
       const { hasAllPermissions } = useAuthorization();
       if (!hasAllPermissions(requiresPermission)) {
-          // Smart redirect: send user to first accessible route instead of Unauthorized
         const firstAccessibleRoute = findFirstAccessibleRoute();
         return next({ name: firstAccessibleRoute });
       }
     }
 
-    return next(); // all checks passed
+    return next();
   }
 
   if (requiresUnAuth && hasToken) {
-    return next(false); // stay on current page
+    return next(false);
   }
 
-  return next(); // public or non-auth routes
+  return next();
 });
 
-// SET PAGE TITLE
 const DEFAULT_TITLE = 'FlexyTime';
 router.afterEach((to) => {
   nextTick(() => {

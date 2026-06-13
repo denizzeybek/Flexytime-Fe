@@ -97,10 +97,6 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
   },
   actions: {
     async filter() {
-      // v2: the rich profile shape (Wizard/Employee/etc.) lives behind
-      // `/webapi/profile` (legacy-compat surface). The modern, slim
-      // `/profile/me` shipped first; the legacy webapi profile is kept
-      // for the SPA until the rich shape is reshaped.
       const data = await ProfileLegacyWebapiService.legacyProfileControllerGetProfile();
       this.GeneralProfile = data;
       this.User = data.Employee ?? ({} as EmployeeViewModel);
@@ -120,13 +116,11 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     async saveLicense(licenseKey: string) {
       const payload: LicenseModifyViewModel = { LicenseKey: licenseKey };
       const response = await SettingService.settingControllerSaveLicense(payload);
-      // Refresh license data after save
       await this.filterLicense();
       return response;
     },
 
     async updateProfile(model: ProfileModifyViewModel) {
-      // v2: legacy webapi profile uses SaveProfile (renamed from UpdateProfile).
       const response = await ProfileLegacyWebapiService.legacyProfileControllerSaveProfile(
         model as never,
       );
@@ -143,7 +137,6 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     },
 
     async updateLanguageCode(languageCode: string) {
-      // v2: renamed from UpdateLanguageCode → UpdateLanguage; payload key kept.
       const response = await ProfileLegacyWebapiService.legacyProfileControllerUpdateLanguage(
         { LanguageCode: languageCode } as never,
       );
@@ -178,7 +171,6 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
         },
       });
 
-      // Refresh profile to get new image path
       await this.filter();
 
       return response.data;

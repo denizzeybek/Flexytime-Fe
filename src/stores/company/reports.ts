@@ -17,7 +17,6 @@ import type {
 } from '@/client';
 
 interface State {
-  // Elastic Reports
   filters: ReportFilterViewModel | null;
   result: ReportResultViewModel | null;
   summary: ReportSummaryViewModel | null;
@@ -26,7 +25,6 @@ interface State {
   downloadKey: string | null;
   isLoading: boolean;
   isFiltersLoading: boolean;
-  // Default Reports
   defaultReports: PerformReportViewModel | null;
   defaultReportItems: ReportViewModel[];
   reportTypes: PerformNameValueModel[];
@@ -36,7 +34,6 @@ interface State {
 
 export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
   state: (): State => ({
-    // Elastic Reports
     filters: null,
     result: null,
     summary: null,
@@ -45,7 +42,6 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
     downloadKey: null,
     isLoading: false,
     isFiltersLoading: false,
-    // Default Reports
     defaultReports: null,
     defaultReportItems: [],
     reportTypes: [],
@@ -64,7 +60,6 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
     getSectionList: (state) => state.sectionList,
   },
   actions: {
-    // Elastic Reports Actions
     async fetchFilters() {
       this.isFiltersLoading = true;
       try {
@@ -99,7 +94,6 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
       this.downloadKey = null;
     },
 
-    // Default Reports Actions
     async fetchDefaultReports() {
       this.isDefaultReportsLoading = true;
       try {

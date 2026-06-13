@@ -43,7 +43,6 @@ const calculateNodePositions = (
   let totalWidth = 0;
   const childWidths: number[] = [];
 
-  // First pass: calculate width needed for each node's subtree
   for (const node of nodes) {
     const childWidth =
       node.children && node.children.length > 0
@@ -52,9 +51,8 @@ const calculateNodePositions = (
     childWidths.push(childWidth);
     totalWidth += childWidth + HORIZONTAL_SPACING;
   }
-  totalWidth -= HORIZONTAL_SPACING; // Remove last spacing
+  totalWidth -= HORIZONTAL_SPACING;
 
-  // Second pass: position nodes
   let currentX = parentX - totalWidth / 2;
 
   for (let i = 0; i < nodes.length; i++) {
@@ -65,7 +63,6 @@ const calculateNodePositions = (
 
     positions.set(nodeId, { x: nodeX, y });
 
-    // Position children
     if (node.children && node.children.length > 0) {
       calculateNodePositions(node.children, nodeX, y + NODE_HEIGHT + VERTICAL_SPACING, positions);
     }
@@ -86,15 +83,12 @@ export const convertToFlowElements = (
   const flowEdges: OrganizationFlowEdge[] = [];
   const positions = new Map<string, { x: number; y: number }>();
 
-  // Calculate positions for all nodes
   calculateNodePositions(apiNodes, 500, 50, positions);
 
-  // Recursive function to process nodes
   const processNode = (node: OrganizationNodeViewModel, parentId?: string) => {
     const nodeId = node.ID || `temp_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
     const position = positions.get(nodeId) || { x: 0, y: 0 };
 
-    // Create flow node
     flowNodes.push({
       id: nodeId,
       type: 'organization',
@@ -107,7 +101,6 @@ export const convertToFlowElements = (
       },
     });
 
-    // Create edge from parent
     if (parentId) {
       flowEdges.push({
         id: `edge-${parentId}-${nodeId}`,
@@ -118,7 +111,6 @@ export const convertToFlowElements = (
       });
     }
 
-    // Process children
     if (node.children && node.children.length > 0) {
       for (const child of node.children) {
         processNode(child, nodeId);
@@ -126,7 +118,6 @@ export const convertToFlowElements = (
     }
   };
 
-  // Process all root nodes
   for (const node of apiNodes) {
     processNode(node);
   }

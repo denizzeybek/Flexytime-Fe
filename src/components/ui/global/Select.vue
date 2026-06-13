@@ -141,11 +141,9 @@ const onFilter = (e: SelectFilterEvent) => {
 
 const clearFilterInput = () => {
   filterValue.value = '';
-  // PrimeVue filter input'u overlay içinde, document'tan bul
   const filterInput = document.querySelector('.p-select-overlay .p-select-filter') as HTMLInputElement;
   if (filterInput) {
     filterInput.value = '';
-    // Input event dispatch et ki PrimeVue internal state'i güncellensin
     filterInput.dispatchEvent(new Event('input', { bubbles: true }));
   }
 };

@@ -82,7 +82,6 @@ const detectStatementType = (line) => {
 };
 
 const extractScriptSetup = (content) => {
-  // Match both <script setup> and <script lang="ts" setup>
   const scriptSetupRegex = /<script\s+(?:[^>]*\s+)?setup(?:\s+[^>]*)?>([\s\S]*?)<\/script>/;
   const match = content.match(scriptSetupRegex);
   if (!match) return null;
@@ -106,16 +105,13 @@ const parseScriptContent = (scriptContent) => {
   lines.forEach((line, index) => {
     const trimmed = line.trim();
 
-    // Track bracket depth
     const openBrackets = (line.match(/[{([]/g) || []).length;
     const closeBrackets = (line.match(/[})\]]/g) || []).length;
     bracketCount += openBrackets - closeBrackets;
 
-    // Detect statement type on first line
     const type = detectStatementType(line);
 
     if (type !== null && blockContent.length === 0) {
-      // Start a new block
       if (currentBlock !== null && blockContent.length > 0) {
         blocks.push({
           type: currentBlock,
@@ -126,17 +122,13 @@ const parseScriptContent = (scriptContent) => {
       currentBlock = type;
       blockContent.push(line);
     } else if (currentBlock !== null) {
-      // Continue current block
       blockContent.push(line);
 
-      // If brackets are balanced and line is not empty, potentially end block
       if (bracketCount === 0 && trimmed && !trimmed.startsWith('//')) {
-        // Check if next statement might start
         const nextIndex = index + 1;
         if (nextIndex < lines.length) {
           const nextType = detectStatementType(lines[nextIndex]);
           if (nextType !== null) {
-            // End current block
             blocks.push({
               type: currentBlock,
               lines: [...blockContent],
@@ -147,9 +139,7 @@ const parseScriptContent = (scriptContent) => {
         }
       }
     } else {
-      // Not in a block, might be comment or empty line
       if (trimmed) {
-        // Unknown content, keep it
         blocks.push({
           type: ORDER_RULES.UNKNOWN,
           lines: [line],
@@ -158,7 +148,6 @@ const parseScriptContent = (scriptContent) => {
     }
   });
 
-  // Add the last block
   if (currentBlock !== null && blockContent.length > 0) {
     blocks.push({
       type: currentBlock,
@@ -170,19 +159,15 @@ const parseScriptContent = (scriptContent) => {
 };
 
 const reorderBlocks = (blocks) => {
-  // Separate known blocks from unknown
   const knownBlocks = blocks.filter((b) => b.type !== ORDER_RULES.UNKNOWN);
   const unknownBlocks = blocks.filter((b) => b.type === ORDER_RULES.UNKNOWN);
 
-  // Sort known blocks by order rules
   const sortedBlocks = [...knownBlocks].sort((a, b) => a.type - b.type);
 
-  // Build result with proper spacing
   const result = [];
   let lastType = null;
 
   sortedBlocks.forEach((block) => {
-    // Add empty line between different types (except for first block and imports)
     if (lastType !== null && lastType !== block.type && result.length > 0) {
       result.push('');
     }
@@ -191,7 +176,6 @@ const reorderBlocks = (blocks) => {
     lastType = block.type;
   });
 
-  // Add unknown blocks at the end if any
   if (unknownBlocks.length > 0) {
     if (result.length > 0) result.push('');
     unknownBlocks.forEach((block) => {
@@ -212,7 +196,6 @@ const fixFileOrder = (filePath) => {
 
   const blocks = parseScriptContent(scriptInfo.content);
 
-  // Check if reordering is needed
   let needsReorder = false;
   let lastOrder = -1;
   for (const block of blocks) {
@@ -229,11 +212,9 @@ const fixFileOrder = (filePath) => {
     return { fixed: false, reason: 'Already in correct order' };
   }
 
-  // Reorder blocks
   const reorderedLines = reorderBlocks(blocks);
   const newScriptContent = reorderedLines.join('\n');
 
-  // Replace script content
   const before = content.substring(0, scriptInfo.startIndex);
   const after = content.substring(scriptInfo.endIndex);
   const newContent = before + newScriptContent + after;

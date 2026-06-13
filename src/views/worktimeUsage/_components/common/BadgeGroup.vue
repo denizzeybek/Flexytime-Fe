@@ -46,7 +46,6 @@ const props = withDefaults(defineProps<IProps>(), {
 const { t } = useI18n<{ message: MessageSchema }>();
 const { formatDuration } = useTimeFormat();
 
-// Skeleton dummy data - show 6 skeleton badges with different colors
 const skeletonBadges: IBadgeData[] = [
   { severity: ESeverity.SUCCESS, title: '', icon: 'pi pi-circle', value: '' },
   { severity: ESeverity.WARN, title: '', icon: 'pi pi-circle', value: '' },
@@ -64,9 +63,6 @@ const badgeList = computed<IBadgeData[]>(() => {
   return props.summary
     .map((item) => {
       const type = (item.statisticType ?? '').toLowerCase();
-      // Start/End badges carry a wall-clock instant ("08:30"), pre-formatted
-      // by the worktime store adapter. Running them through `formatDuration`
-      // would mis-interpret them as a duration (→ "8h 30m"); pass through raw.
       const isClockTime =
         type === EStatisticType.START_TIME || type === EStatisticType.END_TIME;
       const value = isClockTime ? (item.time || '-') : formatDuration(item.time);
@@ -75,19 +71,15 @@ const badgeList = computed<IBadgeData[]>(() => {
     .filter((item): item is IBadgeData => item !== null);
 });
 
-// Dynamic grid columns based on badge count
 const gridColsClass = computed(() => {
   const count = badgeList.value.length;
 
-  // Mobile: always 2 columns
-  // Desktop: match the number of badges (4 or 6)
   if (count === 4) {
     return 'grid-cols-2 lg:grid-cols-4';
   } else if (count === 6) {
     return 'grid-cols-2 lg:grid-cols-6';
   }
 
-  // Fallback for other cases
   return 'grid-cols-2 lg:grid-cols-4';
 });
 

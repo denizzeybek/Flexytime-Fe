@@ -114,7 +114,6 @@ const { resetForm, setFieldValue } = useForm({
 
 const { fields } = useFieldArray<FormTimeClockGroup>('timeClocks');
 
-// Track previous values to detect changes
 const previousClockSelected = ref<Map<string, boolean>>(new Map());
 const previousDetailSelected = ref<Map<string, boolean>>(new Map());
 
@@ -126,7 +125,6 @@ const totalSelectedTime = computed(() => {
   return formatSpendTime(totalSeconds);
 });
 
-// Check if a parent clock is in indeterminate state (some but not all children selected)
 const isClockIndeterminate = (groupIdx: number, clockIdx: number): boolean => {
   const clock = fields.value[groupIdx]?.value?.Clocks?.[clockIdx];
   if (!clock?.Details?.length) return false;
@@ -213,13 +211,11 @@ const setModalState = () => {
   }
 };
 
-// Parent-child checkbox synchronization
 watch(
   () => fields.value,
   (newValue) => {
     const newData = newValue.map((element) => element.value);
 
-    // Handle parent-child sync
     newData.forEach((group, groupIdx) => {
       group.Clocks?.forEach((clock, clockIdx) => {
         if (!clock.Details?.length) return;
@@ -228,9 +224,7 @@ watch(
         const prevClockSelected = previousClockSelected.value.get(clockKey);
         const currentClockSelected = clock.Selected;
 
-        // Check if parent was just clicked (changed from previous state)
         if (prevClockSelected !== undefined && prevClockSelected !== currentClockSelected) {
-          // Parent was clicked - sync all children to parent state
           clock.Details.forEach((_, detailIdx) => {
             setFieldValue(
               `timeClocks[${groupIdx}].Clocks[${clockIdx}].Details[${detailIdx}].Selected`,
@@ -238,7 +232,6 @@ watch(
             );
           });
         } else {
-          // Check if any child changed
           let childChanged = false;
           clock.Details.forEach((detail, detailIdx) => {
             const detailKey = `${groupIdx}-${clockIdx}-${detailIdx}`;
@@ -249,7 +242,6 @@ watch(
           });
 
           if (childChanged) {
-            // Child changed - update parent based on children state
             const allSelected = clock.Details.every((d) => d.Selected);
             const noneSelected = clock.Details.every((d) => !d.Selected);
 
@@ -261,7 +253,6 @@ watch(
           }
         }
 
-        // Update previous values for next comparison
         previousClockSelected.value.set(clockKey, currentClockSelected ?? false);
         clock.Details.forEach((detail, detailIdx) => {
           const detailKey = `${groupIdx}-${clockIdx}-${detailIdx}`;

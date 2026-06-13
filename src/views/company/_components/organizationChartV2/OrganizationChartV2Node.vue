@@ -52,10 +52,8 @@ import Tag from 'primevue/tag';
 import type { IOrganizationNodeData } from '../../_types/organizationChartV2';
 import type { NodeProps } from '@vue-flow/core';
 
-// Vue Flow passes NodeProps to custom nodes
 const props = defineProps<NodeProps<IOrganizationNodeData>>();
 
-// Extract data safely
 const nodeData = computed(() => props.data as IOrganizationNodeData);
 
 const avatarLabel = computed(() => {

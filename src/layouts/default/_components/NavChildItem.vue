@@ -79,7 +79,6 @@ const toggle = () => {
   isOpen.value = !isOpen.value;
 };
 
-// Auto-expand if active child
 watch(
   () => route.name,
   () => {
