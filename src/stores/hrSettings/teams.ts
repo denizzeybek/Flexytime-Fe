@@ -15,6 +15,7 @@ export interface TeamListItem {
   Name: string;
   MemberCount?: number;
   Manager?: TeamManager;
+  IsDefault?: boolean;
 }
 
 interface State {
@@ -36,25 +37,20 @@ export const useHRSettingsTeamsStore = defineStore(EStoreNames.HR_SETTINGS_TEAMS
         this.loading = true;
         const employeesStore = useHRSettingsEmployeesStore();
 
-        // Get teams from API
         const teams = await CompanyService.companyControllerTeams();
 
-        // Ensure employees data is loaded for member count calculation
         if (employeesStore.list.length === 0) {
           await employeesStore.filter();
         }
 
-        // Calculate member counts and find managers from employees
         const teamMemberCounts = new Map<string, number>();
         const teamManagers = new Map<string, TeamManager>();
 
         employeesStore.list.forEach((employee) => {
           if (employee.TeamId) {
-            // Count members
             const count = teamMemberCounts.get(employee.TeamId) || 0;
             teamMemberCounts.set(employee.TeamId, count + 1);
 
-            // Find manager (Role 1 = Team Manager)
             if (employee.Role === 1 && employee.ID && employee.MemberName) {
               teamManagers.set(employee.TeamId, {
                 ID: employee.ID,
@@ -69,6 +65,7 @@ export const useHRSettingsTeamsStore = defineStore(EStoreNames.HR_SETTINGS_TEAMS
           Name: team.Name || '',
           MemberCount: teamMemberCounts.get(team.ID || '') || 0,
           Manager: teamManagers.get(team.ID || ''),
+          IsDefault: team.IsDefault,
         }));
 
         return this.list;
@@ -87,7 +84,6 @@ export const useHRSettingsTeamsStore = defineStore(EStoreNames.HR_SETTINGS_TEAMS
     async assignManager(teamId: string, managerId: string | null) {
       const employeesStore = useHRSettingsEmployeesStore();
 
-      // If there's an existing manager for this team, demote them to employee (Role 0)
       const currentManager = employeesStore.list.find(
         (emp) => emp.TeamId === teamId && emp.Role === 1,
       );
@@ -107,7 +103,6 @@ export const useHRSettingsTeamsStore = defineStore(EStoreNames.HR_SETTINGS_TEAMS
         });
       }
 
-      // If a new manager is selected, promote them to Team Manager (Role 1)
       if (managerId) {
         const newManager = employeesStore.list.find((emp) => emp.ID === managerId);
         if (newManager) {
@@ -126,7 +121,6 @@ export const useHRSettingsTeamsStore = defineStore(EStoreNames.HR_SETTINGS_TEAMS
         }
       }
 
-      // Refresh data
       await employeesStore.filter();
       await this.fetchTeams();
     },

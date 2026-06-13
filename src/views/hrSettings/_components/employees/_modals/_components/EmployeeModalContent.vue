@@ -61,6 +61,8 @@ import { useForm } from 'vee-validate';
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
+import { useHRSettingsTeamsStore } from '@/stores/hrSettings/teams';
+import { useHRSettingsTitlesStore } from '@/stores/hrSettings/titles';
 import EmployeeBasicInfoSection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeeBasicInfoSection.vue';
 import EmployeePasswordSection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeePasswordSection.vue';
 import EmployeeRoleSection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeeRoleSection.vue';
@@ -91,6 +93,8 @@ const emit = defineEmits<IEmits>();
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const employeesStore = useHRSettingsEmployeesStore();
+const titlesStore = useHRSettingsTitlesStore();
+const teamsStore = useHRSettingsTeamsStore();
 const { validationSchema, activeTab, isEditing } = useEmployeeModalValidation(props.data);
 const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema,
@@ -108,15 +112,40 @@ const isSystemAdminRole = computed(() => selectedRole.value?.value === 2);
 
 const tagOptions = computed(() => employeesStore.tags ?? []);
 
+/**
+ * Pick the sensible default Title for a new employee given the chosen
+ * Role. `seedOrgStructure` on register creates one supervisor title
+ * ("Administrator", IsDefault=false) and the first non-supervisor
+ * title gets IsDefault=true on first promotion (legacy parity). So
+ * for a Team-Manager role we prefer a supervisor title; for everyone
+ * else we prefer IsDefault. Falls back to the first item of the
+ * filtered list, then the first overall. `undefined` only when the
+ * store is empty — guarded above by the awaited fetch on the page.
+ */
+const pickDefaultTitle = (roleValue: number): { name: string; value: string } | undefined => {
+  const list = titlesStore.list;
+  if (list.length === 0) return undefined;
+  const wantSupervisor = roleValue === 1;
+  const filtered = list.filter((t) => (t.IsSupervisor ?? false) === wantSupervisor);
+  const pool = filtered.length > 0 ? filtered : list;
+  const chosen = pool.find((t) => t.IsDefault) ?? pool[0];
+  if (!chosen?.ID) return undefined;
+  return { name: chosen.Name ?? '', value: chosen.ID };
+};
+
+const pickDefaultTeam = (): { name: string; value: string } | undefined => {
+  const list = teamsStore.list;
+  if (list.length === 0) return undefined;
+  const chosen = list.find((t) => t.IsDefault) ?? list[0];
+  if (!chosen?.ID) return undefined;
+  return { name: chosen.Name ?? '', value: chosen.ID };
+};
+
 const getInitialFormData = computed(() => {
   const employee = props.data;
 
-  // Password is intentionally NOT pre-filled — the BE never echoes it
-  // back (Rule 12: secrets stay write-only), and an empty input on the
-  // edit form means "leave the existing hash untouched". See the
-  // matching `passwordRule()` in useEmployeeModalValidation.
-  return {
-    ...(employee && {
+  if (employee) {
+    return {
       memberName: employee.MemberName,
       email: employee.Email,
       enabled: employee.Enabled,
@@ -128,11 +157,17 @@ const getInitialFormData = computed(() => {
         name: employee.TeamName,
         value: employee.TeamId,
       },
-      // operatingUser dropped from v2 contract — the BE no longer
-      // accepts it on save, and the read no longer emits it. Agent
-      // installer owns Customer.WindowsIdentity.
       salary: employee.Salary,
-    }),
+    };
+  }
+
+  // Add mode — seed Title + Team with the company's defaults so the
+  // FSelect renders a sensible value instead of looking empty (the
+  // page mount awaits both lookups so the stores are hydrated).
+  const roleValue = selectedRole.value?.value ?? 0;
+  return {
+    title: pickDefaultTitle(roleValue),
+    team: pickDefaultTeam(),
   };
 });
 
@@ -224,12 +259,6 @@ const submitHandler = handleSubmit(async (formValues) => {
     const roleValue = selectedRole.value?.value ?? 0;
 
     if (!isEditing.value && roleValue === 0) {
-      // Add → Employee role uses the batch-invite endpoint, NOT
-      // employee/save. saveEmployee can only create one record at a time
-      // and expects the full PascalCase body; the FE only collects emails
-      // here, so route through the invitation flow.
-      // Title and Team are optional — pass undefined when not selected so
-      // the store omits them from the payload.
       await employeesStore.inviteEmails(values.emails ?? [], {
         TeamId: values.team?.value,
         TitleId: values.title?.value,
@@ -252,7 +281,6 @@ const submitHandler = handleSubmit(async (formValues) => {
   }
 });
 
-// Sync selectedRole with activeTab for validation
 watch(
   selectedRole,
   (newRole) => {
@@ -279,6 +307,33 @@ onMounted(() => {
     resetForm({
       values: getInitialFormData.value as any,
     });
+  } else {
+    // Add mode — seed the form with default Title + Team picks so the
+    // FSelects don't open empty. Page mount on EmployeesList awaits the
+    // titles + teams fetches, so the stores are hydrated here.
+    resetForm({
+      values: getInitialFormData.value as any,
+    });
   }
 });
+
+/**
+ * When the user changes Role in Add mode, the supervisor-vs-employee
+ * title pool flips, so re-seed the Title default for the new role.
+ * Skip in Edit mode (we don't want to overwrite the operator's manual
+ * change while the modal is open).
+ */
+watch(
+  () => selectedRole.value?.value,
+  (newRoleValue, oldRoleValue) => {
+    if (isEditing.value) return;
+    if (newRoleValue === undefined || newRoleValue === oldRoleValue) return;
+    const nextTitle = pickDefaultTitle(newRoleValue);
+    if (nextTitle) {
+      resetForm({
+        values: { ...(getInitialFormData.value as any), title: nextTitle },
+      });
+    }
+  },
+);
 </script>

@@ -9,6 +9,7 @@ export interface TitleListItem {
   ID?: string;
   Name: string;
   IsSupervisor?: boolean;
+  IsDefault?: boolean;
 }
 
 interface State {
@@ -33,6 +34,7 @@ export const useHRSettingsTitlesStore = defineStore(EStoreNames.HR_SETTINGS_TITL
           ID: title.ID,
           Name: title.Name,
           IsSupervisor: title.IsSupervisor,
+          IsDefault: title.IsDefault,
         }));
         return this.list;
       } finally {
