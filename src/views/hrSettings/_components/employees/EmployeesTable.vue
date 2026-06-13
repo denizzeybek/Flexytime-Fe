@@ -68,10 +68,10 @@
         </div>
       </template>
     </Column>
-    <Column sortable field="RoleName" :header="t('pages.hrSettings.employees.table.columns.roleName')">
+    <Column sortable field="Role" :header="t('pages.hrSettings.employees.table.columns.roleName')">
       <template #body="slotProps">
         <Skeleton v-if="isLoading" height="1.5rem" width="10rem" />
-        <FText v-else>{{ slotProps.data.RoleName }}</FText>
+        <FText v-else>{{ resolveRoleName(slotProps.data.Role) }}</FText>
       </template>
     </Column>
     <Column field="Tags" :header="t('pages.hrSettings.employees.table.columns.tags')">
@@ -197,12 +197,24 @@ const employeesStore = useHRSettingsEmployeesStore();
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   MemberName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  RoleName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  Role: { value: null, matchMode: FilterMatchMode.EQUALS },
   Tags: { value: null, matchMode: FilterMatchMode.IN },
   TitleName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   TeamName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   Salary: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
+
+/**
+ * Resolve the numeric `Role` field to a localized label. The legacy
+ * `RoleName` string the table column used to read is dropped by the v2
+ * BE (it was a culture-dependent resource bundle string); FE owns i18n
+ * now (CLAUDE.md memory). The store exposes the matching translation key
+ * for each enum value; we render the localized string here.
+ */
+const resolveRoleName = (role: number | undefined): string => {
+  const key = employeesStore.roleNameKey(role);
+  return key ? t(key as keyof MessageSchema as never) : '';
+};
 
 const activeFilter = ref<'all' | 'incomplete' | 'active'>('all');
 const isQuickAssignOpen = ref(false);
@@ -274,7 +286,7 @@ const handleOptionClick = (option: EOptionsDropdown, employee: TheMemberViewMode
 
 const skeletonData = createSkeletonData(5, {
   MemberName: '',
-  RoleName: '',
+  Role: 0,
   Tags: [] as string[],
   TitleName: '',
   TeamName: '',

@@ -63,7 +63,7 @@ import EmployeeRoleSelect from '@/views/hrSettings/_components/employees/_modals
 import EmployeeTagsSalarySection from '@/views/hrSettings/_components/employees/_modals/_components/EmployeeTagsSalarySection.vue';
 import { useEmployeeModalValidation } from '@/views/hrSettings/_composables/useEmployeeModalValidation';
 
-import type { TheMemberViewModel } from '@/client';
+import type { TheMemberModifyDto, TheMemberViewModel } from '@/client';
 
 interface IRoleOption {
   name: string;
@@ -127,66 +127,87 @@ const getInitialFormData = computed(() => {
   };
 });
 
-const buildPayload = (formValues: any) => {
-  const roleValue = selectedRole.value?.value ?? 0;
+/**
+ * Translate the vee-validate form values into the v2 BE save body
+ * (PascalCase keys — `TheMemberModifyDto`). The legacy code paths sent
+ * lowercase keys and the BE silently created malformed Customer +
+ * PerformMember rows (`MemberName=undefined`, `Email=undefined`, …) —
+ * fix is to mirror the contract field-for-field.
+ *
+ * The `salary` form field is a number but the BE stores it as a string
+ * (legacy `Salary` was a decimal-as-string for currency precision); cast
+ * here so the cell renders nicely and the BE's `$set` doesn't change shape
+ * across saves.
+ */
+type EmployeeFormValues = {
+  memberName?: string;
+  email?: string;
+  password?: string;
+  enabled?: boolean;
+  operatingUser?: string;
+  salary?: number;
+  title?: { name?: string; value?: string };
+  team?: { name?: string; value?: string };
+  tags?: Array<{ name?: string; value?: string }>;
+  emails?: string[];
+};
 
-  if (isEditing.value) {
-    const employee = props.data;
-    return {
-      id: employee?.ID,
-      memberName: formValues.memberName,
-      email: formValues.email,
-      password: formValues.password,
-      role: roleValue,
-      salary: formValues.salary ?? employee?.Salary,
-      teamId: formValues.team?.value ?? employee?.TeamId,
-      teamName: formValues.team?.name ?? employee?.TeamName,
-      titleId: formValues.title?.value ?? employee?.TeamId,
-      titleName: formValues.title?.name ?? employee?.TitleName,
-      windowsIdentity: formValues.WindowsIdentity ?? employee?.WindowsIdentity,
-      enabled: isEditing.value ? formValues.enabled : employee?.Enabled,
-      tags: formValues?.tags?.map((tag: { name: string }) => tag.name) ?? employee?.Tags ?? [],
-    };
-  }
+const stringSalary = (value: number | undefined, fallback?: string): string | undefined => {
+  if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+  return fallback;
+};
 
-  // New employee payloads by role
-  if (roleValue === 0) {
-    return { emails: formValues.emails };
-  }
-
-  if (roleValue === 1) {
-    return {
-      memberName: formValues.memberName,
-      email: formValues.email,
-      password: formValues.password,
-      role: roleValue,
-      salary: formValues.salary,
-      teamId: formValues.team?.value,
-      teamName: formValues.team?.name,
-      titleId: formValues.title?.value,
-      titleName: formValues.title?.name,
-      windowsIdentity: '',
-      enabled: true,
-      tags: [],
-    };
-  }
-
-  // System Admin (role 2)
+const buildEditPayload = (
+  formValues: EmployeeFormValues,
+  roleValue: number,
+): TheMemberModifyDto => {
+  const employee = props.data;
   return {
-    memberName: formValues.memberName,
-    email: formValues.email,
-    password: formValues.password,
-    role: roleValue,
-    salary: 0,
-    teamId: '',
-    teamName: '',
-    titleId: '',
-    titleName: '',
-    windowsIdentity: '',
-    enabled: true,
-    tags: [],
+    ID: employee?.ID,
+    MemberName: formValues.memberName ?? employee?.MemberName ?? '',
+    Email: formValues.email ?? employee?.Email ?? '',
+    ...(formValues.password && { Password: formValues.password }),
+    Role: roleValue,
+    Salary: stringSalary(formValues.salary, employee?.Salary) ?? '',
+    TeamId: formValues.team?.value ?? employee?.TeamId,
+    TitleId: formValues.title?.value ?? employee?.TitleId,
+    TitleName: formValues.title?.name ?? employee?.TitleName,
+    WindowsIdentity: formValues.operatingUser ?? employee?.WindowsIdentity ?? '',
+    Enabled: formValues.enabled ?? employee?.Enabled ?? true,
+    Tags: formValues.tags?.map((tag) => tag.name ?? '').filter(Boolean) ?? employee?.Tags ?? [],
   };
 };
+
+const buildAddManagerPayload = (
+  formValues: EmployeeFormValues,
+  roleValue: number,
+): TheMemberModifyDto => ({
+  MemberName: formValues.memberName ?? '',
+  Email: formValues.email ?? '',
+  ...(formValues.password && { Password: formValues.password }),
+  Role: roleValue,
+  Salary: stringSalary(formValues.salary) ?? '',
+  TeamId: formValues.team?.value,
+  TitleId: formValues.title?.value,
+  TitleName: formValues.title?.name,
+  WindowsIdentity: '',
+  Enabled: true,
+  Tags: [],
+});
+
+const buildAddAdminPayload = (
+  formValues: EmployeeFormValues,
+  roleValue: number,
+): TheMemberModifyDto => ({
+  MemberName: formValues.memberName ?? '',
+  Email: formValues.email ?? '',
+  ...(formValues.password && { Password: formValues.password }),
+  Role: roleValue,
+  Salary: '0',
+  WindowsIdentity: '',
+  Enabled: true,
+  Tags: [],
+});
 
 const submitHandler = handleSubmit(async (formValues) => {
   try {
@@ -194,8 +215,24 @@ const submitHandler = handleSubmit(async (formValues) => {
       ? t('pages.hrSettings.employees.modal.messages.updated')
       : t('pages.hrSettings.employees.modal.messages.added');
 
-    const payload = buildPayload(formValues) as any;
-    await employeesStore.save(payload);
+    const values = formValues as EmployeeFormValues;
+    const roleValue = selectedRole.value?.value ?? 0;
+
+    if (!isEditing.value && roleValue === 0) {
+      // Add → Employee role uses the batch-invite endpoint, NOT
+      // employee/save. saveEmployee can only create one record at a time
+      // and expects the full PascalCase body; the FE only collects emails
+      // here, so route through the invitation flow.
+      await employeesStore.inviteEmails(values.emails ?? []);
+    } else {
+      const payload = isEditing.value
+        ? buildEditPayload(values, roleValue)
+        : roleValue === 1
+          ? buildAddManagerPayload(values, roleValue)
+          : buildAddAdminPayload(values, roleValue);
+      await employeesStore.save(payload);
+    }
+
     showSuccessMessage(text);
     isClear.value = true;
     emit('success');
