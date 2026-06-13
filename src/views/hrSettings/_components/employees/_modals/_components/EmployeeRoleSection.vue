@@ -38,12 +38,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
-import { useHRSettingsEmployeesStore } from '@/stores/hrSettings/Employees';
 import { useHRSettingsTeamsStore } from '@/stores/hrSettings/teams';
 import { useHRSettingsTitlesStore } from '@/stores/hrSettings/titles';
 
@@ -57,61 +57,36 @@ withDefaults(defineProps<IProps>(), {
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
-const employeesStore = useHRSettingsEmployeesStore();
 const titlesStore = useHRSettingsTitlesStore();
 const teamsStore = useHRSettingsTeamsStore();
 
 /**
- * Two data sources can populate these dropdowns:
- *   (1) The dedicated `titlesStore.list` / `teamsStore.list` — fetched
- *       eagerly on Employees-page mount via `/webapi/company/titles` and
- *       `/webapi/company/teams`. Used by every CRUD screen for these
- *       entities.
- *   (2) The bundled lookups inside `definitionControllerEmployees()` —
- *       already populated on Employees-page mount because the table is
- *       built from the same response. Lives on
- *       `employeesStore.{employeeTitles,managerTitles,teams}`.
- *
- * We prefer (1) when it's hydrated (matches Add-Title / Add-Team
- * round-trips), and fall back to (2) so the dropdowns are never empty
- * on first paint even if (1) is still in flight. The maps land on the
- * same `{name, value}` shape `FSelect` consumes regardless.
+ * Bind the lists as real `Ref`s up front. Reading
+ * `titlesStore.list` inside a `computed` tracks reactively too, but
+ * `storeToRefs` makes the dependency unambiguous to the reactivity
+ * tracker — important because this section mounts under PrimeVue's
+ * `Dialog` (which teleports the subtree), and earlier we hit a hard-
+ * to-reproduce "Pinia state has rows but FSelect shows none" bug here.
+ * The component now has a single source of truth (the dedicated CRUD
+ * stores) and zero in-component fetching — the page-level mount on
+ * `EmployeesList.vue` awaits both lookups before the modal can open.
  */
-const titleOptions = computed(() => {
-  const primary = titlesStore.list;
-  if (primary.length > 0) {
-    return primary.map((title) => ({
-      name: title.Name ?? '',
-      value: title.ID ?? '',
-    }));
-  }
-  // Fallback: titles bundled into the employees() response carry the
-  // same {ID, Name} shape (DefinitionMemberViewModel) — merge
-  // employee + manager title pools, dedup by ID.
-  const seen = new Set<string>();
-  const fallback: Array<{ name: string; value: string }> = [];
-  for (const t of [...employeesStore.employeeTitles, ...employeesStore.managerTitles]) {
-    const id = t.ID ?? '';
-    if (!id || seen.has(id)) continue;
-    seen.add(id);
-    fallback.push({ name: t.Name ?? '', value: id });
-  }
-  return fallback;
-});
+const { list: titles } = storeToRefs(titlesStore);
+const { list: teams } = storeToRefs(teamsStore);
 
-const teamOptions = computed(() => {
-  const primary = teamsStore.list;
-  if (primary.length > 0) {
-    return primary.map((team) => ({
-      name: team.Name ?? '',
-      value: team.ID ?? '',
-    }));
-  }
-  return employeesStore.teams.map((team) => ({
+const titleOptions = computed(() =>
+  titles.value.map((title) => ({
+    name: title.Name ?? '',
+    value: title.ID ?? '',
+  })),
+);
+
+const teamOptions = computed(() =>
+  teams.value.map((team) => ({
     name: team.Name ?? '',
     value: team.ID ?? '',
-  }));
-});
+  })),
+);
 
 const handleAddTitle = async (name: string) => {
   try {
@@ -130,14 +105,4 @@ const handleAddTeam = async (name: string) => {
     showErrorMessage(error as Error);
   }
 };
-
-onMounted(async () => {
-  // Fetch titles and teams if not already loaded
-  if (titlesStore.list.length === 0) {
-    await titlesStore.fetchTitles();
-  }
-  if (teamsStore.list.length === 0) {
-    await teamsStore.fetchTeams();
-  }
-});
 </script>

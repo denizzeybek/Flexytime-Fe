@@ -37,18 +37,11 @@ const handleNew = async () => {
 };
 
 const handleEdit = async (employee: TheMemberViewModel) => {
-  // The list payload deliberately omits `Email` (per the v2 contract:
-  // "Set by the single-member read for the edit form"), and the BE has
-  // it on `POST /webapi/definition/employee`. Round-trip there before
-  // opening the modal so the form seeds with the full shape rather
-  // than a stale list-row snapshot.
   if (!employee.ID) return;
   try {
     const detail = await employeesStore.fetchEmployeeDetail(employee.ID);
     currentEmployee.value = detail ?? employee;
   } catch (error) {
-    // Fall back to the list-row data so the operator can still edit
-    // Name / Team / Title / Salary even if the detail fetch errored.
     showErrorMessage(error as Error);
     currentEmployee.value = employee;
   }
@@ -63,15 +56,30 @@ const fetchEmployees = async () => {
   }
 };
 
+/**
+ * Title + Team dropdowns in the Add/Edit Employee modal read from
+ * `titlesStore.list` / `teamsStore.list`. Hydrating them here, awaited
+ * and in parallel, makes the data deterministically present in Pinia
+ * before the modal can possibly open — previously the modal's own
+ * `EmployeeRoleSection` fetched concurrently with a fire-and-forget
+ * fetch from this page, racing the FSelect's reactive `:options`
+ * binding and producing the "Pinia full, dropdown empty" UX bug.
+ */
+const fetchModalLookups = async () => {
+  const tasks: Array<Promise<unknown>> = [];
+  if (titlesStore.list.length === 0) tasks.push(titlesStore.fetchTitles());
+  if (teamsStore.list.length === 0) tasks.push(teamsStore.fetchTeams());
+  if (tasks.length > 0) {
+    try {
+      await Promise.all(tasks);
+    } catch (error) {
+      showErrorMessage(error as Error);
+    }
+  }
+};
+
 onMounted(() => {
-  // Kick off the roster + the two lookup lists that feed the Add/Edit
-  // modal's Title / Team `<FSelect>` dropdowns. EmployeeRoleSection used
-  // to fetch them lazily on its own `onMounted`, but the modal mounts
-  // AFTER the page is interactive — so the operator briefly saw empty
-  // dropdowns on the first click. Pulling the fetches up here means
-  // by the time the modal opens both stores are populated.
   void fetchEmployees();
-  if (titlesStore.list.length === 0) void titlesStore.fetchTitles();
-  if (teamsStore.list.length === 0) void teamsStore.fetchTeams();
+  void fetchModalLookups();
 });
 </script>
