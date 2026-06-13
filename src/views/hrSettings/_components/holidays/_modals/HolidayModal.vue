@@ -43,11 +43,26 @@
       <div class="flex items-center justify-center flex-1">
         <FCheckbox name="repeat" :label="t('pages.hrSettings.holidays.modal.repeatYearly')" />
       </div>
-
-      <div class="flex w-50 justify-center">
-        <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('pages.hrSettings.holidays.modal.save')" />
-      </div>
     </form>
+
+    <template #footer>
+      <FModalFooter>
+        <Button
+          type="button"
+          :label="t('common.buttons.cancel')"
+          severity="secondary"
+          outlined
+          @click.stop="handleClose"
+        />
+        <Button
+          type="submit"
+          :label="t('pages.hrSettings.holidays.modal.save')"
+          :disabled="isSubmitting"
+          :loading="isSubmitting"
+          @click.stop="submitHandler"
+        />
+      </FModalFooter>
+    </template>
   </Dialog>
 </template>
 

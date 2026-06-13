@@ -50,10 +50,26 @@
         </div>
       </div>
 
-      <div class="flex w-50 justify-center">
-        <Button :disabled="isSubmitting" :loading="isSubmitting" type="submit" :label="t('common.buttons.save')" />
-      </div>
     </form>
+
+    <template #footer>
+      <FModalFooter>
+        <Button
+          type="button"
+          :label="t('common.buttons.cancel')"
+          severity="secondary"
+          outlined
+          @click.stop="handleClose"
+        />
+        <Button
+          type="submit"
+          :label="t('common.buttons.save')"
+          :disabled="isSubmitting"
+          :loading="isSubmitting"
+          @click.stop="submitHandler"
+        />
+      </FModalFooter>
+    </template>
   </Dialog>
 </template>
 
