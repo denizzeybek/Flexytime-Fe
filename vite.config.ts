@@ -6,7 +6,6 @@ import { PrimeVueResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
@@ -29,7 +28,6 @@ export default defineConfig({
       },
     },
     lightningcss: {
-      // Suppress :deep() pseudo-class warnings (Vue scoped CSS feature)
       errorRecovery: true,
     },
   },
@@ -38,7 +36,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Vendor chunks
           'vue-vendor': ['vue', 'vue-router', 'pinia'],
           'primevue': ['primevue'],
           'vee-validate': ['vee-validate', 'yup'],
