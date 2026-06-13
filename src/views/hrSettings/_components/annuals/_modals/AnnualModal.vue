@@ -21,12 +21,10 @@
       </div>
 
       <div class="flex gap-4">
-        <div class="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 flex-1">
-          <FCheckbox name="startFullDay" labelTop :label="t('pages.hrSettings.annuals.modal.allDay.label')" />
+        <div class="flex flex-col items-stretch gap-3 flex-1">
           <FDateTimePicker
             :label="t('pages.hrSettings.annuals.modal.startDate.label')"
             :placeholder="t('pages.hrSettings.annuals.modal.startDate.placeholder')"
-            class="grow"
             name="startDate"
             :prime-props="{
               showTime: startFullDay ? false : true,
@@ -34,14 +32,13 @@
               fluid: true,
             }"
           />
+          <FCheckbox name="startFullDay" :label="t('pages.hrSettings.annuals.modal.allDay.label')" />
         </div>
         <Divider layout="vertical" />
-        <div class="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 flex-1">
-          <FCheckbox name="endFullDay" labelTop :label="t('pages.hrSettings.annuals.modal.allDay.label')" />
+        <div class="flex flex-col items-stretch gap-3 flex-1">
           <FDateTimePicker
             :label="t('pages.hrSettings.annuals.modal.endDate.label')"
             :placeholder="t('pages.hrSettings.annuals.modal.endDate.placeholder')"
-            class="grow"
             name="endDate"
             :prime-props="{
               showTime: endFullDay ? false : true,
@@ -49,6 +46,7 @@
               fluid: true,
             }"
           />
+          <FCheckbox name="endFullDay" :label="t('pages.hrSettings.annuals.modal.allDay.label')" />
         </div>
       </div>
 

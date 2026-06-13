@@ -12,12 +12,10 @@
       </div>
 
       <div class="flex gap-4">
-        <div class="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 flex-1">
-          <FCheckbox name="startFullDay" labelTop :label="t('pages.hrSettings.holidays.modal.allDay')" />
+        <div class="flex flex-col items-stretch gap-3 flex-1">
           <FDateTimePicker
             :label="t('pages.hrSettings.holidays.modal.startDateLabel')"
             :placeholder="t('pages.hrSettings.holidays.modal.startDatePlaceholder')"
-            class="grow"
             name="startDate"
             :prime-props="{
               showTime: startFullDay ? false : true,
@@ -25,14 +23,13 @@
               fluid: true,
             }"
           />
+          <FCheckbox name="startFullDay" :label="t('pages.hrSettings.holidays.modal.allDay')" />
         </div>
         <Divider layout="vertical" />
-        <div class="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 flex-1">
-          <FCheckbox name="endFullDay" labelTop labelLeft :label="t('pages.hrSettings.holidays.modal.allDay')" />
+        <div class="flex flex-col items-stretch gap-3 flex-1">
           <FDateTimePicker
             :label="t('pages.hrSettings.holidays.modal.endDateLabel')"
             :placeholder="t('pages.hrSettings.holidays.modal.endDatePlaceholder')"
-            class="grow"
             name="endDate"
             :prime-props="{
               showTime: endFullDay ? false : true,
@@ -40,6 +37,7 @@
               fluid: true,
             }"
           />
+          <FCheckbox name="endFullDay" :label="t('pages.hrSettings.holidays.modal.allDay')" />
         </div>
       </div>
       <div class="flex items-center justify-center flex-1">
