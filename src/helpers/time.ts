@@ -135,6 +135,28 @@ export const formatPercentage = (value: number, decimals = 1): string => {
 };
 
 /**
+ * Convert a raw number of seconds into a string `parseDuration` will read as
+ * a `DD.HH:MM:SS` (or `HH:MM:SS`) duration. The v2 RESHAPED `/clock/section`
+ * and `/clock/employee` responses carry per-domain totals as **integer
+ * seconds** (Rule 13 — wire ships UTC instants and raw counts; presentation
+ * is FE-owned). `parseDuration` already handles the `DD.HH:MM:SS` shape, but
+ * a plain integer string falls into the legacy `treat-as-minutes` branch
+ * (line 49–57 above) and a 12,832-second work total reads back as "9d 3h
+ * 7m" instead of the real "3h 33m 52s". Always route v2 seconds values
+ * through this helper before stuffing them into a `{ time }` cell.
+ */
+export const secondsToDurationString = (seconds: number | null | undefined): string => {
+  if (seconds == null || !Number.isFinite(seconds) || seconds <= 0) return '0';
+  const total = Math.round(seconds);
+  const days = Math.floor(total / 86400);
+  const h = Math.floor((total % 86400) / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  const tail = `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  return days > 0 ? `${days}.${tail}` : tail;
+};
+
+/**
  * Format short time (HH:MM) to readable format
  * "08:05" => "8h 5m" or "8s 5d"
  */

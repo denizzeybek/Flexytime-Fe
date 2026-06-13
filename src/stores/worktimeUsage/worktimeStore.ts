@@ -24,6 +24,7 @@
 import { defineStore } from 'pinia';
 
 import { ClockService } from '@/client';
+import { secondsToDurationString } from '@/helpers/time';
 import { useProfileStore } from '@/stores/profile/profile';
 
 import type {
@@ -76,7 +77,7 @@ interface LegacyStatCell {
   time: string;
 }
 function statCell(seconds: number | null | undefined): LegacyStatCell {
-  return { time: String(seconds ?? 0) };
+  return { time: secondsToDurationString(seconds) };
 }
 
 /**
@@ -114,13 +115,13 @@ function summaryObjectToArray(
   const start = summary.StartTime ?? summary.Start ?? null;
   const end = summary.EndTime ?? summary.End ?? null;
   return [
-    { id: 'work', statisticType: 'work', time: String(summary.Work ?? 0) },
-    { id: 'meeting', statisticType: 'meeting', time: String(summary.Meeting ?? 0) },
-    { id: 'leisure', statisticType: 'leisure', time: String(summary.Leisure ?? 0) },
+    { id: 'work', statisticType: 'work', time: secondsToDurationString(summary.Work) },
+    { id: 'meeting', statisticType: 'meeting', time: secondsToDurationString(summary.Meeting) },
+    { id: 'leisure', statisticType: 'leisure', time: secondsToDurationString(summary.Leisure) },
     {
       id: 'unclassified',
       statisticType: 'unclassified',
-      time: String(summary.Unclassified ?? 0),
+      time: secondsToDurationString(summary.Unclassified),
     },
     { id: 'starttime', statisticType: 'starttime', time: secondsToClockTime(start) },
     { id: 'endtime', statisticType: 'endtime', time: secondsToClockTime(end) },
@@ -141,11 +142,11 @@ function distributionsToLegacy(distribution: ClockDistribution[]): IDistribution
     return {
       id: String(row.Domain).toLowerCase(),
       statisticType: String(row.Domain).toLowerCase(),
-      time: String(row.Seconds ?? 0),
+      time: secondsToDurationString(row.Seconds),
       Applications: apps.map((app) => ({
         imgPath: '',
         title: app.Name ?? '',
-        time: String(app.Seconds ?? 0),
+        time: secondsToDurationString(app.Seconds),
       })),
       Chart: apps.map((app) => ({
         label: app.Name ?? '',
