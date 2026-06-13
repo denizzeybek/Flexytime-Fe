@@ -5,9 +5,10 @@
 
     <Divider />
 
-    <!-- Employee Role: Email List (only for new employee) -->
+    <!-- Employee Role: Email List + optional Team/Title (only for new employee) -->
     <template v-if="isEmployeeRole && !isEditing">
       <FEmailList name="emails" type="text" :is-clear="isClear" />
+      <EmployeeRoleSection :show-operating-user="false" />
     </template>
 
     <!-- Full Form (for edit mode or non-employee roles) -->
@@ -225,7 +226,12 @@ const submitHandler = handleSubmit(async (formValues) => {
       // employee/save. saveEmployee can only create one record at a time
       // and expects the full PascalCase body; the FE only collects emails
       // here, so route through the invitation flow.
-      await employeesStore.inviteEmails(values.emails ?? []);
+      // Title and Team are optional — pass undefined when not selected so
+      // the store omits them from the payload.
+      await employeesStore.inviteEmails(values.emails ?? [], {
+        TeamId: values.team?.value,
+        TitleId: values.title?.value,
+      });
     } else {
       const payload = isEditing.value
         ? buildEditPayload(values, roleValue)

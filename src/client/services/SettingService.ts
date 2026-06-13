@@ -152,6 +152,7 @@ export class SettingService {
     }
     /**
      * Create or update an invitation entry
+     * When `EXPOSE_INVITE_LINKS_IN_RESPONSE=true` (dev/local only — the loader hard-wires this off in production), the response DTO carries the generated `{Email, Link}` pairs so the operator can click through without a real mail send. Hidden by default; never trust the absence on prod.
      * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError

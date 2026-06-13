@@ -7,6 +7,7 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { AcceptInviteDto } from './models/AcceptInviteDto';
 export type { AccountConfirmDto } from './models/AccountConfirmDto';
 export type { AccountForgotDto } from './models/AccountForgotDto';
 export type { AccountRegisterDto } from './models/AccountRegisterDto';
@@ -93,6 +94,7 @@ export { CompanyService } from './services/CompanyService';
 export { DefinitionService } from './services/DefinitionService';
 export { DownloadService } from './services/DownloadService';
 export { HealthService } from './services/HealthService';
+export { InviteService } from './services/InviteService';
 export { LegacyMvcStubsService } from './services/LegacyMvcStubsService';
 export { PaymentService } from './services/PaymentService';
 export { ProfileService } from './services/ProfileService';

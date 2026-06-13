@@ -111,8 +111,12 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
      * or created garbage. Returns when all emails are queued; refreshes the
      * list so the pending invitations bubble up in the FE state.
      */
-    async inviteEmails(emails: string[]) {
-      await SettingService.settingControllerSaveInvitation({ Emails: emails });
+    async inviteEmails(emails: string[], optional?: { TeamId?: string; TitleId?: string }) {
+      await SettingService.settingControllerSaveInvitation({
+        Emails: emails,
+        ...(optional?.TeamId !== undefined && { TeamId: optional.TeamId }),
+        ...(optional?.TitleId !== undefined && { TitleId: optional.TitleId }),
+      });
       await this.filter();
     },
     async updateEnabled(id: string, enabled: boolean) {

@@ -25,6 +25,21 @@ export const useEmployeeModalValidation = (propsData: TheMemberViewModel | undef
           .of(string().email(emailMsg(t('pages.hrSettings.employees.modal.email.label'))).required(requiredMsg(t('pages.hrSettings.employees.modal.email.label'))))
           .required(arrayMinMsg(t('pages.hrSettings.employees.modal.email.label'), 1))
           .min(1, arrayMinMsg(t('pages.hrSettings.employees.modal.email.label'), 1)),
+        // Title and Team are optional at invite time — admin can leave both blank.
+        title: object()
+          .shape({
+            name: string(),
+            value: string(),
+          })
+          .optional()
+          .nullable(),
+        team: object()
+          .shape({
+            name: string(),
+            value: string(),
+          })
+          .optional()
+          .nullable(),
       }),
     ),
   );
