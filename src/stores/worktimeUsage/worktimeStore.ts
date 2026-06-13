@@ -248,10 +248,12 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     },
 
     /**
-     * Section-mode Breadcrumb: `home > <Team / Company>`. The legacy BE
-     * sent a `BreadCrumb[]` (Url-encoded path); v2 dropped that. We
-     * synthesise the two-step breadcrumb the UI shows from the same
-     * Company + Teams blocks.
+     * Section-mode Breadcrumb: a single leaf segment whose label is the
+     * current team (or, at the root, the company) name. PrimeVue's
+     * `<PBreadcrumb>` renders the home-icon segment itself via the
+     * `home` prop — we only ever return the trail under it. The legacy
+     * BE used to ship a server-built BreadCrumb[]; v2 dropped that, so
+     * the FE derives the trail from the Company + Teams blocks.
      */
     sectionBreadcrumb: (state): IBreadcrumb[] => {
       const team = state.sectionData?.Teams?.[0];
@@ -259,12 +261,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       const leafName = team?.Name ?? companyName;
       if (!leafName) return [];
       return [
-        {
-          id: 'home',
-          title: '',
-          path: '/clock',
-          isLastElement: false,
-        },
         {
           id: team?.TeamId ?? 'company',
           title: leafName,
