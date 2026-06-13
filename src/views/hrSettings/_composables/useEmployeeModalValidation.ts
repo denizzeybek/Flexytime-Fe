@@ -29,6 +29,23 @@ export const useEmployeeModalValidation = (propsData: TheMemberViewModel | undef
     ),
   );
 
+  /**
+   * Password is required on CREATE but optional on EDIT. The BE save
+   * helper (`definition-employee.helpers.ts:buildUserUpdate`) only
+   * re-hashes `body.Password` when present, so leaving the field blank
+   * on edit keeps the existing hash. Forcing the admin to retype the
+   * password every edit was UX friction that didn't match the BE
+   * contract.
+   */
+  const passwordRule = () =>
+    string()
+      .min(6, minMsg(t('pages.hrSettings.employees.modal.password.label'), 6))
+      .when([], {
+        is: () => isEditing.value,
+        then: (schema) => schema.optional().nullable(),
+        otherwise: (schema) => schema.required(requiredMsg(t('pages.hrSettings.employees.modal.password.label'))),
+      });
+
   const employeeEditSchema = computed(() =>
     toTypedSchema(
       object({
@@ -49,7 +66,7 @@ export const useEmployeeModalValidation = (propsData: TheMemberViewModel | undef
           .required(requiredMsg(t('pages.hrSettings.employees.modal.team.label'))),
         operatingUser: string().required(requiredMsg(t('pages.hrSettings.employees.modal.operatingUser.label'))),
         salary: number().required(requiredMsg(t('pages.hrSettings.employees.modal.salary.label'))),
-        password: string().required(requiredMsg(t('pages.hrSettings.employees.modal.password.label'))).min(6, minMsg(t('pages.hrSettings.employees.modal.password.label'), 6)),
+        password: passwordRule(),
         tags: array()
           .nullable()
           .of(
@@ -86,7 +103,7 @@ export const useEmployeeModalValidation = (propsData: TheMemberViewModel | undef
             otherwise: (schema) => schema.nullable(),
           }),
         salary: number().required(requiredMsg(t('pages.hrSettings.employees.modal.salary.label'))),
-        password: string().required(requiredMsg(t('pages.hrSettings.employees.modal.password.label'))).min(6, minMsg(t('pages.hrSettings.employees.modal.password.label'), 6)),
+        password: passwordRule(),
       }),
     ),
   );
@@ -102,7 +119,7 @@ export const useEmployeeModalValidation = (propsData: TheMemberViewModel | undef
             then: (schema) => schema.required(requiredMsg(t('pages.hrSettings.employees.modal.enabled.label'))),
             otherwise: (schema) => schema.nullable(),
           }),
-        password: string().required(requiredMsg(t('pages.hrSettings.employees.modal.password.label'))).min(6, minMsg(t('pages.hrSettings.employees.modal.password.label'), 6)),
+        password: passwordRule(),
       }),
     ),
   );

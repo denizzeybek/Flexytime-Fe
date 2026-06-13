@@ -106,6 +106,10 @@ const tagOptions = computed(() => employeesStore.tags ?? []);
 const getInitialFormData = computed(() => {
   const employee = props.data;
 
+  // Password is intentionally NOT pre-filled — the BE never echoes it
+  // back (Rule 12: secrets stay write-only), and an empty input on the
+  // edit form means "leave the existing hash untouched". See the
+  // matching `passwordRule()` in useEmployeeModalValidation.
   return {
     ...(employee && {
       memberName: employee.MemberName,
@@ -121,8 +125,6 @@ const getInitialFormData = computed(() => {
       },
       operatingUser: employee.WindowsIdentity,
       salary: employee.Salary,
-      password: employee.Password,
-      repeatPassword: employee.Password,
     }),
   };
 });
