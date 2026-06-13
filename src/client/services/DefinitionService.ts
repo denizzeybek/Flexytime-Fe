@@ -71,7 +71,7 @@ export class DefinitionService {
     }
     /**
      * List annual-leave allotments for the current tenant
-     * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (AnnualDto Start/End are UTC ISO instants, not dd.MM.yyyy/HH:mm; StartDate/StartTime/EndDate/EndTime/StartDateText/EndDateText dropped — FE formats in UTC). FE refactor required. See docs/time-and-timezone-contract.md.
+     * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (AnnualViewModel Start/End are UTC ISO instants, not dd.MM.yyyy/HH:mm; StartDate/StartTime/EndDate/EndTime/StartDateText/EndDateText dropped — FE formats in UTC). FE refactor required. See docs/time-and-timezone-contract.md.
      * @returns any AnnualListResponse
      * @throws ApiError
      */
@@ -84,7 +84,7 @@ export class DefinitionService {
     /**
      * Look up a single annual-leave entry by id
      * @param requestBody
-     * @returns any DataResult<AnnualDto>
+     * @returns any DataResult<AnnualViewModel>
      * @throws ApiError
      */
     public static definitionControllerGetAnnual(

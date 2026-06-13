@@ -16,7 +16,7 @@ export class CompanyService {
     /**
      * List configured company holidays
      * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (Start/End are UTC ISO instants, not dd.MM.yyyy/HH:mm; StartDate/StartTime/EndDate/EndTime/StartDateText/EndDateText dropped — FE formats in UTC). FE refactor required. See docs/time-and-timezone-contract.md.
-     * @returns any HolidayDto[]
+     * @returns any HolidayViewModel[]
      * @throws ApiError
      */
     public static companyControllerHolidays(): CancelablePromise<any> {
@@ -29,7 +29,7 @@ export class CompanyService {
      * Look up a single holiday by reference id
      * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (Start/End UTC ISO instants; formatted-string fields dropped). FE refactor required. See docs/time-and-timezone-contract.md.
      * @param requestBody
-     * @returns any DataResult envelope with HolidayDto
+     * @returns any DataResult envelope with HolidayViewModel
      * @throws ApiError
      */
     public static companyControllerGetHoliday(
@@ -76,7 +76,7 @@ export class CompanyService {
     }
     /**
      * List job titles defined for the tenant
-     * @returns any TitleDto[]
+     * @returns any TitleViewModel[]
      * @throws ApiError
      */
     public static companyControllerTitles(): CancelablePromise<any> {
@@ -88,7 +88,7 @@ export class CompanyService {
     /**
      * Look up a single title by reference id
      * @param requestBody
-     * @returns any DataResult envelope with TitleDto
+     * @returns any DataResult envelope with TitleViewModel
      * @throws ApiError
      */
     public static companyControllerGetTitle(
@@ -135,7 +135,7 @@ export class CompanyService {
     }
     /**
      * List teams defined for the tenant
-     * @returns any TeamDto[]
+     * @returns any TeamViewModel[]
      * @throws ApiError
      */
     public static companyControllerTeams(): CancelablePromise<any> {
@@ -178,7 +178,7 @@ export class CompanyService {
     }
     /**
      * Return the tenant work-hours settings (shift hours, break rules, etc.)
-     * @returns any WorkSettingDto
+     * @returns any WorkSettingViewModel
      * @throws ApiError
      */
     public static companyControllerWorkHours(): CancelablePromise<any> {
@@ -205,7 +205,7 @@ export class CompanyService {
     }
     /**
      * Return the tenant organisation tree (departments + reporting chain)
-     * @returns any OrganizationDto
+     * @returns any OrganizationViewModel
      * @throws ApiError
      */
     public static companyControllerOrganization(): CancelablePromise<any> {
@@ -244,7 +244,7 @@ export class CompanyService {
     /**
      * Look up a single scheduled report by reference id
      * @param requestBody
-     * @returns any DataResult envelope with ReportModifyDto
+     * @returns any DataResult envelope with ReportModifyModel
      * @throws ApiError
      */
     public static companyControllerGetReport(

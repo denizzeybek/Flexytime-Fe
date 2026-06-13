@@ -13,7 +13,7 @@ import { request as __request } from '../core/request';
 export class SettingService {
     /**
      * List all companies (superadmin)
-     * RESHAPED-v2 — Create/activity dates are UTC ISO instants (was "yyyy.MM.dd"); now includes the owner Fullname/Email + LastActivityDate/DashboardActivityDate. License stays a composed "{active}/{licensed} kullanıcı {expire}" string. FE refactor required.
+     * RESHAPED-v2 — Create/activity dates are UTC ISO instants (was "yyyy.MM.dd"); now includes the owner Fullname/Email + LastActivityDate/DashboardActivityDate. License stays a composed "{active}/{licensed} kullanıcı {expire}" string. FE refactor required. Requires the `admin` role.
      * @returns any CompanyViewModel[]
      * @throws ApiError
      */
@@ -40,7 +40,7 @@ export class SettingService {
         });
     }
     /**
-     * Create or update a company entry
+     * Create or update a company entry (admin role required)
      * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
@@ -56,7 +56,7 @@ export class SettingService {
         });
     }
     /**
-     * Delete a company by id
+     * Delete a company by id (admin role required)
      * @param requestBody
      * @returns any DataResult envelope reflecting delete outcome
      * @throws ApiError

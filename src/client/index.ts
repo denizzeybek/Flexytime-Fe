@@ -42,6 +42,7 @@ export type { ClockTeamSummary } from './models/ClockTeamSummary';
 export { ClockWellBeing } from './models/ClockWellBeing';
 export { ClockWellBeingGraph } from './models/ClockWellBeingGraph';
 export type { CouponRequestDto } from './models/CouponRequestDto';
+export type { CreateAdminUserRequestDto } from './models/CreateAdminUserRequestDto';
 export type { DownloadRequestDto } from './models/DownloadRequestDto';
 export type { ErrorResponseDto } from './models/ErrorResponseDto';
 export type { Function } from './models/Function';
@@ -82,6 +83,7 @@ export type { WizardProfileResponseDto } from './models/WizardProfileResponseDto
 export type { WorkSettingDto } from './models/WorkSettingDto';
 
 export { AccountService } from './services/AccountService';
+export { AdminService } from './services/AdminService';
 export { AuthService } from './services/AuthService';
 export { CalendarService } from './services/CalendarService';
 export { CategoryService } from './services/CategoryService';
