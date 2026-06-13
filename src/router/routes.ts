@@ -3,6 +3,7 @@ import { ERole } from '@/enums/role.enum';
 import DefaultLayout from '@/layouts/default/DefaultLayout.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import ForgotPassword from '@/views/auth/ForgotPassword.vue';
+import InviteAccept from '@/views/auth/InviteAccept.vue';
 import Login from '@/views/auth/Login.vue';
 import Register from '@/views/auth/Register.vue';
 import ResetPassword from '@/views/auth/ResetPassword.vue';
@@ -462,6 +463,23 @@ const routes: RouteRecordRaw[] = [
       requiresUnAuth: true,
       title: ERouteNames.ResetPassword,
       name: ERouteNames.ResetPassword,
+    },
+  },
+
+  /**
+   * Public invitation welcome page — the URL we email to a new employee.
+   * `requiresUnAuth: false` so this path is reachable in any session
+   * state (an admin checking the link from their own browser sees the
+   * welcome page, not their dashboard). The component itself validates
+   * the `token` query param against `/webapi/invite/:id`.
+   */
+  {
+    path: '/invite/:id',
+    name: ERouteNames.InviteAccept,
+    component: InviteAccept,
+    meta: {
+      title: ERouteNames.InviteAccept,
+      name: ERouteNames.InviteAccept,
     },
   },
 

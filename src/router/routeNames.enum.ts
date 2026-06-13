@@ -19,6 +19,7 @@ export enum ERouteNames {
   Register_Verify = 'Verify',
 
   Wizard_Download= 'Download',
+  InviteAccept = 'Invitation',
 
   // WorktimeUsage
   WorktimeUsage = 'Worktime Usage',

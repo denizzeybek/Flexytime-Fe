@@ -80,6 +80,30 @@
         },
         "backToLogin": "Giriş Sayfasına Dön"
       },
+      "invite": {
+        "loading": "Davetiniz doğrulanıyor…",
+        "invalid": {
+          "title": "Davet geçersiz veya süresi dolmuş",
+          "body": "Bu bağlantı artık geçerli değil. Yöneticinizden yeni bir davet isteyin.",
+          "goToLogin": "Girişe dön"
+        },
+        "welcome": {
+          "title": "{company} ekibine hoş geldiniz!",
+          "subtitle": "{email} adresi için hesabınızı tamamlayın"
+        },
+        "form": {
+          "fullname": { "label": "Ad Soyad", "placeholder": "Ad soyadınızı girin" },
+          "password": { "label": "Parola", "placeholder": "Bir parola seçin (en az 6 karakter)" },
+          "submit": "Ekibe katıl"
+        },
+        "done": {
+          "title": "Her şey hazır!",
+          "body": "İşletim sisteminize uygun FlexyAgent uygulamasını indirin ve zamanınızı takip etmeye başlayın.",
+          "downloadMac": "macOS için indir",
+          "downloadWindows": "Windows için indir",
+          "goToLogin": "Veya panele giriş yap"
+        }
+      },
       "register": {
         "title": "Ücretsiz Hesap Oluşturun",
         "subtitle": "Başlamak için hesabınızı oluşturun",
