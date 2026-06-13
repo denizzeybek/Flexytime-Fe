@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ProfileWizardSummaryDto } from './ProfileWizardSummaryDto';
 export type ProfileResponseDto = {
     id: string;
     username: string;
@@ -13,5 +14,9 @@ export type ProfileResponseDto = {
     timezone?: string;
     isLicensed: boolean;
     emailPermit: boolean;
+    /**
+     * Wizard summary the SPA reads for role / member-id checks.
+     */
+    Wizard?: ProfileWizardSummaryDto;
 };
 

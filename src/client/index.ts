@@ -62,6 +62,7 @@ export type { ProfilePasswordChangeDto } from './models/ProfilePasswordChangeDto
 export type { ProfileResponseDto } from './models/ProfileResponseDto';
 export type { ProfileTimezoneDto } from './models/ProfileTimezoneDto';
 export type { ProfileUpdateDto } from './models/ProfileUpdateDto';
+export type { ProfileWizardSummaryDto } from './models/ProfileWizardSummaryDto';
 export type { PromotionModifyDto } from './models/PromotionModifyDto';
 export type { ReportModifyDto } from './models/ReportModifyDto';
 export type { ReportQueryDto } from './models/ReportQueryDto';
