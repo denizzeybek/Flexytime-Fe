@@ -168,11 +168,17 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * EndTime}` directly — the table reads `EmployeeName`, `Start.time`,
      * `Work.time` etc., so we widen each row.
      */
-    getIndividuals: (state) =>
-      (state.sectionData?.Individuals ?? []).map((row) => ({
+    getIndividuals: (state) => {
+      // v2 Individuals carry only `TeamId`; the legacy table renders
+      // `TeamName`. Build a lookup from the same response's Teams[] so the
+      // join happens client-side without a follow-up fetch.
+      const teamNameById = new Map(
+        (state.sectionData?.Teams ?? []).map((t) => [t.TeamId, t.Name ?? '']),
+      );
+      return (state.sectionData?.Individuals ?? []).map((row) => ({
         ID: row.UserId,
         EmployeeName: row.Fullname ?? '',
-        TeamName: '',
+        TeamName: row.TeamId ? (teamNameById.get(row.TeamId) ?? '') : '',
         Availability: row.Availability,
         OnLeave: row.OnLeave,
         LeaveType: row.LeaveType ?? '',
@@ -184,7 +190,8 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         Leisure: statCell(row.Summary.Leisure),
         Meeting: statCell(row.Summary.Meeting),
         Unclassified: statCell(row.Summary.Unclassified),
-      })),
+      }));
+    },
 
     /**
      * Teams projected to the legacy `ITeam` field shape the
