@@ -218,30 +218,10 @@ const menuItems = computed(() => {
         route: ERouteNames.CompanyWorkingHours,
         isChild: true,
       },
-    ],
-  });
-
-  items.push({
-    key: ERouteNames.ClassificationWebAddresses,
-    label: t('pages.layouts.navbar.settings'),
-    icon: 'pi pi-cog',
-    items: [
       {
         label: t('pages.layouts.navbar.classification'),
         icon: 'pi pi-tags',
         route: ERouteNames.ClassificationWebAddresses,
-        isChild: true,
-      },
-      {
-        label: t('pages.layouts.navbar.permissions'),
-        icon: 'pi pi-shield',
-        route: ERouteNames.SettingsPermissions,
-        isChild: true,
-      },
-      {
-        label: t('pages.layouts.navbar.advanced'),
-        icon: 'pi pi-sliders-h',
-        route: ERouteNames.SettingsAdvanced,
         isChild: true,
       },
     ],
@@ -266,20 +246,13 @@ const updateExpandedKeys = () => {
     ERouteNames.CompanyOrganizationChartV2,
     ERouteNames.CompanyTeams,
     ERouteNames.CompanyWorkingHours,
-  ];
-
-  const settingsRoutes = [
     ERouteNames.ClassificationWebAddresses,
-    ERouteNames.SettingsPermissions,
-    ERouteNames.SettingsAdvanced,
   ];
 
   if (hrSettingsRoutes.includes(currentRoute)) {
     newExpandedKeys[ERouteNames.HRSettingsEmployees] = true;
   } else if (companyRoutes.includes(currentRoute)) {
     newExpandedKeys[ERouteNames.CompanyOrganizationChart] = true;
-  } else if (settingsRoutes.includes(currentRoute)) {
-    newExpandedKeys[ERouteNames.ClassificationWebAddresses] = true;
   }
 
   expandedKeys.value = newExpandedKeys;

@@ -35,9 +35,7 @@ import License from '@/views/profile/_components/License.vue';
 import Password from '@/views/profile/_components/Password.vue';
 import Profile from '@/views/profile/_views/Profile.vue';
 import Promotion from '@/views/promotion/_views/Promotion.vue';
-import Advanced from '@/views/settings/_views/Advanced.vue';
 import Companies from '@/views/settings/_views/Companies.vue';
-import Permissions from '@/views/settings/_views/Permissions.vue';
 import Settings from '@/views/settings/_views/Settings.vue';
 import ManualTimeEntries from '@/views/timesheets/_views/ManualTimeEntries.vue';
 import TimeEntries from '@/views/timesheets/_views/TimeEntries.vue';
@@ -307,26 +305,6 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.Settings,
           name: ERouteNames.Settings,
-          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
-        },
-      },
-      {
-        path: '/permissions',
-        name: ERouteNames.SettingsPermissions,
-        component: Permissions,
-        meta: {
-          title: ERouteNames.SettingsPermissions,
-          name: ERouteNames.SettingsPermissions,
-          requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
-        },
-      },
-      {
-        path: '/advanced',
-        name: ERouteNames.SettingsAdvanced,
-        component: Advanced,
-        meta: {
-          title: ERouteNames.SettingsAdvanced,
-          name: ERouteNames.SettingsAdvanced,
           requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
       },
