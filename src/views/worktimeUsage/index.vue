@@ -227,15 +227,14 @@ const currentDistributions = computed(() => {
   return store.sectionDistributions;
 });
 
-// v2: ProductivityGraph[] is a raw per-day per-domain series; the legacy
-// chart-dataset shape is gone. Components that still want a chart should
-// build it from the raw points. For now we expose null so the chart
-// component shows its empty state.
+// v2 ProductivityGraph is the raw per-day per-domain series; the store
+// builds the ClockGraphGroup shape (stacked bar dataset) from it for
+// both views.
 const currentGraphs = computed(() => {
   if (currentQuery.value.view === 'individual') {
     return store.employeeData?.Graphs || null;
   }
-  return null;
+  return store.sectionGraphs;
 });
 
 const currentWebClocks = computed(() => {

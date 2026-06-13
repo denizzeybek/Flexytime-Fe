@@ -140,24 +140,123 @@ function summaryObjectToArray(
 }
 
 /**
- * v2 `Distribution[]` already mirrors the per-domain tab structure (Domain,
- * Seconds, Cost, Applications). We re-shape only enough fields to keep the
- * legacy `IDistribution` rendering working — the presentational keys
- * (`statisticType`, `time` string, `imgPath`) are filled but Chart/Chart2 are
- * dropped (FE rebuilds the pie from `Applications` directly).
+ * v2 `Distribution[]` ships `{Domain, Seconds, Applications: [{Name, Seconds}]}`.
+ * The legacy `IDistribution` shape carried a `Chart[]` array the doughnut
+ * fed off ({ label, value } pairs). Build it from `Applications` so each
+ * domain card shows a per-app pie of the time spent within that domain —
+ * matches what the v1 chart did. Dropping zero-Seconds apps so a 12-app
+ * list with one real entry doesn't render a sea of identical empty slices.
  */
 function distributionsToLegacy(distribution: ClockDistribution[]): IDistribution[] {
-  return distribution.map((row) => ({
-    id: String(row.Domain).toLowerCase(),
-    statisticType: String(row.Domain).toLowerCase(),
-    time: String(row.Seconds ?? 0),
-    Applications: (row.Applications ?? []).map((app) => ({
-      imgPath: '',
-      title: app.Name ?? '',
-      time: String(app.Seconds ?? 0),
-    })),
-    Chart: [],
-  })) as IDistribution[];
+  return distribution.map((row) => {
+    const apps = (row.Applications ?? []).filter((a) => (a.Seconds ?? 0) > 0);
+    return {
+      id: String(row.Domain).toLowerCase(),
+      statisticType: String(row.Domain).toLowerCase(),
+      time: String(row.Seconds ?? 0),
+      Applications: apps.map((app) => ({
+        imgPath: '',
+        title: app.Name ?? '',
+        time: String(app.Seconds ?? 0),
+      })),
+      Chart: apps.map((app) => ({
+        label: app.Name ?? '',
+        value: app.Seconds ?? 0,
+      })),
+    };
+  }) as IDistribution[];
+}
+
+/**
+ * v2 ships `ProductivityGraph: [{Date, Work, Meeting, Leisure, Unclassified}]`
+ * — raw seconds per day per domain. The legacy chart consumed a stacked-bar
+ * dataset shape (`Summary.labels[]` = days, `Summary.datasets[]` = one per
+ * domain). Convert seconds → hours (so the y-axis stays readable for week+
+ * windows) and stack work/meeting/leisure/unclassified.
+ */
+function buildProductivityGraph(
+  days: Array<{ Date?: string; Work?: number; Meeting?: number; Leisure?: number; Unclassified?: number }>,
+): IGraph {
+  if (!days?.length) return {} as IGraph;
+  const labels = days.map((d) => d.Date ?? '');
+  const toHours = (s: number | undefined): number =>
+    Number(((s ?? 0) / 3600).toFixed(2));
+  const datasets = [
+    { label: 'work', data: days.map((d) => toHours(d.Work)) },
+    { label: 'meeting', data: days.map((d) => toHours(d.Meeting)) },
+    { label: 'leisure', data: days.map((d) => toHours(d.Leisure)) },
+    { label: 'unclassified', data: days.map((d) => toHours(d.Unclassified)) },
+  ];
+  return { Summary: { labels, datasets, Unit: 'h' } } as IGraph;
+}
+
+/**
+ * v2 `ClockEmployeeWellBeing` is the raw `{Type, Notification, Level,
+ * Points: [{Date, Value}]}`. The legacy card markup wants
+ * `{Name, Color, Icon, Description, Suggestion, Graph: ClockGraph}`.
+ * Derive everything except Description/Suggestion (i18n bundle not ported
+ * yet — left empty so the field renders blank rather than fabricated).
+ */
+const WELLBEING_LEVEL_COLOR: Record<number, 'red' | 'yellow' | 'green'> = {
+  0: 'red',
+  1: 'yellow',
+  2: 'green',
+};
+const WELLBEING_TYPE_ICON: Record<string, string> = {
+  Overload: 'fas fa-fire-extinguisher',
+  Distract: 'fas fa-volume-slash',
+  Automation: 'fas fa-cogs',
+  Fragmentation: 'fas fa-fast-forward',
+  Overmeeting: 'fas fa-clock',
+  Overtime: 'fas fa-clock',
+  Nocturnal: 'fas fa-clock',
+  Uninterrupted: 'fas fa-coffee',
+  Mailbulk: 'fas fa-mail-bulk',
+  Balanced: 'fas fa-walking',
+};
+const WELLBEING_TYPE_UNIT: Record<string, string> = {
+  Overtime: 'h',
+  Overmeeting: 'h',
+  Nocturnal: 'h',
+  Overload: 'h',
+  Uninterrupted: 'h',
+  Distract: 'count',
+  Automation: 'count',
+  Fragmentation: 'count',
+  Mailbulk: 'count',
+  Balanced: 'h',
+};
+function buildIndividualWellbeings(
+  wellbeings: Array<{
+    Type?: string;
+    Notification?: number;
+    Level?: number;
+    Points?: Array<{ Date?: string; Value?: number }>;
+  }>,
+): IEmployeeResponse['WellBeings'] {
+  return (wellbeings ?? []).map((wb) => {
+    const type = wb.Type ?? '';
+    const unit = WELLBEING_TYPE_UNIT[type] ?? '';
+    const toUnit = (v: number | undefined): number =>
+      unit === 'h' ? Number(((v ?? 0) / 3600).toFixed(2)) : (v ?? 0);
+    const labels = (wb.Points ?? []).map((p) => p.Date ?? '');
+    const data = (wb.Points ?? []).map((p) => toUnit(p.Value));
+    return {
+      Type: type,
+      Name: type,
+      Color: WELLBEING_LEVEL_COLOR[wb.Level ?? 0] ?? 'yellow',
+      Icon: WELLBEING_TYPE_ICON[type] ?? 'fas fa-heart',
+      Notification: wb.Notification ?? 0,
+      Level: wb.Level ?? 0,
+      Description: '',
+      Suggestion: '',
+      Graph: {
+        labels,
+        datasets: [{ label: type, data }],
+        Unit: unit,
+      },
+    } as IEmployeeResponse['WellBeings'][number];
+  });
 }
 
 export const useWorktimeStore = defineStore('worktimeUsage', {
@@ -252,6 +351,10 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       state.sectionData ? summaryObjectToArray(state.sectionData.Summary) : [],
     sectionDistributions: (state): IDistribution[] =>
       distributionsToLegacy(state.sectionData?.Distribution ?? []),
+    sectionGraphs: (state): IGraph | null =>
+      state.sectionData
+        ? buildProductivityGraph(state.sectionData.ProductivityGraph ?? [])
+        : null,
 
     /**
      * Section-mode Card: derived from the v2 response's Company + Teams
@@ -412,9 +515,9 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
           Card: this.buildCardFromProfile(),
           Breadcrumb: this.buildBreadcrumbFromProfile(),
           Summary: summaryObjectToArray(response.Summary),
-          WellBeings: (response.WellBeings ?? []) as IEmployeeResponse['WellBeings'],
+          WellBeings: buildIndividualWellbeings(response.WellBeings ?? []),
           Distributions: distributionsToLegacy(response.Distribution ?? []),
-          Graphs: {} as IGraph, // v2: ProductivityGraph is a raw per-day series; chart datasets dropped (FE rebuilds).
+          Graphs: buildProductivityGraph(response.ProductivityGraph ?? []),
           WebClocks: (response.WebClocks ?? []) as unknown as IEmployeeResponse['WebClocks'],
         };
 

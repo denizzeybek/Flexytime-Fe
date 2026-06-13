@@ -110,8 +110,6 @@ export type IWebClocks = WebClockAllocationViewModel;
 // Individual Wellbeing Data
 // ============================================
 
-import type { WellBeingViewModel } from '@/client';
-
 export interface IIndividualWellbeingGraph {
   labels?: string[];
   datasets?: {
@@ -123,8 +121,25 @@ export interface IIndividualWellbeingGraph {
   Unit?: string;
 }
 
-// Use OpenAPI type for individual wellbeing
-export type IIndividualWellbeing = WellBeingViewModel;
+/**
+ * Adapter-built wellbeing shape consumed by the IndividualWellbeingCard. v2
+ * BE ships the raw `{Type, Notification, Level, Points}`; the store's
+ * `buildIndividualWellbeings` enriches each row with derived `Name`,
+ * `Color`, `Icon`, and a `Graph` built from `Points`. `Description` and
+ * `Suggestion` are blank until the legacy i18n bundle is ported (Rule 20:
+ * better empty than fabricated).
+ */
+export interface IIndividualWellbeing {
+  Type: string;
+  Name: string;
+  Color: 'red' | 'yellow' | 'green';
+  Icon: string;
+  Notification: number;
+  Level: number;
+  Description: string;
+  Suggestion: string;
+  Graph: IIndividualWellbeingGraph;
+}
 
 // ============================================
 // API Response Types
