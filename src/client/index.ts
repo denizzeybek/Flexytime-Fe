@@ -16,6 +16,7 @@ export type { AuthUserDto } from './models/AuthUserDto';
 export type { CalendarConnectUrlDto } from './models/CalendarConnectUrlDto';
 export type { CalendarFolderDto } from './models/CalendarFolderDto';
 export type { CalendarStatusDto } from './models/CalendarStatusDto';
+export type { ClassificationQueryDto } from './models/ClassificationQueryDto';
 export { ClockActivitiesRequestDto } from './models/ClockActivitiesRequestDto';
 export type { ClockActivitiesResponse } from './models/ClockActivitiesResponse';
 export { ClockActivityViewModel } from './models/ClockActivityViewModel';

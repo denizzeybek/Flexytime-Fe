@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ClassificationQueryDto } from '../models/ClassificationQueryDto';
 import type { PerformReferenceDto } from '../models/PerformReferenceDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -21,13 +22,18 @@ export class CategoryService {
     /**
      * Paginated classification list of executable allocations
      * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (ClassificationPage{Total,Filtered,Items} not DataResult/DataTable; Item is {ID,Name,HostName,Domain,AlwaysOn}, no DomainDisplay/IsWork/Timeout). FE refactor required. See docs/classification-redesign.md.
+     * @param requestBody
      * @returns any ClassificationPage
      * @throws ApiError
      */
-    public static categoryControllerQueryAllocations(): CancelablePromise<any> {
+    public static categoryControllerQueryAllocations(
+        requestBody: ClassificationQueryDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/category/allocations/query',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -72,13 +78,18 @@ export class CategoryService {
     /**
      * Paginated classification list of web addresses
      * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1 (ClassificationPage{Total,Filtered,Items} not DataResult/DataTable; Item is {ID,Name,HostName,Domain,AlwaysOn}, no DomainDisplay/IsWork/TopicName/Timeout). FE refactor required. See docs/classification-redesign.md.
+     * @param requestBody
      * @returns any ClassificationPage
      * @throws ApiError
      */
-    public static categoryControllerQueryWebAddresses(): CancelablePromise<any> {
+    public static categoryControllerQueryWebAddresses(
+        requestBody: ClassificationQueryDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/category/webaddresses/query',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
