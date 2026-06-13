@@ -80,7 +80,7 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
         const tags = data.Tags ?? {};
         this.tags = Object.entries(tags).map(([key, value]) => ({
           name: key,
-          value,
+          value: String(value),
         }));
         this.invitations = data.Invitations ?? [];
 
