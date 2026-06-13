@@ -92,6 +92,31 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
       }
     },
     /**
+     * Append a brand-new tag option locally so the Employees modal's tag
+     * MultiSelect can immediately offer + select a typed value before the
+     * member is saved. Tags are a free-form per-tenant taxonomy stored on
+     * `PerformMember.Tags: string[]` — no separate Tag entity, no dedicated
+     * endpoint. The next `filter()` after `save()` reconciles the dictionary
+     * with whatever the BE's distinct-tag aggregate (`Definition.Tags`)
+     * returns. Idempotent + case-insensitive — re-typing an existing tag
+     * just returns the existing option so the caller can select it.
+     */
+    addPendingTag(name: string): ITagOption {
+      const trimmed = name.trim();
+      if (!trimmed) {
+        // reason: defensive — MultiSelect already guards on a non-empty filter,
+        // but a programmatic caller could still hand us whitespace.
+        return { name: '', value: '' };
+      }
+      const existing = this.tags.find(
+        (t) => t.name.toLowerCase() === trimmed.toLowerCase(),
+      );
+      if (existing) return existing;
+      const option: ITagOption = { name: trimmed, value: trimmed };
+      this.tags = [...this.tags, option];
+      return option;
+    },
+    /**
      * Single-record save (Team Manager / System Admin add, or any edit).
      * Body is the PascalCase `TheMemberModifyDto` shape the BE service
      * actually consumes (`MemberName`, `Email`, `Password`, `Role` etc.).
