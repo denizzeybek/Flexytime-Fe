@@ -19,40 +19,40 @@ declare module '@/client' {
     [key: string]: any;
   }
 
-  export interface AdvancedPermissonViewModel extends LegacyViewModel {}
-  export interface AdvancedSettingModifyModel extends LegacyViewModel {}
-  export interface CardViewModel extends LegacyViewModel {}
-  export interface ClockGraph extends LegacyViewModel {}
-  export interface ClockGraphGroup extends LegacyViewModel {}
-  export interface ClockInvitation extends LegacyViewModel {}
-  export interface ClockSectionIndividual extends LegacyViewModel {}
-  export interface ClockSectionSupervisorAvatar extends LegacyViewModel {}
-  export interface ClockSectionTeam extends LegacyViewModel {}
-  export interface ClockSectionTeamAvatar extends LegacyViewModel {}
-  export interface ClockSectionTeamset extends LegacyViewModel {}
-  export interface ClockStatistic extends LegacyViewModel {}
-  export interface CompanyViewModel extends LegacyViewModel {}
-  export interface DefinitionMemberViewModel extends LegacyViewModel {}
-  export interface DownloadViewModel extends LegacyViewModel {}
-  export interface EmployeeViewModel extends LegacyViewModel {}
-  export interface GraphViewModel2 extends LegacyViewModel {}
-  export interface LicenseModifyViewModel extends LegacyViewModel {}
-  export interface LicenseViewModel extends LegacyViewModel {}
-  export interface PerformNameValueModel extends LegacyViewModel {}
-  export interface PerformReportViewModel extends LegacyViewModel {}
-  export interface PermissionModifyViewModel extends LegacyViewModel {}
-  export interface PermissonViewModel extends LegacyViewModel {}
-  export interface ProfileViewModel extends LegacyViewModel {}
-  export interface PromotionListViewModel extends LegacyViewModel {}
-  export interface PromotionViewModel extends LegacyViewModel {}
-  export interface ReportFilterViewModel extends LegacyViewModel {}
-  export interface ReportGraphGroupViewModel extends LegacyViewModel {}
-  export interface ReportGroupViewModel extends LegacyViewModel {}
-  export interface ReportResultViewModel extends LegacyViewModel {}
-  export interface ReportSummaryViewModel extends LegacyViewModel {}
-  export interface ReportViewModel extends LegacyViewModel {}
-  export interface SectionClockSummary extends LegacyViewModel {}
-  export interface TheMemberViewModel extends LegacyViewModel {}
+  export type AdvancedPermissonViewModel = LegacyViewModel;
+  export type AdvancedSettingModifyModel = LegacyViewModel;
+  export type CardViewModel = LegacyViewModel;
+  export type ClockGraph = LegacyViewModel;
+  export type ClockGraphGroup = LegacyViewModel;
+  export type ClockInvitation = LegacyViewModel;
+  export type ClockSectionIndividual = LegacyViewModel;
+  export type ClockSectionSupervisorAvatar = LegacyViewModel;
+  export type ClockSectionTeam = LegacyViewModel;
+  export type ClockSectionTeamAvatar = LegacyViewModel;
+  export type ClockSectionTeamset = LegacyViewModel;
+  export type ClockStatistic = LegacyViewModel;
+  export type CompanyViewModel = LegacyViewModel;
+  export type DefinitionMemberViewModel = LegacyViewModel;
+  export type DownloadViewModel = LegacyViewModel;
+  export type EmployeeViewModel = LegacyViewModel;
+  export type GraphViewModel2 = LegacyViewModel;
+  export type LicenseModifyViewModel = LegacyViewModel;
+  export type LicenseViewModel = LegacyViewModel;
+  export type PerformNameValueModel = LegacyViewModel;
+  export type PerformReportViewModel = LegacyViewModel;
+  export type PermissionModifyViewModel = LegacyViewModel;
+  export type PermissonViewModel = LegacyViewModel;
+  export type ProfileViewModel = LegacyViewModel;
+  export type PromotionListViewModel = LegacyViewModel;
+  export type PromotionViewModel = LegacyViewModel;
+  export type ReportFilterViewModel = LegacyViewModel;
+  export type ReportGraphGroupViewModel = LegacyViewModel;
+  export type ReportGroupViewModel = LegacyViewModel;
+  export type ReportResultViewModel = LegacyViewModel;
+  export type ReportSummaryViewModel = LegacyViewModel;
+  export type ReportViewModel = LegacyViewModel;
+  export type SectionClockSummary = LegacyViewModel;
+  export type TheMemberViewModel = LegacyViewModel;
   export interface TimeClockGroupViewModel extends LegacyViewModel {
     RecordDate?: string;
     RecordTime?: string;
@@ -101,10 +101,10 @@ declare module '@/client' {
     ID?: string;
     Name?: string;
   }
-  export interface TimeZoneViewModel extends LegacyViewModel {}
-  export interface WebClockViewModel extends LegacyViewModel {}
-  export interface WizardProfileViewModel extends LegacyViewModel {}
-  export interface WorkDayViewModel extends LegacyViewModel {}
+  export type TimeZoneViewModel = LegacyViewModel;
+  export type WebClockViewModel = LegacyViewModel;
+  export type WizardProfileViewModel = LegacyViewModel;
+  export type WorkDayViewModel = LegacyViewModel;
 }
 
 export {};

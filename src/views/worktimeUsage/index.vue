@@ -175,8 +175,8 @@ import WellbeingTab from './_components/tabs/WellbeingTab.vue';
 import { useWorktimeQuery } from './_composables';
 
 import type { DisplayMode, IWebClock, TabType } from './_types';
-import type { IWellBeingGraph } from '@/stores/worktimeUsage/worktimeStore';
 import type { MessageSchema } from '@/plugins/i18n';
+import type { IWellBeingGraph } from '@/stores/worktimeUsage/worktimeStore';
 
 const store = useWorktimeStore();
 const profileStore = useProfileStore();

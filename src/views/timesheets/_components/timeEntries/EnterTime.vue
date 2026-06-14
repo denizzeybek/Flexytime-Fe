@@ -60,20 +60,9 @@ import TimerControls from '@/views/timesheets/_components/timeEntries/_component
 import { useEnterTimeTimer } from '@/views/timesheets/_composables/useEnterTimeTimer';
 import { ELayout } from '@/views/timesheets/_etc/layout.enum';
 
-import type { TimeClockViewModel, TimeEntryModifyDto } from '@/client';
-
 interface ITagOption {
   name: string;
   value: string;
-}
-
-// TODO: Update OpenAPI spec to include these fields
-interface TimeEntryPayload extends TimeEntryModifyDto {
-  RecordDate?: string;
-  RecordDateCustom?: string;
-  time?: string;
-  Member?: { ID: string | null; Name: string };
-  Clocks?: TimeClockViewModel[];
 }
 
 const { t } = useI18n<{ message: MessageSchema }>();

@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { type Ref,ref } from 'vue';
 
 export interface Command<T> {
   execute: () => T;
@@ -6,10 +6,22 @@ export interface Command<T> {
   description: string;
 }
 
-export const useUndoRedo = <T>(initialState: T) => {
-  const history = ref<Command<T>[]>([]);
+export interface UndoRedoApi<T> {
+  currentState: Ref<T>;
+  canUndo: Ref<boolean>;
+  canRedo: Ref<boolean>;
+  execute: (command: Command<T>) => T;
+  undo: () => T;
+  redo: () => T;
+  clear: () => void;
+  reset: (newInitialState: T) => void;
+  getHistory: () => Array<{ description: string; isCurrent: boolean }>;
+}
+
+export const useUndoRedo = <T>(initialState: T): UndoRedoApi<T> => {
+  const history = ref<Command<T>[]>([]) as Ref<Command<T>[]>;
   const currentIndex = ref(-1);
-  const currentState = ref<T>(JSON.parse(JSON.stringify(initialState)));
+  const currentState = ref<T>(JSON.parse(JSON.stringify(initialState))) as Ref<T>;
 
   const canUndo = ref(false);
   const canRedo = ref(false);
