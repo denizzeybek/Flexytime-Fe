@@ -5,15 +5,18 @@ const DOMAIN = {
   OTHER: 1,
 } as const;
 
-export const useUnclassifiedDomainHelpers = () => {
+export const useSuggestionDomainHelpers = () => {
   const formatSpendTime = (spend?: number): string => {
-    if (!spend) return '0m';
-    const hours = Math.floor(spend / 3600);
-    const minutes = Math.floor((spend % 3600) / 60);
-    if (hours > 0) {
-      return `${hours}h ${minutes}m`;
-    }
-    return `${minutes}m`;
+    const total = Math.max(0, Math.floor(spend ?? 0));
+    if (total === 0) return '0s';
+    const hours = Math.floor(total / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const seconds = total % 60;
+    const parts: string[] = [];
+    if (hours > 0) parts.push(`${hours}h`);
+    if (minutes > 0) parts.push(`${minutes}min`);
+    if (seconds > 0) parts.push(`${seconds}s`);
+    return parts.join(' ');
   };
 
   const getDomainColor = (domain?: number): string => {

@@ -37,11 +37,9 @@ import Profile from '@/views/profile/_views/Profile.vue';
 import Promotion from '@/views/promotion/_views/Promotion.vue';
 import Companies from '@/views/settings/_views/Companies.vue';
 import Settings from '@/views/settings/_views/Settings.vue';
-import ManualTimeEntries from '@/views/timesheets/_views/ManualTimeEntries.vue';
 import TimeEntries from '@/views/timesheets/_views/TimeEntries.vue';
 import TimeManagement from '@/views/timesheets/_views/TimeManagement.vue';
 import Timesheets from '@/views/timesheets/_views/TimeSheets.vue';
-import UnclassifiedTimeEntries from '@/views/timesheets/_views/UnclassifiedTimeEntries.vue';
 import WorktimeUsage from '@/views/worktimeUsage/index.vue';
 
 import type { RouteRecordRaw } from 'vue-router';
@@ -114,26 +112,14 @@ const routes: RouteRecordRaw[] = [
           title: ERouteNames.TimeEntries,
           name: ERouteNames.TimeEntries,
         },
-        children: [
-          {
-            path: 'manual',
-            name: ERouteNames.TimeEntriesManual,
-            component: ManualTimeEntries,
-            meta: {
-              title: ERouteNames.TimeEntriesManual,
-              name: ERouteNames.TimeEntriesManual,
-            },
-          },
-          {
-            path: 'unclassified',
-            name: ERouteNames.TimeEntriesUnclassified,
-            component: UnclassifiedTimeEntries,
-            meta: {
-              title: ERouteNames.TimeEntriesUnclassified,
-              name: ERouteNames.TimeEntriesUnclassified,
-            },
-          },
-        ],
+      },
+      {
+        path: '/timesheet-entry/manual',
+        redirect: { name: ERouteNames.TimeEntries },
+      },
+      {
+        path: '/timesheet-entry/unclassified',
+        redirect: { name: ERouteNames.TimeEntries },
       },
       {
         path: '/time-management',

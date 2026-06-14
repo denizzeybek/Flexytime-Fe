@@ -158,8 +158,8 @@ export class TimesheetService {
         });
     }
     /**
-     * Return the day's time entries (grouped by RecordDate)
-     * RESHAPED-v2 - clean contract, NOT wire-compatible with legacy v1. Group { RecordDate (UTC-midnight ISO), Entries }; each entry has UTC ISO range Start/End + Seconds; the legacy DateRangeText/TimeSpanText/dd.MM.yyyy strings are dropped (FE formats). Body is { RecordDate: dd.MM.yyyy }. FE refactor required. See docs/time-and-timezone-contract.md.
+     * Return time entries for a calendar range, grouped by RecordDate (DESC, newest first)
+     * RESHAPED-v2 — clean contract, NOT wire-compatible with legacy v1. Body is `{ StartDate, EndDate?, MemberId? }` with `StartDate` + `EndDate` as ISO 8601 UTC-midnight timestamps (omit `EndDate` for a single-day read). Response is an array of `{ RecordDate (UTC-midnight ISO), Entries[] }` groups returned in DESC `RecordDate` order so the most recent day appears first. The legacy `dd.MM.yyyy` `RecordDate` body is gone (feedback_iso-date-wire-format). Each entry carries UTC ISO range Start/End + Seconds; legacy DateRangeText/TimeSpanText strings are dropped (FE formats). See docs/time-and-timezone-contract.md.
      * @param requestBody
      * @returns any TimeEntryGroupViewModel[]
      * @throws ApiError

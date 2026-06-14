@@ -579,7 +579,8 @@
           "description": "You haven't recorded any time entries for this date yet. Start tracking your work above."
         },
         "untitled": "Untitled Task",
-        "sessions": "sessions",
+        "sessions": "session | sessions",
+        "dailyTotal": "Total",
         "deleteConfirm": {
           "header": "Delete Time Entry",
           "message": "Are you sure you want to delete \"{task}\"?",
@@ -592,45 +593,45 @@
         }
       },
       "timeEntries": {
+        "title": "Time Entries",
         "datePicker": {
           "placeholder": "Select date"
         },
         "hoursFilter": {
-          "placeholder": "Time range",
-          "hourly": "Hourly",
-          "fourHours": "4 Hours",
-          "eightHours": "8 Hours",
-          "allDay": "All Day"
+          "placeholder": "Bucket",
+          "hourly": "1h slot",
+          "fourHours": "4h slot",
+          "eightHours": "8h slot",
+          "allDay": "All day"
         },
-        "manual": {
-          "label": "Manual"
-        },
-        "unclassified": {
-          "label": "Unclassified"
+        "suggestions": {
+          "title": "Suggestions",
+          "totalLabel": "Total",
+          "allDaySlot": "Full day",
+          "convertCta": "Convert to entry",
+          "convertSuccess": "Time entry created from suggestion.",
+          "modal": {
+            "header": "Convert suggestion to time entry",
+            "itemsSelected": "items selected",
+            "billableTooltip": "Mark as billable",
+            "taskPlaceholder": "Select task",
+            "taskRequired": "Please pick a task.",
+            "projectRequired": "Please pick a project.",
+            "noSelection": "No selection to convert.",
+            "saveFailed": "Could not save the time entry."
+          },
+          "emptyState": {
+            "title": "All caught up",
+            "description": "No unclassified time in this window. Captures will appear here as your agent uploads activity."
+          }
         }
       },
-      "unclassified": {
-        "emptyState": {
-          "title": "All Caught Up!",
-          "description": "Great job! You have no unclassified time entries. All your work has been properly categorized."
-        },
-        "itemsSelected": "items selected",
-        "categorizeButton": "Categorize"
-      },
       "updateTimeEntriesModal": {
-        "header": "Categorize Time Entries",
-        "itemsSelected": "item(s) selected",
         "project": {
           "placeholder": "Select project"
         },
         "tags": {
           "placeholder": "Select tag(s)"
-        },
-        "layoutButton": {
-          "manual": "Manual"
-        },
-        "messages": {
-          "success": "Time entry entered!"
         }
       },
       "person": {
@@ -1629,6 +1630,17 @@
     "Payment": "Payment"
   },
   "components": {
+    "dateRangePicker": {
+      "placeholder": "Select date range",
+      "presets": {
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "thisWeek": "This Week",
+        "lastWeek": "Last Week",
+        "thisMonth": "This Month",
+        "lastMonth": "Last Month"
+      }
+    },
     "input": {
       "noOptionFound": "No option found",
       "addButton": "Add",

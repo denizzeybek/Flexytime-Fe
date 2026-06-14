@@ -15,6 +15,7 @@ declare module 'vue' {
     Column: typeof import('primevue/column')['default']
     CommandPalette: typeof import('./src/components/ui/local/CommandPalette.vue')['default']
     DataTable: typeof import('primevue/datatable')['default']
+    DateRangePicker: typeof import('./src/components/common/DateRangePicker.vue')['default']
     DateTimePicker: typeof import('./src/components/ui/global/DateTimePicker.vue')['default']
     Dialog: typeof import('primevue/dialog')['default']
     Divider: typeof import('primevue/divider')['default']

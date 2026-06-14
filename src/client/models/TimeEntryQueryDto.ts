@@ -3,7 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export type TimeEntryQueryDto = {
-    RecordDate?: string;
+    StartDate?: string;
+    EndDate?: string;
     Hours?: number;
     MemberId?: string;
 };

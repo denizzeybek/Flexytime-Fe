@@ -1,38 +1,36 @@
 <template>
-  <div>
-    <Card class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl overflow-visible transition-colors">
+  <div
+    class="rounded-2xl border transition-all duration-500"
+    :class="cardBorderClass"
+    :style="{ boxShadow: cardShadow }"
+  >
+    <Card
+      class="rounded-2xl overflow-visible !shadow-none !border-0 !bg-surface-primary"
+    >
       <template #content>
         <form @submit="submitHandler">
-          <!-- Main Input Row -->
-          <div class="flex flex-col gap-5">
-            <!-- Task Input with Timer Display -->
-            <div class="flex flex-col lg:flex-row gap-4">
-              <!-- Task Name Input -->
+          <div class="flex flex-col gap-4">
+            <div class="flex flex-col lg:flex-row gap-3 items-stretch">
               <TaskNameInput :task-options="taskOptions" :on-add-task="handleAddTask" />
-
-              <!-- Timer/Manual Controls -->
-              <TimerControls
-                v-model:is-billable="isBillable"
-                v-model:active-layout="activeLayoutString"
-                :is-running="isRunning"
-                :is-timer-layout="isTimerLayout"
-                :is-manual-layout="isManualLayout"
-                :display-time="displayTime"
-                @start="handleStart"
-                @stop="handleStop"
-              >
-                <template #manualInputs>
-                  <ManualTimeInputs :visible="isManualLayout" />
-                </template>
-              </TimerControls>
+              <ManualTimeInputs :visible="isManualLayout" />
             </div>
 
-            <!-- Project & Tags Row -->
             <ProjectTagSelectors
               :project-options="projectOptions"
               :tag-options="tagOptions"
               @add-project="handleAddProject"
               @add-tag="handleAddTag"
+            />
+
+            <TimerControls
+              v-model:is-billable="isBillable"
+              v-model:active-layout="activeLayoutString"
+              :is-running="isRunning"
+              :is-timer-layout="isTimerLayout"
+              :is-manual-layout="isManualLayout"
+              :display-time="displayTime"
+              @start="handleStart"
+              @stop="handleStop"
             />
           </div>
         </form>
@@ -90,7 +88,6 @@ const {
   stopTimer,
   resetTimer,
   getTimerStartTime,
-  formatElapsedTimeForPayload,
 } = useEnterTimeTimer();
 
 const validationSchema = computed(() =>
@@ -174,6 +171,49 @@ const isTimerLayout = computed(() => activeLayout.value === ELayout.TIMER);
 
 const displayTime = computed(() => {
   return isManualLayout.value ? timeDifference.value || '00:00' : formattedElapsedTime.value;
+});
+
+/**
+ * Border tint tracks the active mode — violet for Manual, sky for Timer.
+ * Border itself is subtle; the visual weight lives in the multi-layer
+ * box-shadow glow below.
+ */
+const cardBorderClass = computed(() =>
+  isTimerLayout.value
+    ? 'border-sky-300/50 dark:border-sky-400/25'
+    : 'border-violet-300/50 dark:border-violet-400/25',
+);
+
+/**
+ * Multi-color scattered glow around the quick-add card. Composition:
+ *
+ *   - Mode color (violet for Manual / sky for Timer) drives the left side
+ *   - When `isBillable=true`, emerald scatters from the right (two-tone
+ *     "Get it now"-style halo); otherwise the mode color spreads from both
+ *     sides for a single-tone bloom.
+ *   - A close-in inner shadow ties the glow to the card so it doesn't read
+ *     as a free-floating halo.
+ *
+ * `:style` instead of class arbitrary values so Tailwind's JIT doesn't
+ * have to know every combo at build time; the strings concatenate cleanly.
+ */
+const cardShadow = computed(() => {
+  const modeRgb = isTimerLayout.value ? '14, 165, 233' : '139, 92, 246';
+  const billableRgb = '16, 185, 129';
+  if (isBillable.value) {
+    return [
+      `-34px 0 68px -10px rgba(${modeRgb}, 0.32)`,
+      `34px 0 68px -10px rgba(${billableRgb}, 0.32)`,
+      `0 -17px 46px -10px rgba(${modeRgb}, 0.19)`,
+      `0 17px 46px -10px rgba(${billableRgb}, 0.19)`,
+      `0 0 17px -5px rgba(${modeRgb}, 0.21)`,
+    ].join(', ');
+  }
+  return [
+    `-34px 0 68px -10px rgba(${modeRgb}, 0.32)`,
+    `34px 0 68px -10px rgba(${modeRgb}, 0.32)`,
+    `0 0 21px -5px rgba(${modeRgb}, 0.25)`,
+  ].join(', ');
 });
 
 const handleAddTask = async (taskName: string) => {
@@ -260,7 +300,7 @@ const submitHandler = handleSubmit(async (formValues) => {
       StartDate: startIso,
       EndDate: endIso,
     });
-    await timeEntriesStore.fetchTimeEntries();
+    await timeEntriesStore.refreshLastEntries();
 
     showSuccessMessage(t('pages.timesheets.enterTime.messages.success'));
 

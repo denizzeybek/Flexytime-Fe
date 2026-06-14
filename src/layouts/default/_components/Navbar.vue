@@ -144,7 +144,7 @@ const menuItems = computed(() => {
   items.push({
     label: t('pages.layouts.navbar.timeEntries'),
     icon: 'pi pi-clock',
-    route: ERouteNames.TimeEntriesManual,
+    route: ERouteNames.TimeEntries,
   });
 
   items.push({

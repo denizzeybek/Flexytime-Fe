@@ -1,6 +1,6 @@
 <template>
   <Transition name="slide-fade">
-    <div v-if="visible" class="flex items-center gap-3">
+    <div v-show="visible" class="flex items-center gap-3">
       <FTimeRange :placeholder="t('pages.timesheets.enterTime.timeInput.placeholder')" />
 
       <FDateTimePicker

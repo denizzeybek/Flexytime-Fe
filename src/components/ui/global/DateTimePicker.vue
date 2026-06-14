@@ -81,9 +81,9 @@ const props = withDefaults(defineProps<IProps>(), {
   hideError: false,
 });
 
-const fieldId = computed(() => props.id ?? props.name);
-
 const emit = defineEmits<IEmits>();
+
+const fieldId = computed(() => props.id ?? props.name);
 
 enum EHelperButton {
   TODAY = 'today',

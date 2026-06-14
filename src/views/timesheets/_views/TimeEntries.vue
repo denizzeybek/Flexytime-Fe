@@ -1,40 +1,34 @@
 <template>
-  <Card class="shadow-lg mb-5 border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors">
-    <template #content>
-      <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
-        <Tabs :value="route.name?.toString()!" class="grow sm:grow-0">
-          <TabList>
-            <Tab v-for="(tab, idx) in items" :key="idx" :value="tab.route" @click="tab.method">
-              <span class="font-medium">{{ tab.label }}</span>
-            </Tab>
-          </TabList>
-        </Tabs>
-        <div class="flex items-center gap-3 grow sm:grow-0">
-          <!-- Hours Filter (only for Unclassified) -->
-          <FSelect
-            v-if="isUnclassifiedRoute"
-            name="selectedHours"
-            :options="hoursOptions"
-            :placeholder="t('pages.timesheets.timeEntries.hoursFilter.placeholder')"
-            class="grow sm:w-40 sm:grow-0"
-            @selected="onHoursChange"
-          />
-          <DatePicker
-            v-model="selectedDate"
-            :maxDate="maxDate"
-            dateFormat="dd.mm.yy"
-            showIcon
-            iconDisplay="input"
-            :placeholder="t('pages.timesheets.timeEntries.datePicker.placeholder')"
-            class="grow sm:w-48 sm:grow-0"
-          />
-        </div>
+  <div class="flex flex-col gap-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div class="hidden lg:block lg:col-span-2" />
+      <div class="lg:col-span-1 flex flex-col sm:flex-row gap-3 items-stretch">
+        <FSelect
+          name="suggestionsHours"
+          :options="hoursOptions"
+          :placeholder="t('pages.timesheets.timeEntries.hoursFilter.placeholder')"
+          class="w-full sm:w-28 flex-shrink-0"
+          @selected="onHoursChange"
+        />
+        <DateRangePicker
+          v-model="selectedRange"
+          :maxDate="maxDate"
+          :placeholder="t('pages.timesheets.timeEntries.datePicker.placeholder')"
+          class="w-full flex-1 h-11"
+        />
       </div>
-    </template>
-  </Card>
+    </div>
 
-  <div class="mt-1">
-    <router-view :key="route.path" />
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div class="lg:col-span-2 flex flex-col gap-4">
+        <EnterTime />
+        <EnteredTimes />
+      </div>
+
+      <div class="lg:col-span-1">
+        <SuggestionsPanel :range="selectedRange" :hours="selectedHours" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -44,42 +38,44 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import dayjs from 'dayjs';
-import Card from 'primevue/card';
+import isoWeek from 'dayjs/plugin/isoWeek';
 import { useForm } from 'vee-validate';
 
-import { ERouteNames } from '@/router/routeNames.enum';
+import DateRangePicker, { type DateRange } from '@/components/common/DateRangePicker.vue';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
+import SuggestionsPanel from '@/views/timesheets/_components/timeEntries/_components/suggestions/SuggestionsPanel.vue';
+import EnteredTimes from '@/views/timesheets/_components/timeEntries/EnteredTimes.vue';
+import EnterTime from '@/views/timesheets/_components/timeEntries/EnterTime.vue';
 
 import type { MessageSchema } from '@/plugins/i18n';
 
+dayjs.extend(isoWeek);
+
+const { t } = useI18n<{ message: MessageSchema }>();
 const route = useRoute();
 const router = useRouter();
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
-const { t } = useI18n<{ message: MessageSchema }>();
 
-const { resetForm } = useForm();
+const ALLOWED_HOURS = [1, 4, 8, 24] as const;
 
-const selectedDate = ref<Date>(new Date());
-const selectedHours = ref<number>(24);
-const items = ref([
-  {
-    route: ERouteNames.TimeEntriesManual,
-    label: t('pages.timesheets.timeEntries.manual.label'),
-    method: () => {
-      router.push({ name: ERouteNames.TimeEntriesManual });
-    },
-  },
-  {
-    route: ERouteNames.TimeEntriesUnclassified,
-    label: t('pages.timesheets.timeEntries.unclassified.label'),
-    method: () => {
-      router.push({ name: ERouteNames.TimeEntriesUnclassified });
-    },
-  },
-]);
+const parseDateFromQuery = (raw: unknown, fallback: Date): Date => {
+  if (typeof raw !== 'string' || raw.length === 0) return fallback;
+  const d = dayjs(raw);
+  return d.isValid() ? d.toDate() : fallback;
+};
+
+const parseHoursFromQuery = (raw: unknown): number => {
+  const n = typeof raw === 'string' ? Number(raw) : NaN;
+  return ALLOWED_HOURS.includes(n as (typeof ALLOWED_HOURS)[number]) ? n : 4;
+};
+
+const initialStart = parseDateFromQuery(route.query.start, dayjs().subtract(6, 'day').startOf('day').toDate());
+const initialEnd = parseDateFromQuery(route.query.end, dayjs().endOf('day').toDate());
+const initialHours = parseHoursFromQuery(route.query.hours);
+
+const selectedRange = ref<DateRange>({ start: initialStart, end: initialEnd });
 
 const maxDate = computed(() => new Date());
-const isUnclassifiedRoute = computed(() => route.name === ERouteNames.TimeEntriesUnclassified);
 
 const hoursOptions = computed(() => [
   { name: t('pages.timesheets.timeEntries.hoursFilter.hourly'), value: '1', label: t('pages.timesheets.timeEntries.hoursFilter.hourly') },
@@ -88,40 +84,41 @@ const hoursOptions = computed(() => [
   { name: t('pages.timesheets.timeEntries.hoursFilter.allDay'), value: '24', label: t('pages.timesheets.timeEntries.hoursFilter.allDay') },
 ]);
 
+useForm({
+  initialValues: {
+    suggestionsHours: hoursOptions.value.find((o) => o.value === String(initialHours)),
+  },
+});
+
+const selectedHours = ref<number>(initialHours);
+
 const onHoursChange = (option: { name: string; value: string }) => {
   selectedHours.value = Number(option.value);
-  fetchData();
 };
 
-const fetchData = async () => {
-  const recordDate = dayjs(selectedDate.value).format('DD.MM.YYYY');
-  timeEntriesStore.setQuery({ RecordDate: recordDate, Hours: selectedHours.value });
+const fmtQueryDate = (d?: Date | null): string | undefined =>
+  d ? dayjs(d).format('YYYY-MM-DD') : undefined;
 
-  const currentRoute = route.name;
-
-  if (currentRoute === ERouteNames.TimeEntriesManual) {
-    await timeEntriesStore.fetchTimeEntries();
-  } else if (currentRoute === ERouteNames.TimeEntriesUnclassified) {
-    await timeEntriesStore.fetchTimeClocks();
-  }
+const syncQuery = (): void => {
+  const next: Record<string, string> = { ...route.query } as Record<string, string>;
+  const start = fmtQueryDate(selectedRange.value.start);
+  const end = fmtQueryDate(selectedRange.value.end);
+  if (start) next.start = start; else delete next.start;
+  if (end) next.end = end; else delete next.end;
+  next.hours = String(selectedHours.value);
+  void router.replace({ query: next });
 };
 
-watch(
-  () => route.name,
-  (name) => {
-    if (name === ERouteNames.TimeEntriesManual || name === ERouteNames.TimeEntriesUnclassified) {
-      resetForm({
-        values: {
-          selectedHours: hoursOptions.value.find((o) => o.value === '24'),
-        },
-      });
-      fetchData();
-    }
-  },
-  { immediate: true },
-);
+const fetchEntries = async () => {
+  const { start, end } = selectedRange.value;
+  if (!start || !end) return;
+  await timeEntriesStore.fetchTimeEntriesRange(start, end);
+};
 
-watch(selectedDate, () => {
-  fetchData();
-});
+watch(selectedRange, () => {
+  syncQuery();
+  void fetchEntries();
+}, { deep: true, immediate: true });
+
+watch(selectedHours, syncQuery);
 </script>

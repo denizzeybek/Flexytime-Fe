@@ -579,7 +579,8 @@
           "description": "Bu tarih için henüz zaman kaydı oluşturmadınız. Yukarıdan çalışmanızı takip etmeye başlayın."
         },
         "untitled": "İsimsiz Görev",
-        "sessions": "oturum",
+        "sessions": "oturum | oturum",
+        "dailyTotal": "Toplam",
         "deleteConfirm": {
           "header": "Zaman Kaydını Sil",
           "message": "\"{task}\" kaydını silmek istediğinizden emin misiniz?",
@@ -592,45 +593,45 @@
         }
       },
       "timeEntries": {
+        "title": "Zaman Kayıtları",
         "datePicker": {
           "placeholder": "Tarih seçin"
         },
         "hoursFilter": {
-          "placeholder": "Zaman aralığı",
-          "hourly": "Saatlik",
-          "fourHours": "4 Saat",
-          "eightHours": "8 Saat",
-          "allDay": "Tüm Gün"
+          "placeholder": "Dilim",
+          "hourly": "1s dilim",
+          "fourHours": "4s dilim",
+          "eightHours": "8s dilim",
+          "allDay": "Tüm gün"
         },
-        "manual": {
-          "label": "Manuel"
-        },
-        "unclassified": {
-          "label": "Belirsiz"
+        "suggestions": {
+          "title": "Öneriler",
+          "totalLabel": "Toplam",
+          "allDaySlot": "Tüm gün",
+          "convertCta": "Kayda dönüştür",
+          "convertSuccess": "Öneri zaman kaydına dönüştürüldü.",
+          "modal": {
+            "header": "Öneriyi zaman kaydına dönüştür",
+            "itemsSelected": "öğe seçildi",
+            "billableTooltip": "Faturalandırılabilir olarak işaretle",
+            "taskPlaceholder": "Görev seçin",
+            "taskRequired": "Lütfen bir görev seçin.",
+            "projectRequired": "Lütfen bir proje seçin.",
+            "noSelection": "Dönüştürülecek seçim yok.",
+            "saveFailed": "Zaman kaydı oluşturulamadı."
+          },
+          "emptyState": {
+            "title": "Her şey yerinde",
+            "description": "Bu zaman aralığında sınıflandırılmamış aktivite yok. Ajan veri yükledikçe öneriler burada görünür."
+          }
         }
       },
-      "unclassified": {
-        "emptyState": {
-          "title": "Her Şey Tamamlandı!",
-          "description": "Harika! Sınıflandırılmamış zaman kaydınız yok. Tüm çalışmalarınız düzgün bir şekilde kategorize edilmiş."
-        },
-        "itemsSelected": "öğe seçildi",
-        "categorizeButton": "Kategorize Et"
-      },
       "updateTimeEntriesModal": {
-        "header": "Zaman Kayıtlarını Kategorize Et",
-        "itemsSelected": "öğe seçildi",
         "project": {
           "placeholder": "Proje seçin"
         },
         "tags": {
           "placeholder": "Etiket(ler) seçin"
-        },
-        "layoutButton": {
-          "manual": "Manuel"
-        },
-        "messages": {
-          "success": "Zaman kaydı girildi!"
         }
       },
       "person": {
@@ -1629,6 +1630,17 @@
     "Payment": "Ödeme"
   },
   "components": {
+    "dateRangePicker": {
+      "placeholder": "Tarih aralığı seçin",
+      "presets": {
+        "today": "Bugün",
+        "yesterday": "Dün",
+        "thisWeek": "Bu Hafta",
+        "lastWeek": "Geçen Hafta",
+        "thisMonth": "Bu Ay",
+        "lastMonth": "Geçen Ay"
+      }
+    },
     "input": {
       "noOptionFound": "Seçenek bulunamadı",
       "addButton": "Ekle",
