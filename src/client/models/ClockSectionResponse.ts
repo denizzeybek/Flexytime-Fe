@@ -20,6 +20,13 @@ export type ClockSectionResponse = {
     Teams: Array<ClockTeamSummary>;
     Individuals: Array<ClockIndividualSummary>;
     Company: ClockCompany;
+    /**
+     * ISO 4217 currency code for the `*Cost` decimal-strings on this response
+     * (PerformTariff.Currency for the company's subscription; default `TRY`).
+     * FE feeds it to `Intl.NumberFormat(locale, { style: 'currency', currency })`
+     * when the ActionsBar perspective is `Cost`.
+     */
+    Currency: string;
     Breadcrumb: Array<ClockBreadcrumbSegment>;
 };
 

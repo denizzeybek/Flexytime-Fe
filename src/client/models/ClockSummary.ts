@@ -8,6 +8,22 @@ export type ClockSummary = {
     Leisure: number;
     Unclassified: number;
     /**
+     * Summed `Cost` (decimal-string) for Work-domain rows in the window.
+     */
+    WorkCost: string;
+    /**
+     * Summed `Cost` (decimal-string) for Meeting-domain rows in the window.
+     */
+    MeetingCost: string;
+    /**
+     * Summed `Cost` (decimal-string) for Leisure-domain rows in the window.
+     */
+    LeisureCost: string;
+    /**
+     * Summed `Cost` (decimal-string) for Unclassified-domain rows in the window.
+     */
+    UnclassifiedCost: string;
+    /**
      * Averaged shift start, seconds-since-midnight; `null` when no shift covers the window.
      */
     StartTime: number | null;

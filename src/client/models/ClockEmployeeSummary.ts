@@ -9,5 +9,9 @@ export type ClockEmployeeSummary = {
     Meeting: number;
     Leisure: number;
     Unclassified: number;
+    WorkCost: string;
+    MeetingCost: string;
+    LeisureCost: string;
+    UnclassifiedCost: string;
 };
 

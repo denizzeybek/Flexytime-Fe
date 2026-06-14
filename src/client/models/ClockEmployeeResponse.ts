@@ -26,6 +26,13 @@ export type ClockEmployeeResponse = {
     WebClocks: Array<ClockEmployeeWebClockEntry>;
     HasRefreshScheduled: boolean;
     /**
+     * ISO 4217 currency code for the `*Cost` decimal-strings on this response
+     * (PerformTariff.Currency for the company's subscription; default `TRY`).
+     * Mirrors {@link ClockSectionResponse.Currency} so the per-employee view
+     * formats Cost numbers consistently with the team/org dashboard.
+     */
+    Currency: string;
+    /**
      * Alert badges (legacy `/clock/alerts` shape).
      */
     Alerts: Record<string, any>;

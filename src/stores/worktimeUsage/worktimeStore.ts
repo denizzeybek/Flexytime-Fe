@@ -24,6 +24,7 @@
 import { defineStore } from 'pinia';
 
 import { ClockService } from '@/client';
+import { formatByPerspective, sumDomainSeconds } from '@/helpers/perspective';
 import { secondsToDurationString } from '@/helpers/time';
 import { useProfileStore } from '@/stores/profile/profile';
 
@@ -81,6 +82,42 @@ function statCell(seconds: number | null | undefined): LegacyStatCell {
 }
 
 /**
+ * One-row, one-domain perspective-aware cell. Seconds/Cost are pulled from
+ * the BE row, total is the row's own four-domain sum (the denominator for
+ * Rate). When perspective is Time / InShift, the result is the same
+ * `HH:MM:SS` string `statCell` returns; for Cost it's a localized currency
+ * string; for Rate it's a `xx.x%` string.
+ */
+interface SummaryRow {
+  Work?: number | null;
+  Meeting?: number | null;
+  Leisure?: number | null;
+  Unclassified?: number | null;
+  WorkCost?: string | null;
+  MeetingCost?: string | null;
+  LeisureCost?: string | null;
+  UnclassifiedCost?: string | null;
+}
+
+function perspectiveCellFor(
+  row: SummaryRow,
+  key: 'Work' | 'Meeting' | 'Leisure' | 'Unclassified',
+  perspective: string | undefined,
+  currency: string,
+): LegacyStatCell {
+  const totalSeconds = sumDomainSeconds(row);
+  return {
+    time: formatByPerspective({
+      seconds: row[key] ?? 0,
+      cost: row[`${key}Cost`] ?? '0',
+      totalSeconds,
+      perspective,
+      currency,
+    }),
+  };
+}
+
+/**
  * Format seconds-since-midnight as `HH:mm` clock time (e.g. 30600 → "08:30").
  * Used for Start/End columns and badges, which carry a wall-clock instant
  * for the day rather than a duration. Returns "-" for null/zero/invalid so
@@ -104,24 +141,46 @@ function clockTimeCell(seconds: number | null | undefined): LegacyStatCell {
  * v2 object back into the legacy array shape so the existing tab markup keeps
  * rendering until it gets refactored.
  */
+type SummaryLike = {
+  Work?: number;
+  Meeting?: number;
+  Leisure?: number;
+  Unclassified?: number;
+  WorkCost?: string;
+  MeetingCost?: string;
+  LeisureCost?: string;
+  UnclassifiedCost?: string;
+  StartTime?: number | null;
+  EndTime?: number | null;
+  Start?: number | null;
+  End?: number | null;
+};
+
 function summaryObjectToArray(
-  summary: ClockEmployeeResponse['Summary'] & {
-    StartTime?: number | null;
-    EndTime?: number | null;
-    Start?: number | null;
-    End?: number | null;
-  },
+  summary: SummaryLike,
+  perspective: string | undefined,
+  currency: string,
 ): ISummary[] {
   const start = summary.StartTime ?? summary.Start ?? null;
   const end = summary.EndTime ?? summary.End ?? null;
+  const row: SummaryRow = {
+    Work: summary.Work,
+    Meeting: summary.Meeting,
+    Leisure: summary.Leisure,
+    Unclassified: summary.Unclassified,
+    WorkCost: summary.WorkCost,
+    MeetingCost: summary.MeetingCost,
+    LeisureCost: summary.LeisureCost,
+    UnclassifiedCost: summary.UnclassifiedCost,
+  };
   return [
-    { id: 'work', statisticType: 'work', time: secondsToDurationString(summary.Work) },
-    { id: 'meeting', statisticType: 'meeting', time: secondsToDurationString(summary.Meeting) },
-    { id: 'leisure', statisticType: 'leisure', time: secondsToDurationString(summary.Leisure) },
+    { id: 'work', statisticType: 'work', time: perspectiveCellFor(row, 'Work', perspective, currency).time },
+    { id: 'meeting', statisticType: 'meeting', time: perspectiveCellFor(row, 'Meeting', perspective, currency).time },
+    { id: 'leisure', statisticType: 'leisure', time: perspectiveCellFor(row, 'Leisure', perspective, currency).time },
     {
       id: 'unclassified',
       statisticType: 'unclassified',
-      time: secondsToDurationString(summary.Unclassified),
+      time: perspectiveCellFor(row, 'Unclassified', perspective, currency).time,
     },
     { id: 'starttime', statisticType: 'starttime', time: secondsToClockTime(start) },
     { id: 'endtime', statisticType: 'endtime', time: secondsToClockTime(end) },
@@ -136,17 +195,35 @@ function summaryObjectToArray(
  * matches what the v1 chart did. Dropping zero-Seconds apps so a 12-app
  * list with one real entry doesn't render a sea of identical empty slices.
  */
-function distributionsToLegacy(distribution: ClockDistribution[]): IDistribution[] {
+function distributionsToLegacy(
+  distribution: ClockDistribution[],
+  perspective: string | undefined,
+  currency: string,
+): IDistribution[] {
+  const totalSeconds = distribution.reduce((acc, r) => acc + (r.Seconds ?? 0), 0);
   return distribution.map((row) => {
     const apps = (row.Applications ?? []).filter((a) => (a.Seconds ?? 0) > 0);
+    const rowTotalApps = apps.reduce((acc, a) => acc + (a.Seconds ?? 0), 0);
     return {
       id: String(row.Domain).toLowerCase(),
       statisticType: String(row.Domain).toLowerCase(),
-      time: secondsToDurationString(row.Seconds),
+      time: formatByPerspective({
+        seconds: row.Seconds ?? 0,
+        cost: row.Cost ?? '0',
+        totalSeconds,
+        perspective,
+        currency,
+      }),
       Applications: apps.map((app) => ({
         imgPath: '',
         title: app.Name ?? '',
-        time: secondsToDurationString(app.Seconds),
+        time: formatByPerspective({
+          seconds: app.Seconds ?? 0,
+          cost: app.Cost ?? '0',
+          totalSeconds: rowTotalApps,
+          perspective,
+          currency,
+        }),
       })),
       Chart: apps.map((app) => ({
         label: app.Name ?? '',
@@ -325,6 +402,8 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       const teamNameById = new Map(
         (state.sectionData?.Teams ?? []).map((t) => [t.TeamId, t.Name ?? '']),
       );
+      const perspective = state.lastSectionRequest?.Perspective;
+      const currency = state.sectionData?.Currency ?? 'TRY';
       return (state.sectionData?.Individuals ?? []).map((row) => ({
         ID: row.UserId,
         EmployeeName: row.Fullname ?? '',
@@ -339,10 +418,10 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         TagsDisplay: '',
         Start: clockTimeCell(row.Summary.StartTime),
         End: clockTimeCell(row.Summary.EndTime),
-        Work: statCell(row.Summary.Work),
-        Leisure: statCell(row.Summary.Leisure),
-        Meeting: statCell(row.Summary.Meeting),
-        Unclassified: statCell(row.Summary.Unclassified),
+        Work: perspectiveCellFor(row.Summary, 'Work', perspective, currency),
+        Leisure: perspectiveCellFor(row.Summary, 'Leisure', perspective, currency),
+        Meeting: perspectiveCellFor(row.Summary, 'Meeting', perspective, currency),
+        Unclassified: perspectiveCellFor(row.Summary, 'Unclassified', perspective, currency),
       }));
     },
 
@@ -352,19 +431,22 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * `SupervisorUserId` + the same `Summary` object; we map to `TeamName`,
      * `SupervisorName` and the four stat cells.
      */
-    getTeams: (state) =>
-      (state.sectionData?.Teams ?? []).map((row) => ({
+    getTeams: (state) => {
+      const perspective = state.lastSectionRequest?.Perspective;
+      const currency = state.sectionData?.Currency ?? 'TRY';
+      return (state.sectionData?.Teams ?? []).map((row) => ({
         ID: row.TeamId,
         TeamName: row.Name ?? '',
         SupervisorName: '',
         Supervisor: undefined,
         Start: clockTimeCell(row.Summary.StartTime),
         End: clockTimeCell(row.Summary.EndTime),
-        Work: statCell(row.Summary.Work),
-        Leisure: statCell(row.Summary.Leisure),
-        Meeting: statCell(row.Summary.Meeting),
-        Unclassified: statCell(row.Summary.Unclassified),
-      })),
+        Work: perspectiveCellFor(row.Summary, 'Work', perspective, currency),
+        Leisure: perspectiveCellFor(row.Summary, 'Leisure', perspective, currency),
+        Meeting: perspectiveCellFor(row.Summary, 'Meeting', perspective, currency),
+        Unclassified: perspectiveCellFor(row.Summary, 'Unclassified', perspective, currency),
+      }));
+    },
 
     /**
      * Drill-down row 1 — the **Company** aggregate, shaped like a team row so
@@ -381,6 +463,8 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     getCompanyRow: (state) => {
       const data = state.sectionData;
       if (!data) return null;
+      const perspective = state.lastSectionRequest?.Perspective;
+      const currency = data.Currency ?? 'TRY';
       return {
         ID: '__company__',
         TeamName: data.Company?.Name ?? '',
@@ -388,10 +472,10 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         Supervisor: undefined,
         Start: clockTimeCell(data.Summary.StartTime),
         End: clockTimeCell(data.Summary.EndTime),
-        Work: statCell(data.Summary.Work),
-        Leisure: statCell(data.Summary.Leisure),
-        Meeting: statCell(data.Summary.Meeting),
-        Unclassified: statCell(data.Summary.Unclassified),
+        Work: perspectiveCellFor(data.Summary, 'Work', perspective, currency),
+        Leisure: perspectiveCellFor(data.Summary, 'Leisure', perspective, currency),
+        Meeting: perspectiveCellFor(data.Summary, 'Meeting', perspective, currency),
+        Unclassified: perspectiveCellFor(data.Summary, 'Unclassified', perspective, currency),
       };
     },
 
@@ -408,6 +492,8 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       if (!data) return [];
       const rawTeams = data.Teams ?? [];
       const individuals = data.Individuals ?? [];
+      const perspective = state.lastSectionRequest?.Perspective;
+      const currency = data.Currency ?? 'TRY';
 
       const teamRows = rawTeams.map((row) => {
         const parentId = (row as unknown as { ParentTeamId?: string | null }).ParentTeamId ?? null;
@@ -419,10 +505,10 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
           Supervisor: undefined as unknown,
           Start: clockTimeCell(row.Summary.StartTime),
           End: clockTimeCell(row.Summary.EndTime),
-          Work: statCell(row.Summary.Work),
-          Leisure: statCell(row.Summary.Leisure),
-          Meeting: statCell(row.Summary.Meeting),
-          Unclassified: statCell(row.Summary.Unclassified),
+          Work: perspectiveCellFor(row.Summary, 'Work', perspective, currency),
+          Leisure: perspectiveCellFor(row.Summary, 'Leisure', perspective, currency),
+          Meeting: perspectiveCellFor(row.Summary, 'Meeting', perspective, currency),
+          Unclassified: perspectiveCellFor(row.Summary, 'Unclassified', perspective, currency),
         };
       });
 
@@ -454,10 +540,10 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
             Supervisor: undefined,
             Start: clockTimeCell(m.Summary.StartTime),
             End: clockTimeCell(m.Summary.EndTime),
-            Work: statCell(m.Summary.Work),
-            Leisure: statCell(m.Summary.Leisure),
-            Meeting: statCell(m.Summary.Meeting),
-            Unclassified: statCell(m.Summary.Unclassified),
+            Work: perspectiveCellFor(m.Summary, 'Work', perspective, currency),
+            Leisure: perspectiveCellFor(m.Summary, 'Leisure', perspective, currency),
+            Meeting: perspectiveCellFor(m.Summary, 'Meeting', perspective, currency),
+            Unclassified: perspectiveCellFor(m.Summary, 'Unclassified', perspective, currency),
           },
         }));
         return {
@@ -476,9 +562,19 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * rendering. Mirrors what the employee fetch builds inline.
      */
     sectionSummary: (state): ISummary[] =>
-      state.sectionData ? summaryObjectToArray(state.sectionData.Summary) : [],
+      state.sectionData
+        ? summaryObjectToArray(
+            state.sectionData.Summary,
+            state.lastSectionRequest?.Perspective,
+            state.sectionData.Currency ?? 'TRY',
+          )
+        : [],
     sectionDistributions: (state): IDistribution[] =>
-      distributionsToLegacy(state.sectionData?.Distribution ?? []),
+      distributionsToLegacy(
+        state.sectionData?.Distribution ?? [],
+        state.lastSectionRequest?.Perspective,
+        state.sectionData?.Currency ?? 'TRY',
+      ),
     sectionGraphs: (state): IGraph | null =>
       state.sectionData
         ? buildProductivityGraph(state.sectionData.ProductivityGraph ?? [])
@@ -703,13 +799,15 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
         this.error.employee = null;
 
         const response = await ClockService.clockControllerGetEmployee(cleanPayload);
+        const currency = response.Currency ?? 'TRY';
+        const perspective = cleanPayload.Perspective;
 
         const transformed: IEmployeeResponse = {
           Card: this.buildCardFromEmployeeIdentity(response.Employee ?? null),
           Breadcrumb: (response.Breadcrumb ?? []) as unknown as IEmployeeResponse['Breadcrumb'],
-          Summary: summaryObjectToArray(response.Summary),
+          Summary: summaryObjectToArray(response.Summary, perspective, currency),
           WellBeings: buildIndividualWellbeings(response.WellBeings ?? []),
-          Distributions: distributionsToLegacy(response.Distribution ?? []),
+          Distributions: distributionsToLegacy(response.Distribution ?? [], perspective, currency),
           Graphs: buildProductivityGraph(response.ProductivityGraph ?? []),
           WebClocks: (response.WebClocks ?? []) as unknown as IEmployeeResponse['WebClocks'],
         };
