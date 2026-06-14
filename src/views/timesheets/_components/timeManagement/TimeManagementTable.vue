@@ -107,7 +107,7 @@ const tableData = computed<ITreeNode[]>(() => {
           acc[key] = parent.Days?.[index] ?? '-';
           return acc;
         },
-        {} as Record<string, string>,
+        {} as Record<string, string | number>,
       ),
     },
     children: parent.Children?.map((child, childIdx) => ({
@@ -119,7 +119,7 @@ const tableData = computed<ITreeNode[]>(() => {
             acc[key] = child.Days?.[index] ?? '-';
             return acc;
           },
-          {} as Record<string, string>,
+          {} as Record<string, string | number>,
         ),
       },
     })),

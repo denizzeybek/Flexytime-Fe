@@ -62,7 +62,7 @@ export const useGoogleLogin = () => {
         return false;
       }
 
-      await authStore.loginWithGoogle(key);
+      await authStore.loginWithGoogle({ idToken: key });
 
       await profileStore.filter();
 

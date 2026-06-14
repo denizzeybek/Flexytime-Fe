@@ -64,6 +64,35 @@ import type {
 - Token is set in the auth store on login and reset on logout: `OpenAPI.TOKEN = token`.
 - Don't mutate `OpenAPI` from components or random services. Auth-related mutation belongs in `src/stores/auth.ts`.
 
+### Regeneration — the only way to update `@/client`
+
+When the BE swagger changes (new endpoint, new field, renamed property, contract reshape), the FE client must be **regenerated** — never patched by hand.
+
+```bash
+yarn gcl            # runs openapi-typescript-codegen against the live swagger
+                    # (default target: http://test.api.flexytime.com/swagger/docs/v1)
+                    # → overwrites every file under src/client/
+```
+
+Workflow when consuming a BE change:
+
+1. BE team merges (or you yourself land) the swagger-affecting change.
+2. Point `gcl` at the right target — for local BE work that's a `--input http://localhost:3000/api-json` (or the local swagger URL). For released changes the default test URL is fine.
+3. Run `yarn gcl`. Git will show modifications under `src/client/models/` + `src/client/services/`.
+4. Re-run `yarn type-check`. Fix call sites that now mismatch.
+5. Commit the regenerated client **together** with the consuming code change so the PR is self-contained — no half-regen PRs.
+
+What to do when you spot a missing type / drift / `import type { Foo } from '@/client'` failure:
+
+- **Don't** add the missing model file by hand, don't re-export from `customClient`, don't widen the consumer to `any`.
+- The fix is BE-side: the response type must be a DTO **class** (so the OpenAPI plugin emits a schema for it), and the controller method must declare it (`@ApiResponse({ type: FooDto })` or via the return-type generic). Once BE swagger is complete, re-run `yarn gcl` and the type appears.
+- Memory: `feedback_no-manual-client-edits` — never hand-edit FE generated client; run `yarn gcl` against a live BE.
+- Memory: `feedback_be-contract-reshape-intentional` — for RESHAPED-v2 endpoints, FE↔BE codegen drift is expected during migration; verify data flows + UI behaviour, not type-export parity, **unless** you're ready to regenerate.
+
+### When the client genuinely can't help (the `@/customClient` escape)
+
+If the BE truly doesn't ship swagger for an endpoint and won't soon (Login is the canonical example), `@/customClient` is the only legal escape hatch. Even there, the goal is to eventually delete the customClient file once the BE swagger covers it — so write the customClient file as if it were generated (same shape, no app-specific logic).
+
 ---
 
 ## 3. Custom endpoints — `@/customClient`

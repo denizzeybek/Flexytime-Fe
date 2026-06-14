@@ -25,7 +25,7 @@ export const useSettingsAdvancedsStore = defineStore(EStoreNames.SETTINGS_ADVANC
       return data;
     },
     async save(payload: AdvancedSettingModifyModel[]) {
-      return await SettingService.settingControllerSaveAdvancedPermissions(payload);
+      return await SettingService.settingControllerSaveAdvancedPermissions(payload as never);
     },
   },
 });

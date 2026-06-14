@@ -79,7 +79,7 @@ import type { IOption } from '@/common/interfaces/option.interface';
 
 interface ChipSlotProps {
   value: IOption;
-  removeCallback?: () => void;
+  removeCallback?: (event: Event, item: IOption) => void;
 }
 
 export interface IProps {

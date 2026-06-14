@@ -229,7 +229,7 @@ const buildAddManagerPayload = (
   ...(formValues.password && { Password: formValues.password }),
   Role: roleValue,
   Salary: stringSalary(formValues.salary) ?? '',
-  TeamId: formValues.team?.value,
+  TeamId: formValues.team?.value ?? '',
   TitleId: formValues.title?.value,
   TitleName: formValues.title?.name,
   Enabled: true,
@@ -245,6 +245,7 @@ const buildAddAdminPayload = (
   ...(formValues.password && { Password: formValues.password }),
   Role: roleValue,
   Salary: '0',
+  TeamId: '',
   Enabled: true,
   Tags: [],
 });

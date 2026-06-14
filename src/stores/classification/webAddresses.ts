@@ -82,7 +82,7 @@ export const useClassificationWebAddressesStore = defineStore(
           this.loading = false;
         }
       },
-      async save(payload: WebClockModifyDto) {
+      async save(payload: WebClockModifyDto & { ID?: string; AlwaysOn?: boolean; Domain?: number }) {
         await CategoryService.categoryControllerSaveWebAddress(payload as never);
 
         const idx = this.list.findIndex((item) => item.ID === payload.ID);

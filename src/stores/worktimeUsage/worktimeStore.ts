@@ -25,7 +25,6 @@ import { defineStore } from 'pinia';
 
 import { ClockService } from '@/client';
 import { formatByPerspective, sumDomainSeconds } from '@/helpers/perspective';
-import { secondsToDurationString } from '@/helpers/time';
 import { useProfileStore } from '@/stores/profile/profile';
 
 import type {
@@ -219,7 +218,7 @@ function distributionsToLegacy(
         value: app.Seconds ?? 0,
       })),
     };
-  }) as IDistribution[];
+  }) as unknown as IDistribution[];
 }
 
 /**

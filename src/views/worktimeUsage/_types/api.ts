@@ -61,10 +61,14 @@ export type ISummary = SectionClockSummary;
  *  - `employee` → render Label, non-clickable terminal segment.
  */
 export interface IBreadcrumb {
-  Type: 'home' | 'team' | 'employee';
-  Label: string;
-  TeamId: string | null;
-  IsLast: boolean;
+  Type?: 'home' | 'team' | 'employee';
+  Label?: string;
+  TeamId?: string | null;
+  IsLast?: boolean;
+  id?: string;
+  title?: string;
+  path?: string;
+  isLastElement?: boolean;
 }
 
 
@@ -76,7 +80,19 @@ export type ITeamset = ClockSectionTeamset;
 export type IIndividual = ClockSectionIndividual;
 
 
-export type IDistribution = ClockDistribution;
+export type IDistribution = ClockDistribution & {
+  time?: string;
+  statisticType?: string;
+  Chart?: Array<{ label: string; value: number }>;
+  Applications?: Array<{
+    title?: string;
+    time?: string;
+    Name?: string;
+    Seconds?: number;
+    Cost?: string;
+    AllocationId?: string;
+  }>;
+};
 
 
 export type IGraph = ClockGraphGroup | GraphViewModel2;
@@ -84,7 +100,12 @@ export type IGraph = ClockGraphGroup | GraphViewModel2;
 
 export type IWebClock = WebClockViewModel;
 
-export type IWebClocks = ClockAllocationViewModel;
+export type IWebClocks = ClockAllocationViewModel & {
+  ID?: string;
+  Type?: number;
+  Spent?: number | string;
+  WebClocks?: IWebClock[];
+};
 
 
 export interface IIndividualWellbeingGraph {

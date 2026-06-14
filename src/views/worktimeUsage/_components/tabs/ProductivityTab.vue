@@ -22,7 +22,7 @@
 
       <TeamProductivityTable
         v-else-if="isLoading || teamTree.length > 0"
-        :nodes="teamTree"
+        :nodes="(teamTree as never)"
         :is-loading="isLoading"
       />
 

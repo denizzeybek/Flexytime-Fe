@@ -25,7 +25,7 @@ export const useSettingsPermissionsStore = defineStore(EStoreNames.SETTINGS_PERM
       return data;
     },
     async save(payload: PermissionModifyViewModel) {
-      return await SettingService.settingControllerSavePermissions(payload);
+      return await SettingService.settingControllerSavePermissions(payload as never);
     },
   },
 });

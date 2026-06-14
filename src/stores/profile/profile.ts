@@ -154,7 +154,7 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     async filter() {
       const data = await ProfileLegacyWebapiService.legacyProfileControllerGetProfile();
       this.GeneralProfile = data;
-      this.User = data.Employee ?? ({} as EmployeeViewModel);
+      this.User = (data as { Employee?: EmployeeViewModel }).Employee ?? ({} as EmployeeViewModel);
       this.TimeZone = data.timezone ?? '';
       this.Currency = data.currency ?? 'TRY';
       this.LanguageCode = data.languageCode ?? '';

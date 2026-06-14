@@ -95,7 +95,7 @@
             <div v-if="showGraphBelow" class="mt-1">
               <WellBeingGraphTab
                 v-if="currentQuery.tab === 'wellbeing'"
-                :graphs="currentWellBeingGraphs"
+                :graphs="(currentWellBeingGraphs as unknown as IWellBeingGraph[])"
                 :is-loading="isLoading"
               />
               <GraphTab v-else :graphs="currentGraphs" :is-loading="isLoading" />
@@ -174,7 +174,8 @@ import WellBeingGraphTab from './_components/tabs/WellBeingGraphTab.vue';
 import WellbeingTab from './_components/tabs/WellbeingTab.vue';
 import { useWorktimeQuery } from './_composables';
 
-import type { DisplayMode, IWebClock,TabType } from './_types';
+import type { DisplayMode, IWebClock, TabType } from './_types';
+import type { IWellBeingGraph } from '@/stores/worktimeUsage/worktimeStore';
 import type { MessageSchema } from '@/plugins/i18n';
 
 const store = useWorktimeStore();

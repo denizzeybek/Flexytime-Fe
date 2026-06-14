@@ -129,10 +129,13 @@ const chartData = computed(() => {
     return {
       ...distribution,
       formattedTime: formatTime(distribution.time),
-      applications: distribution.Applications?.map((app) => ({
-        ...app,
-        formattedTime: formatTime(app.time),
-      })),
+      applications: distribution.Applications?.map((app) => {
+        const a = app as { title?: string; time?: string; Name?: string; Seconds?: number; Cost?: string; AllocationId?: string };
+        return {
+          ...a,
+          formattedTime: formatTime(a.time),
+        };
+      }),
       chart: transformDataToChartFormat(distribution.Chart ?? []),
     };
   });
