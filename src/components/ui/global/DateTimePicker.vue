@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col" :class="[hideError && !label ? '' : 'gap-2']">
-    <label v-if="label" :for="id" :class="{ 'text-red-500': !!errorMessage }">{{ label }}</label>
+    <label v-if="label" :for="fieldId" :class="{ 'text-red-500': !!errorMessage }">{{ label }}</label>
     <div class="flex items-center gap-1">
       <Button v-if="showPrevNextButtons" type="button" icon="pi pi-angle-left" @click="handleWeek(EWeek.PREV)" />
       <DatePicker
-        :id="id"
+        :id="fieldId"
         v-model="value"
         :data-error="!!errorMessage"
         :data-valid="isValid"
@@ -29,7 +29,7 @@
       </DatePicker>
       <Button v-if="showPrevNextButtons" type="button" icon="pi pi-angle-right" @click="handleWeek(EWeek.NEXT)" />
   </div>
-    <small v-if="errorMessage" :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
+    <small v-if="errorMessage" :id="`${fieldId}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
   </div>
 </template>
 
@@ -46,7 +46,7 @@ import { type MessageSchema } from '@/plugins/i18n';
 import type { DatePickerProps } from 'primevue/datepicker';
 
 interface IProps {
-  id: string;
+  id?: string;
   name: string;
   label?: string;
   placeholder?: string;
@@ -80,6 +80,8 @@ const props = withDefaults(defineProps<IProps>(), {
   showPrevNextButtons: false,
   hideError: false,
 });
+
+const fieldId = computed(() => props.id ?? props.name);
 
 const emit = defineEmits<IEmits>();
 

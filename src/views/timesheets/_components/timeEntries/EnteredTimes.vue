@@ -233,9 +233,11 @@ const toggleRanges = (entryId: string) => {
 const formatDateLabel = (dateStr?: string): string => {
   if (!dateStr) return '';
 
-  const date = dayjs(dateStr, 'DD.MM.YYYY');
-  const today = dayjs();
-  const yesterday = dayjs().subtract(1, 'day');
+  const tz = profileStore.TimeZone || dayjs.tz.guess();
+  const date = dayjs.utc(dateStr).tz(tz);
+  if (!date.isValid()) return '';
+  const today = dayjs().tz(tz);
+  const yesterday = today.subtract(1, 'day');
 
   if (date.isSame(today, 'day')) {
     return t('common.dates.today');

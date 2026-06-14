@@ -32,7 +32,7 @@
             <div class="flex-1 pb-6">
               <div class="flex items-center gap-2 mb-4">
                 <span class="text-lg font-bold text-content-primary">{{ field.value.RecordTime }}</span>
-                <span class="text-sm text-content-tertiary">{{ field.value.RecordDate }}</span>
+                <span class="text-sm text-content-tertiary">{{ formatRecordDate(field.value.RecordDate) }}</span>
               </div>
 
               <!-- Clock Cards -->
@@ -64,10 +64,17 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import { useFieldArray, useForm } from 'vee-validate';
 import { array, boolean, object } from 'yup';
 
+import { useProfileStore } from '@/stores/profile/profile';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 import UnclassifiedClockCard from '@/views/timesheets/_components/unclassified/UnclassifiedClockCard.vue';
 import UnclassifiedEmptyState from '@/views/timesheets/_components/unclassified/UnclassifiedEmptyState.vue';
 import UnclassifiedLoadingState from '@/views/timesheets/_components/unclassified/UnclassifiedLoadingState.vue';
@@ -88,7 +95,15 @@ interface FormTimeClockGroup extends Omit<TimeClockGroupViewModel, 'Clocks'> {
 }
 
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
+const profileStore = useProfileStore();
 const { formatSpendTime } = useUnclassifiedDomainHelpers();
+
+const formatRecordDate = (iso?: string): string => {
+  if (!iso) return '';
+  const tz = profileStore.TimeZone || dayjs.tz.guess();
+  const d = dayjs.utc(iso).tz(tz);
+  return d.isValid() ? d.format('DD.MM.YYYY') : '';
+};
 
 const validationSchema = object({
   selectAll: boolean().nullable(),

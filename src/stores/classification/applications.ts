@@ -49,7 +49,7 @@ export const useClassificationApplicationsStore = defineStore(
     state: (): State => ({
       list: [],
       totalItems: 0,
-      loading: false,
+      loading: true,
       lastQuery: null,
     }),
     getters: {

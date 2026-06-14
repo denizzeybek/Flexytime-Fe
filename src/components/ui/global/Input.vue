@@ -1,11 +1,11 @@
 <template>
   <div v-click-outside="handleOutsideClick" class="flex flex-col" :class="[hideError && !label ? '' : 'gap-2']">
-    <label v-if="label" :for="id" :class="{ 'text-red-500': !!errorMessage }">{{ label }}</label>
+    <label v-if="label" :for="fieldId" :class="{ 'text-red-500': !!errorMessage }">{{ label }}</label>
     <div class="relative">
       <component :is="icon ? IconField : 'div'">
         <InputIcon v-if="icon" :class="[icon, errorMessage ? '!text-red-400' : '']" />
         <InputText
-          :id="id"
+          :id="fieldId"
           v-model="model"
           :data-error="!!errorMessage"
           :data-valid="isValid"
@@ -53,7 +53,7 @@
       </div>
       </ul>
     </div>
-    <small v-if="!hideError" :id="`${id}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
+    <small v-if="!hideError" :id="`${fieldId}-help`" class="p-error text-red-500">{{ errorMessage }}</small>
   </div>
 </template>
 
@@ -70,7 +70,7 @@ import { type MessageSchema } from '@/plugins/i18n';
 import type { InputTextProps } from 'primevue/inputtext';
 
 interface IProps {
-  id: string;
+  id?: string;
   name: string;
   label?: string;
   placeholder?: string;
@@ -101,6 +101,8 @@ const props = withDefaults(defineProps<IProps>(), {
   unstyled: false,
   hideError: false,
 });
+
+const fieldId = computed(() => props.id ?? props.name);
 
 const emit = defineEmits<IEmits>();
 
