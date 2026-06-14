@@ -60,8 +60,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: ERouteNames.WorktimeUsage,
           name: ERouteNames.WorktimeUsage,
-          // No role requirement - all authenticated users can access
-          // Component-level auth controls what features they see inside
+
         },
       },
       {
@@ -442,13 +441,6 @@ const routes: RouteRecordRaw[] = [
     },
   },
 
-  /**
-   * Public invitation welcome page — the URL we email to a new employee.
-   * `requiresUnAuth: false` so this path is reachable in any session
-   * state (an admin checking the link from their own browser sees the
-   * welcome page, not their dashboard). The component itself validates
-   * the `token` query param against `/webapi/invite/:id`.
-   */
   {
     path: '/invite/:id',
     name: ERouteNames.InviteAccept,
@@ -469,8 +461,6 @@ const routes: RouteRecordRaw[] = [
     },
   },
 
-  // { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound },
-  // { path: '/:pathMatch(.*)', name: 'bad-not-found', component: NotFound }
 ];
 
 export default routes;

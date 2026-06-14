@@ -58,13 +58,6 @@ defineOptions({ inheritAttrs: false });
 
 dayjs.extend(isoWeek);
 
-/**
- * Wire shape: range mode emits `{ start, end }` (both Dates); single mode
- * emits a single `Date`. The component keeps an internal `Date[]` /
- * `Date` shape so PrimeVue's DatePicker stays untouched, and translates
- * at the prop/emit boundary. Presets always set both Start and End even
- * in single mode (where Start === End).
- */
 export interface DateRange {
   start: Date | null;
   end: Date | null;
@@ -90,11 +83,6 @@ const resolvedPlaceholder = computed(
   () => props.placeholder || t('components.dateRangePicker.placeholder'),
 );
 
-/**
- * Convert the outward-facing `DateRange | Date` model into the shape
- * PrimeVue's DatePicker expects (`Date[]` for range, single `Date` for
- * single). Null start/end stays null so the picker shows its placeholder.
- */
 const internalValue = computed<Date[] | Date | null>(() => {
   if (props.mode === 'single') {
     return (props.modelValue as Date | null) ?? null;
@@ -126,11 +114,6 @@ interface Preset {
   resolve: () => { start: Date; end: Date };
 }
 
-/**
- * Anchor presets on `dayjs()` so DST + month-end logic comes for free.
- * Week starts on Monday (locale-agnostic; matches the EU/TR convention
- * the rest of the worktime UI already uses).
- */
 const presets = computed<Preset[]>(() => {
   const now = dayjs();
   return [
@@ -198,7 +181,7 @@ const applyPreset = (preset: Preset) => {
 watch(
   () => props.modelValue,
   () => {
-    /* user typed a custom date → clear active preset highlight */
+
     if (activePresetId.value !== null) activePresetId.value = null;
   },
   { deep: true },

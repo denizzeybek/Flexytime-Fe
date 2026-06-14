@@ -25,7 +25,7 @@ i18n.global.setLocaleMessage(locale, en)
 export const setI18nLanguage = async (locale: Language) => {
   changeDayjsLocale(locale)
   await loadLocaleMessages(locale)
-  // In non-legacy mode, locale is a WritableComputedRef<string>
+
   ;(i18n.global.locale as WritableComputedRef<Language>).value = locale
   axios.defaults.headers.common['Accept-Language'] = locale
   document.querySelector('html')!.setAttribute('lang', locale)

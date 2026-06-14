@@ -18,7 +18,7 @@ import { useI18n } from 'vue-i18n';
 import { type MessageSchema } from '@/plugins/i18n';
 
 interface IProps {
-  /** When true, the placeholder reminds the operator that blank = keep the existing hash. */
+
   isEdit?: boolean;
 }
 

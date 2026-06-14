@@ -5,15 +5,6 @@ import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { PerformAllocationModifyDto } from '@/client';
 
-/**
- * v2 `AllocationViewModel` shape returned by `category/allocations` (list +
- * query) and `category/allocation` (single). Like `WebAddressViewModel`,
- * the RESHAPED-v2 contract dropped the legacy presentational fields
- * (`DomainDisplay`, `TopicName`, `IsWork/IsMeeting/IsLeisure`, `Timeout`).
- * The "host" field here is purely cosmetic for executable allocations
- * (the Query the BE classifies on); FE keeps it under `HostName` so the
- * Applications table doesn't have to change its column key.
- */
 export interface ApplicationViewModel {
   ID: string;
   HostName: string;

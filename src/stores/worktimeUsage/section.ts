@@ -1,14 +1,4 @@
-/**
- * Legacy `useSectionsStore` retained as a thin v2 shim.
- *
- * The legacy store was a verbatim mirror of `ClockSection2Response` /
- * `EmployeeClockViewModel` (Card / Breadcrumb / Teamset / Model / etc.). v2's
- * RESHAPED contracts dropped those wrappers; the canonical worktime store is
- * now `useWorktimeStore` (worktimeStore.ts), and most call sites should move
- * to it. We keep this shim so the few remaining consumers — currently a couple
- * of layout-level Cards — keep compiling while the worktime UI is refactored
- * tab-by-tab.
- */
+
 
 import { defineStore } from 'pinia';
 

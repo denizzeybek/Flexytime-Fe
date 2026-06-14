@@ -1,7 +1,4 @@
-/**
- * Composable for time formatting in worktime usage views
- * Provides consistent time formatting across all worktime components
- */
+
 
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -19,11 +16,6 @@ export const useTimeFormat = () => {
     seconds: t('common.time.seconds'),
   }));
 
-  /**
-   * Format duration time string (e.g., "109.23:27" -> "109d 23h 27m")
-   * For work/leisure/meeting durations
-   * If the value is already formatted (e.g., "0 ₺", "50%"), return as-is
-   */
   const formatDuration = (time: string | undefined): string => {
     if (!time || time === '-') return '-';
 
@@ -34,10 +26,6 @@ export const useTimeFormat = () => {
     return formatTimeString(time, timeUnits.value);
   };
 
-  /**
-   * Format short time string (e.g., "08:05" -> "8h 5m")
-   * For start/end times
-   */
   const formatTime = (time: string | undefined): string => {
     if (!time || time === '-') return '-';
     return formatShortTime(time, timeUnits.value);

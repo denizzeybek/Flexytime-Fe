@@ -94,12 +94,6 @@ const nodeData = computed(() => props.data as IOrganizationNodeData);
 const hasMember = computed(() => !!nodeData.value?.memberName);
 const primaryText = computed(() => nodeData.value?.memberName || nodeData.value?.label || '—');
 
-/**
- * Inject the page-level action handlers (parity with v1's
- * OrganizationTreeItem.vue pattern). Each callback takes the API node
- * ID — the page-level reducer (OrganizationChartV2.vue) looks the node
- * up in `apiTreeData` and opens the right dialog with the right state.
- */
 const onEdit = inject<(id: string) => void>('onEdit');
 const onDelete = inject<(id: string) => void>('onDelete');
 const onAddChild = inject<(id: string) => void>('onAddChild');

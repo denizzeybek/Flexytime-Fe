@@ -1,13 +1,4 @@
-/**
- * Public invite-flow client. Talks to the un-guarded
- * `POST/GET /webapi/invite/...` endpoints the welcome page uses.
- *
- * Not generated from OpenAPI because the codegen runs in interceptor-aware
- * mode (auth header, refresh on 401, etc.) and the InviteAccept page is
- * intentionally pre-auth — calling those wrappers would either attach a
- * stale Bearer token or yank the user to /login on 404. A tiny `fetch`
- * client keeps the public path strictly public.
- */
+
 import { OpenAPI } from '@/client/core/OpenAPI';
 
 export interface InviteLookup {

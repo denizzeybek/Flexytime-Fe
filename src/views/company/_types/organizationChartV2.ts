@@ -1,9 +1,6 @@
 import type { OrganizationNodeViewModel } from '@/client';
 import type { Edge, Node } from '@vue-flow/core';
 
-/**
- * Custom node data for organization chart
- */
 export interface IOrganizationNodeData {
   label: string;
   abbreviation?: string;
@@ -11,27 +8,15 @@ export interface IOrganizationNodeData {
   titleName?: string;
 }
 
-/**
- * Vue Flow Node type for organization chart
- */
 export type OrganizationFlowNode = Node<IOrganizationNodeData>;
 
-/**
- * Vue Flow Edge type for organization chart
- */
 export type OrganizationFlowEdge = Edge;
 
-/**
- * Layout configuration
- */
 const NODE_WIDTH = 160;
 const NODE_HEIGHT = 100;
 const HORIZONTAL_SPACING = 40;
 const VERTICAL_SPACING = 80;
 
-/**
- * Calculate positions for nodes in a tree layout
- */
 const calculateNodePositions = (
   nodes: OrganizationNodeViewModel[],
   parentX: number,
@@ -73,9 +58,6 @@ const calculateNodePositions = (
   return totalWidth;
 };
 
-/**
- * Convert API nodes to Vue Flow nodes and edges
- */
 export const convertToFlowElements = (
   apiNodes: OrganizationNodeViewModel[],
 ): { nodes: OrganizationFlowNode[]; edges: OrganizationFlowEdge[] } => {

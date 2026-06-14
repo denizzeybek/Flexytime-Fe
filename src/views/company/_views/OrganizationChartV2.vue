@@ -121,18 +121,6 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const { showErrorMessage } = useFToast();
 const store = useCompanyOrganizationChartsStore();
 
-/**
- * Two parallel sources of truth:
- *   apiTreeData — the raw `OrganizationNodeViewModel[]` tree. Mutations
- *                  (add / edit / delete) happen here and `autoSave` POSTs
- *                  this to `/webapi/company/organization/save`.
- *   nodes / edges — the flattened Vue Flow render. Recomputed via
- *                    `convertToFlowElements(apiTreeData)` after each
- *                    mutation so the canvas re-layouts.
- *
- * The page mirrors the v1 `OrganizationChart.vue` mutation pattern but
- * skips the `OrganizationTreeNode` shape (Vue Flow doesn't need it).
- */
 const isLoading = ref(false);
 const isSaving = ref(false);
 const apiTreeData = ref<OrganizationNodeViewModel[]>([]);
@@ -177,11 +165,6 @@ const removeNodeById = (
     }));
 };
 
-/**
- * Update by ID — preserve `children` because NodeEditDialog only edits
- * the displayed fields, not the subtree; without this guard, editing a
- * parent would drop its descendants.
- */
 const updateNodeById = (
   tree: OrganizationNodeViewModel[],
   id: string,
@@ -217,14 +200,6 @@ const addChildToNode = (
 const generateTempId = (): string =>
   `temp_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 
-/**
- * Node action handlers — exposed to the custom node component via
- * `provide` so the on-hover overlay buttons can reach back into the
- * page's dialog state. Mirrors the v1 `OrganizationTreeItem.vue` ↔
- * `OrganizationChart.vue` injection pattern, but the callback takes a
- * Vue Flow node id (which is the API ID we minted in
- * `convertToFlowElements`) rather than the raw OrganizationTreeNode.
- */
 provide('onEdit', (id: string) => {
   const node = findNodeById(apiTreeData.value, id);
   if (!node) return;
@@ -265,13 +240,6 @@ const handleAddRootNode = () => {
   showEditDialog.value = true;
 };
 
-/**
- * Strip the local-only `temp_*` ids the FE mints for unsaved nodes
- * before posting. BE is defensive too (helpers.ts:upsertTeam matches
- * the prefix), but a clean payload makes the wire shape obviously
- * "this is a new node" and the BE doesn't have to reason about an id
- * it cannot use.
- */
 const stripTempIds = (
   tree: OrganizationNodeViewModel[],
 ): OrganizationNodeViewModel[] =>
@@ -285,11 +253,7 @@ const autoSave = async () => {
   try {
     isSaving.value = true;
     await store.save({ Nodes: stripTempIds(apiTreeData.value) });
-    /* Re-sync with the BE so temp ids in `apiTreeData` are replaced
-       with the persisted ObjectIds the BE just minted. Without this
-       a subsequent edit/delete of the same just-added node would post
-       the temp id again and create a duplicate row instead of editing
-       the already-persisted one. */
+
     await store.filter();
     apiTreeData.value = store.list ?? [];
     refreshFlow();

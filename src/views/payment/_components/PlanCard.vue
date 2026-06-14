@@ -64,7 +64,7 @@
       <Button
         :label="selected ? t('pages.payment.selected') : t('pages.payment.selectPlan')"
         class="mt-8 w-full"
-        
+
         :outlined="!selected"
       />
     </div>

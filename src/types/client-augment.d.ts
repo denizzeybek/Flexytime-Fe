@@ -1,18 +1,4 @@
-/**
- * Augments `@/client` with the legacy *ViewModel types that the BE still ships
- * as `export interface` in `libs/contracts/src/**` and that the OpenAPI plugin
- * therefore strips from swagger (interfaces are erased; the codegen only emits
- * DTO **classes**). Memory: `feedback_be-contract-reshape-intentional` —
- * during the RESHAPED-v2 migration this drift is intentional and the FE
- * consumes raw runtime shapes.
- *
- * Until the BE rolls each shape to a class (Rule 19, BE rule), keep adding
- * the missing names here as permissive index signatures. **Do not** turn this
- * file into hand-typed mirrors of the BE contract — that's exactly the
- * hand-edit trap Rule 19 (`feedback_no-manual-client-edits`) exists to avoid.
- * Once a shape is class-ified on BE and `yarn gcl` lights it up under
- * `src/client/models/`, drop its entry here.
- */
+
 declare module '@/client' {
   interface LegacyViewModel {
     // reason: legacy *ViewModel shapes are intentionally permissive while BE class-ification + `yarn gcl` are pending (Rule 19 BE / state-services.md Regeneration).

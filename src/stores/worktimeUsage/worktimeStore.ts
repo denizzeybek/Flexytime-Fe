@@ -1,25 +1,4 @@
-/**
- * Worktime Usage Pinia Store — v2 BE shapes.
- *
- * The legacy `ClockSection2Response.Sections[]` / `Model.Allocations[]` / per-
- * domain `Summary[]` array layouts are gone. v2 returns the clean RESHAPED-v2
- * contracts directly (see docs/worktime-redesign.md):
- *
- *   /clock/section   → ClockSectionResponse   { Summary, Distribution[],
- *                                                WellBeings[], ProductivityGraph[],
- *                                                WellBeingGraph[], Teams[],
- *                                                Individuals[], Company }
- *
- *   /clock/employee  → ClockEmployeeResponse  { Employee, Summary, Distribution[],
- *                                                WellBeings[], ProductivityGraph[],
- *                                                Manuals[], WebClocks[],
- *                                                HasRefreshScheduled, Alerts }
- *
- * This store exposes the v2 responses verbatim and only carries a tiny adapter
- * layer for the legacy tab components that still expect an `IEmployeeResponse`
- * (Card / Breadcrumb / per-domain Summary[] / Distributions[] etc.). The next
- * FE pass should retire `IEmployeeResponse` and consume the v2 shape directly.
- */
+
 
 import { defineStore } from 'pinia';
 
@@ -66,12 +45,6 @@ interface State {
   lastEmployeeRequest: ClockEmployeeRequestDto | null;
 }
 
-/**
- * The team / individual rows the legacy tables expect — one stat-cell per
- * domain with `time` strings (seconds-formatted). v2 returns a single
- * `Summary` object per row instead; we widen back into the field shape the
- * existing column markup reads.
- */
 interface LegacyStatCell {
   time: string;
 }
@@ -105,12 +78,6 @@ function perspectiveCellFor(
   };
 }
 
-/**
- * Format seconds-since-midnight as `HH:mm` clock time (e.g. 30600 → "08:30").
- * Used for Start/End columns and badges, which carry a wall-clock instant
- * for the day rather than a duration. Returns "-" for null/zero/invalid so
- * the table cell stays readable when the shift bound is unknown.
- */
 function secondsToClockTime(seconds: number | null | undefined): string {
   if (seconds == null || !Number.isFinite(seconds) || seconds <= 0) return '-';
   const total = Math.round(seconds);
@@ -123,12 +90,6 @@ function clockTimeCell(seconds: number | null | undefined): LegacyStatCell {
   return { time: secondsToClockTime(seconds) };
 }
 
-/**
- * v2 `Summary` is a single object with the four per-domain seconds; the legacy
- * tab UI iterates an `ISummary[]` keyed by `statisticType`. We expand the
- * v2 object back into the legacy array shape so the existing tab markup keeps
- * rendering until it gets refactored.
- */
 type SummaryLike = {
   Work?: number;
   Meeting?: number;
@@ -175,14 +136,6 @@ function summaryObjectToArray(
   ];
 }
 
-/**
- * v2 `Distribution[]` ships `{Domain, Seconds, Applications: [{Name, Seconds}]}`.
- * The legacy `IDistribution` shape carried a `Chart[]` array the doughnut
- * fed off ({ label, value } pairs). Build it from `Applications` so each
- * domain card shows a per-app pie of the time spent within that domain —
- * matches what the v1 chart did. Dropping zero-Seconds apps so a 12-app
- * list with one real entry doesn't render a sea of identical empty slices.
- */
 function distributionsToLegacy(
   distribution: ClockDistribution[],
   perspective: string | undefined,
@@ -221,13 +174,6 @@ function distributionsToLegacy(
   }) as unknown as IDistribution[];
 }
 
-/**
- * v2 ships `ProductivityGraph: [{Date, Work, Meeting, Leisure, Unclassified}]`
- * — raw seconds per day per domain. The legacy chart consumed a stacked-bar
- * dataset shape (`Summary.labels[]` = days, `Summary.datasets[]` = one per
- * domain). Convert seconds → hours (so the y-axis stays readable for week+
- * windows) and stack work/meeting/leisure/unclassified.
- */
 function buildProductivityGraph(
   days: Array<{ Date?: string; Work?: number; Meeting?: number; Leisure?: number; Unclassified?: number }>,
 ): IGraph {
@@ -244,15 +190,6 @@ function buildProductivityGraph(
   return { Summary: { labels, datasets, Unit: 'h' } } as IGraph;
 }
 
-/**
- * `WellBeingGraph` on the section response is one per-type per-day series
- * (legacy `Model.WellBeingGraphs[]`). Build the card shape — one chart per
- * type with `{Name, Color, Icon, Graph: {labels, datasets, Unit}}` — so the
- * Show-Graph toggle on the Wellbeing tab can render directly. Color defaults
- * to yellow because the section-level series doesn't carry a `Level` (the
- * org-wide severity flag lives on `WellBeings[]`); a future enhancement
- * could join them.
- */
 export interface IWellBeingGraph {
   Type: string;
   Name: string;
@@ -284,13 +221,6 @@ function buildWellBeingGraphs(
   });
 }
 
-/**
- * v2 `ClockEmployeeWellBeing` is the raw `{Type, Notification, Level,
- * Points: [{Date, Value}]}`. The legacy card markup wants
- * `{Name, Color, Icon, Description, Suggestion, Graph: ClockGraph}`.
- * Derive everything except Description/Suggestion (i18n bundle not ported
- * yet — left empty so the field renders blank rather than fabricated).
- */
 const WELLBEING_LEVEL_COLOR: Record<number, 'red' | 'yellow' | 'green'> = {
   0: 'red',
   1: 'yellow',
@@ -373,19 +303,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     getSectionData: (state): ClockSectionResponse | null => state.sectionData,
     getEmployeeData: (state): IEmployeeResponse | null => state.employeeData,
 
-    /**
-     * Individuals projected to the legacy `IIndividual` field shape the
-     * EmployeeProductivityTable + EmployeeWellbeingTable read. v2 returns
-     * `Fullname` / `UserId` / `TeamId` / `Availability` / `OnLeave` /
-     * `LeaveType` / `Summary{Work,Meeting,Leisure,Unclassified,StartTime,
-     * EndTime}` directly — the table reads `EmployeeName`, `Start.time`,
-     * `Work.time` etc., so we widen each row.
-     *
-     * Note: this is the FULL roster (all employees, ungrouped by team). The
-     * drill-down (`getIndividualsForTeam`) filters this list by `TeamId` so
-     * the Team→Employees navigation runs entirely client-side — no extra BE
-     * hit, the data is already in `Individuals[]`.
-     */
     getIndividuals: (state) => {
       const teamNameById = new Map(
         (state.sectionData?.Teams ?? []).map((t) => [t.TeamId, t.Name ?? '']),
@@ -413,12 +330,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       }));
     },
 
-    /**
-     * Teams projected to the legacy `ITeam` field shape the
-     * TeamProductivityTable + TeamWellbeingTable read. v2 returns `Name` +
-     * `SupervisorUserId` + the same `Summary` object; we map to `TeamName`,
-     * `SupervisorName` and the four stat cells.
-     */
     getTeams: (state) => {
       const perspective = state.lastSectionRequest?.Perspective;
       const currency = state.sectionData?.Currency ?? 'TRY';
@@ -436,18 +347,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       }));
     },
 
-    /**
-     * Drill-down row 1 — the **Company** aggregate, shaped like a team row so
-     * the same TeamProductivityTable / TeamWellbeingTable markup can render
-     * it. The Company row carries the page-level `Summary` (which IS the
-     * company-wide rollup the BE already returns) and uses the sentinel ID
-     * `__company__` so the click handler can drill back to the root.
-     *
-     * Restored from legacy v1 (SectionWorktime.vue) where the worktime usage
-     * page started at the Company root and the user drilled Company → Team →
-     * Employee. v2 dropped that top-level row when the page was reshaped;
-     * this getter brings it back without any BE change.
-     */
     getCompanyRow: (state) => {
       const data = state.sectionData;
       if (!data) return null;
@@ -467,14 +366,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       };
     },
 
-    /**
-     * Org-tree projection for the productivity TreeTable. Builds a forest from
-     * the flat `Teams[]` (using `ParentTeamId` parent refs — `null` = root) and
-     * attaches each team's direct members as leaf nodes (`nodeType: 'individual'`).
-     * Multi-root supported: every team whose `ParentTeamId` is null becomes a
-     * top-level node. Codegen has not yet surfaced `ParentTeamId`, hence the
-     * structural cast on the raw row read.
-     */
     getTeamTree: (state) => {
       const data = state.sectionData;
       if (!data) return [];
@@ -544,11 +435,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       return (childrenByParent.get(null) ?? []).map(buildNode);
     },
 
-    /**
-     * Legacy-shape adapter views over the v2 ClockSectionResponse so the
-     * existing index.vue + BadgeGroup + DistributionTab markup keeps
-     * rendering. Mirrors what the employee fetch builds inline.
-     */
     sectionSummary: (state): ISummary[] =>
       state.sectionData
         ? summaryObjectToArray(
@@ -570,14 +456,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
     sectionWellBeingGraphs: (state): IWellBeingGraph[] =>
       buildWellBeingGraphs(state.sectionData?.WellBeingGraph ?? []),
 
-    /**
-     * Section-mode Card: at the **root** (no `teamId` in URL) shows the
-     * Company badge; when drilled into a team, shows that team's badge with
-     * the company name as the subtitle. Restoring the legacy v1 worktime
-     * usage badge behaviour where the user always saw "where they are" at a
-     * glance. The avatar's `ImageUrl` stays empty (the BE only gives
-     * names); UserBadge falls back to the abbreviation initials.
-     */
     sectionCard: (state): ICard | null => {
       const companyName = state.sectionData?.Company?.Name ?? '';
       const currentTeamId = state.lastSectionRequest?.TeamId ?? null;
@@ -601,27 +479,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       };
     },
 
-    /**
-     * Section-mode Breadcrumb: at the **root** (no `teamId` filter from the
-     * URL) shows a single Company segment; when drilled into a team it shows
-     * `Company → Team`. PrimeVue's `<PBreadcrumb>` renders the home-icon
-     * segment itself via the `home` prop — we only return the trail under
-     * it. The legacy BE used to ship a server-built BreadCrumb[]; v2 dropped
-     * that, so the FE derives the trail from the Company + Teams blocks +
-     * the URL's `teamId` parameter.
-     *
-     * `lastSectionRequest.TeamId` reflects what was actually fetched, which
-     * matches the URL — that's our single source of truth for "where the
-     * user has drilled to". The `__company__` sentinel ID on the root
-     * segment is what the breadcrumb click handler watches for to navigate
-     * back to the root.
-     */
-    /**
-     * BE is the single source of truth — both /clock/section and /clock/employee
-     * responses ship a fully resolved `Breadcrumb[]` (home + team chain via
-     * PerformTeam.TeamId parent walk + terminal team or employee). The FE only
-     * picks which response to read based on the current view.
-     */
     sectionBreadcrumb: (state): IBreadcrumb[] => {
       return (state.sectionData?.Breadcrumb ?? []) as unknown as IBreadcrumb[];
     },
@@ -638,16 +495,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
   },
 
   actions: {
-    /**
-     * Build Card data from the v2 ClockEmployeeIdentity block returned by
-     * `/clock/employee`. Falls back to the slim ProfileResponseDto fields
-     * (fullname / imageUrl) if the identity block is absent.
-     *
-     * Note: the v2 ProfileResponseDto has no `Employee` sub-object — it
-     * ships `fullname` and `imageUrl` at the top level. The legacy
-     * `GeneralProfile.Employee.*` path is always undefined in v2 and must
-     * NOT be used.
-     */
+
     buildCardFromEmployeeIdentity(identity: { Fullname?: string; Title?: string | null } | null): ICard | null {
       const profileStore = useProfileStore();
       const name = identity?.Fullname || profileStore.GeneralProfile?.fullname || '';
@@ -710,10 +558,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       return crumbs;
     },
 
-    /**
-     * @deprecated Use buildCardFromEmployeeIdentity instead.
-     * Kept so any external callers don't break while transitioning.
-     */
     buildCardFromProfile(): ICard | null {
       return this.buildCardFromEmployeeIdentity(null);
     },
@@ -722,10 +566,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       return this.buildBreadcrumbFromEmployeeIdentity(null);
     },
 
-    /**
-     * Fetch section data. Endpoint: `/clock/section`. v2: response is the
-     * `ClockSectionResponse` directly (no Sections[] wrapper).
-     */
     async fetchSectionData(
       payload: ClockSectionRequestDto,
       force = false,
@@ -758,11 +598,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       }
     },
 
-    /**
-     * Fetch employee data. Endpoint: `/clock/employee`. v2: response is the
-     * flat `ClockEmployeeResponse`. We adapt it to the legacy
-     * `IEmployeeResponse` shape for the existing tab components.
-     */
     async fetchEmployeeData(
       payload: ClockEmployeeRequestDto,
       force = false,
@@ -833,7 +668,6 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       this.error = { section: null, employee: null };
     },
 
-    /** Save web clock domain. Endpoint: `/clock/web/save`. */
     async saveWebClock(payload: WebClockModifyDto) {
       return ClockService.clockControllerSaveWebClock(payload);
     },

@@ -74,20 +74,20 @@ const handleToggleDomain = (webClock: IWebClock, newDomain: number) => {
 
 const getBadgeClass = (type: number): string => {
   const mapping: Record<number, string> = {
-    4: 'bg-green-500',   // Work
-    3: 'bg-orange-500',  // Meeting
-    2: 'bg-red-500',     // Leisure
-    1: 'bg-slate-500',   // Unclassified
+    4: 'bg-green-500',
+    3: 'bg-orange-500',
+    2: 'bg-red-500',
+    1: 'bg-slate-500',
   };
   return mapping[type] || 'bg-blue-500';
 };
 
 const getIconClass = (type: number): string => {
   const mapping: Record<number, string> = {
-    4: 'pi pi-wrench',         // Work
-    3: 'pi pi-crown',          // Meeting
-    2: 'pi pi-calendar-clock', // Leisure
-    1: 'pi pi-question',       // Unclassified
+    4: 'pi pi-wrench',
+    3: 'pi pi-crown',
+    2: 'pi pi-calendar-clock',
+    1: 'pi pi-question',
   };
   return mapping[type] || 'pi pi-question';
 };

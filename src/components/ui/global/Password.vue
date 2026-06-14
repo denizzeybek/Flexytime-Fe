@@ -67,8 +67,7 @@ const { t } = useI18n<{ message: MessageSchema }>();
 const {
   errorMessage: vError,
   value,
-  // handleBlur,
-  // handleChange,
+
 } = useField<string>(() => props.name, undefined, {
   validateOnValueUpdate: false,
   syncVModel: true,

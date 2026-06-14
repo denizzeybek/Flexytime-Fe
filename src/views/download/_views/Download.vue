@@ -135,7 +135,7 @@ const handleDownload = (): void => {
       isCopied.value = true;
       setTimeout(() => { isCopied.value = false; }, 2000);
     } catch {
-      // Download still proceeds even if copy fails
+
     }
   }
   onDownloadButtonClicked(isMacos.value);

@@ -181,7 +181,7 @@ const submitHandler = handleSubmit(async (values) => {
       Password: values.password,
       LanguageCode: languageCode,
       TimezoneName: timezone,
-      // Note: NO Recaptcha - not required in V2
+
     };
 
     await authStore.register(registerPayload);

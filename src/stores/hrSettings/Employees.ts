@@ -27,17 +27,6 @@ interface State {
   loading: boolean;
 }
 
-/**
- * `MemberViewModel.Role` on the wire is a numeric enum (0=Employee /
- * 1=Manager / 2=Administrator — `libs/contracts/src/definition.dto.ts:
- * MemberRole`). The legacy contract additionally shipped a localized
- * `RoleName` string the table column reads; the v2 BE deliberately drops
- * that string (i18n is FE — see CLAUDE.md memory). The store resolves it
- * at the projection edge so every component reads `RoleName` directly.
- *
- * The translation keys already exist for the modal tab labels — reuse
- * them so we don't grow a parallel translation table.
- */
 const ROLE_NAME_BY_VALUE: Record<number, string> = {
   0: 'pages.hrSettings.employees.modal.tab.employee',
   1: 'pages.hrSettings.employees.modal.tab.teamManager',
@@ -58,11 +47,7 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
   }),
   getters: {
     isLoading: (state): boolean => state.loading,
-    /**
-     * Resolve `MemberRole` (numeric) → i18n key. Components call this with
-     * `vue-i18n.t(...)` for the human label. Returns an empty string for
-     * unknown roles so a future enum addition doesn't crash the table.
-     */
+
     roleNameKey: () => (role: number | undefined): string =>
       typeof role === 'number' ? ROLE_NAME_BY_VALUE[role] ?? '' : '',
   },
@@ -91,16 +76,7 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
         this.loading = false;
       }
     },
-    /**
-     * Append a brand-new tag option locally so the Employees modal's tag
-     * MultiSelect can immediately offer + select a typed value before the
-     * member is saved. Tags are a free-form per-tenant taxonomy stored on
-     * `PerformMember.Tags: string[]` — no separate Tag entity, no dedicated
-     * endpoint. The next `filter()` after `save()` reconciles the dictionary
-     * with whatever the BE's distinct-tag aggregate (`Definition.Tags`)
-     * returns. Idempotent + case-insensitive — re-typing an existing tag
-     * just returns the existing option so the caller can select it.
-     */
+
     addPendingTag(name: string): ITagOption {
       const trimmed = name.trim();
       if (!trimmed) {
@@ -114,40 +90,19 @@ export const useHRSettingsEmployeesStore = defineStore(EStoreNames.HR_SETTINGS_E
       this.tags = [...this.tags, option];
       return option;
     },
-    /**
-     * Single-record save (Team Manager / System Admin add, or any edit).
-     * Body is the PascalCase `TheMemberModifyDto` shape the BE service
-     * actually consumes (`MemberName`, `Email`, `Password`, `Role` etc.).
-     * Earlier the modal posted camelCase keys and the BE silently created
-     * malformed records with `undefined` fields — verify the shape here.
-     */
+
     async save(payload: TheMemberModifyDto) {
       await DefinitionService.definitionControllerSaveEmployee(payload);
       await this.filter();
     },
-    /**
-     * Detail fetch keyed by member id. The `employees()` list deliberately
-     * omits `Email` (contract: "Set by the single-member read for the
-     * edit form") to keep the roster payload lean, so opening the edit
-     * modal must round-trip through `/definition/employee` to get a
-     * fully-populated MemberViewModel. Returns the DTO ready to seed the
-     * form; the caller maps to the modal's prop shape.
-     */
+
     async fetchEmployeeDetail(id: string): Promise<TheMemberViewModel | null> {
       const result = await DefinitionService.definitionControllerGetEmployee({ ID: id });
       const envelope = result as unknown as { Status?: number; DTO?: TheMemberViewModel };
       if (envelope?.Status === 0 && envelope.DTO) return envelope.DTO;
       return null;
     },
-    /**
-     * Batch invite path (Add → Employee role). Sends the email list to the
-     * shared invitation endpoint (`/webapi/setting/invitation/save`) — that
-     * mints a Download access key per email and queues the JoinTeam invite
-     * mail. The old code path posted to `definition/employee/save` which
-     * couldn't parse the `{Emails: [...]}` shape and either failed silently
-     * or created garbage. Returns when all emails are queued; refreshes the
-     * list so the pending invitations bubble up in the FE state.
-     */
+
     async inviteEmails(emails: string[], optional?: { TeamId?: string; TitleId?: string }) {
       await SettingService.settingControllerSaveInvitation({
         Emails: emails,

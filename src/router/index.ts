@@ -12,15 +12,11 @@ import { useUsersStore } from '@/stores/users';
 import { ERouteNames } from './routeNames.enum';
 import routes from './routes';
 
-/**
- * Find the first accessible route for the current user based on their roles
- * Used for smart redirect when user doesn't have access to requested route
- */
 const findFirstAccessibleRoute = (): ERouteNames => {
   const { hasAnyRole } = useAuthorization();
 
   const routePriority = [
-    { name: ERouteNames.WorktimeUsage, roles: [] }, // All authenticated users can access
+    { name: ERouteNames.WorktimeUsage, roles: [] },
     { name: ERouteNames.Timesheets, roles: [] },
     { name: ERouteNames.Classification, roles: [] },
     { name: ERouteNames.Company, roles: [] },

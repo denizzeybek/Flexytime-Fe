@@ -220,13 +220,6 @@ const filters = ref({
   Salary: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
-/**
- * Resolve the numeric `Role` field to a localized label. The legacy
- * `RoleName` string the table column used to read is dropped by the v2
- * BE (it was a culture-dependent resource bundle string); FE owns i18n
- * now (CLAUDE.md memory). The store exposes the matching translation key
- * for each enum value; we render the localized string here.
- */
 const resolveRoleName = (role: number | undefined): string => {
   const key = employeesStore.roleNameKey(role);
   return key ? t(key as keyof MessageSchema as never) : '';
@@ -254,24 +247,6 @@ const isEmployeeIncomplete = (employee: TheMemberViewModel): boolean => {
   return !employee.TeamId || !employee.TitleId;
 };
 
-/**
- * Surface pending invitations (Role=0 batch path) in the same DataTable
- * as a synthetic "pending" row. The BE deliberately holds off creating
- * the Customer + PerformMember until the invitee accepts via the public
- * /invite/:id welcome page, so until then they're invisible on the
- * Members[] roster. Projecting Invitations[] → table-shaped rows keeps
- * the operator's mental model consistent: "I just invited them, I see
- * them." Pending rows render with `IsPending: true` so the Status /
- * Actions columns can branch on it.
- */
-/**
- * Numeric sort key the Status column reads when the operator clicks the
- * header. Order is "most-urgent first" ascending so the default sort
- * pushes new invites + incomplete rows to the top:
- *   0 = Invited       (just sent — the operator likely wants to see it)
- *   1 = Incomplete    (real Member but missing Team / Title)
- *   2 = Complete      (fully assigned)
- */
 const statusOrder = (row: TheMemberViewModel & { IsPending?: boolean }): number => {
   if (row.IsPending) return 0;
   if (isEmployeeIncomplete(row)) return 1;
@@ -305,12 +280,6 @@ const pendingCount = computed(() => pendingInvitations.value.length);
 
 const totalCount = computed(() => employeesStore.list.length + pendingCount.value);
 
-/**
- * Project every real Member into the same shape as a pending row so the
- * DataTable can sort on `StatusOrder` regardless of which branch the row
- * came from. We don't mutate `employeesStore.list` itself — Pinia state
- * stays in its server-shape, this is purely a render-time decoration.
- */
 const enrichedRoster = computed(() =>
   employeesStore.list.map((emp) => ({
     ...emp,

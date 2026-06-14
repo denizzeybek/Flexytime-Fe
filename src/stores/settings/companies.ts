@@ -29,35 +29,18 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
   }),
 
   getters: {
-    /**
-     * Get companies list
-     */
+
     getList: (state): CompanyViewModel[] => state.list,
 
-    /**
-     * Get total items count
-     */
     getTotalItems: (state): number => state.totalItems,
 
-    /**
-     * Check if loading
-     */
     isLoading: (state): boolean => state.loading,
 
-    /**
-     * Get error message
-     */
     getError: (state): string | null => state.error,
   },
 
   actions: {
-    /**
-     * Fetch companies list
-     * Endpoint: /webapi/setting/companies
-     *
-     * @param payload - Request payload (optional filters)
-     * @param force - Force refresh even if same request exists
-     */
+
     async filter(): Promise<CompanyViewModel[] | null> {
       try {
         this.loading = true;
@@ -78,12 +61,6 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
       }
     },
 
-    /**
-     * Save (create/update) a company
-     * Endpoint: /webapi/setting/company/save
-     *
-     * @param payload - Company data to save
-     */
     async save(payload: CompanyViewModel): Promise<boolean> {
       try {
         this.loading = true;
@@ -102,12 +79,6 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
       }
     },
 
-    /**
-     * Delete a company
-     * Endpoint: /webapi/setting/company/delete
-     *
-     * @param companyID - Company ID to delete
-     */
     async deleteCompany(companyID: string): Promise<boolean> {
       try {
         this.loading = true;
@@ -126,18 +97,12 @@ export const useSettingsCompaniesStore = defineStore(EStoreNames.SETTINGS_COMPAN
       }
     },
 
-    /**
-     * Clear companies data and cache
-     */
     clearData() {
       this.list = [];
       this.totalItems = 0;
       this.error = null;
     },
 
-    /**
-     * Reset store to initial state
-     */
     resetStore() {
       this.list = [];
       this.totalItems = 0;

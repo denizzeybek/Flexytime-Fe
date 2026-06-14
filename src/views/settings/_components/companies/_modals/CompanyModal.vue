@@ -136,13 +136,6 @@ const submitHandler = handleSubmit(async (values) => {
   handleClose();
 });
 
-/**
- * Compose the legacy summary string "{active}/{cap} kullanıcı {dd.mm.yyyy}"
- * from the v2 structured license fields (ActiveUserCount + UserCount +
- * LicenseExpireDate). BE no longer ships a pre-composed `License` string —
- * the FE composes for display only. Returns an empty string when the
- * company has no valid license blob.
- */
 const formatLicense = (company: CompanyViewModel): string => {
   const active = company.ActiveUserCount ?? 0;
   const cap = company.UserCount ?? 0;

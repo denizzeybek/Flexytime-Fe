@@ -1,7 +1,4 @@
-/**
- * Google OAuth Login Composable
- * Handles Google login flow, callback processing, and role-based redirection
- */
+
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -19,10 +16,6 @@ export const useGoogleLogin = () => {
   const isProcessing = ref(false);
   const errorMessage = ref<string | null>(null);
 
-  /**
-   * Initiate Google OAuth flow
-   * Redirects user to backend Google OAuth endpoint
-   */
   const initiateGoogleLogin = () => {
     const API_URL = import.meta.env.VITE_API_URL;
 
@@ -33,20 +26,13 @@ export const useGoogleLogin = () => {
     const params = new URLSearchParams({
       lang: languageCode,
       zone: timezone,
-      code: '', // Promotion code (empty)
-      page: '', // Redirect page (empty, backend will redirect to /login)
+      code: '',
+      page: '',
     });
 
     window.location.href = `${API_URL}/account/externallogin?${params.toString()}`;
   };
 
-  /**
-   * Handle Google OAuth callback
-   * Processes the callback query parameters and logs in the user
-   *
-   * @param status - Status from query parameter (-1: error, 0: success)
-   * @param key - Key from query parameter (used to get token)
-   */
   const handleGoogleCallback = async (status: string, key: string): Promise<boolean> => {
     isProcessing.value = true;
     errorMessage.value = null;
@@ -78,9 +64,6 @@ export const useGoogleLogin = () => {
     }
   };
 
-  /**
-   * Redirect user after successful login based on their role
-   */
   const redirectAfterLogin = () => {
     if (profileStore.isAdmin) {
       router.push({ name: ERouteNames.SettingsCompanies });

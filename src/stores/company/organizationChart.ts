@@ -33,8 +33,7 @@ export const useCompanyOrganizationChartsStore = defineStore(
       },
       async save(payload: OrganizationDto) {
         await CompanyService.companyControllerSaveOrganization(payload);
-        // Note: Do not call filter() here as it may return stale data
-        // The caller should manage the local state
+
       },
     },
   },

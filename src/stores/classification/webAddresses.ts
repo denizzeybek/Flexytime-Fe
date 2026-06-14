@@ -5,13 +5,6 @@ import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type { WebClockModifyDto } from '@/client';
 
-/**
- * v2 `WebAddressViewModel` shape returned by `category/webaddresses` (list +
- * query) and `category/webaddress` (single). The RESHAPED-v2 contract dropped
- * the legacy presentational fields (`DomainDisplay`, `TopicName`,
- * `IsWork/IsMeeting/IsLeisure`, `Timeout`) — the FE i18n labels + icons now
- * derive from the numeric `Domain` directly via `EDomain` / `getDomainEnum`.
- */
 export interface WebAddressViewModel {
   ID: string;
   HostName: string;
@@ -20,12 +13,6 @@ export interface WebAddressViewModel {
   Domain: number;
 }
 
-/**
- * What the FE table emits when paginating / sorting / searching. Mirrors the
- * legacy `DataTableQueryModel` (lowercase) so the table components don't
- * change; the store maps it to the v2 PascalCase `ClassificationQuery` shape
- * before sending.
- */
 export interface WebAddressesFilterRequest {
   start?: number;
   length?: number;

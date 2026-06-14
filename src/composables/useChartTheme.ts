@@ -2,38 +2,32 @@ import { computed } from 'vue';
 
 import { useTheme } from './useTheme';
 
-/**
- * Composable for Chart.js theme-aware colors
- * Usage:
- * const { chartColors, getChartOptions } = useChartTheme();
- * const options = getChartOptions({ /* custom overrides * / });
- */
 export const useChartTheme = () => {
   const { isDark } = useTheme();
 
   const chartColors = computed(() => ({
-    textColor: isDark.value ? '#fafafa' : '#18181b', // zinc-50 / zinc-900
-    textMuted: isDark.value ? '#a1a1aa' : '#71717a', // zinc-400 / zinc-500
+    textColor: isDark.value ? '#fafafa' : '#18181b',
+    textMuted: isDark.value ? '#a1a1aa' : '#71717a',
 
-    gridColor: isDark.value ? '#3f3f46' : '#e4e4e7', // zinc-700 / zinc-200
-    borderColor: isDark.value ? '#52525b' : '#d4d4d8', // zinc-600 / zinc-300
+    gridColor: isDark.value ? '#3f3f46' : '#e4e4e7',
+    borderColor: isDark.value ? '#52525b' : '#d4d4d8',
 
-    backgroundColor: isDark.value ? '#18181b' : '#ffffff', // zinc-900 / white
-    tooltipBackground: isDark.value ? '#27272a' : '#ffffff', // zinc-800 / white
+    backgroundColor: isDark.value ? '#18181b' : '#ffffff',
+    tooltipBackground: isDark.value ? '#27272a' : '#ffffff',
 
-    primary: isDark.value ? '#a78bfa' : '#7c3aed', // purple-400 / purple-600
+    primary: isDark.value ? '#a78bfa' : '#7c3aed',
     primaryLight: isDark.value ? 'rgba(167, 139, 250, 0.2)' : 'rgba(124, 58, 237, 0.1)',
 
-    success: isDark.value ? '#34d399' : '#10b981', // green-400 / green-500
+    success: isDark.value ? '#34d399' : '#10b981',
     successLight: isDark.value ? 'rgba(52, 211, 153, 0.2)' : 'rgba(16, 185, 129, 0.1)',
 
-    warning: isDark.value ? '#fbbf24' : '#f59e0b', // amber-400 / amber-500
+    warning: isDark.value ? '#fbbf24' : '#f59e0b',
     warningLight: isDark.value ? 'rgba(251, 191, 36, 0.2)' : 'rgba(245, 158, 11, 0.1)',
 
-    danger: isDark.value ? '#f87171' : '#ef4444', // red-400 / red-500
+    danger: isDark.value ? '#f87171' : '#ef4444',
     dangerLight: isDark.value ? 'rgba(248, 113, 113, 0.2)' : 'rgba(239, 68, 68, 0.1)',
 
-    info: isDark.value ? '#38bdf8' : '#0ea5e9', // sky-400 / sky-500
+    info: isDark.value ? '#38bdf8' : '#0ea5e9',
     infoLight: isDark.value ? 'rgba(56, 189, 248, 0.2)' : 'rgba(14, 165, 233, 0.1)',
 
     palette: isDark.value

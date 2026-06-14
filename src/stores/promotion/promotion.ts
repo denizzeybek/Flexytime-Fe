@@ -33,10 +33,7 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
     isLoading: (state): boolean => state.loading,
   },
   actions: {
-    /**
-     * Fetch promotions list (Earned & Promoted)
-     * Endpoint: GET /webapi/promotions
-     */
+
     async filter(): Promise<PromotionListViewModel | null> {
       try {
         this.loading = true;
@@ -58,10 +55,6 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
       }
     },
 
-    /**
-     * Fetch promotion link
-     * Endpoint: GET /webapi/promotion/promote
-     */
     async fetchPromotionLink(): Promise<string | null> {
       try {
         this.loading = true;
@@ -82,10 +75,6 @@ export const usePromotionsStore = defineStore(EStoreNames.PROMOTION, {
       }
     },
 
-    /**
-     * Save promotion (send invitation emails)
-     * Endpoint: POST /webapi/promotion/save
-     */
     async savePromotion(payload: PromotionModifyDto): Promise<boolean> {
       try {
         this.loading = true;

@@ -5,7 +5,6 @@ import { setLocale } from 'yup'
 export const initVeeValidateI18n = () => {
   const { t } = useI18n()
 
-
   const translateField = (path: string): string => {
     const fieldKey = `common.validation.fields.${path.toLowerCase()}`
     const translated = t(fieldKey)

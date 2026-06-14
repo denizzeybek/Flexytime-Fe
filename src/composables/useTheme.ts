@@ -16,9 +16,6 @@ const effectiveTheme = computed(() => {
 
 const isDark = computed(() => effectiveTheme.value === 'dark');
 
-/**
- * Check if View Transitions API is supported and user allows motion
- */
 const supportsViewTransitions = () => {
   return (
     'startViewTransition' in document &&
@@ -26,9 +23,6 @@ const supportsViewTransitions = () => {
   );
 };
 
-/**
- * Apply theme classes to DOM
- */
 let themeTransitionTimer: ReturnType<typeof setTimeout> | null = null;
 
 const getThemeTransitionMs = (): number => {
@@ -56,11 +50,6 @@ const applyThemeClasses = (theme: 'light' | 'dark') => {
   }
 };
 
-/**
- * Apply theme with View Transition API for smooth animation
- * Uses browser's native crossfade (same as PrimeVue website)
- * Falls back to instant change if API not supported
- */
 const applyTheme = (theme: 'light' | 'dark', animate = true) => {
   if (!animate || !supportsViewTransitions()) {
     applyThemeClasses(theme);
@@ -96,9 +85,6 @@ export const useTheme = () => {
     applyTheme(effectiveTheme.value, false);
   };
 
-  /**
-   * Set theme with smooth View Transition animation
-   */
   const setTheme = (theme: Theme) => {
     const previousEffective = effectiveTheme.value;
     currentTheme.value = theme;
@@ -110,9 +96,6 @@ export const useTheme = () => {
     }
   };
 
-  /**
-   * Toggle between light and dark with smooth animation
-   */
   const toggleTheme = () => {
     const newTheme = effectiveTheme.value === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);

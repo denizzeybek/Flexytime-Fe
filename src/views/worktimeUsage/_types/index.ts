@@ -1,7 +1,4 @@
-/**
- * Type Definitions Export Index
- * Central export point for all type definitions
- */
+
 
 export type {
   IBreadcrumb,

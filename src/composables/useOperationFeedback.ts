@@ -5,59 +5,18 @@ import { useFToast } from '@/composables/useFToast';
 import type { Ref } from 'vue';
 
 interface UseOperationFeedbackOptions {
-  /** Show loading state during operation */
+
   showLoading?: boolean;
 }
 
 interface UseOperationFeedbackReturn {
   isLoading: Ref<boolean>;
-  /**
-   * Execute an async operation with automatic success/error feedback.
-   * Loading state is managed automatically with try-finally pattern.
-   *
-   * @param operation - The async function to execute
-   * @param successMessage - Message to show on success (optional - no message if not provided)
-   * @returns The result of the operation
-   * @throws Re-throws the error after showing error message
-   */
+
   executeWithFeedback: <T>(operation: () => Promise<T>, successMessage?: string) => Promise<T>;
-  /**
-   * Execute an async operation with loading state but no automatic feedback.
-   * Use this when you want to handle success/error messages manually.
-   *
-   * @param operation - The async function to execute
-   * @returns The result of the operation
-   */
+
   executeAsync: <T>(operation: () => Promise<T>) => Promise<T>;
 }
 
-/**
- * Composable for managing async operations with automatic feedback.
- * Combines loading state management with success/error toast messages.
- *
- * @example
- * // With automatic feedback
- * const { isLoading, executeWithFeedback } = useOperationFeedback();
- *
- * const saveData = async () => {
- *   await executeWithFeedback(
- *     () => store.save(payload),
- *     t('messages.saved')
- *   );
- * };
- *
- * @example
- * // With loading only (manual feedback)
- * const { isLoading, executeAsync } = useOperationFeedback();
- *
- * const fetchData = async () => {
- *   try {
- *     await executeAsync(() => store.fetch());
- *   } catch (error) {
- *     // Handle error manually
- *   }
- * };
- */
 export const useOperationFeedback = (
   options: UseOperationFeedbackOptions = {},
 ): UseOperationFeedbackReturn => {

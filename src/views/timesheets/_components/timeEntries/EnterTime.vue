@@ -162,30 +162,12 @@ const displayTime = computed(() => {
   return isManualLayout.value ? timeDifference.value || '00:00' : formattedElapsedTime.value;
 });
 
-/**
- * Border tint tracks the active mode — violet for Manual, sky for Timer.
- * Border itself is subtle; the visual weight lives in the multi-layer
- * box-shadow glow below.
- */
 const cardBorderClass = computed(() =>
   isTimerLayout.value
     ? 'border-sky-300/50 dark:border-sky-400/25'
     : 'border-violet-300/50 dark:border-violet-400/25',
 );
 
-/**
- * Multi-color scattered glow around the quick-add card. Composition:
- *
- *   - Mode color (violet for Manual / sky for Timer) drives the left side
- *   - When `isBillable=true`, emerald scatters from the right (two-tone
- *     "Get it now"-style halo); otherwise the mode color spreads from both
- *     sides for a single-tone bloom.
- *   - A close-in inner shadow ties the glow to the card so it doesn't read
- *     as a free-floating halo.
- *
- * `:style` instead of class arbitrary values so Tailwind's JIT doesn't
- * have to know every combo at build time; the strings concatenate cleanly.
- */
 const cardShadow = computed(() => {
   const modeRgb = isTimerLayout.value ? '14, 165, 233' : '139, 92, 246';
   const billableRgb = '16, 185, 129';

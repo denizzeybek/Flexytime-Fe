@@ -13,32 +13,5 @@ export const languageOptions: ILanguageOption[] = [
     label: 'Türkçe',
     value: 'tr'
   }
-  // {
-  //   label: 'Deutsch',
-  //   value: 'de'
-  // },
-  // {
-  //   label: 'Español',
-  //   value: 'es'
-  // },
-  // {
-  //   label: 'Français',
-  //   value: 'fr'
-  // },
-  // {
-  //   label: 'Italiano',
-  //   value: 'it'
-  // },
-  // {
-  //   label: 'Polski',
-  //   value: 'pl'
-  // },
-  // {
-  //   label: 'Greek',
-  //   value: 'el'
-  // },
-  // {
-  //   label: 'Ukrainian',
-  //   value: 'uk'
-  // }
+
 ]

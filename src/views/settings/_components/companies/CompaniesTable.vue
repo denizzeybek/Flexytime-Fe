@@ -145,13 +145,6 @@ const filters = ref({
   LicenseExpireDate: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
-/**
- * Display the v2 license as the legacy summary string. BE now ships
- * `ActiveUserCount` / `UserCount` / `LicenseExpireDate` as raw fields so
- * the network response is self-explanatory; this composer matches the
- * legacy "{active}/{cap} kullanıcı {expire:dd.MM.yyyy}" the operations
- * team is used to reading.
- */
 const formatLicense = (row: CompanyViewModel): string => {
   const active = row.ActiveUserCount ?? 0;
   const cap = row.UserCount ?? 0;

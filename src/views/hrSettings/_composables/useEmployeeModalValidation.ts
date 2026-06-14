@@ -42,14 +42,6 @@ export const useEmployeeModalValidation = (propsData: TheMemberViewModel | undef
     ),
   );
 
-  /**
-   * Password is required on CREATE but optional on EDIT. The BE save
-   * helper (`definition-employee.helpers.ts:buildUserUpdate`) only
-   * re-hashes `body.Password` when present, so leaving the field blank
-   * on edit keeps the existing hash. Forcing the admin to retype the
-   * password every edit was UX friction that didn't match the BE
-   * contract.
-   */
   const passwordRule = () =>
     string()
       .min(6, minMsg(t('pages.hrSettings.employees.modal.password.label'), 6))

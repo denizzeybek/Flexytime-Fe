@@ -49,7 +49,6 @@ import { flexyPreset } from './flexytheme';
 
 import 'primeicons/primeicons.css';
 
-
 export default {
   install(app: App) {
     app.use(PrimeVue, {

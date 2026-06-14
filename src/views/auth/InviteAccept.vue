@@ -138,17 +138,6 @@ import AuthLayout from '@/layouts/auth/AuthLayout.vue';
 import { ERouteNames } from '@/router/routeNames.enum';
 import { acceptInvite, type InviteLookup,lookupInvite } from '@/services/invite';
 
-/**
- * Phases of the welcome page:
- *   - `loading`: GET /invite/:id?token=… in flight
- *   - `invalid`: token missing / expired / cross-tenant → 404
- *   - `welcome`: form is mounted; new employee picks Fullname + password
- *   - `done`: invitation accepted; agent-installer buttons shown
- *
- * The page is publicly reachable (no auth guard), so we cannot reach any
- * authenticated stores from here. The `invite` service hits two BE routes
- * that are themselves public.
- */
 type Phase = 'loading' | 'invalid' | 'welcome' | 'done';
 
 const MAC_DOWNLOAD = 'https://download.flexytime.com/flexyagent-mac.dmg';

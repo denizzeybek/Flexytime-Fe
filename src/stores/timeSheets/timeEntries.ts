@@ -2,13 +2,6 @@ import { defineStore } from 'pinia';
 
 import dayjs from 'dayjs';
 
-/**
- * Calendar-date payload helper — collapses any Date instance to the
- * UTC-midnight ISO 8601 string `TimeEntryQueryDto.StartDate/EndDate`
- * expects (Rule 13 calendar-date bucket, `feedback_iso-date-wire-format`).
- * `Date#toISOString()` would emit the local wall-clock as UTC and silently
- * shift the bucket — truncate to the calendar day explicitly via Date.UTC.
- */
 function toUtcMidnightIso(d: Date): string {
   return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())).toISOString();
 }
@@ -30,12 +23,7 @@ interface State {
   tasks: TimeTaskViewModel[];
   projects: TimeProjectViewModel[];
   tags: TimeTagViewModel[];
-  /**
-   * Tracks the last range used by `fetchTimeEntriesRange` /
-   * `fetchTimeClocksRange` so post-save hooks (EnterTime submit) can
-   * refresh the currently visible window instead of falling back to
-   * today-only. `null` when the page hasn't fetched yet.
-   */
+
   lastEntriesRange: { start: Date; end: Date } | null;
   lastClocksRange: { start: Date; end: Date; hours: number } | null;
   loading: boolean;
@@ -71,13 +59,7 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
   },
 
   actions: {
-    /**
-     * Range fetch for the redesigned Time Entries page. Single round-trip
-     * since the BE was reshaped (RESHAPED-v2, ISO 8601 calendar range — see
-     * `feedback_iso-date-wire-format`); BE returns groups already DESC-ordered
-     * by RecordDate so the FE shows the most recent day (typically today)
-     * first.
-     */
+
     async fetchTimeEntriesRange(startDate: Date, endDate: Date): Promise<TimeEntryGroupViewModel[]> {
       try {
         this.loading = true;
@@ -97,7 +79,6 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       }
     },
 
-    /** Mirror of {@link fetchTimeEntriesRange} for the Unclassified clocks tab. */
     async fetchTimeClocksRange(
       startDate: Date,
       endDate: Date,
@@ -122,12 +103,6 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       }
     },
 
-    /**
-     * Re-run the last range fetch. Used by EnterTime.vue after a successful
-     * save so the entries list reflects the newly-added entry without
-     * forcing the user to re-pick the range. Falls back to a today fetch
-     * when no range has been recorded (first-load case).
-     */
     async refreshLastEntries(): Promise<void> {
       if (this.lastEntriesRange) {
         await this.fetchTimeEntriesRange(
@@ -139,7 +114,6 @@ export const useTimesheetsTimeEntriesStore = defineStore(EStoreNames.TIMESHEETS_
       const today = dayjs().toDate();
       await this.fetchTimeEntriesRange(today, today);
     },
-
 
     clearTimeClocks() {
       this.timeClocks = [];

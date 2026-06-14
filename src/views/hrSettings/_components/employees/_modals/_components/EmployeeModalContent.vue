@@ -112,16 +112,6 @@ const isSystemAdminRole = computed(() => selectedRole.value?.value === 2);
 
 const tagOptions = computed(() => employeesStore.tags ?? []);
 
-/**
- * Pick the sensible default Title for a new employee given the chosen
- * Role. `seedOrgStructure` on register creates one supervisor title
- * ("Administrator", IsDefault=false) and the first non-supervisor
- * title gets IsDefault=true on first promotion (legacy parity). So
- * for a Team-Manager role we prefer a supervisor title; for everyone
- * else we prefer IsDefault. Falls back to the first item of the
- * filtered list, then the first overall. `undefined` only when the
- * store is empty — guarded above by the awaited fetch on the page.
- */
 const pickDefaultTitle = (roleValue: number): { name: string; value: string } | undefined => {
   const list = titlesStore.list;
   if (list.length === 0) return undefined;
@@ -161,9 +151,6 @@ const getInitialFormData = computed(() => {
     };
   }
 
-  // Add mode — seed Title + Team with the company's defaults so the
-  // FSelect renders a sensible value instead of looking empty (the
-  // page mount awaits both lookups so the stores are hydrated).
   const roleValue = selectedRole.value?.value ?? 0;
   return {
     title: pickDefaultTitle(roleValue),
@@ -171,18 +158,6 @@ const getInitialFormData = computed(() => {
   };
 });
 
-/**
- * Translate the vee-validate form values into the v2 BE save body
- * (PascalCase keys — `TheMemberModifyDto`). The legacy code paths sent
- * lowercase keys and the BE silently created malformed Customer +
- * PerformMember rows (`MemberName=undefined`, `Email=undefined`, …) —
- * fix is to mirror the contract field-for-field.
- *
- * The `salary` form field is a number but the BE stores it as a string
- * (legacy `Salary` was a decimal-as-string for currency precision); cast
- * here so the cell renders nicely and the BE's `$set` doesn't change shape
- * across saves.
- */
 type EmployeeFormValues = {
   memberName?: string;
   email?: string;
@@ -309,24 +284,13 @@ onMounted(() => {
       values: getInitialFormData.value as any,
     });
   } else {
-    // Add mode — seed the form with default Title + Team picks so the
-    // FSelects don't open empty. Page mount on EmployeesList awaits the
-    // titles + teams fetches, so the stores are hydrated here.
+
     resetForm({
       values: getInitialFormData.value as any,
     });
   }
 });
 
-/**
- * When the user changes Role in Add mode, the supervisor-vs-employee
- * title pool flips, so re-seed the Title default for the new role.
- * Use `setFieldValue` instead of `resetForm` so the role field itself
- * (and every other field the operator might have already touched)
- * isn't wiped — resetting the role mid-change would round-trip
- * through the FSelect's `syncVModel`, push `undefined` back into the
- * parent `selectedRole`, and freeze the dropdown. Skip in Edit mode.
- */
 watch(
   () => selectedRole.value?.value,
   (newRoleValue, oldRoleValue) => {

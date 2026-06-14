@@ -11,7 +11,6 @@
     @click="toggle"
   />
 
-
   <div class="card flex justify-center">
     <Menu ref="menu" :model="items" class="w-40 lg:w-60" :popup="true">
       <template #item="{ item, props }">
@@ -47,7 +46,6 @@ const { userName, userTitle } = useProfile();
 const router = useRouter();
 
 const menu = ref();
-
 
 const items = computed(() => [
   {

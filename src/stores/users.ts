@@ -30,4 +30,3 @@ export const useUsersStore = defineStore(EStoreNames.COMMON_USERS, {
     },
   },
 });
-  

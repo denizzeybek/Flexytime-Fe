@@ -315,11 +315,7 @@ const fetchData = async () => {
 };
 
 const handleDownload = () => {
-  // v2: ClockSectionResponse no longer carries a `DownloadKey` (export endpoint
-  // moved out per the redesign — the FE will call a dedicated authorize-key
-  // mint endpoint). Until that's wired the button is a no-op.
-  // const downloadKey = store.sectionData?.DownloadKey;
-  // DownloadService.downloadSection(downloadKey);
+
 };
 
 const handleToggleDomain = async (webClock: IWebClock, newDomain: number) => {

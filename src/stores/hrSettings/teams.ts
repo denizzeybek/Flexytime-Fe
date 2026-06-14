@@ -98,7 +98,7 @@ export const useHRSettingsTeamsStore = defineStore(EStoreNames.HR_SETTINGS_TEAMS
           Salary: currentManager.Salary,
           Email: currentManager.Email,
           Enabled: currentManager.Enabled,
-          Role: 0, // Demote to employee
+          Role: 0,
           Tags: currentManager.Tags,
         });
       }
@@ -109,13 +109,13 @@ export const useHRSettingsTeamsStore = defineStore(EStoreNames.HR_SETTINGS_TEAMS
           await DefinitionService.definitionControllerSaveEmployee({
             ID: newManager.ID,
             MemberName: newManager.MemberName ?? '',
-            TeamId: teamId, // Assign to this team
+            TeamId: teamId,
             TitleId: newManager.TitleId,
             TitleName: newManager.TitleName,
             Salary: newManager.Salary,
             Email: newManager.Email,
             Enabled: newManager.Enabled,
-            Role: 1, // Promote to Team Manager
+            Role: 1,
             Tags: newManager.Tags,
           });
         }

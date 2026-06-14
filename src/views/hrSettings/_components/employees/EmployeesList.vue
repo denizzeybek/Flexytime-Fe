@@ -56,15 +56,6 @@ const fetchEmployees = async () => {
   }
 };
 
-/**
- * Title + Team dropdowns in the Add/Edit Employee modal read from
- * `titlesStore.list` / `teamsStore.list`. Hydrating them here, awaited
- * and in parallel, makes the data deterministically present in Pinia
- * before the modal can possibly open — previously the modal's own
- * `EmployeeRoleSection` fetched concurrently with a fire-and-forget
- * fetch from this page, racing the FSelect's reactive `:options`
- * binding and producing the "Pinia full, dropdown empty" UX bug.
- */
 const fetchModalLookups = async () => {
   const tasks: Array<Promise<unknown>> = [];
   if (titlesStore.list.length === 0) tasks.push(titlesStore.fetchTitles());

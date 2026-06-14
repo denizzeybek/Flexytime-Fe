@@ -1,7 +1,4 @@
-/**
- * Profile Composable
- * Provides user profile information from store
- */
+
 
 import { computed } from 'vue';
 

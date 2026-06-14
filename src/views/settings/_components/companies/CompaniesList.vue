@@ -7,7 +7,7 @@
     />
     <CompanyModal v-if="isModalOpen" v-model:open="isModalOpen" :data="currentCompany" />
   </template>
-  
+
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 
@@ -52,11 +52,10 @@ const fetchCompanies = async () => {
     showErrorMessage(error as Error);
   }
 };
-  
+
   onMounted(() => {
     fetchCompanies();
   });
   </script>
-  
+
   <style scoped></style>
-  

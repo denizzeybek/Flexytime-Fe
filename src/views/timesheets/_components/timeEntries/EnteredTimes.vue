@@ -45,7 +45,7 @@
               :class="isDayExpanded(group.RecordDate) ? 'pi-chevron-down' : 'pi-chevron-right'"
             />
           </button>
-        </div>    
+        </div>
 
         <template v-if="isDayExpanded(group.RecordDate)">
           <NoDataState
@@ -193,10 +193,6 @@ interface ProjectRollup {
   sessions: SessionRow[];
 }
 
-/**
- * Format a UTC ISO instant in the company-canonical timezone (Rule 13 — BE
- * ships UTC instants, FE renders in `me.timezone`).
- */
 const fmtInZone = (iso: string | undefined, pattern: string): string => {
   if (!iso) return '';
   const tz = profileStore.TimeZone || dayjs.tz.guess();
@@ -242,12 +238,6 @@ interface DayGroup {
   }>;
 }
 
-/**
- * Re-pivot a day's entries by Project: each project becomes one card; every
- * range under any entry with that project becomes a "session" row. Sessions
- * carry the originating entry's Task name + Tags so the user sees what work
- * was billed to the project at a glance.
- */
 const projectsForGroup = (group: DayGroup): ProjectRollup[] => {
   const map = new Map<string, ProjectRollup>();
   const entries = group.Entries ?? [];

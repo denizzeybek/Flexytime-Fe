@@ -60,17 +60,6 @@ const { showSuccessMessage, showErrorMessage } = useFToast();
 const titlesStore = useHRSettingsTitlesStore();
 const teamsStore = useHRSettingsTeamsStore();
 
-/**
- * Bind the lists as real `Ref`s up front. Reading
- * `titlesStore.list` inside a `computed` tracks reactively too, but
- * `storeToRefs` makes the dependency unambiguous to the reactivity
- * tracker — important because this section mounts under PrimeVue's
- * `Dialog` (which teleports the subtree), and earlier we hit a hard-
- * to-reproduce "Pinia state has rows but FSelect shows none" bug here.
- * The component now has a single source of truth (the dedicated CRUD
- * stores) and zero in-component fetching — the page-level mount on
- * `EmployeesList.vue` awaits both lookups before the modal can open.
- */
 const { list: titles } = storeToRefs(titlesStore);
 const { list: teams } = storeToRefs(teamsStore);
 

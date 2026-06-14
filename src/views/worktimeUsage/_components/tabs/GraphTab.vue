@@ -120,14 +120,14 @@ const getColorForLabel = (label: string): { bg: string; border: string } => {
   const normalizedLabel = label?.toLowerCase() || '';
 
   const colorMap: Record<string, { bg: string; border: string }> = {
-    work: { bg: 'rgba(34, 197, 94, 0.8)', border: 'rgb(34, 197, 94)' }, // 🟢 Green-500 (success)
-    meeting: { bg: 'rgba(249, 115, 22, 0.8)', border: 'rgb(249, 115, 22)' }, // 🟠 Orange-500 (warn)
-    leisure: { bg: 'rgba(239, 68, 68, 0.8)', border: 'rgb(239, 68, 68)' }, // 🔴 Red-500 (danger)
-    unclassified: { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' }, // ⚪ Slate-500 (secondary)
-    çalışma: { bg: 'rgba(34, 197, 94, 0.8)', border: 'rgb(34, 197, 94)' }, // 🟢 Green-500
-    toplantı: { bg: 'rgba(249, 115, 22, 0.8)', border: 'rgb(249, 115, 22)' }, // 🟠 Orange-500
-    'boş zaman': { bg: 'rgba(239, 68, 68, 0.8)', border: 'rgb(239, 68, 68)' }, // 🔴 Red-500
-    'tasnif dışı': { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' }, // ⚪ Slate-500
+    work: { bg: 'rgba(34, 197, 94, 0.8)', border: 'rgb(34, 197, 94)' },
+    meeting: { bg: 'rgba(249, 115, 22, 0.8)', border: 'rgb(249, 115, 22)' },
+    leisure: { bg: 'rgba(239, 68, 68, 0.8)', border: 'rgb(239, 68, 68)' },
+    unclassified: { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' },
+    çalışma: { bg: 'rgba(34, 197, 94, 0.8)', border: 'rgb(34, 197, 94)' },
+    toplantı: { bg: 'rgba(249, 115, 22, 0.8)', border: 'rgb(249, 115, 22)' },
+    'boş zaman': { bg: 'rgba(239, 68, 68, 0.8)', border: 'rgb(239, 68, 68)' },
+    'tasnif dışı': { bg: 'rgba(100, 116, 139, 0.8)', border: 'rgb(100, 116, 139)' },
   };
 
   if (colorMap[normalizedLabel]) {
