@@ -31,7 +31,6 @@ import { useProfileStore } from '@/stores/profile/profile';
 import type {
   ClockDistribution,
   ClockEmployeeRequestDto,
-  ClockEmployeeResponse,
   ClockSectionRequestDto,
   ClockSectionResponse,
   WebClockModifyDto,
@@ -77,17 +76,7 @@ interface State {
 interface LegacyStatCell {
   time: string;
 }
-function statCell(seconds: number | null | undefined): LegacyStatCell {
-  return { time: secondsToDurationString(seconds) };
-}
 
-/**
- * One-row, one-domain perspective-aware cell. Seconds/Cost are pulled from
- * the BE row, total is the row's own four-domain sum (the denominator for
- * Rate). When perspective is Time / InShift, the result is the same
- * `HH:MM:SS` string `statCell` returns; for Cost it's a localized currency
- * string; for Rate it's a `xx.x%` string.
- */
 interface SummaryRow {
   Work?: number | null;
   Meeting?: number | null;
