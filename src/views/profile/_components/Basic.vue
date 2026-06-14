@@ -137,6 +137,21 @@
             @update:model-value="handleTimezoneChange"
           />
         </div>
+
+        <!-- Currency -->
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-medium">{{ t('pages.profile.basic.currency.label') }}</label>
+          <Select
+            v-model="selectedCurrencyModel"
+            :options="currencyList"
+            optionLabel="name"
+            :placeholder="t('pages.profile.basic.currency.placeholder')"
+            class="w-full"
+            filter
+            :loading="isCurrencyLoading"
+            @update:model-value="handleCurrencyChange"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -174,6 +189,7 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 const src = ref();
 const isLanguageLoading = ref(false);
 const isTimezoneLoading = ref(false);
+const isCurrencyLoading = ref(false);
 const isImageUploading = ref(false);
 
 const languageOptions = getLanguageOptions();
@@ -186,6 +202,12 @@ const timeZoneList = computed(() =>
 );
 
 const selectedTimezoneModel = ref<{ name: string | undefined; value: string | undefined } | undefined>();
+
+const currencyList = computed(() =>
+  profileStore?.CurrencyList?.map((item) => ({ name: item.Name, value: item.ID })),
+);
+
+const selectedCurrencyModel = ref<{ name: string | undefined; value: string | undefined } | undefined>();
 
 const hasProfileImage = computed(() => !!profileStore?.GeneralProfile.imageUrl);
 const isEmailConfirmed = computed(() => profileStore?.GeneralProfile?.EmailConfirmed ?? true);
@@ -277,6 +299,20 @@ const handleTimezoneChange = async (option: { name: string; value: string }) => 
   }
 };
 
+const handleCurrencyChange = async (option: { name: string; value: string }) => {
+  if (option && option.value) {
+    isCurrencyLoading.value = true;
+    try {
+      await profileStore.updateCurrency(option.value);
+      showSuccessMessage(t('pages.profile.basic.messages.currencyUpdated'));
+    } catch {
+      showErrorMessage(t('common.errors.generic'));
+    } finally {
+      isCurrencyLoading.value = false;
+    }
+  }
+};
+
 const onResendConfirmation = async () => {
   try {
     await profileStore.resendConfirmation();
@@ -291,7 +327,11 @@ watch(currentLanguage, (newLang) => {
 });
 
 onMounted(async () => {
-  await Promise.all([profileStore.filter(), profileStore.fetchTimezones()]);
+  await Promise.all([
+    profileStore.filter(),
+    profileStore.fetchTimezones(),
+    profileStore.fetchCurrencies(),
+  ]);
 
   selectedLanguageModel.value = languageOptions.find(
     (lang) => lang.value === currentLanguage.value,
@@ -299,6 +339,9 @@ onMounted(async () => {
 
   const timeZone = profileStore?.TimeZone;
   selectedTimezoneModel.value = timeZoneList.value?.find((item) => item.value === timeZone);
+
+  const currency = profileStore?.Currency ?? 'TRY';
+  selectedCurrencyModel.value = currencyList.value?.find((item) => item.value === currency);
 
   resetForm({
     values: getInitialFormData.value,

@@ -55,12 +55,25 @@ import type {
   TimeZoneViewModel,
 } from '@/client';
 
+/**
+ * Currency dropdown row — mirrors the BE `CurrencyListItemDto` (exported as a
+ * `type` interface so the OpenAPI plugin doesn't emit a class). `ID` is the
+ * ISO 4217 code persisted on the company setting; `Name` is a "(symbol) Name"
+ * label rendered verbatim by the dropdown.
+ */
+export interface CurrencyOption {
+  ID: string;
+  Name: string;
+}
+
 interface State {
   TimeZoneList: TimeZoneViewModel[];
+  CurrencyList: CurrencyOption[];
   User: EmployeeViewModel;
   IsMailSubscribe: ProfileViewModel['IsMailSubscribe'];
   License: LicenseViewModel;
   TimeZone: ProfileViewModel['TimeZone'];
+  Currency: string;
   LanguageCode: ProfileViewModel['LanguageCode'];
   GeneralProfile: ProfileViewModel;
 }
@@ -70,9 +83,11 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     GeneralProfile: {} as ProfileViewModel,
     User: {} as EmployeeViewModel,
     TimeZoneList: [],
+    CurrencyList: [],
     IsMailSubscribe: false,
     License: {} as LicenseViewModel,
     TimeZone: '',
+    Currency: 'TRY',
     LanguageCode: '',
   }),
   getters: {
@@ -141,6 +156,7 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
       this.GeneralProfile = data;
       this.User = data.Employee ?? ({} as EmployeeViewModel);
       this.TimeZone = data.timezone ?? '';
+      this.Currency = data.currency ?? 'TRY';
       this.LanguageCode = data.languageCode ?? '';
       this.IsMailSubscribe = Boolean(data.emailPermit);
 
@@ -174,6 +190,19 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
       return response;
     },
 
+    /**
+     * Persists the company's display currency and updates the local store so
+     * the worktime page re-renders with the new currency on the next paint.
+     * Mirrors {@link updateTimezone}'s shape.
+     */
+    async updateCurrency(currency: string) {
+      const response = await ProfileLegacyWebapiService.legacyProfileControllerUpdateCurrency({
+        Currency: currency,
+      });
+      this.Currency = currency;
+      return response;
+    },
+
     async updateLanguageCode(languageCode: string) {
       const response = await ProfileLegacyWebapiService.legacyProfileControllerUpdateLanguage({
         LanguageCode: languageCode,
@@ -195,6 +224,18 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     async fetchTimezones() {
       const data = await ProfileLegacyWebapiService.legacyProfileControllerGetTimezones();
       this.TimeZoneList = data as unknown as TimeZoneViewModel[];
+      return data;
+    },
+
+    /**
+     * Fetches the static ISO 4217 whitelist driving the Currency dropdown.
+     * The BE response is `CurrencyListItemDto[]` (exported as an interface;
+     * OpenAPI codegen widens it to `any`), so we cast to the local
+     * {@link CurrencyOption} shape with the same field names.
+     */
+    async fetchCurrencies() {
+      const data = await ProfileLegacyWebapiService.legacyProfileControllerGetCurrencies();
+      this.CurrencyList = data as unknown as CurrencyOption[];
       return data;
     },
 

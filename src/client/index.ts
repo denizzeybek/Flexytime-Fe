@@ -59,6 +59,7 @@ export type { PaymentSuccessDto } from './models/PaymentSuccessDto';
 export type { PerformAllocationModifyDto } from './models/PerformAllocationModifyDto';
 export type { PerformReferenceDto } from './models/PerformReferenceDto';
 export type { PermissionItemDto } from './models/PermissionItemDto';
+export type { ProfileCurrencyDto } from './models/ProfileCurrencyDto';
 export type { ProfileImageUploadDto } from './models/ProfileImageUploadDto';
 export type { ProfileLanguageDto } from './models/ProfileLanguageDto';
 export type { ProfileMarketingDto } from './models/ProfileMarketingDto';

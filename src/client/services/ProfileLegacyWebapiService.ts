@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ProfileCurrencyDto } from '../models/ProfileCurrencyDto';
 import type { ProfileImageUploadDto } from '../models/ProfileImageUploadDto';
 import type { ProfileLanguageDto } from '../models/ProfileLanguageDto';
 import type { ProfileMarketingDto } from '../models/ProfileMarketingDto';
@@ -84,6 +85,23 @@ export class ProfileLegacyWebapiService {
         });
     }
     /**
+     * Update the company's display currency (drives the worktime usage Cost perspective)
+     * Upserts the company PerformSetting (Type=Currency). The new value flows into ProfileResponseDto.currency on the next /webapi/profile read and the Currency field on /webapi/clock/section + /webapi/clock/employee.
+     * @param requestBody
+     * @returns any DataResult<ProfileResponseDto>
+     * @throws ApiError
+     */
+    public static legacyProfileControllerUpdateCurrency(
+        requestBody: ProfileCurrencyDto,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/webapi/profile/currency/save',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
      * Legacy: update the user's preferred language code
      * @param requestBody
      * @returns any DataResult<ProfileResponseDto>
@@ -141,6 +159,18 @@ export class ProfileLegacyWebapiService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/webapi/timezones',
+        });
+    }
+    /**
+     * List supported display currencies for the Basic profile Currency dropdown
+     * Static ISO 4217 whitelist (TRY / USD / EUR / GBP / …). `ID` is the 3-letter code persisted on the company setting; `Name` is a "(symbol) Name" label the FE renders verbatim.
+     * @returns any CurrencyListItemDto[]
+     * @throws ApiError
+     */
+    public static legacyProfileControllerGetCurrencies(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/webapi/currencies',
         });
     }
     /**

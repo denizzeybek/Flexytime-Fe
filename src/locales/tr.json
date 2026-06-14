@@ -1277,6 +1277,10 @@
           "label": "Saat Dilimi",
           "placeholder": "Saat dilimi seçin"
         },
+        "currency": {
+          "label": "Para Birimi",
+          "placeholder": "Para birimi seçin"
+        },
         "save": {
           "label": "Kaydet"
         },
@@ -1288,6 +1292,7 @@
           "updated": "Profil başarıyla güncellendi!",
           "languageUpdated": "Dil başarıyla güncellendi!",
           "timezoneUpdated": "Saat dilimi başarıyla güncellendi!",
+          "currencyUpdated": "Para birimi başarıyla güncellendi!",
           "confirmationSent": "Onay e-postası başarıyla gönderildi!",
           "imageUpdated": "Profil resmi başarıyla güncellendi!",
           "imageRemoved": "Profil resmi kaldırıldı."

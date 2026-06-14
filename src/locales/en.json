@@ -1277,6 +1277,10 @@
           "label": "Timezone",
           "placeholder": "Select timezone"
         },
+        "currency": {
+          "label": "Currency",
+          "placeholder": "Select currency"
+        },
         "save": {
           "label": "Save"
         },
@@ -1288,6 +1292,7 @@
           "updated": "Profile updated successfully!",
           "languageUpdated": "Language updated successfully!",
           "timezoneUpdated": "Timezone updated successfully!",
+          "currencyUpdated": "Currency updated successfully!",
           "confirmationSent": "Confirmation email sent successfully!",
           "imageUpdated": "Profile image updated successfully!",
           "imageRemoved": "Profile image removed."
