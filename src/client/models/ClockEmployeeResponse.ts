@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ClockBreadcrumbSegment } from './ClockBreadcrumbSegment';
 import type { ClockDistribution } from './ClockDistribution';
 import type { ClockEmployeeIdentity } from './ClockEmployeeIdentity';
 import type { ClockEmployeeManualEntry } from './ClockEmployeeManualEntry';
@@ -28,5 +29,6 @@ export type ClockEmployeeResponse = {
      * Alert badges (legacy `/clock/alerts` shape).
      */
     Alerts: Record<string, any>;
+    Breadcrumb: Array<ClockBreadcrumbSegment>;
 };
 

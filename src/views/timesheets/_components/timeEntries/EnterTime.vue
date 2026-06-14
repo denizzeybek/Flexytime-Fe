@@ -232,49 +232,34 @@ const getOrCreateTask = async (taskName: string): Promise<{ ID?: string; Name: s
 
 const submitHandler = handleSubmit(async (formValues) => {
   try {
-    const dateFormat = 'DD.MM.YYYY HH:mm';
     const selectedDate = formValues.date ? dayjs(formValues.date) : dayjs();
 
-    let startDateTime: string;
-    let endDateTime: string;
-    let recordDate: string;
+    let startIso: string;
+    let endIso: string;
 
     if (isManualLayout.value) {
-      const startTimeFormatted = formValues.startTime ? dayjs(formValues.startTime).format('HH:mm') : '00:00';
-      const endTimeFormatted = formValues.endTime ? dayjs(formValues.endTime).format('HH:mm') : '00:00';
-      startDateTime = selectedDate.format('DD.MM.YYYY') + ' ' + startTimeFormatted;
-      endDateTime = selectedDate.format('DD.MM.YYYY') + ' ' + endTimeFormatted;
-      recordDate = startDateTime;
+      const startTime = formValues.startTime ? dayjs(formValues.startTime) : dayjs().startOf('day');
+      const endTime = formValues.endTime ? dayjs(formValues.endTime) : startTime;
+      startIso = selectedDate.hour(startTime.hour()).minute(startTime.minute()).second(0).millisecond(0).toISOString();
+      endIso = selectedDate.hour(endTime.hour()).minute(endTime.minute()).second(0).millisecond(0).toISOString();
     } else {
       const now = dayjs();
       const timerStartTime = getTimerStartTime();
       const start = timerStartTime ? dayjs(timerStartTime) : now.subtract(elapsedTime.value, 'second');
-      startDateTime = start.format(dateFormat);
-      endDateTime = now.format(dateFormat);
-      recordDate = start.format(dateFormat);
+      startIso = start.toISOString();
+      endIso = now.toISOString();
     }
 
     const task = formValues.taskName ? await getOrCreateTask(formValues.taskName) : undefined;
 
-    const timeValue = isManualLayout.value
-      ? (timeDifference.value ? timeDifference.value + ':00' : '00:00:00')
-      : formatElapsedTimeForPayload(elapsedTime.value);
-
-    const payload: TimeEntryPayload = {
-      Task: task,
-      Project: formValues.project ? { ID: formValues.project.value, Name: formValues.project.name } : undefined,
-      Tags: formValues.tags?.map((tag: ITagOption) => ({ ID: tag.value, Name: tag.name })) ?? [],
+    await TimesheetService.timesheetControllerSaveTimeEntry({
+      ...(task?.ID && { TaskId: task.ID }),
+      ...(formValues.project?.value && { ProjectId: formValues.project.value }),
+      TagIds: formValues.tags?.map((tag: ITagOption) => tag.value) ?? [],
       Billable: isBillable.value,
-      RecordDate: recordDate,
-      RecordDateCustom: '',
-      StartDate: startDateTime,
-      EndDate: endDateTime,
-      time: timeValue,
-      Member: { ID: null, Name: '' },
-      Clocks: [],
-    };
-
-    await TimesheetService.timesheetControllerSaveTimeEntry(payload);
+      StartDate: startIso,
+      EndDate: endIso,
+    });
     await timeEntriesStore.fetchTimeEntries();
 
     showSuccessMessage(t('pages.timesheets.enterTime.messages.success'));

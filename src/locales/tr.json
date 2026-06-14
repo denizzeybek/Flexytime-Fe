@@ -1280,13 +1280,17 @@
         "save": {
           "label": "Kaydet"
         },
+        "removeImage": {
+          "label": "Resmi kaldır"
+        },
         "resendConfirmation": "Onay e-postasını tekrar gönder",
         "messages": {
           "updated": "Profil başarıyla güncellendi!",
           "languageUpdated": "Dil başarıyla güncellendi!",
           "timezoneUpdated": "Saat dilimi başarıyla güncellendi!",
           "confirmationSent": "Onay e-postası başarıyla gönderildi!",
-          "imageUpdated": "Profil resmi başarıyla güncellendi!"
+          "imageUpdated": "Profil resmi başarıyla güncellendi!",
+          "imageRemoved": "Profil resmi kaldırıldı."
         }
       },
       "password": {

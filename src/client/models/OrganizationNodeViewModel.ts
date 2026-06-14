@@ -31,6 +31,14 @@ export type OrganizationNodeViewModel = {
      */
     TeamId?: string;
     /**
+     * FE-only parent-tracking hint emitted by the org-chart UI (vue-flow / tree-dnd).
+     * The server determines parent purely from tree position (`children` nesting), so
+     * this field is read-through whitelisting and intentionally ignored downstream.
+     * Without an explicit `@IsOptional()` declaration the global `ValidationPipe`
+     * (`forbidNonWhitelisted: true`) would reject the entire payload with 400.
+     */
+    _parentId?: string;
+    /**
      * Recursive child nodes, serialized lowercase as JSON `children`.
      */
     children?: Array<OrganizationNodeViewModel>;

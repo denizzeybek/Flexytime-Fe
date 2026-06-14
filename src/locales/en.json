@@ -1280,13 +1280,17 @@
         "save": {
           "label": "Save"
         },
+        "removeImage": {
+          "label": "Remove image"
+        },
         "resendConfirmation": "Resend confirmation email",
         "messages": {
           "updated": "Profile updated successfully!",
           "languageUpdated": "Language updated successfully!",
           "timezoneUpdated": "Timezone updated successfully!",
           "confirmationSent": "Confirmation email sent successfully!",
-          "imageUpdated": "Profile image updated successfully!"
+          "imageUpdated": "Profile image updated successfully!",
+          "imageRemoved": "Profile image removed."
         }
       },
       "password": {

@@ -5,6 +5,7 @@
 import type { PerformReferenceDto } from '../models/PerformReferenceDto';
 import type { TimeEntryModifyDto } from '../models/TimeEntryModifyDto';
 import type { TimeEntryQueryDto } from '../models/TimeEntryQueryDto';
+import type { TimeNameSaveDto } from '../models/TimeNameSaveDto';
 import type { TimeWeekQueryDto } from '../models/TimeWeekQueryDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -23,13 +24,18 @@ export class TimesheetService {
     }
     /**
      * Create or update a time-tracking project
+     * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
      */
-    public static timesheetControllerSaveProject(): CancelablePromise<any> {
+    public static timesheetControllerSaveProject(
+        requestBody: TimeNameSaveDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/timesheet/project/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -61,13 +67,18 @@ export class TimesheetService {
     }
     /**
      * Create or update a time-entry tag
+     * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
      */
-    public static timesheetControllerSaveTag(): CancelablePromise<any> {
+    public static timesheetControllerSaveTag(
+        requestBody: TimeNameSaveDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/timesheet/tag/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -99,13 +110,18 @@ export class TimesheetService {
     }
     /**
      * Create or update a task
+     * @param requestBody
      * @returns any DataResult envelope reflecting save outcome
      * @throws ApiError
      */
-    public static timesheetControllerSaveTask(): CancelablePromise<any> {
+    public static timesheetControllerSaveTask(
+        requestBody: TimeNameSaveDto,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/webapi/timesheet/task/save',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**

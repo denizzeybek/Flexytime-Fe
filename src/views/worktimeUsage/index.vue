@@ -200,7 +200,7 @@ const currentCard = computed(() => {
 
 const currentBreadcrumb = computed(() => {
   if (currentQuery.value.view === 'individual') {
-    return store.employeeData?.Breadcrumb || [];
+    return store.employeeBreadcrumb;
   }
   return store.sectionBreadcrumb;
 });

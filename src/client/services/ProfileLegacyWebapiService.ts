@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ProfileImageUploadDto } from '../models/ProfileImageUploadDto';
 import type { ProfileLanguageDto } from '../models/ProfileLanguageDto';
 import type { ProfileMarketingDto } from '../models/ProfileMarketingDto';
 import type { ProfilePasswordChangeDto } from '../models/ProfilePasswordChangeDto';
@@ -37,6 +38,33 @@ export class ProfileLegacyWebapiService {
             url: '/webapi/profile/save',
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * Legacy: upload the profile image as a base64 data URL (no multer / no separate storage)
+     * @param requestBody
+     * @returns any DataResult<ProfileResponseDto>
+     * @throws ApiError
+     */
+    public static legacyProfileControllerUploadImage(
+        requestBody: ProfileImageUploadDto,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/webapi/profile/image',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * Legacy: remove the profile image (clears Customer.ImageUrl)
+     * @returns any DataResult<ProfileResponseDto>
+     * @throws ApiError
+     */
+    public static legacyProfileControllerRemoveImage(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/webapi/profile/image/delete',
         });
     }
     /**

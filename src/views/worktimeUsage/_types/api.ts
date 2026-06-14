@@ -23,7 +23,6 @@ export type IEmployeeRequest = ClockEmployeeRequestDto;
 import type {
   CardViewModel,
   ClockAllocationViewModel,
-  ClockBreadCrumb,
   ClockDistribution,
   ClockGraphGroup,
   ClockSectionIndividual,
@@ -54,7 +53,19 @@ export type ICard = CardViewModel;
 export type ISummary = SectionClockSummary;
 
 
-export type IBreadcrumb = ClockBreadCrumb;
+/**
+ * BE-computed breadcrumb segment (mirror of ClockBreadcrumbSegment). `Type`
+ * drives FE rendering and click handling:
+ *  - `home`     → render the home icon, click navigates to section root.
+ *  - `team`     → render Label, click navigates to TeamId (unless IsLast).
+ *  - `employee` → render Label, non-clickable terminal segment.
+ */
+export interface IBreadcrumb {
+  Type: 'home' | 'team' | 'employee';
+  Label: string;
+  TeamId: string | null;
+  IsLast: boolean;
+}
 
 
 export type ITeam = ClockSectionTeam;

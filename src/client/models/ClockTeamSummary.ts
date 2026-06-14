@@ -6,6 +6,7 @@ import type { ClockSummary } from './ClockSummary';
 export type ClockTeamSummary = {
     TeamId: string;
     Name: string;
+    ParentTeamId: string | null;
     SupervisorUserId: string | null;
     Summary: ClockSummary;
 };

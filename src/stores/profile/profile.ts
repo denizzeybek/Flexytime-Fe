@@ -6,11 +6,51 @@ import { OpenAPI, ProfileLegacyWebapiService, SettingService } from '@/client';
 import { ERole } from '@/enums/role.enum';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
+/**
+ * Reads a File via FileReader, draws it onto an off-screen canvas scaled so the
+ * longest edge is `maxEdge` px, then returns a `data:image/jpeg;base64,...` URL
+ * at the given quality. Used to keep profile-image uploads small (avatar is
+ * never rendered larger than ~120px in the UI, so 512 is plenty).
+ */
+async function downscaleImageToDataUrl(
+  file: File,
+  maxEdge: number,
+  quality: number,
+): Promise<string> {
+  const sourceDataUrl = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () =>
+      typeof reader.result === 'string' ? resolve(reader.result) : reject(new Error('Unexpected reader result'));
+    reader.onerror = () => reject(reader.error ?? new Error('FileReader failed'));
+    reader.readAsDataURL(file);
+  });
+
+  const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const el = new Image();
+    el.onload = () => resolve(el);
+    el.onerror = () => reject(new Error('Image decode failed'));
+    el.src = sourceDataUrl;
+  });
+
+  const scale = Math.min(1, maxEdge / Math.max(img.naturalWidth, img.naturalHeight));
+  const width = Math.round(img.naturalWidth * scale);
+  const height = Math.round(img.naturalHeight * scale);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas 2D context unavailable');
+  ctx.drawImage(img, 0, 0, width, height);
+
+  return canvas.toDataURL('image/jpeg', quality);
+}
+
 import type {
   EmployeeViewModel,
   LicenseModifyViewModel,
   LicenseViewModel,
-  ProfileModifyViewModel,
+  ProfileUpdateDto,
   ProfileViewModel,
   TimeZoneViewModel,
 } from '@/client';
@@ -100,9 +140,9 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
       const data = await ProfileLegacyWebapiService.legacyProfileControllerGetProfile();
       this.GeneralProfile = data;
       this.User = data.Employee ?? ({} as EmployeeViewModel);
-      this.TimeZone = data.TimeZone;
-      this.LanguageCode = data.LanguageCode;
-      this.IsMailSubscribe = data.IsMailSubscribe;
+      this.TimeZone = data.timezone ?? '';
+      this.LanguageCode = data.languageCode ?? '';
+      this.IsMailSubscribe = Boolean(data.emailPermit);
 
       return data;
     },
@@ -120,26 +160,24 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
       return response;
     },
 
-    async updateProfile(model: ProfileModifyViewModel) {
-      const response = await ProfileLegacyWebapiService.legacyProfileControllerSaveProfile(
-        model as never,
-      );
+    async updateProfile(model: ProfileUpdateDto) {
+      const response = await ProfileLegacyWebapiService.legacyProfileControllerSaveProfile(model);
       await this.filter();
       return response;
     },
 
-    async updateTimezone(timeZone: string) {
-      const response = await ProfileLegacyWebapiService.legacyProfileControllerUpdateTimezone(
-        { TimeZone: timeZone } as never,
-      );
-      this.TimeZone = timeZone;
+    async updateTimezone(timezone: string) {
+      const response = await ProfileLegacyWebapiService.legacyProfileControllerUpdateTimezone({
+        Timezone: timezone,
+      });
+      this.TimeZone = timezone;
       return response;
     },
 
     async updateLanguageCode(languageCode: string) {
-      const response = await ProfileLegacyWebapiService.legacyProfileControllerUpdateLanguage(
-        { LanguageCode: languageCode } as never,
-      );
+      const response = await ProfileLegacyWebapiService.legacyProfileControllerUpdateLanguage({
+        LanguageCode: languageCode,
+      });
       this.LanguageCode = languageCode;
       return response;
     },
@@ -160,16 +198,50 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
       return data;
     },
 
+    /**
+     * v2 image upload: downscale client-side to a max 512x512 JPEG (q=0.85), then
+     * POST as JSON `{ imageBase64: "data:image/jpeg;base64,..." }`. BE persists
+     * the data URL verbatim into Customer.ImageUrl and surfaces it back through
+     * both the profile response (profile page avatar) and the worktime section
+     * `Individuals[].ImageUrl` (team/individual tables). Downscaling keeps the
+     * JSON body well under the default Express ~100KB limit and avoids server
+     * round-trip cost for high-res sources — avatar quality is fine at 512.
+     */
     async uploadProfileImage(file: File) {
-      const formData = new FormData();
-      formData.append('file', file);
+      const imageBase64 = await downscaleImageToDataUrl(file, 512, 0.85);
 
-      const response = await axios.post(`${OpenAPI.BASE}/upload/profileimage`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${OpenAPI.TOKEN}`,
+      const response = await axios.post(
+        `${OpenAPI.BASE}/webapi/profile/image`,
+        { imageBase64 },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${OpenAPI.TOKEN}`,
+          },
         },
-      });
+      );
+
+      await this.filter();
+
+      return response.data;
+    },
+
+    /**
+     * Clears the user's profile image via the legacy compat endpoint. BE unsets
+     * Customer.ImageUrl, so the next /webapi/profile read returns no `imageUrl`
+     * and the avatar falls back to the placeholder.
+     */
+    async removeProfileImage() {
+      const response = await axios.post(
+        `${OpenAPI.BASE}/webapi/profile/image/delete`,
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${OpenAPI.TOKEN}`,
+          },
+        },
+      );
 
       await this.filter();
 

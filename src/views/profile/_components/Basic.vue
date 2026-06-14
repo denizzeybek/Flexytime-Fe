@@ -7,29 +7,42 @@
         <div class="flex items-center flex-col lg:flex-row gap-8">
           <!-- Avatar -->
           <div class="flex items-center justify-center flex-col gap-4">
-            <template v-if="hasProfileImage">
-              <FAvatar
-                custom-class="!w-[120px] !h-[120px]"
-                :prime-props="{
-                  image: profileStore?.GeneralProfile.ImagePath,
-                  shape: 'circle',
-                }"
-              />
-            </template>
-            <template v-else>
-              <img
-                v-if="src"
-                :src="src"
-                :alt="t('pages.profile.basic.profileImage.alt')"
-                class="shadow-md rounded-full w-[120px] h-[120px] object-cover"
-              />
-              <div
-                v-else
-                class="w-[120px] h-[120px] flex items-center justify-center border-2 rounded-full border-border-secondary dark:border-border-primary bg-surface-tertiary dark:bg-surface-secondary transition-colors"
+            <div class="relative w-[120px] h-[120px]">
+              <template v-if="hasProfileImage">
+                <FAvatar
+                  custom-class="!w-[120px] !h-[120px]"
+                  :prime-props="{
+                    image: profileStore?.GeneralProfile.imageUrl,
+                    shape: 'circle',
+                  }"
+                />
+              </template>
+              <template v-else>
+                <img
+                  v-if="src"
+                  :src="src"
+                  :alt="t('pages.profile.basic.profileImage.alt')"
+                  class="shadow-md rounded-full w-[120px] h-[120px] object-cover"
+                />
+                <div
+                  v-else
+                  class="w-[120px] h-[120px] flex items-center justify-center border-2 rounded-full border-border-secondary dark:border-border-primary bg-surface-tertiary dark:bg-surface-secondary transition-colors"
+                >
+                  <span class="pi pi-user !text-5xl text-content-quaternary"></span>
+                </div>
+              </template>
+              <button
+                v-if="hasProfileImage || src"
+                type="button"
+                :disabled="isImageUploading"
+                :aria-label="t('pages.profile.basic.removeImage.label')"
+                :title="t('pages.profile.basic.removeImage.label')"
+                class="absolute -top-1 -right-1 w-7 h-7 rounded-full bg-red-500 text-white flex items-center justify-center shadow-md hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                @click="onRemoveImage"
               >
-                <span class="pi pi-user !text-5xl text-content-quaternary"></span>
-              </div>
-            </template>
+                <i class="pi pi-times text-xs"></i>
+              </button>
+            </div>
             <FileUpload
               mode="basic"
               customUpload
@@ -56,6 +69,7 @@
                 :label="t('pages.profile.basic.email.label')"
                 :placeholder="t('pages.profile.basic.email.placeholder')"
                 name="email"
+                disabled
               />
               <a
                 v-if="!isEmailConfirmed"
@@ -173,24 +187,25 @@ const timeZoneList = computed(() =>
 
 const selectedTimezoneModel = ref<{ name: string | undefined; value: string | undefined } | undefined>();
 
-const hasProfileImage = computed(() => !!profileStore?.GeneralProfile.ImagePath);
+const hasProfileImage = computed(() => !!profileStore?.GeneralProfile.imageUrl);
 const isEmailConfirmed = computed(() => profileStore?.GeneralProfile?.EmailConfirmed ?? true);
 
 const getInitialFormData = computed(() => {
-  const user = profileStore?.User;
+  const profile = profileStore?.GeneralProfile;
+  const roles = profile?.Wizard?.Roles ?? [];
+  const roleLabel = roles.length > 0 ? roles.map((r) => r[0]?.toUpperCase() + r.slice(1)).join(', ') : '';
 
   return {
-    fullName: user?.fullname || '',
-    email: user?.Email || '',
-    role: user?.title || '',
+    fullName: profile?.fullname || '',
+    email: profile?.email || '',
+    role: roleLabel,
   };
 });
 
 const submitHandler = handleSubmit(async (values) => {
   try {
     await profileStore.updateProfile({
-      Fullname: values.fullName,
-      EmailAddress: values.email,
+      fullname: values.fullName,
     });
     showSuccessMessage(t('pages.profile.basic.messages.updated'));
   } catch {
@@ -215,6 +230,19 @@ const onFileSelect = async (event: any) => {
   } catch {
     showErrorMessage(t('common.errors.generic'));
     src.value = null;
+  } finally {
+    isImageUploading.value = false;
+  }
+};
+
+const onRemoveImage = async () => {
+  isImageUploading.value = true;
+  try {
+    await profileStore.removeProfileImage();
+    src.value = null;
+    showSuccessMessage(t('pages.profile.basic.messages.imageRemoved'));
+  } catch {
+    showErrorMessage(t('common.errors.generic'));
   } finally {
     isImageUploading.value = false;
   }

@@ -88,11 +88,11 @@
                 <div class="flex items-start gap-3 flex-shrink-0">
                   <div class="flex flex-col items-end gap-1">
                     <div class="text-2xl font-bold text-f-primary">
-                      {{ entry.TimeSpanText }}
+                      {{ fmtTimeSpan(entry.Seconds) }}
                     </div>
                     <div class="flex items-center gap-1.5 text-sm text-content-tertiary">
                       <i class="pi pi-clock text-xs" />
-                      {{ entry.DateRangeText }}
+                      {{ entryDateRange(entry) }}
                     </div>
                   </div>
                   <Button
@@ -129,9 +129,9 @@
                       :key="range.ID"
                       class="group/range flex items-center justify-between py-2 px-3 bg-surface-tertiary dark:bg-surface-secondary hover:bg-surface-secondary dark:hover:bg-surface-tertiary rounded-lg text-sm transition-colors"
                     >
-                      <span class="text-content-secondary">{{ range.DateRangeText }}</span>
+                      <span class="text-content-secondary">{{ fmtRange(range.Start, range.End) }}</span>
                       <div class="flex items-center gap-2">
-                        <span class="font-medium text-content-primary">{{ range.TimeSpanText }}</span>
+                        <span class="font-medium text-content-primary">{{ fmtTimeSpan(range.Seconds) }}</span>
                         <Button
                           v-tooltip.left="t('common.buttons.delete')"
                           :icon="deletingRangeId === range.ID ? 'pi pi-spin pi-spinner' : 'pi pi-trash'"
@@ -161,6 +161,8 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import Button from 'primevue/button';
 import Skeleton from 'primevue/skeleton';
 import Tag from 'primevue/tag';
@@ -169,12 +171,51 @@ import { useConfirm } from 'primevue/useconfirm';
 import NoDataState from '@/components/common/NoDataState.vue';
 import { useFToast } from '@/composables/useFToast';
 import { type MessageSchema } from '@/plugins/i18n';
+import { useProfileStore } from '@/stores/profile/profile';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const confirm = useConfirm();
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
+const profileStore = useProfileStore();
+
+/**
+ * Format a UTC ISO instant in the company-canonical timezone (Rule 13 — BE
+ * ships UTC instants, FE renders in `me.timezone`).
+ */
+const fmtInZone = (iso: string | undefined, pattern: string): string => {
+  if (!iso) return '';
+  const tz = profileStore.TimeZone || dayjs.tz.guess();
+  return dayjs.utc(iso).tz(tz).format(pattern);
+};
+
+/** `00:10:00` style total from a Seconds count. */
+const fmtTimeSpan = (seconds: number | undefined): string => {
+  const s = Math.max(0, Math.floor(seconds ?? 0));
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  return [h, m, sec].map((n) => String(n).padStart(2, '0')).join(':');
+};
+
+/** `14.06.2026 03:18:00 - 03:28:00` style range string for a single Start/End pair (BE ISO → local). */
+const fmtRange = (startIso: string | undefined, endIso: string | undefined): string => {
+  if (!startIso || !endIso) return '';
+  const head = fmtInZone(startIso, 'DD.MM.YYYY HH:mm:ss');
+  const tail = fmtInZone(endIso, 'HH:mm:ss');
+  return `${head} - ${tail}`;
+};
+
+/** Entry-level date range: start of first range → end of last range. */
+const entryDateRange = (entry: { Ranges?: Array<{ Start?: string; End?: string }> }): string => {
+  const ranges = entry.Ranges ?? [];
+  if (ranges.length === 0) return '';
+  return fmtRange(ranges[0]?.Start, ranges[ranges.length - 1]?.End);
+};
 
 const expandedRanges = ref<string[]>([]);
 const deletingId = ref<string | null>(null);

@@ -328,7 +328,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       return (state.sectionData?.Individuals ?? []).map((row) => ({
         ID: row.UserId,
         EmployeeName: row.Fullname ?? '',
-        Employee: { MemberUrl: row.UserId, ImageUrl: null },
+        Employee: { MemberUrl: row.UserId, ImageUrl: row.ImageUrl ?? null },
         TeamName: row.TeamId ? (teamNameById.get(row.TeamId) ?? '') : '',
         Team: row.TeamId ? { TeamId: row.TeamId, ImageUrl: null } : null,
         TeamId: row.TeamId ?? null,
@@ -532,30 +532,18 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
      * segment is what the breadcrumb click handler watches for to navigate
      * back to the root.
      */
+    /**
+     * BE is the single source of truth — both /clock/section and /clock/employee
+     * responses ship a fully resolved `Breadcrumb[]` (home + team chain via
+     * PerformTeam.TeamId parent walk + terminal team or employee). The FE only
+     * picks which response to read based on the current view.
+     */
     sectionBreadcrumb: (state): IBreadcrumb[] => {
-      const companyName = state.sectionData?.Company?.Name ?? '';
-      if (!companyName) return [];
-      const currentTeamId = state.lastSectionRequest?.TeamId ?? null;
-      const team = currentTeamId
-        ? (state.sectionData?.Teams ?? []).find((t) => t.TeamId === currentTeamId)
-        : null;
-      const crumbs: IBreadcrumb[] = [
-        {
-          id: '__company__',
-          title: companyName,
-          path: '/clock',
-          isLastElement: team === null || team === undefined,
-        },
-      ];
-      if (team) {
-        crumbs.push({
-          id: team.TeamId,
-          title: team.Name ?? '',
-          path: '/clock',
-          isLastElement: true,
-        });
-      }
-      return crumbs;
+      return (state.sectionData?.Breadcrumb ?? []) as unknown as IBreadcrumb[];
+    },
+
+    employeeBreadcrumb: (state): IBreadcrumb[] => {
+      return (state.employeeData?.Breadcrumb ?? []) as unknown as IBreadcrumb[];
     },
 
     isSectionLoading: (state): boolean => state.loading.section,
@@ -596,18 +584,46 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
       };
     },
 
-    buildBreadcrumbFromEmployeeIdentity(identity: { Fullname?: string } | null): IBreadcrumb[] {
+    buildBreadcrumbFromEmployeeIdentity(
+      identity: { Fullname?: string; TeamId?: string | null } | null,
+    ): IBreadcrumb[] {
       const profileStore = useProfileStore();
       const name = identity?.Fullname || profileStore.GeneralProfile?.fullname || '';
       if (!name) return [];
-      return [
-        {
-          id: 'employee',
-          title: name,
+
+      const crumbs: IBreadcrumb[] = [];
+
+      const companyName = this.sectionData?.Company?.Name ?? '';
+      if (companyName) {
+        crumbs.push({
+          id: '__company__',
+          title: companyName,
           path: '/clock',
-          isLastElement: true,
-        },
-      ];
+          isLastElement: false,
+        });
+      }
+
+      const teamId = identity?.TeamId ?? null;
+      if (teamId) {
+        const team = (this.sectionData?.Teams ?? []).find((t) => t.TeamId === teamId);
+        if (team?.Name) {
+          crumbs.push({
+            id: team.TeamId,
+            title: team.Name,
+            path: '/clock',
+            isLastElement: false,
+          });
+        }
+      }
+
+      crumbs.push({
+        id: 'employee',
+        title: name,
+        path: '/clock',
+        isLastElement: true,
+      });
+
+      return crumbs;
     },
 
     /**
@@ -690,7 +706,7 @@ export const useWorktimeStore = defineStore('worktimeUsage', {
 
         const transformed: IEmployeeResponse = {
           Card: this.buildCardFromEmployeeIdentity(response.Employee ?? null),
-          Breadcrumb: this.buildBreadcrumbFromEmployeeIdentity(response.Employee ?? null),
+          Breadcrumb: (response.Breadcrumb ?? []) as unknown as IEmployeeResponse['Breadcrumb'],
           Summary: summaryObjectToArray(response.Summary),
           WellBeings: buildIndividualWellbeings(response.WellBeings ?? []),
           Distributions: distributionsToLegacy(response.Distribution ?? []),

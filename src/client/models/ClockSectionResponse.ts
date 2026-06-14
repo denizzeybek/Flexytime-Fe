@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ClockBreadcrumbSegment } from './ClockBreadcrumbSegment';
 import type { ClockCompany } from './ClockCompany';
 import type { ClockDistribution } from './ClockDistribution';
 import type { ClockIndividualSummary } from './ClockIndividualSummary';
@@ -19,5 +20,6 @@ export type ClockSectionResponse = {
     Teams: Array<ClockTeamSummary>;
     Individuals: Array<ClockIndividualSummary>;
     Company: ClockCompany;
+    Breadcrumb: Array<ClockBreadcrumbSegment>;
 };
 

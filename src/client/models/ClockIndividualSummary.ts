@@ -10,6 +10,10 @@ export type ClockIndividualSummary = {
     Availability: number;
     OnLeave: boolean;
     LeaveType: ClockIndividualSummary.LeaveType | null;
+    /**
+     * Profile picture as a base64 data URL (mirrors ProfileResponseDto.imageUrl). null when the user has none.
+     */
+    ImageUrl: string | null;
     Summary: ClockSummary;
 };
 export namespace ClockIndividualSummary {

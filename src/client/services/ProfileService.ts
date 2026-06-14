@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ProfileImageUploadDto } from '../models/ProfileImageUploadDto';
 import type { ProfileResponseDto } from '../models/ProfileResponseDto';
 import type { ProfileUpdateDto } from '../models/ProfileUpdateDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -36,6 +37,36 @@ export class ProfileService {
             errors: {
                 400: `Validation failed`,
             },
+        });
+    }
+    /**
+     * Upload the profile image as a base64 data URL (no multer / no separate storage)
+     * @param requestBody
+     * @returns ProfileResponseDto
+     * @throws ApiError
+     */
+    public static profileControllerUploadImage(
+        requestBody: ProfileImageUploadDto,
+    ): CancelablePromise<ProfileResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/profile/image',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Validation failed`,
+            },
+        });
+    }
+    /**
+     * Remove the profile image (clears Customer.ImageUrl)
+     * @returns ProfileResponseDto
+     * @throws ApiError
+     */
+    public static profileControllerRemoveImage(): CancelablePromise<ProfileResponseDto> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/profile/image',
         });
     }
     /**
