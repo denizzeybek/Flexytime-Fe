@@ -9,7 +9,7 @@
     "test:unit": "vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "lint": "eslint . --fix && node ./scripts/checkVueOrder.js",
+    "lint": "eslint . --fix",
     "lint:eslint": "eslint . --fix",
     "lint:order": "node ./scripts/checkVueOrder.js",
     "format": "prettier --write src/",
