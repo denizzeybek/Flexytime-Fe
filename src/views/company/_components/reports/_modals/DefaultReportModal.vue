@@ -66,18 +66,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useForm } from 'vee-validate';
 import { array, number, object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
+import {
+  type ReportPresetMeta,
+  ReportsApiService,
+} from '@/customClient/services/ReportsApiService';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyReportsStore } from '@/stores/company/reports';
 import { ReportFrequency } from '@/views/company/_etc/reportFrequency.enum';
 
-import type { ReportViewModel } from '@/client';
+import type { ReportModifyDto, ReportViewModel } from '@/client';
 
 interface IProps {
   data?: ReportViewModel;
@@ -146,9 +150,22 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 
 const isEditing = computed(() => !!props.data);
 
-const reportTypeOptions = computed(() =>
-  reportsStore.reportTypes.map((item) => ({ name: item.Name ?? '', value: item.ID ?? '' })),
-);
+const presets = ref<ReportPresetMeta[]>([]);
+
+const reportTypeOptions = computed(() => {
+  const fromPresets = presets.value.map((p) => ({ name: p.name, value: p.id }));
+  const data = props.data as ReportViewModel & { PresetId?: string };
+  if (data?.PresetId && !fromPresets.some((o) => o.value === data.PresetId)) {
+    fromPresets.unshift({ name: data.PresetId, value: data.PresetId });
+  }
+  if (data && !data.PresetId && data.Type !== undefined && data.Type !== null) {
+    fromPresets.push({
+      name: `Legacy type ${data.Type}`,
+      value: `__legacy_type_${data.Type}__`,
+    });
+  }
+  return fromPresets;
+});
 
 const teamOptions = computed(() =>
   reportsStore.sectionList.map((item) => ({ name: item.Name ?? '', value: item.ID ?? '' })),
@@ -170,9 +187,20 @@ const getInitialFormData = computed(() => {
   }
 
   const frequencyOption = frequencyOptions.find((f) => f.value === report.Schedule?.Period);
+  const data = report as ReportViewModel & { PresetId?: string };
+  let reportType: { name: string; value: string } | undefined;
+  if (data.PresetId) {
+    const match = presets.value.find((p) => p.id === data.PresetId);
+    reportType = { name: match?.name ?? data.PresetId, value: data.PresetId };
+  } else if (data.Type !== undefined && data.Type !== null) {
+    reportType = {
+      name: `Legacy type ${data.Type}`,
+      value: `__legacy_type_${data.Type}__`,
+    };
+  }
 
   return {
-    reportType: { name: report.TypeDisplay ?? '', value: String(report.Type ?? '') },
+    reportType,
     frequency: frequencyOption ?? defaultFrequency,
     teams: report.SectionId?.map((id) => {
       const section = reportsStore.sectionList.find((s) => s.ID === id);
@@ -191,17 +219,22 @@ const handleClose = () => {
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    await reportsStore.saveReport({
+    const rtValue = String(values.reportType.value);
+    const legacyMatch = /^__legacy_type_(\d+)__$/.exec(rtValue);
+    const payload: Record<string, unknown> = {
       ID: props.data?.ID,
-      Type: Number(values.reportType.value),
       SectionId: values.teams?.map((t: { value: string }) => t.value),
       To: values.to?.join(','),
       Cc: values.cc?.join(','),
       Bcc: values.bcc?.join(','),
-      Schedule: {
-        Period: values.frequency.value,
-      },
-    });
+      Schedule: { Period: values.frequency.value },
+    };
+    if (legacyMatch) {
+      payload['Type'] = Number(legacyMatch[1]);
+    } else {
+      payload['PresetId'] = rtValue;
+    }
+    await reportsStore.saveReport(payload as ReportModifyDto);
 
     if (isEditing.value) {
       showSuccessMessage(t('pages.company.reports.modal.messages.updated'));
@@ -216,7 +249,12 @@ const submitHandler = handleSubmit(async (values) => {
   }
 });
 
-onMounted(() => {
+onMounted(async () => {
+  try {
+    presets.value = await ReportsApiService.listPresets();
+  } catch (err) {
+    showErrorMessage(err as Error);
+  }
   resetForm({
     values: getInitialFormData.value,
   });
