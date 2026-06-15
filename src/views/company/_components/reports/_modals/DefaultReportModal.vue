@@ -25,18 +25,6 @@
           :options="frequencyOptions"
         />
       </div>
-      <div class="flex gap-4 flex-1">
-        <FMultiSelect
-          class="grow"
-          name="teams"
-          :label="t('pages.company.reports.modal.team.label')"
-          :placeholder="t('pages.company.reports.modal.team.placeholder')"
-          :options="teamOptions"
-          :prime-props="{
-            maxSelectedLabels: 3,
-          }"
-        />
-      </div>
       <div class="flex flex-col gap-4 flex-1">
         <FEmailList name="to" :label="t('pages.company.reports.modal.emailTo.label')" />
       </div>
@@ -127,15 +115,6 @@ const validationSchema = object({
     })
     .required()
     .label(t('common.validation.fields.frequency')),
-  teams: array()
-    .required()
-    .label(t('common.validation.fields.team'))
-    .of(
-      object().shape({
-        name: string().required().label(t('common.validation.fields.name')),
-        value: string().required().label(t('common.validation.fields.value')),
-      }),
-    ),
   to: array()
     .label(t('common.validation.fields.email'))
     .of(string().email(t('components.emailList.invalidEmail')).required(t('common.validation.mixed.required', { field: t('common.validation.fields.email') })))
@@ -188,10 +167,6 @@ const reportTypeOptions = computed(() => {
   return options;
 });
 
-const teamOptions = computed(() =>
-  reportsStore.sectionList.map((item) => ({ name: item.Name ?? '', value: item.ID ?? '' })),
-);
-
 const getInitialFormData = computed(() => {
   const report = props.data;
   const defaultFrequency = frequencyOptions[0];
@@ -200,7 +175,6 @@ const getInitialFormData = computed(() => {
     return {
       reportType: undefined,
       frequency: defaultFrequency,
-      teams: [],
       to: [],
       cc: [],
       bcc: [],
@@ -229,10 +203,6 @@ const getInitialFormData = computed(() => {
   return {
     reportType,
     frequency: frequencyOption ?? defaultFrequency,
-    teams: report.SectionId?.map((id) => {
-      const section = reportsStore.sectionList.find((s) => s.ID === id);
-      return { name: section?.Name ?? '', value: id };
-    }) ?? [],
     to: report.To?.split(',').filter(Boolean) ?? [],
     cc: report.Cc?.split(',').filter(Boolean) ?? [],
     bcc: report.Bcc?.split(',').filter(Boolean) ?? [],
@@ -251,7 +221,6 @@ const submitHandler = handleSubmit(async (values) => {
     const savedMatch = /^__saved_filter_(.+)__$/.exec(rtValue);
     const payload: Record<string, unknown> = {
       ID: props.data?.ID,
-      SectionId: values.teams?.map((t: { value: string }) => t.value),
       To: values.to?.join(','),
       Cc: values.cc?.join(','),
       Bcc: values.bcc?.join(','),
