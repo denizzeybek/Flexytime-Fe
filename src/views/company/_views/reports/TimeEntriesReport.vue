@@ -216,7 +216,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Card from 'primevue/card';
@@ -408,6 +408,16 @@ const clearFilters = () => {
   selectedGroup2.value = EGroupOptions.EMPLOYEES;
   queryReport();
 };
+
+watch(selectedTeams, async (next, prev) => {
+  const nextOne = next.length === 1 ? next[0] : undefined;
+  const prevOne = prev && prev.length === 1 ? prev[0] : undefined;
+  if (nextOne === prevOne) return;
+  const stillVisible = (id: string) =>
+    reportsStore.filters?.Employees?.some((e) => e.ID === id) ?? false;
+  await reportsStore.refetchEmployees(nextOne);
+  selectedEmployees.value = selectedEmployees.value.filter(stillVisible);
+});
 
 const handleDownload = async () => {
   const payload = buildQueryPayload();

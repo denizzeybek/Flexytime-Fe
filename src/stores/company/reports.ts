@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia';
 
-import { CompanyService, ReportService } from '@/client';
+import { CompanyService, DefinitionService, ReportService, TimesheetService } from '@/client';
 import { EStoreNames } from '@/stores/storeNames.enum';
 
 import type {
   PerformNameValueModel,
   PerformReportViewModel,
-  ReportFilterViewModel,
   ReportGraphGroupViewModel,
   ReportGroupViewModel,
   ReportModifyDto,
@@ -15,6 +14,18 @@ import type {
   ReportSummaryViewModel,
   ReportViewModel,
 } from '@/client';
+
+interface ReportFilterItem {
+  ID: string;
+  Name: string;
+}
+
+export interface ReportFilterViewModel {
+  Projects: ReportFilterItem[];
+  Tags: ReportFilterItem[];
+  Employees: ReportFilterItem[];
+  Teams: ReportFilterItem[];
+}
 
 interface State {
   filters: ReportFilterViewModel | null;
@@ -60,12 +71,72 @@ export const useCompanyReportsStore = defineStore(EStoreNames.COMPANY_REPORTS, {
     getSectionList: (state) => state.sectionList,
   },
   actions: {
-    async fetchFilters() {
+    async fetchFilters(teamId?: string) {
       this.isFiltersLoading = true;
       try {
-        const response = await ReportService.reportControllerGetFilters();
-        this.filters = response;
-        return response;
+        const [teamsRes, projectsRes, tagsRes, employeesRes] = await Promise.all([
+          CompanyService.companyControllerTeams(),
+          TimesheetService.timesheetControllerGetProjects(),
+          TimesheetService.timesheetControllerGetTags(),
+          // reason: openapi-typescript-codegen returns generic any until the next gcl picks up the new optional teamId query parameter.
+          (DefinitionService.definitionControllerEmployees as (teamId?: string) => Promise<unknown>)(
+            teamId,
+          ),
+        ]);
+
+        const pickString = (v: unknown): string => (typeof v === 'string' ? v : '');
+        const toIdName = (row: unknown): ReportFilterItem => {
+          const r = (row ?? {}) as Record<string, unknown>;
+          return {
+            ID: pickString(r['ID']),
+            Name: pickString(r['Name']) || pickString(r['MemberName']),
+          };
+        };
+
+        const teams = Array.isArray(teamsRes) ? (teamsRes as unknown[]).map(toIdName) : [];
+        const projects = Array.isArray(projectsRes) ? (projectsRes as unknown[]).map(toIdName) : [];
+        const tags = Array.isArray(tagsRes) ? (tagsRes as unknown[]).map(toIdName) : [];
+        const employeesObj = (employeesRes ?? {}) as { Members?: unknown };
+        const members = Array.isArray(employeesObj.Members)
+          ? (employeesObj.Members as unknown[]).map(toIdName)
+          : [];
+
+        const next: ReportFilterViewModel = {
+          Teams: teams,
+          Projects: projects,
+          Tags: tags,
+          Employees: members,
+        };
+        this.filters = next;
+        return next;
+      } finally {
+        this.isFiltersLoading = false;
+      }
+    },
+
+    async refetchEmployees(teamId?: string) {
+      this.isFiltersLoading = true;
+      try {
+        // reason: openapi-typescript-codegen returns generic any until the next gcl picks up the new optional teamId query parameter.
+        const employeesRes: unknown = await (
+          DefinitionService.definitionControllerEmployees as (
+            teamId?: string,
+          ) => Promise<unknown>
+        )(teamId);
+        const employeesObj = (employeesRes ?? {}) as { Members?: unknown };
+        const pickString = (v: unknown): string => (typeof v === 'string' ? v : '');
+        const members = Array.isArray(employeesObj.Members)
+          ? (employeesObj.Members as unknown[]).map((row) => {
+              const r = (row ?? {}) as Record<string, unknown>;
+              return {
+                ID: pickString(r['ID']),
+                Name: pickString(r['Name']) || pickString(r['MemberName']),
+              };
+            })
+          : [];
+        if (this.filters) {
+          this.filters = { ...this.filters, Employees: members };
+        }
       } finally {
         this.isFiltersLoading = false;
       }

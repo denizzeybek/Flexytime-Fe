@@ -28,7 +28,6 @@ import Employees from '@/views/hrSettings/_views/Employees.vue';
 import Holidays from '@/views/hrSettings/_views/Holidays.vue';
 import HRSettings from '@/views/hrSettings/_views/HRSettings.vue';
 import JobTitles from '@/views/hrSettings/_views/JobTitles.vue';
-import Payment from '@/views/payment/_views/Payment.vue';
 import Basic from '@/views/profile/_components/Basic.vue';
 import CalendarIntegrations from '@/views/profile/_components/CalendarIntegrations.vue';
 import Communications from '@/views/profile/_components/Communications.vue';
@@ -391,7 +390,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/payment',
         name: ERouteNames.Payment,
-        component: Payment,
+        component: () => import('@/views/payment/_views/Payment.vue'),
         meta: {
           title: ERouteNames.Payment,
           name: ERouteNames.Payment,
