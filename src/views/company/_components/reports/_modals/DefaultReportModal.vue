@@ -60,6 +60,7 @@ import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
 import { array, number, object, string } from 'yup';
 
+import { ReportService } from '@/client';
 import { useFToast } from '@/composables/useFToast';
 import {
   type ReportPresetMeta,
@@ -69,7 +70,6 @@ import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyReportsStore } from '@/stores/company/reports';
 import { ReportFrequency } from '@/views/company/_etc/reportFrequency.enum';
 
-import { ReportService } from '@/client';
 import type {
   ReportModifyDto,
   ReportSavedFilterDto,

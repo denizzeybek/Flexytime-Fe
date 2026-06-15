@@ -66,12 +66,14 @@ import Dialog from 'primevue/dialog';
 import { useToast } from 'primevue/usetoast';
 
 import {
-  ReportsApiService,
   type ReportPresetMeta,
+  ReportsApiService,
 } from '@/customClient/services/ReportsApiService';
 
 import type { MessageSchema } from '@/plugins/i18n';
 
+const props = withDefaults(defineProps<Props>(), { blurb: '' });
+const emit = defineEmits<{ (e: 'update:visible', value: boolean): void }>();
 const { t } = useI18n<{ message: MessageSchema }>();
 const toast = useToast();
 
@@ -80,9 +82,6 @@ interface Props {
   preset: ReportPresetMeta | null;
   blurb?: string;
 }
-
-const props = withDefaults(defineProps<Props>(), { blurb: '' });
-const emit = defineEmits<{ (e: 'update:visible', value: boolean): void }>();
 
 const busy = ref(false);
 const today = new Date();
