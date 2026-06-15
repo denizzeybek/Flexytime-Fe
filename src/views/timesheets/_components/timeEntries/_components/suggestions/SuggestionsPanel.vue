@@ -124,12 +124,12 @@ import Tag from 'primevue/tag';
 
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 
+import { useSuggestionForm } from './_composables/useSuggestionForm';
+import { checkboxClass, formatBucketRange } from './_helpers/suggestionData';
 import SuggestionClockCard from './SuggestionClockCard.vue';
 import SuggestionConvertModal from './SuggestionConvertModal.vue';
 import SuggestionEmptyState from './SuggestionEmptyState.vue';
 import SuggestionLoadingState from './SuggestionLoadingState.vue';
-import { useSuggestionForm } from './_composables/useSuggestionForm';
-import { checkboxClass, formatBucketRange } from './_helpers/suggestionData';
 
 import type { DateRange } from '@/components/common/DateRangePicker.vue';
 import type { MessageSchema } from '@/plugins/i18n';

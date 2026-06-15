@@ -2,15 +2,16 @@ import { defineStore } from 'pinia';
 
 import { ClockService } from '@/client';
 import { useProfileStore } from '@/stores/profile/profile';
+
 import {
   buildIndividualWellbeings,
   buildProductivityGraph,
   buildWellBeingGraphs,
   clockTimeCell,
   distributionsToLegacy,
+  type IWellBeingGraph,
   perspectiveCellFor,
   summaryObjectToArray,
-  type IWellBeingGraph,
 } from './_helpers/worktimeTransform';
 
 import type {

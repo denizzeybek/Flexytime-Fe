@@ -12,17 +12,17 @@ import { useSuggestionDomainHelpers } from '@/views/timesheets/_composables/useS
 
 import {
   countLeaves,
+  type DayBucket,
+  type DayGroup,
   dayKeyFor,
   dayLabelFor,
   getSelectedTrueObjects,
-  setInitialFormData,
-  sumBucketSeconds,
-  type DayBucket,
-  type DayGroup,
   type SelectionState,
+  setInitialFormData,
   type SuggestionClockForm,
   type SuggestionForm,
   type SuggestionGroupForm,
+  sumBucketSeconds,
 } from '../_helpers/suggestionData';
 
 import type { DateRange } from '@/components/common/DateRangePicker.vue';
