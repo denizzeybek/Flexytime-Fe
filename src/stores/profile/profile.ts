@@ -111,6 +111,13 @@ export const useProfileStore = defineStore(EStoreNames.PROFILE, {
     memberId: (state): string | null => {
       return state.GeneralProfile?.Wizard?.MemberId ?? null;
     },
+
+    canSeeOthers: (state): boolean => {
+      const wizard = state.GeneralProfile?.Wizard as
+        | { CanSeeOthers?: boolean }
+        | undefined;
+      return wizard?.CanSeeOthers === true;
+    },
   },
   actions: {
     async filter() {

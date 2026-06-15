@@ -6,6 +6,7 @@
         <div class="flex flex-col gap-4">
           <div class="flex items-center gap-4 flex-wrap">
             <MultiSelect
+              v-if="canSeeOthers"
               v-model="selectedTeams"
               :options="teamOptions"
               optionLabel="name"
@@ -18,6 +19,7 @@
               @change="onFilterChange"
             />
             <MultiSelect
+              v-if="canSeeOthers"
               v-model="selectedEmployees"
               :options="employeeOptions"
               optionLabel="name"
@@ -186,12 +188,16 @@ import { EChartType } from '@/enums/chartType.enum';
 import { formatDateToInterval } from '@/helpers/date';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyReportsStore } from '@/stores/company/reports';
+import { useProfileStore } from '@/stores/profile/profile';
 import { EBillableOptions, useReport } from '@/views/company/_composables/useReport';
 import { EGroupOptions } from '@/views/company/_etc/groupOptions.enum';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const reportsStore = useCompanyReportsStore();
+const profileStore = useProfileStore();
 const { teamOptions, employeeOptions, projectOptions, billableOptions, groupOptions } = useReport();
+
+const canSeeOthers = computed<boolean>(() => profileStore.canSeeOthers);
 
 const selectedTeams = ref<string[]>([]);
 const selectedEmployees = ref<string[]>([]);
