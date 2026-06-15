@@ -1,11 +1,9 @@
 <template>
   <div class="flex flex-col gap-8">
-    <!-- Personal Info Section (saved with button) -->
     <div class="bg-surface-primary rounded-xl border border-border-secondary dark:border-border-primary p-6 transition-colors">
       <h3 class="text-lg font-semibold text-content-primary mb-6">{{ t('pages.profile.basic.sections.personalInfo') }}</h3>
       <form class="flex flex-col gap-6" @submit.prevent="submitHandler">
         <div class="flex items-center flex-col lg:flex-row gap-8">
-          <!-- Avatar -->
           <div class="flex items-center justify-center flex-col gap-4">
             <div class="relative w-[120px] h-[120px]">
               <template v-if="hasProfileImage">
@@ -54,7 +52,6 @@
             />
           </div>
 
-          <!-- Name & Email -->
           <div class="flex flex-col flex-1 gap-4 w-full">
             <FInput
               id="fullName"
@@ -83,7 +80,6 @@
           </div>
         </div>
 
-        <!-- Role (read-only) -->
         <FInput
           id="role"
           :label="t('pages.profile.basic.role.label')"
@@ -102,79 +98,26 @@
       </form>
     </div>
 
-    <!-- Preferences Section (auto-save on change) -->
-    <div class="bg-surface-primary rounded-xl border border-border-secondary dark:border-border-primary p-6 transition-colors">
-      <div class="flex items-center justify-between mb-6">
-        <h3 class="text-lg font-semibold text-content-primary">{{ t('pages.profile.basic.sections.preferences') }}</h3>
-        <span class="text-xs text-content-quaternary">{{ t('pages.profile.basic.sections.autoSave') }}</span>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Language -->
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-medium">{{ t('pages.profile.basic.language.label') }}</label>
-          <Select
-            v-model="selectedLanguageModel"
-            :options="languageOptions"
-            optionLabel="name"
-            :placeholder="t('pages.profile.basic.language.placeholder')"
-            class="w-full"
-            :loading="isLanguageLoading"
-            @update:model-value="handleLanguageChange"
-          />
-        </div>
-
-        <!-- Timezone -->
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-medium">{{ t('pages.profile.basic.timezone.label') }}</label>
-          <Select
-            v-model="selectedTimezoneModel"
-            :options="timeZoneList"
-            optionLabel="name"
-            :placeholder="t('pages.profile.basic.timezone.placeholder')"
-            class="w-full"
-            filter
-            :loading="isTimezoneLoading"
-            @update:model-value="handleTimezoneChange"
-          />
-        </div>
-
-        <!-- Currency -->
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-medium">{{ t('pages.profile.basic.currency.label') }}</label>
-          <Select
-            v-model="selectedCurrencyModel"
-            :options="currencyList"
-            optionLabel="name"
-            :placeholder="t('pages.profile.basic.currency.placeholder')"
-            class="w-full"
-            filter
-            :loading="isCurrencyLoading"
-            @update:model-value="handleCurrencyChange"
-          />
-        </div>
-      </div>
-    </div>
+    <BasicPreferencesCard />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import Select from 'primevue/select';
 import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
 
 import { useFToast } from '@/composables/useFToast';
-import { useLanguage } from '@/composables/useLanguage';
 import { type MessageSchema } from '@/plugins/i18n';
 import { useProfileStore } from '@/stores/profile/profile';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import BasicPreferencesCard from './BasicPreferencesCard.vue';
 
+const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
 const profileStore = useProfileStore();
-const { currentLanguage, changeLanguage, getLanguageOptions } = useLanguage();
 
 const validationSchema = object({
   fullName: string().required().label(t('pages.profile.basic.fullName.label')),
@@ -182,32 +125,10 @@ const validationSchema = object({
   role: string().label(t('pages.profile.basic.role.label')),
 });
 
-const { handleSubmit, isSubmitting, resetForm } = useForm({
-  validationSchema,
-});
+const { handleSubmit, isSubmitting, resetForm } = useForm({ validationSchema });
 
-const src = ref();
-const isLanguageLoading = ref(false);
-const isTimezoneLoading = ref(false);
-const isCurrencyLoading = ref(false);
+const src = ref<string | null>(null);
 const isImageUploading = ref(false);
-
-const languageOptions = getLanguageOptions();
-const selectedLanguageModel = ref<{ name: string; value: 'en' | 'tr' } | undefined>(
-  languageOptions.find((lang) => lang.value === currentLanguage.value),
-);
-
-const timeZoneList = computed(() =>
-  profileStore?.TimeZoneList?.map((item) => ({ name: item.Name, value: item.ID })),
-);
-
-const selectedTimezoneModel = ref<{ name: string | undefined; value: string | undefined } | undefined>();
-
-const currencyList = computed(() =>
-  profileStore?.CurrencyList?.map((item) => ({ name: item.Name, value: item.ID })),
-);
-
-const selectedCurrencyModel = ref<{ name: string | undefined; value: string | undefined } | undefined>();
 
 const hasProfileImage = computed(() => !!profileStore?.GeneralProfile.imageUrl);
 const isEmailConfirmed = computed(() => profileStore?.GeneralProfile?.EmailConfirmed ?? true);
@@ -216,7 +137,6 @@ const getInitialFormData = computed(() => {
   const profile = profileStore?.GeneralProfile;
   const roles = profile?.Wizard?.Roles ?? [];
   const roleLabel = roles.length > 0 ? roles.map((r) => r[0]?.toUpperCase() + r.slice(1)).join(', ') : '';
-
   return {
     fullName: profile?.fullname || '',
     email: profile?.email || '',
@@ -226,25 +146,23 @@ const getInitialFormData = computed(() => {
 
 const submitHandler = handleSubmit(async (values) => {
   try {
-    await profileStore.updateProfile({
-      fullname: values.fullName,
-    });
+    await profileStore.updateProfile({ fullname: values.fullName });
     showSuccessMessage(t('pages.profile.basic.messages.updated'));
   } catch {
     showErrorMessage(t('common.errors.generic'));
   }
 });
 
+// reason: PrimeVue FileUpload's @select event payload type isn't exported on v4; using any here mirrors the original.
 const onFileSelect = async (event: any) => {
   const file = event.files[0];
   if (!file) return;
-
   const reader = new FileReader();
   reader.onload = (e) => {
-    src.value = e?.target?.result;
+    const result = e?.target?.result;
+    src.value = typeof result === 'string' ? result : null;
   };
   reader.readAsDataURL(file);
-
   isImageUploading.value = true;
   try {
     await profileStore.uploadProfileImage(file);
@@ -270,49 +188,6 @@ const onRemoveImage = async () => {
   }
 };
 
-const handleLanguageChange = async (option: { name: string; value: 'en' | 'tr' }) => {
-  if (option && option.value) {
-    isLanguageLoading.value = true;
-    try {
-      await profileStore.updateLanguageCode(option.value);
-      await changeLanguage(option.value);
-      showSuccessMessage(t('pages.profile.basic.messages.languageUpdated'));
-    } catch {
-      showErrorMessage(t('common.errors.generic'));
-    } finally {
-      isLanguageLoading.value = false;
-    }
-  }
-};
-
-const handleTimezoneChange = async (option: { name: string; value: string }) => {
-  if (option && option.value) {
-    isTimezoneLoading.value = true;
-    try {
-      await profileStore.updateTimezone(option.value);
-      showSuccessMessage(t('pages.profile.basic.messages.timezoneUpdated'));
-    } catch {
-      showErrorMessage(t('common.errors.generic'));
-    } finally {
-      isTimezoneLoading.value = false;
-    }
-  }
-};
-
-const handleCurrencyChange = async (option: { name: string; value: string }) => {
-  if (option && option.value) {
-    isCurrencyLoading.value = true;
-    try {
-      await profileStore.updateCurrency(option.value);
-      showSuccessMessage(t('pages.profile.basic.messages.currencyUpdated'));
-    } catch {
-      showErrorMessage(t('common.errors.generic'));
-    } finally {
-      isCurrencyLoading.value = false;
-    }
-  }
-};
-
 const onResendConfirmation = async () => {
   try {
     await profileStore.resendConfirmation();
@@ -322,30 +197,9 @@ const onResendConfirmation = async () => {
   }
 };
 
-watch(currentLanguage, (newLang) => {
-  selectedLanguageModel.value = languageOptions.find((lang) => lang.value === newLang);
-});
-
 onMounted(async () => {
-  await Promise.all([
-    profileStore.filter(),
-    profileStore.fetchTimezones(),
-    profileStore.fetchCurrencies(),
-  ]);
-
-  selectedLanguageModel.value = languageOptions.find(
-    (lang) => lang.value === currentLanguage.value,
-  );
-
-  const timeZone = profileStore?.TimeZone;
-  selectedTimezoneModel.value = timeZoneList.value?.find((item) => item.value === timeZone);
-
-  const currency = profileStore?.Currency ?? 'TRY';
-  selectedCurrencyModel.value = currencyList.value?.find((item) => item.value === currency);
-
-  resetForm({
-    values: getInitialFormData.value,
-  });
+  await profileStore.filter();
+  resetForm({ values: getInitialFormData.value });
 });
 </script>
 

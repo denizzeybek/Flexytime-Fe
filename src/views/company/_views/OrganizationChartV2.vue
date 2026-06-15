@@ -6,10 +6,10 @@
         :label="t('pages.company.organizationChartV2.buttons.addRootTeam')"
         icon="pi pi-plus"
         severity="primary"
-        @click="handleAddRootNode"
+        @click="chart.handleAddRootNode"
       />
     </div>
-    <Card v-if="isLoading" class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl transition-colors">
+    <Card v-if="chart.isLoading.value" class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl transition-colors">
       <template #content>
         <div class="flex items-center justify-center py-16">
           <ProgressSpinner />
@@ -18,14 +18,14 @@
     </Card>
 
     <Card
-      v-else-if="nodes.length > 0"
+      v-else-if="chart.nodes.value.length > 0"
       class="shadow-lg border border-border-secondary dark:border-border-primary rounded-2xl overflow-hidden transition-colors"
     >
       <template #content>
         <div class="vue-flow-container" style="height: 600px;">
           <VueFlow
-            v-model:nodes="nodes"
-            v-model:edges="edges"
+            v-model:nodes="chart.nodes.value"
+            v-model:edges="chart.edges.value"
             :default-viewport="{ x: 0, y: 0, zoom: 0.8 }"
             :min-zoom="0.3"
             :max-zoom="1.5"
@@ -38,16 +38,13 @@
             <template #node-organization="nodeProps">
               <OrganizationChartV2Node v-bind="nodeProps" />
             </template>
-
             <Controls position="bottom-right" />
-
             <MiniMap
               position="bottom-left"
               :pannable="true"
               :zoomable="true"
               class="!bg-surface-secondary !border-border-secondary dark:!border-border-primary"
             />
-
             <Background :gap="20" :size="1" pattern-color="#e5e7eb" />
           </VueFlow>
         </div>
@@ -63,30 +60,29 @@
             :label="t('pages.company.organizationChartV2.buttons.addFirstTeam')"
             icon="pi pi-plus"
             severity="primary"
-            @click="handleAddRootNode"
+            @click="chart.handleAddRootNode"
           />
         </div>
       </template>
     </Card>
 
     <NodeEditDialog
-      v-model:visible="showEditDialog"
-      :node="selectedNode"
-      :mode="dialogMode"
-      @save="handleSaveNode"
+      v-model:visible="chart.showEditDialog.value"
+      :node="chart.selectedNode.value"
+      :mode="chart.dialogMode.value"
+      @save="chart.handleSaveNode"
     />
 
     <OrganizationChartDeleteDialog
-      :visible="showDeleteDialog"
-      :node="nodeToDelete"
-      @update:visible="showDeleteDialog = $event"
-      @confirm="confirmDelete"
+      :visible="chart.showDeleteDialog.value"
+      :node="chart.nodeToDelete.value"
+      @update:visible="chart.showDeleteDialog.value = $event"
+      @confirm="chart.confirmDelete"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, provide, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Background } from '@vue-flow/background';
 import { Controls } from '@vue-flow/controls';
@@ -97,222 +93,21 @@ import Button from 'primevue/button';
 import Card from 'primevue/card';
 import ProgressSpinner from 'primevue/progressspinner';
 
-import { useFToast } from '@/composables/useFToast';
-import { useCompanyOrganizationChartsStore } from '@/stores/company/organizationChart';
+import { useOrganizationChart } from '@/views/company/_composables/useOrganizationChart';
 
 import NodeEditDialog from '../_components/organizationChart/NodeEditDialog.vue';
 import OrganizationChartDeleteDialog from '../_components/organizationChart/OrganizationChartDeleteDialog.vue';
 import OrganizationChartV2Node from '../_components/organizationChartV2/OrganizationChartV2Node.vue';
-import {
-  convertToFlowElements,
-  type OrganizationFlowEdge,
-  type OrganizationFlowNode,
-} from '../_types/organizationChartV2';
 
 import '@vue-flow/core/dist/style.css';
 import '@vue-flow/core/dist/theme-default.css';
 import '@vue-flow/controls/dist/style.css';
 import '@vue-flow/minimap/dist/style.css';
 
-import type { OrganizationNodeViewModel } from '@/client';
 import type { MessageSchema } from '@/plugins/i18n';
 
 const { t } = useI18n<{ message: MessageSchema }>();
-const { showErrorMessage } = useFToast();
-const store = useCompanyOrganizationChartsStore();
-
-const isLoading = ref(false);
-const isSaving = ref(false);
-const apiTreeData = ref<OrganizationNodeViewModel[]>([]);
-const nodes = ref<OrganizationFlowNode[]>([]);
-const edges = ref<OrganizationFlowEdge[]>([]);
-
-const showEditDialog = ref(false);
-const showDeleteDialog = ref(false);
-const selectedNode = ref<OrganizationNodeViewModel | null>(null);
-const nodeToDelete = ref<OrganizationNodeViewModel | null>(null);
-const dialogMode = ref<'add' | 'edit'>('add');
-
-const refreshFlow = () => {
-  const flowElements = convertToFlowElements(apiTreeData.value);
-  nodes.value = flowElements.nodes;
-  edges.value = flowElements.edges;
-};
-
-const findNodeById = (
-  tree: OrganizationNodeViewModel[],
-  id: string,
-): OrganizationNodeViewModel | null => {
-  for (const n of tree) {
-    if (n.ID === id) return n;
-    if (n.children?.length) {
-      const found = findNodeById(n.children, id);
-      if (found) return found;
-    }
-  }
-  return null;
-};
-
-const removeNodeById = (
-  tree: OrganizationNodeViewModel[],
-  id: string,
-): OrganizationNodeViewModel[] => {
-  return tree
-    .filter((n) => n.ID !== id)
-    .map((n) => ({
-      ...n,
-      children: n.children ? removeNodeById(n.children, id) : [],
-    }));
-};
-
-const updateNodeById = (
-  tree: OrganizationNodeViewModel[],
-  id: string,
-  patch: Partial<OrganizationNodeViewModel>,
-): OrganizationNodeViewModel[] => {
-  return tree.map((n) => {
-    if (n.ID === id) {
-      return { ...n, ...patch, children: n.children } as OrganizationNodeViewModel;
-    }
-    if (n.children?.length) {
-      return { ...n, children: updateNodeById(n.children, id, patch) };
-    }
-    return n;
-  });
-};
-
-const addChildToNode = (
-  tree: OrganizationNodeViewModel[],
-  parentId: string,
-  newNode: OrganizationNodeViewModel,
-): OrganizationNodeViewModel[] => {
-  return tree.map((n) => {
-    if (n.ID === parentId) {
-      return { ...n, children: [...(n.children ?? []), newNode] };
-    }
-    if (n.children?.length) {
-      return { ...n, children: addChildToNode(n.children, parentId, newNode) };
-    }
-    return n;
-  });
-};
-
-const generateTempId = (): string =>
-  `temp_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-
-provide('onEdit', (id: string) => {
-  const node = findNodeById(apiTreeData.value, id);
-  if (!node) return;
-  dialogMode.value = 'edit';
-  selectedNode.value = node;
-  showEditDialog.value = true;
-});
-
-provide('onDelete', (id: string) => {
-  const node = findNodeById(apiTreeData.value, id);
-  if (!node) return;
-  nodeToDelete.value = node;
-  showDeleteDialog.value = true;
-});
-
-provide('onAddChild', (id: string) => {
-  dialogMode.value = 'add';
-  selectedNode.value = {
-    children: [],
-    title: '',
-    MemberName: '',
-    TitleName: '',
-    Name: '',
-    _parentId: id,
-  } as OrganizationNodeViewModel & { _parentId?: string };
-  showEditDialog.value = true;
-});
-
-const handleAddRootNode = () => {
-  dialogMode.value = 'add';
-  selectedNode.value = {
-    children: [],
-    title: '',
-    MemberName: '',
-    TitleName: '',
-    Name: '',
-  };
-  showEditDialog.value = true;
-};
-
-const stripTempIds = (
-  tree: OrganizationNodeViewModel[],
-): OrganizationNodeViewModel[] =>
-  tree.map((n) => ({
-    ...n,
-    ID: n.ID?.startsWith('temp_') ? undefined : n.ID,
-    children: n.children ? stripTempIds(n.children) : [],
-  }));
-
-const autoSave = async () => {
-  try {
-    isSaving.value = true;
-    await store.save({ Nodes: stripTempIds(apiTreeData.value) });
-
-    await store.filter();
-    apiTreeData.value = store.list ?? [];
-    refreshFlow();
-  } catch (error) {
-    showErrorMessage(error as Error);
-  } finally {
-    isSaving.value = false;
-  }
-};
-
-const handleSaveNode = (node: OrganizationNodeViewModel) => {
-  if (dialogMode.value === 'add') {
-    const newNode: OrganizationNodeViewModel = {
-      ...node,
-      ID: node.ID || generateTempId(),
-      children: [],
-    };
-    const parentId = (node as OrganizationNodeViewModel & { _parentId?: string })._parentId;
-    if (parentId) {
-      apiTreeData.value = addChildToNode(apiTreeData.value, parentId, newNode);
-    } else {
-      apiTreeData.value = [...apiTreeData.value, newNode];
-    }
-  } else if (dialogMode.value === 'edit' && node.ID) {
-    apiTreeData.value = updateNodeById(apiTreeData.value, node.ID, node);
-  }
-
-  showEditDialog.value = false;
-  selectedNode.value = null;
-  refreshFlow();
-  autoSave();
-};
-
-const confirmDelete = () => {
-  if (nodeToDelete.value?.ID) {
-    apiTreeData.value = removeNodeById(apiTreeData.value, nodeToDelete.value.ID);
-    refreshFlow();
-    showDeleteDialog.value = false;
-    nodeToDelete.value = null;
-    autoSave();
-  }
-};
-
-const fetchData = async () => {
-  try {
-    isLoading.value = true;
-    await store.filter();
-    apiTreeData.value = store.list ?? [];
-    refreshFlow();
-  } catch (error) {
-    showErrorMessage(error as Error);
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-onMounted(() => {
-  fetchData();
-});
+const chart = useOrganizationChart();
 </script>
 
 <style scoped>

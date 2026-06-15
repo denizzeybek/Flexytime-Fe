@@ -1,469 +1,63 @@
 <template>
   <div class="flex flex-col gap-6">
-    <!-- Filters Form -->
-    <Card class="shadow-md border border-border-secondary dark:border-border-primary rounded-xl transition-colors">
-      <template #content>
-        <div class="flex flex-col gap-4">
-          <div class="flex items-center gap-4 flex-wrap">
-            <MultiSelect
-              v-if="canSeeOthers"
-              v-model="selectedTeams"
-              :options="teamOptions"
-              optionLabel="name"
-              optionValue="value"
-              :placeholder="t('pages.company.reports.elasticReports.filters.teams')"
-              :maxSelectedLabels="2"
-              class="flex-1 min-w-[180px]"
-              filter
-              :loading="reportsStore.isFiltersLoading"
-              @change="onFilterChange"
-            />
-            <MultiSelect
-              v-if="canSeeOthers"
-              v-model="selectedEmployees"
-              :options="employeeOptions"
-              optionLabel="name"
-              optionValue="value"
-              :placeholder="t('pages.company.reports.elasticReports.filters.employees')"
-              :maxSelectedLabels="2"
-              class="flex-1 min-w-[180px]"
-              filter
-              :loading="reportsStore.isFiltersLoading"
-              @change="onFilterChange"
-            />
-            <MultiSelect
-              v-model="selectedProjects"
-              :options="projectOptions"
-              optionLabel="name"
-              optionValue="value"
-              :placeholder="t('pages.company.reports.elasticReports.filters.projects')"
-              :maxSelectedLabels="2"
-              class="flex-1 min-w-[180px]"
-              filter
-              :loading="reportsStore.isFiltersLoading"
-              @change="onFilterChange"
-            />
-            <Select
-              v-model="selectedBillable"
-              :options="billableOptions"
-              optionLabel="name"
-              optionValue="value"
-              :placeholder="t('pages.company.reports.elasticReports.filters.billable')"
-              class="flex-1 min-w-[150px]"
-              @change="onFilterChange"
-            />
-            <DatePicker
-              v-model="selectedDateRange"
-              selectionMode="range"
-              :placeholder="t('pages.company.reports.elasticReports.filters.dateRange')"
-              class="flex-1 min-w-[200px]"
-              dateFormat="dd/mm/yy"
-              showIcon
-              @date-select="onFilterChange"
-            />
-            <Button
-              :label="t('pages.company.reports.elasticReports.filters.clear')"
-              severity="secondary"
-              outlined
-              @click="clearFilters"
-            />
-          </div>
-        </div>
-      </template>
-    </Card>
+    <TimeEntriesFilterBar
+      v-model:teams="report.selectedTeams.value"
+      v-model:employees="report.selectedEmployees.value"
+      v-model:projects="report.selectedProjects.value"
+      v-model:billable="report.selectedBillable.value"
+      v-model:dateRange="report.selectedDateRange.value"
+      :can-see-others="report.canSeeOthers.value"
+      :team-options="report.teamOptions.value"
+      :employee-options="report.employeeOptions.value"
+      :project-options="report.projectOptions.value"
+      :billable-options="report.billableOptions.value"
+      :filters-loading="reportsStore.isFiltersLoading"
+      @change="report.onFilterChange"
+      @clear="report.clearFilters"
+    />
 
-    <!-- Summary & Bar Chart -->
-    <Card class="shadow-md border border-border-secondary dark:border-border-primary rounded-xl transition-colors">
-      <template #header>
-        <div class="flex items-center justify-between flex-wrap px-5 pt-5 gap-4">
-          <div class="flex gap-6 flex-wrap">
-            <div class="flex items-center gap-2">
-              <span class="text-content-tertiary">{{ t('pages.company.reports.elasticReports.summary.total') }}</span>
-              <span class="font-semibold text-lg">{{ summary?.Total ?? '00:00' }}</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="text-content-tertiary">{{ t('pages.company.reports.elasticReports.summary.billable') }}</span>
-              <span class="font-semibold text-lg text-green-600">{{ summary?.Billable ?? '00:00' }}</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="text-content-tertiary">{{ t('pages.company.reports.elasticReports.summary.unbillable') }}</span>
-              <span class="font-semibold text-lg text-orange-600">{{ summary?.Unbillable ?? '00:00' }}</span>
-            </div>
-          </div>
-          <div class="flex gap-2">
-            <Button
-              icon="pi pi-bookmark"
-              :label="t('pages.company.reports.timeEntries.saveAsFilter')"
-              severity="secondary"
-              outlined
-              :disabled="reportsStore.isLoading"
-              @click="openSaveFilterDialog"
-            />
-            <Button
-              icon="pi pi-download"
-              :label="t('pages.company.reports.elasticReports.download')"
-              severity="secondary"
-              outlined
-              :disabled="reportsStore.isLoading"
-              @click="handleDownload"
-            />
-          </div>
-          <Dialog
-            v-model:visible="saveFilterDialog"
-            modal
-            :header="t('pages.company.reports.timeEntries.saveDialog.title')"
-            :style="{ width: '420px' }"
-            :closable="!savingFilter"
-          >
-            <div class="flex flex-col gap-3">
-              <label class="text-sm font-medium" for="saved-filter-name">
-                {{ t('pages.company.reports.timeEntries.saveDialog.nameLabel') }}
-              </label>
-              <InputText
-                id="saved-filter-name"
-                v-model="saveFilterName"
-                :placeholder="t('pages.company.reports.timeEntries.saveDialog.namePlaceholder')"
-                :disabled="savingFilter"
-                @keydown.enter="confirmSaveFilter"
-              />
-              <div class="flex justify-end gap-2 mt-2">
-                <Button
-                  :label="t('pages.company.reports.dialog.cancel')"
-                  severity="secondary"
-                  outlined
-                  :disabled="savingFilter"
-                  @click="saveFilterDialog = false"
-                />
-                <Button
-                  :label="t('pages.company.reports.timeEntries.saveDialog.save')"
-                  severity="primary"
-                  :loading="savingFilter"
-                  :disabled="!saveFilterName.trim()"
-                  @click="confirmSaveFilter"
-                />
-              </div>
-            </div>
-          </Dialog>
-        </div>
-      </template>
-      <template #content>
-        <div v-if="reportsStore.isLoading" class="flex justify-center items-center h-64">
-          <ProgressSpinner />
-        </div>
-        <div v-else-if="hasChartData" class="h-80">
-          <Chart :type="EChartType.BAR" :data="barChartData" :options="barChartOptions" class="h-full" />
-        </div>
-        <NoDataState v-else :message="t('pages.company.reports.elasticReports.noData')" />
-      </template>
-    </Card>
+    <TimeEntriesSummaryCard
+      v-model:dialog-open="report.saveFilterDialog.value"
+      v-model:filter-name="report.saveFilterName.value"
+      :summary="report.summary.value"
+      :is-loading="reportsStore.isLoading"
+      :has-chart-data="report.hasChartData.value"
+      :chart-data="report.barChartData.value"
+      :chart-options="report.barChartOptions.value"
+      :saving="report.savingFilter.value"
+      @save-filter="report.openSaveFilterDialog"
+      @download="report.handleDownload"
+      @confirm-save="report.confirmSaveFilter"
+    />
 
-    <!-- Grouping Table & Pie Chart -->
-    <Card class="shadow-md border border-border-secondary dark:border-border-primary rounded-xl transition-colors">
-      <template #header>
-        <div class="flex gap-4 px-5 pt-5">
-          <Select
-            v-model="selectedGroup1"
-            :options="groupOptions"
-            optionLabel="name"
-            optionValue="value"
-            :placeholder="t('pages.company.reports.elasticReports.groups.group1')"
-            class="w-48"
-            @change="onFilterChange"
-          />
-          <Select
-            v-model="selectedGroup2"
-            :options="groupOptions"
-            optionLabel="name"
-            optionValue="value"
-            :placeholder="t('pages.company.reports.elasticReports.groups.group2')"
-            class="w-48"
-            @change="onFilterChange"
-          />
-        </div>
-      </template>
-      <template #content>
-        <div v-if="reportsStore.isLoading" class="flex justify-center items-center h-64">
-          <ProgressSpinner />
-        </div>
-        <div v-else class="flex gap-8 flex-col lg:flex-row">
-          <!-- Data Table -->
-          <DataTable
-            :value="reportsStore.grouping"
-            paginator
-            :rows="10"
-            :rowsPerPageOptions="[5, 10, 20, 50]"
-            class="flex-1"
-            stripedRows
-          >
-            <Column :field="'Group1'" :header="group1Label" sortable />
-            <Column :field="'Group2'" :header="group2Label" sortable />
-            <Column field="Total" :header="t('pages.company.reports.elasticReports.columns.total')" sortable />
-            <template #empty>
-              <div class="text-center text-content-tertiary py-4">
-                {{ t('pages.company.reports.elasticReports.noData') }}
-              </div>
-            </template>
-          </DataTable>
-
-          <!-- Pie Chart -->
-          <div v-if="hasPieChartData" class="w-full lg:w-80">
-            <Chart :type="EChartType.DOUGHNUT" :data="pieChartData" :options="pieChartOptions" />
-          </div>
-        </div>
-      </template>
-    </Card>
+    <TimeEntriesGroupingCard
+      v-model:group1="report.selectedGroup1.value"
+      v-model:group2="report.selectedGroup2.value"
+      :group-options="report.groupOptions.value"
+      :group1-label="report.group1Label.value"
+      :group2-label="report.group2Label.value"
+      :grouping="reportsStore.grouping"
+      :has-pie-chart-data="report.hasPieChartData.value"
+      :pie-chart-data="report.pieChartData.value"
+      :pie-chart-options="report.pieChartOptions.value"
+      :is-loading="reportsStore.isLoading"
+      @change="report.onFilterChange"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { onMounted } from 'vue';
 
-import Card from 'primevue/card';
-import Chart from 'primevue/chart';
-import Column from 'primevue/column';
-import DataTable from 'primevue/datatable';
-import DatePicker from 'primevue/datepicker';
-import Dialog from 'primevue/dialog';
-import InputText from 'primevue/inputtext';
-import MultiSelect from 'primevue/multiselect';
-import ProgressSpinner from 'primevue/progressspinner';
-import Select from 'primevue/select';
-import { useToast } from 'primevue/usetoast';
-
-import { ReportSavedFilterSaveDto, ReportService } from '@/client';
-import NoDataState from '@/components/common/NoDataState.vue';
-import { DownloadService } from '@/customClient/services/DownloadService';
-import { EChartType } from '@/enums/chartType.enum';
-import { formatDateToInterval } from '@/helpers/date';
-import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyReportsStore } from '@/stores/company/reports';
-import { useProfileStore } from '@/stores/profile/profile';
-import { EBillableOptions, useReport } from '@/views/company/_composables/useReport';
-import { EGroupOptions } from '@/views/company/_etc/groupOptions.enum';
+import { useTimeEntriesReport } from '@/views/company/_composables/useTimeEntriesReport';
 
-const { t } = useI18n<{ message: MessageSchema }>();
+import TimeEntriesFilterBar from './_components/TimeEntriesFilterBar.vue';
+import TimeEntriesGroupingCard from './_components/TimeEntriesGroupingCard.vue';
+import TimeEntriesSummaryCard from './_components/TimeEntriesSummaryCard.vue';
+
 const reportsStore = useCompanyReportsStore();
-const profileStore = useProfileStore();
-const { teamOptions, employeeOptions, projectOptions, billableOptions, groupOptions } = useReport();
+const report = useTimeEntriesReport();
 
-const canSeeOthers = computed<boolean>(() => profileStore.canSeeOthers);
-
-const selectedTeams = ref<string[]>([]);
-const selectedEmployees = ref<string[]>([]);
-const selectedProjects = ref<string[]>([]);
-const selectedBillable = ref<EBillableOptions>(EBillableOptions.ALL);
-const today = new Date();
-const selectedDateRange = ref<Date[]>([today, today]);
-const selectedGroup1 = ref<EGroupOptions>(EGroupOptions.PROJECTS);
-const selectedGroup2 = ref<EGroupOptions>(EGroupOptions.EMPLOYEES);
-
-const summary = computed(() => reportsStore.summary);
-
-const group1Label = computed(() => {
-  const option = groupOptions.value.find((o) => o.value === selectedGroup1.value);
-  return option?.name ?? t('pages.company.reports.elasticReports.groups.group1');
-});
-
-const group2Label = computed(() => {
-  const option = groupOptions.value.find((o) => o.value === selectedGroup2.value);
-  return option?.name ?? t('pages.company.reports.elasticReports.groups.group2');
-});
-
-const hasChartData = computed(() => {
-  return reportsStore.graphs?.Main?.datasets && reportsStore.graphs.Main.datasets.length > 0;
-});
-
-const hasPieChartData = computed(() => {
-  return reportsStore.graphs?.Group && reportsStore.graphs.Group.length > 0;
-});
-
-const barChartData = computed(() => {
-  const graphData = reportsStore.graphs?.Main;
-  if (!graphData) return { labels: [], datasets: [] };
-
-  return {
-    labels: graphData.labels ?? [],
-    datasets:
-      graphData.datasets?.map((ds: any) => ({
-        label: ds.label,
-        data: ds.data,
-        backgroundColor: ds.backgroundColor || 'rgba(59, 130, 246, 0.8)',
-        borderColor: ds.borderColor || 'rgb(59, 130, 246)',
-        borderWidth: 1,
-      })) ?? [],
-  };
-});
-
-const barChartOptions = computed(() => {
-  const documentStyle = getComputedStyle(document.documentElement);
-  const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
-  const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
-
-  return {
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        labels: {
-          color: textColorSecondary,
-        },
-      },
-    },
-    scales: {
-      x: {
-        ticks: { color: textColorSecondary },
-        grid: { color: surfaceBorder },
-      },
-      y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: reportsStore.graphs?.Main?.Unit || '',
-          color: textColorSecondary,
-          font: {
-            size: 12,
-            weight: 500,
-          },
-        },
-        ticks: { color: textColorSecondary },
-        grid: { color: surfaceBorder },
-      },
-    },
-  };
-});
-
-const pieChartData = computed(() => {
-  const groupData = reportsStore.graphs?.Group ?? [];
-  const colors = [
-    'rgba(34, 197, 94, 0.8)',
-    'rgba(249, 115, 22, 0.8)',
-    'rgba(59, 130, 246, 0.8)',
-    'rgba(168, 85, 247, 0.8)',
-    'rgba(236, 72, 153, 0.8)',
-    'rgba(20, 184, 166, 0.8)',
-  ];
-
-  return {
-    labels: groupData.map((d: any) => d.label),
-    datasets: [
-      {
-        data: groupData.map((d: any) => d.value),
-        backgroundColor: colors.slice(0, groupData.length),
-        hoverBackgroundColor: colors.slice(0, groupData.length).map((c) => c.replace('0.8', '1')),
-      },
-    ],
-  };
-});
-
-const pieChartOptions = computed(() => {
-  const documentStyle = getComputedStyle(document.documentElement);
-  const textColor = documentStyle.getPropertyValue('--p-text-color');
-
-  return {
-    plugins: {
-      legend: {
-        labels: {
-          usePointStyle: true,
-          color: textColor,
-        },
-      },
-    },
-  };
-});
-
-const buildQueryPayload = () => {
-  const [start, end] = selectedDateRange.value;
-  const diffTime = Math.abs(end.getTime() - start.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-  const interval = `${formatDateToInterval(start)}-${diffDays}`;
-
-  return {
-    Interval: interval,
-    Teams: selectedTeams.value,
-    Employees: selectedEmployees.value,
-    Projects: selectedProjects.value,
-    Billable: selectedBillable.value,
-    Group1: selectedGroup1.value,
-    Group2: selectedGroup2.value,
-  };
-};
-
-const onFilterChange = () => {
-  queryReport();
-};
-
-const queryReport = async () => {
-  const payload = buildQueryPayload();
-  await reportsStore.queryReport(payload);
-};
-
-const clearFilters = () => {
-  selectedTeams.value = [];
-  selectedEmployees.value = [];
-  selectedProjects.value = [];
-  selectedBillable.value = EBillableOptions.ALL;
-  const now = new Date();
-  selectedDateRange.value = [now, now];
-  selectedGroup1.value = EGroupOptions.PROJECTS;
-  selectedGroup2.value = EGroupOptions.EMPLOYEES;
-  queryReport();
-};
-
-watch(selectedTeams, async (next, prev) => {
-  const nextOne = next.length === 1 ? next[0] : undefined;
-  const prevOne = prev && prev.length === 1 ? prev[0] : undefined;
-  if (nextOne === prevOne) return;
-  const stillVisible = (id: string) =>
-    reportsStore.filters?.Employees?.some((e) => e.ID === id) ?? false;
-  await reportsStore.refetchEmployees(nextOne);
-  selectedEmployees.value = selectedEmployees.value.filter(stillVisible);
-});
-
-const handleDownload = async () => {
-  const payload = buildQueryPayload();
-  await DownloadService.downloadReportXlsx(payload);
-};
-
-const toast = useToast();
-const saveFilterDialog = ref(false);
-const saveFilterName = ref('');
-const savingFilter = ref(false);
-
-const openSaveFilterDialog = () => {
-  saveFilterName.value = '';
-  saveFilterDialog.value = true;
-};
-
-const confirmSaveFilter = async () => {
-  const name = saveFilterName.value.trim();
-  if (!name || savingFilter.value) return;
-  savingFilter.value = true;
-  try {
-    await ReportService.reportControllerSaveSavedFilter({
-      Name: name,
-      DataSource: ReportSavedFilterSaveDto.DataSource.TIME_ENTRY,
-      FilterSpec: buildQueryPayload() as unknown as Record<string, unknown>,
-    });
-    toast.add({
-      severity: 'success',
-      summary: t('pages.company.reports.timeEntries.saveDialog.saved'),
-      life: 3000,
-    });
-    saveFilterDialog.value = false;
-  } catch (err) {
-    toast.add({
-      severity: 'error',
-      summary: t('pages.company.reports.timeEntries.saveDialog.failed'),
-      detail: err instanceof Error ? err.message : String(err),
-      life: 4000,
-    });
-  } finally {
-    savingFilter.value = false;
-  }
-};
-
-onMounted(async () => {
-  await reportsStore.fetchFilters();
-  await queryReport();
-});
+onMounted(() => report.bootstrap());
 </script>

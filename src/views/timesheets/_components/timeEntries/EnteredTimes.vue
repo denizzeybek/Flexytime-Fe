@@ -31,7 +31,7 @@
           >
             <div class="flex items-center gap-2 min-w-0">
               <i class="pi pi-calendar text-f-primary text-sm" />
-              <span class="text-sm font-semibold text-content-secondary">{{ formatDateLabel(group.RecordDate) }}</span>
+              <span class="text-sm font-semibold text-content-secondary">{{ formatDayLabel(group.RecordDate, zone, dateLabels) }}</span>
               <template v-if="groupTotalSeconds(group) > 0">
                 <span class="text-content-tertiary/50">•</span>
                 <span class="text-sm text-content-tertiary">
@@ -54,14 +54,13 @@
           />
 
           <div
-            v-for="project in projectsForGroup(group)"
+            v-for="project in projectsForGroup(group, t('pages.timesheets.enteredTimes.untitled'))"
             v-else
             :key="`${group.RecordDate}-${project.projectId}`"
             class="group bg-surface-primary rounded-2xl border border-border-secondary dark:border-border-primary hover:border-f-primary/30 hover:shadow-lg transition-all duration-300 overflow-hidden"
           >
             <div class="flex">
               <div class="w-1.5 bg-gradient-to-b from-f-primary to-f-primary/60" />
-
               <div class="flex-1 p-5">
                 <div class="flex items-start justify-between gap-4 mb-4">
                   <div class="flex items-center gap-3 min-w-0">
@@ -76,7 +75,7 @@
                     </div>
                     <div class="text-sm text-content-tertiary flex items-center gap-1.5">
                       <i class="pi pi-clock text-xs" />
-                      {{ projectDateRange(project) }}
+                      {{ projectDateRange(project, zone) }}
                     </div>
                   </div>
                 </div>
@@ -95,7 +94,7 @@
                         </span>
                         <span class="text-xs text-content-tertiary flex items-center gap-1.5">
                           <i class="pi pi-clock text-[10px]" />
-                          {{ fmtRange(session.start, session.end) }}
+                          {{ fmtRange(session.start, session.end, zone) }}
                         </span>
                       </div>
                       <div class="flex items-center gap-2 flex-shrink-0">
@@ -134,12 +133,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
 import Button from 'primevue/button';
 import Skeleton from 'primevue/skeleton';
 import Tag from 'primevue/tag';
@@ -151,8 +147,15 @@ import { type MessageSchema } from '@/plugins/i18n';
 import { useProfileStore } from '@/stores/profile/profile';
 import { useTimesheetsTimeEntriesStore } from '@/stores/timeSheets/timeEntries';
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import {
+  fmtRange,
+  fmtTimeSpan,
+  formatDayLabel,
+  groupTotalSeconds,
+  projectDateRange,
+  projectsForGroup,
+  tagChipStyle,
+} from './_helpers/timeEntriesFormat';
 
 const { t } = useI18n<{ message: MessageSchema }>();
 const { showSuccessMessage, showErrorMessage } = useFToast();
@@ -160,154 +163,13 @@ const confirm = useConfirm();
 const timeEntriesStore = useTimesheetsTimeEntriesStore();
 const profileStore = useProfileStore();
 
-interface SessionTag {
-  ID: string;
-  Name: string;
-  Color?: string;
-}
-
-interface SessionRow {
-  rangeId: string;
-  entryId: string;
-  taskName: string;
-  tags: SessionTag[];
-  start: string;
-  end: string;
-  seconds: number;
-}
-
-const DEFAULT_TAG_COLOR = '#64748b';
-
-const tagChipStyle = (color?: string) => ({
-  background: color ?? DEFAULT_TAG_COLOR,
-  color: '#ffffff',
-  border: 'none',
-});
-
-interface ProjectRollup {
-  projectId: string;
-  projectName: string;
-  totalSeconds: number;
-  startTimestamp: number;
-  endTimestamp: number;
-  sessions: SessionRow[];
-}
-
-const fmtInZone = (iso: string | undefined, pattern: string): string => {
-  if (!iso) return '';
-  const tz = profileStore.TimeZone || dayjs.tz.guess();
-  return dayjs.utc(iso).tz(tz).format(pattern);
-};
-
-const fmtTimeSpan = (seconds: number | undefined): string => {
-  const s = Math.max(0, Math.floor(seconds ?? 0));
-  if (s === 0) return '0s';
-  const h = Math.floor(s / 3600);
-  const m = Math.floor((s % 3600) / 60);
-  const sec = s % 60;
-  const parts: string[] = [];
-  if (h > 0) parts.push(`${h}h`);
-  if (m > 0) parts.push(`${m}min`);
-  if (sec > 0) parts.push(`${sec}s`);
-  return parts.join(' ');
-};
-
-const fmtRange = (startIso: string | undefined, endIso: string | undefined): string => {
-  if (!startIso || !endIso) return '';
-  const head = fmtInZone(startIso, 'DD.MM.YYYY HH:mm:ss');
-  const tail = fmtInZone(endIso, 'HH:mm:ss');
-  return `${head} - ${tail}`;
-};
-
-const groupTotalSeconds = (group: { Entries?: Array<{ Seconds?: number; Ranges?: Array<{ Seconds?: number }> }> }): number => {
-  const entries = group.Entries ?? [];
-  return entries.reduce((acc, entry) => {
-    if (typeof entry.Seconds === 'number') return acc + entry.Seconds;
-    const ranges = entry.Ranges ?? [];
-    return acc + ranges.reduce((rAcc, r) => rAcc + (r.Seconds ?? 0), 0);
-  }, 0);
-};
-
-interface DayGroup {
-  Entries?: Array<{
-    ID?: string;
-    Task?: { Name?: string };
-    Project?: { ID?: string; Name?: string };
-    Tags?: Array<{ ID?: string; Name?: string; Color?: string }>;
-    Ranges?: Array<{ ID?: string; Start?: string; End?: string; Seconds?: number }>;
-  }>;
-}
-
-const projectsForGroup = (group: DayGroup): ProjectRollup[] => {
-  const map = new Map<string, ProjectRollup>();
-  const entries = group.Entries ?? [];
-
-  for (const entry of entries) {
-    const projectId = entry.Project?.ID ?? '__no_project';
-    const projectName = entry.Project?.Name ?? t('pages.timesheets.enteredTimes.untitled');
-
-    let pg = map.get(projectId);
-    if (!pg) {
-      pg = {
-        projectId,
-        projectName,
-        totalSeconds: 0,
-        sessions: [],
-        startTimestamp: Number.POSITIVE_INFINITY,
-        endTimestamp: Number.NEGATIVE_INFINITY,
-      };
-      map.set(projectId, pg);
-    }
-
-    const tags: SessionTag[] = (entry.Tags ?? [])
-      .filter((tag): tag is { ID: string; Name: string; Color?: string } => Boolean(tag?.ID && tag?.Name))
-      .map((tag) => ({ ID: tag.ID, Name: tag.Name, ...(tag.Color && { Color: tag.Color }) }));
-
-    for (const range of entry.Ranges ?? []) {
-      const sec = range.Seconds ?? 0;
-      pg.sessions.push({
-        rangeId: range.ID ?? '',
-        entryId: entry.ID ?? '',
-        taskName: entry.Task?.Name ?? t('pages.timesheets.enteredTimes.untitled'),
-        tags,
-        start: range.Start ?? '',
-        end: range.End ?? '',
-        seconds: sec,
-      });
-      pg.totalSeconds += sec;
-
-      if (range.Start) {
-        const ts = new Date(range.Start).getTime();
-        if (!Number.isNaN(ts) && ts < pg.startTimestamp) pg.startTimestamp = ts;
-      }
-      if (range.End) {
-        const ts = new Date(range.End).getTime();
-        if (!Number.isNaN(ts) && ts > pg.endTimestamp) pg.endTimestamp = ts;
-      }
-    }
-  }
-
-  for (const pg of map.values()) {
-    pg.sessions.sort((a, b) => {
-      const ta = a.start ? new Date(a.start).getTime() : 0;
-      const tb = b.start ? new Date(b.start).getTime() : 0;
-      return ta - tb;
-    });
-  }
-
-  return Array.from(map.values()).sort((a, b) => a.startTimestamp - b.startTimestamp);
-};
-
-const projectDateRange = (pg: ProjectRollup): string => {
-  if (pg.startTimestamp === Number.POSITIVE_INFINITY) return '';
-  return fmtRange(
-    new Date(pg.startTimestamp).toISOString(),
-    new Date(pg.endTimestamp).toISOString(),
-  );
-};
+const zone = computed(() => profileStore.TimeZone || undefined);
+const dateLabels = computed(() => ({
+  today: t('common.dates.today'),
+  yesterday: t('common.dates.yesterday'),
+}));
 
 const deletingRangeId = ref<string | null>(null);
-
 const collapsedDays = ref<Set<string>>(new Set());
 
 const isDayExpanded = (recordDate: string | undefined): boolean =>
@@ -319,24 +181,6 @@ const toggleDay = (recordDate: string | undefined): void => {
   if (next.has(key)) next.delete(key);
   else next.add(key);
   collapsedDays.value = next;
-};
-
-const formatDateLabel = (dateStr?: string): string => {
-  if (!dateStr) return '';
-
-  const tz = profileStore.TimeZone || dayjs.tz.guess();
-  const date = dayjs.utc(dateStr).tz(tz);
-  if (!date.isValid()) return '';
-  const today = dayjs().tz(tz);
-  const yesterday = today.subtract(1, 'day');
-
-  if (date.isSame(today, 'day')) {
-    return t('common.dates.today');
-  } else if (date.isSame(yesterday, 'day')) {
-    return t('common.dates.yesterday');
-  }
-
-  return date.format('DD MMMM YYYY');
 };
 
 const handleDeleteRange = (rangeId: string, taskName?: string) => {
