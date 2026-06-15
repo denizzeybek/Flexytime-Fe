@@ -93,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue';
+import { computed,onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Button from 'primevue/button';
@@ -103,12 +103,12 @@ import DataTable from 'primevue/datatable';
 import ProgressSpinner from 'primevue/progressspinner';
 import { useToast } from 'primevue/usetoast';
 
-import { DownloadService } from '@/customClient/services/DownloadService';
 import {
-  ReportsApiService,
   type ReportPresetMeta,
   type ReportRunResult,
+  ReportsApiService,
 } from '@/customClient/services/ReportsApiService';
+
 import type { MessageSchema } from '@/plugins/i18n';
 
 const { t } = useI18n<{ message: MessageSchema }>();
@@ -152,7 +152,7 @@ const onRunPreset = async (preset: ReportPresetMeta) => {
 
 const onDownloadPreset = async (preset: ReportPresetMeta) => {
   try {
-    await DownloadService.downloadReportXlsx({ Interval: '7' });
+    await ReportsApiService.downloadPreset(preset.id);
   } catch (err) {
     toast.add({
       severity: 'error',

@@ -70,4 +70,40 @@ export class ReportsApiService {
     }
     return (await response.json()) as ReportRunResult;
   }
+
+  /**
+   * Hit POST /webapi/report/download/preset to fetch the preset-specific
+   * rich workbook (Overview + per-employee + per-project + per-day sheets,
+   * etc.) and trigger a client-side download.
+   */
+  public static async downloadPreset(presetId: string): Promise<void> {
+    const url = `${OpenAPI.BASE}/webapi/report/download/preset`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: baseHeaders(),
+      credentials: 'include',
+      body: JSON.stringify({ presetId }),
+    });
+    if (!response.ok) {
+      const text = await response.text().catch(() => '');
+      throw new Error(
+        `preset download failed: ${response.status} ${response.statusText} ${text}`,
+      );
+    }
+
+    const disposition = response.headers.get('Content-Disposition') ?? '';
+    const fileName =
+      /filename="?([^"]+)"?/i.exec(disposition)?.[1] ??
+      `${presetId}-${new Date().toISOString().slice(0, 10)}.xlsx`;
+
+    const blob = await response.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = objectUrl;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(objectUrl);
+  }
 }
