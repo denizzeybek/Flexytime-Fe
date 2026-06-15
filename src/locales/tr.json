@@ -906,8 +906,16 @@
       },
       "reports": {
         "tabs": {
+          "landing": "Raporlar",
           "elastic": "Esnek",
-          "default": "Varsayılan"
+          "default": "Zamanlanmış"
+        },
+        "landing": {
+          "title": "Raporlar",
+          "subtitle": "Hazır bir rapor seçin veya Esnek sekmesinden kendi sorgunuzu oluşturun.",
+          "run": "Şimdi çalıştır",
+          "download": ".xlsx indir",
+          "empty": "Seçilen aralık için veri yok."
         },
         "defaultReports": {
           "messages": {

@@ -17,6 +17,7 @@ import OrganizationChartV2 from '@/views/company/_views/OrganizationChartV2.vue'
 import DefaultReports from '@/views/company/_views/reports/DefaultReports.vue';
 import ElasticReports from '@/views/company/_views/reports/ElasticReports.vue';
 import Reports from '@/views/company/_views/reports/Reports.vue';
+import ReportsLanding from '@/views/company/_views/reports/ReportsLanding.vue';
 import Teams from '@/views/company/_views/Teams.vue';
 import WorkingHours from '@/views/company/_views/WorkingHours.vue';
 import Download from '@/views/download/_views/Download.vue';
@@ -261,6 +262,16 @@ const routes: RouteRecordRaw[] = [
           requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
         },
         children: [
+          {
+            path: '',
+            name: ERouteNames.CompanyReportsLanding,
+            component: ReportsLanding,
+            meta: {
+              title: ERouteNames.CompanyReportsLanding,
+              name: ERouteNames.CompanyReportsLanding,
+              requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
+            },
+          },
           {
             path: 'elastic',
             name: ERouteNames.CompanyReportsElastic,

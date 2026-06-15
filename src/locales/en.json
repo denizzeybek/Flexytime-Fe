@@ -906,8 +906,16 @@
       },
       "reports": {
         "tabs": {
+          "landing": "Reports",
           "elastic": "Elastic",
-          "default": "Default"
+          "default": "Scheduled"
+        },
+        "landing": {
+          "title": "Reports",
+          "subtitle": "Pick a ready-made report or build a custom query under Elastic.",
+          "run": "Run now",
+          "download": "Download .xlsx",
+          "empty": "No data for the selected range."
         },
         "defaultReports": {
           "messages": {

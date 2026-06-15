@@ -41,6 +41,13 @@ const { t } = useI18n<{ message: MessageSchema }>();
 
 const items = ref([
   {
+    route: ERouteNames.CompanyReportsLanding,
+    label: t('pages.company.reports.tabs.landing'),
+    method: () => {
+      router.push({ name: ERouteNames.CompanyReportsLanding });
+    },
+  },
+  {
     route: ERouteNames.CompanyReportsElastic,
     label: t('pages.company.reports.tabs.elastic'),
     method: () => {
