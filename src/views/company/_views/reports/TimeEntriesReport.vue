@@ -90,14 +90,60 @@
               <span class="font-semibold text-lg text-orange-600">{{ summary?.Unbillable ?? '00:00' }}</span>
             </div>
           </div>
-          <Button
-            icon="pi pi-download"
-            :label="t('pages.company.reports.elasticReports.download')"
-            severity="secondary"
-            outlined
-            :disabled="reportsStore.isLoading"
-            @click="handleDownload"
-          />
+          <div class="flex gap-2">
+            <Button
+              icon="pi pi-bookmark"
+              :label="t('pages.company.reports.timeEntries.saveAsFilter')"
+              severity="secondary"
+              outlined
+              :disabled="reportsStore.isLoading"
+              @click="openSaveFilterDialog"
+            />
+            <Button
+              icon="pi pi-download"
+              :label="t('pages.company.reports.elasticReports.download')"
+              severity="secondary"
+              outlined
+              :disabled="reportsStore.isLoading"
+              @click="handleDownload"
+            />
+          </div>
+          <Dialog
+            v-model:visible="saveFilterDialog"
+            modal
+            :header="t('pages.company.reports.timeEntries.saveDialog.title')"
+            :style="{ width: '420px' }"
+            :closable="!savingFilter"
+          >
+            <div class="flex flex-col gap-3">
+              <label class="text-sm font-medium" for="saved-filter-name">
+                {{ t('pages.company.reports.timeEntries.saveDialog.nameLabel') }}
+              </label>
+              <InputText
+                id="saved-filter-name"
+                v-model="saveFilterName"
+                :placeholder="t('pages.company.reports.timeEntries.saveDialog.namePlaceholder')"
+                :disabled="savingFilter"
+                @keydown.enter="confirmSaveFilter"
+              />
+              <div class="flex justify-end gap-2 mt-2">
+                <Button
+                  :label="t('pages.company.reports.dialog.cancel')"
+                  severity="secondary"
+                  outlined
+                  :disabled="savingFilter"
+                  @click="saveFilterDialog = false"
+                />
+                <Button
+                  :label="t('pages.company.reports.timeEntries.saveDialog.save')"
+                  severity="primary"
+                  :loading="savingFilter"
+                  :disabled="!saveFilterName.trim()"
+                  @click="confirmSaveFilter"
+                />
+              </div>
+            </div>
+          </Dialog>
         </div>
       </template>
       <template #content>
@@ -178,10 +224,14 @@ import Chart from 'primevue/chart';
 import Column from 'primevue/column';
 import DataTable from 'primevue/datatable';
 import DatePicker from 'primevue/datepicker';
+import Dialog from 'primevue/dialog';
+import InputText from 'primevue/inputtext';
 import MultiSelect from 'primevue/multiselect';
 import ProgressSpinner from 'primevue/progressspinner';
 import Select from 'primevue/select';
+import { useToast } from 'primevue/usetoast';
 
+import { ReportSavedFilterSaveDto, ReportService } from '@/client';
 import NoDataState from '@/components/common/NoDataState.vue';
 import { DownloadService } from '@/customClient/services/DownloadService';
 import { EChartType } from '@/enums/chartType.enum';
@@ -362,6 +412,44 @@ const clearFilters = () => {
 const handleDownload = async () => {
   const payload = buildQueryPayload();
   await DownloadService.downloadReportXlsx(payload);
+};
+
+const toast = useToast();
+const saveFilterDialog = ref(false);
+const saveFilterName = ref('');
+const savingFilter = ref(false);
+
+const openSaveFilterDialog = () => {
+  saveFilterName.value = '';
+  saveFilterDialog.value = true;
+};
+
+const confirmSaveFilter = async () => {
+  const name = saveFilterName.value.trim();
+  if (!name || savingFilter.value) return;
+  savingFilter.value = true;
+  try {
+    await ReportService.reportControllerSaveSavedFilter({
+      Name: name,
+      DataSource: ReportSavedFilterSaveDto.DataSource.TIME_ENTRY,
+      FilterSpec: buildQueryPayload() as unknown as Record<string, unknown>,
+    });
+    toast.add({
+      severity: 'success',
+      summary: t('pages.company.reports.timeEntries.saveDialog.saved'),
+      life: 3000,
+    });
+    saveFilterDialog.value = false;
+  } catch (err) {
+    toast.add({
+      severity: 'error',
+      summary: t('pages.company.reports.timeEntries.saveDialog.failed'),
+      detail: err instanceof Error ? err.message : String(err),
+      life: 4000,
+    });
+  } finally {
+    savingFilter.value = false;
+  }
 };
 
 onMounted(async () => {

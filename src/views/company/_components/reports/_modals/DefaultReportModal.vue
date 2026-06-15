@@ -81,7 +81,12 @@ import { type MessageSchema } from '@/plugins/i18n';
 import { useCompanyReportsStore } from '@/stores/company/reports';
 import { ReportFrequency } from '@/views/company/_etc/reportFrequency.enum';
 
-import type { ReportModifyDto, ReportViewModel } from '@/client';
+import { ReportService } from '@/client';
+import type {
+  ReportModifyDto,
+  ReportSavedFilterDto,
+  ReportViewModel,
+} from '@/client';
 
 interface IProps {
   data?: ReportViewModel;
@@ -151,20 +156,36 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
 const isEditing = computed(() => !!props.data);
 
 const presets = ref<ReportPresetMeta[]>([]);
+const savedFilters = ref<ReportSavedFilterDto[]>([]);
+
+type DataWithV22 = ReportViewModel & {
+  PresetId?: string;
+  SavedFilterId?: string;
+};
 
 const reportTypeOptions = computed(() => {
-  const fromPresets = presets.value.map((p) => ({ name: p.name, value: p.id }));
-  const data = props.data as ReportViewModel & { PresetId?: string };
-  if (data?.PresetId && !fromPresets.some((o) => o.value === data.PresetId)) {
-    fromPresets.unshift({ name: data.PresetId, value: data.PresetId });
+  const options: Array<{ name: string; value: string }> = [];
+  for (const p of presets.value) options.push({ name: `★ ${p.name}`, value: p.id });
+  for (const f of savedFilters.value) {
+    options.push({ name: `🔖 ${f.Name}`, value: `__saved_filter_${f.ID}__` });
   }
-  if (data && !data.PresetId && data.Type !== undefined && data.Type !== null) {
-    fromPresets.push({
+  const data = props.data as DataWithV22;
+  if (data?.PresetId && !presets.value.some((p) => p.id === data.PresetId)) {
+    options.unshift({ name: data.PresetId, value: data.PresetId });
+  }
+  if (data?.SavedFilterId && !savedFilters.value.some((f) => f.ID === data.SavedFilterId)) {
+    options.unshift({
+      name: data.SavedFilterId,
+      value: `__saved_filter_${data.SavedFilterId}__`,
+    });
+  }
+  if (data && !data.PresetId && !data.SavedFilterId && data.Type !== undefined && data.Type !== null) {
+    options.push({
       name: `Legacy type ${data.Type}`,
       value: `__legacy_type_${data.Type}__`,
     });
   }
-  return fromPresets;
+  return options;
 });
 
 const teamOptions = computed(() =>
@@ -187,11 +208,17 @@ const getInitialFormData = computed(() => {
   }
 
   const frequencyOption = frequencyOptions.find((f) => f.value === report.Schedule?.Period);
-  const data = report as ReportViewModel & { PresetId?: string };
+  const data = report as DataWithV22;
   let reportType: { name: string; value: string } | undefined;
   if (data.PresetId) {
     const match = presets.value.find((p) => p.id === data.PresetId);
     reportType = { name: match?.name ?? data.PresetId, value: data.PresetId };
+  } else if (data.SavedFilterId) {
+    const match = savedFilters.value.find((f) => f.ID === data.SavedFilterId);
+    reportType = {
+      name: match?.Name ?? data.SavedFilterId,
+      value: `__saved_filter_${data.SavedFilterId}__`,
+    };
   } else if (data.Type !== undefined && data.Type !== null) {
     reportType = {
       name: `Legacy type ${data.Type}`,
@@ -221,6 +248,7 @@ const submitHandler = handleSubmit(async (values) => {
   try {
     const rtValue = String(values.reportType.value);
     const legacyMatch = /^__legacy_type_(\d+)__$/.exec(rtValue);
+    const savedMatch = /^__saved_filter_(.+)__$/.exec(rtValue);
     const payload: Record<string, unknown> = {
       ID: props.data?.ID,
       SectionId: values.teams?.map((t: { value: string }) => t.value),
@@ -231,6 +259,8 @@ const submitHandler = handleSubmit(async (values) => {
     };
     if (legacyMatch) {
       payload['Type'] = Number(legacyMatch[1]);
+    } else if (savedMatch) {
+      payload['SavedFilterId'] = savedMatch[1];
     } else {
       payload['PresetId'] = rtValue;
     }
@@ -251,7 +281,12 @@ const submitHandler = handleSubmit(async (values) => {
 
 onMounted(async () => {
   try {
-    presets.value = await ReportsApiService.listPresets();
+    const [presetList, filterList] = await Promise.all([
+      ReportsApiService.listPresets(),
+      ReportService.reportControllerListSavedFilters(),
+    ]);
+    presets.value = presetList;
+    savedFilters.value = filterList;
   } catch (err) {
     showErrorMessage(err as Error);
   }

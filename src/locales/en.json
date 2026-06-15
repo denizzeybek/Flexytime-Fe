@@ -923,6 +923,17 @@
           "cancel": "Cancel",
           "download": "Download .xlsx"
         },
+        "timeEntries": {
+          "saveAsFilter": "Save as filter",
+          "saveDialog": {
+            "title": "Save as filter",
+            "nameLabel": "Filter name",
+            "namePlaceholder": "e.g. Apollo billable hours",
+            "save": "Save filter",
+            "saved": "Filter saved",
+            "failed": "Could not save filter"
+          }
+        },
         "defaultReports": {
           "messages": {
             "deleted": "Report deleted successfully!"

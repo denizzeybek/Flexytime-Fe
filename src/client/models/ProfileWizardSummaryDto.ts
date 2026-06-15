@@ -11,5 +11,12 @@ export type ProfileWizardSummaryDto = {
      * `PerformMember._id` for the authenticated user, or `null` when missing.
      */
     MemberId: string | null;
+    /**
+     * True when the caller can see other employees' data — either an Administrator
+     * (Customer.Roles contains `Supervisor`) or a Manager (their PerformMember's
+     * TitleId maps to a PerformTitle with IsSupervisor=true). Drives Reports
+     * Team/Employee filter visibility and other role-gated UI.
+     */
+    CanSeeOthers: boolean;
 };
 

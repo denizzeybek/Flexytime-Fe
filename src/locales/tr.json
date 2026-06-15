@@ -923,6 +923,17 @@
           "cancel": "Vazgeç",
           "download": ".xlsx indir"
         },
+        "timeEntries": {
+          "saveAsFilter": "Filtre olarak kaydet",
+          "saveDialog": {
+            "title": "Filtre olarak kaydet",
+            "nameLabel": "Filtre adı",
+            "namePlaceholder": "örn. Apollo faturalanabilir saatler",
+            "save": "Filtreyi kaydet",
+            "saved": "Filtre kaydedildi",
+            "failed": "Filtre kaydedilemedi"
+          }
+        },
         "defaultReports": {
           "messages": {
             "deleted": "Rapor başarıyla silindi!"
