@@ -95,7 +95,7 @@
             :label="t('pages.company.reports.elasticReports.download')"
             severity="secondary"
             outlined
-            :disabled="!reportsStore.downloadKey"
+            :disabled="reportsStore.isLoading"
             @click="handleDownload"
           />
         </div>
@@ -359,10 +359,9 @@ const clearFilters = () => {
   queryReport();
 };
 
-const handleDownload = () => {
-  if (reportsStore.downloadKey) {
-    DownloadService.downloadReport(reportsStore.downloadKey);
-  }
+const handleDownload = async () => {
+  const payload = buildQueryPayload();
+  await DownloadService.downloadReportXlsx(payload);
 };
 
 onMounted(async () => {
