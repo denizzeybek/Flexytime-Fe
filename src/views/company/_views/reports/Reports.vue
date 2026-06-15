@@ -48,10 +48,10 @@ const items = ref([
     },
   },
   {
-    route: ERouteNames.CompanyReportsElastic,
-    label: t('pages.company.reports.tabs.elastic'),
+    route: ERouteNames.CompanyReportsTimeEntries,
+    label: t('pages.company.reports.tabs.timeEntries'),
     method: () => {
-      router.push({ name: ERouteNames.CompanyReportsElastic });
+      router.push({ name: ERouteNames.CompanyReportsTimeEntries });
     },
   },
   {

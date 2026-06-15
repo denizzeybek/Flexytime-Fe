@@ -15,9 +15,9 @@ import Company from '@/views/company/_views/Company.vue';
 import OrganizationChart from '@/views/company/_views/OrganizationChart.vue';
 import OrganizationChartV2 from '@/views/company/_views/OrganizationChartV2.vue';
 import DefaultReports from '@/views/company/_views/reports/DefaultReports.vue';
-import ElasticReports from '@/views/company/_views/reports/ElasticReports.vue';
 import Reports from '@/views/company/_views/reports/Reports.vue';
 import ReportsLanding from '@/views/company/_views/reports/ReportsLanding.vue';
+import TimeEntriesReport from '@/views/company/_views/reports/TimeEntriesReport.vue';
 import Teams from '@/views/company/_views/Teams.vue';
 import WorkingHours from '@/views/company/_views/WorkingHours.vue';
 import Download from '@/views/download/_views/Download.vue';
@@ -273,12 +273,12 @@ const routes: RouteRecordRaw[] = [
             },
           },
           {
-            path: 'elastic',
-            name: ERouteNames.CompanyReportsElastic,
-            component: ElasticReports,
+            path: 'time-entries',
+            name: ERouteNames.CompanyReportsTimeEntries,
+            component: TimeEntriesReport,
             meta: {
-              title: ERouteNames.CompanyReportsElastic,
-              name: ERouteNames.CompanyReportsElastic,
+              title: ERouteNames.CompanyReportsTimeEntries,
+              name: ERouteNames.CompanyReportsTimeEntries,
               requiresRole: [ERole.ADMIN, ERole.SUPERVISOR, ERole.HR],
             },
           },

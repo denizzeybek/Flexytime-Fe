@@ -37,7 +37,7 @@ export enum ERouteNames {
   CompanyWorkingHours = 'Working Hours',
   CompanyReports = 'Reports',
   CompanyReportsLanding = 'Reports Landing',
-  CompanyReportsElastic = 'Elastic Reports',
+  CompanyReportsTimeEntries = 'Time Entries Report',
   CompanyReportsDefault = 'Default Reports',
 
   HRSettings = 'HR Settings',

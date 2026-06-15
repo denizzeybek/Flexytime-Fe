@@ -160,7 +160,7 @@ const menuItems = computed(() => {
   items.push({
     label: t('pages.layouts.navbar.reports'),
     icon: 'pi pi-chart-bar',
-    route: ERouteNames.CompanyReportsElastic,
+    route: ERouteNames.CompanyReportsLanding,
   });
 
   items.push({

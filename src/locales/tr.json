@@ -907,7 +907,7 @@
       "reports": {
         "tabs": {
           "landing": "Raporlar",
-          "elastic": "Esnek",
+          "timeEntries": "Zaman Girişleri",
           "default": "Zamanlanmış"
         },
         "landing": {

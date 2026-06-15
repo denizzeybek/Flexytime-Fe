@@ -907,7 +907,7 @@
       "reports": {
         "tabs": {
           "landing": "Reports",
-          "elastic": "Elastic",
+          "timeEntries": "Time Entries",
           "default": "Scheduled"
         },
         "landing": {
