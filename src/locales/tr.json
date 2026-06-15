@@ -917,6 +917,12 @@
           "download": ".xlsx indir",
           "empty": "Seçilen aralık için veri yok."
         },
+        "dialog": {
+          "title": "Rapor indir",
+          "dateRange": "Tarih aralığı",
+          "cancel": "Vazgeç",
+          "download": ".xlsx indir"
+        },
         "defaultReports": {
           "messages": {
             "deleted": "Rapor başarıyla silindi!"

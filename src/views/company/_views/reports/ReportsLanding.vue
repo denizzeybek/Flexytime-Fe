@@ -62,6 +62,12 @@
       </template>
     </Card>
 
+    <RunPresetDialog
+      v-model:visible="dialogVisible"
+      :preset="dialogPreset"
+      :blurb="dialogBlurb"
+    />
+
     <Card
       v-if="lastResult"
       class="shadow-md border border-border-secondary dark:border-border-primary rounded-xl transition-colors"
@@ -108,6 +114,7 @@ import {
   type ReportRunResult,
   ReportsApiService,
 } from '@/customClient/services/ReportsApiService';
+import RunPresetDialog from '@/views/company/_views/reports/_components/RunPresetDialog.vue';
 
 import type { MessageSchema } from '@/plugins/i18n';
 
@@ -119,15 +126,20 @@ const loadingPresets = ref(false);
 const runningPresetId = ref<string | null>(null);
 const lastResult = ref<ReportRunResult | null>(null);
 const lastResultPreset = ref<ReportPresetMeta | null>(null);
+const dialogPreset = ref<ReportPresetMeta | null>(null);
+const dialogVisible = ref(false);
+const dialogBlurb = ref('');
 
 const lastResultPresetName = computed(() => lastResultPreset.value?.name ?? '');
 
 const PRESET_BLURBS: Record<string, string> = {
-  'timesheet-summary': 'Manual time entries by employee, project, and day.',
+  'timesheet-summary': 'Your own manual time entries — by date, by project, by day-of-week pattern.',
   'project-hours': 'Project totals split by employee — last month.',
   'activity-by-domain': 'Worktime split across Work / Meeting / Leisure / Unclassified.',
   'application-usage': 'Top applications by time spent (worktime agent data).',
   'attendance': 'Daily shift duration per employee (worktime agent data).',
+  'worktime-usage':
+    'Comprehensive worktime report — 12 sheets covering productivity per employee/team, daily detail, top apps, shift adherence, day-of-week patterns.',
 };
 
 const describePreset = (id: string): string => PRESET_BLURBS[id] ?? '';
@@ -150,17 +162,10 @@ const onRunPreset = async (preset: ReportPresetMeta) => {
   }
 };
 
-const onDownloadPreset = async (preset: ReportPresetMeta) => {
-  try {
-    await ReportsApiService.downloadPreset(preset.id);
-  } catch (err) {
-    toast.add({
-      severity: 'error',
-      summary: 'Download failed',
-      detail: err instanceof Error ? err.message : String(err),
-      life: 4000,
-    });
-  }
+const onDownloadPreset = (preset: ReportPresetMeta) => {
+  dialogPreset.value = preset;
+  dialogBlurb.value = describePreset(preset.id);
+  dialogVisible.value = true;
 };
 
 onMounted(async () => {

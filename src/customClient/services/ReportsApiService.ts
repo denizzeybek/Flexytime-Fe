@@ -74,15 +74,23 @@ export class ReportsApiService {
   /**
    * Hit POST /webapi/report/download/preset to fetch the preset-specific
    * rich workbook (Overview + per-employee + per-project + per-day sheets,
-   * etc.) and trigger a client-side download.
+   * etc.) and trigger a client-side download. Optional `override` is forwarded
+   * as the body's `override` field — the BE uses it to override the preset's
+   * defaultInterval (e.g., `{ Interval: '01.05.2026-30' }` for a 30-day window
+   * starting 01.05.2026).
    */
-  public static async downloadPreset(presetId: string): Promise<void> {
+  public static async downloadPreset(
+    presetId: string,
+    override?: ReportQueryDto,
+  ): Promise<void> {
     const url = `${OpenAPI.BASE}/webapi/report/download/preset`;
+    const body: { presetId: string; override?: ReportQueryDto } = { presetId };
+    if (override) body.override = override;
     const response = await fetch(url, {
       method: 'POST',
       headers: baseHeaders(),
       credentials: 'include',
-      body: JSON.stringify({ presetId }),
+      body: JSON.stringify(body),
     });
     if (!response.ok) {
       const text = await response.text().catch(() => '');

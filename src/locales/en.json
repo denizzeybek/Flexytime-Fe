@@ -917,6 +917,12 @@
           "download": "Download .xlsx",
           "empty": "No data for the selected range."
         },
+        "dialog": {
+          "title": "Download report",
+          "dateRange": "Date range",
+          "cancel": "Cancel",
+          "download": "Download .xlsx"
+        },
         "defaultReports": {
           "messages": {
             "deleted": "Report deleted successfully!"
